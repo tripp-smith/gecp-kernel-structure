@@ -1,0 +1,7 @@
+schema_version = 1
+cutoffs = [1, 10, 100, 1000, 10000, 100000, 1000000]
+tolerances = [1e-6, 1e-8, 1e-10]
+precision_bits = 128
+max_rank = 256
+grid_order = 24
+pivot = "grid"

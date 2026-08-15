@@ -1,2 +1,27 @@
 # cache and other artifacts produced by Lean's Lake build tool
 .lake/
+
+# Python environments, caches, and build artifacts
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+dist/
+build/
+*.egg-info/
+
+# Local research scratch output (canonical data is explicitly unignored)
+experiments/scratch/
+experiments/data/*
+!experiments/data/.gitkeep
+!experiments/data/gecp_census.jsonl
+!experiments/data/exact_surrogates.json
+
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
