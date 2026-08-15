@@ -1,4 +1,6 @@
+import hashlib
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -10,6 +12,8 @@ from kernelgecp import (
     run_synthetic_application_suite,
     synthetic_spectral_density,
 )
+
+ROOT = Path(__file__).parents[1]
 
 
 def quick_config() -> SyntheticApplicationConfig:
@@ -84,3 +88,24 @@ def test_application_suite_verifies_transfer_recovery_and_psd_control() -> None:
 def test_application_config_rejects_underresolved_inputs() -> None:
     with pytest.raises(ValueError):
         SyntheticApplicationConfig(quadrature_order=20)
+
+
+def test_canonical_application_artifacts_match_documented_delivery() -> None:
+    data_path = ROOT / "experiments/data/synthetic_applications.json"
+    plot_path = ROOT / "experiments/data/synthetic_applications.png"
+    assert hashlib.sha256(data_path.read_bytes()).hexdigest() == (
+        "f1e989153aa18afa915e3f75630d64019acd7939f65802dd5763b7e6892a8ac2"
+    )
+    assert hashlib.sha256(plot_path.read_bytes()).hexdigest() == (
+        "0529263affd2fe10773f71784f06007650bff833374fbbebbb16f2507b2ab169"
+    )
+    delivered = json.loads(data_path.read_text(encoding="utf-8"))
+    assert delivered["git_commit"] == "6404311e8c864d0b9ad9f655e8997f119194acff"
+    assert delivered["config_hash"] == (
+        "b41f4c17e76ccb108f2999b0e07af1003eb011bf8d96f2c7456e92b9d36f8d35"
+    )
+    assert [record["gecp_rank"] for record in delivered["green_compression"]] == [
+        12,
+        12,
+    ]
+    assert delivered["psd_landmarks"]["pivot_paths_agree"]

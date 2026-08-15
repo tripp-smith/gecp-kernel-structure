@@ -80,6 +80,73 @@ requested tolerance is not met. The fixed two-delta regression reaches
 `1e-8` with two atoms. AAA and vector fitting are deferred extension methods,
 not placeholder APIs.
 
+## Realistic synthetic application suite
+
+`run_synthetic_application_suite` connects the public algorithms in three
+workloads: continuous fermionic spectral compression, clean/noisy sparse
+spectral recovery, and PSD covariance landmark selection.
+
+```python
+from kernelgecp import (
+    SyntheticApplicationConfig,
+    run_synthetic_application_suite,
+)
+
+suite = run_synthetic_application_suite(
+    SyntheticApplicationConfig(),
+    git_commit="local",
+)
+
+for record in suite.green_compression:
+    print(
+        record.fixture,
+        record.gecp_rank,
+        record.green_validation_error,
+        record.transfer_bound,
+    )
+
+for record in suite.sparse_recovery:
+    print(
+        record.fixture,
+        record.candidate_strategy,
+        record.recovered_atom_count,
+        record.held_out_error,
+        record.stop_reason,
+    )
+
+print(
+    suite.psd_landmarks.selected_rank,
+    suite.psd_landmarks.pivot_paths_agree,
+    suite.psd_landmarks.cross_max_error,
+)
+```
+
+The two continuous densities are normalized on `[-8,8]` and share one
+12-pivot, 128-bit fermionic GECP basis. `GreenCompressionResult` reports the
+held-out kernel and Green errors, the discrete `L¹` transfer bound, selected-
+core conditioning, and both the observed and theorem-matched ranks. The
+Hubbard-like and gapped fixtures reach Green errors `4.16e-10` and `2.91e-10`,
+respectively, below the common `5.40e-9` transfer bound.
+
+The sparse results deliberately name their candidate strategy. The clean
+quasiparticle/satellite fixture uses a four-entry known transition library and
+recovers it to `3.33e-16` held-out error. The noisy fixture performs a blind
+scan over 1,604 frequencies; its eight effective atoms reproduce the
+underlying noiseless Green function to `8.56e-9`. The latter is a compact
+function representation, not evidence that the four generating frequencies
+were uniquely recovered.
+
+The PSD fixture generates 72 clustered synthetic sensor locations and a
+smooth Gaussian covariance. Complete-pivot GECP and diagonal-pivoted Cholesky
+choose the same 31 landmarks. The solve-based selected cross has maximum error
+`7.78e-7` and relative Frobenius error `1.14e-7`.
+
+All fixtures are synthetic. They are motivated by DLR Green-function
+compression, correlated spectral functions, noisy imaginary-time inversion,
+and covariance landmark selection, but they are not material-specific fits,
+uncertainty-quantified analytic continuation, or optimal sensor-placement
+claims.
+
 ## Reproducible experiments
 
 ```bash
@@ -87,6 +154,10 @@ uv run python -m kernelgecp.census \
   --config experiments/census.toml \
   --output experiments/data/gecp_census.jsonl
 uv run python experiments/exact_surrogates.py
+uv run python experiments/synthetic_applications.py \
+  --config experiments/synthetic_applications.toml \
+  --output experiments/data/synthetic_applications.json \
+  --plot experiments/data/synthetic_applications.png
 ```
 
 Runtime algorithms require no network access. The canonical census evaluates
@@ -94,6 +165,11 @@ endpoint-refined grids at 128-bit precision and records decimal strings. Its
 three tolerance records per cutoff are exact prefixes of one strict trajectory;
 the checked dataset is byte-reproducible. Adaptive interval certification is a
 separate, more expensive continuous-domain mode.
+
+The synthetic-application JSON excludes timestamps, records the implementation
+Git commit and configuration hash, and is byte-identical across repeated runs.
+The PNG is a human-facing summary and is not used as the source of numerical
+truth.
 
 ## Release provenance
 

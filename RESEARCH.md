@@ -157,7 +157,8 @@ not-claimed research status above.
 
 ## Phase S — realistic synthetic applications
 
-State: in progress; direct delivery to `main` requested by the user.
+State: complete; implementation commit `6404311`, with canonical evidence and
+final documentation delivered directly to `main` as requested by the user.
 
 This post-v1 phase applies the delivered Python algorithms to stylized but
 scientifically recognizable workloads. It depends on the completed fermionic
@@ -193,3 +194,28 @@ Non-claims:
 - the covariance example is a control application of the PSD baseline, not a
   formal theorem about optimal sensor placement;
 - none of the new evidence proves the target continuous fermionic GECP rate.
+
+Delivered observations:
+
+- the common 12-pivot fermionic basis has validation kernel error
+  `5.404231354739705e-9`; the Hubbard-like and gapped spectra have Green errors
+  `4.162832301091157e-10` and `2.909588125987739e-10`, respectively, below the
+  discrete transfer bound;
+- the known-transition dictionary recovers four atoms to machine precision,
+  while the noisy dense scan returns eight effective atoms with
+  `8.559113029438237e-9` noiseless held-out error and makes no identification
+  claim;
+- GECP and Cholesky agree on the 31 selected landmarks for the 72-site
+  covariance, whose cross error is `7.782740553130552e-7` in maximum norm;
+- `experiments/data/synthetic_applications.json` is byte-reproducible for
+  implementation commit `6404311`, configuration hash
+  `b41f4c17e76ccb108f2999b0e07af1003eb011bf8d96f2c7456e92b9d36f8d35`,
+  and SHA-256
+  `f1e989153aa18afa915e3f75630d64019acd7939f65802dd5763b7e6892a8ac2`;
+- the reviewed summary plot has SHA-256
+  `0529263affd2fe10773f71784f06007650bff833374fbbebbb16f2507b2ab169`.
+
+Scientific motivation comes from the DLR effective-delta representation of
+imaginary-time Green functions, the quasiparticle/spectral-weight structure
+studied in DMFT, and the noisy analytic-continuation setting. The experiments
+remain stylized benchmarks rather than replications of those prior works.

@@ -52,6 +52,28 @@
   21 cases. At tolerance `1e-10`, sampled ranks grow from 8 at cutoff 1 to 124
   at cutoff `1e6`. Two complete executions produced byte-identical JSONL.
 - The fixed two-delta fixture is recovered below `1e-8` using two atoms.
+- One 128-bit, 12-pivot fermionic GECP basis at cutoff 8 compresses the
+  2,001-node validation frequency grid by a factor of 166.75. For the
+  normalized Hubbard-like three-peak density, the held-out kernel error is
+  `5.404231354739705e-9` and the Green-function error is
+  `4.162832301091157e-10`, or 7.70% of the discrete `L¹` transfer bound.
+- The same universal basis applied to a normalized gapped two-band density
+  gives Green-function error `2.909588125987739e-10`, or 5.38% of the same
+  transfer bound. This demonstrates reuse across qualitatively different
+  spectra rather than density-specific basis fitting.
+- A four-entry known transition library recovers a synthetic
+  quasiparticle/satellite spectrum with four atoms and
+  `3.3306690738754696e-16` held-out error. A separate dense blind scan of 1,604
+  candidates with deterministic `1e-8`-scale input noise uses eight effective
+  atoms and reaches `8.559113029438237e-9` error against the noiseless held-out
+  Green function.
+- On a 72-site clustered Gaussian covariance, complete-pivot GECP and
+  diagonal-pivoted Cholesky select the same 31 landmarks. The selected cross
+  has maximum error `7.782740553130552e-7` and relative Frobenius error
+  `1.1432201168664416e-7`.
+- The canonical synthetic-application JSON is byte-identical across repeated
+  executions and has SHA-256
+  `f1e989153aa18afa915e3f75630d64019acd7939f65802dd5763b7e6892a8ac2`.
 
 ## Conjectured
 
@@ -77,6 +99,13 @@ locations or residual decay.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
+- Material-specific validation of the Hubbard-like or gapped fixtures. They
+  are stylized synthetic densities, not outputs fitted to experiment, a named
+  compound, DMFT, or quantum Monte Carlo.
+- Unique recovery of the generating frequencies in the noisy blind scan. Its
+  eight atoms are an accurate effective representation of the held-out Green
+  function, not an identifiable reconstruction of the four true atoms.
+- An optimal sensor-placement theorem for the PSD covariance landmarks.
 
 ## Run provenance
 

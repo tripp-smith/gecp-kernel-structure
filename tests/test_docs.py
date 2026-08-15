@@ -23,10 +23,10 @@ def test_readme_progress_contract() -> None:
         "$phase-cadence",
         "Python implementation",
         "Why this implementation demonstrates the project objectives",
-        "Synthetic application roadmap",
+        "Realistic synthetic applications",
     )
     assert all(field in text for field in required)
-    for phase in ("0", "A", "B", "C", "D", "E", "F", "R"):
+    for phase in ("0", "A", "B", "C", "D", "E", "F", "R", "S"):
         assert f"| {phase} |" in text
 
 
@@ -49,11 +49,15 @@ def test_research_blockers_are_consistent() -> None:
     assert "| D | Separated approximation | complete |" in readme
     assert "| E | Structural GECP | complete |" in readme
     assert "| R | Release readiness | complete |" in readme
+    assert "| S | Post-v1 synthetic applications | complete |" in readme
     assert "endpoint-resolved 128-bit finite-grid" in findings
     assert "| C | Fermionic structure/census | complete |" in readme
     assert "expFamily_separatedApprox" in research
     assert "fermionicKernel_separatedApprox" in research
     assert "CrossRatioControl" in research
+    assert "run_synthetic_application_suite" in research
+    assert (ROOT / "experiments/data/synthetic_applications.json").is_file()
+    assert (ROOT / "experiments/data/synthetic_applications.png").is_file()
 
 
 def test_implementation_run_metadata_is_complete_and_linked() -> None:

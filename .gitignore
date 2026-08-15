@@ -20,6 +20,8 @@ experiments/data/*
 !experiments/data/gecp_census.jsonl
 !experiments/data/gecp_census.png
 !experiments/data/exact_surrogates.json
+!experiments/data/synthetic_applications.json
+!experiments/data/synthetic_applications.png
 
 
 # Editors and operating systems

@@ -15,6 +15,14 @@ minor signs do not determine complete-pivot locations, while the refined
 decay. The repository does not claim that the fermionic residuals satisfy that
 hypothesis with a cutoff-uniform contraction factor.
 
+The post-v1 Python application phase demonstrates how those components work
+together on realistic synthetic data: one universal fermionic basis compresses
+two qualitatively different continuous spectra, sparse routines represent
+clean and noisy Green functions under explicit dictionary assumptions, and
+the PSD baseline selects spatial covariance landmarks. These are application
+observations with held-out errors, not new formal convergence or inverse-
+problem claims.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -61,6 +69,7 @@ not represented by the completed goal counter.
 | E — structural GECP | complete | [PR #8](https://github.com/tripp-smith/gecp-kernel-structure/pull/8) |
 | F — sparse spectral application | complete | [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1) |
 | R — release readiness | complete | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9), [closure PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10) |
+| S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 
 ## Completed tasks
 
@@ -80,6 +89,9 @@ not represented by the completed goal counter.
   error transfer, and sparse two-atom application.
 - T-016: v1.0.0 metadata, release smoke configuration, artifacts, status
   audit, and final handoff.
+- T-017: typed synthetic-application API, Hubbard-like and gapped Green-
+  function compression, clean/noisy sparse recovery, PSD covariance landmark
+  selection, deterministic JSON, summary plot, and application documentation.
 
 ## Deferred research
 
@@ -130,6 +142,13 @@ pivot certificates, deterministic census tools, sparse spectral recovery,
 piecewise Chebyshev interpolation, and the Lean-matched
 `fermionic_dyadic_taylor_approximation`.
 
+It also exports `SyntheticApplicationConfig`,
+`run_synthetic_application_suite`, typed result records,
+`synthetic_spectral_density`, `fermionic_green_from_density`, quadrature
+weights, and deterministic sensor-point generation. The application runner
+combines existing public algorithms; it does not bypass their convergence,
+conditioning, or stop metadata.
+
 Normal non-convergence is represented by `converged` and `stop_reason`.
 Certified-pivot budget exhaustion is never reported as certification, and
 high-precision runs retain canonical decimal strings.
@@ -142,6 +161,10 @@ uv build
 uv run python -m kernelgecp.census \
   --config experiments/release-smoke.toml \
   --output /tmp/gecp_release_smoke.jsonl
+uv run python experiments/synthetic_applications.py \
+  --config experiments/synthetic_applications.toml \
+  --output experiments/data/synthetic_applications.json \
+  --plot experiments/data/synthetic_applications.png
 git status --short
 ```
 
@@ -149,7 +172,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 30 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 35 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -159,6 +182,20 @@ git status --short
 - The 128-bit release smoke run converges at tolerance `1e-6` with rank 6 for
   cutoff 1 and rank 82 for cutoff `10⁶`. Its two-record JSONL has SHA-256
   `d7b5f53d61eb2ea49cd1ebde944b47a06f931b9d82687c8fa4458ac4c09907d5`.
+- The synthetic-application JSON is byte-identical across repeated runs and
+  has SHA-256
+  `f1e989153aa18afa915e3f75630d64019acd7939f65802dd5763b7e6892a8ac2`;
+  the reviewed plot has SHA-256
+  `0529263affd2fe10773f71784f06007650bff833374fbbebbb16f2507b2ab169`.
+- At cutoff 8 and tolerance `1e-8`, a 12-pivot universal GECP basis gives
+  Green errors `4.16e-10` and `2.91e-10` for the Hubbard-like and gapped
+  densities, below the common `5.40e-9` discrete transfer bound.
+- The known-transition fixture is recovered with four atoms to `3.33e-16`
+  held-out error. The noisy blind scan uses eight effective atoms and reaches
+  `8.56e-9` held-out function error without claiming atom identification.
+- GECP and pivoted Cholesky agree on 31 of 72 covariance landmarks; the
+  selected cross has maximum error `7.78e-7` and relative Frobenius error
+  `1.14e-7`.
 
 ## Known limitations and non-claims
 
@@ -170,6 +207,13 @@ git status --short
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
   selected-exponential Chebyshev variant.
+- The post-v1 spectral fixtures are synthetic analogues, not material-
+  specific calculations, experimental fits, or uncertainty-quantified
+  analytic continuation.
+- Accurate held-out Green-function recovery in the noisy dense scan does not
+  identify the four generating atoms uniquely; the eight recovered atoms are
+  an effective representation.
+- Matching covariance pivots do not prove optimal sensor placement.
 
 ## Numerical stability and performance
 
@@ -195,10 +239,14 @@ ignored.
 - Lean library: `GECPKernelStructure`.
 - Python package: `kernelgecp` v1.0.0.
 - Canonical data and plot under `experiments/data/`.
+- Synthetic application configuration, canonical JSON, and reviewed summary
+  plot under `experiments/` and `experiments/data/`.
 - Release artifacts: `dist/kernelgecp-1.0.0-py3-none-any.whl` and
   `dist/kernelgecp-1.0.0.tar.gz`.
 - Claim and research documentation: `README.md`, `FINDINGS.md`, `RESEARCH.md`,
   `APPLICATION.md`, `MATHLIB.md`, and `SPEC.md`.
+- Preserved workflow input: `autonomous-implementation.md`, explicitly labeled
+  as a reference rather than current status and excluded from package builds.
 
 ## How to run locally
 
@@ -206,6 +254,7 @@ ignored.
 uv sync --all-extras
 lake exe cache get
 uv run python -c "import kernelgecp; print(kernelgecp.__version__)"
+uv run python experiments/synthetic_applications.py
 ```
 
 See `APPLICATION.md` for GECP, certified-pivot, low-rank, and sparse-recovery

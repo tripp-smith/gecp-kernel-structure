@@ -1318,3 +1318,11 @@ This annotation records delivered identifiers without changing the goals above.
   [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). This is a
   status annotation only and does not modify the mathematical objectives or
   claim level of this specification.
+- Post-v1 application phase S: complete. Public Python APIs
+  `SyntheticApplicationConfig` and `run_synthetic_application_suite` connect
+  the delivered fermionic GECP, Green-error transfer, sparse recovery, and PSD
+  baseline to continuous Hubbard-like and gapped spectra, clean/noisy atomic
+  spectra, and covariance landmarks. The canonical JSON and plot are under
+  `experiments/data/`. These synthetic observations add application evidence
+  only; they do not modify any formal theorem, Milestone E outcome, or
+  non-claim above.
