@@ -10,7 +10,7 @@ This phase makes no mathematical claim.
 
 ## Milestone A — exact selected core closure
 
-State: verified locally; delivery pending.
+State: verified locally; delivery in [draft PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4).
 
 The phase closes the remaining gap between the dependent `GECP.Run` object and
 the determinant/nonsingularity API. The exact public contract is:
