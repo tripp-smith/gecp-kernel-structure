@@ -1308,7 +1308,7 @@ This annotation records delivered identifiers without changing the goals above.
   one.
 - Milestone F: the continuous-measure Green error transfer and tested sparse
   two-atom application are implemented.
-- Release readiness: verified in draft PR #9 with the root
+- Release readiness: delivered in merged PR #9 and marked complete by PR #10 with the root
   verification command, package artifacts, and a 128-bit endpoint census
   smoke run; all mathematical and application milestones have merged
   deliveries.
