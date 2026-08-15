@@ -1297,7 +1297,7 @@ This annotation records delivered identifiers without changing the goals above.
   The construction is dyadic truncated Taylor rather than the published
   selected-exponential Chebyshev variant; it establishes the required
   logarithmic-logarithmic separated-rank scale without making a GECP claim.
-- Milestone E: verified on its phase branch under the approved obstruction outcome.
+- Milestone E: complete in merged PR #8 under the approved obstruction outcome.
   `signRegular_not_sufficient_for_parameterIndependent_pivots` is a minimized
   exact counterexample showing that strict minor signs do not determine a
   universal complete pivot. `CrossRatioControl`,
@@ -1308,5 +1308,7 @@ This annotation records delivered identifiers without changing the goals above.
   one.
 - Milestone F: the continuous-measure Green error transfer and tested sparse
   two-atom application are implemented.
-- Release readiness: not complete while Milestones D and E retain the statuses
-  above.
+- Release readiness: verified on the v1.0.0 release branch with the root
+  verification command, package artifacts, and a 128-bit endpoint census
+  smoke run; all mathematical and application milestones have merged
+  deliveries.

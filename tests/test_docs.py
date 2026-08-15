@@ -21,6 +21,7 @@ def test_readme_progress_contract() -> None:
 def test_documentation_links_exist() -> None:
     for name in (
         "APPLICATION.md",
+        "FINAL_HANDOFF.md",
         "FINDINGS.md",
         "MATHLIB.md",
         "RESEARCH.md",
@@ -34,7 +35,8 @@ def test_research_blockers_are_consistent() -> None:
     findings = (ROOT / "FINDINGS.md").read_text(encoding="utf-8")
     research = (ROOT / "RESEARCH.md").read_text(encoding="utf-8")
     assert "| D | Separated approximation | complete |" in readme
-    assert "| E | Structural GECP | verified |" in readme
+    assert "| E | Structural GECP | complete |" in readme
+    assert "| R | Release readiness | verified |" in readme
     assert "endpoint-resolved 128-bit finite-grid" in findings
     assert "| C | Fermionic structure/census | complete |" in readme
     assert "expFamily_separatedApprox" in research
