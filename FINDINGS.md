@@ -21,6 +21,9 @@
 - A Lipschitz residual diagonal has the stated conditional fill-distance bound.
 - The fermionic kernel has the exact reflection and centered forms and is
   jointly continuous.
+- Its time and frequency derivatives are proved exactly. On
+  `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
+  magnitudes are bounded by `Λ` and one, respectively.
 - A Lipschitz grid cover yields an explicit continuous supremum bound, and a
   certified upper bound implies an approximate-pivot inequality.
 - Uniform kernel error transfers to the Green-function error with the
@@ -32,10 +35,9 @@
   `q ∈ {1/2, 2/3, 3/4}` are nonzero with the predicted sign.
 - Exact complete-pivot paths vary with `q` by size eight. This rules out a
   single `q`-independent pivot order for this surrogate family.
-- The 21-case float64 finite-grid fermionic census converged on its sampled
-  grids with ranks 6–35. Ranks plateau for the three largest cutoffs, which is
-  potentially a float64/grid-resolution effect and is not promoted to a
-  structural conclusion.
+- The endpoint-resolved 128-bit finite-grid fermionic census converged in all
+  21 cases. At tolerance `1e-10`, sampled ranks grow from 8 at cutoff 1 to 124
+  at cutoff `1e6`. Two complete executions produced byte-identical JSONL.
 - The fixed two-delta fixture is recovered below `1e-8` using two atoms.
 
 ## Conjectured
@@ -55,5 +57,6 @@ alone do not control GECP residual decay.
 - The planned explicit dyadic/Chebyshev uniform approximation theorem. Only its
   natural-number counting scaffold and an independently tested numerical
   piecewise interpolant are present.
-- A rigorous 128-bit continuous/adaptive pivot census. The committed census is
-  finite-grid float64 data.
+- A continuous-domain GECP convergence conclusion from the 128-bit census. The
+  committed dataset is endpoint-resolved finite-grid evidence; adaptive
+  interval pivot certificates are validated separately on bounded cases.

@@ -7,7 +7,10 @@ import hashlib
 import json
 import subprocess
 import tomllib
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict
+from decimal import Decimal
+from itertools import repeat
 from pathlib import Path
 from typing import Any
 
@@ -48,6 +51,81 @@ def load_census_config(path: Path) -> dict[str, Any]:
     return raw
 
 
+def _run_cutoff(
+    raw: dict[str, Any], cutoff: float, revision: str, config_hash: str
+) -> list[CensusRecord]:
+    """Run one strict trajectory and extract every requested tolerance prefix."""
+
+    records: list[CensusRecord] = []
+    tolerances = [float(value) for value in raw["tolerances"]]
+    config = GECPConfig(
+        tol=min(tolerances),
+        max_rank=int(raw["max_rank"]),
+        pivot=str(raw["pivot"]),  # type: ignore[arg-type]
+        precision_bits=int(raw["precision_bits"]),
+        grid_order=int(raw["grid_order"]),
+        certificate_abs_tol=float(raw.get("certificate_abs_tol", 1e-12)),
+        certificate_rel_tol=float(raw.get("certificate_rel_tol", 1e-8)),
+        max_cells=int(raw.get("max_cells", 100_000)),
+    )
+    result = gecp(FermionicKernel(float(cutoff)), config=config)
+    high_precision = result.high_precision
+    for tolerance in raw["tolerances"]:
+        requested_tolerance = Decimal(str(tolerance))
+        if high_precision is None:
+            rank = next(
+                (
+                    index
+                    for index, value in enumerate(result.residual_history)
+                    if value <= float(tolerance)
+                ),
+                result.rank,
+            )
+            residual = _decimal(result.residual_history[rank])
+            pivots = [_decimal(value) for value in result.pivots[:rank]]
+            t_nodes = [_decimal(value) for value in result.t_nodes[:rank]]
+            omega_nodes = [_decimal(value) for value in result.omega_nodes[:rank]]
+            sigma_min = [
+                _decimal(value) for value in result.core_sigma_min_history[:rank]
+            ]
+        else:
+            rank = next(
+                (
+                    index
+                    for index, value in enumerate(high_precision.residual_history)
+                    if Decimal(value) <= requested_tolerance
+                ),
+                result.rank,
+            )
+            residual = high_precision.residual_history[rank]
+            pivots = high_precision.pivots[:rank]
+            t_nodes = high_precision.t_nodes[:rank]
+            omega_nodes = high_precision.omega_nodes[:rank]
+            sigma_min = high_precision.core_sigma_min_history[:rank]
+        converged = Decimal(residual) <= requested_tolerance
+        records.append(
+            CensusRecord(
+                schema_version=1,
+                git_commit=revision,
+                config_hash=config_hash,
+                cutoff=_decimal(float(cutoff)),
+                tolerance=_decimal(float(tolerance)),
+                precision_bits=result.precision_bits,
+                algorithm=config.pivot,
+                rank=rank,
+                residual=residual,
+                pivots=pivots,
+                t_nodes=t_nodes,
+                omega_nodes=omega_nodes,
+                core_sigma_min=sigma_min,
+                tie_counts=result.tie_counts[:rank],
+                converged=converged,
+                stop_reason="tolerance" if converged else result.stop_reason,
+            )
+        )
+    return records
+
+
 def run_census(
     config_path: Path, output_path: Path, *, root: Path | None = None
 ) -> None:
@@ -57,40 +135,26 @@ def run_census(
     raw = load_census_config(config_path)
     revision = _git_revision(project_root)
     config_hash = _config_hash(raw)
-    records: list[CensusRecord] = []
-    for cutoff in raw["cutoffs"]:
-        for tolerance in raw["tolerances"]:
-            config = GECPConfig(
-                tol=float(tolerance),
-                max_rank=int(raw["max_rank"]),
-                pivot=str(raw["pivot"]),  # type: ignore[arg-type]
-                precision_bits=int(raw["precision_bits"]),
-                grid_order=int(raw["grid_order"]),
-            )
-            result = gecp(FermionicKernel(float(cutoff)), config=config)
-            residual = result.residual_history[-1] if result.residual_history else 0.0
-            records.append(
-                CensusRecord(
-                    schema_version=1,
-                    git_commit=revision,
-                    config_hash=config_hash,
-                    cutoff=_decimal(float(cutoff)),
-                    tolerance=_decimal(float(tolerance)),
-                    precision_bits=result.precision_bits,
-                    algorithm=config.pivot,
-                    rank=result.rank,
-                    residual=_decimal(residual),
-                    pivots=[_decimal(value) for value in result.pivots],
-                    t_nodes=[_decimal(value) for value in result.t_nodes],
-                    omega_nodes=[_decimal(value) for value in result.omega_nodes],
-                    core_sigma_min=[
-                        _decimal(value) for value in result.core_sigma_min_history
-                    ],
-                    tie_counts=result.tie_counts,
-                    converged=result.converged,
-                    stop_reason=result.stop_reason,
+    workers = int(raw.get("workers", 1))
+    if workers < 1:
+        raise ValueError("census workers must be positive")
+    cutoffs = [float(value) for value in raw["cutoffs"]]
+    if workers == 1:
+        grouped_records = [
+            _run_cutoff(raw, cutoff, revision, config_hash) for cutoff in cutoffs
+        ]
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as executor:
+            grouped_records = list(
+                executor.map(
+                    _run_cutoff,
+                    repeat(raw),
+                    cutoffs,
+                    repeat(revision),
+                    repeat(config_hash),
                 )
             )
+    records = [record for group in grouped_records for record in group]
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = output_path.with_suffix(output_path.suffix + ".tmp")
     with temporary.open("w", encoding="utf-8", newline="\n") as stream:

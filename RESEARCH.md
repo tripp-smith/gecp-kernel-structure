@@ -30,7 +30,7 @@ LDU data. This phase does not add a GECP convergence or pivot-selection claim.
 
 ## Milestone B — recursive PSD/Cholesky equivalence
 
-State: verified locally; delivery in [draft PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
+State: complete; merged in [PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
 
 The phase strengthens the existing one-step diagonal-domination result to the
 following exact contract for finite real PSD matrices:
@@ -49,6 +49,31 @@ The complete-pivot relation deliberately uses a diagonal pivot location and
 the repository's diagonal-preferring canonical tie policy. The theorem does
 not claim that every arbitrary off-diagonal tie choice produces the same run,
 and it does not claim the stronger published Lipschitz convergence rate.
+
+## Milestone C — high-precision census and certified pivot closure
+
+State: verified in draft [PR #6](https://github.com/tripp-smith/gecp-kernel-structure/pull/6).
+
+This closure phase delivers:
+
+- a genuine `mpmath` finite-grid GECP backend that executes at
+  `GECPConfig.precision_bits` and preserves canonical quantities as decimal
+  strings;
+- an outward-rounded interval branch-and-bound pivot certificate for the
+  fermionic residual on the continuous rectangle;
+- adaptive GECP results that retain every pivot certificate and never report
+  certification after a cell-budget exhaustion;
+- a canonical endpoint-resolved finite-grid census whose recorded 128-bit
+  precision and grid algorithm match the backend actually used, with
+  repeat-run byte equality;
+- the kernel derivative bounds and grid-to-continuous theorem/API constants
+  needed to interpret approximate pivots.
+
+The canonical census uses finite grids because a complete continuous adaptive
+census is substantially more expensive. The supported adaptive mode retains
+interval certificates and reports budget exhaustion honestly. Neither the
+census nor those certificates are substituted for Lean proofs of the
+Milestone D or E rate theorems.
 
 ## Milestone D — constructive separated approximation
 
@@ -82,8 +107,9 @@ column orders. This is a certified obstruction to the proposed invariant
 stronger SPEC-approved obstruction/refined sufficient condition needed to
 close Milestone E.
 
-The continuous finite-grid census also completed, but its float64 plateau at
-large cutoff is not suitable theorem evidence. The next theorem contract is:
+The endpoint-resolved 128-bit finite-grid census exhibits rank growth across
+all seven cutoffs, but remains numerical evidence rather than a continuous
+rate theorem. The next theorem contract is:
 
 1. formalize sign regularity for geometric/exponential collocation minors;
 2. state a quantitative cross-ratio hypothesis on Schur residuals;
@@ -101,4 +127,4 @@ condition. Experiments alone cannot close the milestone.
 - `experiments/data/exact_surrogates.json`:
   `ccd5d4b948629a6e9642bd5fc18c69c228709752c31c80113036c0e1037f0e82`
 - `experiments/data/gecp_census.jsonl`:
-  `3381573b39addf3d5fb64c58f35f3923735b859a1d41953edbba947f88959676`
+  `a0a0a58271000ddd1efcf8514d3ae404eac359a900c7ba4ebc5c92336bf38179`

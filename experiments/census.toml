@@ -5,3 +5,4 @@ precision_bits = 128
 max_rank = 256
 grid_order = 24
 pivot = "grid"
+workers = 3

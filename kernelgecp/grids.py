@@ -25,12 +25,20 @@ def _merge_nodes(parts: list[npt.NDArray[np.float64]]) -> npt.NDArray[np.float64
     return np.asarray(np.unique(rounded), dtype=np.float64)
 
 
-def time_grid(order: int = 24) -> npt.NDArray[np.float64]:
-    """Composite grid refined toward both time endpoints."""
+def time_grid(order: int = 24, cutoff: float = 1.0) -> npt.NDArray[np.float64]:
+    """Composite grid resolving endpoint layers down to scale ``1/cutoff``."""
 
-    return _merge_nodes(
-        [chebyshev_lobatto(0.0, 0.5, order), chebyshev_lobatto(0.5, 1.0, order)]
-    )
+    if not np.isfinite(cutoff) or cutoff < 1:
+        raise ValueError("cutoff must be finite and at least one")
+    first_right = min(0.5, 1.0 / cutoff)
+    left_parts = [chebyshev_lobatto(0.0, first_right, order)]
+    left = first_right
+    while left < 0.5:
+        right = min(0.5, 2.0 * left)
+        left_parts.append(chebyshev_lobatto(left, right, order))
+        left = right
+    left_nodes = _merge_nodes(left_parts)
+    return np.concatenate((left_nodes, 1.0 - left_nodes[-2::-1]))
 
 
 def frequency_grid(cutoff: float, order: int = 24) -> npt.NDArray[np.float64]:
@@ -57,4 +65,4 @@ def composite_chebyshev_grids(
 ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     """Return the canonical time and frequency grids."""
 
-    return time_grid(order), frequency_grid(cutoff, order)
+    return time_grid(order, cutoff), frequency_grid(cutoff, order)

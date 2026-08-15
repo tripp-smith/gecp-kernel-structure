@@ -6,6 +6,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 
 from kernelgecp import FermionicKernel
+from kernelgecp.grids import time_grid
 
 
 @given(
@@ -45,3 +46,11 @@ def test_validation() -> None:
         kernel(1.1, 0.0)
     with pytest.raises(ValueError):
         kernel(0.5, 11.0)
+
+
+def test_time_grid_resolves_inverse_cutoff_endpoint_layer() -> None:
+    coarse = time_grid(order=6, cutoff=1)
+    refined = time_grid(order=6, cutoff=1_000)
+    assert refined.size > coarse.size
+    assert refined[1] < 1 / 1_000
+    assert refined == pytest.approx(1 - refined[::-1])

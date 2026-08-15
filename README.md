@@ -4,11 +4,11 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** B — Recursive PSD/Cholesky equivalence<br>
+> **Current phase:** C — High-precision census and certified pivoting<br>
 > **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** [draft Phase B PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5)<br>
+> **Delivery:** [Phase C draft PR #6](https://github.com/tripp-smith/gecp-kernel-structure/pull/6)<br>
 > **Claim level:** core/PSD/kernel/Green theorems proved; D and E remain research-blocked<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -18,8 +18,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | --- | --- | --- | --- | --- | --- |
 | 0 | Bootstrap | complete | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | merged PR #1 |
 | A | Exact GECP core | complete | interpolation; run-selected core determinant/nonsingularity | Lean build; axiom audit; exact two-pivot check | merged PR #4 |
-| B | PSD baseline | verified | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; 22 Python tests including tie regression | draft PR #5 |
-| C | Fermionic structure/census | in progress | reflection, centered form, continuity; stable API; 21-case float64 grid census | Lean/Python checks; high-precision certified census missing | baseline merged in PR #1 |
+| B | PSD baseline | complete | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; tie regression | merged PR #5 |
+| C | Fermionic structure/census | verified | exact derivatives/bounds; 128-bit GECP; interval-certified adaptive pivots; endpoint-resolved 21-case census | axiom audit; 27 Python tests; byte-identical census repeat | draft PR #6 |
 | D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | baseline merged in PR #1 |
 | E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | baseline merged in PR #1 |
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
@@ -55,8 +55,9 @@ a separately certified analytic argument.
 
 ## Delivered evidence
 
-- Finite-grid census: 21 cutoff/tolerance cases, byte-reproducible, SHA-256
-  `3381573b39addf3d5fb64c58f35f3923735b859a1d41953edbba947f88959676`.
+- Endpoint-resolved 128-bit finite-grid census: all 21 cutoff/tolerance cases
+  converged, byte-reproducible, SHA-256
+  `a0a0a58271000ddd1efcf8514d3ae404eac359a900c7ba4ebc5c92336bf38179`.
 - Exact geometric surrogates: every square minor for sizes 2–8 at
   `q ∈ {1/2, 2/3, 3/4}`, SHA-256
   `ccd5d4b948629a6e9642bd5fc18c69c228709752c31c80113036c0e1037f0e82`.
@@ -64,6 +65,8 @@ a separately certified analytic argument.
   parameter-independent pivot-order invariant is therefore not viable in that
   form.
 
-The census currently uses the float64 finite-grid backend. The requested
-128-bit adaptive/certified census is not represented by this data and remains
-open work.
+At tolerance `1e-10`, the sampled rank grows from 8 at cutoff 1 to 124 at
+cutoff `1e6`. This is numerical finite-grid evidence, not a continuous GECP
+rate theorem. Continuous interval-certified pivoting is a separate supported
+mode and is tested on synthetic and fermionic cases; it is not substituted for
+the canonical finite-grid census or a Lean convergence proof.

@@ -56,3 +56,21 @@ def test_ties_are_lexicographic_and_recorded() -> None:
     assert result.row_indices == [0]
     assert result.column_indices == [0]
     assert result.tie_counts == [3]
+
+
+def test_high_precision_backend_preserves_sub_float64_pivot() -> None:
+    matrix = [["1", "1"], ["1", "1.0000000000000000000000001"]]
+    result = gecp_matrix(
+        matrix,
+        config=GECPConfig(
+            tol=1e-30,
+            max_rank=2,
+            pivot="grid",
+            precision_bits=128,
+        ),
+    )
+    assert result.precision_bits == 128
+    assert result.high_precision is not None
+    assert result.rank == 2
+    assert float(result.high_precision.pivots[1]) == pytest.approx(1e-25)
+    assert result.high_precision.residual_history[-1] == "0.0"

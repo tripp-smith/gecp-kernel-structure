@@ -35,5 +35,6 @@ def test_research_blockers_are_consistent() -> None:
     research = (ROOT / "RESEARCH.md").read_text(encoding="utf-8")
     assert "| D | Separated approximation | blocked (research) |" in readme
     assert "| E | Structural GECP | blocked (research) |" in readme
-    assert "128-bit continuous/adaptive pivot census" in findings
+    assert "endpoint-resolved 128-bit finite-grid" in findings
+    assert "| C | Fermionic structure/census | verified |" in readme
     assert "Those theorem identifiers are deliberately absent" in research
