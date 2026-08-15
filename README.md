@@ -6,9 +6,9 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** G — fermionic GECP rate research<br>
 > **Phase state:** in progress<br>
-> **Last verification:** Phase G contract started from the Phase S verified baseline on 2026-08-15<br>
+> **Last verification:** `./scripts/verify.sh` passed with 42 tests on 2026-08-15; Phase G remains research-in-progress<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** branch `codex/phase-g-gecp-rate`; draft PR pending<br>
+> **Delivery:** draft [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) from `codex/phase-g-gecp-rate`<br>
 > **Claim level:** Conjecture G1 remains open while Phase G tests a block-contraction route; no fermionic GECP rate is claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -26,7 +26,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
-| G | Fermionic GECP rate | in progress | cutoff-dependent/block contraction; first-step obstruction; target theorem only if closed | Lean axiom audit; interval/exact evidence; full verification | `codex/phase-g-gecp-rate`; draft PR pending |
+| G | Fermionic GECP rate | in progress | cutoff-dependent/block contraction; first-step obstruction; target theorem only if closed | Lean axiom audit; interval/exact evidence; full verification | draft PR #11 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -74,6 +74,7 @@ successful result.
 | [`kernelgecp/certified.py`](kernelgecp/certified.py) | Priority-queue branch-and-bound using either supplied Lipschitz constants or outward-rounded `mpmath` interval enclosures and optional interval gradients | Separates a sampled large residual from a certified approximate continuous pivot; exhausting `max_cells` returns an uncertified certificate |
 | [`kernelgecp/approximation.py`](kernelgecp/approximation.py) | Published rank-count utilities, a high-precision evaluator matching the Lean dyadic truncated-Taylor construction, and a practical piecewise barycentric Chebyshev interpolant | Independently validates the explicit `O(log Λ log(1/ε))` separated construction while keeping the practical interpolant distinct from the theorem |
 | [`kernelgecp/surrogates.py`](kernelgecp/surrogates.py) | Exact `Fraction` determinants, exact lexicographic GECP, exhaustive minor-sign enumeration, and the fixed geometric-surrogate census | Lets structural hypotheses fail or survive in exact arithmetic before they are promoted to a theorem contract |
+| [`kernelgecp/research.py`](kernelgecp/research.py) | Exact-form first-step diagnostics, decimal-preserving cutoff-scaled block analysis, and a focused interval-certified residual trajectory | Tests the Phase G block-contraction contract while encoding the boundary between finite-grid observations, a certified bounded trajectory, and a cutoff-uniform theorem |
 | [`kernelgecp/census.py`](kernelgecp/census.py) | TOML-driven cutoff/tolerance sweeps, one strict trajectory per cutoff, configuration hashing, Git-revision capture, canonical decimal strings, deterministic ordering, and atomic JSONL replacement | Makes the pivot census repeatable and auditable rather than a collection of one-off notebook outputs |
 | [`kernelgecp/sparse.py`](kernelgecp/sparse.py) | Orthogonal matching pursuit over candidate frequencies followed by bounded nonlinear least-squares refinement | Demonstrates the problem-specific sparse-spectral alternative to a universal kernel basis and reports non-convergence honestly |
 | [`kernelgecp/applications.py`](kernelgecp/applications.py) | Typed configurations and results for continuous-spectrum compression, clean/noisy sparse recovery, Green-function quadrature, and PSD covariance landmarks | Connects the formal and numerical components in deterministic, application-level workloads with held-out errors and explicit evidence boundaries |

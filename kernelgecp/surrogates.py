@@ -94,6 +94,42 @@ def exact_gecp(matrix: RationalMatrix) -> tuple[list[int], list[int], list[Fract
     return pivot_rows, pivot_columns, pivots
 
 
+def exact_gecp_pivot_sign_coherence(matrix: RationalMatrix) -> list[bool]:
+    """Check selected-cross sign coherence at every exact GECP step."""
+
+    rows = len(matrix)
+    columns = len(matrix[0]) if rows else 0
+    if rows == 0 or any(len(row) != columns for row in matrix):
+        raise ValueError("matrix must be nonempty and rectangular")
+    residual = [row.copy() for row in matrix]
+    results: list[bool] = []
+    for _ in range(min(rows, columns)):
+        row, column = max(
+            itertools.product(range(rows), range(columns)),
+            key=lambda coordinate: (
+                abs(residual[coordinate[0]][coordinate[1]]),
+                -coordinate[0],
+                -coordinate[1],
+            ),
+        )
+        pivot = residual[row][column]
+        if pivot == 0:
+            break
+        results.append(
+            all(
+                (residual[i][j] * pivot) * (residual[i][column] * residual[row][j]) >= 0
+                for i in range(rows)
+                for j in range(columns)
+            )
+        )
+        pivot_column = [residual[i][column] for i in range(rows)]
+        pivot_row_values = residual[row].copy()
+        for i in range(rows):
+            for j in range(columns):
+                residual[i][j] -= pivot_column[i] * pivot_row_values[j] / pivot
+    return results
+
+
 def inspect_surrogate(size: int, q: Fraction) -> SurrogateRecord:
     """Enumerate every square minor and the exact GECP path."""
 

@@ -34,6 +34,16 @@
 - If every selected residual cross satisfies `CrossRatioControl` with factor
   `θ`, the exact GECP update sequence has residual bound `θⁿ` times its initial
   uniform bound. For `0 ≤ θ < 1` this is geometric decay.
+- Variable cross-ratio factors give the exact cumulative-product residual
+  bound. A product bounded by `2⁻ᵖ` at rank `block * p` gives the corresponding
+  dyadic residual rate.
+- The positive cutoff corner is a complete pivot on the fermionic cutoff
+  rectangle. Its reflected-corner first-update ratio is exactly
+  `1 - exp(-2Λ)`, so no factor below one contracts every first step uniformly
+  in the cutoff.
+- A residual that is `PivotCrossProductSignCoherent` at its selected pivot cannot grow under an exact complete
+  pivot: compatible cross-product signs sharpen the generic factor-two update
+  estimate to factor one.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -74,16 +84,25 @@
 - The canonical synthetic-application JSON is byte-identical across repeated
   executions and has SHA-256
   `f1e989153aa18afa915e3f75630d64019acd7939f65802dd5763b7e6892a8ac2`.
+- Using blocks of `2(s+1)` pivots for the least `s` with `Λ ≤ 2ˢ`, every
+  complete block in the strictest-tolerance 128-bit census reduces the sampled
+  residual by less than one half. The largest observed complete-block ratio is
+  about `0.07741` at cutoff one; the largest among cutoffs `10` through `10⁶`
+  is about `0.002475`.
+- Outward-rounded interval residual bounds certify a continuous two-step ratio
+  below `0.078` at cutoff one along the returned certified approximate-pivot
+  trajectory.
 
 ## Conjectured
 
 The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
-The strongest current structural hypothesis is the formal
-`CrossRatioControl`, potentially derived from sign regularity plus a
-near-max-volume estimate. Exact minor signs alone do not control GECP pivot
-locations or residual decay.
+The strongest current structural hypothesis is block contraction after
+`2(s+1)` pivots for `Λ ≤ 2ˢ`. The formal `PivotCrossProductSignCoherent` condition
+would supply nonexpansiveness between strict contractions and is expected to
+follow from a stronger residual sign-regularity theorem. Exact minor signs
+alone do not control GECP pivot locations or residual decay.
 
 ## Not claimed
 
@@ -99,6 +118,9 @@ locations or residual decay.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
+- Proof that fermionic residuals are `PivotCrossProductSignCoherent` at every selected pivot, or that
+  the observed cutoff-scaled half-contraction holds outside the tested finite
+  grids and bounded interval-certified trajectory.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.

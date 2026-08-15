@@ -15,6 +15,8 @@ Potential candidates after further use and generalization:
 - the metric grid-cover plus Lipschitz supremum lemma.
 - the generic cross-ratio-control lemma for one-step Schur residual contraction
   and its geometric-sequence induction theorem.
+- the sign-coherent cross-product criterion for nonexpansive exact Schur
+  updates, and the variable-factor/cumulative-product contraction induction.
 
 The fermionic identities, DLR counts, and research-outcome enumeration are
 project-specific and are not current upstream candidates.

@@ -1326,3 +1326,10 @@ This annotation records delivered identifiers without changing the goals above.
   `experiments/data/`. These synthetic observations add application evidence
   only; they do not modify any formal theorem, Milestone E outcome, or
   non-claim above.
+- Post-v1 research phase G: in progress in draft PR #11. Exact theorems now
+  rule out cutoff-independent one-step contraction, prove variable-factor and
+  dyadic block-product consequences, and show nonexpansiveness under
+  `PivotCrossProductSignCoherent`. The 128-bit census supports, but does not prove,
+  half contraction over `2(s+1)`-pivot blocks when `Λ ≤ 2ˢ`; the cutoff-one
+  two-step case also has interval evidence along a certified approximate-pivot
+  trajectory. Conjecture G1 and the Simons Problem 4.2 claim remain open.

@@ -169,6 +169,54 @@ Frozen public Lean targets:
 - `fermionicKernel_gecp_error_le_exp`: added only if a fermionic-specific block,
   determinant, or structural lemma genuinely proves Conjecture G1.
 
+The first research pass has now proved the first three infrastructure targets,
+plus the following exact refinements:
+
+- `fermionicKernel_le_cutoffCorner` proves that `(0, Λ)` and its reflected
+  partner are genuine complete pivots on the cutoff rectangle;
+- `fermionicKernel_firstPivot_reflected_ratio` proves the exact ratio
+  `1 - exp(-2Λ)`, and
+  `fermionicKernel_no_uniform_firstStep_contraction` constructs a positive
+  cutoff defeating every proposed fixed one-step factor below one;
+- `gecp_error_le_dyadic_of_crossRatioProduct` shows that a cumulative factor
+  bound at ranks `block * p` gives error `2⁻ᵖ` times the initial bound;
+- `PivotCrossProductSignCoherent` captures the selected-cross sign pattern suggested by
+  totally positive exponential kernels.
+  `crossRatioControl_one_of_signCoherent` and
+  `residualUpdate_le_of_signCoherent` prove that exact complete pivoting is
+  nonexpansive whenever the current residual has this property.
+
+The canonical finite-grid data suggests the sharper block contract
+
+\[
+  \|R_{n+2(s+1)}\|_\infty \le \tfrac12\|R_n\|_\infty,
+  \qquad \Lambda\le 2^s.
+\]
+
+At the strictest stored tolerance, every complete block satisfies this test.
+The maximum observed complete-block ratios for cutoffs
+`1, 10, ..., 10^6` are respectively approximately
+`7.74e-2`, `4.97e-6`, `2.04e-4`, `1.13e-3`, `1.00e-3`,
+`2.26e-3`, and `2.48e-3`. The interval engine independently certifies the
+continuous two-step ratio below `0.078` at cutoff one along its returned
+certified approximate-pivot trajectory.
+
+Two tempting stronger routes were rejected rather than promoted:
+
+- per-step cutoff-uniform contraction fails by the exact first-step theorem;
+- after reflecting and scaling frequency, the kernel is diagonally similar to
+  a symmetric positive-definite exponential kernel, but stored pivots move far
+  off the transformed diagonal for nontrivial cutoffs. The existing
+  pivoted-Cholesky theorem therefore does not apply directly.
+
+The current missing lemma is now precise: prove that every exact fermionic
+GECP residual is `PivotCrossProductSignCoherent` at its selected pivot (or an equally strong
+nonexpansiveness invariant), and prove a cutoff-uniform half reduction within
+`C(s+1)` subsequent pivots. The former is suggested by strict sign regularity
+of exponential collocation determinants; the latter still needs a dyadic
+pivot-localization, determinant, or near-volume argument. Neither numerical
+observation is being used as that proof.
+
 Python research targets:
 
 - record every residual ratio and its cutoff-normalized block product using

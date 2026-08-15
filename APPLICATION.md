@@ -166,6 +166,30 @@ three tolerance records per cutoff are exact prefixes of one strict trajectory;
 the checked dataset is byte-reproducible. Adaptive interval certification is a
 separate, more expensive continuous-domain mode.
 
+For the open GECP-rate question, `analyze_census_file` computes
+cutoff-normalized block ratios from the stored decimal strings, while
+`certify_fermionic_block_contraction` uses outward-rounded interval residuals
+along a returned approximate-pivot trajectory:
+
+```python
+from pathlib import Path
+
+from kernelgecp import (
+    analyze_census_file,
+    certify_fermionic_block_contraction,
+)
+
+blocks = analyze_census_file(Path("experiments/data/gecp_census.jsonl"))
+cutoff_one = certify_fermionic_block_contraction(1.0, 2)
+assert cutoff_one.half_contraction_certified
+```
+
+`BlockContractionEvidence.continuous_certified` is always false because the
+canonical census is finite-grid evidence. A certified block result applies to
+the explicitly returned interval-certified approximate-pivot trajectory; it
+does not establish a cutoff-uniform exact-GECP theorem or resolve arbitrary
+tie choices.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical
