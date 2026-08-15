@@ -9,11 +9,15 @@
   equal to its actual residual-pivot product. The stored nonzero witnesses
   therefore prove that core is nonsingular; no external LDU assumption is
   required.
-- A positive pivot-block Schur complement preserves positive semidefiniteness.
+- A positive diagonal GECP/Cholesky update on a finite real PSD matrix remains
+  PSD. The proof constructs an exact elimination map `P` and verifies the
+  residual factorization `R = Pᴴ M P`.
 - Every entry of a finite real PSD residual obeys
   `|Rᵢⱼ|² ≤ Rᵢᵢ Rⱼⱼ`; bounding all diagonal entries is equivalent to bounding
   all absolute entries. Hence a diagonal maximizer is a complete-pivot
   maximizer for the canonical diagonal-preferring rule.
+- Recursive traces using the least diagonal maximizer are equivalent in both
+  directions for complete-pivot GECP and diagonal-pivoted Cholesky.
 - A Lipschitz residual diagonal has the stated conditional fill-distance bound.
 - The fermionic kernel has the exact reflection and centered forms and is
   jointly continuous.
