@@ -1,0 +1,17 @@
+import GECPKernelStructure.Theorems
+
+#print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_rows
+#print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_cols
+#print axioms GECPKernelStructure.GECP.gecp_core_nonsingular
+#print axioms GECPKernelStructure.GECP.gecp_core_det_eq_prod_pivots
+#print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_posSemidefinite
+#print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_abs_le_diag
+#print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_sup_eq_diag_sup
+#print axioms GECPKernelStructure.PositiveDefinite.gecp_eq_pivotedCholesky_of_posDef
+#print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_error_le_fillDistance
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_reflection
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_centered
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_continuous
+#print axioms GECPKernelStructure.Discretization.grid_sup_le_max_add_lipschitz
+#print axioms GECPKernelStructure.Discretization.approxPivot_of_grid_certificate
+#print axioms GECPKernelStructure.greenError_le_kernelError_mul_l1
