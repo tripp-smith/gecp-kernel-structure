@@ -77,7 +77,7 @@ Milestone D or E rate theorems.
 
 ## Milestone D — constructive separated approximation
 
-State: verified on `codex/phase-d-separated-approx`; awaiting phase PR delivery.
+State: verified in draft [PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7).
 
 Delivered:
 

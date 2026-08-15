@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh` passed 2026-08-15 (29 tests)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase D branch `codex/phase-d-separated-approx`<br>
+> **Delivery:** [Phase D draft PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7)<br>
 > **Claim level:** explicit fermionic low-rank theorem proved; no GECP rate is claimed<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -20,7 +20,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | A | Exact GECP core | complete | interpolation; run-selected core determinant/nonsingularity | Lean build; axiom audit; exact two-pivot check | merged PR #4 |
 | B | PSD baseline | complete | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; tie regression | merged PR #5 |
 | C | Fermionic structure/census | complete | exact derivatives/bounds; 128-bit GECP; interval-certified adaptive pivots; endpoint-resolved 21-case census | axiom audit; 27 Python tests; byte-identical census repeat | merged PR #6 |
-| D | Separated approximation | verified | `expFamily_separatedApprox`; `fermionicKernel_separatedApprox`; verified dyadic evaluator | axiom audit; 29 tests; full verification | active branch |
+| D | Separated approximation | verified | `expFamily_separatedApprox`; `fermionicKernel_separatedApprox`; verified dyadic evaluator | axiom audit; 29 tests; full verification | draft PR #7 |
 | E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | baseline merged in PR #1 |
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
 | R | Release readiness | blocked (research) | auditable partial handoff; wheel and sdist | full verification passed | baseline merged in PR #1 |
