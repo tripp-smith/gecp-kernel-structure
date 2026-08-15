@@ -154,3 +154,42 @@ are recorded in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). These
 operational metadata do not change any proved, observed, conjectured, or
 not-claimed research status above.
+
+## Phase S — realistic synthetic applications
+
+State: in progress; direct delivery to `main` requested by the user.
+
+This post-v1 phase applies the delivered Python algorithms to stylized but
+scientifically recognizable workloads. It depends on the completed fermionic
+kernel, grid GECP, cross approximation, sparse recovery, pivoted-Cholesky, and
+Green-error-transfer work. It adds no Lean theorem and does not reopen any
+completed mathematical milestone.
+
+The exact contract is:
+
+- add a public, typed `SyntheticApplicationConfig` and
+  `run_synthetic_application_suite` API;
+- compress normalized Hubbard-like three-peak and gapped two-band spectral
+  densities with one universal fermionic GECP basis, then verify the discrete
+  `L∞`-to-`L¹` Green-error transfer on held-out time/frequency grids;
+- recover a multi-line quasiparticle/satellite spectrum from a known
+  transition library and represent a second spectrum through a dense blind
+  scan of deterministic noisy imaginary-time data, reporting dictionary
+  strategy, held-out errors, and stop reasons;
+- use GECP and canonical pivoted Cholesky as matching landmark selectors for a
+  clustered synthetic spatial covariance matrix;
+- commit configuration-addressed JSON and a summary plot, and test the public
+  API, deterministic serialization, transfer inequality, recovery behavior,
+  and PSD pivot agreement.
+
+Non-claims:
+
+- the spectral fixtures are synthetic and are not fits to a named material,
+  impurity calculation, experiment, or quantum Monte Carlo dataset;
+- the noisy sparse example is not an analytic-continuation uniqueness,
+  uncertainty-quantification, or minimax-stability theorem;
+- finite quadrature verifies a discrete instance of the formal transfer
+  theorem and is not a replacement for its continuous Lean proof;
+- the covariance example is a control application of the PSD baseline, not a
+  formal theorem about optimal sensor placement;
+- none of the new evidence proves the target continuous fermionic GECP rate.

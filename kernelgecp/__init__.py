@@ -1,5 +1,17 @@
 """GECP algorithms and fermionic-kernel research utilities."""
 
+from .applications import (
+    GreenCompressionResult,
+    PSDLandmarkResult,
+    SparseRecoveryResult,
+    SyntheticApplicationConfig,
+    SyntheticApplicationSuite,
+    fermionic_green_from_density,
+    quadrature_weights,
+    run_synthetic_application_suite,
+    synthetic_sensor_points,
+    synthetic_spectral_density,
+)
 from .approximation import (
     DyadicTaylorApproximation,
     SeparatedApproximation,
@@ -30,11 +42,16 @@ __all__ = [
     "FermionicKernel",
     "GECPConfig",
     "GECPResult",
+    "GreenCompressionResult",
     "HighPrecisionData",
     "NumericalBreakdownError",
+    "PSDLandmarkResult",
     "PivotCertificate",
     "SeparatedApproximation",
+    "SparseRecoveryResult",
     "SparseResult",
+    "SyntheticApplicationConfig",
+    "SyntheticApplicationSuite",
     "certified_pivot",
     "interval_certified_pivot",
     "cross_approximation",
@@ -43,11 +60,16 @@ __all__ = [
     "evaluate_residual",
     "exp_family_rank_bound",
     "fermionic_dyadic_taylor_approximation",
+    "fermionic_green_from_density",
     "fermionic_separated_approximation",
     "gecp",
     "gecp_matrix",
     "pivoted_cholesky",
+    "quadrature_weights",
+    "run_synthetic_application_suite",
     "sparse_representation",
+    "synthetic_sensor_points",
+    "synthetic_spectral_density",
 ]
 
 __version__ = "1.0.0"

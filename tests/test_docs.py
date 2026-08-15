@@ -21,6 +21,9 @@ def test_readme_progress_contract() -> None:
         "Verification command",
         "Claim level",
         "$phase-cadence",
+        "Python implementation",
+        "Why this implementation demonstrates the project objectives",
+        "Synthetic application roadmap",
     )
     assert all(field in text for field in required)
     for phase in ("0", "A", "B", "C", "D", "E", "F", "R"):

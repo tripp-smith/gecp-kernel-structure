@@ -1,0 +1,17 @@
+schema_version = 1
+cutoff = 8.0
+gecp_tolerance = 1e-8
+precision_bits = 128
+grid_order = 12
+max_rank = 64
+quadrature_order = 2001
+validation_time_order = 161
+sparse_time_order = 121
+sparse_candidate_order = 1601
+sparse_max_atoms = 8
+sparse_tolerance = 1e-8
+noise_sigma = 1e-8
+psd_point_count = 72
+psd_max_rank = 40
+psd_tolerance = 1e-6
+seed = 20260815
