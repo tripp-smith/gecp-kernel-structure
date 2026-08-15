@@ -56,7 +56,7 @@ a separately certified analytic argument.
 ## Delivered evidence
 
 - Finite-grid census: 21 cutoff/tolerance cases, byte-reproducible, SHA-256
-  `c9558ff22054af134fcaa348eb317f972307c7fdaf9c0e7ceb80653449309ee6`.
+  `3381573b39addf3d5fb64c58f35f3923735b859a1d41953edbba947f88959676`.
 - Exact geometric surrogates: every square minor for sizes 2–8 at
   `q ∈ {1/2, 2/3, 3/4}`, SHA-256
   `ccd5d4b948629a6e9642bd5fc18c69c228709752c31c80113036c0e1037f0e82`.
