@@ -139,6 +139,55 @@ rate theorem. The next optional strengthening is:
 3. test whether the fermionic residual satisfies the hypothesis using
    outward-rounded or exact bounds.
 
+## Phase G — fermionic GECP rate research
+
+State: in progress on `codex/phase-g-gecp-rate`.
+
+The target is Conjecture G1: an exact continuous GECP residual bound of the
+form
+
+\[
+e_k(\Lambda) \le C\exp\!\left(-c k/\log(1+\Lambda)\right)
+\]
+
+with universal positive constants. A cutoff-independent contraction at every
+single pivot would be stronger than this target and is not a viable contract:
+after selecting the complete pivot `(0, Λ)`, the reflected-corner residual is
+exactly `1 - exp(-Λ)`, while the initial maximum is
+`1 / (1 + exp(-Λ))`. Their ratio is `1 - exp(-2Λ)` and therefore approaches
+one. Phase G consequently tests contraction over blocks of
+`O(log(1 + Λ))` pivots, or an equivalent determinant/near-volume condition.
+
+Frozen public Lean targets:
+
+- `fermionicKernel_firstPivot_reflected_residual`: the exact first-update
+  formula above, with no numerical assumptions;
+- `fermionicKernel_no_uniform_firstStep_contraction`: a quantified obstruction
+  to any cutoff-independent one-step factor below one;
+- `gecp_error_le_product_of_crossRatioControl`: variable-factor exact residual
+  control, so a block product rather than every individual factor may contract;
+- `fermionicKernel_gecp_error_le_exp`: added only if a fermionic-specific block,
+  determinant, or structural lemma genuinely proves Conjecture G1.
+
+Python research targets:
+
+- record every residual ratio and its cutoff-normalized block product using
+  arbitrary precision;
+- independently verify the exact first-step formula;
+- use outward-rounded interval residual bounds for any observation promoted to
+  a fermionic structural lemma;
+- minimize and retain any failure of the proposed block condition before the
+  theorem contract is revised.
+
+Non-claims while this phase is in progress:
+
+- finite-grid collapse of residual curves is not a continuous theorem;
+- a factor fitted from the seven canonical cutoffs is not cutoff-uniform;
+- the generic variable-factor theorem does not assert that fermionic GECP
+  satisfies its hypotheses;
+- Phase G is not complete, and Simons Problem 4.2 is not solved, unless the
+  fermionic-specific dependence gap is closed rigorously.
+
 ## Numerical evidence identifiers
 
 - `experiments/data/exact_surrogates.json`:

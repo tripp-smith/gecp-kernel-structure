@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** S — post-v1 synthetic applications<br>
-> **Phase state:** complete<br>
-> **Last verification:** `./scripts/verify.sh` passed with 35 tests on 2026-08-15<br>
+> **Current phase:** G — fermionic GECP rate research<br>
+> **Phase state:** in progress<br>
+> **Last verification:** Phase G contract started from the Phase S verified baseline on 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** implementation commit `6404311`; final evidence delivered directly to `main` as requested<br>
-> **Claim level:** v1 proves the low-rank theorem and an approved GECP obstruction outcome; no fermionic GECP rate is claimed<br>
+> **Delivery:** branch `codex/phase-g-gecp-rate`; draft PR pending<br>
+> **Claim level:** Conjecture G1 remains open while Phase G tests a block-contraction route; no fermionic GECP rate is claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -26,6 +26,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
+| G | Fermionic GECP rate | in progress | cutoff-dependent/block contraction; first-step obstruction; target theorem only if closed | Lean axiom audit; interval/exact evidence; full verification | `codex/phase-g-gecp-rate`; draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
