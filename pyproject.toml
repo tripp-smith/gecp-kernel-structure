@@ -1,6 +1,6 @@
 [project]
 name = "kernelgecp"
-version = "0.1.0"
+version = "1.0.0"
 description = "Reproducible numerical research tools for GECP and the fermionic DLR kernel"
 readme = "APPLICATION.md"
 requires-python = ">=3.12"
@@ -24,6 +24,9 @@ dev = [
 [build-system]
 requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build]
+exclude = ["/autonomous-implementation.md"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["kernelgecp"]

@@ -105,7 +105,7 @@ terms or converges at this rate.
 
 ## Milestone E — structural GECP
 
-State: verified in draft [PR #8](https://github.com/tripp-smith/gecp-kernel-structure/pull/8).
+State: complete; merged in [PR #8](https://github.com/tripp-smith/gecp-kernel-structure/pull/8).
 
 Exact checks completed for all requested geometric surrogates. There were no
 zero minors and no sign mismatches. However, the exact pivot sequences depend
