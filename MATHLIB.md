@@ -6,7 +6,8 @@ Potential candidates after further use and generalization:
 
 - the dependent successful-elimination run and preservation of previously zero
   rows/columns;
-- determinant/nonsingularity consequences of unit-determinant LDU data;
+- the determinant recurrence for a dependent successful elimination run via
+  an explicit unit lower block-elimination matrix;
 - the bound-based formulation equating PSD diagonal and complete-pivot
   suprema;
 - the metric grid-cover plus Lipschitz supremum lemma.

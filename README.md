@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** A — Exact GECP core closure<br>
-> **Phase state:** in progress<br>
+> **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** [baseline merged in PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1)<br>
+> **Delivery:** [draft Phase A PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4)<br>
 > **Claim level:** core/PSD/kernel/Green theorems proved; D and E remain research-blocked<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -17,7 +17,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | Phase | SPEC milestone | State | Named outputs | Verification evidence | Delivery |
 | --- | --- | --- | --- | --- | --- |
 | 0 | Bootstrap | complete | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | merged PR #1 |
-| A | Exact GECP core | in progress | interpolation; LDU determinant/nonsingularity; `Run`-to-LDU bridge missing | Lean build; axiom audit passed | baseline merged in PR #1 |
+| A | Exact GECP core | verified | interpolation; run-selected core determinant/nonsingularity | Lean build; axiom audit; exact two-pivot check | draft PR #4 |
 | B | PSD baseline | in progress | Schur PSD; diagonal domination; canonical one-step rule; fill bound | Lean/Python focused checks; recursive Lean equivalence missing | baseline merged in PR #1 |
 | C | Fermionic structure/census | in progress | reflection, centered form, continuity; stable API; 21-case float64 grid census | Lean/Python checks; high-precision certified census missing | baseline merged in PR #1 |
 | D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | baseline merged in PR #1 |

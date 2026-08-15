@@ -8,6 +8,26 @@ Deliverables are the repository-scoped skills, pinned Lean and Python
 toolchains, package roots, verification scripts, CI, and progress metadata.
 This phase makes no mathematical claim.
 
+## Milestone A — exact selected core closure
+
+State: verified locally; delivery in [draft PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4).
+
+The phase closes the remaining gap between the dependent `GECP.Run` object and
+the determinant/nonsingularity API. The exact public contract is:
+
+- `Run.SelectedIndex` enumerates the successful pivots in their run order;
+- `Run.selectedCore` evaluates the original kernel at those selected rows and
+  columns;
+- `Run.finSelectedCore` reindexes that same matrix by `Fin run.pivots.length`;
+- `gecp_core_det_eq_prod_pivots` proves that the determinant of the finite
+  selected core is the ordered product of the actual residual pivots carried
+  by `run`;
+- `gecp_core_nonsingular` proves the selected core determinant is nonzero.
+
+The proof must derive its block elimination step from `residualUpdate` and the
+nonzero pivot witness already stored in `Run.step`. It may not assume external
+LDU data. This phase does not add a GECP convergence or pivot-selection claim.
+
 ## Milestone D — constructive separated approximation
 
 State: blocked (research).
