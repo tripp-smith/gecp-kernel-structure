@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** G — fermionic GECP rate research<br>
-> **Phase state:** verified (rigorous obstruction and base block; G1 remains open)<br>
+> **Phase state:** complete (rigorous obstruction and base block; G1 remains open)<br>
 > **Last verification:** `./scripts/verify.sh` passed with 45 tests on 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) from `codex/phase-g-gecp-rate`<br>
-> **Claim level:** Conjecture G1 remains open while Phase G tests a block-contraction route; no fermionic GECP rate is claimed<br>
+> **Delivery:** merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11)<br>
+> **Claim level:** Phase G closed through a rigorous obstruction and base block; Conjecture G1 and the full fermionic GECP rate remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -26,7 +26,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
-| G | Fermionic GECP rate | verified | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification | draft PR #11 |
+| G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

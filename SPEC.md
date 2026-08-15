@@ -1326,8 +1326,8 @@ This annotation records delivered identifiers without changing the goals above.
   `experiments/data/`. These synthetic observations add application evidence
   only; they do not modify any formal theorem, Milestone E outcome, or
   non-claim above.
-- Post-v1 research phase G: verified obstruction-plus-base-case result in
-  draft PR #11. Exact theorems now
+- Post-v1 research phase G: complete as a bounded
+  obstruction-plus-base-case result in merged PR #11. Exact theorems now
   rule out cutoff-independent one-step contraction, prove variable-factor and
   dyadic block-product consequences, and show nonexpansiveness under
   `PivotCrossProductSignCoherent`. The first two corner pivots are proved

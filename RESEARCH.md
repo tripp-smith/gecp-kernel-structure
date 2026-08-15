@@ -141,8 +141,9 @@ rate theorem. The next optional strengthening is:
 
 ## Phase G — fermionic GECP rate research
 
-State: verified obstruction-plus-base-case outcome on
-`codex/phase-g-gecp-rate`; Conjecture G1 remains open.
+State: complete as a bounded obstruction-plus-base-case research phase; merged
+in [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11).
+Conjecture G1 remains open.
 
 The target is Conjecture G1: an exact continuous GECP residual bound of the
 form
