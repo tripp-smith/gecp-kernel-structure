@@ -10,6 +10,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** [Release PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9); [completion PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10)<br>
 > **Claim level:** v1 proves the low-rank theorem and an approved GECP obstruction outcome; no fermionic GECP rate is claimed<br>
+> **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
 ## Status
@@ -44,7 +45,8 @@ The Python package is named `kernelgecp` and the Lean library is
 `GECPKernelStructure`. See [APPLICATION.md](APPLICATION.md) for API usage,
 [FINDINGS.md](FINDINGS.md) for claim status, and [RESEARCH.md](RESEARCH.md) for
 theorem history. The v1 delivery summary is in
-[FINAL_HANDOFF.md](FINAL_HANDOFF.md).
+[FINAL_HANDOFF.md](FINAL_HANDOFF.md), including the bounded
+[implementation run metadata](FINAL_HANDOFF.md#implementation-run-metadata).
 
 ## Claim discipline
 

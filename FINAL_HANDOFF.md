@@ -15,6 +15,40 @@ minor signs do not determine complete-pivot locations, while the refined
 decay. The repository does not claim that the fermionic residuals satisfy that
 hypothesis with a cutoff-uniform contraction factor.
 
+## Implementation run metadata
+
+This is a provenance record for the Codex implementation goal, captured at
+handoff on 2026-08-15 at 17:39 EDT (UTC-04:00).
+
+| Field | Recorded value |
+| --- | --- |
+| Codex surface | Codex desktop app |
+| Declared model identity | OpenAI Codex based on the GPT-5 family |
+| Exact serving model/version | Not exposed to the task runtime; no model slug or snapshot can be verified |
+| Collaboration mode | Default mode; primary/root agent |
+| Reasoning effort | Not exposed to the task runtime |
+| Workspace execution mode | Unrestricted local filesystem/network access; approval policy `never` |
+| Goal state | Complete |
+| Goal-accounting usage at completion | 1,801,132 aggregate tokens and 10,747 seconds (2:59:07) |
+| Usage scope | The implementation goal through v1 completion; this post-completion metadata update is not included because its goal counter is no longer available |
+
+The aggregate token counter does not split input, cached input, reasoning, or
+output tokens and is not an OpenAI invoice. The runtime also does not expose
+the exact serving model. For an order-of-magnitude comparison only, the
+current [OpenAI API pricing](https://openai.com/api/pricing/) lists standard
+GPT-5.6 Sol text rates of $5 per million input tokens and $30 per million
+output tokens. Applying those rates to the 1.801132-million-token aggregate
+gives:
+
+- an illustrative 80% input / 20% output estimate of **$18.01**;
+- an uncached standard-rate sensitivity envelope of **$9.01–$54.03** if the
+  whole aggregate were priced at the input or output rate, respectively.
+
+These figures are API-equivalent estimates, not the actual Codex subscription,
+credit, or internal compute cost. They exclude cache discounts, long-context
+premiums, service-tier adjustments, tool-call charges, and any usage that was
+not represented by the completed goal counter.
+
 ## Phase status
 
 | Phase | State | Delivery |

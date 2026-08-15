@@ -18,3 +18,10 @@ Potential candidates after further use and generalization:
 
 The fermionic identities, DLR counts, and research-outcome enumeration are
 project-specific and are not current upstream candidates.
+
+## Run provenance
+
+Implementation-agent metadata is intentionally kept out of the upstream
+candidate assessment. The model/version boundary, mode, elapsed time, token
+snapshot, and API-equivalent cost assumptions are recorded in
+[FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).

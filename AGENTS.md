@@ -42,3 +42,12 @@ until the root command passes.
 Every phase updates README status plus the affected claim documents in the
 same logical change. `SPEC.md` is authoritative: append status annotations and
 delivered identifiers, but do not rewrite its mathematical goals.
+
+Release and final-handoff updates must keep the canonical implementation-run
+provenance in
+[FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata) synchronized
+with README and the supporting documents. Record only model/version, mode,
+time, usage, and billing fields actually exposed by the runtime. When exact
+model identity, token categories, or account billing are unavailable, say so
+and label any pricing calculation as an API-equivalent estimate with explicit
+rates and assumptions.

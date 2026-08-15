@@ -1312,3 +1312,9 @@ This annotation records delivered identifiers without changing the goals above.
   verification command, package artifacts, and a 128-bit endpoint census
   smoke run; all mathematical and application milestones have merged
   deliveries.
+- Implementation-run provenance: the exposed model family, unavailable exact
+  serving version, Default collaboration mode, completion-time token and
+  elapsed-time snapshot, and API-equivalent cost methodology are recorded in
+  [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). This is a
+  status annotation only and does not modify the mathematical objectives or
+  claim level of this specification.

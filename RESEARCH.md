@@ -145,3 +145,12 @@ rate theorem. The next optional strengthening is:
   `ccd5d4b948629a6e9642bd5fc18c69c228709752c31c80113036c0e1037f0e82`
 - `experiments/data/gecp_census.jsonl`:
   `a0a0a58271000ddd1efcf8514d3ae404eac359a900c7ba4ebc5c92336bf38179`
+
+## Run provenance
+
+The model-identification boundary, collaboration mode, elapsed-time and token
+snapshot, and explicitly non-billing cost estimate for the implementation run
+are recorded in
+[FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). These
+operational metadata do not change any proved, observed, conjectured, or
+not-claimed research status above.

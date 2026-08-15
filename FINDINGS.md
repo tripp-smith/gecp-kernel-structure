@@ -77,3 +77,11 @@ locations or residual decay.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
+
+## Run provenance
+
+Agent model/mode metadata, elapsed time, aggregate token usage, and the
+non-billing cost estimate are recorded separately in
+[FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). They are
+operational provenance and are not mathematical or numerical evidence for any
+claim in this ledger.

@@ -1,6 +1,15 @@
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
+PROJECT_DOCS = (
+    "AGENTS.md",
+    "APPLICATION.md",
+    "FINDINGS.md",
+    "MATHLIB.md",
+    "README.md",
+    "RESEARCH.md",
+    "SPEC.md",
+)
 
 
 def test_readme_progress_contract() -> None:
@@ -42,3 +51,25 @@ def test_research_blockers_are_consistent() -> None:
     assert "expFamily_separatedApprox" in research
     assert "fermionicKernel_separatedApprox" in research
     assert "CrossRatioControl" in research
+
+
+def test_implementation_run_metadata_is_complete_and_linked() -> None:
+    handoff = (ROOT / "FINAL_HANDOFF.md").read_text(encoding="utf-8")
+    required = (
+        "Implementation run metadata",
+        "Declared model identity",
+        "Exact serving model/version",
+        "Collaboration mode",
+        "Goal-accounting usage at completion",
+        "1,801,132",
+        "10,747 seconds (2:59:07)",
+        "$18.01",
+        "$9.01–$54.03",
+        "API-equivalent estimates",
+    )
+    assert all(field in handoff for field in required)
+
+    metadata_link = "FINAL_HANDOFF.md#implementation-run-metadata"
+    for name in PROJECT_DOCS:
+        text = (ROOT / name).read_text(encoding="utf-8")
+        assert metadata_link in text, name
