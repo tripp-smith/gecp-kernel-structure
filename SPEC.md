@@ -1290,8 +1290,13 @@ This annotation records delivered identifiers without changing the goals above.
   derivatives and domain bounds, stable numerical kernel, true 128-bit GECP,
   interval-certified adaptive pivoting, exact surrogate protocol, and an
   endpoint-resolved byte-reproducible finite-grid census are implemented.
-- Milestone D: blocked (research). Count arithmetic and a numerical interpolant
-  exist; the two planned public uniform-error theorems are intentionally absent.
+- Milestone D: verified on its phase branch. `expFamily_separatedApprox` proves an explicit
+  `8p(s+1)`-term dyadic approximation of `exp(-tω)` on the positive-frequency
+  domain, and `fermionicKernel_separatedApprox` proves a `16p(s+1)`-term
+  approximation on `[0,1] × [-2ˢ,2ˢ]`, both with uniform error `2⁻ᵖ`.
+  The construction is dyadic truncated Taylor rather than the published
+  selected-exponential Chebyshev variant; it establishes the required
+  logarithmic-logarithmic separated-rank scale without making a GECP claim.
 - Milestone E: blocked (research). Exact sign evidence and a
   parameter-independent pivot-order obstruction are recorded, but no approved
   GECP rate/structural theorem or sufficient-condition obstruction is claimed.

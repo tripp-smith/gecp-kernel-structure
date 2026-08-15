@@ -54,8 +54,23 @@ not itself a formal proof of a continuous GECP rate.
 `fermionic_separated_approximation` uses piecewise barycentric interpolation on
 dyadic Chebyshev frequency bands. `dlr_rank_bound` and
 `exp_family_rank_bound` report explicit arithmetic counts for research
-comparison. They do not certify that the planned Lean uniform-error theorem has
-been proved.
+comparison.
+
+`fermionic_dyadic_taylor_approximation` is the independent high-precision
+implementation of the Lean-verified construction. For cutoff `Λ`, it chooses
+`s = ceil(log₂ Λ)` and `p = ceil(log₂(1/tolerance))`; its public `rank` is
+`16p(s+1)` and `error_bound` is `2⁻ᵖ`.
+
+```python
+from kernelgecp import fermionic_dyadic_taylor_approximation
+
+approximation = fermionic_dyadic_taylor_approximation(1e6, 1e-8)
+values = approximation.evaluate([0.0, 0.5, 1.0], [1e6, 0.0, -1e6])
+print(approximation.rank, approximation.error_bound, values)
+```
+
+This constructive bound certifies low-rank existence. It does not certify a
+GECP convergence rate.
 
 ## Sparse spectral recovery
 

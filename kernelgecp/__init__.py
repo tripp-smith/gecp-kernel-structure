@@ -1,9 +1,12 @@
 """GECP algorithms and fermionic-kernel research utilities."""
 
 from .approximation import (
+    DyadicTaylorApproximation,
     SeparatedApproximation,
     dlr_rank_bound,
+    dyadic_taylor_rank_bound,
     exp_family_rank_bound,
+    fermionic_dyadic_taylor_approximation,
     fermionic_separated_approximation,
 )
 from .certified import certified_pivot, interval_certified_pivot
@@ -23,6 +26,7 @@ from .types import (
 
 __all__ = [
     "CholeskyResult",
+    "DyadicTaylorApproximation",
     "FermionicKernel",
     "GECPConfig",
     "GECPResult",
@@ -35,8 +39,10 @@ __all__ = [
     "interval_certified_pivot",
     "cross_approximation",
     "dlr_rank_bound",
+    "dyadic_taylor_rank_bound",
     "evaluate_residual",
     "exp_family_rank_bound",
+    "fermionic_dyadic_taylor_approximation",
     "fermionic_separated_approximation",
     "gecp",
     "gecp_matrix",

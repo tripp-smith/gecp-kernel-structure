@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** C — High-precision census and certified pivoting<br>
+> **Current phase:** D — Constructive separated approximation<br>
 > **Phase state:** verified<br>
-> **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
+> **Last verification:** `./scripts/verify.sh` passed 2026-08-15 (29 tests)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** [Phase C draft PR #6](https://github.com/tripp-smith/gecp-kernel-structure/pull/6)<br>
-> **Claim level:** core/PSD/kernel/Green theorems proved; D and E remain research-blocked<br>
+> **Delivery:** [Phase D draft PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7)<br>
+> **Claim level:** explicit fermionic low-rank theorem proved; no GECP rate is claimed<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
 ## Status
@@ -19,8 +19,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | 0 | Bootstrap | complete | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | merged PR #1 |
 | A | Exact GECP core | complete | interpolation; run-selected core determinant/nonsingularity | Lean build; axiom audit; exact two-pivot check | merged PR #4 |
 | B | PSD baseline | complete | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; tie regression | merged PR #5 |
-| C | Fermionic structure/census | verified | exact derivatives/bounds; 128-bit GECP; interval-certified adaptive pivots; endpoint-resolved 21-case census | axiom audit; 27 Python tests; byte-identical census repeat | draft PR #6 |
-| D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | baseline merged in PR #1 |
+| C | Fermionic structure/census | complete | exact derivatives/bounds; 128-bit GECP; interval-certified adaptive pivots; endpoint-resolved 21-case census | axiom audit; 27 Python tests; byte-identical census repeat | merged PR #6 |
+| D | Separated approximation | verified | `expFamily_separatedApprox`; `fermionicKernel_separatedApprox`; verified dyadic evaluator | axiom audit; 29 tests; full verification | draft PR #7 |
 | E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | baseline merged in PR #1 |
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
 | R | Release readiness | blocked (research) | auditable partial handoff; wheel and sdist | full verification passed | baseline merged in PR #1 |
