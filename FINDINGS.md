@@ -28,6 +28,12 @@
   `16p(s+1)`-term approximation of the fermionic kernel on
   `[0,1] × [-2ˢ,2ˢ]` with the same error. This is the machine-checked
   `O(log Λ log(1/ε))` low-rank theorem, not a GECP theorem.
+- Strict minor-sign data alone do not determine a complete-pivot location:
+  `signRegularLeft` and `signRegularRight` are exact `2 × 2` rational kernels
+  with the same strict sign-regular pattern and no common complete pivot.
+- If every selected residual cross satisfies `CrossRatioControl` with factor
+  `θ`, the exact GECP update sequence has residual bound `θⁿ` times its initial
+  uniform bound. For `0 ≤ θ < 1` this is geometric decay.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -52,9 +58,10 @@
 The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
-The strongest current structural hypothesis is sign regularity combined with
-a quantitative cross-ratio or near-max-volume estimate. Exact minor signs
-alone do not control GECP residual decay.
+The strongest current structural hypothesis is the formal
+`CrossRatioControl`, potentially derived from sign regularity plus a
+near-max-volume estimate. Exact minor signs alone do not control GECP pivot
+locations or residual decay.
 
 ## Not claimed
 
@@ -68,3 +75,5 @@ alone do not control GECP residual decay.
 - A continuous-domain GECP convergence conclusion from the 128-bit census. The
   committed dataset is endpoint-resolved finite-grid evidence; adaptive
   interval pivot certificates are validated separately on bounded cases.
+- Proof that the fermionic residual sequence satisfies `CrossRatioControl`
+  with a cutoff-uniform contraction factor below one.

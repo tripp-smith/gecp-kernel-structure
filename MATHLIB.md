@@ -13,6 +13,8 @@ Potential candidates after further use and generalization:
 - same-domain positive-semidefinite preservation of a positive diagonal Schur
   update via an explicit congruence factorization;
 - the metric grid-cover plus Lipschitz supremum lemma.
+- the generic cross-ratio-control lemma for one-step Schur residual contraction
+  and its geometric-sequence induction theorem.
 
 The fermionic identities, DLR counts, and research-outcome enumeration are
 project-specific and are not current upstream candidates.
