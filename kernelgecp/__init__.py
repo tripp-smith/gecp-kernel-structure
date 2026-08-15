@@ -6,7 +6,7 @@ from .approximation import (
     exp_family_rank_bound,
     fermionic_separated_approximation,
 )
-from .certified import certified_pivot
+from .certified import certified_pivot, interval_certified_pivot
 from .cholesky import pivoted_cholesky
 from .gecp import cross_approximation, evaluate_residual, gecp, gecp_matrix
 from .kernels import FermionicKernel
@@ -15,6 +15,7 @@ from .types import (
     CholeskyResult,
     GECPConfig,
     GECPResult,
+    HighPrecisionData,
     NumericalBreakdownError,
     PivotCertificate,
     SparseResult,
@@ -25,11 +26,13 @@ __all__ = [
     "FermionicKernel",
     "GECPConfig",
     "GECPResult",
+    "HighPrecisionData",
     "NumericalBreakdownError",
     "PivotCertificate",
     "SeparatedApproximation",
     "SparseResult",
     "certified_pivot",
+    "interval_certified_pivot",
     "cross_approximation",
     "dlr_rank_bound",
     "evaluate_residual",

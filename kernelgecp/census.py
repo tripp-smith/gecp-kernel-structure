@@ -68,7 +68,27 @@ def run_census(
                 grid_order=int(raw["grid_order"]),
             )
             result = gecp(FermionicKernel(float(cutoff)), config=config)
-            residual = result.residual_history[-1] if result.residual_history else 0.0
+            high_precision = result.high_precision
+            if high_precision is None:
+                residual = _decimal(
+                    result.residual_history[-1] if result.residual_history else 0.0
+                )
+                pivots = [_decimal(value) for value in result.pivots]
+                t_nodes = [_decimal(value) for value in result.t_nodes]
+                omega_nodes = [_decimal(value) for value in result.omega_nodes]
+                sigma_min = [
+                    _decimal(value) for value in result.core_sigma_min_history
+                ]
+            else:
+                residual = (
+                    high_precision.residual_history[-1]
+                    if high_precision.residual_history
+                    else "0"
+                )
+                pivots = high_precision.pivots
+                t_nodes = high_precision.t_nodes
+                omega_nodes = high_precision.omega_nodes
+                sigma_min = high_precision.core_sigma_min_history
             records.append(
                 CensusRecord(
                     schema_version=1,
@@ -79,13 +99,11 @@ def run_census(
                     precision_bits=result.precision_bits,
                     algorithm=config.pivot,
                     rank=result.rank,
-                    residual=_decimal(residual),
-                    pivots=[_decimal(value) for value in result.pivots],
-                    t_nodes=[_decimal(value) for value in result.t_nodes],
-                    omega_nodes=[_decimal(value) for value in result.omega_nodes],
-                    core_sigma_min=[
-                        _decimal(value) for value in result.core_sigma_min_history
-                    ],
+                    residual=residual,
+                    pivots=pivots,
+                    t_nodes=t_nodes,
+                    omega_nodes=omega_nodes,
+                    core_sigma_min=sigma_min,
                     tie_counts=result.tie_counts,
                     converged=result.converged,
                     stop_reason=result.stop_reason,

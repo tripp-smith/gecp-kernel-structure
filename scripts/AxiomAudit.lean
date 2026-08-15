@@ -14,6 +14,10 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_reflection
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_centered
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_continuous
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_hasDerivAt_time
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_hasDerivAt_frequency
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_timeDerivative_bound
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_frequencyDerivative_bound
 #print axioms GECPKernelStructure.Discretization.grid_sup_le_max_add_lipschitz
 #print axioms GECPKernelStructure.Discretization.approxPivot_of_grid_certificate
 #print axioms GECPKernelStructure.greenError_le_kernelError_mul_l1

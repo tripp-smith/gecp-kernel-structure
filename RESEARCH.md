@@ -30,7 +30,7 @@ LDU data. This phase does not add a GECP convergence or pivot-selection claim.
 
 ## Milestone B — recursive PSD/Cholesky equivalence
 
-State: verified locally; delivery in [draft PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
+State: complete; merged in [PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
 
 The phase strengthens the existing one-step diagonal-domination result to the
 following exact contract for finite real PSD matrices:
@@ -49,6 +49,28 @@ The complete-pivot relation deliberately uses a diagonal pivot location and
 the repository's diagonal-preferring canonical tie policy. The theorem does
 not claim that every arbitrary off-diagonal tie choice produces the same run,
 and it does not claim the stronger published Lipschitz convergence rate.
+
+## Milestone C — high-precision certified census closure
+
+State: in progress.
+
+The kernel identities and stable float64 evaluator are already proved and
+tested. This closure phase replaces the remaining census placeholders with:
+
+- a genuine `mpmath` finite-grid GECP backend that executes at
+  `GECPConfig.precision_bits` and preserves canonical quantities as decimal
+  strings;
+- an outward-rounded interval branch-and-bound pivot certificate for the
+  fermionic residual on the continuous rectangle;
+- adaptive GECP results that retain every pivot certificate and never report
+  certification after a cell-budget exhaustion;
+- a canonical census whose recorded precision and algorithm match the backend
+  actually used, with repeat-run byte equality;
+- the kernel derivative bounds and grid-to-continuous theorem/API constants
+  needed to interpret approximate pivots.
+
+The numerical certificates validate computations; they are not substituted
+for Lean proofs of the Milestone D or E rate theorems.
 
 ## Milestone D — constructive separated approximation
 

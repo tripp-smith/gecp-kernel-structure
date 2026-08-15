@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from kernelgecp.census import run_census
@@ -23,3 +24,9 @@ pivot = "grid"
     run_census(config, second, root=root)
     assert first.read_bytes() == second.read_bytes()
     assert len(first.read_text(encoding="utf-8").splitlines()) == 2
+    records = [
+        json.loads(line)
+        for line in first.read_text(encoding="utf-8").splitlines()
+    ]
+    assert all(record["precision_bits"] == 128 for record in records)
+    assert all(len(record["pivots"][0]) > 17 for record in records)

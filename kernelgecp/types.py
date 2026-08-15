@@ -69,6 +69,18 @@ class PivotCertificate:
     termination_reason: str
 
 
+@dataclass(frozen=True, slots=True)
+class HighPrecisionData:
+    """Canonical decimal encodings from an arbitrary-precision GECP run."""
+
+    t_nodes: list[str]
+    omega_nodes: list[str]
+    pivots: list[str]
+    residual_history: list[str]
+    core_det_history: list[str]
+    core_sigma_min_history: list[str]
+
+
 @dataclass(slots=True)
 class GECPResult:
     """A complete, auditable record of a finite-grid GECP run."""
@@ -89,6 +101,7 @@ class GECPResult:
     config: dict[str, Any] = field(default_factory=dict)
     precision_bits: int = 53
     residual_matrix: FloatArray | None = None
+    high_precision: HighPrecisionData | None = None
 
 
 @dataclass(slots=True)
