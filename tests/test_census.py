@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from kernelgecp import FermionicKernel, GECPConfig, gecp
 from kernelgecp.census import run_census
 
 
@@ -25,8 +26,20 @@ pivot = "grid"
     assert first.read_bytes() == second.read_bytes()
     assert len(first.read_text(encoding="utf-8").splitlines()) == 2
     records = [
-        json.loads(line)
-        for line in first.read_text(encoding="utf-8").splitlines()
+        json.loads(line) for line in first.read_text(encoding="utf-8").splitlines()
     ]
     assert all(record["precision_bits"] == 128 for record in records)
     assert all(len(record["pivots"][0]) > 17 for record in records)
+    for record in records:
+        direct = gecp(
+            FermionicKernel(float(record["cutoff"])),
+            config=GECPConfig(
+                tol=float(record["tolerance"]),
+                max_rank=12,
+                pivot="grid",
+                precision_bits=128,
+                grid_order=6,
+            ),
+        )
+        assert record["rank"] == direct.rank
+        assert record["pivots"] == direct.high_precision.pivots

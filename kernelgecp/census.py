@@ -8,6 +8,7 @@ import json
 import subprocess
 import tomllib
 from dataclasses import asdict
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -59,36 +60,53 @@ def run_census(
     config_hash = _config_hash(raw)
     records: list[CensusRecord] = []
     for cutoff in raw["cutoffs"]:
+        tolerances = [float(value) for value in raw["tolerances"]]
+        strictest_tolerance = min(tolerances)
+        config = GECPConfig(
+            tol=strictest_tolerance,
+            max_rank=int(raw["max_rank"]),
+            pivot=str(raw["pivot"]),  # type: ignore[arg-type]
+            precision_bits=int(raw["precision_bits"]),
+            grid_order=int(raw["grid_order"]),
+            certificate_abs_tol=float(raw.get("certificate_abs_tol", 1e-12)),
+            certificate_rel_tol=float(raw.get("certificate_rel_tol", 1e-8)),
+            max_cells=int(raw.get("max_cells", 100_000)),
+        )
+        result = gecp(FermionicKernel(float(cutoff)), config=config)
+        high_precision = result.high_precision
         for tolerance in raw["tolerances"]:
-            config = GECPConfig(
-                tol=float(tolerance),
-                max_rank=int(raw["max_rank"]),
-                pivot=str(raw["pivot"]),  # type: ignore[arg-type]
-                precision_bits=int(raw["precision_bits"]),
-                grid_order=int(raw["grid_order"]),
-            )
-            result = gecp(FermionicKernel(float(cutoff)), config=config)
-            high_precision = result.high_precision
+            requested_tolerance = Decimal(str(tolerance))
             if high_precision is None:
-                residual = _decimal(
-                    result.residual_history[-1] if result.residual_history else 0.0
+                rank = next(
+                    (
+                        index
+                        for index, value in enumerate(result.residual_history)
+                        if value <= float(tolerance)
+                    ),
+                    result.rank,
                 )
-                pivots = [_decimal(value) for value in result.pivots]
-                t_nodes = [_decimal(value) for value in result.t_nodes]
-                omega_nodes = [_decimal(value) for value in result.omega_nodes]
+                residual = _decimal(result.residual_history[rank])
+                pivots = [_decimal(value) for value in result.pivots[:rank]]
+                t_nodes = [_decimal(value) for value in result.t_nodes[:rank]]
+                omega_nodes = [_decimal(value) for value in result.omega_nodes[:rank]]
                 sigma_min = [
-                    _decimal(value) for value in result.core_sigma_min_history
+                    _decimal(value) for value in result.core_sigma_min_history[:rank]
                 ]
             else:
-                residual = (
-                    high_precision.residual_history[-1]
-                    if high_precision.residual_history
-                    else "0"
+                rank = next(
+                    (
+                        index
+                        for index, value in enumerate(high_precision.residual_history)
+                        if Decimal(value) <= requested_tolerance
+                    ),
+                    result.rank,
                 )
-                pivots = high_precision.pivots
-                t_nodes = high_precision.t_nodes
-                omega_nodes = high_precision.omega_nodes
-                sigma_min = high_precision.core_sigma_min_history
+                residual = high_precision.residual_history[rank]
+                pivots = high_precision.pivots[:rank]
+                t_nodes = high_precision.t_nodes[:rank]
+                omega_nodes = high_precision.omega_nodes[:rank]
+                sigma_min = high_precision.core_sigma_min_history[:rank]
+            converged = Decimal(residual) <= requested_tolerance
             records.append(
                 CensusRecord(
                     schema_version=1,
@@ -98,15 +116,15 @@ def run_census(
                     tolerance=_decimal(float(tolerance)),
                     precision_bits=result.precision_bits,
                     algorithm=config.pivot,
-                    rank=result.rank,
+                    rank=rank,
                     residual=residual,
                     pivots=pivots,
                     t_nodes=t_nodes,
                     omega_nodes=omega_nodes,
                     core_sigma_min=sigma_min,
-                    tie_counts=result.tie_counts,
-                    converged=result.converged,
-                    stop_reason=result.stop_reason,
+                    tie_counts=result.tie_counts[:rank],
+                    converged=converged,
+                    stop_reason="tolerance" if converged else result.stop_reason,
                 )
             )
     output_path.parent.mkdir(parents=True, exist_ok=True)

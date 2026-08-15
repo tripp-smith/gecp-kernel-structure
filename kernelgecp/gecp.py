@@ -173,15 +173,11 @@ class _FermionicResidualEvaluator:
                 column_coefficient = self.pivot_columns[j][earlier]
                 column -= columns[earlier] * row_coefficient / self.pivots[earlier]
                 column_dt -= (
-                    column_derivatives[earlier]
-                    * row_coefficient
-                    / self.pivots[earlier]
+                    column_derivatives[earlier] * row_coefficient / self.pivots[earlier]
                 )
                 row -= rows[earlier] * column_coefficient / self.pivots[earlier]
                 row_dw -= (
-                    row_derivatives[earlier]
-                    * column_coefficient
-                    / self.pivots[earlier]
+                    row_derivatives[earlier] * column_coefficient / self.pivots[earlier]
                 )
             columns.append(column)
             column_derivatives.append(column_dt)
@@ -628,8 +624,7 @@ def gecp(
                 ]
             else:
                 matrix_mp = [
-                    [_mp_value(kernel(t, omega)) for omega in omega_mp]
-                    for t in t_mp
+                    [_mp_value(kernel(t, omega)) for omega in omega_mp] for t in t_mp
                 ]
             return _gecp_mpmath_matrix(
                 matrix_mp,

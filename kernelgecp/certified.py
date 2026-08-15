@@ -213,9 +213,7 @@ def _make_interval_cell(
         )
         dt_term = _outward_upper(dt_upper * ((t1 - t0) / 2.0))
         dw_term = _outward_upper(dw_upper * ((w1 - w0) / 2.0))
-        mean_upper = _outward_upper(
-            _outward_upper(center_upper + dt_term) + dw_term
-        )
+        mean_upper = _outward_upper(_outward_upper(center_upper + dt_term) + dw_term)
         upper = min(upper, mean_upper)
     if not mp.isfinite(point_value) or not np.isfinite(upper):
         raise ValueError("interval pivot objective produced a non-finite enclosure")
@@ -295,9 +293,7 @@ def interval_certified_pivot(
         for t in seed_t:
             for omega in seed_omega:
                 with mp.workprec(precision_bits):
-                    signed_value = point_function(
-                        mp.mpf(repr(t)), mp.mpf(repr(omega))
-                    )
+                    signed_value = point_function(mp.mpf(repr(t)), mp.mpf(repr(omega)))
                 magnitude = _outward_lower(abs(float(signed_value)))
                 point = (t, omega)
                 if magnitude > best_value or (
@@ -313,11 +309,7 @@ def interval_certified_pivot(
             global_upper = -queue[0].priority
             tolerance = abs_tol + rel_tol * max(0.0, best_value)
             if global_upper - best_value <= tolerance:
-                eta = (
-                    1.0
-                    if global_upper == 0
-                    else min(1.0, best_value / global_upper)
-                )
+                eta = 1.0 if global_upper == 0 else min(1.0, best_value / global_upper)
                 return PivotCertificate(
                     t=best_point[0],
                     omega=best_point[1],
@@ -377,9 +369,7 @@ def interval_certified_pivot(
                     best_signed_value = child.point_value
 
         global_upper = max((-cell.priority for cell in queue), default=best_value)
-        eta = (
-            1.0 if global_upper == 0 else min(1.0, best_value / global_upper)
-        )
+        eta = 1.0 if global_upper == 0 else min(1.0, best_value / global_upper)
         return PivotCertificate(
             t=best_point[0],
             omega=best_point[1],
