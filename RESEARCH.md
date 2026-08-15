@@ -2,7 +2,7 @@
 
 ## Phase 0 — bootstrap
 
-State: verified locally; delivery pending.
+State: complete; merged in [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1).
 
 Deliverables are the repository-scoped skills, pinned Lean and Python
 toolchains, package roots, verification scripts, CI, and progress metadata.

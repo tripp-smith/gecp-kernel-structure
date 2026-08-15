@@ -1273,7 +1273,7 @@ That would give this project a similar shape to `nystrom-submodularity`: start w
 
 This annotation records delivered identifiers without changing the goals above.
 
-- Bootstrap: implemented locally with repository skills `phase-cadence` and
+- Bootstrap: implemented and merged in PR #1 with repository skills `phase-cadence` and
   `lean-research-loop`, pinned Lean/mathlib 4.33.0, Python 3.12, CI, and a root
   verification command.
 - Milestone A: `gecp_interpolates_selected_rows`,
