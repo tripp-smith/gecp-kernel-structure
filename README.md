@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** D — Constructive separated approximation<br>
-> **Phase state:** blocked (research)<br>
+> **Current phase:** A — Exact GECP core closure<br>
+> **Phase state:** in progress<br>
 > **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** [baseline merged in PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1)<br>
@@ -17,9 +17,9 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | Phase | SPEC milestone | State | Named outputs | Verification evidence | Delivery |
 | --- | --- | --- | --- | --- | --- |
 | 0 | Bootstrap | complete | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | merged PR #1 |
-| A | Exact GECP core | complete | interpolation; LDU determinant/nonsingularity | Lean build; axiom audit passed | merged PR #1 |
-| B | PSD baseline | complete | Schur PSD; diagonal domination; canonical one-step rule; fill bound | Lean/Python focused checks | merged PR #1 |
-| C | Fermionic structure/census | complete | reflection, centered form, continuity; stable API; 21-case grid census | Lean/Python checks; census SHA below | merged PR #1 |
+| A | Exact GECP core | in progress | interpolation; LDU determinant/nonsingularity; `Run`-to-LDU bridge missing | Lean build; axiom audit passed | baseline merged in PR #1 |
+| B | PSD baseline | in progress | Schur PSD; diagonal domination; canonical one-step rule; fill bound | Lean/Python focused checks; recursive Lean equivalence missing | baseline merged in PR #1 |
+| C | Fermionic structure/census | in progress | reflection, centered form, continuity; stable API; 21-case float64 grid census | Lean/Python checks; high-precision certified census missing | baseline merged in PR #1 |
 | D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | baseline merged in PR #1 |
 | E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | baseline merged in PR #1 |
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
