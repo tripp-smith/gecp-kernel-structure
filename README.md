@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** [Phase A merged in PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4)<br>
+> **Delivery:** [draft Phase B PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5)<br>
 > **Claim level:** core/PSD/kernel/Green theorems proved; D and E remain research-blocked<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -18,7 +18,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | --- | --- | --- | --- | --- | --- |
 | 0 | Bootstrap | complete | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | merged PR #1 |
 | A | Exact GECP core | complete | interpolation; run-selected core determinant/nonsingularity | Lean build; axiom audit; exact two-pivot check | merged PR #4 |
-| B | PSD baseline | verified | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; 22 Python tests including tie regression | phase PR pending |
+| B | PSD baseline | verified | same-domain Schur PSD; diagonal domination; canonical recursive GECP/Cholesky traces; fill bound | Lean axiom audit; 22 Python tests including tie regression | draft PR #5 |
 | C | Fermionic structure/census | in progress | reflection, centered form, continuity; stable API; 21-case float64 grid census | Lean/Python checks; high-precision certified census missing | baseline merged in PR #1 |
 | D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | baseline merged in PR #1 |
 | E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | baseline merged in PR #1 |

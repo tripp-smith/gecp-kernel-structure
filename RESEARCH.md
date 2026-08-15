@@ -30,7 +30,7 @@ LDU data. This phase does not add a GECP convergence or pivot-selection claim.
 
 ## Milestone B — recursive PSD/Cholesky equivalence
 
-State: verified locally; delivery pending.
+State: verified locally; delivery in [draft PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
 
 The phase strengthens the existing one-step diagonal-domination result to the
 following exact contract for finite real PSD matrices:
