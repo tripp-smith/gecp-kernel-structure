@@ -1282,9 +1282,10 @@ This annotation records delivered identifiers without changing the goals above.
   successful dependent `Run`. The determinant proof derives its block
   elimination step directly from `residualUpdate` and the run's stored nonzero
   pivot witnesses.
-- Milestone B: the Schur PSD, diagonal domination, bound-equivalence,
-  canonical diagonal-maximizer, and conditional fill-distance theorems are
-  implemented.
+- Milestone B: same-domain Schur residual PSD preservation, diagonal
+  domination, bound-equivalence, canonical diagonal-maximizer, recursive GECP
+  and pivoted-Cholesky trace equivalence, and the conditional fill-distance
+  theorem are implemented.
 - Milestone C: reflection, centered-form, continuity, stable numerical kernel,
   exact surrogate protocol, and finite-grid census are implemented.
 - Milestone D: blocked (research). Count arithmetic and a numerical interpolant

@@ -10,7 +10,7 @@ This phase makes no mathematical claim.
 
 ## Milestone A — exact selected core closure
 
-State: verified locally; delivery in [draft PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4).
+State: complete; merged in [PR #4](https://github.com/tripp-smith/gecp-kernel-structure/pull/4).
 
 The phase closes the remaining gap between the dependent `GECP.Run` object and
 the determinant/nonsingularity API. The exact public contract is:
@@ -27,6 +27,28 @@ the determinant/nonsingularity API. The exact public contract is:
 The proof must derive its block elimination step from `residualUpdate` and the
 nonzero pivot witness already stored in `Run.step`. It may not assume external
 LDU data. This phase does not add a GECP convergence or pivot-selection claim.
+
+## Milestone B — recursive PSD/Cholesky equivalence
+
+State: verified locally; delivery in [draft PR #5](https://github.com/tripp-smith/gecp-kernel-structure/pull/5).
+
+The phase strengthens the existing one-step diagonal-domination result to the
+following exact contract for finite real PSD matrices:
+
+- `diagonalResidual` is the symmetric same-domain Schur update at a positive
+  diagonal pivot;
+- `posDef_gecp_residual_posSemidefinite` proves that update remains PSD;
+- `IsDiagonalPivot` and `IsCompletePivot` state the pivoted-Cholesky and GECP
+  maximizer predicates;
+- `PivotedCholeskyTrace` and `GECPTrace` record the same ordered residual
+  updates with their respective pivot predicates;
+- `gecp_eq_pivotedCholesky_of_posDef` proves the two recursive trace relations
+  equivalent for every pivot list.
+
+The complete-pivot relation deliberately uses a diagonal pivot location and
+the repository's diagonal-preferring canonical tie policy. The theorem does
+not claim that every arbitrary off-diagonal tie choice produces the same run,
+and it does not claim the stronger published Lipschitz convergence rate.
 
 ## Milestone D — constructive separated approximation
 

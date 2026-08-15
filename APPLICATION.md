@@ -24,6 +24,9 @@ print(result.rank, result.converged, result.stop_reason, abs(residual).max())
 `cross_approximation` solves with the selected core; it never forms an explicit
 inverse. Results include residual history, determinants, smallest singular
 values, near-tie counts, convergence, stop reason, and actual precision.
+For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
+diagonal-preferring lexicographic tie rule; the recursive equivalence of those
+pivot policies is separately proved in Lean.
 
 ## Certified pivots
 
