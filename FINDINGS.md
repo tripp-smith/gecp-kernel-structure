@@ -41,6 +41,15 @@
   rectangle. Its reflected-corner first-update ratio is exactly
   `1 - exp(-2Λ)`, so no factor below one contracts every first step uniformly
   in the cutoff.
+- For every positive cutoff, the residual after the first corner pivot is
+  nonnegative and is maximized in absolute value at the reflected corner
+  `(1,-Λ)`. Thus the first two canonical complete pivots are proved exactly,
+  not inferred from the census.
+- For `0 < Λ ≤ 1`, the rank-two secant approximation has kernel error at most
+  `1/8`; its endpoint cardinal weights are nonnegative and sum to at most one.
+  The resulting recursive two-corner GECP residual is at most `1/4`, hence at
+  most one half of the initial complete-pivot magnitude. This is the first
+  formally proved strict block-contraction case for the fermionic trajectory.
 - A residual that is `PivotCrossProductSignCoherent` at its selected pivot cannot grow under an exact complete
   pivot: compatible cross-product signs sharpen the generic factor-two update
   estimate to factor one.
@@ -98,8 +107,10 @@
 The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
-The strongest current structural hypothesis is block contraction after
-`2(s+1)` pivots for `Λ ≤ 2ˢ`. The formal `PivotCrossProductSignCoherent` condition
+The cutoff-one base case of the `2(s+1)` block hypothesis is now proved for
+the actual continuous GECP trajectory. The conjectured extension is block
+contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The formal
+`PivotCrossProductSignCoherent` condition
 would supply nonexpansiveness between strict contractions and is expected to
 follow from a stronger residual sign-regularity theorem. Exact minor signs
 alone do not control GECP pivot locations or residual decay.
@@ -118,9 +129,9 @@ alone do not control GECP pivot locations or residual decay.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
-- Proof that fermionic residuals are `PivotCrossProductSignCoherent` at every selected pivot, or that
-  the observed cutoff-scaled half-contraction holds outside the tested finite
-  grids and bounded interval-certified trajectory.
+- Proof that fermionic residuals are `PivotCrossProductSignCoherent` at every
+  selected pivot, or that the cutoff-scaled half-contraction extends from the
+  proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.

@@ -8,7 +8,9 @@ from kernelgecp.research import (
     analyze_census_record,
     certify_fermionic_block_contraction,
     dyadic_cutoff_scale,
+    fermionic_first_residual,
     fermionic_first_step_ratio,
+    fermionic_two_corner_residual,
 )
 
 
@@ -19,6 +21,33 @@ def test_first_step_formula_obstructs_uniform_contraction() -> None:
         "0.86466471676338730810600050502751559659236845409042411853184112734592662589851231"
     )
     assert fermionic_first_step_ratio(Decimal("100")) > Decimal("0.999999999999999999")
+
+
+@pytest.mark.parametrize("cutoff", [Decimal("0.125"), Decimal("0.5"), Decimal("1")])
+def test_two_corner_closed_form_independently_checks_base_contraction(
+    cutoff: Decimal,
+) -> None:
+    times = [Decimal(index) / 80 for index in range(81)]
+    frequencies = [-cutoff + 2 * cutoff * Decimal(index) / 160 for index in range(161)]
+    first_pivot = Decimal(1) / (Decimal(1) + (-cutoff).exp())
+    second_pivot = Decimal(1) - (-cutoff).exp()
+    assert abs(
+        fermionic_first_residual(cutoff, Decimal(1), -cutoff) - second_pivot
+    ) < Decimal("1e-27")
+
+    first_max = max(
+        fermionic_first_residual(cutoff, time, frequency)
+        for time in times
+        for frequency in frequencies
+    )
+    second_max = max(
+        abs(fermionic_two_corner_residual(cutoff, time, frequency))
+        for time in times
+        for frequency in frequencies
+    )
+    assert first_max <= second_pivot + Decimal("1e-27")
+    assert second_max <= Decimal(1) / 4
+    assert second_max <= first_pivot / 2
 
 
 def test_record_analysis_separates_complete_and_trailing_blocks() -> None:

@@ -236,6 +236,82 @@ theorem fermionicKernel_firstPivot_reflected_residual (Λ : ℝ) :
     simp
   nlinarith [exp_mul]
 
+/-- Closed form of the residual after selecting the positive cutoff corner. -/
+theorem fermionicKernel_firstPivot_residual (Λ t ω : ℝ) :
+    residualUpdate fermionicKernel 0 Λ (fermionicKernel_pos 0 Λ).ne'
+      t ω = (Real.exp (-t * ω) - Real.exp (-t * Λ)) /
+        (1 + Real.exp (-ω)) := by
+  unfold residualUpdate
+  have cross_term :
+      fermionicKernel t Λ * fermionicKernel 0 ω / fermionicKernel 0 Λ =
+        Real.exp (-t * Λ) / (1 + Real.exp (-ω)) := by
+    unfold fermionicKernel
+    simp only [zero_mul, neg_zero, Real.exp_zero]
+    field_simp [fermionicKernel_denominator_ne]
+  rw [cross_term]
+  unfold fermionicKernel
+  ring
+
+/--
+For every positive cutoff, the first residual is nonnegative on the cutoff
+rectangle and its complete maximum is the reflected corner `(1, -Λ)`. Thus the
+first two canonical fermionic GECP pivots are rigorously identified.
+-/
+theorem fermionicKernel_firstPivot_abs_le_reflectedCorner {Λ t ω : ℝ}
+    (cutoff_pos : 0 < Λ)
+    (time_nonneg : 0 ≤ t) (time_le_one : t ≤ 1)
+    (frequency_lower : -Λ ≤ ω) (frequency_upper : ω ≤ Λ) :
+    abs (residualUpdate fermionicKernel 0 Λ (fermionicKernel_pos 0 Λ).ne' t ω) ≤
+      residualUpdate fermionicKernel 0 Λ (fermionicKernel_pos 0 Λ).ne' 1 (-Λ) := by
+  rw [fermionicKernel_firstPivot_residual,
+    fermionicKernel_firstPivot_reflected_residual]
+  have numerator_nonneg :
+      0 ≤ Real.exp (-t * ω) - Real.exp (-t * Λ) := by
+    exact sub_nonneg.mpr (Real.exp_le_exp.mpr (by nlinarith))
+  rw [abs_of_nonneg (div_nonneg numerator_nonneg
+    (fermionicKernel_denominator_pos ω).le)]
+  have pivot_nonneg : 0 ≤ 1 - Real.exp (-Λ) := by
+    exact sub_nonneg.mpr (Real.exp_le_one_iff.mpr (by linarith))
+  by_cases frequency_nonneg : 0 ≤ ω
+  · have exp_time_frequency_le_one : Real.exp (-t * ω) ≤ 1 :=
+      Real.exp_le_one_iff.mpr (by nlinarith)
+    have exp_cutoff_le_time : Real.exp (-Λ) ≤ Real.exp (-t * Λ) :=
+      Real.exp_le_exp.mpr (by nlinarith)
+    have numerator_le_pivot :
+        Real.exp (-t * ω) - Real.exp (-t * Λ) ≤ 1 - Real.exp (-Λ) := by
+      linarith
+    apply (div_le_iff₀ (fermionicKernel_denominator_pos ω)).mpr
+    nlinarith [Real.exp_pos (-ω)]
+  · have frequency_nonpos : ω ≤ 0 := le_of_not_ge frequency_nonneg
+    have first_exp_le : Real.exp (-t * ω) ≤ Real.exp (-ω) :=
+      Real.exp_le_exp.mpr (by nlinarith)
+    have second_exp_le : Real.exp (-Λ) ≤ Real.exp (-t * Λ) :=
+      Real.exp_le_exp.mpr (by nlinarith)
+    have numerator_endpoint :
+        Real.exp (-t * ω) - Real.exp (-t * Λ) ≤
+          Real.exp (-ω) - Real.exp (-Λ) := by linarith
+    have first_bound :
+        (Real.exp (-t * ω) - Real.exp (-t * Λ)) / (1 + Real.exp (-ω)) ≤
+          (Real.exp (-ω) - Real.exp (-Λ)) / (1 + Real.exp (-ω)) := by
+      gcongr
+    have frequency_exp_le : Real.exp (-ω) ≤ Real.exp Λ :=
+      Real.exp_le_exp.mpr (by linarith)
+    have second_bound :
+        (Real.exp (-ω) - Real.exp (-Λ)) / (1 + Real.exp (-ω)) ≤
+          (Real.exp Λ - Real.exp (-Λ)) / (1 + Real.exp Λ) := by
+      have denominator_pos := fermionicKernel_denominator_pos ω
+      have cutoff_denominator_pos : 0 < 1 + Real.exp Λ := by positivity
+      apply (div_le_div_iff₀ denominator_pos cutoff_denominator_pos).mpr
+      nlinarith [Real.exp_pos (-Λ), Real.exp_pos Λ]
+    calc
+      (Real.exp (-t * ω) - Real.exp (-t * Λ)) / (1 + Real.exp (-ω)) ≤
+          (Real.exp (-ω) - Real.exp (-Λ)) / (1 + Real.exp (-ω)) := first_bound
+      _ ≤ (Real.exp Λ - Real.exp (-Λ)) / (1 + Real.exp Λ) := second_bound
+      _ = 1 - Real.exp (-Λ) := by
+        rw [Real.exp_neg]
+        field_simp [Real.exp_ne_zero]
+        ring
+
 /-- The reflected-corner residual divided by the initial complete-pivot value. -/
 theorem fermionicKernel_firstPivot_reflected_ratio (Λ : ℝ) :
     residualUpdate fermionicKernel 0 Λ (fermionicKernel_pos 0 Λ).ne'

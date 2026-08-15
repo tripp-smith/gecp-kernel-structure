@@ -17,6 +17,9 @@ Potential candidates after further use and generalization:
   and its geometric-sequence induction theorem.
 - the sign-coherent cross-product criterion for nonexpansive exact Schur
   updates, and the variable-factor/cumulative-product contraction induction.
+- the generic endpoint-interpolation stability pattern: nonnegative cardinal
+  weights of total mass at most one turn an error in a fixed comparison space
+  into a factor-two residual bound.
 
 The fermionic identities, DLR counts, and research-outcome enumeration are
 project-specific and are not current upstream candidates.

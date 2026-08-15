@@ -85,6 +85,51 @@ def fermionic_first_step_ratio(cutoff: Decimal, *, precision: int = 80) -> Decim
         return +(Decimal(1) - (-2 * cutoff).exp())
 
 
+def fermionic_first_residual(
+    cutoff: Decimal,
+    time: Decimal,
+    frequency: Decimal,
+    *,
+    precision: int = 80,
+) -> Decimal:
+    """Evaluate the proved closed form after the first corner pivot."""
+
+    if not cutoff.is_finite() or cutoff <= 0:
+        raise ValueError("cutoff must be finite and positive")
+    if not time.is_finite() or time < 0 or time > 1:
+        raise ValueError("time must be finite and lie in [0, 1]")
+    if not frequency.is_finite() or frequency < -cutoff or frequency > cutoff:
+        raise ValueError("frequency must be finite and lie in [-cutoff, cutoff]")
+    if precision < 16:
+        raise ValueError("precision must be at least 16 decimal digits")
+    with localcontext() as context:
+        context.prec = precision
+        numerator = (-time * frequency).exp() - (-time * cutoff).exp()
+        return +(numerator / (Decimal(1) + (-frequency).exp()))
+
+
+def fermionic_two_corner_residual(
+    cutoff: Decimal,
+    time: Decimal,
+    frequency: Decimal,
+    *,
+    precision: int = 80,
+) -> Decimal:
+    """Evaluate the exact residual after the two proved corner pivots."""
+
+    with localcontext() as context:
+        context.prec = precision
+        current = fermionic_first_residual(cutoff, time, frequency, precision=precision)
+        reflected_column = fermionic_first_residual(
+            cutoff, time, -cutoff, precision=precision
+        )
+        endpoint_row = fermionic_first_residual(
+            cutoff, Decimal(1), frequency, precision=precision
+        )
+        pivot = Decimal(1) - (-cutoff).exp()
+        return +(current - reflected_column * endpoint_row / pivot)
+
+
 def certify_fermionic_block_contraction(
     cutoff: float,
     steps: int,

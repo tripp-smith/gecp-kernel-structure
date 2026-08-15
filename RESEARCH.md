@@ -141,7 +141,8 @@ rate theorem. The next optional strengthening is:
 
 ## Phase G — fermionic GECP rate research
 
-State: in progress on `codex/phase-g-gecp-rate`.
+State: verified obstruction-plus-base-case outcome on
+`codex/phase-g-gecp-rate`; Conjecture G1 remains open.
 
 The target is Conjecture G1: an exact continuous GECP residual bound of the
 form
@@ -162,18 +163,25 @@ Frozen public Lean targets:
 
 - `fermionicKernel_firstPivot_reflected_residual`: the exact first-update
   formula above, with no numerical assumptions;
+- `fermionicKernel_firstPivot_abs_le_reflectedCorner`: the reflected corner is
+  the actual second complete pivot for every positive cutoff;
 - `fermionicKernel_no_uniform_firstStep_contraction`: a quantified obstruction
   to any cutoff-independent one-step factor below one;
 - `gecp_error_le_product_of_crossRatioControl`: variable-factor exact residual
   control, so a block product rather than every individual factor may contract;
+- `fermionicKernel_twoCornerResidual_le_half_initial`: the actual two-step
+  continuous GECP residual contracts by one half on `0 < Λ ≤ 1`;
 - `fermionicKernel_gecp_error_le_exp`: added only if a fermionic-specific block,
   determinant, or structural lemma genuinely proves Conjecture G1.
 
-The first research pass has now proved the first three infrastructure targets,
-plus the following exact refinements:
+The research pass has proved the infrastructure targets and the following
+fermionic-specific refinements:
 
 - `fermionicKernel_le_cutoffCorner` proves that `(0, Λ)` and its reflected
   partner are genuine complete pivots on the cutoff rectangle;
+- `fermionicKernel_firstPivot_abs_le_reflectedCorner` strengthens this to the
+  recursive statement: after `(0,Λ)`, `(1,-Λ)` is the actual complete pivot
+  for every `Λ>0`;
 - `fermionicKernel_firstPivot_reflected_ratio` proves the exact ratio
   `1 - exp(-2Λ)`, and
   `fermionicKernel_no_uniform_firstStep_contraction` constructs a positive
@@ -185,6 +193,17 @@ plus the following exact refinements:
   `crossRatioControl_one_of_signCoherent` and
   `residualUpdate_le_of_signCoherent` prove that exact complete pivoting is
   nonexpansive whenever the current residual has this property.
+- `centeredExpSecant_error_le_quarter` and
+  `twoCornerApproximation_error_le_eighth` construct and bound an explicit
+  rank-two comparison space on `0<Λ≤1`;
+- `cornerWeights_nonnegative_sum_le_one` proves stability of its endpoint
+  interpolation operator, while
+  `fermionicKernel_twoCornerResidual_eq_sub_interpolate` identifies that error
+  with the actual recursive residual;
+- `fermionicKernel_twoCornerResidual_le_half_initial` closes the continuous
+  cutoff-one block exactly. The interval certificate below is now an
+  independent numerical check of a formal theorem, not the source of the
+  claim.
 
 The canonical finite-grid data suggests the sharper block contract
 
@@ -209,10 +228,11 @@ Two tempting stronger routes were rejected rather than promoted:
   off the transformed diagonal for nontrivial cutoffs. The existing
   pivoted-Cholesky theorem therefore does not apply directly.
 
-The current missing lemma is now precise: prove that every exact fermionic
+The current missing scaling lemma is now precise: prove that every exact fermionic
 GECP residual is `PivotCrossProductSignCoherent` at its selected pivot (or an equally strong
 nonexpansiveness invariant), and prove a cutoff-uniform half reduction within
-`C(s+1)` subsequent pivots. The former is suggested by strict sign regularity
+`C(s+1)` subsequent pivots by transporting the proved `Λ≤1` base mechanism
+through dyadic frequency layers. The former is suggested by strict sign regularity
 of exponential collocation determinants; the latter still needs a dyadic
 pivot-localization, determinant, or near-volume argument. Neither numerical
 observation is being used as that proof.
@@ -227,14 +247,15 @@ Python research targets:
 - minimize and retain any failure of the proposed block condition before the
   theorem contract is revised.
 
-Non-claims while this phase is in progress:
+Non-claims for this verified partial result:
 
 - finite-grid collapse of residual curves is not a continuous theorem;
 - a factor fitted from the seven canonical cutoffs is not cutoff-uniform;
 - the generic variable-factor theorem does not assert that fermionic GECP
   satisfies its hypotheses;
-- Phase G is not complete, and Simons Problem 4.2 is not solved, unless the
-  fermionic-specific dependence gap is closed rigorously.
+- The verified Phase G result is a rigorous obstruction plus a strict base
+  block, not completion of Conjecture G1; Simons Problem 4.2 is not solved
+  unless the dyadic scaling/dependence gap is closed rigorously.
 
 ## Numerical evidence identifiers
 

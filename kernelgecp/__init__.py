@@ -32,7 +32,9 @@ from .research import (
     analyze_census_record,
     certify_fermionic_block_contraction,
     dyadic_cutoff_scale,
+    fermionic_first_residual,
     fermionic_first_step_ratio,
+    fermionic_two_corner_residual,
 )
 from .sparse import sparse_representation
 from .types import (
@@ -76,7 +78,9 @@ __all__ = [
     "exp_family_rank_bound",
     "fermionic_dyadic_taylor_approximation",
     "fermionic_green_from_density",
+    "fermionic_first_residual",
     "fermionic_first_step_ratio",
+    "fermionic_two_corner_residual",
     "fermionic_separated_approximation",
     "gecp",
     "gecp_matrix",
