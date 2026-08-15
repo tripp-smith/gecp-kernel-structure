@@ -26,7 +26,7 @@ hypothesis with a cutoff-uniform contraction factor.
 | D — separated approximation | complete | [PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7) |
 | E — structural GECP | complete | [PR #8](https://github.com/tripp-smith/gecp-kernel-structure/pull/8) |
 | F — sparse spectral application | complete | [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1) |
-| R — release readiness | verified | `codex/phase-r-release-readiness` |
+| R — release readiness | verified | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9) |
 
 ## Completed tasks
 

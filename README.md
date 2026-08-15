@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh`, `uv build`, and release smoke passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Release branch `codex/phase-r-release-readiness`<br>
+> **Delivery:** [Release-readiness draft PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9)<br>
 > **Claim level:** v1 proves the low-rank theorem and an approved GECP obstruction outcome; no fermionic GECP rate is claimed<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -23,7 +23,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | D | Separated approximation | complete | `expFamily_separatedApprox`; `fermionicKernel_separatedApprox`; verified dyadic evaluator | axiom audit; 29 tests; full verification | merged PR #7 |
 | E | Structural GECP | complete | minimized sign-regular obstruction; `CrossRatioControl`; conditional geometric rate | axiom audit; 30 tests; full verification | merged PR #8 |
 | F | Sparse-\(\rho\) application | complete | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | merged PR #1 |
-| R | Release readiness | verified | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | active branch |
+| R | Release readiness | verified | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | draft PR #9 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
