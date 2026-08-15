@@ -28,11 +28,12 @@ def main() -> None:
             [point[0] for point in points],
             [point[1] for point in points],
             marker="o",
-            label=f"tol={tolerance}",
+            label=f"tol={float(tolerance):.0e}",
         )
     plt.xscale("log")
     plt.xlabel("cutoff")
     plt.ylabel("finite-grid GECP rank")
+    plt.title("128-bit endpoint-resolved fermionic GECP census")
     plt.legend()
     plt.tight_layout()
     arguments.output.parent.mkdir(parents=True, exist_ok=True)

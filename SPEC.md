@@ -1286,8 +1286,10 @@ This annotation records delivered identifiers without changing the goals above.
   domination, bound-equivalence, canonical diagonal-maximizer, recursive GECP
   and pivoted-Cholesky trace equivalence, and the conditional fill-distance
   theorem are implemented.
-- Milestone C: reflection, centered-form, continuity, stable numerical kernel,
-  exact surrogate protocol, and finite-grid census are implemented.
+- Milestone C: reflection, centered-form, continuity, exact coordinate
+  derivatives and domain bounds, stable numerical kernel, true 128-bit GECP,
+  interval-certified adaptive pivoting, exact surrogate protocol, and an
+  endpoint-resolved byte-reproducible finite-grid census are implemented.
 - Milestone D: blocked (research). Count arithmetic and a numerical interpolant
   exist; the two planned public uniform-error theorems are intentionally absent.
 - Milestone E: blocked (research). Exact sign evidence and a
@@ -1296,4 +1298,4 @@ This annotation records delivered identifiers without changing the goals above.
 - Milestone F: the continuous-measure Green error transfer and tested sparse
   two-atom application are implemented.
 - Release readiness: not complete while Milestones D and E retain the statuses
-  above and the high-precision adaptive census is absent.
+  above.

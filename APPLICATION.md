@@ -11,7 +11,10 @@ import numpy as np
 from kernelgecp import FermionicKernel, GECPConfig, gecp, evaluate_residual
 
 kernel = FermionicKernel(cutoff=100)
-result = gecp(kernel, config=GECPConfig(pivot="grid", tol=1e-10))
+result = gecp(
+    kernel,
+    config=GECPConfig(pivot="grid", tol=1e-10, precision_bits=128),
+)
 residual = evaluate_residual(
     kernel,
     result,
@@ -24,18 +27,27 @@ print(result.rank, result.converged, result.stop_reason, abs(residual).max())
 `cross_approximation` solves with the selected core; it never forms an explicit
 inverse. Results include residual history, determinants, smallest singular
 values, near-tie counts, convergence, stop reason, and actual precision.
+Runs above 53 bits retain canonical decimal strings in `result.high_precision`;
+the NumPy compatibility views remain float64.
 For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
 diagonal-preferring lexicographic tie rule; the recursive equivalence of those
 pivot policies is separately proved in Lean.
 
 ## Certified pivots
 
-`certified_pivot` performs deterministic cell subdivision from a supplied
-coordinatewise Lipschitz bound. The returned bounds are conditional on that
-analytic bound. Cell-budget exhaustion returns `certified=False`; it never
-silently becomes success. The implementation currently uses float64 arithmetic
-without directed rounding, so these objects are numerical certificates, not
-formal proofs.
+`certified_pivot` performs deterministic float64 cell subdivision from a
+supplied coordinatewise Lipschitz bound. Its result is conditional on that
+analytic bound. `interval_certified_pivot` instead uses `mpmath` interval
+arithmetic, outward-rounded float endpoints, and an optional interval-gradient
+mean-value enclosure.
+
+`gecp(FermionicKernel(...), config=GECPConfig(pivot="adaptive", ...))` applies
+the interval method to every continuous residual pivot and retains each
+successful `PivotCertificate`. Cell-budget exhaustion returns
+`stop_reason="uncertified_pivot"`; it never silently becomes convergence.
+These certificates audit numerical pivot quality. The Lean derivative theorems
+prove the underlying kernel formulas and domain bounds, but Python execution is
+not itself a formal proof of a continuous GECP rate.
 
 ## Separated interpolation
 
@@ -62,5 +74,8 @@ uv run python -m kernelgecp.census \
 uv run python experiments/exact_surrogates.py
 ```
 
-Runtime algorithms require no network access. The canonical census is
-finite-grid float64; arbitrary-precision continuous certification remains open.
+Runtime algorithms require no network access. The canonical census evaluates
+endpoint-refined grids at 128-bit precision and records decimal strings. Its
+three tolerance records per cutoff are exact prefixes of one strict trajectory;
+the checked dataset is byte-reproducible. Adaptive interval certification is a
+separate, more expensive continuous-domain mode.

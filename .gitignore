@@ -18,6 +18,7 @@ experiments/scratch/
 experiments/data/*
 !experiments/data/.gitkeep
 !experiments/data/gecp_census.jsonl
+!experiments/data/gecp_census.png
 !experiments/data/exact_surrogates.json
 
 
