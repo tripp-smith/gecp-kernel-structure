@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** blocked (research)<br>
 > **Last verification:** `./scripts/verify.sh` and `uv build` passed 2026-08-15<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** `codex/phase-r-research-baseline` (draft PR pending)<br>
+> **Delivery:** [draft PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1)<br>
 > **Claim level:** core/PSD/kernel/Green theorems proved; D and E remain research-blocked<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -16,14 +16,14 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 | Phase | SPEC milestone | State | Named outputs | Verification evidence | Delivery |
 | --- | --- | --- | --- | --- | --- |
-| 0 | Bootstrap | verified | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | PR pending |
-| A | Exact GECP core | verified | interpolation; LDU determinant/nonsingularity | Lean build; axiom audit pending full run | PR pending |
-| B | PSD baseline | verified | Schur PSD; diagonal domination; canonical one-step rule; fill bound | Lean/Python focused checks | PR pending |
-| C | Fermionic structure/census | verified | reflection, centered form, continuity; stable API; 21-case grid census | Lean/Python checks; census SHA below | PR pending |
-| D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | draft pending |
-| E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | draft pending |
-| F | Sparse-\(\rho\) application | verified | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | PR pending |
-| R | Release readiness | blocked (research) | auditable partial handoff; wheel and sdist | full verification passed | pending |
+| 0 | Bootstrap | verified | two skills, pinned toolchains, CI, package roots | skill validation; focused builds | draft PR #1 |
+| A | Exact GECP core | verified | interpolation; LDU determinant/nonsingularity | Lean build; axiom audit passed | draft PR #1 |
+| B | PSD baseline | verified | Schur PSD; diagonal domination; canonical one-step rule; fill bound | Lean/Python focused checks | draft PR #1 |
+| C | Fermionic structure/census | verified | reflection, centered form, continuity; stable API; 21-case grid census | Lean/Python checks; census SHA below | draft PR #1 |
+| D | Separated approximation | blocked (research) | arithmetic scaffold; composite interpolant | numerical tests only; explicit uniform Lean theorem missing | draft PR #1 |
+| E | Structural GECP | blocked (research) | 21 exact surrogate cases; variable pivot-order obstruction | exact rational SHA below; no rate theorem | draft PR #1 |
+| F | Sparse-\(\rho\) application | verified | `greenError_le_kernelError_mul_l1`; OMP/refinement | Lean build; two-atom regression | draft PR #1 |
+| R | Release readiness | blocked (research) | auditable partial handoff; wheel and sdist | full verification passed | draft PR #1 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
