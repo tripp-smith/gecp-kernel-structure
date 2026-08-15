@@ -23,6 +23,14 @@ the PSD baseline selects spatial covariance landmarks. These are application
 observations with held-out errors, not new formal convergence or inverse-
 problem claims.
 
+Post-v1 Phase G adds a rigorous rate obstruction and the first strict
+fermionic block theorem. Lean proves that the first two complete pivots are
+the two reflected cutoff corners for every positive cutoff, that no universal
+factor below one can contract the first step, and that for `0<Λ≤1` the actual
+two-step residual is at most one half of the initial complete-pivot magnitude.
+This verifies the base block but does not supply the dyadic scaling lemma
+needed for Conjecture G1.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -70,6 +78,7 @@ not represented by the completed goal counter.
 | F — sparse spectral application | complete | [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1) |
 | R — release readiness | complete | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9), [closure PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10) |
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
+| G — fermionic GECP rate | verified partial result; G1 open | draft [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 
 ## Completed tasks
 
@@ -92,14 +101,20 @@ not represented by the completed goal counter.
 - T-017: typed synthetic-application API, Hubbard-like and gapped Green-
   function compression, clean/noisy sparse recovery, PSD covariance landmark
   selection, deterministic JSON, summary plot, and application documentation.
+- T-018: variable-factor/block contraction infrastructure, exact one-step
+  obstruction, exact first-two-pivot localization for every positive cutoff,
+  rank-two secant/interpolation analysis, and the proved two-step half
+  contraction on `0<Λ≤1`.
 
 ## Deferred research
 
 No v1 implementation task is blocked. Open research and optional extensions
 are:
 
-- prove a cutoff-uniform `CrossRatioControl` for fermionic GECP, or replace it
-  by a more intrinsic determinant/near-max-volume condition;
+- transport the proved `Λ≤1` two-corner half contraction through dyadic
+  frequency layers, together with selected-pivot sign coherence or another
+  nonexpansiveness invariant, to obtain the `O(log Λ)` block length required
+  by Conjecture G1;
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
@@ -127,6 +142,12 @@ The public theorem surface includes:
   `signRegular_not_sufficient_for_parameterIndependent_pivots`,
   `residualUpdate_le_of_crossRatioControl`, and
   `gecp_error_le_geometric_of_crossRatioControl`;
+- Phase G structure:
+  `gecp_error_le_product_of_crossRatioControl`,
+  `gecp_error_le_dyadic_of_crossRatioProduct`,
+  `fermionicKernel_no_uniform_firstStep_contraction`,
+  `fermionicKernel_firstPivot_abs_le_reflectedCorner`, and
+  `fermionicKernel_twoCornerResidual_le_half_initial`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -141,6 +162,12 @@ The package exports stable `FermionicKernel` evaluation, `gecp`,
 pivot certificates, deterministic census tools, sparse spectral recovery,
 piecewise Chebyshev interpolation, and the Lean-matched
 `fermionic_dyadic_taylor_approximation`.
+
+The research API additionally exports exact-form decimal evaluators
+`fermionic_first_residual` and `fermionic_two_corner_residual`, census block
+analysis, and focused interval-certified trajectories. The two-corner
+evaluator independently checks the Lean base theorem; it is not used as the
+source of that theorem.
 
 It also exports `SyntheticApplicationConfig`,
 `run_synthetic_application_suite`, typed result records,
@@ -172,7 +199,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 35 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 45 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -203,6 +230,8 @@ git status --short
 - The low-rank theorem is not a GECP theorem.
 - Census curves and pivot certificates are evidence, not a continuous GECP
   convergence proof.
+- The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
+  cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
 - Arbitrary PSD tie-breaking is not claimed equivalent to diagonal pivoting;
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
@@ -271,7 +300,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Use interval-certified fermionic residuals to search for a cutoff-uniform
-cross-ratio factor, then formalize the strongest surviving bound as a lemma
-implying `CrossRatioControl`. A failure should be minimized into a certified
-counterexample before changing the sufficient condition.
+Prove a dyadic renormalization/localization lemma that carries the exact
+two-corner `Λ≤1` base contraction through successive frequency layers while
+controlling intervening Schur updates. The strongest current route is to pair
+selected-pivot `PivotCrossProductSignCoherent` nonexpansiveness with one strict
+half reduction per `O(s+1)` pivots for `Λ≤2ˢ`; failure of either property should
+be minimized and certified before the condition is weakened.
