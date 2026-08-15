@@ -1278,9 +1278,10 @@ This annotation records delivered identifiers without changing the goals above.
   verification command.
 - Milestone A: `gecp_interpolates_selected_rows`,
   `gecp_interpolates_selected_cols`, `gecp_core_det_eq_prod_pivots`, and
-  `gecp_core_nonsingular` are implemented. The determinant pair consumes exact
-  LDU core data; the direct construction of that data from every `Run` remains
-  open.
+  `gecp_core_nonsingular` are implemented for the finite selected core of every
+  successful dependent `Run`. The determinant proof derives its block
+  elimination step directly from `residualUpdate` and the run's stored nonzero
+  pivot witnesses.
 - Milestone B: the Schur PSD, diagonal domination, bound-equivalence,
   canonical diagonal-maximizer, and conditional fill-distance theorems are
   implemented.

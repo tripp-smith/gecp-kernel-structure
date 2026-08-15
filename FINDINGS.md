@@ -4,8 +4,11 @@
 
 - A successful dependent GECP run leaves every selected row and column zero in
   its final residual.
-- An exact LDU selected-core decomposition has determinant equal to its ordered
-  pivot product; nonzero pivots imply a nonzero determinant.
+- The finite core obtained by evaluating the original kernel at the ordered
+  rows and columns of any successful dependent `GECP.Run` has determinant
+  equal to its actual residual-pivot product. The stored nonzero witnesses
+  therefore prove that core is nonsingular; no external LDU assumption is
+  required.
 - A positive pivot-block Schur complement preserves positive semidefiniteness.
 - Every entry of a finite real PSD residual obeys
   `|Rᵢⱼ|² ≤ Rᵢᵢ Rⱼⱼ`; bounding all diagonal entries is equivalent to bounding
@@ -50,6 +53,3 @@ alone do not control GECP residual decay.
   piecewise interpolant are present.
 - A rigorous 128-bit continuous/adaptive pivot census. The committed census is
   finite-grid float64 data.
-- A general GECP core-factorization theorem connecting every dependent `Run`
-  directly to `CoreDecomposition`; the current determinant theorem begins from
-  exact LDU data.

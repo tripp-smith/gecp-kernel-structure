@@ -2,6 +2,7 @@ import GECPKernelStructure.Theorems
 
 #print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_rows
 #print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_cols
+#print axioms GECPKernelStructure.GECP.Run.selectedCore_step_det
 #print axioms GECPKernelStructure.GECP.gecp_core_nonsingular
 #print axioms GECPKernelStructure.GECP.gecp_core_det_eq_prod_pivots
 #print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_posSemidefinite
