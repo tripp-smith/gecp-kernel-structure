@@ -33,9 +33,10 @@ def test_research_blockers_are_consistent() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     findings = (ROOT / "FINDINGS.md").read_text(encoding="utf-8")
     research = (ROOT / "RESEARCH.md").read_text(encoding="utf-8")
-    assert "| D | Separated approximation | verified |" in readme
-    assert "| E | Structural GECP | blocked (research) |" in readme
+    assert "| D | Separated approximation | complete |" in readme
+    assert "| E | Structural GECP | verified |" in readme
     assert "endpoint-resolved 128-bit finite-grid" in findings
     assert "| C | Fermionic structure/census | complete |" in readme
     assert "expFamily_separatedApprox" in research
     assert "fermionicKernel_separatedApprox" in research
+    assert "CrossRatioControl" in research

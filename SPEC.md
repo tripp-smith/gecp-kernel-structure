@@ -1290,16 +1290,22 @@ This annotation records delivered identifiers without changing the goals above.
   derivatives and domain bounds, stable numerical kernel, true 128-bit GECP,
   interval-certified adaptive pivoting, exact surrogate protocol, and an
   endpoint-resolved byte-reproducible finite-grid census are implemented.
-- Milestone D: verified on its phase branch. `expFamily_separatedApprox` proves an explicit
+- Milestone D: complete in merged PR #7. `expFamily_separatedApprox` proves an explicit
   `8p(s+1)`-term dyadic approximation of `exp(-tω)` on the positive-frequency
   domain, and `fermionicKernel_separatedApprox` proves a `16p(s+1)`-term
   approximation on `[0,1] × [-2ˢ,2ˢ]`, both with uniform error `2⁻ᵖ`.
   The construction is dyadic truncated Taylor rather than the published
   selected-exponential Chebyshev variant; it establishes the required
   logarithmic-logarithmic separated-rank scale without making a GECP claim.
-- Milestone E: blocked (research). Exact sign evidence and a
-  parameter-independent pivot-order obstruction are recorded, but no approved
-  GECP rate/structural theorem or sufficient-condition obstruction is claimed.
+- Milestone E: verified on its phase branch under the approved obstruction outcome.
+  `signRegular_not_sufficient_for_parameterIndependent_pivots` is a minimized
+  exact counterexample showing that strict minor signs do not determine a
+  universal complete pivot. `CrossRatioControl`,
+  `residualUpdate_le_of_crossRatioControl`, and
+  `gecp_error_le_geometric_of_crossRatioControl` give the refined sufficient
+  condition and its geometric rate. No claim is made that the fermionic
+  residual sequence satisfies this condition with a contraction factor below
+  one.
 - Milestone F: the continuous-measure Green error transfer and tested sparse
   two-atom application are implemented.
 - Release readiness: not complete while Milestones D and E retain the statuses

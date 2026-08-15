@@ -77,7 +77,7 @@ Milestone D or E rate theorems.
 
 ## Milestone D — constructive separated approximation
 
-State: verified in draft [PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7).
+State: complete; merged in [PR #7](https://github.com/tripp-smith/gecp-kernel-structure/pull/7).
 
 Delivered:
 
@@ -105,30 +105,39 @@ terms or converges at this rate.
 
 ## Milestone E — structural GECP
 
-State: blocked (research).
+State: verified on `codex/phase-e-obstruction-condition`; awaiting phase PR delivery.
 
 Exact checks completed for all requested geometric surrogates. There were no
 zero minors and no sign mismatches. However, the exact pivot sequences depend
 on `q`; for size eight the three requested ratios produce different row and
-column orders. This is a certified obstruction to the proposed invariant
-“GECP has one parameter-independent ordered pivot path.” It is not yet the
-stronger SPEC-approved obstruction/refined sufficient condition needed to
-close Milestone E.
+column orders.
+
+The rigorous closure contract is implemented in two parts:
+
+- `signRegular_not_sufficient_for_parameterIndependent_pivots` gives a
+  minimized exact `2 × 2` counterexample: two kernels have the same strict
+  one- and two-minor signs but disjoint complete-pivot sets. Minor-sign data
+  alone therefore cannot determine a universal GECP pivot path.
+- `CrossRatioControl` bounds the post-update cross numerator relative to a
+  uniform residual bound. `residualUpdate_le_of_crossRatioControl` proves
+  one-step contraction, and
+  `gecp_error_le_geometric_of_crossRatioControl` proves the resulting `θⁿ`
+  residual bound for an exact update sequence.
+
+This is the SPEC-approved “certified obstruction plus refined sufficient
+condition” outcome. It does not establish that fermionic GECP satisfies a
+uniform `CrossRatioControl` with `θ < 1`; therefore it is not the target rate,
+a weaker fermionic rate, or a solution of Simons Problem 4.2.
 
 The endpoint-resolved 128-bit finite-grid census exhibits rank growth across
 all seven cutoffs, but remains numerical evidence rather than a continuous
-rate theorem. The next theorem contract is:
+rate theorem. The next optional strengthening is:
 
 1. formalize sign regularity for geometric/exponential collocation minors;
-2. state a quantitative cross-ratio hypothesis on Schur residuals;
-3. prove that hypothesis implies an explicit near-max-volume comparison;
-4. test whether the fermionic residual satisfies the hypothesis using
+2. derive `CrossRatioControl` from a more intrinsic determinant or
+   near-max-volume condition;
+3. test whether the fermionic residual satisfies the hypothesis using
    outward-rounded or exact bounds.
-
-Milestone E may close only with one rigorous outcome allowed by `SPEC.md`: the
-target rate, a weaker improved rate, a structural-class theorem containing the
-fermionic kernel, or a certified obstruction with a refined sufficient
-condition. Experiments alone cannot close the milestone.
 
 ## Numerical evidence identifiers
 

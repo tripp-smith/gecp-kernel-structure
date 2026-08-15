@@ -24,3 +24,13 @@ def test_geometric_minors_have_expected_sign() -> None:
         record = inspect_surrogate(size, Fraction(3, 4))
         assert not any(record.minor_sign_mismatches.values())
         assert not any(record.zero_minors.values())
+
+
+def test_minimized_sign_regular_pivot_obstruction() -> None:
+    left = [[Fraction(4), Fraction(3)], [Fraction(2), Fraction(1)]]
+    right = [[Fraction(1), Fraction(2)], [Fraction(3), Fraction(4)]]
+    assert fraction_determinant(left) == fraction_determinant(right) == -2
+    left_rows, left_columns, _ = exact_gecp(left)
+    right_rows, right_columns, _ = exact_gecp(right)
+    assert (left_rows[0], left_columns[0]) == (0, 0)
+    assert (right_rows[0], right_columns[0]) == (1, 1)
