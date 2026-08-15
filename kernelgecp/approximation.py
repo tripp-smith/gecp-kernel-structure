@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
+import mpmath as mp
 import numpy as np
 import numpy.typing as npt
 from scipy.interpolate import BarycentricInterpolator
@@ -38,6 +39,98 @@ def dlr_rank_bound(cutoff: float, tolerance: float) -> int:
     band = exp_family_rank_bound(cutoff, tolerance / 3.0)
     central = math.ceil(math.log(3.0 / tolerance)) + 1
     return 2 * band + central
+
+
+def dyadic_taylor_rank_bound(cutoff: float, tolerance: float) -> int:
+    r"""Return the rank of the Lean-verified dyadic Taylor construction.
+
+    If ``cutoff <= 2**s`` and ``2**(-p) <= tolerance``, the construction uses
+    ``16 * p * (s + 1)`` separated terms for the full fermionic kernel.
+    """
+
+    if not np.isfinite(cutoff) or cutoff < 1:
+        raise ValueError("cutoff must be finite and at least one")
+    if not np.isfinite(tolerance) or not (0 < tolerance < 1):
+        raise ValueError("tolerance must lie strictly between zero and one")
+    scales = math.ceil(math.log2(cutoff))
+    accuracy_bits = math.ceil(math.log2(1.0 / tolerance))
+    return 16 * accuracy_bits * (scales + 1)
+
+
+@dataclass(frozen=True, slots=True)
+class DyadicTaylorApproximation:
+    """High-precision evaluator for the Lean-verified separated construction."""
+
+    cutoff: float
+    accuracy_bits: int
+    scale: int
+    precision_bits: int = 256
+
+    @property
+    def rank(self) -> int:
+        return 16 * self.accuracy_bits * (self.scale + 1)
+
+    @property
+    def error_bound(self) -> float:
+        return 2.0 ** (-self.accuracy_bits)
+
+    def _positive_value(self, t: mp.mpf, omega: mp.mpf) -> mp.mpf:
+        if omega <= 1:
+            active = True
+        else:
+            band = int(mp.ceil(mp.log(omega, 2)))
+            lower = mp.mpf(2) ** (band - 1)
+            active = t * lower <= self.accuracy_bits
+        if active:
+            x = t * omega
+            terms = 8 * self.accuracy_bits
+            numerator = mp.fsum((-x) ** k / mp.factorial(k) for k in range(terms))
+        else:
+            numerator = mp.mpf("0")
+        return numerator / (1 + mp.exp(-omega))
+
+    def evaluate(self, t: npt.ArrayLike, omega: npt.ArrayLike) -> FloatArray:
+        """Evaluate with ``mpmath`` internally and return a float64 array."""
+
+        t_values, omega_values = np.broadcast_arrays(
+            np.asarray(t, dtype=np.float64), np.asarray(omega, dtype=np.float64)
+        )
+        if np.any((t_values < 0) | (t_values > 1)):
+            raise ValueError("time values must lie in [0, 1]")
+        if np.any(np.abs(omega_values) > self.cutoff):
+            raise ValueError("frequency lies outside the configured cutoff")
+        result = np.empty(t_values.shape, dtype=np.float64)
+        with mp.workprec(self.precision_bits):
+            for index in np.ndindex(t_values.shape):
+                time = mp.mpf(str(float(t_values[index])))
+                frequency = mp.mpf(str(float(omega_values[index])))
+                if frequency >= 0:
+                    value = self._positive_value(time, frequency)
+                else:
+                    value = self._positive_value(1 - time, -frequency)
+                result[index] = float(value)
+        return result
+
+
+def fermionic_dyadic_taylor_approximation(
+    cutoff: float, tolerance: float, *, precision_bits: int = 256
+) -> DyadicTaylorApproximation:
+    """Construct the numerical counterpart of the formal dyadic theorem."""
+
+    if not np.isfinite(cutoff) or cutoff < 1:
+        raise ValueError("cutoff must be finite and at least one")
+    if not np.isfinite(tolerance) or not (0 < tolerance < 1):
+        raise ValueError("tolerance must lie strictly between zero and one")
+    if precision_bits < 64:
+        raise ValueError("precision_bits must be at least 64")
+    scale = math.ceil(math.log2(cutoff))
+    accuracy_bits = math.ceil(math.log2(1.0 / tolerance))
+    return DyadicTaylorApproximation(
+        cutoff=cutoff,
+        accuracy_bits=accuracy_bits,
+        scale=scale,
+        precision_bits=precision_bits,
+    )
 
 
 def _lagrange_values(

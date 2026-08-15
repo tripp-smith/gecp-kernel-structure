@@ -21,6 +21,13 @@
 - A Lipschitz residual diagonal has the stated conditional fill-distance bound.
 - The fermionic kernel has the exact reflection and centered forms and is
   jointly continuous.
+- For every positive natural `p` and natural scale `s`, an explicit dyadic
+  construction approximates `exp(-tω)` on `[0,1] × [0,2ˢ]` with
+  `8p(s+1)` separated terms and uniform error at most `2⁻ᵖ`.
+- Reflection and the positive fermionic denominator give an explicit
+  `16p(s+1)`-term approximation of the fermionic kernel on
+  `[0,1] × [-2ˢ,2ˢ]` with the same error. This is the machine-checked
+  `O(log Λ log(1/ε))` low-rank theorem, not a GECP theorem.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -54,9 +61,10 @@ alone do not control GECP residual decay.
 - A solution of Simons Problem 4.2.
 - A GECP rate inferred from an empirical decay curve.
 - Diagonal pivot selection for every possible PSD tie-breaking rule.
-- The planned explicit dyadic/Chebyshev uniform approximation theorem. Only its
-  natural-number counting scaffold and an independently tested numerical
-  piecewise interpolant are present.
+- Formalization of the Gimbutas–Marshall–Rokhlin selected-exponential
+  Chebyshev construction. The delivered formal theorem instead uses an
+  explicit dyadic truncated-Taylor construction with the same asymptotic rank
+  scale.
 - A continuous-domain GECP convergence conclusion from the 128-bit census. The
   committed dataset is endpoint-resolved finite-grid evidence; adaptive
   interval pivot certificates are validated separately on bounded cases.

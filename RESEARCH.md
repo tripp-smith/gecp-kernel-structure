@@ -52,7 +52,7 @@ and it does not claim the stronger published Lipschitz convergence rate.
 
 ## Milestone C — high-precision census and certified pivot closure
 
-State: verified in draft [PR #6](https://github.com/tripp-smith/gecp-kernel-structure/pull/6).
+State: complete; merged in [PR #6](https://github.com/tripp-smith/gecp-kernel-structure/pull/6).
 
 This closure phase delivers:
 
@@ -77,23 +77,31 @@ Milestone D or E rate theorems.
 
 ## Milestone D — constructive separated approximation
 
-State: blocked (research).
+State: verified on `codex/phase-d-separated-approx`; awaiting phase PR delivery.
 
 Delivered:
 
-- exact natural-number scale/order count definitions;
-- independently tested piecewise composite-Chebyshev interpolation in Python;
-- boundary and dense-grid regression checks.
+- `expNegTaylor_error_le_next` proves the exact Lagrange remainder for the
+  truncated negative exponential;
+- `pow_div_factorial_eight_mul_le` proves that `8p` terms give error at most
+  `2⁻ᵖ` whenever the local product is at most `2p`;
+- `expFamily_separatedApprox` constructs `8p(s+1)` separated terms and proves
+  uniform error `2⁻ᵖ` on `[0,1] × [0,2ˢ]`;
+- `fermionicKernel_separatedApprox` uses the exact reflection identity and the
+  positive denominator to construct `16p(s+1)` terms with the same uniform
+  error on `[0,1] × [-2ˢ,2ˢ]`;
+- `fermionic_dyadic_taylor_approximation` independently implements the same
+  band/time-cutoff rules at arbitrary precision and tests band boundaries and
+  cutoff `10⁶`.
 
-Missing theorem contract:
-
-- `expFamily_separatedApprox` must construct the published selected
-  exponentials and prove the explicit uniform remainder bound;
-- `fermionicKernel_separatedApprox` must combine positive, reflected negative,
-  and central bands with an explicit natural-number rank and error budget.
-
-Those theorem identifiers are deliberately absent. A numerical interpolant is
-not a substitute for the analytic construction.
+The primary formal construction is a dyadic truncated-Taylor construction,
+not the selected-exponential Chebyshev construction in Gimbutas–Marshall–
+Rokhlin. It proves the same required `O(log Λ log(1/ε))` separated-rank scale
+with conservative constants and has a substantially smaller formal
+interpolation dependency surface. The published selected-exponential variant
+remains a possible strengthening, not a prerequisite for the delivered
+low-rank theorem. Nothing in this milestone proves that GECP selects these
+terms or converges at this rate.
 
 ## Milestone E — structural GECP
 
