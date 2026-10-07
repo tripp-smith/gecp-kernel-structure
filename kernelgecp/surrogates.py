@@ -10,6 +10,18 @@ RationalMatrix = list[list[Fraction]]
 
 
 @dataclass(frozen=True, slots=True)
+class SignCoherenceFailure:
+    """First exact witness violating selected-pivot cross-product coherence."""
+
+    step: int
+    pivot_row: int
+    pivot_column: int
+    row: int
+    column: int
+    cross_product: Fraction
+
+
+@dataclass(frozen=True, slots=True)
 class SurrogateRecord:
     size: int
     q: str
@@ -128,6 +140,51 @@ def exact_gecp_pivot_sign_coherence(matrix: RationalMatrix) -> list[bool]:
             for j in range(columns):
                 residual[i][j] -= pivot_column[i] * pivot_row_values[j] / pivot
     return results
+
+
+def first_exact_gecp_sign_coherence_failure(
+    matrix: RationalMatrix,
+) -> SignCoherenceFailure | None:
+    """Return the first exact selected-cross failure, including its coordinates."""
+
+    rows = len(matrix)
+    columns = len(matrix[0]) if rows else 0
+    if rows == 0 or any(len(row) != columns for row in matrix):
+        raise ValueError("matrix must be nonempty and rectangular")
+    residual = [row.copy() for row in matrix]
+    for step in range(min(rows, columns)):
+        pivot_row, pivot_column = max(
+            itertools.product(range(rows), range(columns)),
+            key=lambda coordinate: (
+                abs(residual[coordinate[0]][coordinate[1]]),
+                -coordinate[0],
+                -coordinate[1],
+            ),
+        )
+        pivot = residual[pivot_row][pivot_column]
+        if pivot == 0:
+            return None
+        for row, column in itertools.product(range(rows), range(columns)):
+            cross_product = (residual[row][column] * pivot) * (
+                residual[row][pivot_column] * residual[pivot_row][column]
+            )
+            if cross_product < 0:
+                return SignCoherenceFailure(
+                    step=step,
+                    pivot_row=pivot_row,
+                    pivot_column=pivot_column,
+                    row=row,
+                    column=column,
+                    cross_product=cross_product,
+                )
+        pivot_column_values = [residual[row][pivot_column] for row in range(rows)]
+        pivot_row_values = residual[pivot_row].copy()
+        for row in range(rows):
+            for column in range(columns):
+                residual[row][column] -= (
+                    pivot_column_values[row] * pivot_row_values[column] / pivot
+                )
+    return None
 
 
 def inspect_surrogate(size: int, q: Fraction) -> SurrogateRecord:

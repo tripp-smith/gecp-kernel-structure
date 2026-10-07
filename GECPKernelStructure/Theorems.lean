@@ -3,6 +3,7 @@ import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction
 import GECPKernelStructure.Fermionic.SeparatedApprox
 import GECPKernelStructure.GECP.ApproxPivot
+import GECPKernelStructure.GECP.BorderedDeterminant
 import GECPKernelStructure.GreenFunction
 import GECPKernelStructure.Computable
 import GECPKernelStructure.SmallInstanceChecks

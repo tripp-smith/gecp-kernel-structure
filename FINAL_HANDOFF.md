@@ -38,6 +38,13 @@ synchronized interpreter, the audited transitive lock resolves `urllib3`
 2.8.0, and the complete root command passes in maintained and fresh frozen
 environments. This is maintenance evidence and changes no mathematical claim.
 
+Post-v1 Phase I isolates the next exact analytic obligation. Lean proves a
+bordered selected-core determinant identity and uses core nonsingularity to
+show that selected-residual cross-product sign coherence is equivalent to a
+four-bordered-minor sign condition on the original kernel. Exact surrogate
+checks retain first-failure witnesses. This is an algebraic reduction, not a
+proof that the fermionic kernel satisfies the determinant-sign condition.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -87,6 +94,7 @@ not represented by the completed goal counter.
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
+| I — determinantal sign-coherence bridge | verified locally; green CI | draft [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 
 ## Completed tasks
 
@@ -115,6 +123,9 @@ not represented by the completed goal counter.
   contraction on `0<Λ≤1`.
 - T-019: interpreter-bound local/CI pytest entry point, refreshed audited
   development lock, and maintained-plus-fresh-environment root verification.
+- T-020: bordered selected-core determinant recurrence and residual identity,
+  equivalent four-minor sign criterion, exact selected-cross diagnostics, and
+  a generic minimized failure witness.
 
 ## Deferred research
 
@@ -122,9 +133,9 @@ No v1 implementation task is blocked. Open research and optional extensions
 are:
 
 - transport the proved `Λ≤1` two-corner half contraction through dyadic
-  frequency layers, together with selected-pivot sign coherence or another
-  nonexpansiveness invariant, to obtain the `O(log Λ)` block length required
-  by Conjecture G1;
+  frequency layers, together with a proof of the four-bordered-minor sign
+  condition (hence selected-pivot sign coherence) or another nonexpansiveness
+  invariant, to obtain the `O(log Λ)` block length required by Conjecture G1;
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
@@ -158,6 +169,10 @@ The public theorem surface includes:
   `fermionicKernel_no_uniform_firstStep_contraction`,
   `fermionicKernel_firstPivot_abs_le_reflectedCorner`, and
   `fermionicKernel_twoCornerResidual_le_half_initial`;
+- Phase I structure: `Run.borderedCore`,
+  `Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual`,
+  `BorderedMinorSignCoherent`, and
+  `pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.

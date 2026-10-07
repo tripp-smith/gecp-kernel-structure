@@ -387,3 +387,81 @@ Delivered verification evidence:
   newly created `uv sync --all-extras --frozen` environment: the Lean build,
   axiom audit, placeholder scan, Ruff, formatting, mypy, all 45 tests, and
   `pip-audit` are green.
+
+## Phase I — determinantal sign-coherence bridge
+
+State: verified locally with green CI; draft PR #13.
+
+This phase attacks the selected-pivot nonexpansiveness route left open by
+Phase G. Mathlib supplies determinant, reindexing, and Schur-complement
+infrastructure but no existing total-positivity or strict-sign-regularity
+abstraction. The phase therefore freezes the finite algebraic bridge needed
+before any fermionic analytic sign theorem is attempted.
+
+Frozen public Lean targets:
+
+- `GECP.Run.borderedCore`: the original kernel evaluated on a successful
+  run's selected rows and columns with one additional row and column;
+- `GECP.Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual`: the exact
+  determinant identity
+  `det(border(run,x,y)) = det(core(run)) * run.finalResidual x y`;
+- `BorderedMinorSignCoherent`: the four-bordered-minor product condition at a
+  proposed pivot;
+- `pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent`: equivalence
+  between the residual selected-cross condition and the determinant condition
+  for every successful run.
+
+Independent checks:
+
+- retain exact `Fraction` checking of every selected cross on the geometric
+  surrogates, and return a minimized step/coordinate witness if the condition
+  fails;
+- use arbitrary-precision fermionic finite-grid residuals only to test the
+  theorem direction and choose the next analytic claim, never as proof;
+- add every public structural theorem to the axiom audit and run the full root
+  verification command.
+
+Observed before implementation:
+
+- exact geometric surrogates pass selected-pivot sign coherence for the
+  canonical sizes 2--8 and `q in {1/2,2/3,3/4}`;
+- a 70-decimal-digit scan through 24 pivots at cutoffs `1,2,10,100` found no
+  substantive negative cross product; normalized negative roundoff at exact
+  zero rows or columns was between approximately `1e-89` and `1e-131`.
+
+Implemented result:
+
+- the recursive bordered index keeps pivot order and appends the requested
+  border, allowing an explicit unit-lower block elimination proof at each run
+  step;
+- `borderedCore_det_eq_selectedCore_det_mul_finalResidual` identifies every
+  bordered determinant with the selected-core determinant times the exact
+  final residual;
+- selected-core nonsingularity makes the fourth power of its determinant
+  strictly positive, so
+  `pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent` follows by
+  substituting the four determinant identities;
+- exact regression checks verify the determinant identity along a complete
+  geometric-surrogate run, all 21 canonical surrogate paths pass the sign
+  criterion, and a generic `2 x 2` matrix supplies the exact negative witness
+  `(step,pivot,point,product) = (0,(0,0),(1,1),-48)`.
+- `./scripts/verify.sh` passes with the full Lean build, axiom audit,
+  placeholder scan, Ruff, formatting, mypy, all 47 tests, and no known
+  dependency vulnerabilities; the new public theorems use only the audited
+  Lean defaults `propext`, `Classical.choice`, and `Quot.sound`.
+
+Next decision:
+
+- seek a determinant-sign factorization for ordered exponential collocation
+  matrices strong enough to prove the four-minor product nonnegative under
+  the row and column order induced by GECP; do not attempt Conjecture G1 until
+  this condition, or a different nonexpansiveness invariant, is proved.
+
+Non-claims:
+
+- the bordered-minor criterion is not itself proof that fermionic residuals
+  satisfy it;
+- finite exact surrogates and high-precision grids do not establish a
+  continuous-domain invariant;
+- this phase does not prove strict contraction, dyadic localization,
+  Conjecture G1, or the Simons Problem 4.2 rate.

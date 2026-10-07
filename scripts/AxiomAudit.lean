@@ -5,6 +5,8 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.GECP.Run.selectedCore_step_det
 #print axioms GECPKernelStructure.GECP.gecp_core_nonsingular
 #print axioms GECPKernelStructure.GECP.gecp_core_det_eq_prod_pivots
+#print axioms GECPKernelStructure.GECP.Run.borderedCore_step_det
+#print axioms GECPKernelStructure.GECP.Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual
 #print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_posSemidefinite
 #print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_abs_le_diag
 #print axioms GECPKernelStructure.PositiveDefinite.posDef_gecp_residual_sup_eq_diag_sup
@@ -24,6 +26,7 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.residualUpdate_le_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_geometric_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.crossRatioControl_one_of_signCoherent
+#print axioms GECPKernelStructure.Fermionic.pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent
 #print axioms GECPKernelStructure.Fermionic.residualUpdate_le_of_signCoherent
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_product_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_dyadic_of_crossRatioProduct
