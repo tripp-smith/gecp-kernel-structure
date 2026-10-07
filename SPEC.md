@@ -1336,7 +1336,7 @@ This annotation records delivered identifiers without changing the goals above.
   does not prove, the extension to `2(s+1)`-pivot blocks when `Λ ≤ 2ˢ`.
   Conjecture G1 and the Simons Problem 4.2 claim remain open.
 - Post-v1 verification phase H: locally verified with green CI on 2026-10-07
-  and delivered in draft PR #12. The root and
+  and delivered in merged PR #12. The root and
   CI test entry points now use the synchronized Python interpreter, and the
   development lock resolves `urllib3` 2.8.0 after the prior 2.7.0 lock gained
   audit findings. The complete root command passes with 45 tests and no known

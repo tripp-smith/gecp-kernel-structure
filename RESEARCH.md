@@ -341,7 +341,7 @@ remain stylized benchmarks rather than replications of those prior works.
 
 ## Phase H — verification integrity refresh
 
-State: verified locally with green CI; draft
+State: verified locally with green CI; merged
 [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12).
 
 This bounded maintenance phase restores the repository's root definition of
