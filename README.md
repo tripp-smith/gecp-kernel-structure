@@ -5,8 +5,8 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** H — verification integrity refresh<br>
-> **Phase state:** verified; CI pending<br>
-> **Last verification:** `./scripts/verify.sh` passed with 45 tests and no known dependency vulnerabilities on 2026-10-07, including from a fresh synchronized environment<br>
+> **Phase state:** verified; green CI<br>
+> **Last verification:** `./scripts/verify.sh` passed with 45 tests and no known dependency vulnerabilities on 2026-10-07, including from a fresh synchronized environment and in CI<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** draft [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12)<br>
 > **Claim level:** verification-only maintenance; Phase G claims are unchanged, and Conjecture G1 remains open<br>
