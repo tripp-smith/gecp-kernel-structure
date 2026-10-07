@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** I — determinantal sign-coherence bridge<br>
-> **Phase state:** verified locally; green CI<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 47 tests and no known dependency vulnerabilities on 2026-10-07<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13)<br>
+> **Delivery:** merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13)<br>
 > **Claim level:** exact algebraic reduction of residual sign coherence to bordered-minor signs; no fermionic sign-coherence or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -28,7 +28,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
 | H | Verification integrity refresh | complete | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
-| I | Determinantal sign-coherence bridge | verified | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | draft PR #13 |
+| I | Determinantal sign-coherence bridge | complete | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | merged PR #13 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

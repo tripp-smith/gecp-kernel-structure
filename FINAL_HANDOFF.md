@@ -94,7 +94,7 @@ not represented by the completed goal counter.
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
-| I — determinantal sign-coherence bridge | verified locally; green CI | draft [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
+| I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 
 ## Completed tasks
 

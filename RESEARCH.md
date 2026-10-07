@@ -390,7 +390,7 @@ Delivered verification evidence:
 
 ## Phase I — determinantal sign-coherence bridge
 
-State: verified locally with green CI; draft PR #13.
+State: complete; merged PR #13 with green CI.
 
 This phase attacks the selected-pivot nonexpansiveness route left open by
 Phase G. Mathlib supplies determinant, reindexing, and Schur-complement
