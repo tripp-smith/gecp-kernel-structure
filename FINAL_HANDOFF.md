@@ -86,7 +86,7 @@ not represented by the completed goal counter.
 | R — release readiness | complete | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9), [closure PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10) |
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
-| H — verification integrity refresh | verified locally | draft delivery pending |
+| H — verification integrity refresh | verified locally; CI pending | draft [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 
 ## Completed tasks
 

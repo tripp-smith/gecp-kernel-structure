@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** H — verification integrity refresh<br>
-> **Phase state:** verified locally; draft delivery pending<br>
+> **Phase state:** verified; CI pending<br>
 > **Last verification:** `./scripts/verify.sh` passed with 45 tests and no known dependency vulnerabilities on 2026-10-07, including from a fresh synchronized environment<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** pending draft PR<br>
+> **Delivery:** draft [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12)<br>
 > **Claim level:** verification-only maintenance; Phase G claims are unchanged, and Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -27,7 +27,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
-| H | Verification integrity refresh | verified | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit | pending draft PR |
+| H | Verification integrity refresh | verified | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit | draft PR #12 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

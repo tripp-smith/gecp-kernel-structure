@@ -341,7 +341,9 @@ remain stylized benchmarks rather than replications of those prior works.
 
 ## Phase H — verification integrity refresh
 
-State: verified locally; draft delivery pending.
+State: verified locally; draft
+[PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12), with CI
+pending.
 
 This bounded maintenance phase restores the repository's root definition of
 done before the next theorem phase. It depends on the merged Phase G library
