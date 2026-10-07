@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** G — fermionic GECP rate research<br>
-> **Phase state:** complete (rigorous obstruction and base block; G1 remains open)<br>
-> **Last verification:** `./scripts/verify.sh` passed with 45 tests on 2026-08-15<br>
+> **Current phase:** H — verification integrity refresh<br>
+> **Phase state:** verified locally; draft delivery pending<br>
+> **Last verification:** `./scripts/verify.sh` passed with 45 tests and no known dependency vulnerabilities on 2026-10-07, including from a fresh synchronized environment<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11)<br>
-> **Claim level:** Phase G closed through a rigorous obstruction and base block; Conjecture G1 and the full fermionic GECP rate remain open<br>
+> **Delivery:** pending draft PR<br>
+> **Claim level:** verification-only maintenance; Phase G claims are unchanged, and Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -27,6 +27,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
+| H | Verification integrity refresh | verified | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit | pending draft PR |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

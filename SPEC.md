@@ -1335,3 +1335,9 @@ This annotation records delivered identifiers without changing the goals above.
   proved to contract by one half on `0<Λ≤1`. The 128-bit census supports, but
   does not prove, the extension to `2(s+1)`-pivot blocks when `Λ ≤ 2ˢ`.
   Conjecture G1 and the Simons Problem 4.2 claim remain open.
+- Post-v1 verification phase H: locally verified on 2026-10-07. The root and
+  CI test entry points now use the synchronized Python interpreter, and the
+  development lock resolves `urllib3` 2.8.0 after the prior 2.7.0 lock gained
+  audit findings. The complete root command passes with 45 tests and no known
+  dependency vulnerabilities in both maintained and fresh environments. This
+  maintenance phase changes no theorem, experiment, or Phase G claim.

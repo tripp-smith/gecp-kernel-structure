@@ -338,3 +338,51 @@ Scientific motivation comes from the DLR effective-delta representation of
 imaginary-time Green functions, the quasiparticle/spectral-weight structure
 studied in DMFT, and the noisy analytic-continuation setting. The experiments
 remain stylized benchmarks rather than replications of those prior works.
+
+## Phase H — verification integrity refresh
+
+State: verified locally; draft delivery pending.
+
+This bounded maintenance phase restores the repository's root definition of
+done before the next theorem phase. It depends on the merged Phase G library
+and test suite but does not reopen or alter any mathematical result.
+
+The exact contract is:
+
+- make the local root test invocation robust to editable-install entry-point
+  state by launching pytest through the synchronized project interpreter;
+- keep the local root command and GitHub Actions invocation identical;
+- refresh the development dependency lock so `pip-audit` has no known
+  vulnerability finding in the resolved environment;
+- verify all Lean builds, public-theorem axioms, proof-placeholder rejection,
+  formatting, typing, Python tests, and dependency audit through
+  `./scripts/verify.sh` from a fresh synchronized environment.
+
+Independent checks:
+
+- invoke the Python suite through the project interpreter and confirm the
+  existing 45 tests pass;
+- inspect the reverse dependency path for any audited package upgrade;
+- run the complete root command after the lock refresh rather than treating
+  focused checks as completion.
+
+Non-claims:
+
+- this phase proves no new Lean theorem and adds no numerical evidence;
+- it does not strengthen Phase G, prove `PivotCrossProductSignCoherent` for
+  fermionic residuals, establish dyadic block contraction, or resolve
+  Conjecture G1;
+- a clean dependency audit is repository-maintenance evidence, not evidence
+  for any mathematical or numerical claim.
+
+Delivered verification evidence:
+
+- `scripts/verify.sh` and GitHub Actions launch pytest as
+  `uv run python -m pytest`, binding collection to the synchronized project
+  interpreter even when an older editable-install console script is stale;
+- the development lock resolves `urllib3` 2.8.0 through
+  `pip-audit -> requests -> urllib3`, replacing the audited 2.7.0 lock;
+- `./scripts/verify.sh` passes both in the maintained environment and in a
+  newly created `uv sync --all-extras --frozen` environment: the Lean build,
+  axiom audit, placeholder scan, Ruff, formatting, mypy, all 45 tests, and
+  `pip-audit` are green.

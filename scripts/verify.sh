@@ -15,5 +15,5 @@ fi
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy kernelgecp
-uv run pytest
+uv run python -m pytest
 uv run pip-audit
