@@ -140,6 +140,15 @@ alone do not control GECP pivot locations or residual decay.
   function, not an identifiable reconstruction of the four true atoms.
 - An optimal sensor-placement theorem for the PSD covariance landmarks.
 
+## Verification evidence
+
+- On 2026-10-07 the complete root command passed in both the maintained
+  environment and a fresh frozen `uv` environment: Lean build, axiom audit,
+  placeholder rejection, Ruff, formatting, mypy, 45 Python tests, and
+  dependency audit.
+- The verification refresh changes no proved, observed, conjectured, or
+  not-claimed mathematical statement above.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

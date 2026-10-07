@@ -200,6 +200,18 @@ are complete for every positive cutoff and that this residual contracts by
 one half for `0<Λ≤1`. Neither the evaluator nor that base theorem supplies the
 still-missing dyadic scaling argument for larger cutoffs.
 
+For repository verification, pytest is launched through the synchronized
+project interpreter rather than a standalone editable-install console script:
+
+```bash
+uv sync --all-extras --frozen
+./scripts/verify.sh
+```
+
+The root command also performs formatting, typing, Lean axiom, placeholder,
+and dependency-audit checks. This developer workflow does not alter the public
+Python API or any numerical certification boundary described above.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

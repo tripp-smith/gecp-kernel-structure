@@ -31,6 +31,13 @@ two-step residual is at most one half of the initial complete-pivot magnitude.
 This verifies the base block but does not supply the dyadic scaling lemma
 needed for Conjecture G1.
 
+Post-v1 Phase H restores verification integrity after the local editable
+pytest entry point became stale and the development lock acquired dependency
+audit findings. The root and CI workflows now launch pytest through the
+synchronized interpreter, the audited transitive lock resolves `urllib3`
+2.8.0, and the complete root command passes in maintained and fresh frozen
+environments. This is maintenance evidence and changes no mathematical claim.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -79,6 +86,7 @@ not represented by the completed goal counter.
 | R — release readiness | complete | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9), [closure PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10) |
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
+| H — verification integrity refresh | verified locally; green CI | draft [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 
 ## Completed tasks
 
@@ -105,6 +113,8 @@ not represented by the completed goal counter.
   obstruction, exact first-two-pivot localization for every positive cutoff,
   rank-two secant/interpolation analysis, and the proved two-step half
   contraction on `0<Λ≤1`.
+- T-019: interpreter-bound local/CI pytest entry point, refreshed audited
+  development lock, and maintained-plus-fresh-environment root verification.
 
 ## Deferred research
 
