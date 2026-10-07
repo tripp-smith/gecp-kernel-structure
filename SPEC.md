@@ -1342,7 +1342,8 @@ This annotation records delivered identifiers without changing the goals above.
   audit findings. The complete root command passes with 45 tests and no known
   dependency vulnerabilities in both maintained and fresh environments. This
   maintenance phase changes no theorem, experiment, or Phase G claim.
-- Post-v1 research phase I: locally verified on 2026-10-07. The new
+- Post-v1 research phase I: locally verified on 2026-10-07 and delivered in
+  draft PR #13. The new
   `Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual` theorem
   identifies each selected-core border determinant with the core determinant
   times the exact final residual, and
