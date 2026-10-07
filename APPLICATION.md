@@ -200,6 +200,14 @@ are complete for every positive cutoff and that this residual contracts by
 one half for `0<Λ≤1`. Neither the evaluator nor that base theorem supplies the
 still-missing dyadic scaling argument for larger cutoffs.
 
+For exact structural experiments, `first_exact_gecp_sign_coherence_failure`
+checks every selected residual cross using `Fraction` arithmetic and returns
+the earliest step, pivot, coordinate, and negative product. Returning `None`
+means only that the supplied finite matrix passed this exact diagnostic. Lean
+separately proves that this residual condition is equivalent to a
+four-bordered-minor sign condition on the original kernel; neither check is a
+continuous fermionic sign theorem.
+
 For repository verification, pytest is launched through the synchronized
 project interpreter rather than a standalone editable-install console script:
 

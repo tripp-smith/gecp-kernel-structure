@@ -53,6 +53,12 @@
 - A residual that is `PivotCrossProductSignCoherent` at its selected pivot cannot grow under an exact complete
   pivot: compatible cross-product signs sharpen the generic factor-two update
   estimate to factor one.
+- For every successful dependent GECP run, appending an arbitrary row and
+  column to its ordered selected core gives determinant
+  `det(core) * finalResidual(row,column)`. Because the selected core is
+  nonsingular, `PivotCrossProductSignCoherent` is equivalent to a
+  `BorderedMinorSignCoherent` four-determinant product condition on the
+  original kernel.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -67,6 +73,16 @@
   `q ∈ {1/2, 2/3, 3/4}` are nonzero with the predicted sign.
 - Exact complete-pivot paths vary with `q` by size eight. This rules out a
   single `q`-independent pivot order for this surrogate family.
+- Every selected cross in those 21 exact geometric-surrogate runs is sign
+  coherent. The diagnostic returns the first negative cross-product witness;
+  on the generic matrix `[[-4,-1],[-3,4]]` it exactly reports step zero,
+  pivot `(0,0)`, point `(1,1)`, and product `-48`, so the criterion is not
+  automatic for arbitrary matrices.
+- A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
+  `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
+  negatives between about `1e-89` and `1e-131` occurred only on rows or
+  columns that are algebraically zero after selection and are treated as
+  cancellation evidence, not a proof of nonnegativity.
 - The endpoint-resolved 128-bit finite-grid fermionic census converged in all
   21 cases. At tolerance `1e-10`, sampled ranks grow from 8 at cutoff 1 to 124
   at cutoff `1e6`. Two complete executions produced byte-identical JSONL.
@@ -109,11 +125,13 @@ specified in `SPEC.md`.
 
 The cutoff-one base case of the `2(s+1)` block hypothesis is now proved for
 the actual continuous GECP trajectory. The conjectured extension is block
-contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The formal
-`PivotCrossProductSignCoherent` condition
-would supply nonexpansiveness between strict contractions and is expected to
-follow from a stronger residual sign-regularity theorem. Exact minor signs
-alone do not control GECP pivot locations or residual decay.
+contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The exact next analytic
+target is `BorderedMinorSignCoherent`: derive the required four-minor product
+sign from an ordered exponential-collocation determinant formula or a strict
+sign-regularity theorem. The proved equivalence would then supply
+`PivotCrossProductSignCoherent` and hence nonexpansiveness between strict
+contractions. Exact minor signs alone do not control GECP pivot locations or
+residual decay.
 
 ## Not claimed
 
@@ -130,8 +148,9 @@ alone do not control GECP pivot locations or residual decay.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
 - Proof that fermionic residuals are `PivotCrossProductSignCoherent` at every
-  selected pivot, or that the cutoff-scaled half-contraction extends from the
-  proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
+  selected pivot, proof of the corresponding `BorderedMinorSignCoherent`
+  condition, or proof that the cutoff-scaled half-contraction extends from
+  the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.

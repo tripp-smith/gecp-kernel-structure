@@ -1,4 +1,5 @@
 import GECPKernelStructure.Fermionic.Symmetry
+import GECPKernelStructure.GECP.BorderedDeterminant
 import GECPKernelStructure.GECP.Definitions
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
@@ -33,6 +34,63 @@ def PivotCrossProductSignCoherent {α : Type u} {β : Type v} (R : Kernel α β 
     (row : α) (column : β) : Prop :=
   ∀ x y,
     0 ≤ (R x y * R row column) * (R x column * R row y)
+
+/--
+The four selected-core border minors through a proposed pivot have compatible
+product sign. Unlike a residual hypothesis, this condition can be attacked
+directly using sign-regularity or total-positivity information about the
+original kernel.
+-/
+def BorderedMinorSignCoherent {α : Type u} {β : Type v} {K : Kernel α β ℝ}
+    (run : Run K) (row : α) (column : β) : Prop :=
+  ∀ x y,
+    0 ≤ ((run.borderedCore x y).det * (run.borderedCore row column).det) *
+      ((run.borderedCore x column).det * (run.borderedCore row y).det)
+
+/--
+For every successful elimination run, selected-cross sign coherence of the
+exact final residual is equivalent to a four-bordered-minor sign condition on
+the original kernel.
+-/
+theorem pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent
+    {α : Type u} {β : Type v} {K : Kernel α β ℝ}
+    (run : Run K) (row : α) (column : β) :
+    PivotCrossProductSignCoherent run.finalResidual row column ↔
+      BorderedMinorSignCoherent run row column := by
+  have core_det_ne : run.selectedCore.det ≠ 0 := by
+    intro core_det_zero
+    apply gecp_core_nonsingular run
+    rw [Run.finSelectedCore, Matrix.det_reindex_self, core_det_zero]
+  have core_det_four_pos : 0 < run.selectedCore.det ^ 4 :=
+    (show Even 4 by decide).pow_pos core_det_ne
+  constructor
+  · intro coherent x y
+    simp only [Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual]
+    have scaled := mul_nonneg core_det_four_pos.le (coherent x y)
+    calc
+      0 ≤ run.selectedCore.det ^ 4 *
+          ((run.finalResidual x y * run.finalResidual row column) *
+            (run.finalResidual x column * run.finalResidual row y)) := scaled
+      _ = ((run.selectedCore.det * run.finalResidual x y) *
+            (run.selectedCore.det * run.finalResidual row column)) *
+          ((run.selectedCore.det * run.finalResidual x column) *
+            (run.selectedCore.det * run.finalResidual row y)) := by ring
+  · intro minors x y
+    have scaled := minors x y
+    simp only [Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual] at scaled
+    have normalized :
+        0 ≤ run.selectedCore.det ^ 4 *
+          ((run.finalResidual x y * run.finalResidual row column) *
+            (run.finalResidual x column * run.finalResidual row y)) := by
+      calc
+        0 ≤ ((run.selectedCore.det * run.finalResidual x y) *
+              (run.selectedCore.det * run.finalResidual row column)) *
+            ((run.selectedCore.det * run.finalResidual x column) *
+              (run.selectedCore.det * run.finalResidual row y)) := scaled
+        _ = run.selectedCore.det ^ 4 *
+            ((run.finalResidual x y * run.finalResidual row column) *
+              (run.finalResidual x column * run.finalResidual row y)) := by ring
+    exact (mul_nonneg_iff_of_pos_left core_det_four_pos).mp normalized
 
 /-- Every cross of a residual has compatible product signs. -/
 def CrossProductSignCoherent {α : Type u} {β : Type v} (R : Kernel α β ℝ) : Prop :=

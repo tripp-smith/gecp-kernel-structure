@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** H — verification integrity refresh<br>
-> **Phase state:** verified; green CI<br>
-> **Last verification:** `./scripts/verify.sh` passed with 45 tests and no known dependency vulnerabilities on 2026-10-07, including from a fresh synchronized environment and in CI<br>
+> **Current phase:** I — determinantal sign-coherence bridge<br>
+> **Phase state:** verified locally; CI pending<br>
+> **Last verification:** `./scripts/verify.sh` passed with 47 tests and no known dependency vulnerabilities on 2026-10-07<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12)<br>
-> **Claim level:** verification-only maintenance; Phase G claims are unchanged, and Conjecture G1 remains open<br>
+> **Delivery:** pending draft PR<br>
+> **Claim level:** exact algebraic reduction of residual sign coherence to bordered-minor signs; no fermionic sign-coherence or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -27,7 +27,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | R | Release readiness | complete | v1.0.0 handoff; wheel and sdist | full verification; endpoint smoke | merged PR #9; closure PR #10 |
 | S | Post-v1 synthetic applications | complete | realistic spectral compression, noisy sparse recovery, PSD landmarks | 35 tests; byte-identical JSON; reviewed plot | implementation `6404311`; direct `main` delivery |
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
-| H | Verification integrity refresh | verified | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
+| H | Verification integrity refresh | complete | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
+| I | Determinantal sign-coherence bridge | verified | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification | pending draft PR |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -74,7 +75,7 @@ successful result.
 | [`kernelgecp/cholesky.py`](kernelgecp/cholesky.py) | Canonical diagonal-pivoted Cholesky with symmetry checks, PSD breakdown detection, deterministic ties, factor output, and residual history | Supplies the positive-definite control experiment corresponding to the formal GECP/pivoted-Cholesky equivalence |
 | [`kernelgecp/certified.py`](kernelgecp/certified.py) | Priority-queue branch-and-bound using either supplied Lipschitz constants or outward-rounded `mpmath` interval enclosures and optional interval gradients | Separates a sampled large residual from a certified approximate continuous pivot; exhausting `max_cells` returns an uncertified certificate |
 | [`kernelgecp/approximation.py`](kernelgecp/approximation.py) | Published rank-count utilities, a high-precision evaluator matching the Lean dyadic truncated-Taylor construction, and a practical piecewise barycentric Chebyshev interpolant | Independently validates the explicit `O(log Λ log(1/ε))` separated construction while keeping the practical interpolant distinct from the theorem |
-| [`kernelgecp/surrogates.py`](kernelgecp/surrogates.py) | Exact `Fraction` determinants, exact lexicographic GECP, exhaustive minor-sign enumeration, and the fixed geometric-surrogate census | Lets structural hypotheses fail or survive in exact arithmetic before they are promoted to a theorem contract |
+| [`kernelgecp/surrogates.py`](kernelgecp/surrogates.py) | Exact `Fraction` determinants, exact lexicographic GECP, exhaustive minor-sign enumeration, selected-cross sign-coherence checks with first-failure witnesses, and the fixed geometric-surrogate census | Lets structural hypotheses fail or survive in exact arithmetic before they are promoted to a theorem contract |
 | [`kernelgecp/research.py`](kernelgecp/research.py) | Exact-form first- and two-corner residual diagnostics, decimal-preserving cutoff-scaled block analysis, and a focused interval-certified residual trajectory | Independently checks the proved base block and tests the Phase G scaling contract while encoding the boundary between a formal theorem, finite-grid observations, a certified bounded trajectory, and a cutoff-uniform rate |
 | [`kernelgecp/census.py`](kernelgecp/census.py) | TOML-driven cutoff/tolerance sweeps, one strict trajectory per cutoff, configuration hashing, Git-revision capture, canonical decimal strings, deterministic ordering, and atomic JSONL replacement | Makes the pivot census repeatable and auditable rather than a collection of one-off notebook outputs |
 | [`kernelgecp/sparse.py`](kernelgecp/sparse.py) | Orthogonal matching pursuit over candidate frequencies followed by bounded nonlinear least-squares refinement | Demonstrates the problem-specific sparse-spectral alternative to a universal kernel basis and reports non-convergence honestly |
@@ -115,7 +116,7 @@ downstream experiments.
 | Explicit low-rank scale | The theorem-matched dyadic evaluator reproduces the formal rank `16p(s+1)` and error bound `2⁻ᵖ`, including band boundaries and cutoff `10⁶`; the separate Chebyshev interpolant demonstrates a practical representation | Low-rank existence is proved, but neither evaluator proves that GECP attains that rank |
 | Trustworthy continuous pivoting | Synthetic objectives with known maxima and fermionic residuals receive lower/upper certificates; deliberately exhausted budgets remain `certified=False` | A certificate proves only the stated pivot gap under its analytic or interval enclosure, not a global GECP convergence rate |
 | Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
-| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, and the minimized `2 × 2` obstruction is regression-tested | Exact minor signs refute an overly strong invariant; they do not establish the refined `CrossRatioControl` hypothesis for the fermionic residual |
+| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, the minimized `2 × 2` obstruction is regression-tested, and selected-cross sign coherence is checked with exact witnesses | Lean reduces residual sign coherence to a four-bordered-minor sign condition, but neither the exact surrogates nor that algebraic bridge prove the condition for the continuous fermionic kernel |
 | Fermionic block contraction | Closed-form high-precision evaluation independently checks that the first residual is maximized at `(1,-Λ)` and that the two-corner residual is below one half of the initial pivot for `Λ=1/8,1/2,1` | Lean proves the first two pivots for every positive cutoff and the half contraction for `0<Λ≤1`; extending that base block across dyadic cutoff scales is still Conjecture G1 |
 | Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense blind scan | These demonstrate useful forward compression and effective sparse representation, not uniqueness or general robustness of analytic continuation |
 
