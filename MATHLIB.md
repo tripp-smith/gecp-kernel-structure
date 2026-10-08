@@ -30,6 +30,11 @@ Potential candidates after further use and generalization:
 - the reusable strict-positivity wrapper around `Matrix.det_vandermonde` for
   strictly increasing real tuples and the positive-determinant factorization
   of a square monomial-feature matrix with positive diagonal weights;
+- the fewnomial bound `signVariations_lt_card_support` and its Descartes-rule
+  corollary bounding positive roots by polynomial support cardinality;
+- generalized Vandermonde nonsingularity for distinct positive nodes and
+  exponents, together with strict determinant positivity for increasing nodes
+  and exponents via a geometric-node homotopy;
 - the generic endpoint-interpolation stability pattern: nonnegative cardinal
   weights of total mass at most one turn an error in a fixed comparison space
   into a factor-two residual bound.

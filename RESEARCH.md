@@ -641,3 +641,69 @@ Non-claims:
   exponential determinant limit;
 - it does not establish fermionic GECP nonexpansiveness, dyadic localization,
   Conjecture G1, or the Simons Problem 4.2 rate.
+
+## Phase L — generalized Vandermonde positivity
+
+State: locally verified; CI and delivery pending.
+
+Phase K proved that the principal `0, ..., n-1` exponential Taylor term is
+strictly positive. To make every finite Cauchy--Binet term nonnegative, the
+next exact target is the generalized Vandermonde determinant on positive
+ordered nodes and increasing natural exponents. Mathlib has Descartes' rule of
+signs, polynomial support/leading-term induction, ordinary Vandermonde
+positivity, determinant continuity, and the intermediate value theorem, but no
+assembled generalized result.
+
+Frozen proof chain:
+
+- `signVariations_lt_card_support`: a nonzero real polynomial has fewer sign
+  variations than nonzero coefficients;
+- `positiveRoots_lt_card_support`: Descartes' rule bounds distinct positive
+  roots by support cardinality minus one;
+- `generalizedVandermonde_det_ne_zero`: distinct positive nodes and distinct
+  natural exponents give a nonsingular power matrix;
+- `geometric_generalizedVandermonde_det_pos`: for nodes `2^i`, transpose turns
+  the power matrix into an ordinary Vandermonde on `2^m_j`;
+- `generalizedVandermonde_det_pos`: linearly homotope arbitrary positive
+  increasing nodes to the geometric nodes, use nonsingularity along the path,
+  and rule out a sign change by the intermediate value theorem.
+
+Implementation outcome:
+
+- the full frozen proof chain is implemented with the stated assumptions;
+- the root-count theorem counts positive roots with multiplicity, so it is
+  stronger than the distinct-root bound needed for nonsingularity;
+- an exact rational regression checks all increasing exponent choices from
+  `0, ..., n+2` at matrix sizes one through five;
+- no failed hypothesis or weakened theorem was required.
+
+Verification:
+
+- the focused Lean build and public axiom audit pass, with only Lean's default
+  axioms reported;
+- the exact generalized-Vandermonde regression passes;
+- `./scripts/verify.sh` passes all repository checks with 50 Python tests and
+  no known dependency vulnerabilities.
+
+Assumptions and intended strength:
+
+- nodes are strictly positive and strictly increasing;
+- exponents are strictly increasing natural numbers;
+- the target is strict determinant positivity at arbitrary finite order;
+- a later boundary argument is still required for merely nonnegative nodes,
+  which can occur in an exponential Cauchy--Binet expansion after shifting.
+
+Decision rule:
+
+- prove the whole chain if the root-count and homotopy interfaces compose;
+- after three failures at the same interface, retain the strongest verified
+  prefix and name the exact missing lemma rather than weakening assumptions
+  until they contain the conclusion.
+
+Non-claims:
+
+- this phase does not yet prove nonnegativity when a node equals zero;
+- it does not prove the finite Cauchy--Binet formula or exponential-series
+  determinant limit;
+- it does not prove all-orders strict sign regularity of the exponential or
+  fermionic kernel, dyadic localization, Conjecture G1, or Problem 4.2.
