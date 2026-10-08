@@ -198,6 +198,9 @@ term would then make each sufficiently large truncation strictly positive.
   dependency audit with no known vulnerabilities; the same change passed CI
   and merged as PR #14. Phase H separately verified the root entry point in
   maintained and fresh frozen environments.
+- On 2026-10-07 the Phase K root command passed the same gate with 49 Python
+  tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #15.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -109,7 +109,7 @@ not represented by the completed goal counter.
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
-| K — exponential total-positivity scaffolding | verified locally | draft [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15) |
+| K — exponential total-positivity scaffolding | complete; green CI | merged [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15) |
 
 ## Completed tasks
 

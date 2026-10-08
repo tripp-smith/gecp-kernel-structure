@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** K — exponential total-positivity scaffolding<br>
-> **Phase state:** verified locally<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 49 tests and no known dependency vulnerabilities on 2026-10-07<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15)<br>
+> **Delivery:** merged [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15)<br>
 > **Claim level:** positive principal exponential-series determinant term and chamber-reduction scaffolding only; no all-orders exponential/fermionic sign theorem or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -30,7 +30,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | H | Verification integrity refresh | complete | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
 | I | Determinantal sign-coherence bridge | complete | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | merged PR #13 |
 | J | Strict-sign-regularity transfer | complete | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification; green CI | merged PR #14 |
-| K | Exponential total-positivity scaffolding | verified | row scaling; positive ordered Vandermonde determinant; positive principal exponential-series determinant term | Lean build; axiom audit; exact factorization regression; 49-test full verification | draft PR #15 |
+| K | Exponential total-positivity scaffolding | complete | row scaling; positive ordered Vandermonde determinant; positive principal exponential-series determinant term | Lean build; axiom audit; exact factorization regression; 49-test full verification; green CI | merged PR #15 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -1365,8 +1365,8 @@ This annotation records delivered identifiers without changing the goals above.
   the all-orders exponential theorem, dyadic localization, Conjecture G1, and
   the Simons Problem 4.2 rate remain open. The root verification command passes
   with 48 tests and no known dependency vulnerabilities.
-- Post-v1 research phase K: verified locally on 2026-10-07 and proposed in
-  draft PR #15.
+- Post-v1 research phase K: complete with green CI on 2026-10-07 and delivered
+  in merged PR #15.
   `strictSignRegularAtOrder_rowScale` completes positive coordinate scaling,
   `vandermonde_det_pos_of_strictMono` proves positivity of ordinary ordered
   Vandermonde determinants, and `expTaylorPrincipalMatrix_det_pos` proves that
