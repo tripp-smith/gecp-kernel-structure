@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** M — generalized Vandermonde boundary<br>
-> **Phase state:** verified; green CI<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 51 tests and no known dependency vulnerabilities on 2026-10-08<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft [PR #17](https://github.com/tripp-smith/gecp-kernel-structure/pull/17)<br>
+> **Delivery:** merged [PR #17](https://github.com/tripp-smith/gecp-kernel-structure/pull/17)<br>
 > **Claim level:** zero-node boundary extension for generalized Vandermonde determinants; no all-orders exponential/fermionic sign theorem or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -32,7 +32,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | J | Strict-sign-regularity transfer | complete | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification; green CI | merged PR #14 |
 | K | Exponential total-positivity scaffolding | complete | row scaling; positive ordered Vandermonde determinant; positive principal exponential-series determinant term | Lean build; axiom audit; exact factorization regression; 49-test full verification; green CI | merged PR #15 |
 | L | Generalized Vandermonde positivity | complete | sparse-polynomial positive-root bound; nonsingularity; homotopy sign transfer | Lean build; axiom audit; exact determinant regression; 50-test full verification; green CI | merged PR #16 |
-| M | Generalized Vandermonde boundary | verified | nonnegative-node determinant boundary by positive shifts and continuity | Lean build; axiom audit; exact boundary regression; 51-test full verification; green CI | PR #17 |
+| M | Generalized Vandermonde boundary | complete | nonnegative-node determinant boundary by positive shifts and continuity | Lean build; axiom audit; exact boundary regression; 51-test full verification; green CI | merged PR #17 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

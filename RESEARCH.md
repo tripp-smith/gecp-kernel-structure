@@ -710,7 +710,7 @@ Non-claims:
 
 ## Phase M — generalized Vandermonde boundary
 
-State: verified with green CI in PR #17; merge pending.
+State: complete with green CI in merged PR #17.
 
 Phase L proves strict determinant positivity when every ordered node is
 positive. The finite exponential Cauchy--Binet expansion also produces the
