@@ -219,8 +219,8 @@ all-orders sign theorem can be transferred to the fermionic kernel.
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #16.
 - On 2026-10-08 the Phase M root command passed the same gate with 51 Python
-  tests and no known dependency vulnerabilities; CI is pending in draft PR
-  #17.
+  tests and no known dependency vulnerabilities; PR #17 has green CI and is
+  pending merge.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
