@@ -976,3 +976,97 @@ Non-claims:
   dyadic strict contraction needed for Conjecture G1;
 - this phase does not prove cutoff localization, the full GECP rate, or
   Problem 4.2.
+
+## Phase Q — complete-run nonexpansiveness
+
+State: verified locally on branch `codex/phase-q-run-nonexpansiveness`; draft
+PR pending.
+
+Phase P proves sign coherence for the final residual of every finite prefix of
+a fermionic run. The next exact obligation is to compose prefixes with
+continuations and turn that pointwise statement into a theorem for an entire
+exact complete-pivot run on a restricted domain.
+
+Frozen public Lean targets:
+
+- `Run.append` and `Run.finalResidual_append`: compose dependent successful
+  runs without forgetting the original kernel or changing the final residual;
+- `GECP.CompletePivotOn` and `GECP.Run.CompleteOn`: record that selected pivots
+  belong to the chosen row and column domains and maximize the current
+  residual there;
+- `residualUpdate_le_of_signCoherentOn`: derive the factor-one update bound
+  from bounds on only the four points in the selected residual cross;
+- `strictSignRegular_gecp_error_nonincreasing`: every realized exact
+  complete-pivot residual sequence of a strictly sign-regular kernel preserves
+  any initial uniform residual bound on the restricted domain;
+- `fermionicKernel_gecp_error_le_cutoffCorner`: on
+  `[0,1] x [-Lambda,Lambda]`, every finite exact complete-pivot run has final
+  residual bounded by the initial cutoff-corner maximum.
+
+Proof contract:
+
+- retain every residual's successful original-kernel prefix and induct on the
+  residual index;
+- obtain sign coherence at the current residual from strict sign regularity of
+  the original kernel, then apply a domain-local factor-one update theorem;
+- use domain membership of the selected pivot to compare its magnitude with
+  the inherited uniform bound;
+- specialize to the fermionic kernel using positivity and the proved cutoff
+  corner maximum, without adding compactness or supremum assumptions.
+
+Independent checks:
+
+- a finite exact rational run verifies the final residual after appending two
+  one-step runs;
+- focused Lean builds and the public axiom audit cover every new structural
+  theorem before the full root verification command.
+
+Decision rule:
+
+- if dependent run composition cannot expose the required prefix to the Phase
+  P theorem, stop after three distinct proof routes and record the exact type
+  obstruction rather than weakening complete pivoting into a conclusion-shaped
+  assumption.
+
+Implementation outcome:
+
+- `Run.append` composes a dependent successful prefix with a continuation, and
+  `Run.finalResidual_append` proves that the composed run ends at exactly the
+  continuation residual;
+- `GECP.CompletePivotOn` and `GECP.Run.CompleteOn` express domain membership
+  and exact residual maximization without asserting a global maximum outside
+  the GECP rectangle;
+- `residualUpdate_le_of_signCoherentOn` closes the domain mismatch discovered
+  during the first focused build: only the four entries in the Schur cross
+  need the common pivot bound;
+- `strictSignRegular_gecp_error_nonincreasing` uses a successful original-
+  kernel prefix realizing every residual, so Phase P supplies sign coherence
+  at every step and the initial domain bound propagates to every finite rank;
+- `fermionicKernel_gecp_error_le_cutoffCorner` instantiates the generic theorem
+  on `[0,1] x [-Lambda,Lambda]` using fermionic positivity and the exact cutoff-
+  corner maximum.
+
+Verification:
+
+- the focused module and public re-export build;
+- the four new structural theorems in the axiom audit use only Lean's default
+  axioms;
+- an exact two-by-two rational regression composes two one-step dependent runs
+  and checks that every entry of the final residual is zero;
+- `./scripts/verify.sh` passes with 54 Python tests and no known dependency
+  vulnerabilities.
+
+Next analytic obligation:
+
+Nonexpansiveness is now a theorem for the whole realized sequence, rather than
+only a one-step consequence. The remaining rate problem is therefore isolated
+to a strict statement: prove a half reduction within `O(s+1)` complete pivots
+when `Lambda <= 2^s`, most plausibly by dyadic pivot localization or by a
+determinant/near-volume estimate that transports the cutoff-one two-corner
+mechanism.
+
+Non-claims:
+
+- factor-one nonexpansiveness is not strict contraction;
+- this phase does not localize pivots to dyadic frequency bands, extend the
+  cutoff-one half-contraction, prove Conjecture G1, or solve Problem 4.2.

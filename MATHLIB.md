@@ -27,6 +27,9 @@ Potential candidates after further use and generalization:
 - the generic transfer from all-orders strict sign regularity to
   four-bordered-minor and selected-residual sign coherence for successful
   elimination runs;
+- dependent composition of successful elimination runs, domain-restricted
+  complete-pivot predicates, and propagation of a domain bound through a
+  realized strictly sign-regular complete-pivot residual sequence;
 - the reusable strict-positivity wrapper around `Matrix.det_vandermonde` for
   strictly increasing real tuples and the positive-determinant factorization
   of a square monomial-feature matrix with positive diagonal weights;

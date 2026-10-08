@@ -205,14 +205,16 @@ checks every selected residual cross using `Fraction` arithmetic and returns
 the earliest step, pivot, coordinate, and negative product. Returning `None`
 means only that the supplied finite matrix passed this exact diagnostic. Lean
 separately proves that this residual condition is equivalent to a
-four-bordered-minor sign condition on the original kernel; neither check is a
-continuous fermionic sign theorem.
+four-bordered-minor sign condition on the original kernel, proves the required
+all-orders fermionic sign theorem, and propagates the resulting
+nonexpansiveness through realized exact complete-pivot sequences. The finite
+diagnostic remains an independent regression, not the proof.
 
 The exact surrogate regression also enumerates every row and column
 permutation at sizes two through four for `q = 2/3`. It checks the determinant
 orientation convention used by the Lean strict-sign-regularity transfer. This
-is a finite exact cross-check; it is not the still-open all-orders exponential
-minor theorem.
+is a finite exact cross-check rather than the proof of the now-delivered
+all-orders exponential minor theorem.
 
 A second exact regression constructs the first `n` exponential Taylor features
 for rational row and column nodes through size six. Its determinant agrees
