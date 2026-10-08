@@ -84,6 +84,13 @@
   Vandermonde determinant is nonnegative. Positive uniform shifts reduce the
   result to the interior theorem, and determinant continuity closes the
   zero-node boundary.
+- Rectangular matrix products over finite ordered index types satisfy the
+  ordered Cauchy--Binet expansion `Matrix.det_mul_rect`. Applying it to finite
+  exponential Taylor features shows that every generalized-Vandermonde
+  summand is nonnegative and the principal summand is positive. Consequently,
+  `expTaylorMatrix_det_pos` proves strict positivity at every order whenever
+  the term count is at least the matrix order and both node tuples are
+  nonnegative and strictly increasing.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -114,6 +121,9 @@
   positive determinant.
 - With the least node set to zero, the same exact family is nonnegative and is
   strictly positive exactly when its least exponent is zero.
+- Exact rational finite Taylor matrices at sizes one through five and term
+  counts from the matrix order through three additional terms have strictly
+  positive determinants, including node tuples that start at zero.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -170,11 +180,13 @@ finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
 positive leading contribution, and passes to the exponential-series limit.
 Exact minor signs alone do not control GECP pivot locations or residual decay.
 
-The next intermediate target is the finite exponential Cauchy--Binet
-determinant identity. Generalized Vandermonde nonnegativity now supplies the
-sign of every finite term, while the proved principal term supplies strictness.
-After that, only the exponential-series determinant limit remains before the
-all-orders sign theorem can be transferred to the fermionic kernel.
+The next intermediate target is the exponential-series determinant limit.
+Finite exponential Taylor determinants are now strictly positive, but a
+strictly positive sequence can converge to zero. The limit proof must retain
+a fixed positive principal Cauchy--Binet contribution (or an equivalent
+uniform lower bound), then transport the result from nonnegative shifted nodes
+to arbitrary ordered tuples before transferring the all-orders sign theorem
+to the fermionic kernel.
 
 ## Not claimed
 
@@ -194,9 +206,8 @@ all-orders sign theorem can be transferred to the fermionic kernel.
   every order, hence that its residuals are `PivotCrossProductSignCoherent` at
   every selected pivot, or proof that the cutoff-scaled half-contraction
   extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
-- Assembly of the finite exponential Cauchy--Binet determinant expansion, or
-  proof that the determinant of the full exponential kernel is the limit of
-  the positive finite truncations.
+- Proof that the determinant of the full exponential kernel is the limit of
+  the finite truncations with a strictly positive lower bound.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -221,6 +232,9 @@ all-orders sign theorem can be transferred to the fermionic kernel.
 - On 2026-10-08 the Phase M root command passed the same gate with 51 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #17.
+- On 2026-10-08 the Phase N root command passed the same gate locally with 52
+  Python tests and no known dependency vulnerabilities; CI and delivery are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

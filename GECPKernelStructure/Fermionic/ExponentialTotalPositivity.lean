@@ -1,4 +1,5 @@
 import GECPKernelStructure.Fermionic.SignRegularity
+import GECPKernelStructure.Matrix.CauchyBinet
 import Mathlib.Algebra.Polynomial.RuleOfSigns
 import Mathlib.Analysis.SpecificLimits.Basic
 import Mathlib.LinearAlgebra.Vandermonde
@@ -251,6 +252,117 @@ theorem generalizedVandermonde_det_nonneg {n : ℕ} (nodes : Fin n → ℝ)
         Filter.atTop (nhds (generalizedVandermonde nodes exponents).det) :=
     determinant_continuous.continuousAt.tendsto.comp shiftedNodes_tendsto
   exact ge_of_tendsto shiftedDet_tendsto (Filter.Eventually.of_forall shiftedDet_nonneg)
+
+/-- The row-side weighted monomial features in a finite exponential series. -/
+noncomputable def expTaylorLeft {n terms : ℕ} (rows : Fin n → ℝ) :
+    Matrix (Fin n) (Fin terms) ℝ :=
+  fun i k => rows i ^ k.1 * (k.1.factorial : ℝ)⁻¹
+
+/-- The column-side monomial features in a finite exponential series. -/
+noncomputable def expTaylorRight {n terms : ℕ} (columns : Fin n → ℝ) :
+    Matrix (Fin terms) (Fin n) ℝ :=
+  fun k j => columns j ^ k.1
+
+/-- A finite Taylor truncation of the kernel `exp(row * column)`. -/
+noncomputable def expTaylorMatrix {n terms : ℕ} (rows columns : Fin n → ℝ) :
+    Matrix (Fin n) (Fin n) ℝ :=
+  expTaylorLeft (terms := terms) rows * expTaylorRight (terms := terms) columns
+
+/-- The finite feature product evaluates the truncated exponential series. -/
+theorem expTaylorMatrix_apply {n terms : ℕ} (rows columns : Fin n → ℝ)
+    (i j : Fin n) :
+    expTaylorMatrix (terms := terms) rows columns i j =
+      ∑ k : Fin terms,
+        rows i ^ k.1 * (k.1.factorial : ℝ)⁻¹ * columns j ^ k.1 := by
+  simp only [expTaylorMatrix, expTaylorLeft, expTaylorRight, Matrix.mul_apply]
+
+private theorem expTaylorLeftMinor_det_nonneg {n terms : ℕ}
+    (rows : Fin n → ℝ) (q : Fin n → Fin terms)
+    (rows_nonneg : ∀ i, 0 ≤ rows i) (rows_mono : StrictMono rows)
+    (q_mono : StrictMono q) :
+    0 ≤ ((expTaylorLeft (terms := terms) rows).submatrix id q).det := by
+  let exponents : Fin n → ℕ := fun j => (q j).1
+  have exponents_mono : StrictMono exponents := Fin.val_strictMono.comp q_mono
+  have hFactor :
+      (expTaylorLeft (terms := terms) rows).submatrix id q =
+        generalizedVandermonde rows exponents *
+          Matrix.diagonal (fun j : Fin n => ((exponents j).factorial : ℝ)⁻¹) := by
+    ext i j
+    simp [expTaylorLeft, generalizedVandermonde, exponents]
+  rw [hFactor, Matrix.det_mul, Matrix.det_diagonal]
+  exact mul_nonneg
+    (generalizedVandermonde_det_nonneg rows exponents rows_nonneg rows_mono
+      exponents_mono)
+    (Finset.prod_nonneg fun j _ => inv_nonneg.mpr (Nat.cast_nonneg _))
+
+private theorem expTaylorRightMinor_det_nonneg {n terms : ℕ}
+    (columns : Fin n → ℝ) (q : Fin n → Fin terms)
+    (columns_nonneg : ∀ i, 0 ≤ columns i) (columns_mono : StrictMono columns)
+    (q_mono : StrictMono q) :
+    0 ≤ ((expTaylorRight (terms := terms) columns).submatrix q id).det := by
+  let exponents : Fin n → ℕ := fun i => (q i).1
+  have exponents_mono : StrictMono exponents := Fin.val_strictMono.comp q_mono
+  have hTranspose :
+      ((expTaylorRight (terms := terms) columns).submatrix q id)ᵀ =
+        generalizedVandermonde columns exponents := by
+    ext i j
+    rfl
+  calc
+    0 ≤ (((expTaylorRight (terms := terms) columns).submatrix q id)ᵀ).det := by
+      rw [hTranspose]
+      exact generalizedVandermonde_det_nonneg columns exponents columns_nonneg
+        columns_mono exponents_mono
+    _ = ((expTaylorRight (terms := terms) columns).submatrix q id).det :=
+      Matrix.det_transpose _
+
+/--
+A finite exponential Taylor feature matrix has positive determinant once it
+contains at least the first `n` powers. The proof is an ordered
+Cauchy--Binet expansion: every generalized Vandermonde summand is nonnegative,
+and the summand indexed by powers `0, ..., n - 1` is strictly positive.
+-/
+theorem expTaylorMatrix_det_pos {n terms : ℕ} (rows columns : Fin n → ℝ)
+    (rows_nonneg : ∀ i, 0 ≤ rows i) (columns_nonneg : ∀ i, 0 ≤ columns i)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns)
+    (hterms : n ≤ terms) :
+    0 < (expTaylorMatrix (terms := terms) rows columns).det := by
+  let principal : Fin n → Fin terms := fun i =>
+    ⟨i.1, lt_of_lt_of_le i.2 hterms⟩
+  have principal_mono : StrictMono principal := by
+    intro i j hij
+    exact hij
+  have leftFactor :
+      (expTaylorLeft (terms := terms) rows).submatrix id principal =
+        Matrix.vandermonde rows *
+          Matrix.diagonal (fun j : Fin n => ((j.1.factorial : ℝ)⁻¹)) := by
+    ext i j
+    simp [expTaylorLeft, principal, Matrix.vandermonde_apply]
+  have leftPrincipal_pos :
+      0 < ((expTaylorLeft (terms := terms) rows).submatrix id principal).det := by
+    rw [leftFactor, Matrix.det_mul, Matrix.det_diagonal]
+    exact mul_pos (vandermonde_det_pos_of_strictMono rows rows_mono)
+      (Finset.prod_pos fun j _ => inv_pos.mpr (Nat.cast_pos.mpr j.1.factorial_pos))
+  have rightTranspose :
+      ((expTaylorRight (terms := terms) columns).submatrix principal id)ᵀ =
+        Matrix.vandermonde columns := by
+    ext i j
+    rfl
+  have rightPrincipal_pos :
+      0 < ((expTaylorRight (terms := terms) columns).submatrix principal id).det := by
+    calc
+      0 < (((expTaylorRight (terms := terms) columns).submatrix principal id)ᵀ).det := by
+        rw [rightTranspose]
+        exact vandermonde_det_pos_of_strictMono columns columns_mono
+      _ = ((expTaylorRight (terms := terms) columns).submatrix principal id).det :=
+        Matrix.det_transpose _
+  rw [expTaylorMatrix, Matrix.det_mul_rect]
+  apply Finset.sum_pos'
+  · intro q _
+    exact mul_nonneg
+      (expTaylorLeftMinor_det_nonneg rows q.1 rows_nonneg rows_mono q.2)
+      (expTaylorRightMinor_det_nonneg columns q.1 columns_nonneg columns_mono q.2)
+  · exact ⟨⟨principal, principal_mono⟩, Finset.mem_univ _,
+      mul_pos leftPrincipal_pos rightPrincipal_pos⟩
 
 /--
 The square principal block of the exponential series, using powers

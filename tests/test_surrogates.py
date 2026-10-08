@@ -125,6 +125,24 @@ def test_exp_taylor_principal_determinant_matches_vandermonde_product() -> None:
         assert expected > 0
 
 
+def test_exp_taylor_rectangular_feature_determinants_are_positive_exactly() -> None:
+    for size in range(1, 6):
+        rows = [Fraction(i, size) for i in range(size)]
+        columns = [Fraction(2 * j, size + 1) for j in range(size)]
+        for terms in range(size, size + 4):
+            truncated = [
+                [
+                    sum(
+                        rows[i] ** k * Fraction(1, math.factorial(k)) * columns[j] ** k
+                        for k in range(terms)
+                    )
+                    for j in range(size)
+                ]
+                for i in range(size)
+            ]
+            assert fraction_determinant(truncated) > 0
+
+
 def test_generalized_vandermonde_determinants_are_positive_exactly() -> None:
     for size in range(1, 6):
         nodes = [Fraction(2 * i + 1, size + 2) for i in range(size)]

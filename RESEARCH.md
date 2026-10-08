@@ -753,3 +753,80 @@ Non-claims:
   identity or its infinite-series limit;
 - it does not prove all-orders exponential or fermionic strict sign
   regularity, dyadic localization, Conjecture G1, or Problem 4.2.
+
+## Phase N — finite exponential Cauchy--Binet
+
+State: locally verified; draft PR pending.
+
+Phases K--M now provide exactly the sign information for every generalized
+Vandermonde factor in a finite exponential Taylor expansion. Mathlib proves
+the square `Matrix.det_mul` identity and exposes determinant multilinearity,
+finite subset ordering, and submatrices, but the current dependency contains
+no assembled rectangular Cauchy--Binet theorem.
+
+Frozen targets:
+
+- a reusable rectangular Cauchy--Binet identity, indexed by cardinality-`n`
+  subsets of the intermediate finite ordered type;
+- `expTaylorMatrix`: the square matrix whose entries truncate
+  `exp(row_i * column_j)` to a prescribed finite term count;
+- `expTaylorMatrix_apply`: the entrywise finite Taylor-sum formula;
+- `expTaylorMatrix_det_pos`: strict determinant positivity when the term count
+  is at least the matrix order and both node tuples are nonnegative and
+  strictly increasing.
+
+Proof contract:
+
+- expand the rectangular product determinant and eliminate noninjective index
+  maps using the determinant sign-reversing involution underlying mathlib's
+  square `det_mul` proof;
+- group injective maps by their range and the canonical increasing enumeration
+  `Finset.orderEmbOfFin`, producing the two ordered minor determinants;
+- apply `generalizedVandermonde_det_nonneg` to every Cauchy--Binet term and
+  `expTaylorPrincipalMatrix_det_pos` to the principal subset for strictness;
+- if the grouping interface fails three times, retain the verified injective-
+  map expansion and record canonical-range grouping as the exact obstruction.
+
+Implementation outcome:
+
+- `Matrix.det_mul_rect_eq_sum_injective` expands a rectangular product
+  determinant over injective intermediate tuples after a sign-reversing
+  involution cancels every noninjective tuple;
+- `Matrix.injectiveFunctionEquivStrictMonoPerm` canonically decomposes an
+  injective finite tuple into its increasing rearrangement and a permutation;
+- `Matrix.det_mul_rect` groups the injective expansion into the ordered
+  Cauchy--Binet product of the two corresponding minors;
+- `expTaylorLeft`, `expTaylorRight`, `expTaylorMatrix`, and
+  `expTaylorMatrix_apply` expose the finite exponential feature product and
+  its entrywise Taylor sum;
+- `expTaylorMatrix_det_pos` applies generalized Vandermonde nonnegativity to
+  every ordered Cauchy--Binet term and proves the principal term positive when
+  the term count is at least the matrix order;
+- exact rational matrices of sizes one through five, with zero boundary nodes
+  and term counts from `n` through `n+3`, independently have positive
+  determinants.
+
+Verification:
+
+- the focused Lean build and public axiom audit pass, with only Lean's default
+  axioms reported;
+- the focused exact surrogate suite passes all eleven tests;
+- `./scripts/verify.sh` passes all repository checks with 52 Python tests and
+  no known dependency vulnerabilities.
+
+Next analytic obligation:
+
+Prove strict positivity of the full matrix `exp(rows_i * columns_j)` by
+entrywise Taylor convergence and determinant continuity. Merely taking the
+limit of the positive finite determinants is insufficient: the proof must
+retain the fixed positive principal Cauchy--Binet contribution as a uniform
+lower bound. Positive row and column factors can then undo shifts to
+nonnegative nodes, after which frequency reversal gives the prescribed
+`expKernelSignature`.
+
+Non-claims:
+
+- this phase does not pass from finite Taylor matrices to the exponential
+  kernel determinant;
+- it does not yet prove all-orders exponential or fermionic strict sign
+  regularity, dyadic localization, Conjecture G1, or Problem 4.2.

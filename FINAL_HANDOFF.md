@@ -68,8 +68,15 @@ remain open.
 Post-v1 Phase M closes the zero-node boundary: nonnegative strictly increasing
 nodes and strictly increasing natural exponents give a nonnegative generalized
 Vandermonde determinant. This supplies the missing termwise sign input for a
-finite exponential Cauchy--Binet expansion; assembling that identity and
-passing to the infinite-series determinant remain open.
+finite exponential Cauchy--Binet expansion.
+
+Post-v1 Phase N assembles that finite argument. A reusable rectangular
+Cauchy--Binet identity groups injective intermediate tuples into increasing
+tuples and permutations. Applied to finite exponential Taylor features, every
+minor product is nonnegative and the principal product is strictly positive,
+so every truncation with at least as many terms as the matrix order has
+positive determinant. Passing to the infinite-series determinant while
+retaining strictness remains open.
 
 ## Implementation run metadata
 
@@ -161,6 +168,12 @@ not represented by the completed goal counter.
 - T-022: positive row scaling, ordered Vandermonde determinant positivity,
   positive determinant of the principal exponential Taylor block, and an exact
   rational factorization regression.
+- T-023: sparse-polynomial positive-root bounds, generalized Vandermonde
+  nonsingularity, and positive-node determinant positivity.
+- T-024: generalized Vandermonde nonnegativity at a zero boundary node by
+  uniform positive shifts and determinant continuity.
+- T-025: rectangular Cauchy--Binet expansion, finite exponential Taylor
+  determinant positivity, and exact rational multi-term regressions.
 
 ## Deferred research
 
@@ -224,6 +237,9 @@ The public theorem surface includes:
   `geometric_generalizedVandermonde_det_pos`, and
   `generalizedVandermonde_det_pos`;
 - Phase M structure: `generalizedVandermonde_det_nonneg`;
+- Phase N structure: `Matrix.det_mul_rect_eq_sum_injective`,
+  `Matrix.det_mul_rect`, `expTaylorMatrix_apply`, and
+  `expTaylorMatrix_det_pos`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -275,7 +291,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 48 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 52 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -311,9 +327,10 @@ git status --short
 - The order-one and order-two exponential and fermionic minor signs are not
   extrapolated to all orders; `StrictSignRegular expKernel expKernelSignature`
   remains open.
-- Positivity of the principal square Taylor-feature determinant is not a proof
-  that all generalized Cauchy--Binet terms are nonnegative or that the full
-  exponential determinant is positive.
+- Positivity of every sufficiently long finite Taylor-feature determinant is
+  not by itself a proof that the limiting full exponential determinant is
+  strictly positive; strictness needs a fixed positive lower bound through the
+  limit.
 - Arbitrary PSD tie-breaking is not claimed equivalent to diagonal pivoting;
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
@@ -382,10 +399,11 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove generalized Vandermonde nonnegativity for nonnegative increasing nodes
-and increasing natural exponents. Combined with Phase K's strictly positive
-principal term, this will make finite exponential Cauchy--Binet truncations
-strictly positive; the next step is then the determinant limit. Phase J turns
-the resulting all-orders theorem directly into fermionic selected-pivot
-nonexpansiveness. The separate rate step remains dyadic localization of the
-exact `Λ≤1` contraction.
+Prove that finite Taylor matrices converge entrywise to
+`exp(rows_i * columns_j)` and use determinant continuity together with the
+fixed positive principal Cauchy--Binet contribution to keep the limit strictly
+positive. Then remove nonnegative-node restrictions by positive exponential
+row and column scaling and reverse the frequency tuple to obtain
+`StrictSignRegular expKernel expKernelSignature`. Phase J turns that theorem
+directly into fermionic selected-pivot nonexpansiveness. The separate rate step
+remains dyadic localization of the exact `Λ≤1` contraction.

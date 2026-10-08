@@ -44,6 +44,9 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.geometric_generalizedVandermonde_det_pos
 #print axioms GECPKernelStructure.Fermionic.generalizedVandermonde_det_pos
 #print axioms GECPKernelStructure.Fermionic.generalizedVandermonde_det_nonneg
+#print axioms Matrix.det_mul_rect_eq_sum_injective
+#print axioms Matrix.det_mul_rect
+#print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_pos
 #print axioms GECPKernelStructure.Fermionic.residualUpdate_le_of_signCoherent
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_product_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_dyadic_of_crossRatioProduct
