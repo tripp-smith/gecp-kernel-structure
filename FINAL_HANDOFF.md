@@ -52,6 +52,12 @@ exponential sign theorem would force selected-residual sign coherence for
 every fermionic GECP run. Orders one and two are proved unconditionally. The
 all-orders exponential theorem itself remains the precise analytic gap.
 
+Post-v1 Phase K begins the constructive all-orders proof. Lean proves positive
+row scaling, strict positivity of ordered ordinary Vandermonde determinants,
+and strict positivity of the principal square exponential Taylor feature
+block at every order. This certifies the principal Cauchy--Binet term while
+leaving generalized Vandermonde positivity and the infinite-series limit open.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -103,6 +109,7 @@ not represented by the completed goal counter.
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
+| K — exponential total-positivity scaffolding | verified locally | draft [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15) |
 
 ## Completed tasks
 
@@ -138,6 +145,9 @@ not represented by the completed goal counter.
   transfer to bordered-minor and selected-residual coherence, positive column
   scaling, fermionic reduction, order-one/order-two proofs, and exact
   permutation regressions.
+- T-022: positive row scaling, ordered Vandermonde determinant positivity,
+  positive determinant of the principal exponential Taylor block, and an exact
+  rational factorization regression.
 
 ## Deferred research
 
@@ -193,6 +203,9 @@ The public theorem surface includes:
   `strictSignRegularAtOrder_columnScale`,
   `expKernel_strictSignRegularAtOrder_two`, and
   `fermionicKernel_strictSignRegularAtOrder_two`;
+- Phase K structure: `strictSignRegularAtOrder_rowScale`,
+  `vandermonde_det_pos_of_strictMono`, `expTaylorPrincipalMatrix_apply`, and
+  `expTaylorPrincipalMatrix_det_pos`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -280,6 +293,9 @@ git status --short
 - The order-one and order-two exponential and fermionic minor signs are not
   extrapolated to all orders; `StrictSignRegular expKernel expKernelSignature`
   remains open.
+- Positivity of the principal square Taylor-feature determinant is not a proof
+  that all generalized Cauchy--Binet terms are nonnegative or that the full
+  exponential determinant is positive.
 - Arbitrary PSD tie-breaking is not claimed equivalent to diagonal pivoting;
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
@@ -348,9 +364,10 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove `StrictSignRegular expKernel expKernelSignature` through a finite
-Cauchy--Binet expansion of the exponential series and generalized Vandermonde
-positivity. Phase J then turns it directly into fermionic selected-pivot
-nonexpansiveness. In parallel, the remaining rate step is a dyadic
-renormalization/localization lemma carrying the exact `Λ≤1` strict contraction
-through successive frequency layers.
+Prove generalized Vandermonde nonnegativity for nonnegative increasing nodes
+and increasing natural exponents. Combined with Phase K's strictly positive
+principal term, this will make finite exponential Cauchy--Binet truncations
+strictly positive; the next step is then the determinant limit. Phase J turns
+the resulting all-orders theorem directly into fermionic selected-pivot
+nonexpansiveness. The separate rate step remains dyadic localization of the
+exact `Λ≤1` contraction.

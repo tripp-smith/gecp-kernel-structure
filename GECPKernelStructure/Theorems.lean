@@ -10,6 +10,7 @@ import GECPKernelStructure.SmallInstanceChecks
 import GECPKernelStructure.Fermionic.TotalPositivity
 import GECPKernelStructure.Fermionic.GECPBounds
 import GECPKernelStructure.Fermionic.SignRegularity
+import GECPKernelStructure.Fermionic.ExponentialTotalPositivity
 import GECPKernelStructure.Fermionic.TwoCorner
 import GECPKernelStructure.MathlibReady
 

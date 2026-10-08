@@ -68,6 +68,12 @@
   fermionic kernel is such a scaling of `exp(-t*omega)`, so strict sign
   regularity transfers order by order and at all orders. Unconditionally, the
   expected signs are proved for both kernels at orders one and two.
+- Positive row scaling likewise preserves every ordered-minor signature. For
+  every pair of increasing real `n`-tuples, the ordinary Vandermonde
+  determinants are positive, and the square exponential Taylor feature block
+  with exponents `0, ..., n-1` and weights `1/k!` has strictly positive
+  determinant. This proves one positive term of the planned Cauchy--Binet
+  expansion, not positivity of the full exponential determinant.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -90,6 +96,9 @@
 - For the `q = 2/3` geometric surrogate at sizes two through four, exhaustive
   exact enumeration of every row and column permutation confirms that each
   determinant sign is the ordered-minor sign times the two permutation signs.
+- Exact rational Taylor-feature matrices at sizes one through six have
+  determinant equal to the product of the row Vandermonde, reciprocal
+  factorial weights, and column Vandermonde, and that product is positive.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -146,6 +155,13 @@ finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
 positive leading contribution, and passes to the exponential-series limit.
 Exact minor signs alone do not control GECP pivot locations or residual decay.
 
+The immediate intermediate conjecture is generalized Vandermonde
+nonnegativity: for nonnegative increasing nodes and increasing natural
+exponents, the corresponding power determinant is nonnegative (strictly
+positive under the standard nondegeneracy assumptions). That lemma would make
+every finite exponential Cauchy--Binet term nonnegative; the proved principal
+term would then make each sufficiently large truncation strictly positive.
+
 ## Not claimed
 
 - A solution of Simons Problem 4.2.
@@ -164,6 +180,9 @@ Exact minor signs alone do not control GECP pivot locations or residual decay.
   every order, hence that its residuals are `PivotCrossProductSignCoherent` at
   every selected pivot, or proof that the cutoff-scaled half-contraction
   extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
+- Proof that every generalized Vandermonde term in the exponential
+  Cauchy--Binet expansion is nonnegative, or that the determinant of the full
+  exponential kernel is the limit of the positive finite truncations.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
