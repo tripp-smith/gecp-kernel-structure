@@ -58,6 +58,13 @@ and strict positivity of the principal square exponential Taylor feature
 block at every order. This certifies the principal Cauchy--Binet term while
 leaving generalized Vandermonde positivity and the infinite-series limit open.
 
+Post-v1 Phase L proves the positive-node generalized Vandermonde theorem at
+every finite order. Lean derives a sparse-polynomial positive-root bound from
+Descartes' rule, uses it to prove power-matrix nonsingularity, anchors the sign
+at geometric nodes, and transports positivity through a zero-avoiding
+homotopy. The zero-node boundary case and exponential-series determinant limit
+remain open.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -206,6 +213,10 @@ The public theorem surface includes:
 - Phase K structure: `strictSignRegularAtOrder_rowScale`,
   `vandermonde_det_pos_of_strictMono`, `expTaylorPrincipalMatrix_apply`, and
   `expTaylorPrincipalMatrix_det_pos`;
+- Phase L structure: `signVariations_lt_card_support`,
+  `positiveRoots_lt_card_support`, `generalizedVandermonde_det_ne_zero`,
+  `geometric_generalizedVandermonde_det_pos`, and
+  `generalizedVandermonde_det_pos`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.

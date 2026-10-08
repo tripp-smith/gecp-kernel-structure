@@ -125,6 +125,14 @@ def test_exp_taylor_principal_determinant_matches_vandermonde_product() -> None:
         assert expected > 0
 
 
+def test_generalized_vandermonde_determinants_are_positive_exactly() -> None:
+    for size in range(1, 6):
+        nodes = [Fraction(2 * i + 1, size + 2) for i in range(size)]
+        for exponents in itertools.combinations(range(size + 3), size):
+            matrix = [[node**exponent for exponent in exponents] for node in nodes]
+            assert fraction_determinant(matrix) > 0
+
+
 def test_geometric_surrogate_selected_crosses_are_sign_coherent() -> None:
     for size in range(2, 9):
         for q in (Fraction(1, 2), Fraction(2, 3), Fraction(3, 4)):
