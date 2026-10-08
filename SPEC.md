@@ -1375,7 +1375,8 @@ This annotation records delivered identifiers without changing the goals above.
   all-orders exponential sign theorem. Generalized Vandermonde positivity, the
   exponential-series determinant limit, Conjecture G1, and the Simons Problem
   4.2 rate remain open. The root command passes with 49 tests.
-- Post-v1 research phase L: implementation complete pending the delivery gate.
+- Post-v1 research phase L: complete with green CI on 2026-10-08 and delivered
+  in merged PR #16.
   `signVariations_lt_card_support` and `positiveRoots_lt_card_support` derive a
   sparse-polynomial positive-root bound from mathlib's Descartes rule;
   `generalizedVandermonde_det_ne_zero` converts that bound to power-matrix
@@ -1385,4 +1386,4 @@ This annotation records delivered identifiers without changing the goals above.
   boundary case, finite exponential Cauchy--Binet assembly, determinant limit,
   Conjecture G1, and the Simons Problem 4.2 rate remain open.
   The root verification command passes with 50 tests and no known dependency
-  vulnerabilities; PR #16 has green CI and is pending merge.
+  vulnerabilities.

@@ -644,7 +644,7 @@ Non-claims:
 
 ## Phase L — generalized Vandermonde positivity
 
-State: verified with green CI in PR #16; merge pending.
+State: complete with green CI in merged PR #16.
 
 Phase K proved that the principal `0, ..., n-1` exponential Taylor term is
 strictly positive. To make every finite Cauchy--Binet term nonnegative, the
