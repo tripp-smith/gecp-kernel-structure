@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** Q — complete-run nonexpansiveness<br>
-> **Phase state:** verified locally; draft PR pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 54 tests and no known dependency vulnerabilities on 2026-10-08<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** branch `codex/phase-q-run-nonexpansiveness`; draft PR pending<br>
+> **Delivery:** merged [PR #21](https://github.com/tripp-smith/gecp-kernel-structure/pull/21)<br>
 > **Claim level:** complete-pivot fermionic residual sequences are nonexpansive on cutoff rectangles; no cutoff-uniform strict GECP rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -36,7 +36,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | N | Finite exponential Cauchy--Binet | complete | `Matrix.det_mul_rect`; `expTaylorMatrix_det_pos` | Lean build; axiom audit; exact rational regression; 52-test full verification; green CI | merged PR #18 |
 | O | Exponential determinant limit | complete | `expTaylorMatrix_det_ge_principal`; `expMatrix_det_pos` | Lean build; axiom audit; 100-digit lower-bound regression; 53-test full verification; green CI | merged PR #19 |
 | P | All-orders exponential sign regularity | complete | `expKernel_strictSignRegular`; `fermionicKernel_strictSignRegular`; unconditional selected-cross coherence | Lean build; axiom audit; 100-digit sign regression; 54-test full verification; green CI | merged PR #20 |
-| Q | Complete-run nonexpansiveness | verified | `Run.append`; `GECP.CompletePivotOn`; `strictSignRegular_gecp_error_nonincreasing`; `fermionicKernel_gecp_error_le_cutoffCorner` | Lean build; axiom audit; exact rational composition check; 54-test full verification | draft PR pending |
+| Q | Complete-run nonexpansiveness | complete | `Run.append`; `GECP.CompletePivotOn`; `strictSignRegular_gecp_error_nonincreasing`; `fermionicKernel_gecp_error_le_cutoffCorner` | Lean build; axiom audit; exact rational composition check; 54-test full verification; green CI | merged PR #21 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -260,7 +260,8 @@ itself provide the factor below one required by Conjecture G1.
   merged as PR #20.
 - On 2026-10-08 the Phase Q root command passed the same gate with 54 Python
   tests and no known dependency vulnerabilities; its four new structural
-  results use only the permitted Lean axioms. Delivery is pending CI.
+  results use only the permitted Lean axioms. The change passed CI and merged
+  as PR #21.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

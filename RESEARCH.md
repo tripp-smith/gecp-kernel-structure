@@ -979,8 +979,8 @@ Non-claims:
 
 ## Phase Q — complete-run nonexpansiveness
 
-State: verified locally on branch `codex/phase-q-run-nonexpansiveness`; draft
-PR pending.
+State: complete with green CI in merged
+[PR #21](https://github.com/tripp-smith/gecp-kernel-structure/pull/21).
 
 Phase P proves sign coherence for the final residual of every finite prefix of
 a fermionic run. The next exact obligation is to compose prefixes with

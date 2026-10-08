@@ -1424,8 +1424,8 @@ This annotation records delivered identifiers without changing the goals above.
   selected-residual nonexpansiveness premise unconditional. Dyadic strict
   contraction, Conjecture G1, and the Simons Problem 4.2 rate remain open. The
   root command passes with 54 tests and no known dependency vulnerabilities.
-- Post-v1 research phase Q: verified locally on branch
-  `codex/phase-q-run-nonexpansiveness`.
+- Post-v1 research phase Q: complete with green CI on 2026-10-08 and delivered
+  in merged PR #21.
   `Run.append` and `Run.finalResidual_append` compose dependent successful
   runs, `GECP.CompletePivotOn` and `GECP.Run.CompleteOn` encode
   restricted-domain exact complete pivoting, and
