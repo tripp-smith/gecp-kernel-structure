@@ -1,5 +1,6 @@
 import GECPKernelStructure.Fermionic.SignRegularity
 import Mathlib.Algebra.Polynomial.RuleOfSigns
+import Mathlib.Analysis.SpecificLimits.Basic
 import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Topology.Instances.Matrix
 import Mathlib.Topology.Order.IntermediateValue
@@ -205,6 +206,51 @@ theorem generalizedVandermonde_det_pos {n : ℕ} (nodes : Fin n → ℝ)
     (intermediate_value_Icc (by norm_num : (0 : ℝ) ≤ 1)
       determinantPath_continuous.continuousOn) hZeroBetween
   exact determinantPath_ne_zero t ht hPathZero
+
+/--
+The generalized Vandermonde determinant remains nonnegative when the least
+strictly ordered node is allowed to be zero.
+-/
+theorem generalizedVandermonde_det_nonneg {n : ℕ} (nodes : Fin n → ℝ)
+    (exponents : Fin n → ℕ) (nodes_nonneg : ∀ i, 0 ≤ nodes i)
+    (nodes_mono : StrictMono nodes) (exponents_mono : StrictMono exponents) :
+    0 ≤ (generalizedVandermonde nodes exponents).det := by
+  let shiftedNodes : ℕ → Fin n → ℝ := fun k i =>
+    nodes i + ((k + 1 : ℕ) : ℝ)⁻¹
+  have shiftedNodes_pos (k : ℕ) : ∀ i, 0 < shiftedNodes k i := by
+    intro i
+    dsimp only [shiftedNodes]
+    exact add_pos_of_nonneg_of_pos (nodes_nonneg i) (by positivity)
+  have shiftedNodes_mono (k : ℕ) : StrictMono (shiftedNodes k) := by
+    intro i j hij
+    dsimp only [shiftedNodes]
+    simpa only [add_comm] using
+      (add_lt_add_right (nodes_mono hij) (((k + 1 : ℕ) : ℝ)⁻¹))
+  have shiftedDet_nonneg (k : ℕ) :
+      0 ≤ (generalizedVandermonde (shiftedNodes k) exponents).det :=
+    (generalizedVandermonde_det_pos (shiftedNodes k) exponents
+      (shiftedNodes_pos k) (shiftedNodes_mono k) exponents_mono).le
+  have shiftedNodes_tendsto : Filter.Tendsto shiftedNodes Filter.atTop (nhds nodes) := by
+    rw [tendsto_pi_nhds]
+    intro i
+    simpa only [shiftedNodes, Nat.cast_add, Nat.cast_one, one_div, add_zero] using
+      (tendsto_const_nhds.add tendsto_one_div_add_atTop_nhds_zero_nat :
+        Filter.Tendsto (fun k : ℕ => nodes i + 1 / ((k : ℝ) + 1))
+          Filter.atTop (nhds (nodes i + 0)))
+  have determinant_continuous : Continuous fun values : Fin n → ℝ =>
+      (generalizedVandermonde values exponents).det := by
+    apply Continuous.matrix_det
+    apply continuous_pi
+    intro i
+    apply continuous_pi
+    intro j
+    exact (continuous_apply i).pow (exponents j)
+  have shiftedDet_tendsto :
+      Filter.Tendsto
+        (fun k => (generalizedVandermonde (shiftedNodes k) exponents).det)
+        Filter.atTop (nhds (generalizedVandermonde nodes exponents).det) :=
+    determinant_continuous.continuousAt.tendsto.comp shiftedNodes_tendsto
+  exact ge_of_tendsto shiftedDet_tendsto (Filter.Eventually.of_forall shiftedDet_nonneg)
 
 /--
 The square principal block of the exponential series, using powers

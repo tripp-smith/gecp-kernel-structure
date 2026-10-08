@@ -34,7 +34,8 @@ Potential candidates after further use and generalization:
   corollary bounding positive roots by polynomial support cardinality;
 - generalized Vandermonde nonsingularity for distinct positive nodes and
   exponents, together with strict determinant positivity for increasing nodes
-  and exponents via a geometric-node homotopy;
+  and exponents via a geometric-node homotopy, and nonnegativity at the
+  nonnegative-node boundary by uniform positive shifts;
 - the generic endpoint-interpolation stability pattern: nonnegative cardinal
   weights of total mass at most one turn an error in a fixed comparison space
   into a factor-two residual bound.

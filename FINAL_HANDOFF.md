@@ -65,6 +65,12 @@ at geometric nodes, and transports positivity through a zero-avoiding
 homotopy. The zero-node boundary case and exponential-series determinant limit
 remain open.
 
+Post-v1 Phase M closes the zero-node boundary: nonnegative strictly increasing
+nodes and strictly increasing natural exponents give a nonnegative generalized
+Vandermonde determinant. This supplies the missing termwise sign input for a
+finite exponential Cauchy--Binet expansion; assembling that identity and
+passing to the infinite-series determinant remain open.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -217,6 +223,7 @@ The public theorem surface includes:
   `positiveRoots_lt_card_support`, `generalizedVandermonde_det_ne_zero`,
   `geometric_generalizedVandermonde_det_pos`, and
   `generalizedVandermonde_det_pos`;
+- Phase M structure: `generalizedVandermonde_det_nonneg`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.

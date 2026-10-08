@@ -78,8 +78,12 @@
   increasing natural exponent tuple, the generalized Vandermonde determinant
   `det(x_i ^ m_j)` is strictly positive. The proof combines a sparse-polynomial
   positive-root bound from Descartes' rule, nonsingularity, positivity at
-  geometric nodes, and a zero-avoiding homotopy. The boundary case with a zero
-  node is not included.
+  geometric nodes, and a zero-avoiding homotopy. This strict result does not
+  include a zero node.
+- For nonnegative strictly increasing nodes, the same generalized
+  Vandermonde determinant is nonnegative. Positive uniform shifts reduce the
+  result to the interior theorem, and determinant continuity closes the
+  zero-node boundary.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -108,6 +112,8 @@
 - Exact rational generalized Vandermonde matrices at sizes one through five,
   over every increasing exponent tuple selected from `0, ..., n+2`, have
   positive determinant.
+- With the least node set to zero, the same exact family is nonnegative and is
+  strictly positive exactly when its least exponent is zero.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -164,13 +170,11 @@ finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
 positive leading contribution, and passes to the exponential-series limit.
 Exact minor signs alone do not control GECP pivot locations or residual decay.
 
-The immediate intermediate conjecture is now only the boundary extension: for
-nonnegative increasing nodes and increasing natural exponents, the
-corresponding power determinant is nonnegative when a node may equal zero.
-The positive-node interior is proved strictly positive. The boundary lemma
-would make every finite exponential Cauchy--Binet term nonnegative; the proved
-principal term would then make each sufficiently large truncation strictly
-positive.
+The next intermediate target is the finite exponential Cauchy--Binet
+determinant identity. Generalized Vandermonde nonnegativity now supplies the
+sign of every finite term, while the proved principal term supplies strictness.
+After that, only the exponential-series determinant limit remains before the
+all-orders sign theorem can be transferred to the fermionic kernel.
 
 ## Not claimed
 
@@ -190,9 +194,9 @@ positive.
   every order, hence that its residuals are `PivotCrossProductSignCoherent` at
   every selected pivot, or proof that the cutoff-scaled half-contraction
   extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
-- Proof that generalized Vandermonde terms with a zero node are nonnegative,
-  or that the determinant of the full exponential kernel is the limit of the
-  positive finite truncations.
+- Assembly of the finite exponential Cauchy--Binet determinant expansion, or
+  proof that the determinant of the full exponential kernel is the limit of
+  the positive finite truncations.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -214,6 +218,9 @@ positive.
 - On 2026-10-08 the Phase L root command passed the same gate with 50 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #16.
+- On 2026-10-08 the Phase M root command passed the same gate with 51 Python
+  tests and no known dependency vulnerabilities; PR #17 has green CI and is
+  pending merge.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

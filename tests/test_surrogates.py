@@ -133,6 +133,16 @@ def test_generalized_vandermonde_determinants_are_positive_exactly() -> None:
             assert fraction_determinant(matrix) > 0
 
 
+def test_generalized_vandermonde_zero_node_boundary_exactly() -> None:
+    for size in range(1, 6):
+        nodes = [Fraction(i, size) for i in range(size)]
+        for exponents in itertools.combinations(range(size + 3), size):
+            matrix = [[node**exponent for exponent in exponents] for node in nodes]
+            determinant = fraction_determinant(matrix)
+            assert determinant >= 0
+            assert (determinant > 0) == (exponents[0] == 0)
+
+
 def test_geometric_surrogate_selected_crosses_are_sign_coherent() -> None:
     for size in range(2, 9):
         for q in (Fraction(1, 2), Fraction(2, 3), Fraction(3, 4)):
