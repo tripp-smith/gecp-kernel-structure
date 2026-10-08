@@ -39,6 +39,9 @@ Potential candidates after further use and generalization:
 - a rectangular Cauchy--Binet determinant expansion for finite ordered index
   types, indexed by strictly increasing intermediate tuples, together with its
   injective-tuple precursor;
+- the reversal-permutation identity
+  `Fin.revPerm.sign = (-1)^(n.choose 2)`, derived from the finite inversion
+  product;
 - the generic endpoint-interpolation stability pattern: nonnegative cardinal
   weights of total mass at most one turn an error in a fixed comparison space
   into a factor-two residual bound.

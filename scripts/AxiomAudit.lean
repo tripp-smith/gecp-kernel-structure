@@ -51,6 +51,11 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_tendsto_expMatrix
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_tendsto_expMatrix_det
 #print axioms GECPKernelStructure.Fermionic.expMatrix_det_pos
+#print axioms Fin.sign_revPerm
+#print axioms GECPKernelStructure.Fermionic.expMatrix_det_pos_of_strictMono
+#print axioms GECPKernelStructure.Fermionic.expKernel_strictSignRegular
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_strictSignRegular
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_pivotCrossProductSignCoherent
 #print axioms GECPKernelStructure.Fermionic.residualUpdate_le_of_signCoherent
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_product_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_dyadic_of_crossRatioProduct
