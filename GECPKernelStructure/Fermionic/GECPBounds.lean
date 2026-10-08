@@ -1,6 +1,7 @@
 import GECPKernelStructure.Fermionic.Symmetry
 import GECPKernelStructure.GECP.BorderedDeterminant
 import GECPKernelStructure.GECP.Definitions
+import GECPKernelStructure.GECP.SignRegularity
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Tactic
@@ -91,6 +92,134 @@ theorem pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent
             ((run.finalResidual x y * run.finalResidual row column) *
               (run.finalResidual x column * run.finalResidual row y)) := by ring
     exact (mul_nonneg_iff_of_pos_left core_det_four_pos).mp normalized
+
+/--
+All-orders strict sign regularity makes every four-bordered-minor product
+nonnegative, independently of the successful run's pivot order.
+-/
+theorem strictSignRegular_borderedMinorSignCoherent
+    {α : Type u} {β : Type v} [LinearOrder α] [LinearOrder β]
+    {K : Kernel α β ℝ} {signature : ℕ → ℝ}
+    (regular : StrictSignRegular K signature) (run : Run K)
+    (row : α) (column : β) :
+    BorderedMinorSignCoherent run row column := by
+  intro x y
+  let e := Fintype.equivFin run.BorderedIndex
+  let rowsX : Fin (Fintype.card run.BorderedIndex) → α :=
+    run.borderedRow x ∘ e.symm
+  let rowsPivot : Fin (Fintype.card run.BorderedIndex) → α :=
+    run.borderedRow row ∘ e.symm
+  let columnsY : Fin (Fintype.card run.BorderedIndex) → β :=
+    run.borderedColumn y ∘ e.symm
+  let columnsPivot : Fin (Fintype.card run.BorderedIndex) → β :=
+    run.borderedColumn column ∘ e.symm
+  have det_reindex (a : α) (b : β) :
+      Matrix.det (fun i j => K (run.borderedRow a (e.symm i))
+        (run.borderedColumn b (e.symm j))) =
+          (run.borderedCore a b).det := by
+    exact Matrix.det_reindex_self e (run.borderedCore a b)
+  by_cases all_injective :
+      Function.Injective (run.borderedRow x) ∧
+      Function.Injective (run.borderedRow row) ∧
+      Function.Injective (run.borderedColumn y) ∧
+      Function.Injective (run.borderedColumn column)
+  · obtain ⟨rowsX_injective, rowsPivot_injective, columnsY_injective,
+      columnsPivot_injective⟩ := all_injective
+    have rowsX_fin_injective : Function.Injective rowsX :=
+      rowsX_injective.comp e.symm.injective
+    have rowsPivot_fin_injective : Function.Injective rowsPivot :=
+      rowsPivot_injective.comp e.symm.injective
+    have columnsY_fin_injective : Function.Injective columnsY :=
+      columnsY_injective.comp e.symm.injective
+    have columnsPivot_fin_injective : Function.Injective columnsPivot :=
+      columnsPivot_injective.comp e.symm.injective
+    let order := Fintype.card run.BorderedIndex
+    let sign := signature order
+    have hxy := oriented_minor_pos_of_strictSignRegularAtOrder (regular order)
+      rowsX columnsY rowsX_fin_injective columnsY_fin_injective
+    have hpivot := oriented_minor_pos_of_strictSignRegularAtOrder (regular order)
+      rowsPivot columnsPivot rowsPivot_fin_injective columnsPivot_fin_injective
+    have hxcolumn := oriented_minor_pos_of_strictSignRegularAtOrder (regular order)
+      rowsX columnsPivot rowsX_fin_injective columnsPivot_fin_injective
+    have hrowy := oriented_minor_pos_of_strictSignRegularAtOrder (regular order)
+      rowsPivot columnsY rowsPivot_fin_injective columnsY_fin_injective
+    change 0 < sign * tupleOrientation rowsX * tupleOrientation columnsY *
+      Matrix.det (fun i j => K (rowsX i) (columnsY j)) at hxy
+    change 0 < sign * tupleOrientation rowsPivot * tupleOrientation columnsPivot *
+      Matrix.det (fun i j => K (rowsPivot i) (columnsPivot j)) at hpivot
+    change 0 < sign * tupleOrientation rowsX * tupleOrientation columnsPivot *
+      Matrix.det (fun i j => K (rowsX i) (columnsPivot j)) at hxcolumn
+    change 0 < sign * tupleOrientation rowsPivot * tupleOrientation columnsY *
+      Matrix.det (fun i j => K (rowsPivot i) (columnsY j)) at hrowy
+    have sign_ne : sign ≠ 0 := by
+      intro sign_zero
+      simp [sign_zero] at hxy
+    have combined := mul_pos (mul_pos hxy hpivot) (mul_pos hxcolumn hrowy)
+    have factorization :
+        (sign * tupleOrientation rowsX * tupleOrientation columnsY *
+            Matrix.det (fun i j => K (rowsX i) (columnsY j))) *
+          (sign * tupleOrientation rowsPivot * tupleOrientation columnsPivot *
+            Matrix.det (fun i j => K (rowsPivot i) (columnsPivot j))) *
+          ((sign * tupleOrientation rowsX * tupleOrientation columnsPivot *
+            Matrix.det (fun i j => K (rowsX i) (columnsPivot j))) *
+          (sign * tupleOrientation rowsPivot * tupleOrientation columnsY *
+            Matrix.det (fun i j => K (rowsPivot i) (columnsY j)))) =
+          sign ^ 4 *
+            (((run.borderedCore x y).det * (run.borderedCore row column).det) *
+              ((run.borderedCore x column).det * (run.borderedCore row y).det)) := by
+      rw [show Matrix.det (fun i j => K (rowsX i) (columnsY j)) =
+          (run.borderedCore x y).det from det_reindex x y]
+      rw [show Matrix.det (fun i j => K (rowsPivot i) (columnsPivot j)) =
+          (run.borderedCore row column).det from det_reindex row column]
+      rw [show Matrix.det (fun i j => K (rowsX i) (columnsPivot j)) =
+          (run.borderedCore x column).det from det_reindex x column]
+      rw [show Matrix.det (fun i j => K (rowsPivot i) (columnsY j)) =
+          (run.borderedCore row y).det from det_reindex row y]
+      calc
+        _ = sign ^ 4 * tupleOrientation rowsX ^ 2 *
+            tupleOrientation rowsPivot ^ 2 * tupleOrientation columnsY ^ 2 *
+            tupleOrientation columnsPivot ^ 2 *
+            (((run.borderedCore x y).det * (run.borderedCore row column).det) *
+              ((run.borderedCore x column).det * (run.borderedCore row y).det)) := by
+          ring
+        _ = _ := by simp
+    rw [factorization] at combined
+    have sign_four_pos : 0 < sign ^ 4 :=
+      (show Even 4 by decide).pow_pos sign_ne
+    exact (mul_pos_iff_of_pos_left sign_four_pos).mp combined |>.le
+  · simp only [not_and_or] at all_injective
+    rcases all_injective with rowsX_not_injective | rowsPivot_not_injective |
+      columnsY_not_injective | columnsPivot_not_injective
+    · have zero_det := det_kernel_eq_zero_of_not_injective_left K
+        (run.borderedRow x) (run.borderedColumn y) rowsX_not_injective
+      change (run.borderedCore x y).det = 0 at zero_det
+      rw [zero_det]
+      simp
+    · have zero_det := det_kernel_eq_zero_of_not_injective_left K
+        (run.borderedRow row) (run.borderedColumn column) rowsPivot_not_injective
+      change (run.borderedCore row column).det = 0 at zero_det
+      rw [zero_det]
+      simp
+    · have zero_det := det_kernel_eq_zero_of_not_injective_right K
+        (run.borderedRow x) (run.borderedColumn y) columnsY_not_injective
+      change (run.borderedCore x y).det = 0 at zero_det
+      rw [zero_det]
+      simp
+    · have zero_det := det_kernel_eq_zero_of_not_injective_right K
+        (run.borderedRow row) (run.borderedColumn column) columnsPivot_not_injective
+      change (run.borderedCore row column).det = 0 at zero_det
+      rw [zero_det]
+      simp
+
+/-- Strict sign regularity gives exact selected-residual sign coherence. -/
+theorem strictSignRegular_pivotCrossProductSignCoherent
+    {α : Type u} {β : Type v} [LinearOrder α] [LinearOrder β]
+    {K : Kernel α β ℝ} {signature : ℕ → ℝ}
+    (regular : StrictSignRegular K signature) (run : Run K)
+    (row : α) (column : β) :
+    PivotCrossProductSignCoherent run.finalResidual row column :=
+  (pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent run row column).2
+    (strictSignRegular_borderedMinorSignCoherent regular run row column)
 
 /-- Every cross of a residual has compatible product signs. -/
 def CrossProductSignCoherent {α : Type u} {β : Type v} (R : Kernel α β ℝ) : Prop :=

@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** I — determinantal sign-coherence bridge<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** `./scripts/verify.sh` passed with 47 tests and no known dependency vulnerabilities on 2026-10-07<br>
+> **Current phase:** J — strict-sign-regularity transfer<br>
+> **Phase state:** verified locally<br>
+> **Last verification:** `./scripts/verify.sh` passed with 48 tests and no known dependency vulnerabilities on 2026-10-07<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13)<br>
-> **Claim level:** exact algebraic reduction of residual sign coherence to bordered-minor signs; no fermionic sign-coherence or rate theorem yet<br>
+> **Delivery:** pending draft PR<br>
+> **Claim level:** formal transfer from all-orders strict sign regularity to GECP nonexpansiveness, with low-order fermionic cases only; no all-orders fermionic sign theorem or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -29,6 +29,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
 | H | Verification integrity refresh | complete | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
 | I | Determinantal sign-coherence bridge | complete | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | merged PR #13 |
+| J | Strict-sign-regularity transfer | verified | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification | pending draft PR |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -116,7 +117,7 @@ downstream experiments.
 | Explicit low-rank scale | The theorem-matched dyadic evaluator reproduces the formal rank `16p(s+1)` and error bound `2⁻ᵖ`, including band boundaries and cutoff `10⁶`; the separate Chebyshev interpolant demonstrates a practical representation | Low-rank existence is proved, but neither evaluator proves that GECP attains that rank |
 | Trustworthy continuous pivoting | Synthetic objectives with known maxima and fermionic residuals receive lower/upper certificates; deliberately exhausted budgets remain `certified=False` | A certificate proves only the stated pivot gap under its analytic or interval enclosure, not a global GECP convergence rate |
 | Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
-| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, the minimized `2 × 2` obstruction is regression-tested, and selected-cross sign coherence is checked with exact witnesses | Lean reduces residual sign coherence to a four-bordered-minor sign condition, but neither the exact surrogates nor that algebraic bridge prove the condition for the continuous fermionic kernel |
+| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, the minimized `2 × 2` obstruction is regression-tested, and selected-cross sign coherence and permutation orientations are checked exactly | Lean transfers all-orders strict sign regularity to the four-bordered-minor condition and fermionic selected-residual coherence, but the required all-orders exponential sign theorem remains open |
 | Fermionic block contraction | Closed-form high-precision evaluation independently checks that the first residual is maximized at `(1,-Λ)` and that the two-corner residual is below one half of the initial pivot for `Λ=1/8,1/2,1` | Lean proves the first two pivots for every positive cutoff and the half contraction for `0<Λ≤1`; extending that base block across dyadic cutoff scales is still Conjecture G1 |
 | Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense blind scan | These demonstrate useful forward compression and effective sparse representation, not uniqueness or general robustness of analytic continuation |
 

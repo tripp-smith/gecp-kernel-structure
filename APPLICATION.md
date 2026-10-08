@@ -208,6 +208,12 @@ separately proves that this residual condition is equivalent to a
 four-bordered-minor sign condition on the original kernel; neither check is a
 continuous fermionic sign theorem.
 
+The exact surrogate regression also enumerates every row and column
+permutation at sizes two through four for `q = 2/3`. It checks the determinant
+orientation convention used by the Lean strict-sign-regularity transfer. This
+is a finite exact cross-check; it is not the still-open all-orders exponential
+minor theorem.
+
 For repository verification, pytest is launched through the synchronized
 project interpreter rather than a standalone editable-install console script:
 

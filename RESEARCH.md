@@ -465,3 +465,100 @@ Non-claims:
   continuous-domain invariant;
 - this phase does not prove strict contraction, dyadic localization,
   Conjecture G1, or the Simons Problem 4.2 rate.
+
+## Phase J — strict-sign-regularity transfer
+
+State: verified locally; delivery pending.
+
+Phase I reduced selected-residual sign coherence to four original-kernel
+bordered minors. The remaining algebraic gap is to connect that condition to
+the ordered-minor language in the SPEC before attempting the all-orders
+analytic theorem for the exponential kernel. A mathlib search found tuple
+sorting, determinant permutation, and row/column scaling lemmas, but no
+total-positivity, Chebyshev-system, or strict-sign-regularity abstraction.
+
+Frozen public Lean targets:
+
+- `StrictSignRegularAtOrder`: every square minor on strictly increasing row
+  and column tuples has a prescribed strict determinant sign;
+- `StrictSignRegular`: the corresponding all-orders signature sequence;
+- `strictSignRegular_borderedMinorSignCoherent`: all-orders strict sign
+  regularity implies the Phase I four-bordered-minor condition for every
+  successful run and proposed pivot;
+- `strictSignRegular_pivotCrossProductSignCoherent`: the resulting exact
+  selected-residual sign coherence;
+- `strictSignRegularAtOrder_columnScale`: multiplication by a positive column
+  weight preserves the prescribed ordered-minor signs;
+- `expKernel_strictSignRegularAtOrder_two` and
+  `fermionicKernel_strictSignRegularAtOrder_two`: the first nontrivial
+  exponential and fermionic minor-sign cases.
+
+Implementation route:
+
+- sort arbitrary injective finite row and column tuples, track both
+  determinant permutation signs, and prove that the four border determinants
+  cancel every orientation sign in pairs;
+- prove selected and bordered tuples with a repeated node have zero
+  determinant, so the transfer theorem covers duplicate proposed points
+  without adding distinctness assumptions;
+- express the fermionic kernel as the exponential interaction times its
+  positive frequency-only weight and use determinant column scaling;
+- independently enumerate exact geometric-surrogate minors under row and
+  column permutations to verify the orientation convention.
+
+Implemented result:
+
+- the frozen definitions and transfer theorems above are implemented and
+  re-exported by `GECPKernelStructure.Theorems`;
+- repeated proposed rows or columns are handled by zero-determinant lemmas,
+  rather than excluded by an extra run hypothesis;
+- `fermionicKernel_strictSignRegularAtOrder_of_expKernel` transfers any fixed
+  exponential order, while
+  `fermionicKernel_strictSignRegular_of_expKernel` transfers the all-orders
+  statement;
+- orders one and two are proved directly for `expKernel` and transferred to
+  `fermionicKernel`; the all-orders premise remains open;
+- exhaustive exact permutation checks for the `q = 2/3` geometric surrogate
+  at sizes two through four independently confirm the orientation convention.
+
+Next analytic obligation:
+
+```lean
+StrictSignRegular expKernel expKernelSignature
+```
+
+Johnson and Richards identify `exp(x*y)` as strictly totally positive of every
+order and give the relevant Vandermonde--Schur expansion in equation (3.9) of
+[Hyperdeterminantal Total Positivity](https://arxiv.org/abs/2412.03000). A
+Lean-oriented reconstruction can avoid importing that theory wholesale:
+
+1. shift each finite row and column tuple into the nonnegative reals; the
+   shift changes `exp(x*y)` only by positive row and column factors;
+2. expand a truncated exponential kernel and apply finite Cauchy--Binet;
+3. prove nonnegativity of the resulting generalized Vandermonde products and
+   retain the strictly positive contribution from exponents `0, ..., n-1`;
+4. pass to the exponential-series limit using continuity of the finite
+   determinant;
+5. reverse the frequency tuple to convert `exp(t*y)` positivity into the
+   signature `(-1)^(n.choose 2)` for `exp(-t*omega)`.
+
+The current mathlib search found ordinary Vandermonde determinant machinery
+but no generalized-Vandermonde positivity or total-positivity library. That
+missing lemma family, not the GECP transfer, is now the exact obstruction.
+
+Verification:
+
+- `lake build GECPKernelStructure.Theorems` passes;
+- the public axiom audit reports only Lean defaults;
+- the focused surrogate suite passes all seven tests;
+- `./scripts/verify.sh` passes all repository checks with 48 Python tests and
+  no known dependency vulnerabilities.
+
+Non-claims:
+
+- this phase does not prove strict sign regularity of `exp(-t*omega)` or the
+  fermionic kernel at arbitrary order;
+- order-two minor signs do not imply the all-orders hypothesis used by the
+  transfer theorem;
+- the phase does not establish strict contraction, dyadic localization,
+  Conjecture G1, or the Simons Problem 4.2 rate.

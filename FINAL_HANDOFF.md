@@ -45,6 +45,13 @@ four-bordered-minor sign condition on the original kernel. Exact surrogate
 checks retain first-failure witnesses. This is an algebraic reduction, not a
 proof that the fermionic kernel satisfies the determinant-sign condition.
 
+Post-v1 Phase J closes the algebraic part of that obligation. Lean formalizes
+ordered strict sign regularity, transports it through arbitrary tuple
+orientations and positive column scaling, and proves that an all-orders
+exponential sign theorem would force selected-residual sign coherence for
+every fermionic GECP run. Orders one and two are proved unconditionally. The
+all-orders exponential theorem itself remains the precise analytic gap.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -95,6 +102,7 @@ not represented by the completed goal counter.
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
+| J — strict-sign-regularity transfer | verified locally | pending draft PR |
 
 ## Completed tasks
 
@@ -126,6 +134,10 @@ not represented by the completed goal counter.
 - T-020: bordered selected-core determinant recurrence and residual identity,
   equivalent four-minor sign criterion, exact selected-cross diagnostics, and
   a generic minimized failure witness.
+- T-021: ordered-minor strict-sign-regularity definitions, orientation-aware
+  transfer to bordered-minor and selected-residual coherence, positive column
+  scaling, fermionic reduction, order-one/order-two proofs, and exact
+  permutation regressions.
 
 ## Deferred research
 
@@ -133,9 +145,10 @@ No v1 implementation task is blocked. Open research and optional extensions
 are:
 
 - transport the proved `Λ≤1` two-corner half contraction through dyadic
-  frequency layers, together with a proof of the four-bordered-minor sign
-  condition (hence selected-pivot sign coherence) or another nonexpansiveness
-  invariant, to obtain the `O(log Λ)` block length required by Conjecture G1;
+  frequency layers, together with a proof of
+  `StrictSignRegular expKernel expKernelSignature` (which now implies
+  selected-pivot sign coherence) or another nonexpansiveness invariant, to
+  obtain the `O(log Λ)` block length required by Conjecture G1;
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
@@ -173,6 +186,13 @@ The public theorem surface includes:
   `Run.borderedCore_det_eq_selectedCore_det_mul_finalResidual`,
   `BorderedMinorSignCoherent`, and
   `pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent`;
+- Phase J structure: `StrictSignRegularAtOrder`, `StrictSignRegular`,
+  `oriented_minor_pos_of_strictSignRegularAtOrder`,
+  `strictSignRegular_borderedMinorSignCoherent`,
+  `strictSignRegular_pivotCrossProductSignCoherent`,
+  `strictSignRegularAtOrder_columnScale`,
+  `expKernel_strictSignRegularAtOrder_two`, and
+  `fermionicKernel_strictSignRegularAtOrder_two`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -224,7 +244,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 45 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 48 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -257,6 +277,9 @@ git status --short
   convergence proof.
 - The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
   cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
+- The order-one and order-two exponential and fermionic minor signs are not
+  extrapolated to all orders; `StrictSignRegular expKernel expKernelSignature`
+  remains open.
 - Arbitrary PSD tie-breaking is not claimed equivalent to diagonal pivoting;
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
@@ -325,9 +348,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove a dyadic renormalization/localization lemma that carries the exact
-two-corner `Λ≤1` base contraction through successive frequency layers while
-controlling intervening Schur updates. The strongest current route is to pair
-selected-pivot `PivotCrossProductSignCoherent` nonexpansiveness with one strict
-half reduction per `O(s+1)` pivots for `Λ≤2ˢ`; failure of either property should
-be minimized and certified before the condition is weakened.
+Prove `StrictSignRegular expKernel expKernelSignature` through a finite
+Cauchy--Binet expansion of the exponential series and generalized Vandermonde
+positivity. Phase J then turns it directly into fermionic selected-pivot
+nonexpansiveness. In parallel, the remaining rate step is a dyadic
+renormalization/localization lemma carrying the exact `Λ≤1` strict contraction
+through successive frequency layers.

@@ -21,6 +21,12 @@ Potential candidates after further use and generalization:
   elimination run's selected core, and the resulting equivalence between a
   residual selected-cross sign condition and a four-bordered-minor product
   condition on the original matrix.
+- the ordered-minor strict-sign-regularity abstraction, its extension to
+  arbitrary injective tuples by sorting and determinant orientation, and its
+  preservation under positive row or column scaling;
+- the generic transfer from all-orders strict sign regularity to
+  four-bordered-minor and selected-residual sign coherence for successful
+  elimination runs;
 - the generic endpoint-interpolation stability pattern: nonnegative cardinal
   weights of total mass at most one turn an error in a fixed comparison space
   into a factor-two residual bound.
