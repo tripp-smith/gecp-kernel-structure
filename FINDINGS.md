@@ -212,8 +212,8 @@ positive.
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #15.
 - On 2026-10-08 the Phase L root command passed the same gate with 50 Python
-  tests and no known dependency vulnerabilities; CI is pending in draft PR
-  #16.
+  tests and no known dependency vulnerabilities; PR #16 has green CI and is
+  pending merge.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

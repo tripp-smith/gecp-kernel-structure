@@ -1385,4 +1385,4 @@ This annotation records delivered identifiers without changing the goals above.
   boundary case, finite exponential Cauchy--Binet assembly, determinant limit,
   Conjecture G1, and the Simons Problem 4.2 rate remain open.
   The root verification command passes with 50 tests and no known dependency
-  vulnerabilities; CI is pending in draft PR #16.
+  vulnerabilities; PR #16 has green CI and is pending merge.

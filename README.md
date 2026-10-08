@@ -5,7 +5,7 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** L — generalized Vandermonde positivity<br>
-> **Phase state:** in progress<br>
+> **Phase state:** verified; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 50 tests and no known dependency vulnerabilities on 2026-10-08<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** draft [PR #16](https://github.com/tripp-smith/gecp-kernel-structure/pull/16)<br>
@@ -31,7 +31,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | I | Determinantal sign-coherence bridge | complete | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | merged PR #13 |
 | J | Strict-sign-regularity transfer | complete | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification; green CI | merged PR #14 |
 | K | Exponential total-positivity scaffolding | complete | row scaling; positive ordered Vandermonde determinant; positive principal exponential-series determinant term | Lean build; axiom audit; exact factorization regression; 49-test full verification; green CI | merged PR #15 |
-| L | Generalized Vandermonde positivity | in progress | sparse-polynomial positive-root bound; nonsingularity; homotopy sign transfer | 50-test root verification passed; CI pending | draft PR #16 |
+| L | Generalized Vandermonde positivity | verified | sparse-polynomial positive-root bound; nonsingularity; homotopy sign transfer | Lean build; axiom audit; exact determinant regression; 50-test full verification; green CI | PR #16 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
