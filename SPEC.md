@@ -1394,7 +1394,7 @@ This annotation records delivered identifiers without changing the goals above.
   finite exponential Cauchy--Binet assembly, determinant limit, Conjecture G1,
   and the Simons Problem 4.2 rate remain open. The root command passes with 51
   tests and no known dependency vulnerabilities.
-- Post-v1 research phase N: locally verified on 2026-10-08; delivery pending.
+- Post-v1 research phase N: locally verified on 2026-10-08 in draft PR #18.
   `Matrix.det_mul_rect_eq_sum_injective` and `Matrix.det_mul_rect` provide a
   reusable rectangular Cauchy--Binet expansion, while `expTaylorMatrix_apply`
   and `expTaylorMatrix_det_pos` prove that every sufficiently long finite

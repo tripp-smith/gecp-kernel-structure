@@ -756,7 +756,8 @@ Non-claims:
 
 ## Phase N — finite exponential Cauchy--Binet
 
-State: locally verified; draft PR pending.
+State: locally verified in
+[draft PR #18](https://github.com/tripp-smith/gecp-kernel-structure/pull/18).
 
 Phases K--M now provide exactly the sign information for every generalized
 Vandermonde factor in a finite exponential Taylor expansion. Mathlib proves
