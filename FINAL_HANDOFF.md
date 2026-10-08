@@ -102,7 +102,7 @@ not represented by the completed goal counter.
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
-| J — strict-sign-regularity transfer | verified locally | draft [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
+| J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
 
 ## Completed tasks
 

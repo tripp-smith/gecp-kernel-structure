@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** J — strict-sign-regularity transfer<br>
-> **Phase state:** verified locally<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** `./scripts/verify.sh` passed with 48 tests and no known dependency vulnerabilities on 2026-10-07<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14)<br>
+> **Delivery:** merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14)<br>
 > **Claim level:** formal transfer from all-orders strict sign regularity to GECP nonexpansiveness, with low-order fermionic cases only; no all-orders fermionic sign theorem or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -29,7 +29,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | G | Fermionic GECP rate | complete | exact first two pivots for every cutoff; one-step obstruction; proved two-step half contraction for `0 < Λ ≤ 1`; dyadic block condition | Lean axiom audit; exact/high-precision checks; 45-test full verification; green CI | merged PR #11 |
 | H | Verification integrity refresh | complete | interpreter-bound pytest entry point; `urllib3` 2.8.0 development lock | root command passed in maintained and fresh environments; 45 tests; clean dependency audit; green CI | merged PR #12 |
 | I | Determinantal sign-coherence bridge | complete | bordered selected core; residual determinant identity; four-minor sign criterion | Lean build; axiom audit; exact identity and first-witness regressions; 47-test full verification; green CI | merged PR #13 |
-| J | Strict-sign-regularity transfer | verified | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification | draft PR #14 |
+| J | Strict-sign-regularity transfer | complete | ordered-minor predicate; orientation-aware GECP coherence transfer; positive column scaling; exponential and fermionic orders one and two | Lean build; axiom audit; exact permutation regression; 48-test full verification; green CI | merged PR #14 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

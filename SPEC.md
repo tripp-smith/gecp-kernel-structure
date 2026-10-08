@@ -1354,8 +1354,8 @@ This annotation records delivered identifiers without changing the goals above.
   command passes with 47 tests. This does not prove the bordered-minor
   condition for the continuous fermionic kernel, Conjecture G1, or the Simons
   Problem 4.2 rate.
-- Post-v1 research phase J: verified locally on 2026-10-07 and proposed in
-  draft PR #14.
+- Post-v1 research phase J: complete with green CI on 2026-10-07 and delivered
+  in merged PR #14.
   `StrictSignRegularAtOrder` and
   `StrictSignRegular` formalize the ordered-minor hypothesis, and
   `strictSignRegular_borderedMinorSignCoherent` transfers its all-orders form

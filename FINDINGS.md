@@ -176,8 +176,9 @@ Exact minor signs alone do not control GECP pivot locations or residual decay.
 
 - On 2026-10-07 the Phase J root command passed: Lean build, public axiom
   audit, placeholder rejection, Ruff, formatting, mypy, 48 Python tests, and
-  dependency audit with no known vulnerabilities. Phase H separately verified
-  the same root entry point in maintained and fresh frozen environments.
+  dependency audit with no known vulnerabilities; the same change passed CI
+  and merged as PR #14. Phase H separately verified the root entry point in
+  maintained and fresh frozen environments.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

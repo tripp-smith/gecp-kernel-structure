@@ -468,7 +468,8 @@ Non-claims:
 
 ## Phase J — strict-sign-regularity transfer
 
-State: verified locally; draft [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14).
+State: complete; green CI; merged
+[PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14).
 
 Phase I reduced selected-residual sign coherence to four original-kernel
 bordered minors. The remaining algebraic gap is to connect that condition to
