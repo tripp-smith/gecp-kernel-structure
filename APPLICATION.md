@@ -216,6 +216,14 @@ orientation convention used by the Lean strict-sign-regularity transfer. This
 is a finite exact cross-check rather than the proof of the now-delivered
 all-orders exponential minor theorem.
 
+Lean now also proves a functional geometric-mean reduction for realized exact
+complete-pivot sequences: every rank-`n` domain residual magnitude raised to
+the `n`th power is bounded by the absolute determinant of the selected
+`n × n` core. The exact two-pivot rational example independently exercises
+this identity. This adds no Python API and does not turn a finite numerical
+determinant history into a certified convergence rate; a quantitative
+determinant-decay theorem is still required.
+
 A second exact regression constructs the first `n` exponential Taylor features
 for rational row and column nodes through size six. Its determinant agrees
 exactly with the two Vandermonde products times `prod(1/k!)`. This exercises the

@@ -12,6 +12,7 @@ import GECPKernelStructure.Fermionic.GECPBounds
 import GECPKernelStructure.Fermionic.SignRegularity
 import GECPKernelStructure.Fermionic.ExponentialTotalPositivity
 import GECPKernelStructure.Fermionic.CompleteRun
+import GECPKernelStructure.Fermionic.GeometricMean
 import GECPKernelStructure.Fermionic.TwoCorner
 import GECPKernelStructure.MathlibReady
 

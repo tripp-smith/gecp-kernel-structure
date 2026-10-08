@@ -30,6 +30,9 @@ Potential candidates after further use and generalization:
 - dependent composition of successful elimination runs, domain-restricted
   complete-pivot predicates, and propagation of a domain bound through a
   realized strictly sign-regular complete-pivot residual sequence;
+- the generic finite-product geometric-mean pattern for an antitone
+  nonnegative sequence, together with the absolute determinant/pivot-product
+  identity for a successful elimination run;
 - the reusable strict-positivity wrapper around `Matrix.det_vandermonde` for
   strictly increasing real tuples and the positive-determinant factorization
   of a square monomial-feature matrix with positive diagonal weights;

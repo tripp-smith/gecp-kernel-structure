@@ -1070,3 +1070,94 @@ Non-claims:
 - factor-one nonexpansiveness is not strict contraction;
 - this phase does not localize pivots to dyadic frequency bands, extend the
   cutoff-one half-contraction, prove Conjecture G1, or solve Problem 4.2.
+
+## Phase T — geometric-mean determinant reduction
+
+State: locally verified on branch
+`codex/phase-t-geometric-mean`.
+
+The finite-grid pivot locations jump across dyadic bands after the two endpoint
+pivots, so a simple outer-to-inner localization order is not a credible next
+contract. A sharper route is the geometric-mean determinant estimate for
+pivoted LU developed in Marc Aurèle Gilles,
+[Convergence rates for pivoted QR and LU](https://arxiv.org/abs/2607.26863)
+(2026). This repository already proves the pivot-product identity, all-orders
+fermionic sign regularity, and complete-sequence nonexpansiveness needed to
+make the exact-pivot functional reduction especially direct.
+
+Frozen public Lean targets:
+
+- `strictSignRegular_gecp_pivotMagnitude_antitone`: selected complete-pivot
+  magnitudes in a realized strictly sign-regular residual sequence are
+  antitone;
+- `GECP.Run.abs_finSelectedCore_det_eq_prod_abs_pivots`: the absolute selected-
+  core determinant is the product of absolute pivot magnitudes;
+- `strictSignRegular_gecp_error_pow_le_selectedCore_det`: if a successful run
+  records the first `n` pivots of the realized sequence, every domain residual
+  entry at rank `n`, raised to the `n`th power, is bounded by the absolute
+  selected-core determinant.
+
+Proof contract:
+
+- derive consecutive pivot monotonicity from the Phase Q localized update
+  theorem, using completeness at the current and next selected points;
+- compare the constant finite product with the pivot product using mathlib's
+  `Finset.prod_le_prod`, rather than introduce a local geometric-mean
+  abstraction;
+- combine the exact pivot list with `gecp_core_det_eq_prod_pivots`, distributing
+  absolute value over the finite product;
+- retain the power-form inequality and do not introduce real roots merely for
+  presentation.
+
+Independent checks:
+
+- the exact rational two-pivot run has pivot magnitudes `2` and `1/2`, so the
+  final-pivot square `1/4` is below the selected-core determinant `1`;
+- focused builds and the public axiom audit cover all new structural results.
+
+Decision rule:
+
+- if the dependent run API cannot connect the sequence pivot list to the
+  selected core without a conclusion-shaped assumption, stop at the antitone
+  pivot-product theorem and record the missing prefix-coherence field exactly.
+
+Implementation outcome:
+
+- `GECP.Run.RealizesPivotPrefix` records exactly the alignment needed between
+  a dependent run's stored pivots and the first `n` pivots of a residual
+  sequence, without assuming the determinant conclusion;
+- `strictSignRegular_gecp_pivotMagnitude_antitone` combines Phase Q's localized
+  sign-coherent update bound with exact completeness at consecutive selected
+  points, proving that complete-pivot magnitudes cannot increase;
+- `strictSignRegular_gecp_pivotMagnitude_pow_le_product` compares the rank-`n`
+  pivot raised to the `n`th power with the product of the preceding pivot
+  magnitudes;
+- `GECP.Run.abs_finSelectedCore_det_eq_prod_abs_pivots` converts the existing
+  signed determinant identity into the required absolute product identity;
+- `strictSignRegular_gecp_error_pow_le_selectedCore_det` uses rank-`n`
+  completeness to extend the pivot inequality to every point in the chosen
+  domain, then identifies the product with the selected-core determinant.
+
+Verification:
+
+- the focused module, public re-export, exact small-instance check, and public
+  axiom audit pass;
+- every new public theorem uses only Lean's permitted default axioms;
+- the exact rational two-pivot run verifies the power-form determinant bound;
+- `./scripts/verify.sh` passes with 54 Python tests and no known dependency
+  vulnerabilities.
+
+Next analytic obligation:
+
+The GECP-specific part of the geometric-mean argument is now formalized. The
+remaining strict-rate problem is a determinant estimate: combine the proved
+dyadic separated approximation with a quantitative selected-core determinant
+perturbation or near-volume bound strong enough to force decay in the right
+side of the power inequality.
+
+Non-claims:
+
+- a determinant-power reduction is not a determinant decay bound;
+- this phase does not yet combine the dyadic separated approximation with a
+  determinant perturbation estimate, prove strict block contraction,
+  Conjecture G1, or Problem 4.2.

@@ -48,6 +48,11 @@ example (i j : Fin 2) :
     norm_num [exactFirstPivotRun, exactSecondPivotContinuation,
       Run.finalResidual, residualUpdate, exactTwoByTwoKernel]
 
+/-- Exact geometric-mean check: `(1/2)^2` is below the two-pivot core determinant `1`. -/
+example : abs ((1 / 2 : ℚ)) ^ 2 ≤ abs exactTwoPivotRun.finSelectedCore.det := by
+  rw [gecp_core_det_eq_prod_pivots]
+  norm_num [exactTwoPivotRun, Run.pivots, residualUpdate, exactTwoByTwoKernel]
+
 end GECP
 
 end GECPKernelStructure
