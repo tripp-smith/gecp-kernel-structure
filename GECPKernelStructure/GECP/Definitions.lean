@@ -52,6 +52,22 @@ noncomputable def pivots (run : Run K) : List 𝕜 :=
     (fun {K} row column _ _ tailPivots ↦ K row column :: tailPivots)
     run
 
+/-- Compose a successful run with a successful continuation from its final residual. -/
+noncomputable def append (run : Run K) : Run run.finalResidual → Run K
+  | continuation => by
+      induction run with
+      | nil => exact continuation
+      | step row column pivot_ne tail ih =>
+          exact Run.step row column pivot_ne (ih continuation)
+
+@[simp]
+theorem finalResidual_append (run : Run K) (continuation : Run run.finalResidual) :
+    (run.append continuation).finalResidual = continuation.finalResidual := by
+  induction run with
+  | nil => rfl
+  | step row column pivot_ne tail ih =>
+      exact ih continuation
+
 @[simp]
 theorem length_rows_eq_length_columns (run : Run K) :
     run.rows.length = run.columns.length := by

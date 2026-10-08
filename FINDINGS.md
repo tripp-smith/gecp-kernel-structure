@@ -105,6 +105,14 @@
   order. Consequently every selected fermionic residual cross is
   `PivotCrossProductSignCoherent` and exact complete-pivot updates are
   nonexpansive.
+- Successful dependent runs compose with `Run.append`. On restricted row and
+  column domains, `GECP.CompletePivotOn` records membership and exact residual
+  maximization, while `residualUpdate_le_of_signCoherentOn` needs bounds only
+  at the four points in the selected cross. Therefore
+  `strictSignRegular_gecp_error_nonincreasing` propagates an initial domain
+  bound through every realized complete-pivot residual sequence. In
+  particular, every exact fermionic sequence on
+  `[0,1] × [-Λ,Λ]` remains bounded by the initial cutoff-corner pivot.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -189,19 +197,10 @@
 The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
-The cutoff-one base case of the `2(s+1)` block hypothesis is now proved for
-the actual continuous GECP trajectory. The conjectured extension is block
-contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The exact next analytic
-target is `StrictSignRegular expKernel expKernelSignature`. The proved transfer
-would then supply `BorderedMinorSignCoherent`,
-`PivotCrossProductSignCoherent`, and hence nonexpansiveness between strict
-contractions. A promising proof route expands the exponential determinant by
-finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
-positive leading contribution, and passes to the exponential-series limit.
-Exact minor signs alone do not control GECP pivot locations or residual decay.
-
-The all-orders sign theorem and selected-residual nonexpansiveness are now
-proved. The next analytic target is strict contraction over dyadic frequency
+The cutoff-one base case of the `2(s+1)` block hypothesis, the all-orders sign
+theorem, and complete-run nonexpansiveness are now proved. The conjectured
+extension is strict contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`.
+The next analytic target is contraction over dyadic frequency
 blocks: use the exact `0 < Λ ≤ 1` two-corner contraction as the base case and
 control how residuals localize or rescale across successive cutoff bands.
 Sign coherence prevents growth between strict contractions but does not by
@@ -221,10 +220,8 @@ itself provide the factor below one required by Conjecture G1.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
-- An unconditional proof that the fermionic kernel is strictly sign regular at
-  every order, hence that its residuals are `PivotCrossProductSignCoherent` at
-  every selected pivot, or proof that the cutoff-scaled half-contraction
-  extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
+- Proof that the cutoff-scaled half-contraction extends from the proved base
+  regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
 - A cutoff-uniform strict contraction factor or proof of the dyadic block
   localization required by Conjecture G1. All-orders sign regularity gives
   nonexpansiveness, not strict decay.
@@ -261,6 +258,9 @@ itself provide the factor below one required by Conjecture G1.
 - On 2026-10-08 the Phase P root command passed the same gate with 54 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #20.
+- On 2026-10-08 the Phase Q root command passed the same gate with 54 Python
+  tests and no known dependency vulnerabilities; its four new structural
+  results use only the permitted Lean axioms. Delivery is pending CI.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

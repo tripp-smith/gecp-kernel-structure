@@ -1424,3 +1424,16 @@ This annotation records delivered identifiers without changing the goals above.
   selected-residual nonexpansiveness premise unconditional. Dyadic strict
   contraction, Conjecture G1, and the Simons Problem 4.2 rate remain open. The
   root command passes with 54 tests and no known dependency vulnerabilities.
+- Post-v1 research phase Q: verified locally on branch
+  `codex/phase-q-run-nonexpansiveness`.
+  `Run.append` and `Run.finalResidual_append` compose dependent successful
+  runs, `GECP.CompletePivotOn` and `GECP.Run.CompleteOn` encode
+  restricted-domain exact complete pivoting, and
+  `strictSignRegular_gecp_error_nonincreasing`
+  propagates Phase P sign coherence into a uniform bound for every realized
+  residual prefix. The fermionic corollary
+  `fermionicKernel_gecp_error_le_cutoffCorner` bounds every exact
+  cutoff-rectangle residual by the initial cutoff-corner pivot. This is
+  factor-one nonexpansiveness, not dyadic strict contraction; Conjecture G1 and
+  Problem 4.2 remain open. The root command passes with 54 tests and no known
+  dependency vulnerabilities.
