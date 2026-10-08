@@ -906,7 +906,8 @@ Non-claims:
 
 ## Phase P — all-orders exponential sign regularity
 
-State: locally verified; draft PR pending.
+State: locally verified in
+[draft PR #20](https://github.com/tripp-smith/gecp-kernel-structure/pull/20).
 
 Phase O proves strict positivity for `exp(x*y)` when both ordered node tuples
 are nonnegative. Only finite scaling and orientation steps remain before the
