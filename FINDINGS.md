@@ -59,6 +59,15 @@
   nonsingular, `PivotCrossProductSignCoherent` is equivalent to a
   `BorderedMinorSignCoherent` four-determinant product condition on the
   original kernel.
+- `StrictSignRegularAtOrder` and `StrictSignRegular` encode prescribed signs
+  of ordered kernel minors. All-orders strict sign regularity implies the
+  four-bordered-minor condition, including proposed points that duplicate a
+  selected row or column, and therefore implies exact selected-residual
+  cross-product sign coherence for every successful run.
+- Positive column scaling preserves every prescribed ordered-minor sign. The
+  fermionic kernel is such a scaling of `exp(-t*omega)`, so strict sign
+  regularity transfers order by order and at all orders. Unconditionally, the
+  expected signs are proved for both kernels at orders one and two.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -78,6 +87,9 @@
   on the generic matrix `[[-4,-1],[-3,4]]` it exactly reports step zero,
   pivot `(0,0)`, point `(1,1)`, and product `-48`, so the criterion is not
   automatic for arbitrary matrices.
+- For the `q = 2/3` geometric surrogate at sizes two through four, exhaustive
+  exact enumeration of every row and column permutation confirms that each
+  determinant sign is the ordered-minor sign times the two permutation signs.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -126,12 +138,13 @@ specified in `SPEC.md`.
 The cutoff-one base case of the `2(s+1)` block hypothesis is now proved for
 the actual continuous GECP trajectory. The conjectured extension is block
 contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The exact next analytic
-target is `BorderedMinorSignCoherent`: derive the required four-minor product
-sign from an ordered exponential-collocation determinant formula or a strict
-sign-regularity theorem. The proved equivalence would then supply
-`PivotCrossProductSignCoherent` and hence nonexpansiveness between strict
-contractions. Exact minor signs alone do not control GECP pivot locations or
-residual decay.
+target is `StrictSignRegular expKernel expKernelSignature`. The proved transfer
+would then supply `BorderedMinorSignCoherent`,
+`PivotCrossProductSignCoherent`, and hence nonexpansiveness between strict
+contractions. A promising proof route expands the exponential determinant by
+finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
+positive leading contribution, and passes to the exponential-series limit.
+Exact minor signs alone do not control GECP pivot locations or residual decay.
 
 ## Not claimed
 
@@ -147,10 +160,10 @@ residual decay.
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
-- Proof that fermionic residuals are `PivotCrossProductSignCoherent` at every
-  selected pivot, proof of the corresponding `BorderedMinorSignCoherent`
-  condition, or proof that the cutoff-scaled half-contraction extends from
-  the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
+- An unconditional proof that the fermionic kernel is strictly sign regular at
+  every order, hence that its residuals are `PivotCrossProductSignCoherent` at
+  every selected pivot, or proof that the cutoff-scaled half-contraction
+  extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -161,10 +174,10 @@ residual decay.
 
 ## Verification evidence
 
-- On 2026-10-07 the complete root command passed in both the maintained
-  environment and a fresh frozen `uv` environment: Lean build, axiom audit,
-  placeholder rejection, Ruff, formatting, mypy, 45 Python tests, and
-  dependency audit.
+- On 2026-10-07 the Phase J root command passed: Lean build, public axiom
+  audit, placeholder rejection, Ruff, formatting, mypy, 48 Python tests, and
+  dependency audit with no known vulnerabilities. Phase H separately verified
+  the same root entry point in maintained and fresh frozen environments.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

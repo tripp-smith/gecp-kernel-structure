@@ -1,3 +1,4 @@
+import itertools
 from fractions import Fraction
 
 from kernelgecp.surrogates import (
@@ -62,6 +63,35 @@ def test_geometric_minors_have_expected_sign() -> None:
         record = inspect_surrogate(size, Fraction(3, 4))
         assert not any(record.minor_sign_mismatches.values())
         assert not any(record.zero_minors.values())
+
+
+def test_geometric_minor_sign_tracks_row_and_column_orientation_exactly() -> None:
+    def permutation_sign(permutation: tuple[int, ...]) -> int:
+        inversions = sum(
+            permutation[i] > permutation[j]
+            for i in range(len(permutation))
+            for j in range(i + 1, len(permutation))
+        )
+        return -1 if inversions % 2 else 1
+
+    for size in range(2, 5):
+        matrix = geometric_surrogate(size, Fraction(2, 3))
+        ordered_sign = -1 if (size * (size - 1) // 2) % 2 else 1
+        permutations = list(itertools.permutations(range(size)))
+        for row_permutation in permutations:
+            for column_permutation in permutations:
+                permuted = [
+                    [matrix[row][column] for column in column_permutation]
+                    for row in row_permutation
+                ]
+                determinant = fraction_determinant(permuted)
+                expected_sign = (
+                    ordered_sign
+                    * permutation_sign(row_permutation)
+                    * permutation_sign(column_permutation)
+                )
+                assert determinant != 0
+                assert (1 if determinant > 0 else -1) == expected_sign
 
 
 def test_geometric_surrogate_selected_crosses_are_sign_coherent() -> None:
