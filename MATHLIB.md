@@ -27,6 +27,9 @@ Potential candidates after further use and generalization:
 - the generic transfer from all-orders strict sign regularity to
   four-bordered-minor and selected-residual sign coherence for successful
   elimination runs;
+- the reusable strict-positivity wrapper around `Matrix.det_vandermonde` for
+  strictly increasing real tuples and the positive-determinant factorization
+  of a square monomial-feature matrix with positive diagonal weights;
 - the generic endpoint-interpolation stability pattern: nonnegative cardinal
   weights of total mass at most one turn an error in a fixed comparison space
   into a factor-two residual bound.

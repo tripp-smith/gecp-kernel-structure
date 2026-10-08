@@ -1,4 +1,5 @@
 import itertools
+import math
 from fractions import Fraction
 
 from kernelgecp.surrogates import (
@@ -92,6 +93,36 @@ def test_geometric_minor_sign_tracks_row_and_column_orientation_exactly() -> Non
                 )
                 assert determinant != 0
                 assert (1 if determinant > 0 else -1) == expected_sign
+
+
+def test_exp_taylor_principal_determinant_matches_vandermonde_product() -> None:
+    def vandermonde_product(values: list[Fraction]) -> Fraction:
+        return math.prod(
+            values[j] - values[i]
+            for i in range(len(values))
+            for j in range(i + 1, len(values))
+        )
+
+    for size in range(1, 7):
+        rows = [Fraction(2 * i + 1, size + 1) for i in range(size)]
+        columns = [Fraction(3 * j + 2, size + 2) for j in range(size)]
+        principal = [
+            [
+                sum(
+                    rows[i] ** k * Fraction(1, math.factorial(k)) * columns[j] ** k
+                    for k in range(size)
+                )
+                for j in range(size)
+            ]
+            for i in range(size)
+        ]
+        expected = (
+            vandermonde_product(rows)
+            * math.prod(Fraction(1, math.factorial(k)) for k in range(size))
+            * vandermonde_product(columns)
+        )
+        assert fraction_determinant(principal) == expected
+        assert expected > 0
 
 
 def test_geometric_surrogate_selected_crosses_are_sign_coherent() -> None:

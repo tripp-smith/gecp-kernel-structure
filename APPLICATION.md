@@ -214,6 +214,12 @@ orientation convention used by the Lean strict-sign-regularity transfer. This
 is a finite exact cross-check; it is not the still-open all-orders exponential
 minor theorem.
 
+A second exact regression constructs the first `n` exponential Taylor features
+for rational row and column nodes through size six. Its determinant agrees
+exactly with the two Vandermonde products times `prod(1/k!)`. This exercises the
+new Lean principal-term theorem but does not numerically stand in for the
+missing generalized-term or infinite-series arguments.
+
 For repository verification, pytest is launched through the synchronized
 project interpreter rather than a standalone editable-install console script:
 

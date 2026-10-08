@@ -142,5 +142,29 @@ theorem strictSignRegularAtOrder_columnScale
       mul_pos weights_product_pos base
     _ = signature * ((∏ j, weights j) * core.det) := by ring
 
+/-- Positive row scaling preserves every prescribed ordered-minor sign. -/
+theorem strictSignRegularAtOrder_rowScale
+    {K : Kernel α β ℝ} {n : ℕ} {signature : ℝ}
+    (regular : StrictSignRegularAtOrder K n signature)
+    (weight : α → ℝ) (weight_pos : ∀ x, 0 < weight x) :
+    StrictSignRegularAtOrder (fun x y => weight x * K x y) n signature := by
+  intro rows columns rows_mono columns_mono
+  have base := regular rows columns rows_mono columns_mono
+  let weights : Fin n → ℝ := fun i => weight (rows i)
+  let core : Matrix (Fin n) (Fin n) ℝ := fun i j => K (rows i) (columns j)
+  have weights_product_pos : 0 < ∏ i, weights i :=
+    Finset.prod_pos fun i _ => weight_pos (rows i)
+  have scaled_det :
+      (minorMatrix (fun x y => weight x * K x y) rows columns).det =
+        (∏ i, weights i) * core.det := by
+    rw [show minorMatrix (fun x y => weight x * K x y) rows columns =
+      fun i j => weights i * core i j by rfl]
+    exact Matrix.det_mul_column weights core
+  rw [scaled_det]
+  calc
+    0 < (∏ i, weights i) * (signature * core.det) :=
+      mul_pos weights_product_pos base
+    _ = signature * ((∏ i, weights i) * core.det) := by ring
+
 end GECP
 end GECPKernelStructure

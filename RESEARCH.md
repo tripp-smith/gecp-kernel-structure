@@ -563,3 +563,80 @@ Non-claims:
   transfer theorem;
 - the phase does not establish strict contraction, dyadic localization,
   Conjecture G1, or the Simons Problem 4.2 rate.
+
+## Phase K — exponential total-positivity scaffolding
+
+State: verified locally; delivery pending.
+
+Phase J reduced the remaining analytic work to
+`StrictSignRegular expKernel expKernelSignature`. A fresh mathlib search found
+the ordinary Vandermonde determinant formula and general matrix determinant
+machinery, but no total-positivity, Chebyshev-system, Schur-positivity, or
+generalized-Vandermonde positivity theorem. The next bounded step is therefore
+to formalize the strictly positive principal term in the exponential
+Cauchy--Binet expansion before attempting the full nonnegative-term sum.
+
+Frozen public Lean targets:
+
+- `strictSignRegularAtOrder_rowScale`: positive row scaling preserves an
+  ordered-minor signature, complementing the Phase J column theorem;
+- `vandermonde_det_pos_of_strictMono`: an increasing real tuple has strictly
+  positive ordinary Vandermonde determinant;
+- `expTaylorPrincipalMatrix`: the square truncation using exponents
+  `0, ..., n-1` and weights `1/k!`;
+- `expTaylorPrincipalMatrix_det_pos`: its determinant is strictly positive for
+  increasing row and column tuples;
+- an exact rational regression comparing the determinant with the product of
+  both Vandermonde determinants and reciprocal factorial weights.
+
+Decision rule:
+
+- if these targets verify, close the bounded phase and make generalized
+  Vandermonde nonnegativity the next exact theorem;
+- do not claim the exponential determinant positive merely because one
+  Cauchy--Binet term is positive: every remaining term must first be proved
+  nonnegative and the finite-to-infinite limit justified.
+
+Implemented result:
+
+- `strictSignRegularAtOrder_rowScale` is implemented alongside the Phase J
+  positive-column-scaling theorem;
+- `vandermonde_det_pos_of_strictMono` specializes mathlib's determinant formula
+  to strict positivity on increasing real tuples;
+- `expTaylorPrincipalMatrix_apply` identifies the matrix product with the
+  first `n` terms of the `exp(x*y)` series;
+- `expTaylorPrincipalMatrix_det_pos` proves its determinant strictly positive
+  by factoring it into two positive Vandermonde determinants and the positive
+  product of reciprocal factorials;
+- exact rational checks through size six reproduce that determinant product.
+
+Next analytic obligation:
+
+For nonnegative strictly increasing nodes `x` and a strictly increasing natural
+exponent tuple `m`, prove
+
+```text
+0 ≤ det (x_i ^ m_j),
+```
+
+with strict positivity under the appropriate nondegeneracy assumptions. This
+is the generalized Vandermonde/Schur-positivity lemma needed to show that every
+finite Cauchy--Binet term is nonnegative. After that, the already-positive
+principal term supplies strictness and only the exponential-series determinant
+limit remains.
+
+Verification:
+
+- the public theorem build and axiom audit pass;
+- all eight focused surrogate tests pass;
+- `./scripts/verify.sh` passes all repository checks with 49 Python tests and
+  no known dependency vulnerabilities.
+
+Non-claims:
+
+- this phase does not prove arbitrary-order strict total positivity of
+  `exp(x*y)` or strict sign regularity of `exp(-t*omega)`;
+- it does not prove the generalized Vandermonde sign theorem or the infinite
+  exponential determinant limit;
+- it does not establish fermionic GECP nonexpansiveness, dyadic localization,
+  Conjecture G1, or the Simons Problem 4.2 rate.
