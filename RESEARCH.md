@@ -707,3 +707,49 @@ Non-claims:
   determinant limit;
 - it does not prove all-orders strict sign regularity of the exponential or
   fermionic kernel, dyadic localization, Conjecture G1, or Problem 4.2.
+
+## Phase M — generalized Vandermonde boundary
+
+State: locally verified; CI and delivery pending.
+
+Phase L proves strict determinant positivity when every ordered node is
+positive. The finite exponential Cauchy--Binet expansion also produces the
+boundary case in which the first shifted node is zero. The exact target is:
+
+- `generalizedVandermonde_det_nonneg`: nonnegative strictly increasing real
+  nodes and strictly increasing natural exponents give a nonnegative power
+  determinant.
+
+Proof contract:
+
+- shift every node by `1/(k+1)`, preserving strict order and making all nodes
+  positive;
+- apply `generalizedVandermonde_det_pos` at every positive shift;
+- use coordinatewise convergence, determinant continuity, and closedness of
+  the nonnegative ray to pass to the zero-shift limit;
+- add the public theorem to the axiom audit and retain an exact zero-node
+  regression, including a genuinely zero determinant when every exponent is
+  positive.
+
+Implementation outcome:
+
+- `generalizedVandermonde_det_nonneg` is implemented with the frozen
+  assumptions and proof route;
+- exact rational zero-node matrices of sizes one through five are nonnegative
+  over every increasing exponent choice from `0, ..., n+2`; they are strictly
+  positive exactly when the least exponent is zero.
+
+Verification:
+
+- the focused Lean build and public axiom audit pass, with only Lean's default
+  axioms reported;
+- the exact zero-node regression passes;
+- `./scripts/verify.sh` passes all repository checks with 51 Python tests and
+  no known dependency vulnerabilities.
+
+Non-claims:
+
+- this phase does not yet assemble the finite Cauchy--Binet determinant
+  identity or its infinite-series limit;
+- it does not prove all-orders exponential or fermionic strict sign
+  regularity, dyadic localization, Conjecture G1, or Problem 4.2.

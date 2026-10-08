@@ -1387,3 +1387,9 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and the Simons Problem 4.2 rate remain open.
   The root verification command passes with 50 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase M: implementation complete pending the delivery gate.
+  `generalizedVandermonde_det_nonneg` extends Phase L to nonnegative strictly
+  increasing nodes by uniform positive shifts and determinant continuity. The
+  finite exponential Cauchy--Binet assembly, determinant limit, Conjecture G1,
+  and the Simons Problem 4.2 rate remain open. The root command passes with 51
+  tests and no known dependency vulnerabilities; CI and delivery are pending.
