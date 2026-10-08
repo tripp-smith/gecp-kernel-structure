@@ -1392,4 +1392,5 @@ This annotation records delivered identifiers without changing the goals above.
   increasing nodes by uniform positive shifts and determinant continuity. The
   finite exponential Cauchy--Binet assembly, determinant limit, Conjecture G1,
   and the Simons Problem 4.2 rate remain open. The root command passes with 51
-  tests and no known dependency vulnerabilities; CI and delivery are pending.
+  tests and no known dependency vulnerabilities; CI is pending in draft PR
+  #17.
