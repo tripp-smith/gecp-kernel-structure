@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** `./scripts/verify.sh` passed with 53 tests and no known dependency vulnerabilities on 2026-10-08<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** [draft PR #19](https://github.com/tripp-smith/gecp-kernel-structure/pull/19)<br>
+> **Delivery:** [PR #19](https://github.com/tripp-smith/gecp-kernel-structure/pull/19)<br>
 > **Claim level:** positive full exponential determinants on nonnegative nodes; no arbitrary-node, all-orders fermionic sign, or rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -34,7 +34,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | L | Generalized Vandermonde positivity | complete | sparse-polynomial positive-root bound; nonsingularity; homotopy sign transfer | Lean build; axiom audit; exact determinant regression; 50-test full verification; green CI | merged PR #16 |
 | M | Generalized Vandermonde boundary | complete | nonnegative-node determinant boundary by positive shifts and continuity | Lean build; axiom audit; exact boundary regression; 51-test full verification; green CI | merged PR #17 |
 | N | Finite exponential Cauchy--Binet | complete | `Matrix.det_mul_rect`; `expTaylorMatrix_det_pos` | Lean build; axiom audit; exact rational regression; 52-test full verification; green CI | merged PR #18 |
-| O | Exponential determinant limit | verified | `expTaylorMatrix_det_ge_principal`; `expMatrix_det_pos` | Lean build; axiom audit; 100-digit lower-bound regression; 53-test full verification | draft PR #19 |
+| O | Exponential determinant limit | verified | `expTaylorMatrix_det_ge_principal`; `expMatrix_det_pos` | Lean build; axiom audit; 100-digit lower-bound regression; 53-test full verification; green CI | PR #19 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
