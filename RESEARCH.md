@@ -1073,8 +1073,8 @@ Non-claims:
 
 ## Phase T — geometric-mean determinant reduction
 
-State: locally verified on branch
-`codex/phase-t-geometric-mean`.
+State: complete with green CI in merged
+[PR #22](https://github.com/tripp-smith/gecp-kernel-structure/pull/22).
 
 The finite-grid pivot locations jump across dyadic bands after the two endpoint
 pivots, so a simple outer-to-inner localization order is not a credible next

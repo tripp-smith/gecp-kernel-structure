@@ -275,7 +275,8 @@ fast enough for Conjecture G1.
   as PR #21.
 - On 2026-10-08 the Phase T root command passed the same gate with 54 Python
   tests and no known dependency vulnerabilities. Its four new structural
-  results use only the permitted Lean axioms; delivery CI is pending.
+  results use only the permitted Lean axioms. The change passed CI and merged
+  as PR #22.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

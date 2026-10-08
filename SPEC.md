@@ -1437,8 +1437,8 @@ This annotation records delivered identifiers without changing the goals above.
   factor-one nonexpansiveness, not dyadic strict contraction; Conjecture G1 and
   Problem 4.2 remain open. The root command passes with 54 tests and no known
   dependency vulnerabilities.
-- Post-v1 research phase T: locally verified on branch
-  `codex/phase-t-geometric-mean`.
+- Post-v1 research phase T: complete with green CI on 2026-10-08 and delivered
+  in merged PR #22.
   `strictSignRegular_gecp_pivotMagnitude_antitone` proves antitonicity of
   selected pivot magnitudes in every realized strictly sign-regular exact
   complete-pivot sequence;
@@ -1450,4 +1450,4 @@ This annotation records delivered identifiers without changing the goals above.
   quantitative determinant estimate from the dyadic separated approximation
   or a near-volume argument, Conjecture G1, and Problem 4.2 remain open.
   The root command passes with 54 tests and no known dependency
-  vulnerabilities; delivery CI is pending.
+  vulnerabilities.
