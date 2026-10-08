@@ -834,7 +834,8 @@ Non-claims:
 
 ## Phase O — exponential determinant limit
 
-State: locally verified; draft PR pending.
+State: locally verified in
+[draft PR #19](https://github.com/tripp-smith/gecp-kernel-structure/pull/19).
 
 Phase N proves every sufficiently long finite exponential Taylor determinant
 positive, but strict positivity is not closed under limits. The next bounded
