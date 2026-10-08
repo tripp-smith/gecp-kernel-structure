@@ -2,6 +2,8 @@ import itertools
 import math
 from fractions import Fraction
 
+import mpmath as mp
+
 from kernelgecp.surrogates import (
     exact_gecp,
     exact_gecp_pivot_sign_coherence,
@@ -141,6 +143,33 @@ def test_exp_taylor_rectangular_feature_determinants_are_positive_exactly() -> N
                 for i in range(size)
             ]
             assert fraction_determinant(truncated) > 0
+
+
+def test_exp_matrix_determinant_retains_principal_lower_bound() -> None:
+    with mp.workdps(100):
+        for size in range(1, 6):
+            rows = [mp.mpf(i) / size for i in range(size)]
+            columns = [mp.mpf(2 * j) / (size + 1) for j in range(size)]
+            matrix = mp.matrix(
+                [
+                    [mp.exp(rows[i] * columns[j]) for j in range(size)]
+                    for i in range(size)
+                ]
+            )
+            row_vandermonde = mp.fprod(
+                rows[j] - rows[i] for i in range(size) for j in range(i + 1, size)
+            )
+            column_vandermonde = mp.fprod(
+                columns[j] - columns[i] for i in range(size) for j in range(i + 1, size)
+            )
+            principal = (
+                row_vandermonde
+                * mp.fprod(mp.mpf(1) / math.factorial(k) for k in range(size))
+                * column_vandermonde
+            )
+            determinant = mp.det(matrix)
+            assert determinant > 0
+            assert determinant >= principal * (1 - mp.mpf("1e-80"))
 
 
 def test_generalized_vandermonde_determinants_are_positive_exactly() -> None:
