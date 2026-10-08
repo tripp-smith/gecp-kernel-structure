@@ -566,7 +566,7 @@ Non-claims:
 
 ## Phase K — exponential total-positivity scaffolding
 
-State: verified locally; delivery pending.
+State: verified locally; draft [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15).
 
 Phase J reduced the remaining analytic work to
 `StrictSignRegular expKernel expKernelSignature`. A fresh mathlib search found
