@@ -1414,7 +1414,8 @@ This annotation records delivered identifiers without changing the goals above.
   orientation, all-orders exponential and fermionic strict sign regularity,
   Conjecture G1, and the Simons Problem 4.2 rate remain open. The root command
   passes with 53 tests and no known dependency vulnerabilities.
-- Post-v1 research phase P: verified with green CI on 2026-10-08 in PR #20.
+- Post-v1 research phase P: complete with green CI on 2026-10-08 and delivered
+  in merged PR #20.
   `expMatrix_det_pos_of_strictMono` removes node-sign restrictions by positive
   exponential scaling, `Fin.sign_revPerm` computes the reversal orientation,
   and `expKernel_strictSignRegular` plus
