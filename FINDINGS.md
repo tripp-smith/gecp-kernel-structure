@@ -113,6 +113,14 @@
   bound through every realized complete-pivot residual sequence. In
   particular, every exact fermionic sequence on
   `[0,1] × [-Λ,Λ]` remains bounded by the initial cutoff-corner pivot.
+- Along every realized strictly sign-regular exact complete-pivot sequence,
+  the selected pivot magnitudes are antitone. If a successful length-`n` run
+  records the first `n` sequence pivots, then for every domain point
+  `(x,y)`, the rank-`n` residual satisfies
+  `|R_n(x,y)|^n ≤ |det(K[X_n,Y_n])|`. The proof identifies the absolute
+  selected-core determinant with the product of the absolute pivots. This is
+  a geometric-mean reduction of residual decay to determinant decay, not a
+  determinant decay theorem.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -198,13 +206,13 @@ The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
 The cutoff-one base case of the `2(s+1)` block hypothesis, the all-orders sign
-theorem, and complete-run nonexpansiveness are now proved. The conjectured
-extension is strict contraction after `2(s+1)` pivots for every `Λ ≤ 2ˢ`.
-The next analytic target is contraction over dyadic frequency
-blocks: use the exact `0 < Λ ≤ 1` two-corner contraction as the base case and
-control how residuals localize or rescale across successive cutoff bands.
-Sign coherence prevents growth between strict contractions but does not by
-itself provide the factor below one required by Conjecture G1.
+theorem, complete-run nonexpansiveness, and the determinant geometric-mean
+reduction are now proved. The conjectured extension is strict contraction
+after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The next analytic target is a
+quantitative selected-core determinant estimate obtained from the dyadic
+separated approximation or a near-volume argument. Sign coherence prevents
+growth and orders the pivots, but does not by itself make the determinant decay
+fast enough for Conjecture G1.
 
 ## Not claimed
 
@@ -225,6 +233,9 @@ itself provide the factor below one required by Conjecture G1.
 - A cutoff-uniform strict contraction factor or proof of the dyadic block
   localization required by Conjecture G1. All-orders sign regularity gives
   nonexpansiveness, not strict decay.
+- A selected-core determinant decay estimate derived from the dyadic
+  separated approximation. The formal geometric-mean inequality only reduces
+  residual decay to this missing quantitative bound.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -262,6 +273,9 @@ itself provide the factor below one required by Conjecture G1.
   tests and no known dependency vulnerabilities; its four new structural
   results use only the permitted Lean axioms. The change passed CI and merged
   as PR #21.
+- On 2026-10-08 the Phase T root command passed the same gate with 54 Python
+  tests and no known dependency vulnerabilities. Its four new structural
+  results use only the permitted Lean axioms; delivery CI is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
