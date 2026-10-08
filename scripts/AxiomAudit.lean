@@ -47,6 +47,10 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.det_mul_rect_eq_sum_injective
 #print axioms Matrix.det_mul_rect
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_pos
+#print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_ge_principal
+#print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_tendsto_expMatrix
+#print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_tendsto_expMatrix_det
+#print axioms GECPKernelStructure.Fermionic.expMatrix_det_pos
 #print axioms GECPKernelStructure.Fermionic.residualUpdate_le_of_signCoherent
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_product_of_crossRatioControl
 #print axioms GECPKernelStructure.Fermionic.gecp_error_le_dyadic_of_crossRatioProduct

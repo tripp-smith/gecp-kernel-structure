@@ -1404,3 +1404,12 @@ This annotation records delivered identifiers without changing the goals above.
   determinant limit, all-orders exponential and fermionic strict sign
   regularity, Conjecture G1, and the Simons Problem 4.2 rate remain open. The
   root command passes with 52 tests and no known dependency vulnerabilities.
+- Post-v1 research phase O: locally verified on 2026-10-08; delivery pending.
+  `expTaylorMatrix_det_ge_principal` retains a fixed positive principal lower
+  bound, `expTaylorMatrix_tendsto_expMatrix` and its determinant corollary
+  formalize Taylor convergence, and `expMatrix_det_pos` proves strict
+  positivity of the full `exp(x*y)` determinant for nonnegative strictly
+  increasing node tuples. Arbitrary-node scaling, frequency-reversal
+  orientation, all-orders exponential and fermionic strict sign regularity,
+  Conjecture G1, and the Simons Problem 4.2 rate remain open. The root command
+  passes with 53 tests and no known dependency vulnerabilities.

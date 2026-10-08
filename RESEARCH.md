@@ -831,3 +831,74 @@ Non-claims:
   kernel determinant;
 - it does not yet prove all-orders exponential or fermionic strict sign
   regularity, dyadic localization, Conjecture G1, or Problem 4.2.
+
+## Phase O — exponential determinant limit
+
+State: locally verified; draft PR pending.
+
+Phase N proves every sufficiently long finite exponential Taylor determinant
+positive, but strict positivity is not closed under limits. The next bounded
+phase therefore retains the already-proved principal Cauchy--Binet summand as
+a fixed positive lower bound while the remaining nonnegative summands grow.
+
+Frozen public Lean targets:
+
+- `expTaylorMatrix_det_ge_principal`: every truncation with at least `n` terms
+  dominates the determinant of the principal `0, ..., n-1` feature block;
+- `expTaylorMatrix_tendsto_expMatrix`: the finite Taylor matrices converge
+  entrywise to the matrix `(i,j) ↦ exp(rows_i * columns_j)`;
+- `expMatrix_det_pos`: that full exponential matrix has positive determinant
+  for nonnegative strictly increasing row and column tuples.
+
+Proof contract:
+
+- identify the principal ordered tuple inside `Matrix.det_mul_rect` and bound
+  its positive summand by the nonnegative finite sum;
+- use `NormedSpace.expSeries_div_hasSum_exp` and finite-sum convergence for
+  every matrix entry, then determinant continuity;
+- pass the fixed lower bound to the limit with closed-order reasoning and use
+  `expTaylorPrincipalMatrix_det_pos` for strictness;
+- if the series-to-`Fin` indexing interface fails three times, isolate and
+  prove the entrywise range-sum convergence lemma rather than weakening the
+  determinant claim.
+
+Implementation outcome:
+
+- `expTaylorMatrix_det_ge_principal` identifies the canonical increasing
+  intermediate tuple in the ordered Cauchy--Binet sum and proves that every
+  truncation with at least `n` terms dominates the fixed principal determinant;
+- `expMatrix` names the full positive exponential interaction matrix;
+- `expTaylorMatrix_tendsto_expMatrix` derives entrywise convergence from
+  mathlib's Banach-algebra exponential series, and
+  `expTaylorMatrix_det_tendsto_expMatrix_det` composes it with determinant
+  continuity;
+- `expMatrix_det_pos` passes the fixed lower bound to the limit and combines it
+  with `expTaylorPrincipalMatrix_det_pos`, avoiding the invalid inference that
+  an arbitrary limit of positive numbers is positive;
+- a 100-decimal regression through size five independently confirms positivity
+  and the principal Vandermonde-factorial lower bound.
+
+Verification:
+
+- the focused theorem build and public axiom audit pass with only Lean's
+  default axioms;
+- all twelve focused surrogate tests pass;
+- `./scripts/verify.sh` passes all repository checks with 53 Python tests and
+  no known dependency vulnerabilities.
+
+Next analytic obligation:
+
+Translate arbitrary increasing row and column tuples to nonnegative tuples and
+factor `exp(x*y)` into the translated kernel times positive row and column
+weights. Then apply the positive determinant theorem to the negated reversed
+frequency tuple and prove that the reversal permutation has sign
+`(-1)^(n.choose 2)`. These finite algebraic steps are the remaining path to
+`StrictSignRegular expKernel expKernelSignature`.
+
+Non-claims:
+
+- this phase does not yet remove the nonnegative-node restriction by
+  exponential row/column scaling;
+- it does not yet reverse frequency orientation or prove
+  `StrictSignRegular expKernel expKernelSignature`;
+- it does not establish dyadic localization, Conjecture G1, or Problem 4.2.

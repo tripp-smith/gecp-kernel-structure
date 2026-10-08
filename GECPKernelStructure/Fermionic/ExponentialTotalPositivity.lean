@@ -2,6 +2,7 @@ import GECPKernelStructure.Fermionic.SignRegularity
 import GECPKernelStructure.Matrix.CauchyBinet
 import Mathlib.Algebra.Polynomial.RuleOfSigns
 import Mathlib.Analysis.SpecificLimits.Basic
+import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Topology.Instances.Matrix
 import Mathlib.Topology.Order.IntermediateValue
@@ -404,6 +405,116 @@ theorem expTaylorPrincipalMatrix_det_pos {n : ℕ}
       inv_pos.mpr (Nat.cast_pos.mpr k.1.factorial_pos)
   simp only [expTaylorPrincipalMatrix, Matrix.det_mul, Matrix.det_transpose]
   positivity
+
+/--
+Every sufficiently long finite Taylor determinant retains the fixed positive
+principal Cauchy--Binet contribution.
+-/
+theorem expTaylorMatrix_det_ge_principal {n terms : ℕ}
+    (rows columns : Fin n → ℝ)
+    (rows_nonneg : ∀ i, 0 ≤ rows i) (columns_nonneg : ∀ i, 0 ≤ columns i)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns)
+    (hterms : n ≤ terms) :
+    (expTaylorPrincipalMatrix rows columns).det ≤
+      (expTaylorMatrix (terms := terms) rows columns).det := by
+  let principal : Fin n → Fin terms := fun i =>
+    ⟨i.1, lt_of_lt_of_le i.2 hterms⟩
+  have principal_mono : StrictMono principal := by
+    intro i j hij
+    exact hij
+  have leftPrincipal :
+      (expTaylorLeft (terms := terms) rows).submatrix id principal =
+        Matrix.vandermonde rows *
+          Matrix.diagonal (fun k : Fin n => ((k.1.factorial : ℝ)⁻¹)) := by
+    ext i j
+    simp [expTaylorLeft, Matrix.vandermonde_apply, principal]
+  have rightPrincipal :
+      (expTaylorRight (terms := terms) columns).submatrix principal id =
+        (Matrix.vandermonde columns)ᵀ := by
+    ext i j
+    rfl
+  have principalProduct :
+      (expTaylorLeft (terms := terms) rows).submatrix id principal *
+          (expTaylorRight (terms := terms) columns).submatrix principal id =
+        expTaylorPrincipalMatrix rows columns := by
+    rw [leftPrincipal, rightPrincipal, expTaylorPrincipalMatrix, Matrix.mul_assoc]
+  rw [expTaylorMatrix, Matrix.det_mul_rect]
+  calc
+    (expTaylorPrincipalMatrix rows columns).det =
+        ((expTaylorLeft (terms := terms) rows).submatrix id principal).det *
+          ((expTaylorRight (terms := terms) columns).submatrix principal id).det := by
+      rw [← Matrix.det_mul, principalProduct]
+    _ ≤ ∑ q : {q : Fin n → Fin terms // StrictMono q},
+        ((expTaylorLeft (terms := terms) rows).submatrix id q.1).det *
+          ((expTaylorRight (terms := terms) columns).submatrix q.1 id).det := by
+      apply Finset.single_le_sum
+        (a := ⟨principal, principal_mono⟩)
+        (f := fun q : {q : Fin n → Fin terms // StrictMono q} =>
+          ((expTaylorLeft (terms := terms) rows).submatrix id q.1).det *
+            ((expTaylorRight (terms := terms) columns).submatrix q.1 id).det)
+      · intro q _
+        exact mul_nonneg
+          (expTaylorLeftMinor_det_nonneg rows q.1 rows_nonneg rows_mono q.2)
+          (expTaylorRightMinor_det_nonneg columns q.1 columns_nonneg columns_mono q.2)
+      · simp
+
+/-- The full matrix of the positive exponential interaction `exp(row * column)`. -/
+noncomputable def expMatrix {n : ℕ} (rows columns : Fin n → ℝ) :
+    Matrix (Fin n) (Fin n) ℝ :=
+  fun i j => Real.exp (rows i * columns j)
+
+/-- Finite exponential Taylor feature matrices converge entrywise. -/
+theorem expTaylorMatrix_tendsto_expMatrix {n : ℕ} (rows columns : Fin n → ℝ) :
+    Filter.Tendsto
+      (fun terms => expTaylorMatrix (terms := terms) rows columns)
+      Filter.atTop (nhds (expMatrix rows columns)) := by
+  change Filter.Tendsto
+    (fun terms i j => expTaylorMatrix (terms := terms) rows columns i j)
+    Filter.atTop (nhds (fun i j => expMatrix rows columns i j))
+  rw [tendsto_pi_nhds]
+  intro i
+  rw [tendsto_pi_nhds]
+  intro j
+  simpa [expTaylorMatrix_apply, expMatrix, ← Fin.sum_univ_eq_sum_range,
+    Real.exp_eq_exp_ℝ, div_eq_mul_inv, mul_pow, mul_assoc, mul_left_comm,
+    mul_comm] using
+      (NormedSpace.expSeries_div_hasSum_exp (rows i * columns j)).tendsto_sum_nat
+
+/-- The determinants of finite Taylor feature matrices converge to the full determinant. -/
+theorem expTaylorMatrix_det_tendsto_expMatrix_det {n : ℕ}
+    (rows columns : Fin n → ℝ) :
+    Filter.Tendsto
+      (fun terms => (expTaylorMatrix (terms := terms) rows columns).det)
+      Filter.atTop (nhds (expMatrix rows columns).det) := by
+  have determinant_continuous :
+      Continuous (fun matrix : Matrix (Fin n) (Fin n) ℝ => matrix.det) := by
+    apply Continuous.matrix_det
+    fun_prop
+  exact determinant_continuous.continuousAt.tendsto.comp
+    (expTaylorMatrix_tendsto_expMatrix rows columns)
+
+/--
+The full positive exponential interaction has positive determinant on
+nonnegative strictly increasing row and column tuples.
+-/
+theorem expMatrix_det_pos {n : ℕ} (rows columns : Fin n → ℝ)
+    (rows_nonneg : ∀ i, 0 ≤ rows i) (columns_nonneg : ∀ i, 0 ≤ columns i)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns) :
+    0 < (expMatrix rows columns).det := by
+  have principal_pos : 0 < (expTaylorPrincipalMatrix rows columns).det :=
+    expTaylorPrincipalMatrix_det_pos rows columns rows_mono columns_mono
+  have determinant_ge_principal :
+      ∀ᶠ terms in Filter.atTop,
+        (expTaylorPrincipalMatrix rows columns).det ≤
+          (expTaylorMatrix (terms := terms) rows columns).det := by
+    filter_upwards [Filter.eventually_ge_atTop n] with terms hterms
+    exact expTaylorMatrix_det_ge_principal rows columns rows_nonneg columns_nonneg
+      rows_mono columns_mono hterms
+  have limit_ge_principal :
+      (expTaylorPrincipalMatrix rows columns).det ≤ (expMatrix rows columns).det :=
+    ge_of_tendsto (expTaylorMatrix_det_tendsto_expMatrix_det rows columns)
+      determinant_ge_principal
+  exact principal_pos.trans_le limit_ge_principal
 
 end Fermionic
 end GECPKernelStructure

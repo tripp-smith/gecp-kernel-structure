@@ -78,6 +78,14 @@ so every truncation with at least as many terms as the matrix order has
 positive determinant. Passing to the infinite-series determinant while
 retaining strictness remains open.
 
+Post-v1 Phase O passes to that limit without losing strictness. Each finite
+Taylor determinant dominates the same positive principal determinant; the
+feature matrices converge entrywise to `exp(row_i * column_j)`, and
+determinant continuity preserves the lower bound. Thus the full exponential
+matrix has positive determinant on nonnegative strictly increasing node
+tuples. Arbitrary-node scaling and the frequency-reversal orientation remain
+before the all-orders sign-regularity theorem.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -174,6 +182,8 @@ not represented by the completed goal counter.
   uniform positive shifts and determinant continuity.
 - T-025: rectangular Cauchy--Binet expansion, finite exponential Taylor
   determinant positivity, and exact rational multi-term regressions.
+- T-026: fixed principal determinant lower bound, entrywise exponential-series
+  convergence, determinant-limit positivity, and a 100-decimal regression.
 
 ## Deferred research
 
@@ -240,6 +250,9 @@ The public theorem surface includes:
 - Phase N structure: `Matrix.det_mul_rect_eq_sum_injective`,
   `Matrix.det_mul_rect`, `expTaylorMatrix_apply`, and
   `expTaylorMatrix_det_pos`;
+- Phase O structure: `expTaylorMatrix_det_ge_principal`,
+  `expTaylorMatrix_tendsto_expMatrix`,
+  `expTaylorMatrix_det_tendsto_expMatrix_det`, and `expMatrix_det_pos`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -291,7 +304,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 52 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 53 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -327,10 +340,10 @@ git status --short
 - The order-one and order-two exponential and fermionic minor signs are not
   extrapolated to all orders; `StrictSignRegular expKernel expKernelSignature`
   remains open.
-- Positivity of every sufficiently long finite Taylor-feature determinant is
-  not by itself a proof that the limiting full exponential determinant is
-  strictly positive; strictness needs a fixed positive lower bound through the
-  limit.
+- Full exponential determinant positivity is currently stated for
+  nonnegative strictly increasing node tuples. The translation/scaling and
+  frequency-reversal orientation needed for arbitrary ordered tuples and
+  `expKernelSignature` are not yet assembled.
 - Arbitrary PSD tie-breaking is not claimed equivalent to diagonal pivoting;
   the formal theorem uses the documented diagonal-preferring canonical rule.
 - The formal separated construction is dyadic truncated Taylor, not the
@@ -399,11 +412,10 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove that finite Taylor matrices converge entrywise to
-`exp(rows_i * columns_j)` and use determinant continuity together with the
-fixed positive principal Cauchy--Binet contribution to keep the limit strictly
-positive. Then remove nonnegative-node restrictions by positive exponential
-row and column scaling and reverse the frequency tuple to obtain
+Translate arbitrary increasing node tuples to start at zero and factor the
+resulting `exp(x*y)` identity into positive row and column scalings. Then apply
+the proved positive determinant theorem to the negated reversed frequency
+tuple and compute the reversal sign `(-1)^(n.choose 2)` to obtain
 `StrictSignRegular expKernel expKernelSignature`. Phase J turns that theorem
-directly into fermionic selected-pivot nonexpansiveness. The separate rate step
-remains dyadic localization of the exact `Λ≤1` contraction.
+directly into fermionic selected-pivot nonexpansiveness. The separate rate
+step remains dyadic localization of the exact `Λ≤1` contraction.

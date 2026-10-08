@@ -91,6 +91,12 @@
   `expTaylorMatrix_det_pos` proves strict positivity at every order whenever
   the term count is at least the matrix order and both node tuples are
   nonnegative and strictly increasing.
+- The finite determinants retain the fixed determinant of the principal
+  `0, ..., n-1` feature block as a lower bound. Their entries converge to
+  `exp(row_i * column_j)`, determinant continuity preserves that lower bound,
+  and `expMatrix_det_pos` therefore proves strict positivity of the full
+  exponential determinant for nonnegative strictly increasing row and column
+  tuples.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -124,6 +130,9 @@
 - Exact rational finite Taylor matrices at sizes one through five and term
   counts from the matrix order through three additional terms have strictly
   positive determinants, including node tuples that start at zero.
+- At 100 decimal digits, full exponential matrices at sizes one through five
+  have positive determinants and retain the exact principal Vandermonde-
+  factorial lower bound.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -180,13 +189,12 @@ finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
 positive leading contribution, and passes to the exponential-series limit.
 Exact minor signs alone do not control GECP pivot locations or residual decay.
 
-The next intermediate target is the exponential-series determinant limit.
-Finite exponential Taylor determinants are now strictly positive, but a
-strictly positive sequence can converge to zero. The limit proof must retain
-a fixed positive principal Cauchy--Binet contribution (or an equivalent
-uniform lower bound), then transport the result from nonnegative shifted nodes
-to arbitrary ordered tuples before transferring the all-orders sign theorem
-to the fermionic kernel.
+The next intermediate target is transport from nonnegative nodes to arbitrary
+ordered real tuples. Translate both tuples to start at zero, factor the
+resulting identity into positive exponential row and column scalings, then
+reverse the negated frequency tuple and compute its permutation sign. That
+will yield `StrictSignRegular expKernel expKernelSignature`, which already
+transfers to the fermionic kernel and selected-residual nonexpansiveness.
 
 ## Not claimed
 
@@ -206,8 +214,9 @@ to the fermionic kernel.
   every order, hence that its residuals are `PivotCrossProductSignCoherent` at
   every selected pivot, or proof that the cutoff-scaled half-contraction
   extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
-- Proof that the determinant of the full exponential kernel is the limit of
-  the finite truncations with a strictly positive lower bound.
+- All-orders strict sign regularity for `exp(-t*omega)` or the fermionic
+  kernel; the remaining translation, positive-scaling, and frequency-reversal
+  orientation steps have not yet been assembled.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -235,6 +244,9 @@ to the fermionic kernel.
 - On 2026-10-08 the Phase N root command passed the same gate with 52 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #18.
+- On 2026-10-08 the Phase O root command passed the same gate locally with 53
+  Python tests and no known dependency vulnerabilities; CI and delivery are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
