@@ -1394,3 +1394,12 @@ This annotation records delivered identifiers without changing the goals above.
   finite exponential Cauchy--Binet assembly, determinant limit, Conjecture G1,
   and the Simons Problem 4.2 rate remain open. The root command passes with 51
   tests and no known dependency vulnerabilities.
+- Post-v1 research phase N: verified with green CI on 2026-10-08 in PR #18.
+  `Matrix.det_mul_rect_eq_sum_injective` and `Matrix.det_mul_rect` provide a
+  reusable rectangular Cauchy--Binet expansion, while `expTaylorMatrix_apply`
+  and `expTaylorMatrix_det_pos` prove that every sufficiently long finite
+  exponential Taylor feature matrix has positive determinant on nonnegative
+  strictly increasing row and column tuples. The exponential-series
+  determinant limit, all-orders exponential and fermionic strict sign
+  regularity, Conjecture G1, and the Simons Problem 4.2 rate remain open. The
+  root command passes with 52 tests and no known dependency vulnerabilities.
