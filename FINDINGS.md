@@ -258,9 +258,8 @@ itself provide the factor below one required by Conjecture G1.
 - On 2026-10-08 the Phase O root command passed the same gate with 53 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #19.
-- On 2026-10-08 the Phase P root command passed the same gate locally with 54
-  Python tests and no known dependency vulnerabilities; CI and delivery are
-  pending.
+- On 2026-10-08 the Phase P root command passed the same gate with 54 Python
+  tests and no known dependency vulnerabilities; PR #20 has green CI.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
