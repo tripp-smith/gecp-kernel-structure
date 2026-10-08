@@ -86,6 +86,14 @@ matrix has positive determinant on nonnegative strictly increasing node
 tuples. Arbitrary-node scaling and the frequency-reversal orientation remain
 before the all-orders sign-regularity theorem.
 
+Post-v1 Phase P completes the all-orders sign theorem. Positive exponential
+row and column scalings remove arbitrary node offsets, finite reversal has
+sign `(-1)^(n.choose 2)`, and negated reversed frequencies convert positive
+`exp(x*y)` determinants into the prescribed `exp(-t*omega)` signature. The
+fermionic kernel inherits strict sign regularity at every order, so every
+selected residual cross is sign coherent and exact complete-pivot updates are
+nonexpansive. This still does not supply strict dyadic block contraction.
+
 ## Implementation run metadata
 
 This is a provenance record for the Codex implementation goal, captured at
@@ -184,6 +192,9 @@ not represented by the completed goal counter.
   determinant positivity, and exact rational multi-term regressions.
 - T-026: fixed principal determinant lower bound, entrywise exponential-series
   convergence, determinant-limit positivity, and a 100-decimal regression.
+- T-027: arbitrary-node exponential determinant positivity, finite-reversal
+  sign, all-orders exponential and fermionic strict sign regularity, and
+  unconditional selected-residual sign coherence.
 
 ## Deferred research
 
@@ -191,10 +202,9 @@ No v1 implementation task is blocked. Open research and optional extensions
 are:
 
 - transport the proved `Λ≤1` two-corner half contraction through dyadic
-  frequency layers, together with a proof of
-  `StrictSignRegular expKernel expKernelSignature` (which now implies
-  selected-pivot sign coherence) or another nonexpansiveness invariant, to
-  obtain the `O(log Λ)` block length required by Conjecture G1;
+  frequency layers, using the now-unconditional selected-pivot
+  nonexpansiveness invariant between strict contractions, to obtain the
+  `O(log Λ)` block length required by Conjecture G1;
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
@@ -253,6 +263,10 @@ The public theorem surface includes:
 - Phase O structure: `expTaylorMatrix_det_ge_principal`,
   `expTaylorMatrix_tendsto_expMatrix`,
   `expTaylorMatrix_det_tendsto_expMatrix_det`, and `expMatrix_det_pos`;
+- Phase P structure: `Fin.sign_revPerm`,
+  `expMatrix_det_pos_of_strictMono`, `expKernel_strictSignRegular`,
+  `fermionicKernel_strictSignRegular`, and
+  `fermionicKernel_pivotCrossProductSignCoherent`;
 - application: `grid_sup_le_max_add_lipschitz`,
   `approxPivot_of_grid_certificate`, and
   `greenError_le_kernelError_mul_l1`.
@@ -304,7 +318,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 53 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 54 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -337,9 +351,8 @@ git status --short
   convergence proof.
 - The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
   cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
-- The order-one and order-two exponential and fermionic minor signs are not
-  extrapolated to all orders; `StrictSignRegular expKernel expKernelSignature`
-  remains open.
+- All-orders exponential and fermionic minor signs, and selected-residual
+  nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
   nonnegative strictly increasing node tuples. The translation/scaling and
   frequency-reversal orientation needed for arbitrary ordered tuples and
@@ -412,10 +425,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Translate arbitrary increasing node tuples to start at zero and factor the
-resulting `exp(x*y)` identity into positive row and column scalings. Then apply
-the proved positive determinant theorem to the negated reversed frequency
-tuple and compute the reversal sign `(-1)^(n.choose 2)` to obtain
-`StrictSignRegular expKernel expKernelSignature`. Phase J turns that theorem
-directly into fermionic selected-pivot nonexpansiveness. The separate rate
-step remains dyadic localization of the exact `Λ≤1` contraction.
+Use the now-proved selected-pivot nonexpansiveness to prevent residual growth
+between strict contractions, and extend the exact `Λ≤1` two-corner half
+contraction across dyadic frequency layers. The missing result is a
+cutoff-rescaling or localization lemma that supplies at least one strict
+contraction per bounded-size dyadic block; this is the remaining path toward
+Conjecture G1 and the Simons Problem 4.2 rate.

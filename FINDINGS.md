@@ -97,6 +97,14 @@
   and `expMatrix_det_pos` therefore proves strict positivity of the full
   exponential determinant for nonnegative strictly increasing row and column
   tuples.
+- Positive exponential row and column scalings remove arbitrary tuple offsets,
+  so `exp(x*y)` has positive determinants for every pair of strictly increasing
+  real tuples. Reversing the negated frequency tuple contributes exactly
+  `(-1)^(n.choose 2)`, proving `expKernel_strictSignRegular` and, by positive
+  fermionic denominator scaling, `fermionicKernel_strictSignRegular` at every
+  order. Consequently every selected fermionic residual cross is
+  `PivotCrossProductSignCoherent` and exact complete-pivot updates are
+  nonexpansive.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -133,6 +141,9 @@
 - At 100 decimal digits, full exponential matrices at sizes one through five
   have positive determinants and retain the exact principal Vandermonde-
   factorial lower bound.
+- At 100 decimal digits, ordered `exp(-t*omega)` determinants through size six
+  are nonzero with sign `(-1)^(n.choose 2)` for tuples spanning negative and
+  positive values.
 - A 70-decimal finite-grid scan through 24 fermionic pivots at cutoffs
   `1,2,10,100` found no substantive sign-coherence failure. Tiny normalized
   negatives between about `1e-89` and `1e-131` occurred only on rows or
@@ -189,12 +200,12 @@ finite Cauchy--Binet into generalized Vandermonde products, proves a fixed
 positive leading contribution, and passes to the exponential-series limit.
 Exact minor signs alone do not control GECP pivot locations or residual decay.
 
-The next intermediate target is transport from nonnegative nodes to arbitrary
-ordered real tuples. Translate both tuples to start at zero, factor the
-resulting identity into positive exponential row and column scalings, then
-reverse the negated frequency tuple and compute its permutation sign. That
-will yield `StrictSignRegular expKernel expKernelSignature`, which already
-transfers to the fermionic kernel and selected-residual nonexpansiveness.
+The all-orders sign theorem and selected-residual nonexpansiveness are now
+proved. The next analytic target is strict contraction over dyadic frequency
+blocks: use the exact `0 < Λ ≤ 1` two-corner contraction as the base case and
+control how residuals localize or rescale across successive cutoff bands.
+Sign coherence prevents growth between strict contractions but does not by
+itself provide the factor below one required by Conjecture G1.
 
 ## Not claimed
 
@@ -214,9 +225,9 @@ transfers to the fermionic kernel and selected-residual nonexpansiveness.
   every order, hence that its residuals are `PivotCrossProductSignCoherent` at
   every selected pivot, or proof that the cutoff-scaled half-contraction
   extends from the proved base regime `0 < Λ ≤ 1` to all dyadic cutoff scales.
-- All-orders strict sign regularity for `exp(-t*omega)` or the fermionic
-  kernel; the remaining translation, positive-scaling, and frequency-reversal
-  orientation steps have not yet been assembled.
+- A cutoff-uniform strict contraction factor or proof of the dyadic block
+  localization required by Conjecture G1. All-orders sign regularity gives
+  nonexpansiveness, not strict decay.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -247,6 +258,8 @@ transfers to the fermionic kernel and selected-residual nonexpansiveness.
 - On 2026-10-08 the Phase O root command passed the same gate with 53 Python
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #19.
+- On 2026-10-08 the Phase P root command passed the same gate with 54 Python
+  tests and no known dependency vulnerabilities; PR #20 has green CI.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

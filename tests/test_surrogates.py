@@ -172,6 +172,23 @@ def test_exp_matrix_determinant_retains_principal_lower_bound() -> None:
             assert determinant >= principal * (1 - mp.mpf("1e-80"))
 
 
+def test_exp_kernel_determinants_have_all_ordered_signatures() -> None:
+    with mp.workdps(100):
+        for size in range(1, 7):
+            rows = [mp.mpf(3 * i - size) / (size + 1) for i in range(size)]
+            columns = [mp.mpf(2 * j - size) / (size + 2) for j in range(size)]
+            matrix = mp.matrix(
+                [
+                    [mp.exp(-rows[i] * columns[j]) for j in range(size)]
+                    for i in range(size)
+                ]
+            )
+            determinant = mp.det(matrix)
+            expected_sign = -1 if math.comb(size, 2) % 2 else 1
+            assert determinant != 0
+            assert mp.sign(determinant) == expected_sign
+
+
 def test_generalized_vandermonde_determinants_are_positive_exactly() -> None:
     for size in range(1, 6):
         nodes = [Fraction(2 * i + 1, size + 2) for i in range(size)]

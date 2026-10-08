@@ -903,3 +903,76 @@ Non-claims:
 - it does not yet reverse frequency orientation or prove
   `StrictSignRegular expKernel expKernelSignature`;
 - it does not establish dyadic localization, Conjecture G1, or Problem 4.2.
+
+## Phase P — all-orders exponential sign regularity
+
+State: verified with green CI in
+[PR #20](https://github.com/tripp-smith/gecp-kernel-structure/pull/20).
+
+Phase O proves strict positivity for `exp(x*y)` when both ordered node tuples
+are nonnegative. Only finite scaling and orientation steps remain before the
+all-orders premise already consumed by the Phase J fermionic transfer.
+
+Frozen public Lean targets:
+
+- `expMatrix_det_pos_of_strictMono`: arbitrary strictly increasing real row
+  and column tuples give a positive `exp(x*y)` determinant;
+- `Fin.sign_revPerm`: reversal on `Fin n` has sign
+  `(-1)^(n.choose 2)`;
+- `expKernel_strictSignRegular`: the kernel `exp(-t*omega)` is strictly sign
+  regular at every order with signature `expKernelSignature`;
+- `fermionicKernel_strictSignRegular`: the existing positive column-scaling
+  transfer yields the same all-orders theorem for the fermionic kernel.
+
+Proof contract:
+
+- for nonempty tuples, subtract the first row and column nodes, apply
+  `expMatrix_det_pos`, and recover the original matrix by positive exponential
+  row and column scalings; discharge the empty order directly;
+- compute `Fin.revPerm.sign` from mathlib's inversion-product formula, where
+  every pair is inverted;
+- apply arbitrary-node exponential positivity to the increasing tuple
+  `j ↦ -columns (Fin.rev j)`, then permute columns back and account for the
+  reversal sign;
+- use the already-proved fermionic positive column scaling without adding a
+  new analytic assumption.
+
+Implementation outcome:
+
+- `expMatrix_det_pos_of_strictMono` handles the empty order directly and, for
+  nonempty tuples, subtracts the first nodes, applies `expMatrix_det_pos`, and
+  reconstructs the original determinant through positive diagonal row and
+  column factors;
+- `Fin.sign_revPerm` computes the reversal sign from mathlib's product over
+  inversions and the identity `sum(range n) = n.choose 2`;
+- `expKernel_strictSignRegular` applies arbitrary-node positivity to
+  `j ↦ -columns (Fin.rev j)` and permutes the columns back with exactly the
+  signature `(-1)^(n.choose 2)`;
+- `fermionicKernel_strictSignRegular` instantiates the existing positive
+  frequency-weight transfer, and
+  `fermionicKernel_pivotCrossProductSignCoherent` closes the selected-residual
+  sign premise for every successful fermionic run;
+- a 100-decimal regression through order six independently confirms the
+  predicted signs on tuples containing both negative and positive nodes.
+
+Verification:
+
+- the focused theorem build and expanded public axiom audit pass with only
+  Lean's default axioms;
+- all thirteen focused surrogate tests pass;
+- `./scripts/verify.sh` passes all repository checks with 54 Python tests and
+  no known dependency vulnerabilities.
+
+Next analytic obligation:
+
+The Phase J--P chain now proves exact nonexpansiveness at every selected
+fermionic pivot. To obtain Conjecture G1, combine this invariant with a strict
+contraction mechanism on each dyadic frequency block, extending the proved
+two-corner `0 < Λ ≤ 1` base case through cutoff rescaling or localization.
+
+Non-claims:
+
+- strict sign regularity supplies selected-residual nonexpansiveness, not the
+  dyadic strict contraction needed for Conjecture G1;
+- this phase does not prove cutoff localization, the full GECP rate, or
+  Problem 4.2.

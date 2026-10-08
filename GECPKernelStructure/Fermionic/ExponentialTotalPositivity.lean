@@ -3,10 +3,36 @@ import GECPKernelStructure.Matrix.CauchyBinet
 import Mathlib.Algebra.Polynomial.RuleOfSigns
 import Mathlib.Analysis.SpecificLimits.Basic
 import Mathlib.Analysis.SpecialFunctions.Exponential
+import Mathlib.GroupTheory.Perm.Fin
 import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Topology.Instances.Matrix
 import Mathlib.Topology.Order.IntermediateValue
 import Mathlib.Tactic
+
+namespace Fin
+
+/-- Reversing `Fin n` has the sign of its `n.choose 2` inverted pairs. -/
+theorem sign_revPerm (n : ℕ) :
+    Equiv.Perm.sign (@revPerm n) = (-1) ^ n.choose 2 := by
+  rw [Equiv.Perm.sign_eq_prod_prod_Iio]
+  simp only [revPerm_apply, rev_lt_rev]
+  have innerProduct (j : Fin n) :
+      (∏ i ∈ Finset.Iio j, if j < i then (1 : ℤˣ) else -1) =
+        (-1 : ℤˣ) ^ j.1 := by
+    calc
+      (∏ i ∈ Finset.Iio j, if j < i then (1 : ℤˣ) else -1) =
+          ∏ _i ∈ Finset.Iio j, (-1 : ℤˣ) := by
+        apply Finset.prod_congr rfl
+        intro i hi
+        rw [if_neg]
+        exact not_lt_of_ge (Finset.mem_Iio.mp hi).le
+      _ = (-1) ^ j.1 := by simp
+  simp_rw [innerProduct]
+  rw [Finset.prod_pow_eq_pow_sum,
+    Fin.sum_univ_eq_sum_range (fun i : ℕ => i) n,
+    Finset.sum_range_id, Nat.choose_two_right]
+
+end Fin
 
 namespace GECPKernelStructure
 namespace Fermionic
@@ -515,6 +541,104 @@ theorem expMatrix_det_pos {n : ℕ} (rows columns : Fin n → ℝ)
     ge_of_tendsto (expTaylorMatrix_det_tendsto_expMatrix_det rows columns)
       determinant_ge_principal
   exact principal_pos.trans_le limit_ge_principal
+
+/-- The positive exponential determinant theorem after removing arbitrary offsets. -/
+theorem expMatrix_det_pos_of_strictMono {n : ℕ} (rows columns : Fin n → ℝ)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns) :
+    0 < (expMatrix rows columns).det := by
+  cases n with
+  | zero => simp
+  | succ n =>
+      let shiftedRows : Fin (n + 1) → ℝ := fun i => rows i - rows 0
+      let shiftedColumns : Fin (n + 1) → ℝ := fun j => columns j - columns 0
+      let rowWeight : Fin (n + 1) → ℝ := fun i => Real.exp (columns 0 * rows i)
+      let columnWeight : Fin (n + 1) → ℝ := fun j =>
+        Real.exp (rows 0 * (columns j - columns 0))
+      let core : Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
+        expMatrix shiftedRows shiftedColumns
+      let rowScaled : Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
+        fun i j => rowWeight i * core i j
+      let scaled : Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
+        fun i j => columnWeight j * rowScaled i j
+      have shiftedRows_nonneg : ∀ i, 0 ≤ shiftedRows i := by
+        intro i
+        exact sub_nonneg.mpr (rows_mono.monotone (Fin.zero_le i))
+      have shiftedColumns_nonneg : ∀ j, 0 ≤ shiftedColumns j := by
+        intro j
+        exact sub_nonneg.mpr (columns_mono.monotone (Fin.zero_le j))
+      have shiftedRows_mono : StrictMono shiftedRows := by
+        intro i j hij
+        exact sub_lt_sub_right (rows_mono hij) _
+      have shiftedColumns_mono : StrictMono shiftedColumns := by
+        intro i j hij
+        exact sub_lt_sub_right (columns_mono hij) _
+      have shifted_det_pos :
+          0 < core.det := by
+        dsimp only [core]
+        exact expMatrix_det_pos shiftedRows shiftedColumns shiftedRows_nonneg
+          shiftedColumns_nonneg shiftedRows_mono shiftedColumns_mono
+      have matrixFactor :
+          expMatrix rows columns = scaled := by
+        ext i j
+        simp only [scaled, rowScaled, core, expMatrix, rowWeight, columnWeight,
+          shiftedRows, shiftedColumns]
+        rw [← Real.exp_add, ← Real.exp_add]
+        congr 1
+        ring
+      have rowScaledDet :
+          rowScaled.det = (∏ i, rowWeight i) * core.det := by
+        exact Matrix.det_mul_column rowWeight core
+      have scaledDet :
+          scaled.det = (∏ j, columnWeight j) * rowScaled.det := by
+        exact Matrix.det_mul_row columnWeight rowScaled
+      rw [matrixFactor, scaledDet, rowScaledDet]
+      exact mul_pos
+        (Finset.prod_pos fun j _ => Real.exp_pos _)
+        (mul_pos (Finset.prod_pos fun i _ => Real.exp_pos _) shifted_det_pos)
+
+/-- The exponential interaction `exp(-t*omega)` has its predicted sign at every order. -/
+theorem expKernel_strictSignRegular :
+    StrictSignRegular expKernel expKernelSignature := by
+  intro n rows columns rows_mono columns_mono
+  let reversedColumns : Fin n → ℝ := fun j => -columns j.rev
+  let positiveMatrix : Matrix (Fin n) (Fin n) ℝ := expMatrix rows reversedColumns
+  have reversedColumns_mono : StrictMono reversedColumns := by
+    intro i j hij
+    exact neg_lt_neg (columns_mono (by simpa using hij))
+  have positive_det : 0 < positiveMatrix.det := by
+    exact expMatrix_det_pos_of_strictMono rows reversedColumns rows_mono
+      reversedColumns_mono
+  have matrixReverse :
+      minorMatrix expKernel rows columns =
+        positiveMatrix.submatrix id Fin.revPerm := by
+    ext i j
+    simp only [minorMatrix, positiveMatrix, expMatrix, reversedColumns,
+      Matrix.submatrix_apply, id_eq, Fin.revPerm_apply, Fin.rev_rev, expKernel]
+    congr 1
+    ring
+  have sign_cast :
+      (((Equiv.Perm.sign (@Fin.revPerm n) : ℤ)) : ℝ) =
+        (-1 : ℝ) ^ n.choose 2 := by
+    norm_cast
+    exact congrArg Units.val (Fin.sign_revPerm n)
+  rw [matrixReverse, Matrix.det_permute', expKernelSignature, sign_cast]
+  have sign_sq :
+      ((-1 : ℝ) ^ n.choose 2) * ((-1 : ℝ) ^ n.choose 2) = 1 := by
+    rw [← pow_add, ← two_mul, pow_mul]
+    norm_num
+  nlinarith
+
+/-- The fermionic kernel inherits all-orders strict sign regularity. -/
+theorem fermionicKernel_strictSignRegular :
+    StrictSignRegular fermionicKernel expKernelSignature :=
+  fermionicKernel_strictSignRegular_of_expKernel expKernel_strictSignRegular
+
+/-- Every selected fermionic residual cross has the sign coherence forced by total positivity. -/
+theorem fermionicKernel_pivotCrossProductSignCoherent
+    (run : Run fermionicKernel) (row column : ℝ) :
+    PivotCrossProductSignCoherent run.finalResidual row column :=
+  strictSignRegular_pivotCrossProductSignCoherent
+    fermionicKernel_strictSignRegular run row column
 
 end Fermionic
 end GECPKernelStructure
