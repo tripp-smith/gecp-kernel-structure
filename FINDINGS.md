@@ -245,7 +245,8 @@ transfers to the fermionic kernel and selected-residual nonexpansiveness.
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #18.
 - On 2026-10-08 the Phase O root command passed the same gate with 53 Python
-  tests and no known dependency vulnerabilities; PR #19 has green CI.
+  tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #19.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

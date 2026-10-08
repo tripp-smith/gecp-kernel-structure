@@ -834,7 +834,7 @@ Non-claims:
 
 ## Phase O — exponential determinant limit
 
-State: verified with green CI in
+State: complete with green CI in merged
 [PR #19](https://github.com/tripp-smith/gecp-kernel-structure/pull/19).
 
 Phase N proves every sufficiently long finite exponential Taylor determinant
