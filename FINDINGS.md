@@ -233,7 +233,8 @@ to the fermionic kernel.
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #17.
 - On 2026-10-08 the Phase N root command passed the same gate with 52 Python
-  tests and no known dependency vulnerabilities; PR #18 has green CI.
+  tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #18.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

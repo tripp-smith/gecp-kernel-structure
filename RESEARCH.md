@@ -756,7 +756,7 @@ Non-claims:
 
 ## Phase N — finite exponential Cauchy--Binet
 
-State: verified with green CI in
+State: complete with green CI in merged
 [PR #18](https://github.com/tripp-smith/gecp-kernel-structure/pull/18).
 
 Phases K--M now provide exactly the sign information for every generalized
