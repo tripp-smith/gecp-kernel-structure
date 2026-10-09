@@ -176,6 +176,14 @@
   `min(t*(omegaHigh-omega), (1-t)*(omega-omegaLow))`. In particular, it
   vanishes on both time edges and both pivot-frequency edges without a
   symmetric-band or small-cutoff assumption.
+- The two symmetric cutoff-corner pivots do not yield a half contraction
+  uniformly in cutoff. At `Lambda = log 13824`, `t = 2/3`, and
+  `omega = -log(125/64)`, the exact two-corner residual is
+  `4495348/8973531`, while half the initial pivot is
+  `(1/2)*(13824/13825)`. The residual exceeds that target by the exact positive
+  margin `222676/224338275`. The witness lies inside the physical cutoff
+  rectangle, so the universal two-pivot half-contraction statement is formally
+  false even though the first two symmetric corners are complete pivots.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -272,10 +280,11 @@ The generic bounded-entry route is now formally ruled out; total positivity,
 divided differences, or GECP-selected residual structure remain viable because
 the obstruction family does not satisfy the fermionic hypotheses.
 The exact corner-area law and its two-corner secant tent now supply a local,
-scale-invariant mechanism. It remains conjectural whether actual complete
-pivots dominate a chain of these tents, or whether a dyadic partition of the
-frequency band turns them into a full-rectangle bound with only linearly many
-tiles per accuracy block.
+scale-invariant mechanism, but the exact Phase AB obstruction rules out using
+only the two outer corners at every scale. It remains conjectural whether
+subsequent complete pivots dominate a chain of smaller tents, or whether a
+dyadic partition of the frequency band turns them into a full-rectangle bound
+with only linearly many tiles per accuracy block.
 
 ## Not claimed
 
@@ -313,6 +322,9 @@ tiles per accuracy block.
   pivots on every asymmetric subband, or control of the actual third complete
   pivot by the proved tent. The Phase AA theorem concerns the exact residual
   after those prescribed nonzero pivots.
+- A counterexample to Conjecture G1 or to cutoff-dependent multi-pivot block
+  contraction. Phase AB rules out only the stronger shortcut asserting that
+  the first two symmetric corner pivots halve the residual for every cutoff.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -389,6 +401,12 @@ tiles per accuracy block.
   regression checks 1,156 points across asymmetric and reflected bands for
   the exact nested-update identity, sign, endpoint zeros, and two-sided tent
   bound. The change passed CI and merged as PR #29.
+- On 2026-10-09 the Phase AB root command passed the same gate with 62 Python
+  tests and no known dependency vulnerabilities. Its six new public results
+  use only the permitted Lean axioms; exact `Fraction` arithmetic verifies the
+  witness and sweeps endpoint bases 24 through 64, while a direct 100-decimal
+  nested update reproduces the formal residual and margin. CI and merge are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

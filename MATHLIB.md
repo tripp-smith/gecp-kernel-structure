@@ -76,6 +76,10 @@ nonpositive real powers to sandwich a power secant between two elementary
 functions. The two short secant wrappers are useful locally, but the reusable
 content is already present upstream; no new mathlib candidate is proposed.
 
+Phase AB relies on mathlib's existing exact `norm_num` support for rational
+real powers whose roots are rational. The counterexample and its logarithmic
+transport are project-specific, so this phase adds no upstream candidate.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
