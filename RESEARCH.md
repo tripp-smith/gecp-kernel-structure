@@ -1287,8 +1287,8 @@ now-complete determinant perturbation mechanism.
 
 ## Phase V — GECP/determinant composition
 
-State: verified on branch `codex/phase-v-gecp-determinant-combination`;
-draft PR pending.
+State: complete with green CI in merged
+[PR #24](https://github.com/tripp-smith/gecp-kernel-structure/pull/24).
 
 Phase T controls a complete-pivot residual power by the determinant of a
 realized run's selected core. Phase U controls an arbitrary physical-domain

@@ -1464,3 +1464,17 @@ This annotation records delivered identifiers without changing the goals above.
   Phase T, optimizing `p`, and absorbing its explicit constants into the
   cutoff-uniform form of Conjecture G1 remain open. The root command passes
   with 55 tests and no known dependency vulnerabilities.
+- Post-v1 research phase V: complete with green CI on 2026-10-08 and delivered
+  in merged PR #24. Recursive selected-coordinate membership connects
+  `Run.CompleteOn` to physical-domain samples, and
+  `fermionicKernel_gecp_error_pow_le_two_pow` composes Phase T's residual-
+  power inequality with Phase U's determinant decay. At
+  `n = 32(2m+1)(s+1)`,
+  `fermionicKernel_gecp_error_le_oddBlock` proves the explicit bound
+  `|R_n(x,y)| <= 2n 2^-m`. The elementary choice `m = 16(s+1)` then gives
+  `|R_n(x,y)| <= 1/2` by
+  `n = 32(32(s+1)+1)(s+1)`. This is the first general strict contraction rate
+  derived from the formal separated approximation, but its block is quadratic
+  in `s+1`; the conjectured `2(s+1)` block, sharp constants, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes with 56 tests and no
+  known dependency vulnerabilities.
