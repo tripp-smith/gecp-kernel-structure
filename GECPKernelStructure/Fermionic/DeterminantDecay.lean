@@ -6,11 +6,11 @@ namespace Fermionic
 
 open Matrix
 
-variable {n : Type*}
+variable {n α β : Type*}
 
 /-- Sample a bivariate function on prescribed row and column coordinates. -/
-noncomputable def sampleMatrix (f : ℝ → ℝ → ℝ) (t ω : n → ℝ) : Matrix n n ℝ :=
-  fun i j => f (t i) (ω j)
+noncomputable def sampleMatrix (f : α → β → ℝ) (x : n → α) (y : n → β) : Matrix n n ℝ :=
+  fun i j => f (x i) (y j)
 
 /-- Row factor of a finite separated representation. -/
 noncomputable def separatedLeft (terms : List SeparatedTerm) (t : n → ℝ) :
