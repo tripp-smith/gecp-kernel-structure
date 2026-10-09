@@ -98,6 +98,11 @@ cardinality in the effective rank. The proof is generic matrix algebra and
 reuses `mixedLeft`, `mixedRight`, and `columnChoice`; only the fermionic
 specializations remain project-specific.
 
+Phase AF composes the generic exceptional-column estimate with this project's
+dependent GECP run and fermionic strict-sign-regularity APIs. The composition
+introduces no new general-purpose matrix lemma beyond the Phase AE candidates,
+so no additional upstream proposal is recorded.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

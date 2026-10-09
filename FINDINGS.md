@@ -209,6 +209,12 @@
   required only on nonexceptional frequencies. In particular, the two cutoff
   corners cost two factor coordinates while every Phase AD-localized
   continuation column can use the smaller central-band approximation.
+- The exceptional-column estimate now composes with the actual selected core
+  of a realized fermionic GECP prefix. Complete pivoting and residual
+  evaluation may use a larger dyadic rectangle, while the determinant bound
+  uses an independent smaller approximation scale on every nonexceptional
+  selected column. The resulting residual-power exponent charges exactly
+  `16*p*(s+1) + exceptional.card` effective coordinates.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -310,9 +316,9 @@ only the two outer corners at every scale. Phase AC forces the third complete
 pivot into the central half-band, and Phase AD proves that the original
 outer-half quarter exclusion survives every later update. It remains
 conjectural whether the Phase AE exceptional-column determinant bound can be
-composed sharply enough with the actual selected-core product to restart the
-argument on the central restriction and iterate shrinking bands using only
-linearly many pivots.
+instantiated with exactly the two recursive cutoff-corner indices and Phase
+AD's localized continuation to restart the argument on the central
+restriction and iterate shrinking bands using only linearly many pivots.
 
 ## Not claimed
 
@@ -355,9 +361,10 @@ linearly many pivots.
   the first two symmetric corner pivots halve the residual for every cutoff.
 - A shrinking-band iteration of the central-half localization theorem. Phase
   AD preserves the fixed outer-half quarter bound through all later Schur
-  updates, and Phase AE permits the two original corner columns in a
-  smaller-band determinant estimate, but their GECP selected-core composition
-  has not yet been proved and no new relative central-half bound follows yet.
+  updates, while Phases AE–AF permit exact exceptional columns in the actual
+  GECP selected-core estimate. The first two recursive indices have not yet
+  been packaged as the exceptional set, and no new relative central-half
+  bound follows yet.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -458,6 +465,11 @@ linearly many pivots.
   determinant expansion, the effective-rank vanishing threshold, and the
   coarse error power with zero and two exceptional columns. The change passed
   CI and merged as PR #33.
+- On 2026-10-09 the Phase AF root command passed the same gate with 66 Python
+  tests and no known dependency vulnerabilities. Its two new public results
+  use only the permitted Lean axioms; an exact `Fraction` regression verifies
+  a full-rank GECP selected core, its pivot product, and the two-exception
+  effective-rank determinant bound. Merge and CI are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

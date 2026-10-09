@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AE — exceptional-column determinant restart<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase AE `./scripts/verify.sh` passed with 65 tests and no known dependency vulnerabilities on 2026-10-09<br>
+> **Current phase:** AF — GECP exceptional-column composition<br>
+> **Phase state:** verified; merge and CI pending<br>
+> **Last verification:** Phase AF `./scripts/verify.sh` passed with 66 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #33](https://github.com/tripp-smith/gecp-kernel-structure/pull/33)<br>
-> **Claim level:** determinant decay now tolerates finitely many exact out-of-band columns with an exact rank shift, enabling the two cutoff corners to coexist with a smaller-band approximation; GECP composition remains next<br>
+> **Delivery:** implementation branch; draft PR pending<br>
+> **Claim level:** actual GECP residual powers now inherit smaller-scale determinant decay with exact exceptional selected columns; identifying the two recursive corner indices remains next<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -49,6 +49,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AC | Third-pivot frequency localization | complete | `fermionicKernel_thirdCompletePivot_frequency_lt_halfCutoff`; quarter bound on both outer halves; exact center witness | Lean build; public axiom audit; 100-decimal cutoff/grid regression; 63-test root verification; green CI | merged PR #31 |
 | AD | Persistent outer-half exclusion | complete | `fermionicKernel_outerHalfBound_preserved`; mixed strip/global update invariant; later-pivot localization above one quarter | Lean build; public axiom audit; exact sign-orientation checks; 80-decimal five-update regression; 64-test root verification; green CI | merged PR #32 |
 | AE | Exceptional-column determinant restart | complete | `Matrix.abs_det_le_two_pow_mul_of_factors_approx_except`; fermionic smaller-band determinant decay with exact exceptional columns | Lean build; public axiom audit; exact zero/two-exception rank-shift regression; 65-test root verification; green CI | merged PR #33 |
+| AF | GECP exceptional-column composition | verified | `fermionicKernel_gecp_error_pow_le_two_pow_except`; selected-core decay at an independent smaller approximation scale | Lean build; public axiom audit; exact exceptional selected-core/pivot-product regression; 66-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

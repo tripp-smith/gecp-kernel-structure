@@ -151,6 +151,105 @@ theorem fermionicKernel_gecp_error_pow_le_two_pow
   exact hpower.trans (by simpa [hselectedCard] using hdet)
 
 /--
+Selected-core residual-power decay using a smaller approximation scale outside
+an explicit finite set of exact selected columns.
+-/
+theorem fermionicKernel_gecp_error_pow_le_separatedApprox_except
+    (residual : ℕ → Kernel ℝ ℝ ℝ) (rows columns : ℕ → ℝ)
+    (p approximationScale domainScale : ℕ) (hp : 0 < p)
+    (realized : ∀ m, ∃ run : Run fermionicKernel, run.finalResidual = residual m)
+    (pivot_ne : ∀ m, residual m (rows m) (columns m) ≠ 0)
+    (updates : ∀ m, residual (m + 1) =
+      residualUpdate (residual m) (rows m) (columns m) (pivot_ne m))
+    (complete : ∀ m, CompletePivotOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ domainScale : ℕ) : ℝ) ≤ ω ∧
+        ω ≤ (2 ^ domainScale : ℕ))
+      (residual m) (rows m) (columns m))
+    (n : ℕ) (run : Run fermionicKernel)
+    (run_pivots : run.RealizesPivotPrefix residual rows columns n)
+    (exceptional : Finset run.SelectedIndex)
+    (selectedRow_nonneg : ∀ i, 0 ≤ run.selectedRow i)
+    (selectedRow_le_one : ∀ i, run.selectedRow i ≤ 1)
+    (selectedColumn_lower : ∀ j, j ∉ exceptional →
+      -((2 ^ approximationScale : ℕ) : ℝ) ≤ run.selectedColumn j)
+    (selectedColumn_upper : ∀ j, j ∉ exceptional →
+      run.selectedColumn j ≤ (2 ^ approximationScale : ℕ))
+    (x y : ℝ) (hx : 0 ≤ x ∧ x ≤ 1)
+    (hy : -((2 ^ domainScale : ℕ) : ℝ) ≤ y ∧
+      y ≤ (2 ^ domainScale : ℕ)) :
+    |residual n x y| ^ n ≤
+      ∑ S : Finset run.SelectedIndex,
+        if n ≤ 2 * ((approximationScale + 1) * (8 * p)) +
+            exceptional.card + S.card then
+          n.factorial * (1 / 2 : ℝ) ^ (p * S.card) * 2 ^ (n - S.card)
+        else 0 := by
+  have hpower := strictSignRegular_gecp_error_pow_le_selectedCore_det
+    fermionicKernel_strictSignRegular
+    (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+    (fun ω : ℝ => -((2 ^ domainScale : ℕ) : ℝ) ≤ ω ∧
+      ω ≤ (2 ^ domainScale : ℕ))
+    residual rows columns realized pivot_ne updates complete n run run_pivots x y hx hy
+  rw [Run.finSelectedCore, Matrix.det_reindex_self] at hpower
+  have hdet := fermionicKernel_sample_det_le_separatedApprox_except
+    p approximationScale hp run.selectedRow run.selectedColumn exceptional
+    selectedRow_nonneg selectedRow_le_one selectedColumn_lower selectedColumn_upper
+  rw [← Run.selectedCore_eq_sampleMatrix] at hdet
+  have hcard := card_selectedIndex_eq_prefixLength residual rows columns n run run_pivots
+  exact hpower.trans (by simpa [hcard] using hdet)
+
+/--
+Closed GECP residual-power decay at a smaller approximation scale with an
+exact exceptional-column rank shift.
+-/
+theorem fermionicKernel_gecp_error_pow_le_two_pow_except
+    (residual : ℕ → Kernel ℝ ℝ ℝ) (rows columns : ℕ → ℝ)
+    (p approximationScale domainScale : ℕ) (hp : 0 < p)
+    (realized : ∀ m, ∃ run : Run fermionicKernel, run.finalResidual = residual m)
+    (pivot_ne : ∀ m, residual m (rows m) (columns m) ≠ 0)
+    (updates : ∀ m, residual (m + 1) =
+      residualUpdate (residual m) (rows m) (columns m) (pivot_ne m))
+    (complete : ∀ m, CompletePivotOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ domainScale : ℕ) : ℝ) ≤ ω ∧
+        ω ≤ (2 ^ domainScale : ℕ))
+      (residual m) (rows m) (columns m))
+    (n : ℕ) (run : Run fermionicKernel)
+    (run_pivots : run.RealizesPivotPrefix residual rows columns n)
+    (exceptional : Finset run.SelectedIndex)
+    (selectedRow_nonneg : ∀ i, 0 ≤ run.selectedRow i)
+    (selectedRow_le_one : ∀ i, run.selectedRow i ≤ 1)
+    (selectedColumn_lower : ∀ j, j ∉ exceptional →
+      -((2 ^ approximationScale : ℕ) : ℝ) ≤ run.selectedColumn j)
+    (selectedColumn_upper : ∀ j, j ∉ exceptional →
+      run.selectedColumn j ≤ (2 ^ approximationScale : ℕ))
+    (hcard : 2 * ((approximationScale + 1) * (8 * p)) +
+      exceptional.card ≤ n)
+    (x y : ℝ) (hx : 0 ≤ x ∧ x ≤ 1)
+    (hy : -((2 ^ domainScale : ℕ) : ℝ) ≤ y ∧
+      y ≤ (2 ^ domainScale : ℕ)) :
+    |residual n x y| ^ n ≤
+      (2 : ℝ) ^ n * n.factorial *
+        (1 / 2 : ℝ) ^
+          (p * (n - (2 * ((approximationScale + 1) * (8 * p)) +
+            exceptional.card))) *
+          2 ^ (2 * ((approximationScale + 1) * (8 * p)) +
+            exceptional.card) := by
+  have hpower := strictSignRegular_gecp_error_pow_le_selectedCore_det
+    fermionicKernel_strictSignRegular
+    (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+    (fun ω : ℝ => -((2 ^ domainScale : ℕ) : ℝ) ≤ ω ∧
+      ω ≤ (2 ^ domainScale : ℕ))
+    residual rows columns realized pivot_ne updates complete n run run_pivots x y hx hy
+  rw [Run.finSelectedCore, Matrix.det_reindex_self] at hpower
+  have hselectedCard := card_selectedIndex_eq_prefixLength
+    residual rows columns n run run_pivots
+  have hdet := fermionicKernel_sample_det_le_two_pow_except
+    p approximationScale hp run.selectedRow run.selectedColumn exceptional
+    selectedRow_nonneg selectedRow_le_one selectedColumn_lower selectedColumn_upper
+    (by simpa [hselectedCard] using hcard)
+  rw [← Run.selectedCore_eq_sampleMatrix] at hdet
+  exact hpower.trans (by simpa [hselectedCard] using hdet)
+
+/--
 Choosing odd approximation order `2m+1` and a block of length
 `32(2m+1)(s+1)` makes the dyadic exponent divisible by the block length,
 so the residual-power estimate has an explicit root.
