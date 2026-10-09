@@ -2254,7 +2254,7 @@ Verification:
 
 ## Phase AF — GECP exceptional-column composition
 
-State: verified on 2026-10-09; merge and CI pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #34.
 
 Phase AE proves determinant decay for a sample matrix with finitely many exact
 out-of-band columns. The next bridge is to apply that theorem to the selected

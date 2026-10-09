@@ -469,7 +469,7 @@ restriction and iterate shrinking bands using only linearly many pivots.
   tests and no known dependency vulnerabilities. Its two new public results
   use only the permitted Lean axioms; an exact `Fraction` regression verifies
   a full-rank GECP selected core, its pivot product, and the two-exception
-  effective-rank determinant bound. Merge and CI are pending.
+  effective-rank determinant bound. The change passed CI and merged as PR #34.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

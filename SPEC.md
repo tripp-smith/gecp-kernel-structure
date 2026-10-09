@@ -1594,8 +1594,8 @@ This annotation records delivered identifiers without changing the goals above.
   composition with the actual GECP selected core, a shrinking-band
   recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 65 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AF: verified on its implementation branch on
-  2026-10-09; merge and CI are pending.
+- Post-v1 research phase AF: complete with green CI on 2026-10-09 and
+  delivered in merged PR #34.
   `fermionicKernel_gecp_error_pow_le_separatedApprox_except` and
   `fermionicKernel_gecp_error_pow_le_two_pow_except` compose the Phase AE
   determinant bounds with the actual selected core of a realized fermionic
