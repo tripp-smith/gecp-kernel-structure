@@ -66,6 +66,11 @@ Phase Y reuses mathlib's existing `Matrix.IsHadamard.kronecker` and
 constant-base obstruction are research-routing results for this project, not
 new upstream candidates at their present level of generality.
 
+Phase Z's multiplicative cross-ratio identity and corner-area estimates are
+specific to the normalized fermionic exponential kernel. No upstream mathlib
+abstraction is proposed until the same proof pattern is needed for a second
+kernel family.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

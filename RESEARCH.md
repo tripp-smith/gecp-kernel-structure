@@ -1643,3 +1643,102 @@ Verification:
   through 256;
 - `./scripts/verify.sh` passes with 59 Python tests and no known dependency
   vulnerabilities.
+
+## Phase Z — multiplicative-Monge corner localization
+
+State: verified on branch `codex/phase-z-corner-localization`; PR pending.
+
+Phase Y proves that bounded entries and low-rank approximation alone cannot
+remove the determinant route's dimension loss. The next target must use an
+identity special to the fermionic kernel. Its logarithm is affine in the
+time-frequency interaction, so every four-point multiplicative cross ratio
+collapses to one scalar exponential. Consequently, elimination at a corner of
+an oppositely ordered rectangle has no cancellation ambiguity: the updated
+residual is the original positive kernel times an explicit area factor.
+
+Frozen public Lean targets:
+
+- `fermionicKernel_cross_product`: prove the exact four-point exponential
+  cross-product identity;
+- `fermionicKernel_residualUpdate_factor`: factor an arbitrary one-step
+  fermionic residual as
+  `K(t,omega) * (1 - exp((t-t0)*(omega-omega0)))`;
+- `fermionicKernel_cornerResidual_nonneg`: on `t0 <= t` and `omega <= omega0`,
+  certify that the corner residual is nonnegative;
+- `fermionicKernel_cornerResidual_le_area`: bound its absolute value by the
+  dimensionless rectangle area `(t-t0)*(omega0-omega)` on `0 <= t <= 1`;
+- `fermionicKernel_cornerResidual_le_half`: obtain a local half contraction
+  whenever that area is at most `log 2`.
+
+Proof contract:
+
+- derive the factorization from the kernel definition and exponential laws,
+  not by adding a cross-ratio hypothesis;
+- keep the arbitrary pivot identity separate from the ordered-corner
+  inequalities;
+- use `1-u <= exp(-u)` for the linear area bound and exponential monotonicity
+  for the `log 2` threshold;
+- expose only exact real inequalities; asymptotic and covering language stays
+  in documentation.
+
+Independent checks:
+
+- recompute the update and factorized forms independently at high precision
+  on deterministic interior points and both reflected corner orientations;
+- verify nonnegativity, the area bound, and the `log 2` half threshold on a
+  dense deterministic sample of admissible local rectangles;
+- focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if the exact factorization holds but the proposed area constants fail,
+  preserve the identity and deliver the sharpest direct monotone-exponential
+  bound; do not add assumptions about later GECP residuals.
+
+Non-claims:
+
+- a local corner theorem for the original kernel does not show that every
+  later GECP residual has the same multiplicative cross ratio;
+- this phase does not yet cover the cutoff rectangle by selected residual
+  tiles, prove the conjectured `2(s+1)` block, prove Conjecture G1, or solve
+  Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `fermionicKernel_cross_product` proves that the four kernel factors differ
+  by exactly `exp((t-t0)*(omega-omega0))`; the logistic column normalization
+  cancels completely;
+- `fermionicKernel_residualUpdate_factor` converts the arbitrary one-step
+  Schur update into `K(t,omega) * (1-exp((t-t0)*(omega-omega0)))`;
+- `fermionicKernel_residualUpdate_nonneg_of_cross_nonpos`,
+  `fermionicKernel_residualUpdate_le_crossArea`, and
+  `fermionicKernel_residualUpdate_le_half_of_crossArea` express the result
+  without choosing an orientation, so both reflected corners are covered;
+- `fermionicKernel_cornerResidual_nonneg` specializes the identity to an
+  oppositely ordered corner and removes cancellation from the update;
+- `fermionicKernel_cornerResidual_le_area` uses `K <= 1` and
+  `1-exp(-u) <= u` to bound the residual by the time-frequency cross area;
+- `fermionicKernel_cornerResidual_le_half` sharpens the monotone exponential
+  bound to one half when that cross area is at most `log 2`.
+
+Result:
+
+- the original fermionic kernel has an exact local contraction law unavailable
+  to the arbitrary bounded matrices from Phase Y;
+- a corner pivot controls an entire oppositely ordered tile using only its
+  dimensionless time-frequency area, giving a scale-invariant target for a
+  dyadic tiling argument;
+- the remaining global obligation is to show that GECP-selected residual
+  pivots induce or dominate a collection of such tiles across only `O(s+1)`
+  frequency scales.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- a 100-decimal regression independently compares the Schur update and
+  factorized formulas at arbitrary and reflected corner points, then checks
+  nonnegativity, the area bound, and the `log 2` threshold on 4,590
+  deterministic oriented tile samples;
+- `./scripts/verify.sh` passes with 60 Python tests and no known dependency
+  vulnerabilities.
