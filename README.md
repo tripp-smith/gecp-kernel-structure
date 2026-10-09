@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** W — logarithmic-scale contraction block<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase W `./scripts/verify.sh` passed with 57 tests and no known dependency vulnerabilities on 2026-10-09<br>
+> **Current phase:** X — arbitrary dyadic accuracy<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase X `./scripts/verify.sh` passed with 58 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #25](https://github.com/tripp-smith/gecp-kernel-structure/pull/25)<br>
-> **Claim level:** sharpening the proved quadratic contraction block to an explicit logarithmic-overhead block; the conjectured linear block remains open<br>
+> **Delivery:** branch `codex/phase-x-arbitrary-accuracy`; draft PR pending<br>
+> **Claim level:** extracting an explicit arbitrary-accuracy rank theorem from the proved odd-block estimate; Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -41,6 +41,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | U | Low-rank perturbation determinant bound | complete | column-choice expansion; factor-rank vanishing; `abs_det_le_of_factors_approx`; fermionic sampled-core determinant decay | Lean build; public axiom audit; exact rational sizes 2–5; Lean rank-one check; 55-test root verification; green CI | merged PR #23 |
 | V | GECP/determinant composition | complete | selected-coordinate domain bridge; exact/coarse residual-power bounds; explicit odd-block rate; quadratic half contraction | Lean build; public axiom audit; exact arithmetic regression; 56-test root verification; green CI | merged PR #24 |
 | W | Logarithmic-scale contraction block | complete | `oddBlock_scale_logarithmic`; `fermionicKernel_gecp_error_le_half_logarithmicBlock`; explicit `O((s+1) log(s+1))` half-contraction block | Lean build; public axiom audit; exact dyadic-boundary regression; 57-test root verification; green CI | merged PR #25 |
+| X | Arbitrary dyadic accuracy | verified | `oddBlock_factor_le_accuracy`; `oddBlock_scale_accuracy`; `fermionicKernel_gecp_error_le_dyadicAccuracyBlock`; `O((s+1)(log(s+1)+q))` rank theorem | Lean build; public axiom audit; exact scale/accuracy regression; 58-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -129,7 +130,7 @@ downstream experiments.
 | Trustworthy continuous pivoting | Synthetic objectives with known maxima and fermionic residuals receive lower/upper certificates; deliberately exhausted budgets remain `certified=False` | A certificate proves only the stated pivot gap under its analytic or interval enclosure, not a global GECP convergence rate |
 | Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
 | Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, the minimized `2 × 2` obstruction is regression-tested, and selected-cross sign coherence and permutation orientations are checked exactly | Lean proves all-orders exponential and fermionic strict sign regularity, selected-residual coherence, and complete-run nonexpansiveness; dyadic strict contraction remains open |
-| Fermionic block contraction | Closed-form high-precision evaluation independently checks that the first residual is maximized at `(1,-Λ)` and that the two-corner residual is below one half of the initial pivot for `Λ=1/8,1/2,1` | Lean proves the first two pivots for every positive cutoff and the half contraction for `0<Λ≤1`; extending that base block across dyadic cutoff scales is still Conjecture G1 |
+| Fermionic block contraction | Closed-form high-precision evaluation independently checks that the first residual is maximized at `(1,-Λ)` and that the two-corner residual is below one half of the initial pivot for `Λ=1/8,1/2,1` | Lean proves an arbitrary dyadic-accuracy bound with `O((s+1)(log(s+1)+q))` pivots for `Λ≤2^s`; removing the scale-startup logarithm remains Conjecture G1 |
 | Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense blind scan | These demonstrate useful forward compression and effective sparse representation, not uniqueness or general robustness of analytic continuation |
 
 Together these layers cover every project objective with at least one

@@ -148,6 +148,12 @@
   arithmetic condition. It proves `|R_n(x,y)| <= 1/2` by
   `n = 32(33 + 4 ceil(log_2(s+1)))(s+1)`, improving the certified block to
   `O((s+1) log(s+1))` without changing the complete-pivot hypotheses.
+- More generally, for every dyadic accuracy order `q`, the choice
+  `m = 16 + 2 ceil(log_2(s+1)) + 2q` proves
+  `|R_n(x,y)| <= 2^-q` by
+  `n = 32(33 + 4 ceil(log_2(s+1)) + 4q)(s+1)`. Thus the determinant route
+  yields rank `O((s+1)(log(s+1)+q))`, or
+  `O(log(1+Λ)(log log(1+Λ)+log(1/epsilon)))` after choosing a dyadic target.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -235,10 +241,11 @@ specified in `SPEC.md`.
 The cutoff-one base case of the `2(s+1)` block hypothesis, all-orders sign
 regularity, complete-run nonexpansiveness, the determinant geometric-mean
 reduction, sampled-core determinant decay, and their exact composition are now
-proved. The composition now yields an explicit strict half contraction after a
-logarithmic-overhead block in `s+1`. It remains open whether the logarithmic
-factor and constants can be removed, or the argument localized enough to prove
-the conjectured linear block and the cutoff-uniform form of Conjecture G1.
+proved. The composition now yields arbitrary dyadic accuracy with rank linear
+in the requested accuracy order after an additive logarithmic scale startup.
+It remains open whether that startup factor and the constants can be removed,
+or the argument localized enough to prove the conjectured linear block and the
+cutoff-uniform form of Conjecture G1.
 
 ## Not claimed
 
@@ -262,8 +269,8 @@ the conjectured linear block and the cutoff-uniform form of Conjecture G1.
 - A proved cutoff-uniform GECP rate obtained by combining the new sampled-core
   determinant bound with the formal geometric-mean inequality at the
   conjectured linear-in-`s` rank scale. The delivered composition instead has
-  an explicit odd-block rate and a logarithmic-overhead half-contraction
-  corollary.
+  an explicit arbitrary-accuracy rate with an additive
+  `(s+1) log(s+1)` startup cost.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -319,6 +326,10 @@ the conjectured linear block and the cutoff-uniform form of Conjecture G1.
   use only the permitted Lean axioms; the exact integer regression covers
   ordinary scales and dyadic transition boundaries through `2^64`. The change
   passed CI and merged as PR #25.
+- On 2026-10-09 the Phase X root command passed the same gate with 58 Python
+  tests and no known dependency vulnerabilities. Its three new public results
+  use only the permitted Lean axioms; the exact integer regression covers 65
+  accuracy orders and dyadic transition boundaries through `2^64`.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

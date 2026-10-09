@@ -253,6 +253,25 @@ theorem oddBlock_factor_le_half (m s : ℕ)
   push_cast
   linarith
 
+/-- An exact arithmetic condition making the odd-block factor at most `2⁻q`. -/
+theorem oddBlock_factor_le_accuracy (m s q : ℕ)
+    (hscale : 64 * (2 * m + 1) * (s + 1) * 2 ^ q ≤ 2 ^ m) :
+    2 * (32 * (2 * m + 1) * (s + 1) : ℕ) * (1 / 2 : ℝ) ^ m ≤
+      (1 / 2 : ℝ) ^ q := by
+  have hscale_real :
+      (64 * (2 * m + 1) * (s + 1) * 2 ^ q : ℝ) ≤ (2 : ℝ) ^ m := by
+    exact_mod_cast hscale
+  rw [div_pow, div_pow]
+  norm_num only [one_pow]
+  rw [show
+    2 * (32 * (2 * m + 1) * (s + 1) : ℕ) * (1 / (2 : ℝ) ^ m) =
+      (2 * (32 * (2 * m + 1) * (s + 1) : ℕ)) / (2 : ℝ) ^ m by ring]
+  rw [div_le_div_iff₀ (by positivity : 0 < (2 : ℝ) ^ m)
+    (by positivity : 0 < (2 : ℝ) ^ q)]
+  push_cast
+  norm_num at hscale_real ⊢
+  nlinarith [hscale_real]
+
 /-- The simple choice `m = 16(s+1)` satisfies the odd-block half-contraction condition. -/
 theorem oddBlock_scale_quadratic (s : ℕ) :
     128 * (2 * (16 * (s + 1)) + 1) * (s + 1) ≤ 2 ^ (16 * (s + 1)) := by
@@ -296,6 +315,30 @@ theorem oddBlock_scale_logarithmic (s : ℕ) :
     _ ≤ 128 * (512 * 2 ^ ell) * 2 ^ ell := by gcongr
     _ = 2 ^ (16 + 2 * ell) := by
       rw [pow_add, show 2 * ell = ell + ell by omega, pow_add]
+      norm_num
+      ring
+
+/-- The affine-in-accuracy choice of `m` satisfies the exact dyadic target condition. -/
+theorem oddBlock_scale_accuracy (s q : ℕ) :
+    let m := 16 + 2 * Nat.clog 2 (s + 1) + 2 * q
+    64 * (2 * m + 1) * (s + 1) * 2 ^ q ≤ 2 ^ m := by
+  let ell := Nat.clog 2 (s + 1)
+  have hq : s + 1 ≤ 2 ^ ell := by
+    exact Nat.le_pow_clog (by norm_num) (s + 1)
+  have hlin : 33 + 4 * (ell + q) ≤ 1024 * 2 ^ (ell + q) := by
+    exact (linear_le_512_mul_pow_two (ell + q)).trans (by gcongr; omega)
+  dsimp only
+  change 64 * (2 * (16 + 2 * ell + 2 * q) + 1) * (s + 1) * 2 ^ q ≤
+    2 ^ (16 + 2 * ell + 2 * q)
+  rw [show 2 * (16 + 2 * ell + 2 * q) + 1 = 33 + 4 * (ell + q) by omega]
+  calc
+    64 * (33 + 4 * (ell + q)) * (s + 1) * 2 ^ q ≤
+        64 * (33 + 4 * (ell + q)) * 2 ^ ell * 2 ^ q := by gcongr
+    _ ≤ 64 * (1024 * 2 ^ (ell + q)) * 2 ^ ell * 2 ^ q := by gcongr
+    _ = 2 ^ (16 + 2 * ell + 2 * q) := by
+      rw [pow_add]
+      rw [show 16 + 2 * ell + 2 * q = 16 + ell + q + ell + q by omega]
+      simp only [pow_add]
       norm_num
       ring
 
@@ -368,6 +411,33 @@ theorem fermionicKernel_gecp_error_le_half_logarithmicBlock
     (16 + 2 * Nat.clog 2 (s + 1)) s (oddBlock_scale_logarithmic s)
     residual rows columns realized pivot_ne updates complete run run_pivots run_complete
     x y hx hy
+
+/-- Every realized physical-domain exact run reaches dyadic accuracy `2⁻q` by
+an explicit block linear in `q` after a ceil-logarithmic scale startup. -/
+theorem fermionicKernel_gecp_error_le_dyadicAccuracyBlock
+    (s q : ℕ) (residual : ℕ → Kernel ℝ ℝ ℝ) (rows columns : ℕ → ℝ)
+    (realized : ∀ j, ∃ run : Run fermionicKernel, run.finalResidual = residual j)
+    (pivot_ne : ∀ j, residual j (rows j) (columns j) ≠ 0)
+    (updates : ∀ j, residual (j + 1) =
+      residualUpdate (residual j) (rows j) (columns j) (pivot_ne j))
+    (complete : ∀ j, CompletePivotOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ s : ℕ) : ℝ) ≤ ω ∧ ω ≤ (2 ^ s : ℕ))
+      (residual j) (rows j) (columns j))
+    (run : Run fermionicKernel)
+    (run_pivots : run.RealizesPivotPrefix residual rows columns
+      (32 * (2 * (16 + 2 * Nat.clog 2 (s + 1) + 2 * q) + 1) * (s + 1)))
+    (run_complete : run.CompleteOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ s : ℕ) : ℝ) ≤ ω ∧ ω ≤ (2 ^ s : ℕ)))
+    (x y : ℝ) (hx : 0 ≤ x ∧ x ≤ 1)
+    (hy : -((2 ^ s : ℕ) : ℝ) ≤ y ∧ y ≤ (2 ^ s : ℕ)) :
+    |residual
+      (32 * (2 * (16 + 2 * Nat.clog 2 (s + 1) + 2 * q) + 1) * (s + 1)) x y| ≤
+      (1 / 2 : ℝ) ^ q := by
+  exact (fermionicKernel_gecp_error_le_oddBlock
+    (16 + 2 * Nat.clog 2 (s + 1) + 2 * q) s residual rows columns realized pivot_ne
+    updates complete run run_pivots run_complete x y hx hy).trans
+      (oddBlock_factor_le_accuracy
+        (16 + 2 * Nat.clog 2 (s + 1) + 2 * q) s q (oddBlock_scale_accuracy s q))
 
 end Fermionic
 end GECPKernelStructure
