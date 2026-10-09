@@ -161,6 +161,13 @@
   Thus the remaining GECP startup loss cannot be removed by a generic
   entrywise determinant theorem and needs fermionic or residual-selected
   structure.
+- The fermionic kernel has the exact multiplicative cross ratio that Phase Y's
+  arbitrary matrices lack. An update at `(t0, omega0)` factors as
+  `K(t,omega) * (1-exp((t-t0)*(omega-omega0)))`. On the oppositely ordered
+  corner region `t0 <= t` and `omega <= omega0`, this residual is nonnegative,
+  is at most the cross area `(t-t0)*(omega0-omega)`, and is at most one half
+  whenever that area is at most `log 2`. The cross-area formulation covers
+  the reflected southeast orientation as well.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -256,6 +263,9 @@ cutoff-uniform form of Conjecture G1.
 The generic bounded-entry route is now formally ruled out; total positivity,
 divided differences, or GECP-selected residual structure remain viable because
 the obstruction family does not satisfy the fermionic hypotheses.
+The exact corner-area law now supplies a local, scale-invariant mechanism; it
+remains conjectural whether the realized GECP residual geometry covers the
+full cutoff rectangle with only linearly many such tiles per accuracy block.
 
 ## Not claimed
 
@@ -285,6 +295,10 @@ the obstruction family does not satisfy the fermionic hypotheses.
   estimate. The Sylvester--Hadamard obstruction concerns arbitrary
   bounded-entry matrices and is deliberately outside those structural
   classes.
+- A global GECP contraction obtained by applying the corner-area theorem to
+  later residuals. The proved exponential cross ratio belongs to the original
+  fermionic kernel and is not asserted to be preserved verbatim by Schur
+  updates.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -350,6 +364,11 @@ the obstruction family does not satisfy the fermionic hypotheses.
   use only the permitted Lean axioms; the exact Sylvester regression covers
   orders two through 64 and obstruction witnesses for bases zero through 256.
   The change passed CI and merged as PR #27.
+- On 2026-10-09 the Phase Z root command passed the same gate with 60 Python
+  tests and no known dependency vulnerabilities. Its eight new public results
+  use only the permitted Lean axioms; the independent 100-decimal regression
+  checks four arbitrary cross-ratio factorizations and 4,590 admissible
+  oriented corner tiles.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

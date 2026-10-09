@@ -202,6 +202,66 @@ def test_sylvester_hadamard_determinant_obstruction_exactly() -> None:
         assert constant_base**2 < 2**exponent
 
 
+def test_fermionic_corner_cross_ratio_localization_high_precision() -> None:
+    with mp.workdps(100):
+        tolerance = mp.mpf("1e-90")
+
+        def kernel(time: mp.mpf, frequency: mp.mpf) -> mp.mpf:
+            return mp.exp(-time * frequency) / (1 + mp.exp(-frequency))
+
+        def update(
+            pivot_time: mp.mpf,
+            pivot_frequency: mp.mpf,
+            time: mp.mpf,
+            frequency: mp.mpf,
+        ) -> mp.mpf:
+            return kernel(time, frequency) - (
+                kernel(time, pivot_frequency)
+                * kernel(pivot_time, frequency)
+                / kernel(pivot_time, pivot_frequency)
+            )
+
+        arbitrary_cases = [
+            ("0.17", "-1.3", "0.81", "2.4"),
+            ("0.72", "3.1", "0.08", "-0.9"),
+            ("0", "8", "0.375", "0.4"),
+            ("1", "-8", "0.625", "-0.4"),
+        ]
+        for raw_case in arbitrary_cases:
+            pivot_time, pivot_frequency, time, frequency = map(mp.mpf, raw_case)
+            direct = update(pivot_time, pivot_frequency, time, frequency)
+            factorized = kernel(time, frequency) * (
+                1 - mp.exp((time - pivot_time) * (frequency - pivot_frequency))
+            )
+            assert abs(direct - factorized) < tolerance
+
+        logarithmic_half_area = mp.log(2)
+        grid = [mp.mpf(index) / 16 for index in range(17)]
+        for pivot_time in grid:
+            for time in grid:
+                if time < pivot_time:
+                    continue
+                for pivot_frequency in map(mp.mpf, ("-2", "0", "3")):
+                    for frequency_gap in map(mp.mpf, ("0", "0.125", "0.5", "1", "2")):
+                        frequency = pivot_frequency - frequency_gap
+                        area = (time - pivot_time) * frequency_gap
+                        residual = update(pivot_time, pivot_frequency, time, frequency)
+                        assert residual >= -tolerance
+                        assert abs(residual) <= area + tolerance
+                        if area <= logarithmic_half_area:
+                            assert abs(residual) <= mp.mpf("0.5") + tolerance
+                        reflected_residual = update(
+                            1 - pivot_time,
+                            -pivot_frequency,
+                            1 - time,
+                            -frequency,
+                        )
+                        assert reflected_residual >= -tolerance
+                        assert abs(reflected_residual) <= area + tolerance
+                        if area <= logarithmic_half_area:
+                            assert abs(reflected_residual) <= mp.mpf("0.5") + tolerance
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))
