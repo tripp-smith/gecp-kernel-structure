@@ -72,9 +72,13 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.abs_det_columnChoice_le
 #print axioms Matrix.abs_det_le_of_factors_approx
 #print axioms Matrix.abs_det_le_two_pow_mul_of_factors_approx
+#print axioms Matrix.abs_det_le_of_factors_approx_except
+#print axioms Matrix.abs_det_le_two_pow_mul_of_factors_approx_except
 #print axioms GECPKernelStructure.Fermionic.separatedLeft_mul_separatedRight
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_sample_det_le_separatedApprox
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_sample_det_le_two_pow
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_sample_det_le_separatedApprox_except
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_sample_det_le_two_pow_except
 #print axioms GECPKernelStructure.GECP.Run.selectedRow_mem_of_completeOn
 #print axioms GECPKernelStructure.GECP.Run.selectedColumn_mem_of_completeOn
 #print axioms GECPKernelStructure.GECP.Run.selectedCore_eq_sampleMatrix

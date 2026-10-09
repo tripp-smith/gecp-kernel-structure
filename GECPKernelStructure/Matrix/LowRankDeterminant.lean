@@ -164,6 +164,40 @@ theorem abs_det_le_of_factors_approx (A : Matrix n n ℝ) (L : Matrix n k ℝ)
         exact abs_det_columnChoice_le s E (L * R) ε C hE hfactor
       · rw [if_neg hs, det_columnChoice_eq_zero_of_card_add_lt s L R E (by omega), abs_zero]
 
+/--
+A finite set of exact columns augments the effective factorization rank by its
+cardinality while every other column retains the approximation error bound.
+-/
+theorem abs_det_le_of_factors_approx_except (A : Matrix n n ℝ)
+    (L : Matrix n k ℝ) (R : Matrix k n ℝ) (exceptional : Finset n)
+    (ε C : ℝ)
+    (happrox : ∀ i j, j ∉ exceptional → |A i j - (L * R) i j| ≤ ε)
+    (hA : ∀ i j, j ∈ exceptional → |A i j| ≤ C)
+    (hfactor : ∀ i j, j ∉ exceptional → |(L * R) i j| ≤ C)
+    (hε0 : 0 ≤ ε) :
+    |A.det| ≤ ∑ s : Finset n,
+      if Fintype.card n ≤ Fintype.card k + exceptional.card + s.card then
+        (Fintype.card n).factorial * ε ^ s.card * C ^ (Fintype.card n - s.card)
+      else 0 := by
+  let L' := mixedLeft exceptional L A
+  let R' := mixedRight exceptional R
+  have hproduct : L' * R' = columnChoice exceptional A (L * R) := by
+    exact mixedLeft_mul_mixedRight exceptional L R A
+  have happrox' : ∀ i j, |A i j - (L' * R') i j| ≤ ε := by
+    intro i j
+    rw [hproduct]
+    by_cases hj : j ∈ exceptional
+    · simpa [columnChoice, hj] using hε0
+    · simpa [columnChoice, hj] using happrox i j hj
+  have hfactor' : ∀ i j, |(L' * R') i j| ≤ C := by
+    intro i j
+    rw [hproduct]
+    by_cases hj : j ∈ exceptional
+    · simpa [columnChoice, hj] using hA i j hj
+    · simpa [columnChoice, hj] using hfactor i j hj
+  have h := abs_det_le_of_factors_approx A L' R' ε C happrox' hfactor'
+  simpa [L', R', Fintype.card_sum, Fintype.card_coe] using h
+
 /-- A coarse closed form of `abs_det_le_of_factors_approx`. -/
 theorem abs_det_le_two_pow_mul_of_factors_approx (A : Matrix n n ℝ)
     (L : Matrix n k ℝ) (R : Matrix k n ℝ) (ε C : ℝ)
@@ -195,5 +229,39 @@ theorem abs_det_le_two_pow_mul_of_factors_approx (A : Matrix n n ℝ)
     _ = (2 : ℝ) ^ Fintype.card n * (Fintype.card n).factorial *
         ε ^ (Fintype.card n - Fintype.card k) * C ^ Fintype.card k := by
       simp [Fintype.card_finset, nsmul_eq_mul, mul_assoc]
+
+/-- Closed determinant bound with a finite set of exactly represented columns. -/
+theorem abs_det_le_two_pow_mul_of_factors_approx_except (A : Matrix n n ℝ)
+    (L : Matrix n k ℝ) (R : Matrix k n ℝ) (exceptional : Finset n)
+    (ε C : ℝ)
+    (happrox : ∀ i j, j ∉ exceptional → |A i j - (L * R) i j| ≤ ε)
+    (hA : ∀ i j, j ∈ exceptional → |A i j| ≤ C)
+    (hfactor : ∀ i j, j ∉ exceptional → |(L * R) i j| ≤ C)
+    (hcard : Fintype.card k + exceptional.card ≤ Fintype.card n)
+    (hε0 : 0 ≤ ε) (hε1 : ε ≤ 1) (hC1 : 1 ≤ C) :
+    |A.det| ≤ (2 : ℝ) ^ Fintype.card n * (Fintype.card n).factorial *
+      ε ^ (Fintype.card n - (Fintype.card k + exceptional.card)) *
+        C ^ (Fintype.card k + exceptional.card) := by
+  let L' := mixedLeft exceptional L A
+  let R' := mixedRight exceptional R
+  have hproduct : L' * R' = columnChoice exceptional A (L * R) := by
+    exact mixedLeft_mul_mixedRight exceptional L R A
+  have happrox' : ∀ i j, |A i j - (L' * R') i j| ≤ ε := by
+    intro i j
+    rw [hproduct]
+    by_cases hj : j ∈ exceptional
+    · simpa [columnChoice, hj] using hε0
+    · simpa [columnChoice, hj] using happrox i j hj
+  have hfactor' : ∀ i j, |(L' * R') i j| ≤ C := by
+    intro i j
+    rw [hproduct]
+    by_cases hj : j ∈ exceptional
+    · simpa [columnChoice, hj] using hA i j hj
+    · simpa [columnChoice, hj] using hfactor i j hj
+  have h := abs_det_le_two_pow_mul_of_factors_approx
+    A L' R' ε C happrox' hfactor'
+    (by simpa [L', Fintype.card_sum, Fintype.card_coe] using hcard)
+    hε0 hε1 hC1
+  simpa [L', R', Fintype.card_sum, Fintype.card_coe] using h
 
 end Matrix

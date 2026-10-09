@@ -2159,3 +2159,95 @@ Verification:
   the location of every sampled pivot above it;
 - `./scripts/verify.sh` passes with 64 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AE — exceptional-column determinant restart
+
+State: verified on 2026-10-09; merge and CI pending.
+
+Phase AD shows that every continuation column selected while the pivot remains
+above one quarter lies in the central half-band. Reusing the existing
+smaller-cutoff separated approximation is blocked only by the two original
+corner columns at `-Lambda` and `Lambda`. Exterior-power reasoning suggests
+the correct repair: represent those exceptional columns exactly, augmenting
+the approximating factorization rank by their cardinality while retaining an
+error factor for every other column.
+
+Frozen public Lean targets:
+
+- `Matrix.abs_det_le_of_factors_approx_except`: extend the cardinality-sensitive
+  low-rank determinant sum to a finite set of columns represented exactly;
+- `Matrix.abs_det_le_two_pow_mul_of_factors_approx_except`: provide the closed
+  coarse form with effective rank `card k + exceptional.card`;
+- `fermionicKernel_sample_det_le_separatedApprox_except`: apply the explicit
+  fermionic separated approximation only outside the exceptional set;
+- `fermionicKernel_sample_det_le_two_pow_except`: expose the resulting closed
+  determinant decay with the exact exceptional-column rank shift.
+
+Proof contract:
+
+- reuse `Matrix.mixedLeft`, `Matrix.mixedRight`, and `columnChoice` to encode
+  exact exceptional columns rather than duplicating the factorization API;
+- require cutoff membership only for nonexceptional frequencies; exceptional
+  fermionic columns are bounded directly by the kernel's global unit bound;
+- charge exactly `exceptional.card` additional factor coordinates and retain
+  the same `2^-p` power for every column beyond the augmented rank;
+- keep the theorem independent of how the exceptional columns were selected,
+  so Phase AF can instantiate them with the two cutoff corners and Phase AD's
+  localized continuation.
+
+Independent checks:
+
+- construct exact rational matrices consisting of a low-rank background plus
+  two arbitrary exact columns and verify the predicted rank shift and
+  determinant vanishing threshold;
+- check the zero-exception specialization agrees with the existing bound;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the augmented-factor cardinality cannot be normalized through the
+  existing `Sum`/`Finset` APIs after three attempts, deliver the exact
+  factorization identity and leave only its closed cardinal arithmetic as the
+  next lemma; do not weaken exceptional columns to an unproved numerical
+  approximation.
+
+Non-claims:
+
+- determinant decay with two exceptional columns does not itself prove that
+  an actual GECP continuation is complete on the central band or bound the
+  number of above-quarter pivots;
+- this phase does not remove the logarithmic startup, prove Conjecture G1, or
+  solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `Matrix.abs_det_le_of_factors_approx_except` reuses the existing mixed
+  factorization to make exact exceptional columns part of the low-rank
+  background;
+- `Matrix.abs_det_le_two_pow_mul_of_factors_approx_except` gives the closed
+  determinant bound with effective rank `card k + exceptional.card`;
+- `fermionicKernel_sample_det_le_separatedApprox_except` applies the explicit
+  separated approximation only to nonexceptional frequency columns;
+- `fermionicKernel_sample_det_le_two_pow_except` exposes the corresponding
+  closed fermionic decay estimate.
+
+Result:
+
+- the two original cutoff-corner columns can be retained exactly while every
+  later central-half column uses the cutoff-halved separated approximation;
+- exceptional frequencies need no cutoff hypothesis and cost exactly two
+  rank coordinates when the exceptional set contains the two corners;
+- the next formal obligation is to identify those two columns inside the
+  appended GECP selected core and combine the shifted determinant estimate
+  with the continuation pivot product.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` matrices independently verify determinant expansion,
+  effective-rank vanishing, and the coarse error exponent for both zero and
+  two exceptional columns;
+- `./scripts/verify.sh` passes with 65 Python tests and no known dependency
+  vulnerabilities.

@@ -127,5 +127,130 @@ theorem fermionicKernel_sample_det_le_two_pow (p s : ℕ) (hp : 0 < p)
           2 ^ (2 * ((s + 1) * (8 * p))) := by
       simp [Fintype.card_finset, nsmul_eq_mul, mul_assoc]
 
+/--
+Fermionic determinant decay when a finite set of frequency columns is
+represented exactly and only the remaining columns lie in the cutoff band.
+-/
+theorem fermionicKernel_sample_det_le_separatedApprox_except
+    (p s : ℕ) (hp : 0 < p) (t ω : n → ℝ) (exceptional : Finset n)
+    (ht0 : ∀ i, 0 ≤ t i) (ht1 : ∀ i, t i ≤ 1)
+    (hω_lower : ∀ j, j ∉ exceptional → -((2 ^ s : ℕ) : ℝ) ≤ ω j)
+    (hω_upper : ∀ j, j ∉ exceptional → ω j ≤ (2 ^ s : ℕ)) :
+    |(sampleMatrix fermionicKernel t ω).det| ≤
+      ∑ S : Finset n,
+        if Fintype.card n ≤
+            2 * ((s + 1) * (8 * p)) + exceptional.card + S.card then
+          (Fintype.card n).factorial * (1 / 2 : ℝ) ^ (p * S.card) *
+            2 ^ (Fintype.card n - S.card)
+        else 0 := by
+  let terms := fermionicSeparatedTerms p s
+  let L := separatedLeft terms t
+  let R := separatedRight terms ω
+  have hLR : L * R = sampleMatrix (evalSeparated terms) t ω :=
+    separatedLeft_mul_separatedRight terms t ω
+  have happrox : ∀ i j, j ∉ exceptional →
+      |sampleMatrix fermionicKernel t ω i j - (L * R) i j| ≤
+        (1 / 2 : ℝ) ^ p := by
+    intro i j hj
+    rw [hLR]
+    exact fermionicKernel_separatedApprox_error p s hp (ht0 i) (ht1 i)
+      (hω_lower j hj) (hω_upper j hj)
+  have hkernel : ∀ i j, j ∈ exceptional →
+      |sampleMatrix fermionicKernel t ω i j| ≤ (2 : ℝ) := by
+    intro i j _hj
+    change |fermionicKernel (t i) (ω j)| ≤ (2 : ℝ)
+    rw [abs_of_pos (fermionicKernel_pos (t i) (ω j))]
+    exact (fermionicKernel_le_one (ht0 i) (ht1 i)).trans (by norm_num)
+  have hfactor : ∀ i j, j ∉ exceptional → |(L * R) i j| ≤ (2 : ℝ) := by
+    intro i j hj
+    rw [hLR]
+    change |evalSeparated terms (t i) (ω j)| ≤ (2 : ℝ)
+    have hkpos := fermionicKernel_pos (t i) (ω j)
+    have hkle := fermionicKernel_le_one (t := t i) (ω := ω j) (ht0 i) (ht1 i)
+    have herr := fermionicKernel_separatedApprox_error p s hp (ht0 i) (ht1 i)
+      (hω_lower j hj) (hω_upper j hj)
+    have heps : (1 / 2 : ℝ) ^ p ≤ 1 :=
+      pow_le_one₀ (by norm_num) (by norm_num)
+    have htri : |evalSeparated terms (t i) (ω j)| ≤
+        |evalSeparated terms (t i) (ω j) - fermionicKernel (t i) (ω j)| +
+          |fermionicKernel (t i) (ω j)| := by
+      calc
+        |evalSeparated terms (t i) (ω j)| =
+            |(evalSeparated terms (t i) (ω j) - fermionicKernel (t i) (ω j)) +
+              fermionicKernel (t i) (ω j)| := by ring_nf
+        _ ≤ _ := abs_add_le _ _
+    rw [abs_sub_comm] at htri
+    rw [abs_of_pos hkpos] at htri
+    exact htri.trans (by simpa [terms] using (show
+      |fermionicKernel (t i) (ω j) -
+        evalSeparated (fermionicSeparatedTerms p s) (t i) (ω j)| +
+          fermionicKernel (t i) (ω j) ≤ 2 by linarith))
+  have h := Matrix.abs_det_le_of_factors_approx_except
+    (sampleMatrix fermionicKernel t ω) L R exceptional
+    ((1 / 2 : ℝ) ^ p) 2 happrox hkernel hfactor (by positivity)
+  simpa [terms, L, R, fermionicSeparatedTerms_length, pow_mul, mul_assoc] using h
+
+/-- Closed fermionic determinant decay with an exact exceptional-column rank shift. -/
+theorem fermionicKernel_sample_det_le_two_pow_except
+    (p s : ℕ) (hp : 0 < p) (t ω : n → ℝ) (exceptional : Finset n)
+    (ht0 : ∀ i, 0 ≤ t i) (ht1 : ∀ i, t i ≤ 1)
+    (hω_lower : ∀ j, j ∉ exceptional → -((2 ^ s : ℕ) : ℝ) ≤ ω j)
+    (hω_upper : ∀ j, j ∉ exceptional → ω j ≤ (2 ^ s : ℕ))
+    (hcard : 2 * ((s + 1) * (8 * p)) + exceptional.card ≤ Fintype.card n) :
+    |(sampleMatrix fermionicKernel t ω).det| ≤
+      (2 : ℝ) ^ Fintype.card n * (Fintype.card n).factorial *
+        (1 / 2 : ℝ) ^
+          (p * (Fintype.card n -
+            (2 * ((s + 1) * (8 * p)) + exceptional.card))) *
+          2 ^ (2 * ((s + 1) * (8 * p)) + exceptional.card) := by
+  let terms := fermionicSeparatedTerms p s
+  let L := separatedLeft terms t
+  let R := separatedRight terms ω
+  have hLR : L * R = sampleMatrix (evalSeparated terms) t ω :=
+    separatedLeft_mul_separatedRight terms t ω
+  have happrox : ∀ i j, j ∉ exceptional →
+      |sampleMatrix fermionicKernel t ω i j - (L * R) i j| ≤
+        (1 / 2 : ℝ) ^ p := by
+    intro i j hj
+    rw [hLR]
+    exact fermionicKernel_separatedApprox_error p s hp (ht0 i) (ht1 i)
+      (hω_lower j hj) (hω_upper j hj)
+  have hkernel : ∀ i j, j ∈ exceptional →
+      |sampleMatrix fermionicKernel t ω i j| ≤ (2 : ℝ) := by
+    intro i j _hj
+    change |fermionicKernel (t i) (ω j)| ≤ (2 : ℝ)
+    rw [abs_of_pos (fermionicKernel_pos (t i) (ω j))]
+    exact (fermionicKernel_le_one (ht0 i) (ht1 i)).trans (by norm_num)
+  have hfactor : ∀ i j, j ∉ exceptional → |(L * R) i j| ≤ (2 : ℝ) := by
+    intro i j hj
+    rw [hLR]
+    change |evalSeparated terms (t i) (ω j)| ≤ (2 : ℝ)
+    have hkpos := fermionicKernel_pos (t i) (ω j)
+    have hkle := fermionicKernel_le_one (t := t i) (ω := ω j) (ht0 i) (ht1 i)
+    have herr := fermionicKernel_separatedApprox_error p s hp (ht0 i) (ht1 i)
+      (hω_lower j hj) (hω_upper j hj)
+    have heps : (1 / 2 : ℝ) ^ p ≤ 1 :=
+      pow_le_one₀ (by norm_num) (by norm_num)
+    have htri : |evalSeparated terms (t i) (ω j)| ≤
+        |evalSeparated terms (t i) (ω j) - fermionicKernel (t i) (ω j)| +
+          |fermionicKernel (t i) (ω j)| := by
+      calc
+        |evalSeparated terms (t i) (ω j)| =
+            |(evalSeparated terms (t i) (ω j) - fermionicKernel (t i) (ω j)) +
+              fermionicKernel (t i) (ω j)| := by ring_nf
+        _ ≤ _ := abs_add_le _ _
+    rw [abs_sub_comm] at htri
+    rw [abs_of_pos hkpos] at htri
+    exact htri.trans (by simpa [terms] using (show
+      |fermionicKernel (t i) (ω j) -
+        evalSeparated (fermionicSeparatedTerms p s) (t i) (ω j)| +
+          fermionicKernel (t i) (ω j) ≤ 2 by linarith))
+  have h := Matrix.abs_det_le_two_pow_mul_of_factors_approx_except
+    (sampleMatrix fermionicKernel t ω) L R exceptional
+    ((1 / 2 : ℝ) ^ p) 2 happrox hkernel hfactor
+    (by simpa [L, terms, fermionicSeparatedTerms_length] using hcard)
+    (by positivity) (pow_le_one₀ (by norm_num) (by norm_num)) (by norm_num)
+  simpa [terms, L, R, fermionicSeparatedTerms_length, pow_mul, mul_assoc] using h
+
 end Fermionic
 end GECPKernelStructure

@@ -90,6 +90,14 @@ statement is useful inside this repository's `Kernel`, `CompletePivotOn`, and
 `PivotCrossProductSignCoherent` APIs, but no missing lower-level mathlib lemma
 was encountered and no upstream candidate is proposed.
 
+Phase AE's `Matrix.abs_det_le_of_factors_approx_except` and closed coarse
+corollary are credible upstream candidates after API review. They extend a
+low-rank determinant perturbation estimate by representing a finite set of
+columns exactly through `k ⊕ exceptional`, charging exactly the exceptional
+cardinality in the effective rank. The proof is generic matrix algebra and
+reuses `mixedLeft`, `mixedRight`, and `columnChoice`; only the fermionic
+specializations remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

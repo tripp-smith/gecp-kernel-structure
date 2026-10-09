@@ -201,6 +201,14 @@
   absolute value. Iterating this mixed local/global estimate proves that every
   later selected pivot with magnitude greater than `1/4` has
   `|omega| < Lambda/2`.
+- Low-rank determinant decay survives finitely many arbitrary columns outside
+  the approximation band. Representing an exceptional set exactly augments
+  the factorization rank by precisely its cardinality; every remaining column
+  beyond that augmented rank still contributes the original approximation-
+  error power. For fermionic sample matrices, cutoff hypotheses are therefore
+  required only on nonexceptional frequencies. In particular, the two cutoff
+  corners cost two factor coordinates while every Phase AD-localized
+  continuation column can use the smaller central-band approximation.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -301,8 +309,9 @@ scale-invariant mechanism, but the exact Phase AB obstruction rules out using
 only the two outer corners at every scale. Phase AC forces the third complete
 pivot into the central half-band, and Phase AD proves that the original
 outer-half quarter exclusion survives every later update. It remains
-conjectural whether one can restart the argument on the central restriction
-with a smaller relative threshold and iterate shrinking bands using only
+conjectural whether the Phase AE exceptional-column determinant bound can be
+composed sharply enough with the actual selected-core product to restart the
+argument on the central restriction and iterate shrinking bands using only
 linearly many pivots.
 
 ## Not claimed
@@ -346,8 +355,9 @@ linearly many pivots.
   the first two symmetric corner pivots halve the residual for every cutoff.
 - A shrinking-band iteration of the central-half localization theorem. Phase
   AD preserves the fixed outer-half quarter bound through all later Schur
-  updates, but it does not produce a new relative bound on the central half or
-  force contraction below one quarter.
+  updates, and Phase AE permits the two original corner columns in a
+  smaller-band determinant estimate, but their GECP selected-core composition
+  has not yet been proved and no new relative central-half bound follows yet.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -442,6 +452,12 @@ linearly many pivots.
   check the mixed-bound cancellation, and an 80-decimal regression follows
   five further sampled complete-pivot updates at cutoffs 4, 8, and 16. The
   change passed CI and merged as PR #32.
+- On 2026-10-09 the Phase AE root command passed the same gate with 65 Python
+  tests and no known dependency vulnerabilities. Its four new public results
+  use only the permitted Lean axioms; an exact `Fraction` regression checks
+  determinant expansion, the effective-rank vanishing threshold, and the
+  coarse error power with zero and two exceptional columns. Merge and CI are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
