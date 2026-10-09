@@ -1284,3 +1284,97 @@ inequality, select `p` as a function of sample order and cutoff scale, and
 determine whether the factorial and subset constants can be absorbed into a
 cutoff-uniform strict rate. This arithmetic optimization is separate from the
 now-complete determinant perturbation mechanism.
+
+## Phase V — GECP/determinant composition
+
+State: verified on branch `codex/phase-v-gecp-determinant-combination`;
+draft PR pending.
+
+Phase T controls a complete-pivot residual power by the determinant of a
+realized run's selected core. Phase U controls an arbitrary physical-domain
+sample determinant by the explicit fermionic separated approximation. The
+remaining structural composition must verify that the run's recursively
+selected coordinates are physical-domain samples; equality of pivot values
+alone does not encode that fact.
+
+Frozen public Lean targets:
+
+- `GECP.Run.selectedRow_mem_of_completeOn` and
+  `GECP.Run.selectedColumn_mem_of_completeOn`: every recursive selected
+  coordinate of a domain-complete run lies in its declared domain;
+- `GECP.Run.selectedCore_eq_sampleMatrix`: identify the original-kernel
+  selected core with the generic sampled-matrix representation;
+- `fermionicKernel_gecp_error_pow_le_separatedApprox`: compose Phase T with
+  Phase U's exact surviving-subset determinant sum;
+- `fermionicKernel_gecp_error_pow_le_two_pow`: give the closed bound
+  `|R_n(x,y)|^n <= 2^n n! 2^(-p(n-r)) 2^r`, with
+  `r = 16p(s+1)`, for a realized physical-domain exact complete-pivot run.
+
+Proof contract:
+
+- prove selected-coordinate membership by induction on the dependent run and
+  case analysis on its recursive sum index;
+- unfold `Run.selectedCore` only in the small extensional bridge theorem;
+- derive `run.pivots.length = n` from `Run.RealizesPivotPrefix` rather than
+  adding it as an assumption;
+- reuse the Phase T residual-power theorem and Phase U sample-determinant
+  theorems without reproving either estimate;
+- keep the free approximation order `p` explicit. Optimization and root
+  extraction are admitted into this phase only if they reduce to stable
+  natural-number and real-power lemmas without changing the contract.
+
+Independent checks:
+
+- instantiate the composition theorem on the exact two-pivot rational-style
+  run pattern at a small fermionic sample, or add a structurally equivalent
+  finite check if transcendental normalization prevents `norm_num` closure;
+- focused builds, public re-export, axiom audit, and root verification.
+
+Non-claims:
+
+- equality of stored pivot values is not asserted to identify selected
+  coordinates; `Run.CompleteOn` supplies the missing domain invariant;
+- this phase does not claim an optimized nth-root rate, Conjecture G1, or
+  Problem 4.2 unless the explicit constants are actually discharged in Lean.
+
+Delivered identifiers:
+
+- `GECP.Run.selectedRow_mem_of_completeOn` and
+  `GECP.Run.selectedColumn_mem_of_completeOn` prove the recursive domain
+  invariant, and `GECP.Run.selectedCore_eq_sampleMatrix` supplies the exact
+  matrix bridge;
+- `fermionicKernel_gecp_error_pow_le_separatedApprox` and
+  `fermionicKernel_gecp_error_pow_le_two_pow` compose the Phase T residual
+  power with the Phase U determinant estimates;
+- `fermionicKernel_gecp_error_le_oddBlock` chooses approximation order
+  `p = 2m+1` and block length `n = 32(2m+1)(s+1)`, then extracts the exact
+  root to prove `|R_n(x,y)| <= 2n 2^-m`;
+- `oddBlock_factor_le_half` reduces half contraction to
+  `128(2m+1)(s+1) <= 2^m`, while `oddBlock_scale_quadratic` proves that
+  `m = 16(s+1)` always satisfies this condition;
+- `fermionicKernel_gecp_error_le_half_quadraticBlock` therefore proves error
+  at most one half by
+  `n = 32(32(s+1)+1)(s+1)` for every realized physical-domain exact run.
+
+The odd-order choice is a divisibility device: after the separated rank is
+set to half the sample order, the remaining dyadic determinant exponent is an
+exact multiple of `n`. This converts the geometric-mean power estimate to an
+ordinary residual estimate without logarithms or real roots. The quadratic
+choice is deliberately elementary; sharper choices of `m` should recover an
+`O((s+1)(log(s+1)+log(1/epsilon)))` rank shape, but that asymptotic inversion
+is not claimed here.
+
+Updated non-claims:
+
+- Phase V proves a strict rate, but not the conjectured `2(s+1)` half-
+  contraction block or a cutoff-uniform constant with the target linear scale;
+- no claim is made that the quadratic block is sharp.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- an independent integer regression checks the quadratic scale inequality for
+  scales zero through 32;
+- `./scripts/verify.sh` passes with 56 Python tests and no known dependency
+  vulnerabilities.

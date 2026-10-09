@@ -132,8 +132,18 @@
   `[0,1] x [-2^s,2^s]`, the explicit rank `r = 16p(s+1)` separated
   approximation gives
   `|det K_n| ≤ 2^n n! 2^(-p(n-r)) 2^r` whenever `r ≤ n`. The theorem
-  converts low-rank existence into sampled determinant decay; it has not yet
-  been optimized and combined with the GECP residual-power theorem.
+  converts low-rank existence into sampled determinant decay; the next two
+  results record its GECP composition and explicit parameter choice.
+- The sampled determinant estimate now composes with every realized
+  physical-domain exact complete-pivot run. At
+  `n = 32(2m+1)(s+1)`, the rank-`n` residual obeys
+  `|R_n(x,y)| <= 2n 2^-m`. The proof chooses an odd approximation order so the
+  determinant exponent is exactly divisible by `n`, then uses
+  `n! <= n^n` and extracts the positive `n`th root.
+- The explicit choice `m = 16(s+1)` satisfies the required arithmetic
+  inequality and proves `|R_n(x,y)| <= 1/2` by
+  `n = 32(32(s+1)+1)(s+1)`. This is a rigorous quadratic-in-log-cutoff strict
+  contraction bound, not the conjectured linear `2(s+1)` block.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -220,12 +230,11 @@ specified in `SPEC.md`.
 
 The cutoff-one base case of the `2(s+1)` block hypothesis, all-orders sign
 regularity, complete-run nonexpansiveness, the determinant geometric-mean
-reduction, and a quantitative sampled-core determinant estimate from the
-dyadic separated approximation are now proved. The next target is to optimize
-the approximation order against the sample order and combine the two power
-inequalities. It remains open whether the explicit factorial/subset constants
-can be absorbed strongly enough to prove the cutoff-uniform form of
-Conjecture G1.
+reduction, sampled-core determinant decay, and their exact composition are now
+proved. The composition yields an explicit strict half contraction after a
+quadratic block in `s+1`. It remains open whether the constants can be sharpened
+or the argument localized enough to prove the conjectured linear block and the
+cutoff-uniform form of Conjecture G1.
 
 ## Not claimed
 
@@ -247,8 +256,9 @@ Conjecture G1.
   localization required by Conjecture G1. All-orders sign regularity gives
   nonexpansiveness, not strict decay.
 - A proved cutoff-uniform GECP rate obtained by combining the new sampled-core
-  determinant bound with the formal geometric-mean inequality. The needed
-  parameter optimization and constant absorption remain separate obligations.
+  determinant bound with the formal geometric-mean inequality at the
+  conjectured linear-in-`s` rank scale. The delivered composition instead has
+  an explicit odd-block rate and a quadratic half-contraction corollary.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -295,6 +305,10 @@ Conjecture G1.
   results use only the permitted Lean axioms; the exact rational low-rank
   perturbation census and Lean rank-one `3 x 3` check also pass. The change
   passed CI and merged as PR #23.
+- On 2026-10-08 the Phase V root command passed the same gate with 56 Python
+  tests and no known dependency vulnerabilities. Its ten new public results
+  use only the permitted Lean axioms; the independent exact integer scale
+  regression also passes. Delivery CI is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

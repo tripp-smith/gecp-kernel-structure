@@ -30,6 +30,8 @@ Potential candidates after further use and generalization:
 - dependent composition of successful elimination runs, domain-restricted
   complete-pivot predicates, and propagation of a domain bound through a
   realized strictly sign-regular complete-pivot residual sequence;
+- recursive selected-coordinate membership for a domain-complete dependent
+  elimination run and the generic selected-core/sample-matrix bridge;
 - the generic finite-product geometric-mean pattern for an antitone
   nonnegative sequence, together with the absolute determinant/pivot-product
   identity for a successful elimination run;
