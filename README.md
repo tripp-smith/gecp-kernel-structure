@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** Z — multiplicative-Monge corner localization<br>
-> **Phase state:** verified; PR pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase Z `./scripts/verify.sh` passed with 60 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** branch `codex/phase-z-corner-localization`; draft PR pending<br>
+> **Delivery:** merged [PR #28](https://github.com/tripp-smith/gecp-kernel-structure/pull/28)<br>
 > **Claim level:** formalizing a fermionic-specific local contraction mechanism after Phase Y ruled out the generic shortcut; Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -43,7 +43,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | W | Logarithmic-scale contraction block | complete | `oddBlock_scale_logarithmic`; `fermionicKernel_gecp_error_le_half_logarithmicBlock`; explicit `O((s+1) log(s+1))` half-contraction block | Lean build; public axiom audit; exact dyadic-boundary regression; 57-test root verification; green CI | merged PR #25 |
 | X | Arbitrary dyadic accuracy | complete | `oddBlock_factor_le_accuracy`; `oddBlock_scale_accuracy`; `fermionicKernel_gecp_error_le_dyadicAccuracyBlock`; `O((s+1)(log(s+1)+q))` rank theorem | Lean build; public axiom audit; exact scale/accuracy regression; 58-test root verification; green CI | merged PR #26 |
 | Y | Determinant-prefactor obstruction | complete | `sylvesterHadamard_det_square`; `entrywise_determinant_constant_base_obstruction`; exact obstruction to a dimension-free generic determinant base | Lean build; public axiom audit; exact arithmetic regression; 59-test root verification; green CI | merged PR #27 |
-| Z | Multiplicative-Monge corner localization | verified | `fermionicKernel_residualUpdate_factor`; `fermionicKernel_residualUpdate_le_crossArea`; `fermionicKernel_residualUpdate_le_half_of_crossArea` | Lean build; public axiom audit; 100-decimal regression; 60-test root verification | draft PR pending |
+| Z | Multiplicative-Monge corner localization | complete | `fermionicKernel_residualUpdate_factor`; `fermionicKernel_residualUpdate_le_crossArea`; `fermionicKernel_residualUpdate_le_half_of_crossArea` | Lean build; public axiom audit; 100-decimal regression; 60-test root verification; green CI | merged PR #28 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -1646,7 +1646,7 @@ Verification:
 
 ## Phase Z — multiplicative-Monge corner localization
 
-State: verified on branch `codex/phase-z-corner-localization`; PR pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #28.
 
 Phase Y proves that bounded entries and low-rank approximation alone cannot
 remove the determinant route's dimension loss. The next target must use an

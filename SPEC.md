@@ -1513,3 +1513,16 @@ This annotation records delivered identifiers without changing the goals above.
   obstruction is not a counterexample under those additional hypotheses and
   does not prove Conjecture G1 or solve Problem 4.2. The root command passes
   with 59 tests and no known dependency vulnerabilities.
+- Post-v1 research phase Z: complete with green CI on 2026-10-09 and delivered
+  in merged PR #28. `fermionicKernel_cross_product` and
+  `fermionicKernel_residualUpdate_factor` expose the kernel's exact
+  multiplicative-Monge structure. The orientation-free
+  `fermionicKernel_residualUpdate_le_crossArea` bounds a one-step residual by
+  its dimensionless time-frequency cross area, and
+  `fermionicKernel_residualUpdate_le_half_of_crossArea` gives half contraction
+  below the exact `log 2` area threshold, including both reflected corner
+  orientations. This is a local theorem for the original kernel, not a claim
+  that later GECP residuals preserve the same cross ratio; a global dyadic
+  covering or residual-dominance theorem, Conjecture G1, and Problem 4.2
+  remain open. The root command passes with 60 tests and no known dependency
+  vulnerabilities.

@@ -368,7 +368,7 @@ full cutoff rectangle with only linearly many such tiles per accuracy block.
   tests and no known dependency vulnerabilities. Its eight new public results
   use only the permitted Lean axioms; the independent 100-decimal regression
   checks four arbitrary cross-ratio factorizations and 4,590 admissible
-  oriented corner tiles.
+  oriented corner tiles. The change passed CI and merged as PR #28.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
