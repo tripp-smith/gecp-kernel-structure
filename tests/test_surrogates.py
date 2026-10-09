@@ -262,6 +262,68 @@ def test_fermionic_corner_cross_ratio_localization_high_precision() -> None:
                             assert abs(reflected_residual) <= mp.mpf("0.5") + tolerance
 
 
+def test_fermionic_two_corner_power_secant_tent_high_precision() -> None:
+    with mp.workdps(100):
+        tolerance = mp.mpf("1e-85")
+
+        def kernel(time: mp.mpf, frequency: mp.mpf) -> mp.mpf:
+            return mp.exp(-time * frequency) / (1 + mp.exp(-frequency))
+
+        def first_residual(
+            upper_frequency: mp.mpf,
+            time: mp.mpf,
+            frequency: mp.mpf,
+        ) -> mp.mpf:
+            return kernel(time, frequency) - (
+                kernel(time, upper_frequency)
+                * kernel(0, frequency)
+                / kernel(0, upper_frequency)
+            )
+
+        def two_corner_residual(
+            lower_frequency: mp.mpf,
+            upper_frequency: mp.mpf,
+            time: mp.mpf,
+            frequency: mp.mpf,
+        ) -> mp.mpf:
+            pivot = first_residual(upper_frequency, 1, lower_frequency)
+            return first_residual(upper_frequency, time, frequency) - (
+                first_residual(upper_frequency, time, lower_frequency)
+                * first_residual(upper_frequency, 1, frequency)
+                / pivot
+            )
+
+        bands = [
+            (mp.mpf("-3"), mp.mpf("2")),
+            (mp.mpf("-0.75"), mp.mpf("4.5")),
+            (mp.mpf("-2"), mp.mpf("3")),
+            (mp.mpf("-4.5"), mp.mpf("0.75")),
+        ]
+        grid = [mp.mpf(index) / 16 for index in range(17)]
+        for lower_frequency, upper_frequency in bands:
+            a = mp.exp(-upper_frequency)
+            b = mp.exp(-lower_frequency)
+            for time in grid:
+                for frequency_weight in grid:
+                    frequency = lower_frequency + frequency_weight * (
+                        upper_frequency - lower_frequency
+                    )
+                    z = mp.exp(-frequency)
+                    secant = ((b - z) * a**time + (z - a) * b**time) / (b - a)
+                    formula = (z**time - secant) / (1 + z)
+                    residual = two_corner_residual(
+                        lower_frequency, upper_frequency, time, frequency
+                    )
+                    upper_area = time * (upper_frequency - frequency)
+                    lower_area = (1 - time) * (frequency - lower_frequency)
+
+                    assert abs(residual - formula) < tolerance
+                    assert residual >= -tolerance
+                    assert residual <= min(upper_area, lower_area) + tolerance
+                    if time in (0, 1) or frequency_weight in (0, 1):
+                        assert abs(residual) < tolerance
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))

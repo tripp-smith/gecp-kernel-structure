@@ -5,6 +5,7 @@ import GECPKernelStructure.Fermionic.SeparatedApprox
 import GECPKernelStructure.Fermionic.DeterminantDecay
 import GECPKernelStructure.Fermionic.GECPDeterminantDecay
 import GECPKernelStructure.Fermionic.CrossRatioLocalization
+import GECPKernelStructure.Fermionic.PowerSecantResidual
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant

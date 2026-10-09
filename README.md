@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** Z — multiplicative-Monge corner localization<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase Z `./scripts/verify.sh` passed with 60 tests and no known dependency vulnerabilities on 2026-10-09<br>
+> **Current phase:** AA — two-corner power-secant residual<br>
+> **Phase state:** verified; draft PR pending<br>
+> **Last verification:** Phase AA `./scripts/verify.sh` passed with 61 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #28](https://github.com/tripp-smith/gecp-kernel-structure/pull/28)<br>
-> **Claim level:** formalizing a fermionic-specific local contraction mechanism after Phase Y ruled out the generic shortcut; Conjecture G1 remains open<br>
+> **Delivery:** branch `codex/phase-aa-power-secant-residual`; draft PR pending<br>
+> **Claim level:** exact arbitrary-band two-pivot secant residual and two-sided cross-area tent bound; Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -44,6 +44,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | X | Arbitrary dyadic accuracy | complete | `oddBlock_factor_le_accuracy`; `oddBlock_scale_accuracy`; `fermionicKernel_gecp_error_le_dyadicAccuracyBlock`; `O((s+1)(log(s+1)+q))` rank theorem | Lean build; public axiom audit; exact scale/accuracy regression; 58-test root verification; green CI | merged PR #26 |
 | Y | Determinant-prefactor obstruction | complete | `sylvesterHadamard_det_square`; `entrywise_determinant_constant_base_obstruction`; exact obstruction to a dimension-free generic determinant base | Lean build; public axiom audit; exact arithmetic regression; 59-test root verification; green CI | merged PR #27 |
 | Z | Multiplicative-Monge corner localization | complete | `fermionicKernel_residualUpdate_factor`; `fermionicKernel_residualUpdate_le_crossArea`; `fermionicKernel_residualUpdate_le_half_of_crossArea` | Lean build; public axiom audit; 100-decimal regression; 60-test root verification; green CI | merged PR #28 |
+| AA | Two-corner power-secant residual | verified | `fermionicKernel_twoCornerResidual_eq_powerSecantError`; nonnegative residual bounded by both corner cross areas | Lean build; public axiom audit; 100-decimal asymmetric/reflected regression; 61-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

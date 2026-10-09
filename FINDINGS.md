@@ -168,6 +168,14 @@
   is at most the cross area `(t-t0)*(omega0-omega)`, and is at most one half
   whenever that area is at most `log 2`. The cross-area formulation covers
   the reflected southeast orientation as well.
+- After pivots at `(0,omegaHigh)` and `(1,omegaLow)` for any
+  `omegaLow < omegaHigh`, the exact nested fermionic residual is
+  `(z^t-S_t(z))/(1+z)`, where `z=exp(-omega)` and `S_t` is the linear secant
+  of the concave power function between the transformed band endpoints. The
+  residual is nonnegative on the whole band and obeys the two-sided tent bound
+  `min(t*(omegaHigh-omega), (1-t)*(omega-omegaLow))`. In particular, it
+  vanishes on both time edges and both pivot-frequency edges without a
+  symmetric-band or small-cutoff assumption.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -263,9 +271,11 @@ cutoff-uniform form of Conjecture G1.
 The generic bounded-entry route is now formally ruled out; total positivity,
 divided differences, or GECP-selected residual structure remain viable because
 the obstruction family does not satisfy the fermionic hypotheses.
-The exact corner-area law now supplies a local, scale-invariant mechanism; it
-remains conjectural whether the realized GECP residual geometry covers the
-full cutoff rectangle with only linearly many such tiles per accuracy block.
+The exact corner-area law and its two-corner secant tent now supply a local,
+scale-invariant mechanism. It remains conjectural whether actual complete
+pivots dominate a chain of these tents, or whether a dyadic partition of the
+frequency band turns them into a full-rectangle bound with only linearly many
+tiles per accuracy block.
 
 ## Not claimed
 
@@ -299,6 +309,10 @@ full cutoff rectangle with only linearly many such tiles per accuracy block.
   later residuals. The proved exponential cross ratio belongs to the original
   fermionic kernel and is not asserted to be preserved verbatim by Schur
   updates.
+- Identification of the two prescribed corners with the first two complete
+  pivots on every asymmetric subband, or control of the actual third complete
+  pivot by the proved tent. The Phase AA theorem concerns the exact residual
+  after those prescribed nonzero pivots.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -369,6 +383,12 @@ full cutoff rectangle with only linearly many such tiles per accuracy block.
   use only the permitted Lean axioms; the independent 100-decimal regression
   checks four arbitrary cross-ratio factorizations and 4,590 admissible
   oriented corner tiles. The change passed CI and merged as PR #28.
+- On 2026-10-09 the Phase AA root command passed the same gate with 61 Python
+  tests and no known dependency vulnerabilities. Its eleven new public
+  results use only the permitted Lean axioms; an independent 100-decimal
+  regression checks 1,156 points across asymmetric and reflected bands for
+  the exact nested-update identity, sign, endpoint zeros, and two-sided tent
+  bound. CI and merge are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
