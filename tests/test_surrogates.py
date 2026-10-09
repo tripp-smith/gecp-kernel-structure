@@ -386,6 +386,54 @@ def test_two_corner_half_contraction_obstruction_exactly() -> None:
         assert abs(nested_residual - kernel(0, cutoff) / 2 - exact_margin) < tolerance
 
 
+def test_third_pivot_frequency_localization_high_precision() -> None:
+    with mp.workdps(100):
+        tolerance = mp.mpf("1e-80")
+
+        def kernel(time: mp.mpf, frequency: mp.mpf) -> mp.mpf:
+            return mp.exp(-time * frequency) / (1 + mp.exp(-frequency))
+
+        def two_corner_residual(
+            cutoff: mp.mpf, time: mp.mpf, frequency: mp.mpf
+        ) -> mp.mpf:
+            def first_residual(sample_time: mp.mpf, sample_frequency: mp.mpf) -> mp.mpf:
+                return kernel(sample_time, sample_frequency) - (
+                    kernel(sample_time, cutoff)
+                    * kernel(0, sample_frequency)
+                    / kernel(0, cutoff)
+                )
+
+            return first_residual(time, frequency) - (
+                first_residual(time, -cutoff)
+                * first_residual(1, frequency)
+                / first_residual(1, -cutoff)
+            )
+
+        cutoffs = [2 * mp.log(4), mp.mpf(3), mp.mpf(4), mp.mpf(8), mp.mpf(16)]
+        times = [mp.mpf(index) / 40 for index in range(41)]
+        frequency_weights = [mp.mpf(index) / 80 for index in range(81)]
+        for cutoff in cutoffs:
+            center = two_corner_residual(cutoff, mp.mpf("0.5"), mp.mpf(0))
+            center_formula = mp.mpf("0.5") - 1 / (2 * mp.cosh(cutoff / 2))
+            assert abs(center - center_formula) < tolerance
+            assert center > mp.mpf("0.25")
+
+            sampled_maximum = -mp.inf
+            sampled_frequency = mp.mpf(0)
+            for time in times:
+                for weight in frequency_weights:
+                    frequency = -cutoff + 2 * cutoff * weight
+                    residual = two_corner_residual(cutoff, time, frequency)
+                    if abs(frequency) >= cutoff / 2:
+                        assert residual <= mp.mpf("0.25") + tolerance
+                    if residual > sampled_maximum:
+                        sampled_maximum = residual
+                        sampled_frequency = frequency
+
+            assert sampled_maximum >= center - tolerance
+            assert abs(sampled_frequency) < cutoff / 2
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))

@@ -80,6 +80,10 @@ Phase AB relies on mathlib's existing exact `norm_num` support for rational
 real powers whose roots are rational. The counterexample and its logarithmic
 transport are project-specific, so this phase adds no upstream candidate.
 
+Phase AC combines existing exponential monotonicity, `x*(1-x) <= 1/4`, the
+hyperbolic double-angle identity, and the project-specific fermionic Schur
+formulas. No missing general-purpose mathlib abstraction was encountered.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
