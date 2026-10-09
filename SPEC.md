@@ -1594,3 +1594,15 @@ This annotation records delivered identifiers without changing the goals above.
   composition with the actual GECP selected core, a shrinking-band
   recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 65 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AF: verified on its implementation branch on
+  2026-10-09; merge and CI are pending.
+  `fermionicKernel_gecp_error_pow_le_separatedApprox_except` and
+  `fermionicKernel_gecp_error_pow_le_two_pow_except` compose the Phase AE
+  determinant bounds with the actual selected core of a realized fermionic
+  GECP prefix. The complete-pivot domain and evaluated residual may use a
+  larger dyadic scale than the separated approximation applied to every
+  nonexceptional selected column, and the closed exponent charges the exact
+  exceptional cardinality. Packaging the first two recursive corner indices,
+  deriving all remaining selected-column bounds from Phase AD, a shrinking-
+  band recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 66 tests and no known dependency vulnerabilities.

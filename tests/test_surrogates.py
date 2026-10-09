@@ -206,6 +206,60 @@ def test_exceptional_columns_shift_low_rank_determinant_threshold_exactly() -> N
         )
 
 
+def test_exceptional_columns_compose_with_exact_gecp_selected_core() -> None:
+    size = 6
+    rank = 2
+    exceptional_columns = {0, 1}
+    left = [[Fraction(i + 1), Fraction((i + 1) ** 2)] for i in range(size)]
+    right = [
+        [Fraction(j + 2) for j in range(size)],
+        [Fraction((j + 2) ** 2) for j in range(size)],
+    ]
+    low_rank = [
+        [
+            sum((left[i][a] * right[a][j] for a in range(rank)), Fraction())
+            for j in range(size)
+        ]
+        for i in range(size)
+    ]
+    exact_background = [row.copy() for row in low_rank]
+    for i in range(size):
+        exact_background[i][0] = Fraction(7 * i + 3)
+        exact_background[i][1] = Fraction(5 * i * i - 2 * i + 1)
+    error = [[Fraction() for _ in range(size)] for _ in range(size)]
+    for i in range(size):
+        for j in range(size):
+            if j not in exceptional_columns:
+                error[i][j] = Fraction(int(i == j), 13)
+    matrix = [
+        [exact_background[i][j] + error[i][j] for j in range(size)] for i in range(size)
+    ]
+
+    pivot_rows, pivot_columns, pivots = exact_gecp(matrix)
+    assert len(pivots) == size
+    selected_core = [[matrix[i][j] for j in pivot_columns] for i in pivot_rows]
+    selected_exceptions = {
+        index
+        for index, column in enumerate(pivot_columns)
+        if column in exceptional_columns
+    }
+    assert len(selected_exceptions) == 2
+    assert fraction_determinant(selected_core) == math.prod(pivots)
+
+    epsilon = max(abs(value) for row in error for value in row)
+    column_bound = max(
+        Fraction(1),
+        max(abs(value) for row in exact_background for value in row),
+    )
+    effective_rank = rank + len(selected_exceptions)
+    assert abs(fraction_determinant(selected_core)) <= (
+        2**size
+        * math.factorial(size)
+        * epsilon ** (size - effective_rank)
+        * column_bound**effective_rank
+    )
+
+
 def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
     for scale in range(33):
         accuracy_order = 16 * (scale + 1)

@@ -2251,3 +2251,88 @@ Verification:
   two exceptional columns;
 - `./scripts/verify.sh` passes with 65 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AF — GECP exceptional-column composition
+
+State: verified on 2026-10-09; merge and CI pending.
+
+Phase AE proves determinant decay for a sample matrix with finitely many exact
+out-of-band columns. The next bridge is to apply that theorem to the selected
+core of an actual realized fermionic GECP prefix. The complete-pivot sequence
+may run on a larger dyadic rectangle, while the determinant approximation uses
+a smaller scale for every selected column outside an explicit exceptional
+index set.
+
+Frozen public Lean targets:
+
+- `fermionicKernel_gecp_error_pow_le_separatedApprox_except`: compose the
+  selected-core residual-power inequality with Phase AE's cardinality-
+  sensitive determinant sum;
+- `fermionicKernel_gecp_error_pow_le_two_pow_except`: expose the closed power
+  bound with effective rank `16*p*(s+1) + exceptional.card`, while complete
+  pivoting and the evaluated residual may live at a larger scale.
+
+Proof contract:
+
+- use the actual `Run.SelectedIndex`, `Run.selectedCore`, and
+  `Run.RealizesPivotPrefix` interfaces;
+- keep the complete-pivot domain scale independent from the smaller separated-
+  approximation scale;
+- require physical time membership for every selected row and smaller-band
+  frequency membership only for nonexceptional selected columns;
+- retain Phase T's exact residual-power-to-selected-determinant inequality and
+  Phase AE's exact exceptional cardinality shift without replacing either by
+  a sampled surrogate.
+
+Independent checks:
+
+- use exact rational GECP matrices to verify that two out-of-band selected
+  columns are charged as two rank coordinates and that the pivot-product/
+  selected-core identity remains exact;
+- verify that an empty exceptional set reduces arithmetically to the existing
+  GECP determinant exponent;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if dependent selected-index rewriting blocks the closed theorem after three
+  attempts, deliver the cardinality-sensitive selected-core theorem and
+  isolate only the normalization of `Fintype.card run.SelectedIndex` as the
+  next lemma; do not replace the actual selected core by an unrelated matrix.
+
+Non-claims:
+
+- this phase does not yet prove that the exceptional set consists of exactly
+  the first two cutoff-corner indices or derive smaller-band membership from
+  the Phase AD pivot threshold;
+- it does not prove a shrinking-band recurrence, remove the logarithmic
+  startup, prove Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `fermionicKernel_gecp_error_pow_le_separatedApprox_except` composes the
+  actual selected-core residual-power inequality with Phase AE's exact
+  exceptional-column determinant sum;
+- `fermionicKernel_gecp_error_pow_le_two_pow_except` gives the closed form at
+  an approximation scale independent of the larger complete-pivot domain.
+
+Result:
+
+- an actual realized fermionic GECP prefix can now use a cutoff-halved
+  separated approximation for all but explicitly named selected columns;
+- the residual-power exponent retains the exact exceptional-set cardinality
+  rather than charging the larger complete-pivot scale;
+- the next obligation is dependent-index bookkeeping: construct the two-
+  element exceptional set for the initial corner steps and prove every other
+  selected column lies in the central half while the relevant pivots exceed
+  one quarter.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- an exact full-rank rational GECP run independently verifies the selected-
+  core determinant/pivot-product identity and the two-exception rank shift;
+- `./scripts/verify.sh` passes with 66 Python tests and no known dependency
+  vulnerabilities.
