@@ -137,6 +137,75 @@ def test_low_rank_perturbation_determinant_bound_exactly() -> None:
                 )
 
 
+def test_exceptional_columns_shift_low_rank_determinant_threshold_exactly() -> None:
+    rng = random.Random(0xECCE)
+
+    def product(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum((left[i][a] * right[a][j] for a in range(len(right))), Fraction())
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    size = 6
+    rank = 2
+    left = [[Fraction(rng.randint(-3, 3)) for _ in range(rank)] for _ in range(size)]
+    right = [[Fraction(rng.randint(-3, 3)) for _ in range(size)] for _ in range(rank)]
+    low_rank = product(left, right)
+
+    for exceptional_count in (0, 2):
+        exceptional = set(range(exceptional_count))
+        exact_background = [row.copy() for row in low_rank]
+        for i in range(size):
+            for j in exceptional:
+                exact_background[i][j] = Fraction(rng.randint(-5, 5))
+
+        error = [[Fraction() for _ in range(size)] for _ in range(size)]
+        for i in range(size):
+            for j in range(size):
+                if j not in exceptional:
+                    error[i][j] = Fraction(rng.randint(-2, 2), 11)
+        error[0][exceptional_count] = Fraction(1, 11)
+        matrix = [
+            [exact_background[i][j] + error[i][j] for j in range(size)]
+            for i in range(size)
+        ]
+
+        effective_rank = rank + exceptional_count
+        epsilon = max(abs(value) for row in error for value in row)
+        column_bound = max(
+            Fraction(1),
+            max(abs(value) for row in exact_background for value in row),
+        )
+        determinant_sum = Fraction()
+        for mask in range(1 << size):
+            error_columns = mask.bit_count()
+            mixed = [
+                [
+                    error[i][j] if mask & (1 << j) else exact_background[i][j]
+                    for j in range(size)
+                ]
+                for i in range(size)
+            ]
+            mixed_det = fraction_determinant(mixed)
+            determinant_sum += mixed_det
+            if effective_rank + error_columns < size:
+                assert mixed_det == 0
+
+        determinant = fraction_determinant(matrix)
+        assert determinant == determinant_sum
+        assert abs(determinant) <= (
+            2**size
+            * math.factorial(size)
+            * epsilon ** (size - effective_rank)
+            * column_bound**effective_rank
+        )
+
+
 def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
     for scale in range(33):
         accuracy_order = 16 * (scale + 1)

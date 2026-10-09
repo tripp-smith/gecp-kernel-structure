@@ -1580,3 +1580,17 @@ This annotation records delivered identifiers without changing the goals above.
   is a fixed-strip invariant, not a shrinking-band recurrence or contraction
   below one quarter; Conjecture G1 and Problem 4.2 remain open. The root
   command passes with 64 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AE: verified on its implementation branch on
+  2026-10-09; merge and CI are pending.
+  `Matrix.abs_det_le_of_factors_approx_except` and its closed coarse corollary
+  prove that finitely many exactly represented columns add precisely their
+  cardinality to the effective low-rank dimension while all other columns
+  retain the approximation-error power. The fermionic specializations
+  `fermionicKernel_sample_det_le_separatedApprox_except` and
+  `fermionicKernel_sample_det_le_two_pow_except` require the dyadic cutoff
+  only for nonexceptional frequencies. This removes the determinant-level
+  obstruction to treating the two original cutoff corners as exceptions and
+  all Phase AD-localized continuation columns at the smaller central scale;
+  composition with the actual GECP selected core, a shrinking-band
+  recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 65 tests and no known dependency vulnerabilities.
