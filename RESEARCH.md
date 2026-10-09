@@ -1454,3 +1454,91 @@ Verification:
   neighbors of every dyadic boundary through `2^64`;
 - `./scripts/verify.sh` passes with 57 Python tests and no known dependency
   vulnerabilities.
+
+## Phase X — arbitrary dyadic accuracy
+
+State: verified on branch `codex/phase-x-arbitrary-accuracy`; delivery pending.
+
+Phase W proves one half contraction using an accuracy order large enough to
+absorb the dimension factor in Phase V's estimate
+`|R_n(x,y)| <= 2n 2^-m`. The same arithmetic has more content: for a requested
+dyadic accuracy order `q`, taking
+`m = 16 + 2 * Nat.clog 2 (s+1) + 2q` should absorb both the scale startup and
+the target factor `2^-q`. This exposes the strongest direct convergence
+theorem currently implied by the determinant route before attempting to
+remove its logarithmic startup overhead.
+
+Frozen public Lean targets:
+
+- `oddBlock_factor_le_accuracy`: reduce the residual factor bound
+  `2n 2^-m <= 2^-q` to the exact natural-number condition
+  `64(2m+1)(s+1)2^q <= 2^m`;
+- `oddBlock_scale_accuracy`: prove that condition for
+  `m = 16 + 2 * Nat.clog 2 (s+1) + 2q`;
+- `fermionicKernel_gecp_error_le_dyadicAccuracyBlock`: instantiate the Phase V
+  odd-block theorem and prove error at most `(1/2)^q` by
+  `n = 32(33 + 4 * Nat.clog 2 (s+1) + 4q)(s+1)`;
+- keep the exact natural-number rank in the theorem and state its
+  `O((s+1)(log(s+1)+q))` interpretation only in documentation.
+
+Proof contract:
+
+- reuse the Phase W exponential comparison at `ell+q` rather than introduce a
+  second logarithmic abstraction;
+- separate the natural-number scale inequality from the real-power factor
+  bound and the GECP corollary;
+- preserve the exact complete-pivot and physical-domain assumptions unchanged;
+- search mathlib first for power/division normalization lemmas and expose a
+  small helper if three normalization attempts fail.
+
+Independent checks:
+
+- exact integer evaluation across ordinary scales, dyadic boundaries, and a
+  broad range of requested accuracy orders;
+- focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if the proposed linear-in-`q` parameter fails, minimize the exact integer
+  witness and deliver the weakest explicit affine choice that passes; do not
+  weaken the GECP hypotheses.
+
+Non-claims:
+
+- the additive `(s+1) log(s+1)` startup remains, so this phase does not prove
+  Conjecture G1, the conjectured `2(s+1)` half-contraction block, optimal
+  constants, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `oddBlock_factor_le_accuracy` converts the exact natural-number condition
+  `64(2m+1)(s+1)2^q <= 2^m` into the real residual-factor bound
+  `2n 2^-m <= 2^-q`;
+- `oddBlock_scale_accuracy` proves that condition for
+  `m = 16 + 2 * Nat.clog 2 (s+1) + 2q` by reusing the Phase W exponential
+  comparison at `Nat.clog 2 (s+1) + q`;
+- `fermionicKernel_gecp_error_le_dyadicAccuracyBlock` composes those arithmetic
+  results with the Phase V odd-block theorem to prove error at most `(1/2)^q`
+  by `n = 32(33 + 4 * Nat.clog 2 (s+1) + 4q)(s+1)`.
+
+Result:
+
+- arbitrary accuracy is obtained directly from the original complete-pivot
+  run, without assuming that a contraction theorem can be restarted on an
+  arbitrary residual;
+- the rank is `O((s+1)(log(s+1)+q))`, retaining linear dependence on the
+  requested dyadic accuracy order;
+- for `s` comparable to `log(1+Lambda)` and `q` comparable to
+  `log(1/epsilon)`, this gives
+  `O(log(1+Lambda)(log log(1+Lambda)+log(1/epsilon)))`;
+- the remaining gap to Conjecture G1 is now isolated to the additive
+  `(s+1) log(s+1)` startup and constants, rather than the accuracy dependence.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- an independent exact-integer regression checks 65 accuracy orders across
+  scales through 1024 and every dyadic transition through `2^64`;
+- `./scripts/verify.sh` passes with 58 Python tests and no known dependency
+  vulnerabilities.
