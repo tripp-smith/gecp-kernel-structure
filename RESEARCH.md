@@ -1849,7 +1849,7 @@ Verification:
 
 ## Phase AB — two-corner half-contraction obstruction
 
-State: in progress on branch `codex/phase-ab-two-corner-obstruction`.
+State: complete with green CI on 2026-10-09; delivered in merged PR #30.
 
 Phase AA suggests the tempting shortcut that the first two symmetric corner
 pivots might reduce the residual by one half for every cutoff, which would be

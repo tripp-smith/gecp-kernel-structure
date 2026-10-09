@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AB — two-corner half-contraction obstruction<br>
-> **Phase state:** verified; draft PR pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AB `./scripts/verify.sh` passed with 62 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** branch `codex/phase-ab-two-corner-obstruction`; draft PR pending<br>
+> **Delivery:** merged [PR #30](https://github.com/tripp-smith/gecp-kernel-structure/pull/30)<br>
 > **Claim level:** exact obstruction to all-cutoff two-pivot half contraction; longer cutoff-dependent blocks in Conjecture G1 remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -45,7 +45,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | Y | Determinant-prefactor obstruction | complete | `sylvesterHadamard_det_square`; `entrywise_determinant_constant_base_obstruction`; exact obstruction to a dimension-free generic determinant base | Lean build; public axiom audit; exact arithmetic regression; 59-test root verification; green CI | merged PR #27 |
 | Z | Multiplicative-Monge corner localization | complete | `fermionicKernel_residualUpdate_factor`; `fermionicKernel_residualUpdate_le_crossArea`; `fermionicKernel_residualUpdate_le_half_of_crossArea` | Lean build; public axiom audit; 100-decimal regression; 60-test root verification; green CI | merged PR #28 |
 | AA | Two-corner power-secant residual | complete | `fermionicKernel_twoCornerResidual_eq_powerSecantError`; nonnegative residual bounded by both corner cross areas | Lean build; public axiom audit; 100-decimal asymmetric/reflected regression; 61-test root verification; green CI | merged PR #29 |
-| AB | Two-corner half-contraction obstruction | verified | `fermionicKernel_twoCornerResidual_not_half_contraction`; exact rational-coordinate witness and positive excess | Lean build; public axiom audit; exact rational sweep; direct 100-decimal nested update; 62-test root verification | draft PR pending |
+| AB | Two-corner half-contraction obstruction | complete | `fermionicKernel_twoCornerResidual_not_half_contraction`; exact rational-coordinate witness and positive excess | Lean build; public axiom audit; exact rational sweep; direct 100-decimal nested update; 62-test root verification; green CI | merged PR #30 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

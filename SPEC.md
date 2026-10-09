@@ -1539,3 +1539,17 @@ This annotation records delivered identifiers without changing the goals above.
   every subband, control the actual third pivot, prove a dyadic covering,
   establish Conjecture G1, or solve Problem 4.2. The root command passes with
   61 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AB: complete with green CI on 2026-10-09 and
+  delivered in merged PR #30. The exact rational-coordinate witness
+  `a=24^-3`, `b=24^3`, `z=(5/4)^3`, and `t=2/3` is transported through the
+  Phase AA secant identity to the actual symmetric fermionic residual at
+  cutoff `log 13824`. `fermionicKernel_twoCornerResidual_counterexample_value`
+  evaluates that residual as `4495348/8973531`, and
+  `powerSecant_twoThirds_counterexample_margin` proves its excess over half
+  the initial pivot is the positive rational `222676/224338275`.
+  `fermionicKernel_twoCornerResidual_not_half_contraction` packages the
+  in-domain witness as a formal refutation of uniform two-pivot half
+  contraction. This obstruction does not refute scale-dependent longer pivot
+  blocks, Conjecture G1, or Problem 4.2; it shows that intermediate localized
+  pivots are necessary at large cutoff. The root command passes with 62 tests
+  and no known dependency vulnerabilities.

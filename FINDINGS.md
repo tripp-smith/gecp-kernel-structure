@@ -405,8 +405,8 @@ with only linearly many tiles per accuracy block.
   tests and no known dependency vulnerabilities. Its six new public results
   use only the permitted Lean axioms; exact `Fraction` arithmetic verifies the
   witness and sweeps endpoint bases 24 through 64, while a direct 100-decimal
-  nested update reproduces the formal residual and margin. CI and merge are
-  pending.
+  nested update reproduces the formal residual and margin. The change passed
+  CI and merged as PR #30.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
