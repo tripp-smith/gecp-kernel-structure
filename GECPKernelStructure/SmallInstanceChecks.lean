@@ -1,4 +1,5 @@
 import GECPKernelStructure.GECP.Determinant
+import GECPKernelStructure.Matrix.LowRankDeterminant
 import Mathlib.Data.Rat.Cast.Order
 
 namespace GECPKernelStructure
@@ -12,6 +13,24 @@ theorem geometricTwoByTwo_det_pos {q : ℚ} (q_pos : 0 < q) (q_lt_one : q < 1) :
     _ < 1 * q := mul_lt_mul_of_pos_right q_lt_one q_pos
     _ < 1 * 1 := mul_lt_mul_of_pos_left q_lt_one zero_lt_one
     _ = 1 := one_mul 1
+
+namespace LowRankCheck
+
+/-- Exact rank-one factors for the three-by-three perturbation regression. -/
+def exactRankOneLeft : Matrix (Fin 3) (Fin 1) ℝ := fun i _ => ![1, 2, 3] i
+
+def exactRankOneRight : Matrix (Fin 1) (Fin 3) ℝ := fun _ j => ![4, 5, 6] j
+
+def exactThreeByThreeError : Matrix (Fin 3) (Fin 3) ℝ := 1
+
+/-- A rank-one background plus only one error column cannot have nonzero `3 × 3` volume. -/
+example :
+    (Matrix.columnChoice {0} exactThreeByThreeError
+      (exactRankOneLeft * exactRankOneRight)).det = 0 := by
+  apply Matrix.det_columnChoice_eq_zero_of_card_add_lt
+  norm_num
+
+end LowRankCheck
 
 namespace GECP
 

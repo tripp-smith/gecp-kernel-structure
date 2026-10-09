@@ -121,6 +121,19 @@
   selected-core determinant with the product of the absolute pivots. This is
   a geometric-mean reduction of residual decay to determinant decay, not a
   determinant decay theorem.
+- If an `n x n` matrix is entrywise within `epsilon` of a matrix factoring
+  through `r` coordinates, its determinant expansion has no term with fewer
+  than `n-r` error columns. Consequently, for `r ≤ n`, `0 ≤ epsilon ≤ 1`,
+  and approximant entries bounded by `C ≥ 1`,
+  `|det A| ≤ 2^n n! epsilon^(n-r) C^r`. The proof is an exact column-choice
+  expansion and finite-dimensional factorization, not a singular-value or
+  floating-point argument.
+- For arbitrary fermionic sample points in
+  `[0,1] x [-2^s,2^s]`, the explicit rank `r = 16p(s+1)` separated
+  approximation gives
+  `|det K_n| ≤ 2^n n! 2^(-p(n-r)) 2^r` whenever `r ≤ n`. The theorem
+  converts low-rank existence into sampled determinant decay; it has not yet
+  been optimized and combined with the GECP residual-power theorem.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -205,14 +218,14 @@
 The target continuous fermionic GECP rate remains a research objective as
 specified in `SPEC.md`.
 
-The cutoff-one base case of the `2(s+1)` block hypothesis, the all-orders sign
-theorem, complete-run nonexpansiveness, and the determinant geometric-mean
-reduction are now proved. The conjectured extension is strict contraction
-after `2(s+1)` pivots for every `Λ ≤ 2ˢ`. The next analytic target is a
-quantitative selected-core determinant estimate obtained from the dyadic
-separated approximation or a near-volume argument. Sign coherence prevents
-growth and orders the pivots, but does not by itself make the determinant decay
-fast enough for Conjecture G1.
+The cutoff-one base case of the `2(s+1)` block hypothesis, all-orders sign
+regularity, complete-run nonexpansiveness, the determinant geometric-mean
+reduction, and a quantitative sampled-core determinant estimate from the
+dyadic separated approximation are now proved. The next target is to optimize
+the approximation order against the sample order and combine the two power
+inequalities. It remains open whether the explicit factorial/subset constants
+can be absorbed strongly enough to prove the cutoff-uniform form of
+Conjecture G1.
 
 ## Not claimed
 
@@ -233,9 +246,9 @@ fast enough for Conjecture G1.
 - A cutoff-uniform strict contraction factor or proof of the dyadic block
   localization required by Conjecture G1. All-orders sign regularity gives
   nonexpansiveness, not strict decay.
-- A selected-core determinant decay estimate derived from the dyadic
-  separated approximation. The formal geometric-mean inequality only reduces
-  residual decay to this missing quantitative bound.
+- A proved cutoff-uniform GECP rate obtained by combining the new sampled-core
+  determinant bound with the formal geometric-mean inequality. The needed
+  parameter optimization and constant absorption remain separate obligations.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -277,6 +290,10 @@ fast enough for Conjecture G1.
   tests and no known dependency vulnerabilities. Its four new structural
   results use only the permitted Lean axioms. The change passed CI and merged
   as PR #22.
+- On 2026-10-08 the Phase U root command passed the same gate with 55 Python
+  tests and no known dependency vulnerabilities. Its eleven audited public
+  results use only the permitted Lean axioms; the exact rational low-rank
+  perturbation census and Lean rank-one `3 x 3` check also pass.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

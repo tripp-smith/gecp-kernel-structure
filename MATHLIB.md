@@ -33,6 +33,10 @@ Potential candidates after further use and generalization:
 - the generic finite-product geometric-mean pattern for an antitone
   nonnegative sequence, together with the absolute determinant/pivot-product
   identity for a successful elimination run;
+- the determinant expansion over column choices for a sum, the vanishing of a
+  square rectangular product through a smaller finite type, and the resulting
+  entrywise low-rank perturbation bound retaining the full
+  `epsilon^(n-r)` power;
 - the reusable strict-positivity wrapper around `Matrix.det_vandermonde` for
   strictly increasing real tuples and the positive-determinant factorization
   of a square monomial-feature matrix with positive diagonal weights;
