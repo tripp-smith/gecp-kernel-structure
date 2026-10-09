@@ -349,6 +349,7 @@ the obstruction family does not satisfy the fermionic hypotheses.
   tests and no known dependency vulnerabilities. Its four new public results
   use only the permitted Lean axioms; the exact Sylvester regression covers
   orders two through 64 and obstruction witnesses for bases zero through 256.
+  The change passed CI and merged as PR #27.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

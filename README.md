@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** Y — determinant-prefactor obstruction<br>
-> **Phase state:** verified; PR pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase Y `./scripts/verify.sh` passed with 59 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** branch `codex/phase-y-determinant-obstruction`; draft PR pending<br>
+> **Delivery:** merged [PR #27](https://github.com/tripp-smith/gecp-kernel-structure/pull/27)<br>
 > **Claim level:** generic bounded-entry determinant improvements cannot remove the startup loss; fermionic-specific structure is required; Conjecture G1 remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -42,7 +42,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | V | GECP/determinant composition | complete | selected-coordinate domain bridge; exact/coarse residual-power bounds; explicit odd-block rate; quadratic half contraction | Lean build; public axiom audit; exact arithmetic regression; 56-test root verification; green CI | merged PR #24 |
 | W | Logarithmic-scale contraction block | complete | `oddBlock_scale_logarithmic`; `fermionicKernel_gecp_error_le_half_logarithmicBlock`; explicit `O((s+1) log(s+1))` half-contraction block | Lean build; public axiom audit; exact dyadic-boundary regression; 57-test root verification; green CI | merged PR #25 |
 | X | Arbitrary dyadic accuracy | complete | `oddBlock_factor_le_accuracy`; `oddBlock_scale_accuracy`; `fermionicKernel_gecp_error_le_dyadicAccuracyBlock`; `O((s+1)(log(s+1)+q))` rank theorem | Lean build; public axiom audit; exact scale/accuracy regression; 58-test root verification; green CI | merged PR #26 |
-| Y | Determinant-prefactor obstruction | verified | `sylvesterHadamard_det_square`; `entrywise_determinant_constant_base_obstruction`; exact obstruction to a dimension-free generic determinant base | Lean build; public axiom audit; exact arithmetic regression; 59-test root verification | draft PR pending |
+| Y | Determinant-prefactor obstruction | complete | `sylvesterHadamard_det_square`; `entrywise_determinant_constant_base_obstruction`; exact obstruction to a dimension-free generic determinant base | Lean build; public axiom audit; exact arithmetic regression; 59-test root verification; green CI | merged PR #27 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

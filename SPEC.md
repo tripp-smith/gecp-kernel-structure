@@ -1502,3 +1502,14 @@ This annotation records delivered identifiers without changing the goals above.
   additive logarithmic scale startup, the conjectured `2(s+1)` block, optimal
   constants, Conjecture G1 itself, and Problem 4.2 remain open. The root
   command passes with 58 tests and no known dependency vulnerabilities.
+- Post-v1 research phase Y: complete with green CI on 2026-10-09 and delivered
+  in merged PR #27. `sylvesterHadamard_det_square` certifies the exact
+  determinant growth of the power-of-two Sylvester--Hadamard family, and
+  `entrywise_determinant_constant_base_obstruction` proves that no universal
+  bound `|det A| <= C^n` follows from unit entry bounds alone. This closes the
+  generic determinant-prefactor shortcut: removing Phase X's additive
+  logarithmic startup must exploit fermionic total positivity,
+  divided-difference structure, or GECP-selected residual geometry. The
+  obstruction is not a counterexample under those additional hypotheses and
+  does not prove Conjecture G1 or solve Problem 4.2. The root command passes
+  with 59 tests and no known dependency vulnerabilities.

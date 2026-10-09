@@ -1545,7 +1545,7 @@ Verification:
 
 ## Phase Y — determinant-prefactor obstruction
 
-State: verified on branch `codex/phase-y-determinant-obstruction`; PR pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #27.
 
 Phase X isolates the remaining gap to an additive `(s+1) log(s+1)` startup.
 In the current determinant route that loss comes from taking an `n`th root of
