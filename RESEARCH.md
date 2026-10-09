@@ -1952,3 +1952,114 @@ Verification:
   `1e-90`;
 - `./scripts/verify.sh` passes with 62 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AC — third-pivot frequency localization
+
+State: in progress on branch `codex/phase-ac-third-pivot-localization`.
+
+Phase AB shows that the two outer corners alone cannot halve every large-cutoff
+residual. The Phase AA secant representation nevertheless implies a dyadic
+localization mechanism. On the positive outer half-band, the two-corner
+residual is bounded by the first-corner error
+`exp(-t*omega)-exp(-t*Lambda)`. When `omega >= Lambda/2`, this is at most
+`x*(1-x) <= 1/4` for `x=exp(-t*Lambda/2)`. Reflection gives the same bound on
+the negative outer half-band. At the fixed center `(1/2,0)`, the residual is
+strictly greater than `1/4` once `2*log 4 <= Lambda`. Therefore no complete
+third pivot can remain in either outer half-band.
+
+Frozen public Lean targets:
+
+- `fermionicKernel_twoCornerResidual_le_firstCornerResidual` and
+  `fermionicKernel_twoCornerResidual_le_secondCornerResidual`: expose the two
+  exact comparison inequalities implicit in Phase AA;
+- `fermionicKernel_secondCornerResidual_reflection`: identify the lower-corner
+  comparison with the reflected upper-corner error;
+- `fermionicKernel_firstCornerResidual_le_quarter_of_halfCutoff_le_frequency`:
+  prove the `x*(1-x)` outer-half estimate;
+- `fermionicKernel_symmetricTwoCornerResidual_le_quarter_of_halfCutoff_le_absFrequency`:
+  combine both outer orientations for the actual symmetric two-corner
+  residual;
+- `fermionicKernel_symmetricTwoCornerResidual_center` and
+  `fermionicKernel_symmetricTwoCornerResidual_center_gt_quarter`: compute the
+  exact center value and prove the large-cutoff strict lower witness;
+- `fermionicKernel_thirdCompletePivot_frequency_lt_halfCutoff`: prove that any
+  third complete pivot dominating the center has `abs omega < Lambda/2`.
+
+Proof contract:
+
+- retain the actual nested `residualUpdate` and nonzero second-pivot witness;
+- prove the positive and reflected outer estimates separately before using
+  absolute frequency;
+- derive the center comparison from an exact closed form, not a decimal bound;
+- formulate complete-pivot localization through the defining domination of
+  the center point, without assuming uniqueness or a tie-breaking rule.
+
+Independent checks:
+
+- evaluate the exact residual on deterministic high-precision grids bracketing
+  the threshold `2*log 4` and verify that outer-half samples stay below one
+  quarter while the center crosses above it;
+- compare sampled maximizers with the proved central-half frequency region;
+- run the focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if the center formula is the only blocked step after three attempts, retain
+  the proved outer-half theorem and isolate the exact hyperbolic/exponential
+  identity as the next missing lemma; do not replace strict localization with
+  a sampled claim.
+
+Non-claims:
+
+- frequency localization does not identify the third pivot time, prove a
+  unique maximizer, or prescribe tie-breaking between reflected maxima;
+- one halving of the admissible frequency band does not yet prove iteration of
+  the mechanism through later residuals or the full `O(s+1)` block;
+- this phase does not prove Conjecture G1 or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `symmetricTwoCornerResidual` names the actual residual after the first two
+  symmetric cutoff-corner pivots;
+- `fermionicKernel_twoCornerResidual_le_firstCornerResidual` and
+  `fermionicKernel_twoCornerResidual_le_secondCornerResidual` expose the two
+  reflected comparison inequalities behind the Phase AA tent;
+- `fermionicKernel_secondCornerResidual_reflection` identifies the lower
+  comparison exactly with the reflected upper-corner residual;
+- `fermionicKernel_firstCornerResidual_le_quarter_of_halfCutoff_le_frequency`
+  proves the elementary `x*(1-x) <= 1/4` estimate on the positive outer
+  half-band;
+- the three `fermionicKernel_symmetricTwoCornerResidual_le_quarter...`
+  theorems transfer that bound to each outer orientation and finally to
+  `Lambda/2 <= abs omega`;
+- `fermionicKernel_symmetricTwoCornerResidual_center` computes the fixed
+  center as `1/2 - 1/(2*cosh(Lambda/2))`, while its `center_gt_quarter`
+  corollary proves strict separation above the threshold `2*log 4`;
+- `fermionicKernel_thirdCompletePivot_frequency_lt_halfCutoff` consumes the
+  repository's actual `CompletePivotOn` predicate and proves
+  `abs omega < Lambda/2` for every third complete pivot.
+
+Result:
+
+- the exact two-corner residual has a proved outer-versus-center gap, not just
+  a sampled concentration pattern;
+- the third pivot need not be unique and its time remains unspecified, but
+  every valid complete-pivot choice is forced into the central half-frequency
+  band;
+- Phase AB's obstruction and Phase AC's localization fit together: the outer
+  corners do not finish the contraction, but they eliminate both outer halves
+  from the next complete-pivot search;
+- the next formal obligation is an inheritance or residual-dominance theorem
+  showing that the third update converts this positional localization into a
+  reusable smaller-band problem.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- a 100-decimal regression independently forms the nested Schur residual at
+  five cutoffs beginning at `2*log 4`, verifies the exact center formula and
+  outer-half quarter bound on 16,605 deterministic samples, and confirms each
+  sampled maximizer lies in the central half-band;
+- `./scripts/verify.sh` passes with 63 Python tests and no known dependency
+  vulnerabilities.

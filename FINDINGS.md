@@ -184,6 +184,15 @@
   margin `222676/224338275`. The witness lies inside the physical cutoff
   rectangle, so the universal two-pivot half-contraction statement is formally
   false even though the first two symmetric corners are complete pivots.
+- The obstruction still forces the next complete pivot inward. After the two
+  symmetric cutoff-corner pivots, the residual is at most `1/4` whenever
+  `|omega| >= Lambda/2`: on the positive side it is dominated by
+  `x*(1-x)` for `x=exp(-t*Lambda/2)`, and the negative side follows by exact
+  reflection. At `(t,omega)=(1/2,0)` the residual is exactly
+  `1/2 - 1/(2*cosh(Lambda/2))`, which is strictly greater than `1/4` when
+  `2*log 4 <= Lambda`. Consequently every actual third complete pivot has
+  `|omega| < Lambda/2` in that regime. This is the first proved dyadic
+  frequency-localization step for the canonical fermionic GECP trajectory.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -281,10 +290,10 @@ divided differences, or GECP-selected residual structure remain viable because
 the obstruction family does not satisfy the fermionic hypotheses.
 The exact corner-area law and its two-corner secant tent now supply a local,
 scale-invariant mechanism, but the exact Phase AB obstruction rules out using
-only the two outer corners at every scale. It remains conjectural whether
-subsequent complete pivots dominate a chain of smaller tents, or whether a
-dyadic partition of the frequency band turns them into a full-rectangle bound
-with only linearly many tiles per accuracy block.
+only the two outer corners at every scale. Phase AC now proves that the third
+complete pivot enters the central half-band. It remains conjectural whether
+the post-third-pivot residual inherits a comparable localization invariant so
+that this halving can be iterated through only linearly many dyadic bands.
 
 ## Not claimed
 
@@ -325,6 +334,10 @@ with only linearly many tiles per accuracy block.
 - A counterexample to Conjecture G1 or to cutoff-dependent multi-pivot block
   contraction. Phase AB rules out only the stronger shortcut asserting that
   the first two symmetric corner pivots halve the residual for every cutoff.
+- Iteration of the central-half localization theorem after the third pivot.
+  Phase AC controls the position of that pivot in the two-corner residual; it
+  does not yet prove that subsequent Schur residuals retain the same secant or
+  quarter-bound structure.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -407,6 +420,12 @@ with only linearly many tiles per accuracy block.
   witness and sweeps endpoint bases 24 through 64, while a direct 100-decimal
   nested update reproduces the formal residual and margin. The change passed
   CI and merged as PR #30.
+- On 2026-10-09 the Phase AC root command passed the same gate with 63 Python
+  tests and no known dependency vulnerabilities. Its ten new public results
+  use only the permitted Lean axioms; a 100-decimal regression checks the
+  exact center formula, both outer-half quarter bounds, and sampled-maximizer
+  localization across five cutoffs from the threshold through 16. CI and
+  merge are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
