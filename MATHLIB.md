@@ -84,6 +84,12 @@ Phase AC combines existing exponential monotonicity, `x*(1-x) <= 1/4`, the
 hyperbolic double-angle identity, and the project-specific fermionic Schur
 formulas. No missing general-purpose mathlib abstraction was encountered.
 
+Phase AD packages an asymmetric local/global Schur-update estimate from
+elementary absolute-value, division, and same-sign inequalities. Its generic
+statement is useful inside this repository's `Kernel`, `CompletePivotOn`, and
+`PivotCrossProductSignCoherent` APIs, but no missing lower-level mathlib lemma
+was encountered and no upstream candidate is proposed.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -41,6 +41,18 @@ private theorem abs_sub_le_of_sameSign_of_four_bounds {a b B : ℝ}
     rw [abs_of_nonpos hb0] at hb
     constructor <;> linarith
 
+private theorem abs_sub_le_of_sameSign_of_bounds {a b C : ℝ}
+    (same_sign : 0 ≤ a * b) (ha : abs a ≤ C) (hb : abs b ≤ C) :
+    abs (a - b) ≤ C := by
+  rw [abs_le]
+  rcases (mul_nonneg_iff.mp same_sign) with ⟨ha0, hb0⟩ | ⟨ha0, hb0⟩
+  · rw [abs_of_nonneg ha0] at ha
+    rw [abs_of_nonneg hb0] at hb
+    constructor <;> linarith
+  · rw [abs_of_nonpos ha0] at ha
+    rw [abs_of_nonpos hb0] at hb
+    constructor <;> linarith
+
 /-- Sign coherence gives a nonexpansive update using only bounds on the four involved points. -/
 theorem residualUpdate_le_of_signCoherentOn
     {α : Type u} {β : Type v} {R : Kernel α β ℝ}
@@ -69,6 +81,71 @@ theorem residualUpdate_le_of_signCoherentOn
     rw [← bound_pivot]
     exact abs_pos.mpr pivot_ne
   exact (div_le_iff₀ B_pos).2 difference
+
+/--
+A sign-coherent update preserves a local column-strip bound when its selected
+column is controlled by the pivot. The pivot itself may lie outside the strip.
+-/
+theorem residualUpdate_le_stripBound_of_signCoherent
+    {α : Type u} {β : Type v} {R : Kernel α β ℝ}
+    {row x : α} {column y : β}
+    (coherent : PivotCrossProductSignCoherent R row column) {Q : ℝ}
+    (bound_xy : abs (R x y) ≤ Q)
+    (bound_row_y : abs (R row y) ≤ Q)
+    (bound_x_column : abs (R x column) ≤ abs (R row column))
+    (pivot_ne : R row column ≠ 0) :
+    abs (residualUpdate R row column pivot_ne x y) ≤ Q := by
+  have pivot_abs_nonneg : 0 ≤ abs (R row column) := abs_nonneg _
+  have first_product :
+      abs (R x y * R row column) ≤ Q * abs (R row column) := by
+    rw [abs_mul]
+    exact mul_le_mul_of_nonneg_right bound_xy pivot_abs_nonneg
+  have second_product :
+      abs (R x column * R row y) ≤ Q * abs (R row column) := by
+    rw [abs_mul]
+    calc
+      abs (R x column) * abs (R row y) ≤ abs (R row column) * Q :=
+        mul_le_mul bound_x_column bound_row_y (abs_nonneg _) pivot_abs_nonneg
+      _ = Q * abs (R row column) := mul_comm _ _
+  have difference := abs_sub_le_of_sameSign_of_bounds
+    (coherent x y) first_product second_product
+  unfold residualUpdate
+  rw [show R x y - R x column * R row y / R row column =
+      (R x y * R row column - R x column * R row y) / R row column by
+    field_simp]
+  rw [abs_div]
+  have pivot_abs_pos : 0 < abs (R row column) := abs_pos.mpr pivot_ne
+  exact (div_le_iff₀ pivot_abs_pos).2 difference
+
+/-- A column-strip bound survives every sign-coherent complete-pivot update. -/
+theorem stripBound_preserved_of_signCoherentCompletePivot
+    {α : Type u} {β : Type v}
+    (rowDomain : α → Prop) (columnDomain strip : β → Prop)
+    (residual : ℕ → Kernel α β ℝ) (rows : ℕ → α) (columns : ℕ → β)
+    (Q : ℝ)
+    (initial_bound : ∀ x y, rowDomain x → columnDomain y → strip y →
+      abs (residual 0 x y) ≤ Q)
+    (pivot_ne : ∀ n, residual n (rows n) (columns n) ≠ 0)
+    (updates : ∀ n, residual (n + 1) =
+      residualUpdate (residual n) (rows n) (columns n) (pivot_ne n))
+    (coherent : ∀ n,
+      PivotCrossProductSignCoherent (residual n) (rows n) (columns n))
+    (complete : ∀ n,
+      CompletePivotOn rowDomain columnDomain
+        (residual n) (rows n) (columns n)) :
+    ∀ n x y, rowDomain x → columnDomain y → strip y →
+      abs (residual n x y) ≤ Q := by
+  intro n
+  induction n with
+  | zero => exact initial_bound
+  | succ n ih =>
+      intro x y hx hy hstrip
+      obtain ⟨row_mem, column_mem, pivot_max⟩ := complete n
+      rw [updates n]
+      apply residualUpdate_le_stripBound_of_signCoherent (coherent n)
+      · exact ih x y hx hy hstrip
+      · exact ih (rows n) y row_mem hy hstrip
+      · exact pivot_max x (columns n) hx column_mem
 
 /--
 For a strictly sign-regular original kernel, an exact complete-pivot residual

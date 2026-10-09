@@ -2063,3 +2063,99 @@ Verification:
   sampled maximizer lies in the central half-band;
 - `./scripts/verify.sh` passes with 63 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AD — persistent outer-half exclusion
+
+State: verified on 2026-10-09; merge and CI pending.
+
+Phase AC excludes both outer frequency half-bands from the third complete
+pivot, but its quarter estimate is stated only for the two-corner residual.
+The next reusable step is to show that a sign-coherent complete-pivot update
+preserves any column-strip bound. The mechanism is asymmetric: the two
+factors sampled inside the strip are bounded by the strip constant, while the
+other two are bounded by the complete pivot. Same-sign cross products prevent
+these mixed bounds from adding. Iteration then keeps the two-corner outer-half
+quarter bound valid at every later residual.
+
+Frozen public Lean targets:
+
+- `residualUpdate_le_stripBound_of_signCoherent`: prove the one-step mixed
+  strip/global estimate for a sign-coherent complete pivot;
+- `stripBound_preserved_of_signCoherentCompletePivot`: iterate that estimate
+  over an exact residual sequence;
+- `fermionicKernel_outerHalfBound_preserved`: specialize the invariant to
+  residuals realized by finite fermionic-kernel runs after the two symmetric
+  cutoff corners;
+- `fermionicKernel_laterCompletePivot_frequency_lt_halfCutoff_of_quarter_lt`:
+  prove that every later complete pivot whose magnitude is strictly above one
+  quarter has frequency strictly inside the central half-band.
+
+Proof contract:
+
+- use the existing `PivotCrossProductSignCoherent` and `CompletePivotOn`
+  interfaces rather than introducing a fermionic-specific update identity;
+- keep the strip estimate local in the frequency variable and use complete
+  pivot maximality only for the off-strip column factor;
+- require realization by a finite run from `fermionicKernel` so strict total
+  positivity supplies sign coherence at every stage;
+- obtain the initial absolute quarter bound from Phase AC together with the
+  proved nonnegativity of the exact two-corner residual.
+
+Independent checks:
+
+- add a deterministic exact-arithmetic regression for the mixed-bound
+  cancellation lemma, including both common-sign orientations;
+- sample continued complete-pivot updates and verify that the outer-half
+  maximum never exceeds the two-corner quarter bound;
+- run the focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if direct sequence induction is blocked by index or run-realization
+  bookkeeping after three attempts, ship the generic one-step invariant and
+  isolate only the finite-run composition lemma as the next target; do not
+  replace the realization hypothesis with an unproved preservation claim.
+
+Non-claims:
+
+- persistent outer-half exclusion does not prove contraction below one
+  quarter, bound how many central pivots occur, or show self-similarity of the
+  central restriction;
+- this phase does not identify or pair later pivots, prove Conjecture G1, or
+  solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `residualUpdate_le_stripBound_of_signCoherent` proves the asymmetric
+  one-step estimate with a protected-column bound and a pivot-sized global
+  factor;
+- `stripBound_preserved_of_signCoherentCompletePivot` iterates that estimate
+  for an arbitrary sign-coherent complete-pivot residual sequence;
+- `fermionicKernel_outerHalfBound_preserved` obtains coherence from realized
+  fermionic runs and preserves the exact two-corner outer-half quarter bound;
+- `fermionicKernel_laterCompletePivot_frequency_lt_halfCutoff_of_quarter_lt`
+  converts the invariant into persistent frequency localization for every
+  later selected pivot above one quarter.
+
+Result:
+
+- the third-pivot localization is no longer a one-step phenomenon: neither
+  the third update nor any later exact complete-pivot update can recreate a
+  residual larger than one quarter in the original outer half-bands;
+- the proof does not assume a reflected pivot pair, uniqueness, or a
+  tie-breaking rule;
+- the next missing mechanism is relative rescaling on the central half-band:
+  a new witness and protected-strip threshold must shrink with that band to
+  turn the fixed invariant into a dyadic recurrence.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` cases cover both common-sign orientations and both pivot
+  signs in the mixed-bound cancellation;
+- an 80-decimal regression follows five further sampled complete-pivot
+  updates at cutoffs 4, 8, and 16, checking the outer-half quarter bound and
+  the location of every sampled pivot above it;
+- `./scripts/verify.sh` passes with 64 Python tests and no known dependency
+  vulnerabilities.

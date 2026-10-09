@@ -193,6 +193,14 @@
   `2*log 4 <= Lambda`. Consequently every actual third complete pivot has
   `|omega| < Lambda/2` in that regime. This is the first proved dyadic
   frequency-localization step for the canonical fermionic GECP trajectory.
+- This outer-half exclusion persists through every later exact complete-pivot
+  update. Sign coherence makes the two Schur cross products have a common
+  sign; the factors evaluated in the outer strip remain bounded by `1/4`,
+  while complete-pivot maximality controls the other factor by the pivot.
+  Consequently the updated outer-strip residual is still at most `1/4` in
+  absolute value. Iterating this mixed local/global estimate proves that every
+  later selected pivot with magnitude greater than `1/4` has
+  `|omega| < Lambda/2`.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -290,10 +298,12 @@ divided differences, or GECP-selected residual structure remain viable because
 the obstruction family does not satisfy the fermionic hypotheses.
 The exact corner-area law and its two-corner secant tent now supply a local,
 scale-invariant mechanism, but the exact Phase AB obstruction rules out using
-only the two outer corners at every scale. Phase AC now proves that the third
-complete pivot enters the central half-band. It remains conjectural whether
-the post-third-pivot residual inherits a comparable localization invariant so
-that this halving can be iterated through only linearly many dyadic bands.
+only the two outer corners at every scale. Phase AC forces the third complete
+pivot into the central half-band, and Phase AD proves that the original
+outer-half quarter exclusion survives every later update. It remains
+conjectural whether one can restart the argument on the central restriction
+with a smaller relative threshold and iterate shrinking bands using only
+linearly many pivots.
 
 ## Not claimed
 
@@ -334,10 +344,10 @@ that this halving can be iterated through only linearly many dyadic bands.
 - A counterexample to Conjecture G1 or to cutoff-dependent multi-pivot block
   contraction. Phase AB rules out only the stronger shortcut asserting that
   the first two symmetric corner pivots halve the residual for every cutoff.
-- Iteration of the central-half localization theorem after the third pivot.
-  Phase AC controls the position of that pivot in the two-corner residual; it
-  does not yet prove that subsequent Schur residuals retain the same secant or
-  quarter-bound structure.
+- A shrinking-band iteration of the central-half localization theorem. Phase
+  AD preserves the fixed outer-half quarter bound through all later Schur
+  updates, but it does not produce a new relative bound on the central half or
+  force contraction below one quarter.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -426,6 +436,12 @@ that this halving can be iterated through only linearly many dyadic bands.
   exact center formula, both outer-half quarter bounds, and sampled-maximizer
   localization across five cutoffs from the threshold through 16. The change
   passed CI and merged as PR #31.
+- On 2026-10-09 the Phase AD root command passed the same gate with 64 Python
+  tests and no known dependency vulnerabilities. Its four new public results
+  use only the permitted Lean axioms; exact rational sign-orientation cases
+  check the mixed-bound cancellation, and an 80-decimal regression follows
+  five further sampled complete-pivot updates at cutoffs 4, 8, and 16. Merge
+  and CI are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
