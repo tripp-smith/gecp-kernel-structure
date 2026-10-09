@@ -1451,3 +1451,16 @@ This annotation records delivered identifiers without changing the goals above.
   or a near-volume argument, Conjecture G1, and Problem 4.2 remain open.
   The root command passes with 54 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase U: complete with green CI on 2026-10-08 and delivered
+  in merged PR #23. `Matrix.det_add_eq_sum_columnChoices` expands a determinant
+  over approximation/error column choices; mixed terms below the exterior
+  degree threshold vanish through `Matrix.det_mul_rect_eq_zero_of_card_lt`;
+  and `Matrix.abs_det_le_two_pow_mul_of_factors_approx` gives the explicit
+  entrywise low-rank perturbation bound
+  `2^n n! epsilon^(n-r) C^r`. The fermionic specialization
+  `fermionicKernel_sample_det_le_two_pow` converts the existing
+  `16p(s+1)`-term, `2^-p` separated approximation into determinant decay for
+  arbitrary samples on `[0,1] x [-2^s,2^s]`. Combining this estimate with
+  Phase T, optimizing `p`, and absorbing its explicit constants into the
+  cutoff-uniform form of Conjecture G1 remain open. The root command passes
+  with 55 tests and no known dependency vulnerabilities.

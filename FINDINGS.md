@@ -293,7 +293,8 @@ Conjecture G1.
 - On 2026-10-08 the Phase U root command passed the same gate with 55 Python
   tests and no known dependency vulnerabilities. Its eleven audited public
   results use only the permitted Lean axioms; the exact rational low-rank
-  perturbation census and Lean rank-one `3 x 3` check also pass.
+  perturbation census and Lean rank-one `3 x 3` check also pass. The change
+  passed CI and merged as PR #23.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

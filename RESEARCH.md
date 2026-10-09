@@ -1164,8 +1164,8 @@ Non-claims:
 
 ## Phase U — low-rank perturbation determinant bound
 
-State: verified on branch `codex/phase-u-low-rank-determinant`; draft PR
-pending.
+State: complete with green CI in merged
+[PR #23](https://github.com/tripp-smith/gecp-kernel-structure/pull/23).
 
 Phase T reduces exact complete-pivot residuals to selected-core determinants.
 The next bridge is suggested independently by several neighboring theories:
