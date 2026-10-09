@@ -4,6 +4,7 @@ import GECPKernelStructure.PositiveDefinite.PowerFunction
 import GECPKernelStructure.Fermionic.SeparatedApprox
 import GECPKernelStructure.Fermionic.DeterminantDecay
 import GECPKernelStructure.Fermionic.GECPDeterminantDecay
+import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant
 import GECPKernelStructure.GreenFunction

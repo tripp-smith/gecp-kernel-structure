@@ -1542,3 +1542,104 @@ Verification:
   scales through 1024 and every dyadic transition through `2^64`;
 - `./scripts/verify.sh` passes with 58 Python tests and no known dependency
   vulnerabilities.
+
+## Phase Y — determinant-prefactor obstruction
+
+State: verified on branch `codex/phase-y-determinant-obstruction`; PR pending.
+
+Phase X isolates the remaining gap to an additive `(s+1) log(s+1)` startup.
+In the current determinant route that loss comes from taking an `n`th root of
+a generic entrywise perturbation estimate with a dimension-growing
+determinant prefactor. A tempting next step is to replace that prefactor by
+`C^n` for a universal constant `C`. Before investing in a fermionic proof, this
+phase tests whether such an improvement can possibly follow from entrywise
+low-rank approximation alone.
+
+Two neighboring theories sharpen the decision. Gilles's geometric-mean LU
+analysis (arXiv:2607.26863) confirms sampled determinants as the correct pivot
+quantity, while modern empirical-interpolation estimates
+(arXiv:2401.13985) retain Lebesgue and finite-dimensional volume factors.
+Neither removes the dimension dependence without additional kernel structure.
+The exact finite obstruction is the Sylvester--Hadamard family: bounded
+entries coexist with determinant root growing like the square root of the
+dimension.
+
+Frozen public Lean targets:
+
+- `SylvesterIndex` and `sylvesterHadamard`: construct the power-of-two
+  Kronecker family over real matrices;
+- `sylvesterHadamard_isHadamard` and `sylvesterIndex_card`: certify
+  orthogonality, unit-modulus entries, and order `2^(k+1)`;
+- `sylvesterHadamard_det_square`: prove the exact identity
+  `det(H_k)^2 = (2^(k+1))^(2^(k+1))`;
+- `entrywise_determinant_constant_base_obstruction`: for every natural base
+  `C`, exhibit a bounded-entry matrix whose absolute determinant exceeds
+  `C^n`, ruling out a universal constant-base determinant bound under only
+  entrywise hypotheses.
+
+Proof contract:
+
+- use mathlib's `Matrix.IsHadamard.kronecker` and determinant identity rather
+  than reprove row orthogonality or expand permutations;
+- keep the obstruction over exact real/integer arithmetic;
+- separate family construction, cardinality, determinant identity, and the
+  asymptotic witness;
+- after three failures on the quantified witness arithmetic, retain the exact
+  family identity as the certified obstruction and state the remaining
+  elementary corollary explicitly rather than weaken the matrix assumptions.
+
+Independent checks:
+
+- recursively construct small Sylvester matrices with exact integers and
+  compare their determinants with the closed form;
+- focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if the obstruction is certified, stop pursuing generic entrywise
+  determinant improvements and make a fermionic-specific total-positivity,
+  divided-difference, or residual-relative estimate the next research target.
+
+Non-claims:
+
+- this phase does not show that the fermionic determinant has Hadamard growth;
+  the obstruction matrices are not totally positive;
+- it does not disprove a dimension-free bound under fermionic sign regularity
+  or residual-selected sampling, and it does not prove Conjecture G1.
+
+Delivered identifiers:
+
+- `SylvesterIndex`, `hadamardTwo`, and `sylvesterHadamard` define exact real
+  Sylvester--Hadamard matrices of order `2^(k+1)` by repeated Kronecker
+  products;
+- `hadamardTwo_isHadamard`, `sylvesterHadamard_isHadamard`, and
+  `sylvesterIndex_card` certify unit-modulus entries, orthogonality, and the
+  exact matrix order;
+- `sylvesterHadamard_det_square` proves
+  `det(H_k)^2 = (2^(k+1))^(2^(k+1))` using mathlib's Hadamard determinant
+  identity;
+- `entrywise_determinant_constant_base_obstruction` proves that for every
+  natural `C` some unit-entry square matrix of order `n` satisfies
+  `C^n < |det A|`.
+
+Result:
+
+- a determinant bound of the form `|det A| <= C^n` with fixed `C` cannot be
+  derived from a uniform entrywise bound alone: the Hadamard family has
+  determinant root `sqrt(n)`;
+- therefore replacing Phase U's dimension factor by a universal exponential
+  base requires additional fermionic or residual-selected hypotheses, not a
+  sharper generic determinant inequality;
+- the next promising proof target is a determinant or divided-difference
+  estimate for totally positive exponential collocation matrices, ideally
+  localized to the rows and columns selected by the GECP residual.
+
+Verification:
+
+- the focused Lean library build and expanded public axiom audit pass, with
+  only Lean's permitted default axioms;
+- an independent exact-integer regression checks the determinant identity for
+  Sylvester orders two through 64 and the arithmetic witness for bases zero
+  through 256;
+- `./scripts/verify.sh` passes with 59 Python tests and no known dependency
+  vulnerabilities.

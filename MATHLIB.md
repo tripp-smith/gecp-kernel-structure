@@ -61,6 +61,11 @@ Potential candidates after further use and generalization:
 The fermionic identities, DLR counts, and research-outcome enumeration are
 project-specific and are not current upstream candidates.
 
+Phase Y reuses mathlib's existing `Matrix.IsHadamard.kronecker` and
+`Matrix.IsHadamard.det_mul_star_det` API. Its recursive Sylvester wrapper and
+constant-base obstruction are research-routing results for this project, not
+new upstream candidates at their present level of generality.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

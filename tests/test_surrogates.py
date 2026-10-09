@@ -173,6 +173,35 @@ def test_accuracy_block_satisfies_exact_dyadic_target_condition() -> None:
             )
 
 
+def test_sylvester_hadamard_determinant_obstruction_exactly() -> None:
+    def kronecker(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                left_value * right_value
+                for left_value in left_row
+                for right_value in right_row
+            ]
+            for left_row in left
+            for right_row in right
+        ]
+
+    hadamard_two = [[Fraction(1), Fraction(1)], [Fraction(1), Fraction(-1)]]
+    matrix = hadamard_two
+    for exponent in range(1, 7):
+        order = 2**exponent
+        assert len(matrix) == order
+        assert all(abs(value) == 1 for row in matrix for value in row)
+        determinant = fraction_determinant(matrix)
+        assert determinant**2 == order**order
+        matrix = kronecker(matrix, hadamard_two)
+
+    for constant_base in range(257):
+        exponent = 2 * constant_base + 2
+        assert constant_base**2 < 2**exponent
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))

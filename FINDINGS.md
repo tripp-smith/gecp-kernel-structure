@@ -154,6 +154,13 @@
   `n = 32(33 + 4 ceil(log_2(s+1)) + 4q)(s+1)`. Thus the determinant route
   yields rank `O((s+1)(log(s+1)+q))`, or
   `O(log(1+Λ)(log log(1+Λ)+log(1/epsilon)))` after choosing a dyadic target.
+- Bounded entries alone cannot improve the determinant prefactor to `C^n`
+  for any universal constant base `C`. For every natural `C`, an exact
+  Sylvester--Hadamard matrix with unit-modulus entries satisfies
+  `C^n < |det A|`; equivalently, this family has determinant root `sqrt(n)`.
+  Thus the remaining GECP startup loss cannot be removed by a generic
+  entrywise determinant theorem and needs fermionic or residual-selected
+  structure.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -246,6 +253,9 @@ in the requested accuracy order after an additive logarithmic scale startup.
 It remains open whether that startup factor and the constants can be removed,
 or the argument localized enough to prove the conjectured linear block and the
 cutoff-uniform form of Conjecture G1.
+The generic bounded-entry route is now formally ruled out; total positivity,
+divided differences, or GECP-selected residual structure remain viable because
+the obstruction family does not satisfy the fermionic hypotheses.
 
 ## Not claimed
 
@@ -271,6 +281,10 @@ cutoff-uniform form of Conjecture G1.
   conjectured linear-in-`s` rank scale. The delivered composition instead has
   an explicit arbitrary-accuracy rate with an additive
   `(s+1) log(s+1)` startup cost.
+- A counterexample to a fermionic-specific or totally-positive determinant
+  estimate. The Sylvester--Hadamard obstruction concerns arbitrary
+  bounded-entry matrices and is deliberately outside those structural
+  classes.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -331,6 +345,10 @@ cutoff-uniform form of Conjecture G1.
   use only the permitted Lean axioms; the exact integer regression covers 65
   accuracy orders and dyadic transition boundaries through `2^64`. The change
   passed CI and merged as PR #26.
+- On 2026-10-09 the Phase Y root command passed the same gate with 59 Python
+  tests and no known dependency vulnerabilities. Its four new public results
+  use only the permitted Lean axioms; the exact Sylvester regression covers
+  orders two through 64 and obstruction witnesses for bases zero through 256.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
