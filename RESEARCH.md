@@ -1955,7 +1955,7 @@ Verification:
 
 ## Phase AC — third-pivot frequency localization
 
-State: in progress on branch `codex/phase-ac-third-pivot-localization`.
+State: complete with green CI on 2026-10-09; delivered in merged PR #31.
 
 Phase AB shows that the two outer corners alone cannot halve every large-cutoff
 residual. The Phase AA secant representation nevertheless implies a dyadic

@@ -424,8 +424,8 @@ that this halving can be iterated through only linearly many dyadic bands.
   tests and no known dependency vulnerabilities. Its ten new public results
   use only the permitted Lean axioms; a 100-decimal regression checks the
   exact center formula, both outer-half quarter bounds, and sampled-maximizer
-  localization across five cutoffs from the threshold through 16. CI and
-  merge are pending.
+  localization across five cutoffs from the threshold through 16. The change
+  passed CI and merged as PR #31.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -1553,3 +1553,16 @@ This annotation records delivered identifiers without changing the goals above.
   blocks, Conjecture G1, or Problem 4.2; it shows that intermediate localized
   pivots are necessary at large cutoff. The root command passes with 62 tests
   and no known dependency vulnerabilities.
+- Post-v1 research phase AC: complete with green CI on 2026-10-09 and
+  delivered in merged PR #31. The exact one-corner comparisons and reflection
+  identity bound the symmetric two-corner residual by `1/4` throughout both
+  outer half-frequency bands. At the fixed center,
+  `fermionicKernel_symmetricTwoCornerResidual_center` computes the residual as
+  `1/2 - 1/(2*cosh(Lambda/2))`, which exceeds `1/4` for
+  `2*log 4 <= Lambda`. The resulting
+  `fermionicKernel_thirdCompletePivot_frequency_lt_halfCutoff` theorem uses
+  the repository's `CompletePivotOn` predicate to force every actual third
+  complete pivot into `abs omega < Lambda/2`, independently of ties. This is
+  one rigorous dyadic localization step, not an iteration theorem for later
+  residuals; Conjecture G1 and Problem 4.2 remain open. The root command passes
+  with 63 tests and no known dependency vulnerabilities.
