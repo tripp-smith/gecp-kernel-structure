@@ -1566,8 +1566,8 @@ This annotation records delivered identifiers without changing the goals above.
   one rigorous dyadic localization step, not an iteration theorem for later
   residuals; Conjecture G1 and Problem 4.2 remain open. The root command passes
   with 63 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AD: verified on its implementation branch on
-  2026-10-09; merge and CI are pending.
+- Post-v1 research phase AD: complete with green CI on 2026-10-09 and
+  delivered in merged PR #32.
   `residualUpdate_le_stripBound_of_signCoherent` proves that a local
   column-strip bound survives one sign-coherent update when complete-pivot
   maximality controls the selected-column factor, even when the pivot lies

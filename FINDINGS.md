@@ -440,8 +440,8 @@ linearly many pivots.
   tests and no known dependency vulnerabilities. Its four new public results
   use only the permitted Lean axioms; exact rational sign-orientation cases
   check the mixed-bound cancellation, and an 80-decimal regression follows
-  five further sampled complete-pivot updates at cutoffs 4, 8, and 16. Merge
-  and CI are pending.
+  five further sampled complete-pivot updates at cutoffs 4, 8, and 16. The
+  change passed CI and merged as PR #32.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

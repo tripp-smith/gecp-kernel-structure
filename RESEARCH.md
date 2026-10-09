@@ -2066,7 +2066,7 @@ Verification:
 
 ## Phase AD — persistent outer-half exclusion
 
-State: verified on 2026-10-09; merge and CI pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #32.
 
 Phase AC excludes both outer frequency half-bands from the third complete
 pivot, but its quarter estimate is stated only for the two-corner residual.
