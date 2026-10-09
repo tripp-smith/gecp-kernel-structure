@@ -1378,3 +1378,79 @@ Verification:
   scales zero through 32;
 - `./scripts/verify.sh` passes with 56 Python tests and no known dependency
   vulnerabilities.
+
+## Phase W — logarithmic-scale contraction block
+
+State: verified on branch `codex/phase-w-logarithmic-block`; delivery pending.
+
+Phase V deliberately used `m = 16(s+1)` to discharge
+`128(2m+1)(s+1) <= 2^m` with elementary polynomial arithmetic. The exact
+odd-block theorem only needs this inequality, so the natural next step is the
+ceil-log choice
+`m = 16 + 2 * Nat.clog 2 (s+1)`. Writing
+`ell = Nat.clog 2 (s+1)`, mathlib supplies `s+1 <= 2^ell`; the remaining
+inequality is a uniform comparison of the linear factor `33+4ell` with an
+exponential in `ell`.
+
+Frozen public Lean targets:
+
+- `oddBlock_scale_logarithmic`: prove
+  `128(2m+1)(s+1) <= 2^m` for
+  `m = 16 + 2 * Nat.clog 2 (s+1)`;
+- `fermionicKernel_gecp_error_le_half_logarithmicBlock`: instantiate Phase V's
+  half-contraction theorem at that `m`, giving block length
+  `32(2m+1)(s+1)`;
+- retain the exact natural-number expression in the theorem statement and
+  document its `O((s+1) log(s+1))` interpretation separately.
+
+Proof contract:
+
+- use `Nat.le_pow_clog` rather than introducing a local logarithm abstraction;
+- separate the bound `s+1 <= 2^ell`, the elementary
+  `33+4ell <= 512 * 2^ell`, and the final power normalization;
+- use induction only for the one-variable auxiliary exponential inequality;
+- reuse `fermionicKernel_gecp_error_le_half_of_oddBlock` unchanged.
+
+Independent checks:
+
+- exact integer evaluation over a broad deterministic scale range, including
+  dyadic boundaries where `Nat.clog` changes;
+- focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- after three failed normalizations of the same ceil-log inequality, expose
+  the smallest missing arithmetic helper as the phase result rather than
+  weakening the GECP assumptions.
+
+Non-claims:
+
+- this phase does not prove the conjectured `2(s+1)` block, remove all
+  logarithmic overhead, establish optimal constants, or close Conjecture G1.
+
+Delivered identifiers:
+
+- `oddBlock_scale_logarithmic` proves the exact odd-block scale condition for
+  `m = 16 + 2 * Nat.clog 2 (s+1)` using `Nat.le_pow_clog` and the elementary
+  auxiliary comparison `33+4ell <= 512 * 2^ell`;
+- `fermionicKernel_gecp_error_le_half_logarithmicBlock` instantiates the Phase
+  V contraction theorem at that scale and proves error at most one half by
+  `n = 32(33 + 4 * Nat.clog 2 (s+1))(s+1)`.
+
+Result:
+
+- the certified general block improves from quadratic in `s+1` to
+  `O((s+1) log(s+1))` without strengthening any GECP premise;
+- the exact expression, rather than asymptotic notation, remains the public
+  theorem interface;
+- the conjectured linear block, optimal constants, and Conjecture G1 remain
+  open.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- an independent exact-integer regression covers scales through 1024 and the
+  neighbors of every dyadic boundary through `2^64`;
+- `./scripts/verify.sh` passes with 57 Python tests and no known dependency
+  vulnerabilities.

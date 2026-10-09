@@ -143,6 +143,19 @@ def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
         assert 128 * (2 * accuracy_order + 1) * (scale + 1) <= 2**accuracy_order
 
 
+def test_logarithmic_block_satisfies_exact_half_contraction_condition() -> None:
+    dyadic_neighbors = {
+        neighbor
+        for exponent in range(1, 65)
+        for neighbor in (2**exponent - 1, 2**exponent, 2**exponent + 1)
+    }
+    scales_plus_one = set(range(1, 1025)) | dyadic_neighbors
+    for scale_plus_one in sorted(scales_plus_one):
+        ceil_log_two = (scale_plus_one - 1).bit_length()
+        accuracy_order = 16 + 2 * ceil_log_two
+        assert 128 * (2 * accuracy_order + 1) * scale_plus_one <= 2**accuracy_order
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))
