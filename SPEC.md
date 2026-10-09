@@ -1566,3 +1566,17 @@ This annotation records delivered identifiers without changing the goals above.
   one rigorous dyadic localization step, not an iteration theorem for later
   residuals; Conjecture G1 and Problem 4.2 remain open. The root command passes
   with 63 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AD: verified on its implementation branch on
+  2026-10-09; merge and CI are pending.
+  `residualUpdate_le_stripBound_of_signCoherent` proves that a local
+  column-strip bound survives one sign-coherent update when complete-pivot
+  maximality controls the selected-column factor, even when the pivot lies
+  outside the strip. `stripBound_preserved_of_signCoherentCompletePivot`
+  iterates the estimate, and `fermionicKernel_outerHalfBound_preserved`
+  specializes it to keep the Phase AC outer-half bound `|R_n| <= 1/4` through
+  every later realized exact complete-pivot residual. Therefore
+  `fermionicKernel_laterCompletePivot_frequency_lt_halfCutoff_of_quarter_lt`
+  forces every later pivot above one quarter into `|omega| < Lambda/2`. This
+  is a fixed-strip invariant, not a shrinking-band recurrence or contraction
+  below one quarter; Conjecture G1 and Problem 4.2 remain open. The root
+  command passes with 64 tests and no known dependency vulnerabilities.

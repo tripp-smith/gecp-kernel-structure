@@ -434,6 +434,84 @@ def test_third_pivot_frequency_localization_high_precision() -> None:
             assert abs(sampled_frequency) < cutoff / 2
 
 
+def test_outer_half_quarter_bound_survives_later_pivots() -> None:
+    quarter = Fraction(1, 4)
+    mixed_bound_cases = [
+        (Fraction(2), quarter, Fraction(1), quarter),
+        (Fraction(2), -quarter, Fraction(1), -quarter),
+        (Fraction(-2), quarter, Fraction(1), -quarter),
+        (Fraction(-2), -quarter, Fraction(1), quarter),
+    ]
+    for pivot, value, selected_column, selected_row in mixed_bound_cases:
+        assert abs(value) <= quarter
+        assert abs(selected_row) <= quarter
+        assert abs(selected_column) <= abs(pivot)
+        assert (value * pivot) * (selected_column * selected_row) >= 0
+        updated = value - selected_column * selected_row / pivot
+        assert abs(updated) <= quarter
+
+    with mp.workdps(80):
+        tolerance = mp.mpf("1e-60")
+
+        def kernel(time: mp.mpf, frequency: mp.mpf) -> mp.mpf:
+            return mp.exp(-time * frequency) / (1 + mp.exp(-frequency))
+
+        for cutoff in map(mp.mpf, ("4", "8", "16")):
+            times = [mp.mpf(index) / 30 for index in range(31)]
+            frequencies = [
+                -cutoff + 2 * cutoff * mp.mpf(index) / 120 for index in range(121)
+            ]
+
+            first_pivot = kernel(0, cutoff)
+            first = [
+                [
+                    kernel(time, frequency)
+                    - kernel(time, cutoff) * kernel(0, frequency) / first_pivot
+                    for frequency in frequencies
+                ]
+                for time in times
+            ]
+            second_pivot = first[-1][0]
+            residual = [
+                [
+                    first[i][j] - first[i][0] * first[-1][j] / second_pivot
+                    for j in range(len(frequencies))
+                ]
+                for i in range(len(times))
+            ]
+
+            for _step in range(5):
+                outer_maximum = max(
+                    abs(residual[i][j])
+                    for i in range(len(times))
+                    for j, frequency in enumerate(frequencies)
+                    if abs(frequency) >= cutoff / 2
+                )
+                assert outer_maximum <= mp.mpf("0.25") + tolerance
+
+                pivot_i, pivot_j = max(
+                    (
+                        (i, j)
+                        for i in range(len(times))
+                        for j in range(len(frequencies))
+                    ),
+                    key=lambda index: abs(residual[index[0]][index[1]]),
+                )
+                pivot = residual[pivot_i][pivot_j]
+                assert abs(pivot) > tolerance
+                if abs(pivot) > mp.mpf("0.25") + tolerance:
+                    assert abs(frequencies[pivot_j]) < cutoff / 2
+
+                residual = [
+                    [
+                        residual[i][j]
+                        - residual[i][pivot_j] * residual[pivot_i][j] / pivot
+                        for j in range(len(frequencies))
+                    ]
+                    for i in range(len(times))
+                ]
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))
