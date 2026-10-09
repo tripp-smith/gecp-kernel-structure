@@ -329,7 +329,8 @@ cutoff-uniform form of Conjecture G1.
 - On 2026-10-09 the Phase X root command passed the same gate with 58 Python
   tests and no known dependency vulnerabilities. Its three new public results
   use only the permitted Lean axioms; the exact integer regression covers 65
-  accuracy orders and dyadic transition boundaries through `2^64`.
+  accuracy orders and dyadic transition boundaries through `2^64`. The change
+  passed CI and merged as PR #26.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -1457,7 +1457,7 @@ Verification:
 
 ## Phase X — arbitrary dyadic accuracy
 
-State: verified on branch `codex/phase-x-arbitrary-accuracy`; delivery pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #26.
 
 Phase W proves one half contraction using an accuracy order large enough to
 absorb the dimension factor in Phase V's estimate

@@ -1489,3 +1489,16 @@ This annotation records delivered identifiers without changing the goals above.
   The conjectured `2(s+1)` block, removal of logarithmic overhead, optimal
   constants, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 57 tests and no known dependency vulnerabilities.
+- Post-v1 research phase X: complete with green CI on 2026-10-09 and delivered
+  in merged PR #26. `oddBlock_factor_le_accuracy` and
+  `oddBlock_scale_accuracy` prove the exact arithmetic needed for any dyadic
+  target order `q`, while
+  `fermionicKernel_gecp_error_le_dyadicAccuracyBlock` yields
+  `|R_n(x,y)| <= 2^-q` by
+  `n = 32(33 + 4 * Nat.clog 2 (s+1) + 4q)(s+1)`. Thus the certified rank is
+  `O((s+1)(log(s+1)+q))`, equivalently
+  `O(log(1+Lambda)(log log(1+Lambda)+log(1/epsilon)))` after choosing a dyadic
+  target. The requested-accuracy dependence now matches Conjecture G1; the
+  additive logarithmic scale startup, the conjectured `2(s+1)` block, optimal
+  constants, Conjecture G1 itself, and Problem 4.2 remain open. The root
+  command passes with 58 tests and no known dependency vulnerabilities.
