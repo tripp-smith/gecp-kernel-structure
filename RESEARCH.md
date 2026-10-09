@@ -1161,3 +1161,126 @@ Non-claims:
 - this phase does not yet combine the dyadic separated approximation with a
   determinant perturbation estimate, prove strict block contraction,
   Conjecture G1, or Problem 4.2.
+
+## Phase U — low-rank perturbation determinant bound
+
+State: verified on branch `codex/phase-u-low-rank-determinant`; draft PR
+pending.
+
+Phase T reduces exact complete-pivot residuals to selected-core determinants.
+The next bridge is suggested independently by several neighboring theories:
+
+- Gilles's
+  [geometric-mean analysis of pivoted LU](https://arxiv.org/abs/2607.26863)
+  controls functional LU by arbitrary sampled determinants;
+- reduced-basis greedy theory compares greedy errors with Kolmogorov widths,
+  including geometric means of width sequences
+  ([DeVore--Petrova--Wojtaszczyk](https://arxiv.org/abs/1204.2290),
+  [Nguyen](https://arxiv.org/abs/1804.03935));
+- max-volume cross-approximation theory likewise isolates determinant and
+  growth-factor control
+  ([Cortinovis--Kressner--Massei](https://arxiv.org/abs/1902.02283));
+- in exterior-algebra language, the top wedge of a rank-`r` approximant plus
+  an error has no term with more than `r` approximant columns. Therefore every
+  surviving `n`-column term contains at least `n-r` error columns.
+
+The last observation is the strongest fit to the repository: it uses the
+already formalized separated factors directly, avoids singular-value
+infrastructure, and preserves the crucial power of the uniform error.
+
+Frozen public Lean targets:
+
+- `Matrix.det_mul_rect_eq_zero_of_card_lt`: a rectangular product through a
+  strictly smaller finite index type has zero square determinant;
+- `Matrix.det_add_eq_sum_columnChoices`: expand the determinant of `A + E`
+  over all choices of approximation and error columns;
+- `Matrix.abs_det_le_factorial_mul_prod_columnBounds`: a columnwise version of
+  mathlib's uniform `Matrix.det_le` bound;
+- `Matrix.abs_det_le_of_factors_approx`: if `B = L * R` factors through `r`
+  coordinates, `A-B` is entrywise at most `epsilon`, the entries of `B` are at
+  most `C`, `epsilon ≤ 1`, `1 ≤ C`, and `r ≤ n`, then
+  `|det A|` is bounded by
+  `2^n * n! * C^r * epsilon^(n-r)`;
+- `fermionicKernel_sample_det_le_separatedApprox`: specialize the generic
+  theorem to arbitrary samples in `[0,1] x [-2^s,2^s]`, using the delivered
+  `16p(s+1)`-term approximation and the kernel bound by one.
+
+Proof contract:
+
+- define a column-choice matrix and prove the determinant expansion from
+  `Matrix.det_apply'` plus `Fintype.prod_add`;
+- factor every mixed column-choice matrix through the sum of the separated
+  coordinate type and the chosen error-column subtype;
+- use the repository's rectangular Cauchy--Binet theorem and finite-cardinality
+  pigeonhole principle to kill choices with fewer than `n-r` error columns;
+- bound every remaining mixed determinant columnwise and sum over at most
+  `2^n` choices;
+- represent `evalSeparated` as a rectangular matrix product indexed by
+  `Fin terms.length`, then instantiate the fermionic pointwise error theorem;
+- keep the result in power form. Root extraction and asymptotic simplification
+  belong to a later phase.
+
+Independent checks:
+
+- exactly enumerate rational matrices of sizes two through five, random
+  low-rank factorizations, and rational perturbations; verify both the
+  column-choice identity and determinant bound without floating point;
+- include a Lean small-instance theorem where a rank-one `3 x 3` approximant
+  forces at least two perturbation columns;
+- focused builds and the public axiom audit cover every public structural
+  theorem.
+
+Decision rule:
+
+- after three distinct failed routes for mixed-column rank vanishing, stop and
+  deliver the exact column-choice expansion plus the minimal missing
+  factorization lemma; do not replace rank structure with a conclusion-shaped
+  assumption.
+
+Non-claims:
+
+- this phase does not yet combine the determinant bound with a realized GECP
+  run or simplify its constants into Conjecture G1;
+- the factorial and `2^n` constants are deliberately explicit and coarse;
+- related-work analogies guide the proof architecture but do not substitute
+  for the Lean theorem or exact checks.
+
+Delivered identifiers:
+
+- `Matrix.det_mul_rect_eq_zero_of_card_lt` proves singularity of a square
+  product through a strictly smaller finite coordinate type;
+- `Matrix.det_add_eq_sum_columnChoices` is the exact exterior-power expansion
+  over approximation/error column choices;
+- `Matrix.mixedLeft_mul_mixedRight` factors each mixed choice through the sum
+  of the low-rank coordinate type and the selected error-column subtype;
+- `Matrix.abs_det_le_factorial_mul_prod_columnBounds` and
+  `Matrix.abs_det_columnChoice_le` retain separate bounds for error and
+  approximant columns;
+- `Matrix.abs_det_le_of_factors_approx` gives the exact surviving-subset sum,
+  while `Matrix.abs_det_le_two_pow_mul_of_factors_approx` gives the frozen
+  coarse bound `2^n n! epsilon^(n-r) C^r`;
+- `fermionicKernel_sample_det_le_separatedApprox` instantiates the exact sum
+  at rank `16p(s+1)`, and `fermionicKernel_sample_det_le_two_pow` gives the
+  closed arbitrary-sample determinant decay bound.
+
+The proof route succeeded without a fallback. Exact `Fraction` regressions
+enumerate all column subsets for deterministic low-rank rational examples of
+sizes two through five, check the expansion, rank-forced vanishing, individual
+column bounds, and both summed bounds. A Lean `3 x 3` instance checks that a
+rank-one background plus one error column has zero determinant.
+
+Verification:
+
+- focused Lean builds and the public axiom audit pass, with only Lean's
+  permitted default axioms;
+- the exact rational subset census passes for sizes two through five;
+- `./scripts/verify.sh` passes with 55 Python tests and no known dependency
+  vulnerabilities.
+
+Next analytic obligation:
+
+Combine the closed fermionic determinant bound with Phase T's residual-power
+inequality, select `p` as a function of sample order and cutoff scale, and
+determine whether the factorial and subset constants can be absorbed into a
+cutoff-uniform strict rate. This arithmetic optimization is separate from the
+now-complete determinant perturbation mechanism.

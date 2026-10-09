@@ -1,5 +1,6 @@
 import itertools
 import math
+import random
 from fractions import Fraction
 
 import mpmath as mp
@@ -59,6 +60,81 @@ def test_bordered_core_determinant_identity_exactly() -> None:
                 )
         selected_rows.append(pivot_row)
         selected_columns.append(pivot_column)
+
+
+def test_low_rank_perturbation_determinant_bound_exactly() -> None:
+    rng = random.Random(0xC0FFEE)
+
+    def product(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum((left[i][a] * right[a][j] for a in range(len(right))), Fraction())
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    for size in range(2, 6):
+        for rank in range(1, size):
+            for _trial in range(3):
+                left = [
+                    [Fraction(rng.randint(-2, 2)) for _ in range(rank)]
+                    for _ in range(size)
+                ]
+                right = [
+                    [Fraction(rng.randint(-2, 2)) for _ in range(size)]
+                    for _ in range(rank)
+                ]
+                background = product(left, right)
+                error = [
+                    [Fraction(rng.randint(-2, 2), 7) for _ in range(size)]
+                    for _ in range(size)
+                ]
+                error[0][0] = Fraction(1, 7)
+                matrix = [
+                    [background[i][j] + error[i][j] for j in range(size)]
+                    for i in range(size)
+                ]
+                epsilon = max(abs(value) for row in error for value in row)
+                column_bound = max(
+                    Fraction(1),
+                    max(abs(value) for row in background for value in row),
+                )
+                determinant_sum = Fraction()
+                mixed_bound_sum = Fraction()
+                for mask in range(1 << size):
+                    error_columns = mask.bit_count()
+                    mixed = [
+                        [
+                            error[i][j] if mask & (1 << j) else background[i][j]
+                            for j in range(size)
+                        ]
+                        for i in range(size)
+                    ]
+                    mixed_det = fraction_determinant(mixed)
+                    determinant_sum += mixed_det
+                    if rank + error_columns < size:
+                        assert mixed_det == 0
+                    term_bound = (
+                        math.factorial(size)
+                        * epsilon**error_columns
+                        * column_bound ** (size - error_columns)
+                    )
+                    assert abs(mixed_det) <= term_bound
+                    if rank + error_columns >= size:
+                        mixed_bound_sum += term_bound
+
+                determinant = fraction_determinant(matrix)
+                assert determinant == determinant_sum
+                assert abs(determinant) <= mixed_bound_sum
+                assert abs(determinant) <= (
+                    2**size
+                    * math.factorial(size)
+                    * epsilon ** (size - rank)
+                    * column_bound**rank
+                )
 
 
 def test_geometric_minors_have_expected_sign() -> None:

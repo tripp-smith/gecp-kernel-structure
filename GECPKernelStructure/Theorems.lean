@@ -2,6 +2,7 @@ import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction
 import GECPKernelStructure.Fermionic.SeparatedApprox
+import GECPKernelStructure.Fermionic.DeterminantDecay
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant
 import GECPKernelStructure.GreenFunction

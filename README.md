@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** T — geometric-mean determinant reduction<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase T `./scripts/verify.sh` passed with 54 tests and no known dependency vulnerabilities on 2026-10-08<br>
+> **Current phase:** U — low-rank perturbation determinant bound<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase U `./scripts/verify.sh` passed with 55 tests and no known dependency vulnerabilities on 2026-10-08<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #22](https://github.com/tripp-smith/gecp-kernel-structure/pull/22)<br>
-> **Claim level:** reducing complete-pivot residual decay to selected-core determinant decay; no cutoff-uniform strict GECP rate theorem yet<br>
+> **Delivery:** branch `codex/phase-u-low-rank-determinant`; draft PR pending<br>
+> **Claim level:** converting separated approximation error into sampled-determinant decay; no cutoff-uniform strict GECP rate theorem yet<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -38,6 +38,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | P | All-orders exponential sign regularity | complete | `expKernel_strictSignRegular`; `fermionicKernel_strictSignRegular`; unconditional selected-cross coherence | Lean build; axiom audit; 100-digit sign regression; 54-test full verification; green CI | merged PR #20 |
 | Q | Complete-run nonexpansiveness | complete | `Run.append`; `GECP.CompletePivotOn`; `strictSignRegular_gecp_error_nonincreasing`; `fermionicKernel_gecp_error_le_cutoffCorner` | Lean build; axiom audit; exact rational composition check; 54-test full verification; green CI | merged PR #21 |
 | T | Geometric-mean determinant reduction | complete | `Run.RealizesPivotPrefix`; pivot-magnitude antitonicity; absolute determinant/pivot product; determinant-power residual bound | Lean build; axiom audit; exact rational check; 54-test full verification; green CI | merged PR #22 |
+| U | Low-rank perturbation determinant bound | verified | column-choice expansion; factor-rank vanishing; `abs_det_le_of_factors_approx`; fermionic sampled-core determinant decay | Lean build; public axiom audit; exact rational sizes 2–5; Lean rank-one check; 55-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
