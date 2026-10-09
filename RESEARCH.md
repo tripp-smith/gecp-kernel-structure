@@ -1742,3 +1742,108 @@ Verification:
   deterministic oriented tile samples;
 - `./scripts/verify.sh` passes with 60 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AA — two-corner power-secant residual
+
+State: verified locally on 2026-10-09; draft PR pending on branch
+`codex/phase-aa-power-secant-residual`.
+
+Phase Z gives an exact area law for one update of the original kernel, but a
+global GECP proof needs structure that survives beyond one pivot. The smallest
+nontrivial case is the run selecting time endpoints `0,1` and two arbitrary
+frequency endpoints `omegaLow < omegaHigh`. Under the positive coordinate
+change `z = exp(-omega)`, the kernel becomes `z^t/(1+z)`. Direct elimination
+then predicts that the two-step residual is the concave power `z^t` minus its
+linear secant between the transformed frequency endpoints, divided by `1+z`.
+
+Frozen public Lean targets:
+
+- `fermionicKernel_eq_rpow`: prove the exact logistic-power coordinate
+  identity `K(t,omega) = exp(-omega)^t / (1+exp(-omega))`;
+- `powerSecant`: define linear endpoint interpolation of `z^t`;
+- `powerSecant_le_rpow`: use mathlib's `Real.concaveOn_rpow` to prove that the
+  secant lies below `z^t` for `0 <= t <= 1` and `a <= z <= b`;
+- `fermionicKernel_firstCornerResidual_eq_rpow_sub`: express the first corner
+  residual as `(z^t-a^t)/(1+z)`;
+- `fermionicKernel_firstCorner_secondPivot_pos`: certify the arbitrary-band
+  second pivot at `(1,omegaLow)` when `omegaLow < omegaHigh`;
+- `fermionicKernel_twoCornerResidual_eq_powerSecantError`: identify the exact
+  nested residual with `(z^t-powerSecant a b t z)/(1+z)`;
+- `fermionicKernel_twoCornerResidual_nonneg`: certify nonnegativity throughout
+  the frequency band for physical times.
+
+Proof contract:
+
+- prove the coordinate and residual identities algebraically before invoking
+  concavity;
+- use the existing `residualUpdate` definition and actual nonzero pivot proof,
+  not a standalone interpolation surrogate;
+- support asymmetric frequency bands rather than only the existing symmetric
+  cutoff pair;
+- keep quantitative secant-error bounds and dyadic covering as subsequent
+  obligations unless they follow without adding derivative machinery.
+
+Independent checks:
+
+- compare the nested Schur update and secant-error formula at 100 decimal
+  digits on asymmetric and reflected bands;
+- densely sample admissible physical times and interior frequencies to check
+  the proved sign and endpoint zeros;
+- focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if exact reduction succeeds but formal concavity cannot be connected after
+  three proof attempts, deliver the reduction and record the precise missing
+  convex-combination lemma rather than replace it with a numerical claim.
+
+Non-claims:
+
+- nonnegativity of the two-corner residual is not yet a cutoff-uniform error
+  bound or a statement about the actual third complete pivot;
+- this phase does not prove inheritance for arbitrary pivot histories, the
+  dyadic tile covering, Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `fermionicKernel_eq_rpow` moves the kernel exactly to the positive
+  coordinate `z = exp(-omega)` as `z^t/(1+z)`;
+- `powerSecant_le_rpow` proves the concave-power secant inequality on every
+  positive interval, while `mul_rpow_sub_one_le_powerSecant` supplies the
+  complementary lower line through the right endpoint;
+- `fermionicKernel_firstCornerResidual_eq_rpow_sub` and
+  `fermionicKernel_secondCornerResidual_eq_rpow_sub` identify the two
+  reflected one-corner power errors;
+- `fermionicKernel_firstCorner_secondPivot_pos` certifies the actual nonzero
+  second Schur pivot for every strictly ordered frequency band;
+- `fermionicKernel_twoCornerResidual_eq_powerSecantError` identifies the
+  nested residual exactly with the normalized power-secant error;
+- `fermionicKernel_twoCornerResidual_nonneg` proves its sign from concavity;
+- `fermionicKernel_twoCornerResidual_le_upperCrossArea` and
+  `fermionicKernel_twoCornerResidual_le_lowerCrossArea` compare the same
+  residual to the two reflected Phase Z corner errors;
+- `fermionicKernel_twoCornerResidual_mem_Icc_minCrossArea` packages the result
+  as the tent bound
+  `0 <= R2 <= min(t*(omegaHigh-omega), (1-t)*(omega-omegaLow))`.
+
+Result:
+
+- the two prescribed endpoint-time pivots retain exact structure after the
+  first elimination, rather than merely inheriting a coarse factor-one bound;
+- the residual vanishes on all four edges of its time-frequency band and is
+  quantitatively localized by distance to both transformed corners;
+- unlike the earlier symmetric small-cutoff base case, the theorem holds on
+  every asymmetric finite band with no cutoff-size restriction;
+- the next research obligation is no longer a secant estimate: it is to
+  connect actual complete-pivot selection or a dyadic band decomposition to a
+  controlled collection of these residual tents.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- a 100-decimal regression independently compares the nested Schur update and
+  power-secant formula, then checks sign, all edge zeros, and both tent sides
+  at 1,156 deterministic points over asymmetric and reflected bands;
+- `./scripts/verify.sh` passes with 61 Python tests and no known dependency
+  vulnerabilities.

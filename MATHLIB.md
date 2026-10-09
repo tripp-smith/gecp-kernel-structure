@@ -71,6 +71,11 @@ specific to the normalized fermionic exponential kernel. No upstream mathlib
 abstraction is proposed until the same proof pattern is needed for a second
 kernel family.
 
+Phase AA uses mathlib's existing `Real.concaveOn_rpow` and antitonicity of
+nonpositive real powers to sandwich a power secant between two elementary
+functions. The two short secant wrappers are useful locally, but the reusable
+content is already present upstream; no new mathlib candidate is proposed.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
