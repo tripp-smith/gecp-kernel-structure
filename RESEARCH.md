@@ -1846,3 +1846,109 @@ Verification:
   at 1,156 deterministic points over asymmetric and reflected bands;
 - `./scripts/verify.sh` passes with 61 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AB — two-corner half-contraction obstruction
+
+State: in progress on branch `codex/phase-ab-two-corner-obstruction`.
+
+Phase AA suggests the tempting shortcut that the first two symmetric corner
+pivots might reduce the residual by one half for every cutoff, which would be
+far stronger than Conjecture G1. Exact exploration of the power-secant formula
+shows that this shortcut is false. The smallest clean witness found uses
+transformed symmetric endpoints `a = 24^-3`, `b = 24^3`, physical time
+`t = 2/3`, and interior coordinate `z = (5/4)^3`. All fractional powers are
+rational, so the obstruction can be audited without floating-point bounds.
+
+Frozen public Lean targets:
+
+- `powerSecant_twoThirds_counterexample_value`: evaluate the normalized
+  power-secant error at the rational witness as exactly
+  `4495348 / 8973531`;
+- `powerSecant_twoThirds_counterexample_gt_half`: prove that value exceeds
+  half the corresponding initial symmetric-corner pivot
+  `(1/2) * (13824/13825)` by the exact positive margin
+  `222676 / 224338275`;
+- `fermionicKernel_twoCornerResidual_counterexample_value`: transport the
+  rational-coordinate identity to the actual nested `residualUpdate` at
+  cutoff `log 13824` and frequency `-log(125/64)`;
+- `fermionicKernel_twoCornerResidual_not_half_contraction`: state the resulting
+  strict failure of two-pivot half contraction relative to the initial
+  complete-pivot value.
+
+Proof contract:
+
+- derive the witness through Phase AA's exact power-secant identity;
+- discharge every fractional power and final inequality exactly with rational
+  arithmetic and mathlib's real-power normalization;
+- retain the actual nonzero second-pivot proof in the nested residual;
+- make no conclusion about longer complete-pivot blocks from this two-pivot
+  obstruction.
+
+Independent checks:
+
+- recompute the exact secant, residual, initial pivot, and positive margin with
+  Python `Fraction` arithmetic;
+- scan a deterministic high-precision cutoff family to confirm the witness is
+  part of the large-cutoff failure regime rather than an isolated transcription
+  error;
+- run the focused Lean build, public axiom audit, and root verification.
+
+Decision rule:
+
+- if the direct logarithmic transport is awkward but the positive-coordinate
+  theorem compiles, isolate the missing exponential rewrite as a helper lemma;
+  do not weaken the exact inequality to a decimal approximation.
+
+Non-claims:
+
+- failure after two prescribed pivots does not refute Conjecture G1, whose
+  block length grows with cutoff scale;
+- the witness does not rule out a uniform constant after more pivots, dyadic
+  localization, residual dominance, or the existing proved
+  `O((s+1) log(s+1))` contraction block;
+- this phase does not solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `powerSecant_twoThirds_counterexample_value` proves that the normalized
+  power-secant error at the rational witness is exactly
+  `4495348 / 8973531`;
+- `powerSecant_twoThirds_counterexample_margin` identifies its exact excess
+  over half the initial pivot as `222676 / 224338275`, and
+  `powerSecant_twoThirds_counterexample_gt_half` records strict positivity;
+- `fermionicKernel_twoCornerResidual_counterexample_value` transports the
+  rational identity through exponentials and logarithms to the actual nested
+  fermionic Schur update;
+- `fermionicKernel_twoCornerResidual_counterexample_gt_half_initial` gives the
+  pointwise strict failure relative to the initial pivot;
+- `fermionicKernel_twoCornerResidual_not_half_contraction` proves that the
+  universal half-contraction property on the physical rectangle at cutoff
+  `log 13824` is false, including exact proofs that the witness lies inside
+  the domain.
+
+Result:
+
+- the tempting all-cutoff extension of the cutoff-one two-corner theorem is
+  formally closed as a false route;
+- because earlier phases identify the two symmetric corners as the first two
+  complete pivots, the failure concerns the actual canonical GECP trajectory,
+  not an artificial pivot choice;
+- the obstruction does not touch Conjecture G1's scale-dependent block length:
+  it instead shows why intermediate, localized pivots are essential at large
+  cutoff;
+- the next promising target is the actual third-pivot geometry or a dyadic
+  residual-dominance lemma that decomposes the large band into smaller secant
+  tents.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass, with only
+  Lean's permitted default axioms;
+- exact Python `Fraction` arithmetic reproduces the secant, residual, initial
+  pivot, and margin, and confirms the same strict failure for every integer
+  endpoint base from 24 through 64;
+- a separate 100-decimal calculation forms the two nested Schur updates from
+  kernel evaluations and agrees with the exact rational value and margin to
+  `1e-90`;
+- `./scripts/verify.sh` passes with 62 Python tests and no known dependency
+  vulnerabilities.

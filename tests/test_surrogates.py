@@ -324,6 +324,68 @@ def test_fermionic_two_corner_power_secant_tent_high_precision() -> None:
                         assert abs(residual) < tolerance
 
 
+def test_two_corner_half_contraction_obstruction_exactly() -> None:
+    endpoint_base = Fraction(24)
+    interior_base = Fraction(5, 4)
+    lower_endpoint = endpoint_base**-3
+    upper_endpoint = endpoint_base**3
+    coordinate = interior_base**3
+    secant = (upper_endpoint - coordinate) / (
+        upper_endpoint - lower_endpoint
+    ) * endpoint_base**-2 + (coordinate - lower_endpoint) / (
+        upper_endpoint - lower_endpoint
+    ) * endpoint_base**2
+    residual = (interior_base**2 - secant) / (1 + coordinate)
+    initial_pivot = upper_endpoint / (1 + upper_endpoint)
+
+    assert secant == Fraction(31569, 379832)
+    assert residual == Fraction(4495348, 8973531)
+    assert residual - initial_pivot / 2 == Fraction(222676, 224338275)
+
+    for integer_base in range(24, 65):
+        base = Fraction(integer_base)
+        lower_endpoint = base**-3
+        upper_endpoint = base**3
+        secant = (upper_endpoint - coordinate) / (
+            upper_endpoint - lower_endpoint
+        ) * base**-2 + (coordinate - lower_endpoint) / (
+            upper_endpoint - lower_endpoint
+        ) * base**2
+        residual = (interior_base**2 - secant) / (1 + coordinate)
+        initial_pivot = upper_endpoint / (1 + upper_endpoint)
+        assert residual > initial_pivot / 2
+
+    with mp.workdps(100):
+        tolerance = mp.mpf("1e-90")
+        cutoff = 3 * mp.log(24)
+        time = mp.mpf(2) / 3
+        frequency = -3 * mp.log(mp.mpf(5) / 4)
+
+        def kernel(sample_time: mp.mpf, sample_frequency: mp.mpf) -> mp.mpf:
+            return mp.exp(-sample_time * sample_frequency) / (
+                1 + mp.exp(-sample_frequency)
+            )
+
+        def first_residual(sample_time: mp.mpf, sample_frequency: mp.mpf) -> mp.mpf:
+            return kernel(sample_time, sample_frequency) - (
+                kernel(sample_time, cutoff)
+                * kernel(0, sample_frequency)
+                / kernel(0, cutoff)
+            )
+
+        nested_residual = first_residual(time, frequency) - (
+            first_residual(time, -cutoff)
+            * first_residual(1, frequency)
+            / first_residual(1, -cutoff)
+        )
+        exact_residual = mp.mpf(4495348) / 8973531
+        exact_margin = mp.mpf(222676) / 224338275
+
+        assert -cutoff < frequency < cutoff
+        assert abs(nested_residual - exact_residual) < tolerance
+        assert abs(nested_residual - kernel(0, cutoff) / 2 - exact_margin) < tolerance
+
+
 def test_geometric_minors_have_expected_sign() -> None:
     for size in range(2, 6):
         record = inspect_surrogate(size, Fraction(3, 4))
