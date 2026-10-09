@@ -1,5 +1,6 @@
 import GECPKernelStructure.Fermionic.DeterminantDecay
 import GECPKernelStructure.Fermionic.GeometricMean
+import Mathlib.Data.Nat.Log
 
 namespace GECPKernelStructure
 
@@ -268,6 +269,36 @@ theorem oddBlock_scale_quadratic (s : ℕ) :
           norm_num
           rw [Nat.mul_comm]
 
+private theorem linear_le_512_mul_pow_two (ell : ℕ) :
+    33 + 4 * ell ≤ 512 * 2 ^ ell := by
+  induction ell with
+  | zero => norm_num
+  | succ ell ih =>
+      calc
+        33 + 4 * (ell + 1) ≤ 2 * (33 + 4 * ell) := by omega
+        _ ≤ 2 * (512 * 2 ^ ell) := Nat.mul_le_mul_left 2 ih
+        _ = 512 * 2 ^ (ell + 1) := by rw [pow_succ]; ring
+
+/-- A ceil-logarithmic choice of `m` satisfies the odd-block half-contraction condition. -/
+theorem oddBlock_scale_logarithmic (s : ℕ) :
+    let m := 16 + 2 * Nat.clog 2 (s + 1)
+    128 * (2 * m + 1) * (s + 1) ≤ 2 ^ m := by
+  let ell := Nat.clog 2 (s + 1)
+  have hq : s + 1 ≤ 2 ^ ell := by
+    exact Nat.le_pow_clog (by norm_num) (s + 1)
+  have hlin := linear_le_512_mul_pow_two ell
+  dsimp only
+  change 128 * (2 * (16 + 2 * ell) + 1) * (s + 1) ≤ 2 ^ (16 + 2 * ell)
+  rw [show 2 * (16 + 2 * ell) + 1 = 33 + 4 * ell by omega]
+  calc
+    128 * (33 + 4 * ell) * (s + 1) ≤
+        128 * (33 + 4 * ell) * 2 ^ ell := by gcongr
+    _ ≤ 128 * (512 * 2 ^ ell) * 2 ^ ell := by gcongr
+    _ = 2 ^ (16 + 2 * ell) := by
+      rw [pow_add, show 2 * ell = ell + ell by omega, pow_add]
+      norm_num
+      ring
+
 /-- The odd block contracts the exact complete-pivot residual by one half under `hscale`. -/
 theorem fermionicKernel_gecp_error_le_half_of_oddBlock
     (m s : ℕ) (hscale : 128 * (2 * m + 1) * (s + 1) ≤ 2 ^ m)
@@ -312,6 +343,31 @@ theorem fermionicKernel_gecp_error_le_half_quadraticBlock
   exact fermionicKernel_gecp_error_le_half_of_oddBlock
     (16 * (s + 1)) s (oddBlock_scale_quadratic s) residual rows columns
     realized pivot_ne updates complete run run_pivots run_complete x y hx hy
+
+/-- Every realized physical-domain exact run reaches error at most one half by a
+ceil-logarithmic-width odd block. -/
+theorem fermionicKernel_gecp_error_le_half_logarithmicBlock
+    (s : ℕ) (residual : ℕ → Kernel ℝ ℝ ℝ) (rows columns : ℕ → ℝ)
+    (realized : ∀ j, ∃ run : Run fermionicKernel, run.finalResidual = residual j)
+    (pivot_ne : ∀ j, residual j (rows j) (columns j) ≠ 0)
+    (updates : ∀ j, residual (j + 1) =
+      residualUpdate (residual j) (rows j) (columns j) (pivot_ne j))
+    (complete : ∀ j, CompletePivotOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ s : ℕ) : ℝ) ≤ ω ∧ ω ≤ (2 ^ s : ℕ))
+      (residual j) (rows j) (columns j))
+    (run : Run fermionicKernel)
+    (run_pivots : run.RealizesPivotPrefix residual rows columns
+      (32 * (2 * (16 + 2 * Nat.clog 2 (s + 1)) + 1) * (s + 1)))
+    (run_complete : run.CompleteOn (fun t : ℝ => 0 ≤ t ∧ t ≤ 1)
+      (fun ω : ℝ => -((2 ^ s : ℕ) : ℝ) ≤ ω ∧ ω ≤ (2 ^ s : ℕ)))
+    (x y : ℝ) (hx : 0 ≤ x ∧ x ≤ 1)
+    (hy : -((2 ^ s : ℕ) : ℝ) ≤ y ∧ y ≤ (2 ^ s : ℕ)) :
+    |residual (32 * (2 * (16 + 2 * Nat.clog 2 (s + 1)) + 1) * (s + 1)) x y| ≤
+      1 / 2 := by
+  exact fermionicKernel_gecp_error_le_half_of_oddBlock
+    (16 + 2 * Nat.clog 2 (s + 1)) s (oddBlock_scale_logarithmic s)
+    residual rows columns realized pivot_ne updates complete run run_pivots run_complete
+    x y hx hy
 
 end Fermionic
 end GECPKernelStructure
