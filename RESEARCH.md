@@ -1381,7 +1381,7 @@ Verification:
 
 ## Phase W — logarithmic-scale contraction block
 
-State: verified on branch `codex/phase-w-logarithmic-block`; delivery pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #25.
 
 Phase V deliberately used `m = 16(s+1)` to discharge
 `128(2m+1)(s+1) <= 2^m` with elementary polynomial arithmetic. The exact

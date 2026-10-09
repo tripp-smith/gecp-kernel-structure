@@ -1478,3 +1478,14 @@ This annotation records delivered identifiers without changing the goals above.
   in `s+1`; the conjectured `2(s+1)` block, sharp constants, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 56 tests and no
   known dependency vulnerabilities.
+- Post-v1 research phase W: complete with green CI on 2026-10-09 and delivered
+  in merged PR #25. `oddBlock_scale_logarithmic` proves the exact scale
+  condition for `m = 16 + 2 * Nat.clog 2 (s+1)`, and
+  `fermionicKernel_gecp_error_le_half_logarithmicBlock` yields
+  `|R_n(x,y)| <= 1/2` by
+  `n = 32(33 + 4 * Nat.clog 2 (s+1))(s+1)`. This improves the certified
+  general contraction block from quadratic to
+  `O((s+1) log(s+1))` without strengthening the complete-pivot hypotheses.
+  The conjectured `2(s+1)` block, removal of logarithmic overhead, optimal
+  constants, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 57 tests and no known dependency vulnerabilities.

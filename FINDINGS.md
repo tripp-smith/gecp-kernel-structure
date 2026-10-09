@@ -317,7 +317,8 @@ the conjectured linear block and the cutoff-uniform form of Conjecture G1.
 - On 2026-10-09 the Phase W root command passed the same gate with 57 Python
   tests and no known dependency vulnerabilities. Its two new public results
   use only the permitted Lean axioms; the exact integer regression covers
-  ordinary scales and dyadic transition boundaries through `2^64`.
+  ordinary scales and dyadic transition boundaries through `2^64`. The change
+  passed CI and merged as PR #25.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
