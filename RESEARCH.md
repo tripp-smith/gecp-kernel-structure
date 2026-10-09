@@ -2162,7 +2162,7 @@ Verification:
 
 ## Phase AE — exceptional-column determinant restart
 
-State: verified on 2026-10-09; merge and CI pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #33.
 
 Phase AD shows that every continuation column selected while the pivot remains
 above one quarter lies in the central half-band. Reusing the existing

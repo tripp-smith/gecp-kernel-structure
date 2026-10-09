@@ -456,8 +456,8 @@ linearly many pivots.
   tests and no known dependency vulnerabilities. Its four new public results
   use only the permitted Lean axioms; an exact `Fraction` regression checks
   determinant expansion, the effective-rank vanishing threshold, and the
-  coarse error power with zero and two exceptional columns. Merge and CI are
-  pending.
+  coarse error power with zero and two exceptional columns. The change passed
+  CI and merged as PR #33.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
