@@ -388,7 +388,7 @@ tiles per accuracy block.
   results use only the permitted Lean axioms; an independent 100-decimal
   regression checks 1,156 points across asymmetric and reflected bands for
   the exact nested-update identity, sign, endpoint zeros, and two-sided tent
-  bound. CI and merge are pending.
+  bound. The change passed CI and merged as PR #29.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

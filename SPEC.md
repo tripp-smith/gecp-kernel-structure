@@ -1526,3 +1526,16 @@ This annotation records delivered identifiers without changing the goals above.
   covering or residual-dominance theorem, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 60 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase AA: complete with green CI on 2026-10-09 and
+  delivered in merged PR #29. `fermionicKernel_eq_rpow` changes to the
+  positive coordinate `z = exp(-omega)`, and
+  `fermionicKernel_twoCornerResidual_eq_powerSecantError` identifies the exact
+  nested residual after prescribed pivots `(0,omegaHigh)` and `(1,omegaLow)`
+  with the normalized concave-power secant error on every strictly ordered
+  asymmetric band. `fermionicKernel_twoCornerResidual_nonneg` proves its sign,
+  while `fermionicKernel_twoCornerResidual_mem_Icc_minCrossArea` gives the
+  two-sided tent bound by the minimum of the upper and reflected lower corner
+  cross areas. This does not identify those prescribed pivots as complete on
+  every subband, control the actual third pivot, prove a dyadic covering,
+  establish Conjecture G1, or solve Problem 4.2. The root command passes with
+  61 tests and no known dependency vulnerabilities.

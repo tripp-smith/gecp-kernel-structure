@@ -1745,8 +1745,7 @@ Verification:
 
 ## Phase AA — two-corner power-secant residual
 
-State: verified locally on 2026-10-09; draft PR pending on branch
-`codex/phase-aa-power-secant-residual`.
+State: complete with green CI on 2026-10-09; delivered in merged PR #29.
 
 Phase Z gives an exact area law for one update of the original kernel, but a
 global GECP proof needs structure that survives beyond one pivot. The smallest
