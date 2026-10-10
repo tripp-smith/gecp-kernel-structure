@@ -129,6 +129,12 @@ the project's dependent GECP API but is not a standalone mathlib abstraction;
 the fermionic specialization is project-specific. No new upstream candidate
 is recorded.
 
+Phase AK reuses `Real.sign`, diagonal determinant scaling, and the project's
+cross-product sign-coherence API to formalize the balanced signing of a
+bipartite kernel. The anchor-gauge construction is short and generic, but its
+current formulation is specialized to the local `Kernel` and GECP residual
+interfaces; no standalone mathlib candidate is proposed.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

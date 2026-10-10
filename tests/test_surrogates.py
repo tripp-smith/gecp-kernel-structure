@@ -101,6 +101,47 @@ def test_multi_bordered_residual_minor_identity_exactly() -> None:
         assert residual_minor_det != 0
 
 
+def test_residual_anchor_sign_gauge_exactly() -> None:
+    size = 7
+    prefix_length = 3
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, _ = exact_gecp(matrix)
+    selected_rows = pivot_rows[:prefix_length]
+    selected_columns = pivot_columns[:prefix_length]
+    residual = [row.copy() for row in matrix]
+
+    for step in range(prefix_length):
+        pivot_row = selected_rows[step]
+        pivot_column = selected_columns[step]
+        pivot = residual[pivot_row][pivot_column]
+        pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+        pivot_row_values = residual[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                residual[i][j] -= pivot_column_values[i] * pivot_row_values[j] / pivot
+
+    remaining_rows = [i for i in range(size) if i not in selected_rows]
+    remaining_columns = [j for j in range(size) if j not in selected_columns]
+
+    for anchor_row in remaining_rows:
+        for anchor_column in remaining_columns:
+            anchor = residual[anchor_row][anchor_column]
+            assert anchor != 0
+            for row in remaining_rows:
+                row_weight = residual[row][anchor_column]
+                assert row_weight != 0
+                row_gauge = 1 if row_weight > 0 else -1
+                for column in remaining_columns:
+                    entry = residual[row][column]
+                    column_weight = residual[anchor_row][column] * anchor
+                    assert entry != 0
+                    assert column_weight != 0
+                    column_gauge = 1 if column_weight > 0 else -1
+                    gauged = row_gauge * entry * column_gauge
+                    assert gauged > 0
+                    assert abs(gauged) == abs(entry)
+
+
 def test_low_rank_perturbation_determinant_bound_exactly() -> None:
     rng = random.Random(0xC0FFEE)
 

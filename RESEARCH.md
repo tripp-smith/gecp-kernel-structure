@@ -2732,3 +2732,99 @@ Verification:
   residual minors for border sizes zero through three;
 - `./scripts/verify.sh` passes with 70 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AK — balanced-sign residual gauges
+
+State: verified on 2026-10-10; delivery pending.
+
+Phase AJ identifies the exact orientation carried by every residual minor, but
+the tuple-level sorting signs are awkward for recursive analysis. The order-one
+part has a cleaner interpretation from signed bipartite graph theory: Phase P's
+cross-product sign coherence says the nonzero entry signs form a balanced
+bipartite signing, so one anchor row and column determine diagonal row/column
+sign gauges that make every remaining entry positive.
+
+Frozen public Lean targets:
+
+- define anchor-based row and column weights and their magnitude-one sign
+  gauges for an arbitrary real kernel;
+- prove that cross-product sign coherence plus four nonzero entries makes the
+  sign-gauged entry strictly positive;
+- prove that sign gauging preserves every pointwise absolute value and expose
+  the exact determinant scaling for arbitrary finite minors;
+- define fresh row and column coordinates for a dependent run and derive the
+  required nonvanishing from Phase AJ;
+- specialize the positive gauge normalization to every fermionic final
+  residual on fresh coordinates.
+
+Proof contract:
+
+- derive sign balance from the existing cross-product theorem rather than
+  reproving permutation parity;
+- use only diagonal sign scalings, so complete-pivot magnitudes are unchanged;
+- retain explicit freshness assumptions because selected rows and columns are
+  exact residual zeros;
+- do not claim all-orders strict total positivity until the compound-minor
+  gauges are also factored.
+
+Independent checks:
+
+- verify exact gauge positivity and absolute-value preservation on rational
+  geometric-surrogate residuals for every unselected anchor and entry;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if direct `Real.sign` algebra becomes brittle after three attempts, prove the
+  raw nonzero diagonal-scaling statement first and recover the magnitude-one
+  version from `Real.sign_mul_pos_of_ne_zero`.
+
+Non-claims:
+
+- entrywise positive normalization is the order-one checkerboard closure, not
+  yet an all-orders strictly totally positive residual theorem;
+- this phase does not itself sharpen the determinant prefactor, construct a
+  linear-size dyadic contraction block, prove Conjecture G1, or solve Simons
+  Problem 4.2.
+
+Delivered identifiers:
+
+- `anchoredRowWeight`, `anchoredColumnWeight`, and `anchoredGaugeKernel`
+  express the balanced bipartite signing as diagonal scaling from one anchor;
+- `anchoredSignGaugeKernel` replaces those weights by magnitude-one signs;
+- `anchoredGaugeKernel_pos_of_crossProductSignCoherent` and
+  `anchoredSignGaugeKernel_pos_of_crossProductSignCoherent` prove strict
+  positivity from cross-product coherence and four nonzero entries;
+- `abs_anchoredSignGaugeKernel` proves pointwise magnitude preservation, while
+  `anchoredSignGaugeKernel_minor_det` records the exact row/column gauge
+  products multiplying every finite minor;
+- `Run.FreshRow`, `Run.FreshColumn`, and
+  `strictSignRegular_finalResidual_ne_zero_of_fresh` package the Phase AJ
+  nonvanishing premise at order one;
+- `fermionicKernel_finalResidual_anchoredSignGauge_pos` gives the positive
+  normalization for every fermionic final residual and every fresh anchor and
+  entry.
+
+Result:
+
+- the order-one checkerboard ambiguity is completely removed by diagonal
+  signs of absolute value one, so exact complete-pivot magnitudes are
+  unchanged;
+- the construction avoids explicit sorting-permutation arithmetic and follows
+  the balanced-sign characterization familiar from signed bipartite graphs;
+- the next target is the exterior-power analogue: prove that each fixed-order
+  compound kernel of residual minors is itself cross-product sign coherent,
+  then apply the same anchor-gauge theorem at the compound level. This should
+  expose all-orders positivity without forcing one pointwise gauge to encode
+  every tuple permutation at once.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic checks every unselected anchor and entry of a
+  three-pivot geometric-surrogate residual for positivity and magnitude
+  preservation;
+- `./scripts/verify.sh` passes with 71 Python tests and no known dependency
+  vulnerabilities.
