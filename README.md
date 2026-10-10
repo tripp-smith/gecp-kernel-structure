@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AX — all-orders order-kernel total nonnegativity<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase AX `./scripts/verify.sh` passed with 85 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AX open as draft [PR #52](https://github.com/tripp-smith/gecp-kernel-structure/pull/52)<br>
+> **Delivery:** Phase AX merged with green CI as [PR #52](https://github.com/tripp-smith/gecp-kernel-structure/pull/52)<br>
 > **Claim level:** exact `0`/`1` ordered minors for the degree-zero convolution base; higher-degree composition remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -67,7 +67,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AU | Finite composition strictness | complete | `signature_mul_det_mul_rect_nonneg`; selected-summand lower bound; `signature_mul_det_mul_rect_pos` | Lean build; public axiom audit; exact rational composition regression; 82-test root verification; green CI | merged PR #49 |
 | AV | Truncated-power total-nonnegativity base | complete | `TotallyNonnegativeAtOrder`; orders one and two; exact Schoenberg--Whitney support criterion | Lean build; public axiom audit; exact 784-case support regression; 83-test root verification; green CI | merged PR #50 |
 | AW | Normalized truncated-power convolution ladder | complete | `normalizedTruncatedPowerKernel`; degree-seven bridge; natural and shared-domain successor recurrences | Lean build; public axiom audit; exact rational degrees 0--7; 84-test root verification; green CI | merged PR #51 |
-| AX | All-orders order-kernel total nonnegativity | verified | exact `0`/`1` minor classification; `TotallyNonnegative` degree-zero base | Lean build; public axiom audit; 3,381 exact staircase minors through order five; 85-test root verification | draft PR #52 |
+| AX | All-orders order-kernel total nonnegativity | complete | exact `0`/`1` minor classification; `TotallyNonnegative` degree-zero base | Lean build; public axiom audit; 3,381 exact staircase minors through order five; 85-test root verification; green CI | merged PR #52 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -646,7 +646,8 @@ pivots.
   every order. Exact arithmetic checks all 3,381 ordered row/column tuple
   pairs on `[-3,3]` through order five. Higher-degree total nonnegativity and
   continuous Cauchy--Binet remain open. The root command passes with 85 tests
-  and no known dependency vulnerabilities.
+  and no known dependency vulnerabilities. The change passed CI and merged as
+  PR #52.
   The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.

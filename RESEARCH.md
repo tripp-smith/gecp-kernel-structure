@@ -3997,3 +3997,4 @@ Verification:
   `{0,1}`;
 - `./scripts/verify.sh` passes with 85 Python tests and no known dependency
   vulnerabilities.
+- The change passed CI and merged as PR #52.
