@@ -638,6 +638,15 @@ pivots.
   the convolution ladder, not total nonnegativity or continuous
   Cauchy--Binet. The root command passes with 84 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #51.
+- Phase AX proves the all-orders base of that ladder. Every ordered square
+  minor of `strictOrderKernel` is exactly zero or one: the first column is
+  either zero, creates duplicate all-one rows, or has a single leading one and
+  reduces with positive sign to the tail minor. Consequently both the named
+  kernel and `normalizedTruncatedPowerKernel 0` are totally nonnegative at
+  every order. Exact arithmetic checks all 3,381 ordered row/column tuple
+  pairs on `[-3,3]` through order five. Higher-degree total nonnegativity and
+  continuous Cauchy--Binet remain open. The root command passes with 85 tests
+  and no known dependency vulnerabilities.
   The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.

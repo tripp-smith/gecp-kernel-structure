@@ -1809,3 +1809,13 @@ This annotation records delivered identifiers without changing the goals above.
   nonnegativity, continuous Cauchy--Binet, all-orders tail sign regularity,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 84
   tests and no known dependency vulnerabilities.
+- Post-v1 research phase AX: verified locally on 2026-10-10 and open as draft
+  PR #52.
+  `strictOrderKernel_minor_det_eq_zero_or_one` proves that every ordered minor
+  of the normalized degree-zero base is exactly zero or one, while
+  `strictOrderKernel_totallyNonnegative` and
+  `normalizedTruncatedPowerKernel_zero_totallyNonnegative` package the
+  all-orders consequence. Higher-degree total nonnegativity, continuous
+  Cauchy--Binet, all-orders tail sign regularity, Conjecture G1, and Problem
+  4.2 remain open. The root command passes with 85 tests and no known
+  dependency vulnerabilities.
