@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AM — two-border condensation inequality<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase AM `./scripts/verify.sh` passed with 73 tests and no known dependency vulnerabilities on 2026-10-10<br>
+> **Current phase:** AN — factorial-free continuation determinants<br>
+> **Phase state:** verified; delivery pending<br>
+> **Last verification:** Phase AN `./scripts/verify.sh` passed with 75 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AM merged with green CI as [PR #41](https://github.com/tripp-smith/gecp-kernel-structure/pull/41)<br>
-> **Claim level:** exact Desnanot--Jacobi identity and factor-one absolute condensation inequality for two-border extensions of strictly sign-regular selected cores; no determinant-decay improvement claimed<br>
+> **Delivery:** Phase AN verified locally; draft PR pending; Phase AM merged with green CI as [PR #41](https://github.com/tripp-smith/gecp-kernel-structure/pull/41)<br>
+> **Claim level:** factorial-free `B^m` determinant envelope for finite complete continuations of strictly sign-regular runs; no strict rate claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -57,6 +57,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AK | Balanced-sign residual gauges | complete | anchor-based sign normalization; fresh-coordinate positivity; magnitude preservation; exact minor scaling | Lean build; public axiom audit; exact all-anchor rational regression; 71-test root verification; green CI | merged PR #39 |
 | AL | Compound residual gauges | complete | fresh tuple types; compound-minor cross-product coherence; positive magnitude-preserving compound gauges | Lean build; public axiom audit; exact rational compound orders 1--3; 72-test root verification; green CI | merged PR #40 |
 | AM | Two-border condensation inequality | complete | exact selected-core Desnanot--Jacobi identity; same-sign factor-one max bound; fermionic specialization | Lean build; public axiom audit; exhaustive exact 256-case two-border regression; 73-test root verification; green CI | merged PR #41 |
+| AN | Factorial-free continuation determinants | verified | recursive sign coherence; continuation pivot envelope; exact `B^m` selected-core determinant bound; fermionic specialization | Lean build; public axiom audit; exact all-suffix determinant regression and 1-dominance obstruction; 75-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

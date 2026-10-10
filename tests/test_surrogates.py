@@ -238,6 +238,50 @@ def test_two_border_condensation_identity_and_bound_exactly() -> None:
                     )
 
 
+def test_complete_continuation_determinant_envelope_exactly() -> None:
+    size = 8
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, pivots = exact_gecp(matrix)
+    residual = [row.copy() for row in matrix]
+
+    for start in range(size + 1):
+        envelope = max(abs(value) for row in residual for value in row)
+        for length in range(size - start + 1):
+            rows = pivot_rows[start : start + length]
+            columns = pivot_columns[start : start + length]
+            continuation_core = [[residual[i][j] for j in columns] for i in rows]
+            determinant = fraction_determinant(continuation_core)
+            assert determinant == math.prod(pivots[start : start + length])
+            assert abs(determinant) <= envelope**length
+
+        if start < size:
+            pivot_row = pivot_rows[start]
+            pivot_column = pivot_columns[start]
+            pivot = residual[pivot_row][pivot_column]
+            pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+            pivot_row_values = residual[pivot_row].copy()
+            for i in range(size):
+                for j in range(size):
+                    residual[i][j] -= (
+                        pivot_column_values[i] * pivot_row_values[j] / pivot
+                    )
+
+
+def test_complete_pivot_core_need_not_be_one_dominant_exactly() -> None:
+    size = 8
+    rank = 6
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, _ = exact_gecp(matrix)
+    core = [[matrix[i][j] for j in pivot_columns[:rank]] for i in pivot_rows[:rank]]
+    replacement = [matrix[5][j] for j in pivot_columns[:rank]]
+    replaced_core = [row.copy() for row in core]
+    replaced_core[4] = replacement
+    coefficient = fraction_determinant(replaced_core) / fraction_determinant(core)
+
+    assert coefficient == Fraction(6243374306, 4938550965)
+    assert coefficient > 1
+
+
 def test_low_rank_perturbation_determinant_bound_exactly() -> None:
     rng = random.Random(0xC0FFEE)
 

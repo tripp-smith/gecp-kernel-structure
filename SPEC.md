@@ -1695,3 +1695,16 @@ This annotation records delivered identifiers without changing the goals above.
   stable-interpolation magnitude estimate before it can improve determinant
   decay; Conjecture G1 and Problem 4.2 remain open. The root command passes
   with 73 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AN: verified on 2026-10-10; delivery pending.
+  `strictSignRegular_continuation_signCoherent` transfers selected-cross sign
+  coherence through any successful prefix and finite continuation, while
+  `strictSignRegular_completeContinuation_pivotsBounded` preserves an initial
+  uniform envelope under complete pivoting. Consequently,
+  `strictSignRegular_completeContinuation_selectedCore_det_le_pow` bounds the
+  continuation determinant by `B^m` without the generic factorial, and the
+  fermionic specialization holds for every successful prefix. An exact
+  sign-regular witness shows the corresponding interpolation core need not be
+  1-dominant. Applying this mechanism to the dyadic approximation still
+  requires a compatible sign-regular remainder theorem; Conjecture G1 and
+  Problem 4.2 remain open. The root command passes with 75 tests and no known
+  dependency vulnerabilities.
