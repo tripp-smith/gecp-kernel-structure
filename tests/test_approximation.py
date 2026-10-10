@@ -1,6 +1,8 @@
+import mpmath as mp
 import numpy as np
 
 from kernelgecp import (
+    DyadicTaylorApproximation,
     FermionicKernel,
     dlr_rank_bound,
     dyadic_taylor_rank_bound,
@@ -8,6 +10,20 @@ from kernelgecp import (
     fermionic_dyadic_taylor_approximation,
     fermionic_separated_approximation,
 )
+
+
+def _stable_masked_eighth_order_error(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
+    """Evaluate the p=1 masked error from its convergent exponential tail."""
+
+    x = t * omega
+    if omega <= 1:
+        active = True
+    else:
+        band = int(mp.ceil(mp.log(omega, 2)))
+        active = t * mp.mpf(2) ** (band - 1) <= 1
+    if not active:
+        return mp.exp(-x)
+    return mp.nsum(lambda k: (-x) ** k / mp.factorial(k), [8, mp.inf])
 
 
 def test_explicit_rank_counts() -> None:
@@ -36,6 +52,50 @@ def test_verified_dyadic_taylor_extreme_cutoff_and_validation() -> None:
     assert np.max(np.abs(approximate - exact)) <= approximation.error_bound + 1e-14
     with np.testing.assert_raises(ValueError):
         approximation.evaluate(0.5, 1e6 + 1)
+
+
+def test_masked_dyadic_remainder_reverses_order_two_sign() -> None:
+    with mp.workdps(100):
+        approximation = DyadicTaylorApproximation(
+            cutoff=4, accuracy_bits=1, scale=2, precision_bits=384
+        )
+        rows = [mp.mpf("0.5"), mp.mpf("0.6")]
+        columns = [mp.mpf("2"), mp.mpf("2.5")]
+
+        stable = [
+            [_stable_masked_eighth_order_error(t, omega) for omega in columns]
+            for t in rows
+        ]
+        implemented = [
+            [
+                mp.exp(-t * omega)
+                - approximation._positive_value(t, omega) * (1 + mp.exp(-omega))
+                for omega in columns
+            ]
+            for t in rows
+        ]
+        for stable_row, implemented_row in zip(stable, implemented, strict=True):
+            for expected, actual in zip(stable_row, implemented_row, strict=True):
+                assert mp.almosteq(expected, actual)
+
+        determinant = stable[0][0] * stable[1][1] - stable[0][1] * stable[1][0]
+        assert mp.mpf("4.96e-6") < determinant < mp.mpf("4.97e-6")
+
+        for lower_time in map(mp.mpf, ["0.45", "0.5"]):
+            for upper_time in map(mp.mpf, ["0.55", "0.6", "0.7"]):
+                for lower_frequency in map(mp.mpf, ["1.8", "2"]):
+                    for upper_frequency in map(mp.mpf, ["2.1", "2.5", "3"]):
+                        diagonal = _stable_masked_eighth_order_error(
+                            lower_time, lower_frequency
+                        ) * _stable_masked_eighth_order_error(
+                            upper_time, upper_frequency
+                        )
+                        off_diagonal = _stable_masked_eighth_order_error(
+                            lower_time, upper_frequency
+                        ) * _stable_masked_eighth_order_error(
+                            upper_time, lower_frequency
+                        )
+                        assert diagonal - off_diagonal > 0
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:

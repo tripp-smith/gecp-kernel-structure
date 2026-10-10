@@ -158,6 +158,13 @@ they are therefore local candidates rather than standalone mathlib proposals.
 The proof also reuses dependent run transport, whose pivot-list preservation
 is already listed above.
 
+Phase AO uses mathlib's `Real.exp_bound`, Lagrange Taylor remainder support,
+and explicit `Matrix.det_fin_two` formula to certify a repository-specific
+mask-transition obstruction. The witness depends on the local dyadic masking
+policy and does not suggest a standalone mathlib theorem. A reusable
+alternating exponential-tail interval lemma was considered but was not needed:
+the existing exponential estimates close the exact rational bounds directly.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
