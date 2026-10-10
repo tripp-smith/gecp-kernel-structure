@@ -198,6 +198,46 @@ def test_residual_compound_anchor_sign_gauges_exactly() -> None:
                         assert abs(gauged) == abs(entry)
 
 
+def test_two_border_condensation_identity_and_bound_exactly() -> None:
+    size = 7
+    prefix_length = 3
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, _ = exact_gecp(matrix)
+    selected_rows = pivot_rows[:prefix_length]
+    selected_columns = pivot_columns[:prefix_length]
+    selected_core = [[matrix[i][j] for j in selected_columns] for i in selected_rows]
+    selected_core_det = fraction_determinant(selected_core)
+    remaining_rows = [i for i in range(size) if i not in selected_rows]
+    remaining_columns = [j for j in range(size) if j not in selected_columns]
+
+    def bordered_det(row: int, column: int) -> Fraction:
+        rows = [*selected_rows, row]
+        columns = [*selected_columns, column]
+        return fraction_determinant([[matrix[i][j] for j in columns] for i in rows])
+
+    for row_zero in remaining_rows:
+        for row_one in remaining_rows:
+            for column_zero in remaining_columns:
+                for column_one in remaining_columns:
+                    rows = [*selected_rows, row_zero, row_one]
+                    columns = [*selected_columns, column_zero, column_one]
+                    augmented_det = fraction_determinant(
+                        [[matrix[i][j] for j in columns] for i in rows]
+                    )
+                    first_product = bordered_det(row_zero, column_zero) * bordered_det(
+                        row_one, column_one
+                    )
+                    second_product = bordered_det(row_zero, column_one) * bordered_det(
+                        row_one, column_zero
+                    )
+                    condensed = first_product - second_product
+                    assert augmented_det * selected_core_det == condensed
+                    assert first_product * second_product >= 0
+                    assert abs(condensed) <= max(
+                        abs(first_product), abs(second_product)
+                    )
+
+
 def test_low_rank_perturbation_determinant_bound_exactly() -> None:
     rng = random.Random(0xC0FFEE)
 

@@ -2921,3 +2921,93 @@ Verification:
   four-entry product, anchor gauge, and preserved magnitude;
 - `./scripts/verify.sh` passes with 72 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AM — two-border condensation inequality
+
+State: verified; delivery pending.
+
+Phase AL supplies positive sign chambers for compound minors. The first
+quantitative identity to exploit is Desnanot--Jacobi condensation: a selected
+core, its four one-border extensions, and a two-border extension satisfy an
+exact quadratic relation. Strict sign regularity makes the two products on the
+right have the same sign, replacing the generic triangle factor two by a
+factor-one maximum bound.
+
+Frozen public Lean targets:
+
+- prove a generic same-sign inequality
+  `abs (a-b) <= max (abs a) (abs b)`;
+- derive the exact two-border selected-core condensation identity directly
+  from the Phase I and Phase AJ determinant factorizations;
+- combine strict sign regularity with bordered-minor sign coherence to prove a
+  factor-one absolute condensation inequality;
+- specialize the result to every fermionic run;
+- state explicitly which additional maximal-minor or approximation estimate is
+  still required before condensation yields a rate improvement.
+
+Proof contract:
+
+- use `Fin 2` borders and `Matrix.det_fin_two`; do not introduce inverses or a
+  general adjugate API merely for this identity;
+- preserve arbitrary row and column coordinates, including duplicate cases;
+- derive the sign premise from the existing bordered-minor theorem rather than
+  from numerical positivity;
+- do not claim that factor-one condensation alone removes the determinant
+  prefactor.
+
+Independent checks:
+
+- verify the exact identity and factor-one bound over every two-border choice
+  of an exact rational geometric-surrogate run;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if direct rewriting through the bordered identities fails three times,
+  first prove the residual-level `2 x 2` determinant formula and compose it
+  with the selected-core factors in a separate theorem.
+
+Non-claims:
+
+- this phase packages the first subtraction-sensitive consequence of compound
+  sign balance; it does not yet prove a dimension-free approximation bound,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `GECP.orderedPair` provides the displayed `Fin 2` border order used by the
+  exact identity;
+- `GECP.abs_sub_le_max_of_mul_nonneg` replaces the generic triangle factor two
+  by a factor-one maximum whenever the two products have the same sign;
+- `Run.augmentedCore_fin_two_mul_selectedCore_det` proves the selected-core
+  Desnanot--Jacobi identity from the existing one-border and arbitrary-border
+  Schur factorizations, without an inverse;
+- `strictSignRegular_augmentedCore_fin_two_condensation` derives the same-sign
+  premise from bordered-minor coherence and proves the factor-one absolute
+  bound, with
+  `fermionicKernel_augmentedCore_fin_two_condensation` specializing it to every
+  fermionic run.
+
+Result:
+
+- compound sign balance has a genuine quantitative payoff: subtraction in the
+  two-border identity costs the larger product rather than the sum of both
+  products;
+- the estimate is scale-exact but homogeneous. It propagates a bound already
+  known for the four one-border minors and therefore does not itself create the
+  missing decay or remove the determinant prefactor;
+- the next useful target must control a maximal one-border-minor envelope or
+  prove stable interpolation/approximation on a sign chamber. Repackaging
+  condensation at higher order without such a magnitude input would be
+  structurally correct but quantitatively circular.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic checks the identity, sign premise, and
+  factor-one bound for all 256 ordered two-row/two-column fresh-border choices
+  after a three-pivot geometric-surrogate run;
+- `./scripts/verify.sh` passes with 73 Python tests and no known dependency
+  vulnerabilities.

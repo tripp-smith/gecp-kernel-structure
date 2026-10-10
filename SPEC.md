@@ -1683,3 +1683,14 @@ This annotation records delivered identifiers without changing the goals above.
   derive a quantitative condensation inequality, remove the determinant
   prefactor, prove Conjecture G1, or solve Problem 4.2. The root command passes
   with 72 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AM: verified on 2026-10-10; delivery pending.
+  `Run.augmentedCore_fin_two_mul_selectedCore_det` proves the exact
+  selected-core Desnanot--Jacobi identity for two arbitrary appended rows and
+  columns, while
+  `strictSignRegular_augmentedCore_fin_two_condensation` uses bordered-minor
+  sign coherence to replace the generic triangle factor two by a factor-one
+  maximum. The fermionic specialization holds for every successful run. This
+  homogeneous relation still requires an independent one-border-minor or
+  stable-interpolation magnitude estimate before it can improve determinant
+  decay; Conjecture G1 and Problem 4.2 remain open. The root command passes
+  with 73 tests and no known dependency vulnerabilities.

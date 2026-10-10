@@ -514,6 +514,16 @@ pivots.
   Exact `Fraction` regressions exhaust every anchor and entry at compound
   orders one through three after three geometric-surrogate pivots. The change
   passed CI and merged as PR #40.
+- On 2026-10-10 the Phase AM root command passed the same gate with 73 Python
+  tests and no known dependency vulnerabilities. The exact selected-core
+  Desnanot--Jacobi identity is now formalized for two arbitrary border rows and
+  columns, and strict sign regularity turns it into a factor-one maximum bound
+  rather than the generic two-term triangle bound. Exact `Fraction` arithmetic
+  exhausts all 256 ordered fresh two-border choices after a three-pivot
+  geometric-surrogate run. This is a verified subtraction-sensitive gain, but
+  it propagates one-border magnitude estimates and does not by itself generate
+  determinant decay, prove Conjecture G1, or solve Problem 4.2. Delivery is
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
