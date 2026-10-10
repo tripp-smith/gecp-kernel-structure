@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AJ — multi-bordered residual minors<br>
-> **Phase state:** verified; delivery pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AJ `./scripts/verify.sh` passed with 70 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AJ verified locally; draft pull request pending; Phase AI merged as [PR #37](https://github.com/tripp-smith/gecp-kernel-structure/pull/37)<br>
+> **Delivery:** merged [PR #38](https://github.com/tripp-smith/gecp-kernel-structure/pull/38)<br>
 > **Claim level:** every finite residual minor factors exactly through the selected core; strict sign regularity transfers with explicit pivot-order orientation gauges, hence injective augmented fermionic minors remain nonsingular at every order<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -53,7 +53,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AG | Two-corner exceptional indices | complete | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification; green CI | merged PR #35 |
 | AH | Finite central-prefix runs | complete | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification; green CI | merged PR #36 |
 | AI | Above-quarter stopping bound | complete | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification; green CI | merged PR #37 |
-| AJ | Multi-bordered residual minors | verified | arbitrary-border determinant factorization; orientation-aware all-orders sign transfer; fermionic residual-minor nonsingularity | Lean build; public axiom audit; exact rational border sizes 0--3; 70-test root verification | draft PR pending |
+| AJ | Multi-bordered residual minors | complete | arbitrary-border determinant factorization; orientation-aware all-orders sign transfer; fermionic residual-minor nonsingularity | Lean build; public axiom audit; exact rational border sizes 0--3; 70-test root verification; green CI | merged PR #38 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

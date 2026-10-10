@@ -499,7 +499,7 @@ pivots.
   determinant factorization, orientation-aware strict-sign transfer, and
   fermionic residual-minor nonsingularity results use only the permitted Lean
   axioms; exact `Fraction` arithmetic independently checks border sizes zero
-  through three. Delivery is pending review.
+  through three. The change passed CI and merged as PR #38.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

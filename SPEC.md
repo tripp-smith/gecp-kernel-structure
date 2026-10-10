@@ -1643,8 +1643,8 @@ This annotation records delivered identifiers without changing the goals above.
   by `1/4`. A threshold-parametric nested-band restart, removal of the
   logarithmic startup, Conjecture G1, and Problem 4.2 remain open. The root
   command passes with 69 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AJ: verified locally on 2026-10-10; delivery is
-  pending. `Run.augmentedCore_step_det` and
+- Post-v1 research phase AJ: complete with green CI on 2026-10-10 and
+  delivered in merged PR #38. `Run.augmentedCore_step_det` and
   `Run.augmentedCore_det_eq_selectedCore_det_mul_finalResidual_minor` extend
   the one-border Schur identity to arbitrary finite residual minors while
   preserving the dependent pivot order. Under injectivity of the combined

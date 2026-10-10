@@ -2642,7 +2642,7 @@ Verification:
 
 ## Phase AJ — multi-bordered residual minors
 
-State: verified on 2026-10-10; delivery pending.
+State: complete with green CI on 2026-10-10; delivered in merged PR #38.
 
 The current bordered determinant API handles one appended row and column,
 which is exactly enough for pointwise residual identities and order-two cross
