@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase AR `./scripts/verify.sh` passed with 79 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AR is under development; Phase AQ merged with green CI as [PR #45](https://github.com/tripp-smith/gecp-kernel-structure/pull/45)<br>
+> **Delivery:** Phase AR is under review in [draft PR #46](https://github.com/tripp-smith/gecp-kernel-structure/pull/46)<br>
 > **Claim level:** differentiating the tilted-beta moments and proving strict decrease of logarithmic elasticity on the local Taylor regime
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -61,7 +61,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AO | Masked dyadic remainder obstruction | complete | `dyadicTaylorError_not_strictSignRegularAtOrder_two`; exact first-transition positive-minor witness | Lean build; public axiom audit; 100-digit implementation check and 36-point transition sweep; 76-test root verification; green CI | merged PR #43 |
 | AP | Unmasked Taylor-tail beta structure | complete | `eighthOrderTail_eq_betaMoment`; strict positivity; exact order-two beta-moment sign reduction | Lean build; public axiom audit; 100-digit triple evaluation and 315-minor sweep; 77-test root verification; green CI | merged PR #44 |
 | AQ | Tilted-beta moment gap | complete | `eighthOrderBetaMoment_two_mul_two_lt_one`; `eighthOrderBetaMoment_variance_numerator_lt` | Lean build; public axiom audit; exact `Fraction` check; 100-digit dense sweep; 78-test root verification; green CI | merged PR #45 |
-| AR | Beta-moment logarithmic elasticity | in progress | moment derivatives; `eighthOrderBetaElasticity_hasDerivAt`; `eighthOrderBetaElasticity_strictAntiOn` | Lean build; public axiom audit; 100-digit derivative/monotonicity sweep; 79-test root verification | pending |
+| AR | Beta-moment logarithmic elasticity | in progress | moment derivatives; `eighthOrderBetaElasticity_hasDerivAt`; `eighthOrderBetaElasticity_strictAntiOn` | Lean build; public axiom audit; 100-digit derivative/monotonicity sweep; 79-test root verification | draft PR #46 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
