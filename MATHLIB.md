@@ -207,6 +207,14 @@ but they do not constitute a separate mathlib proposal. The continuous
 Cauchy--Binet/Andreief candidate recorded in Phase AT remains the relevant
 upstream gap.
 
+Phase AV finds no existing mathlib vocabulary for total nonnegativity of a
+two-variable kernel. The local `TotallyNonnegativeAtOrder` predicate and the
+order-two truncated-power proof are small, but a reusable kernel-level API
+with finite and integral composition closure would be a credible upstream
+abstraction once the all-orders consumer is complete. The exact support
+criterion also indicates that such an API must distinguish TN from TP rather
+than encoding only strict minors.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
