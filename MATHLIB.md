@@ -215,6 +215,15 @@ abstraction once the all-orders consumer is complete. The exact support
 criterion also indicates that such an API must distinguish TN from TP rather
 than encoding only strict minors.
 
+Phase AW uses existing interval-integral primitives (`integral_pow`, affine
+substitution, adjacent-interval additivity, and equality on open intervals) to
+prove the normalized truncated-power recurrence. No new special-function
+lemma is needed. The remaining reusable upstream gap is still a kernel-level
+continuous composition/Cauchy--Binet theorem that transfers nonnegative
+ordered minors through integration; that abstraction should be proposed only
+after the order-kernel consumer fixes the necessary measurability and
+integrability hypotheses.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

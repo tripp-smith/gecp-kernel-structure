@@ -627,6 +627,17 @@ pivots.
   on `[-3,4]`, including boundary zeros and the full-support determinant
   `14197`. The all-orders theorem and continuous composition remain open. The
   root command passes with 83 tests and no known dependency vulnerabilities.
+- Phase AW turns the classical truncated-power clue into an exact internal
+  construction. `normalizedTruncatedPowerKernel_succ_integral` raises the
+  degree by integration on the natural interval, while
+  `normalizedTruncatedPowerKernel_succ_integral_commonDomain` inserts the
+  degree-zero strict order kernel and proves the same identity on any shared
+  containing interval. The existing seventh-degree kernel is exactly `7!`
+  times normalized degree seven. Exact rational polynomial integration checks
+  degrees zero through seven, including coincident endpoints. This establishes
+  the convolution ladder, not total nonnegativity or continuous
+  Cauchy--Binet. The root command passes with 84 tests and no known dependency
+  vulnerabilities.
   The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.

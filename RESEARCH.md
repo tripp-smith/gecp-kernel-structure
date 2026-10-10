@@ -3835,3 +3835,87 @@ Verification:
   nonnegativity and the exact paired-support strictness equivalence;
 - `./scripts/verify.sh` passes with 83 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AW contract: normalized truncated-power convolution ladder
+
+Phase AW freezes the analytic recurrence suggested by Phase AV's external
+total-nonnegativity check.  The purpose is to express every normalized
+positive-integer truncated power as one more composition with the elementary
+order kernel, on a domain that is shared by all matrix columns.
+
+Frozen public Lean targets:
+
+- define `normalizedTruncatedPowerKernel degree v omega` with exact factorial
+  normalization and the same support convention as the existing kernel;
+- identify degree zero with the elementary order kernel away from its
+  measure-zero boundary;
+- prove the successor integral on its natural ordered interval;
+- prove the exact shared-domain successor recurrence when the common bounds
+  contain both endpoints;
+- identify `eighthOrderTruncatedPowerKernel` with `7!` times normalized degree
+  seven.
+
+Proof contract:
+
+- derive the recurrence from the exact power integral and the factorial
+  successor identity, not from a classical total-positivity theorem;
+- handle the order-kernel discontinuity by an explicit almost-everywhere
+  argument and keep endpoint conventions visible;
+- keep all domain-order assumptions explicit so the result can feed a later
+  continuous Cauchy--Binet theorem.
+
+Independent checks:
+
+- verify the normalized recurrence with exact rational arithmetic for several
+  degrees, ordered endpoints, and expanded common domains;
+- run focused Lean builds, extend the public axiom audit, and run root
+  verification.
+
+Decision rule:
+
+- if the shared-domain identity is formalized, the next phase targets total
+  nonnegativity of the degree-zero order kernel and continuous composition
+  closure;
+- if interval-endpoint measurability blocks the shared-domain theorem, retain
+  only the ordered-interval recurrence and record the precise missing mathlib
+  lemma rather than weakening assumptions silently.
+
+Non-claims:
+
+- this phase does not prove all-orders total nonnegativity, continuous
+  Cauchy--Binet, all-orders tail sign regularity, a globally sign-regular
+  dyadic remainder, Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `normalizedTruncatedPowerKernel` packages every nonnegative integer degree
+  with factorial normalization and strict support;
+- `normalizedTruncatedPowerKernel_zero` identifies degree zero with the
+  elementary strict order kernel;
+- `normalizedTruncatedPowerKernel_succ_integral` proves the exact successor
+  recurrence on the natural interval;
+- `normalizedTruncatedPowerKernel_succ_integral_commonDomain` proves the same
+  recurrence on any shared interval containing the row and column endpoints;
+- `eighthOrderTruncatedPowerKernel_eq_factorial_mul_normalized` identifies the
+  Phase AT kernel with `7!` times normalized degree seven.
+
+Result:
+
+- the degree-seven factor is now connected by an exact seven-step convolution
+  ladder to the degree-zero order kernel;
+- the shared-domain theorem explicitly discharges the two zero-support outer
+  intervals and the measure-zero endpoint convention, so no column-dependent
+  integration domain remains;
+- the next obstruction is algebraic/measure-theoretic rather than analytic:
+  prove all-orders total nonnegativity of the degree-zero order kernel and a
+  continuous determinant-composition closure theorem.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic independently expands and integrates
+  `(omega-z)^degree` term by term for degrees zero through seven, including
+  rational and coincident endpoints and enlarged common domains;
+- `./scripts/verify.sh` passes with 84 Python tests and no known dependency
+  vulnerabilities.
