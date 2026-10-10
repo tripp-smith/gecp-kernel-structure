@@ -178,6 +178,13 @@ degree-ten primitive and the split at `u = 1/2` are specialized to the eighth-
 order tail. The single-crossing comparison pattern may be reusable, but no
 upstream abstraction is proposed until a second independent consumer appears.
 
+Phase AR uses
+`intervalIntegral.hasDerivAt_integral_of_dominated_loc_of_deriv_le` together
+with the derivative mean-value criterion `strictAntiOn_of_deriv_neg`. The only
+new abstraction is a private beta-power-moment differentiation helper; its
+weight and local domination bound are specific to the eighth-order tail, so no
+upstream candidate is recorded.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

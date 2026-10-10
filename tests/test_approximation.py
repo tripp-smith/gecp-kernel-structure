@@ -186,6 +186,46 @@ def test_tilted_beta_moment_gap_and_variance_bound() -> None:
         assert smallest_variance_margin > mp.mpf("0.0008")
 
 
+def test_beta_moment_derivatives_and_elasticity_monotonicity() -> None:
+    with mp.workdps(100):
+        derivative_points = map(mp.mpf, ["0", "1e-12", "1e-6", "0.1", "1", "2"])
+        for x in derivative_points:
+            moment_one = _eighth_order_beta_power_moment(1, x)
+            moment_two = _eighth_order_beta_power_moment(2, x)
+            differentiated_zero = mp.diff(
+                lambda y: _eighth_order_beta_power_moment(0, y), x
+            )
+            differentiated_one = mp.diff(
+                lambda y: _eighth_order_beta_power_moment(1, y), x
+            )
+            assert mp.almosteq(differentiated_zero, -moment_one)
+            assert mp.almosteq(differentiated_one, -moment_two)
+
+        points = sorted(
+            {mp.mpf(index) / 50 for index in range(101)}
+            | {mp.mpf(value) for value in ["1e-12", "1e-9", "1e-6"]}
+        )
+        elasticities: list[mp.mpf] = []
+        smallest_negative_derivative = mp.inf
+        for x in points:
+            moment_zero = _eighth_order_beta_power_moment(0, x)
+            moment_one = _eighth_order_beta_power_moment(1, x)
+            moment_two = _eighth_order_beta_power_moment(2, x)
+            elasticity = -x * moment_one / moment_zero
+            elasticity_derivative = (
+                x * (moment_two * moment_zero - moment_one**2)
+                - moment_one * moment_zero
+            ) / moment_zero**2
+            assert elasticity_derivative < 0
+            elasticities.append(elasticity)
+            smallest_negative_derivative = min(
+                smallest_negative_derivative, -elasticity_derivative
+            )
+
+        assert all(upper < lower for lower, upper in itertools.pairwise(elasticities))
+        assert smallest_negative_derivative > mp.mpf("0.078")
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

@@ -3384,3 +3384,91 @@ Verification:
   bound, with observed margins above `0.0062` and `0.0008` respectively;
 - `./scripts/verify.sh` passes with 78 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AR — beta-moment logarithmic elasticity
+
+State: in progress.
+
+Phase AQ proves the strict numerator inequality obtained by formally
+differentiating the logarithmic elasticity of the normalized beta moment. This
+phase supplies that missing differentiation step and converts the pointwise
+inequality into a strict monotonicity theorem on the full local interval.
+
+Frozen public Lean targets:
+
+- prove that `eighthOrderBetaMoment` has derivative
+  `-eighthOrderBetaMomentOne` at every real argument;
+- prove that `eighthOrderBetaMomentOne` has derivative
+  `-eighthOrderBetaMomentTwo` at every real argument;
+- define
+  `eighthOrderBetaElasticity x = -x * eighthOrderBetaMomentOne x /
+  eighthOrderBetaMoment x` and prove its exact quotient-rule derivative;
+- prove `eighthOrderBetaElasticity_strictAntiOn` on `Set.Icc 0 2` from the
+  Phase AQ variance-numerator inequality.
+
+Proof contract:
+
+- justify differentiation under the interval integral with mathlib's
+  dominated parametric-integral API; do not introduce the derivative identity
+  as an assumption or derive it from numerical evidence;
+- use the exact quotient-rule numerator and the previously proved strict
+  moment inequality, keeping positivity of the denominator explicit;
+- prove continuity at both endpoints and strict decrease on the closed
+  interval through the derivative sign on its interior;
+- keep the result one-dimensional: the ordered-product transfer belongs to a
+  separate phase.
+
+Independent checks:
+
+- compare analytic derivatives against 100-digit differentiated integrals at
+  endpoint, logarithmic, and dense local points;
+- verify strict monotonicity and retain the smallest observed derivative
+  margin as numerical evidence only;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the specialized dominated-integral proof repeats substantially, factor a
+  private generic beta-power-moment derivative lemma and instantiate powers
+  zero and one;
+- if the compact domination bound becomes the only obstruction after three
+  proof attempts, freeze that bound as the next exact helper instead of
+  weakening the derivative statement.
+
+Non-claims:
+
+- this phase does not yet prove the beta-moment kernel's order-two sign, the
+  unmasked tail's order-two sign, all-orders tail sign regularity, a global
+  smooth dyadic approximation, Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- a private generic beta-power-moment lemma applies dominated differentiation
+  under the interval integral for every natural moment order;
+- `eighthOrderBetaMoment_hasDerivAt` and
+  `eighthOrderBetaMomentOne_hasDerivAt` instantiate the zeroth and first
+  moments;
+- `eighthOrderBetaElasticity_hasDerivAt` gives the exact quotient-rule
+  derivative whose numerator is Phase AQ's strict inequality;
+- `eighthOrderBetaElasticity_strictAntiOn` proves strict decrease on the closed
+  local interval `Set.Icc 0 2`.
+
+Result:
+
+- the one-dimensional analytic chain from the normalized beta integral to a
+  strict elasticity order is now formalized without numerical assumptions;
+- the remaining order-two task is algebraic/order-theoretic: transfer strict
+  elasticity decrease across the four ordered products and recover the beta-
+  moment determinant sign.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- 100-decimal numerical differentiation agrees with both moment identities at
+  six points from `0` through `2`;
+- a 104-point local sweep verifies strict decrease and keeps the observed
+  derivative margin `-E'(x)` above `0.078`;
+- `./scripts/verify.sh` passes with 79 Python tests and no known dependency
+  vulnerabilities.
