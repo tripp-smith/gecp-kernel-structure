@@ -386,6 +386,48 @@ def test_truncated_power_order_two_support_geometry_exactly() -> None:
             assert (determinant > 0) is paired_support
 
 
+def test_normalized_truncated_power_convolution_exactly() -> None:
+    def normalized(degree: int, row: Fraction, column: Fraction) -> Fraction:
+        if row >= column:
+            return Fraction()
+        return (column - row) ** degree / math.factorial(degree)
+
+    def expanded_polynomial_integral(
+        degree: int, row: Fraction, column: Fraction
+    ) -> Fraction:
+        # Independently expand (column - z)^degree before integrating termwise.
+        return sum(
+            (
+                Fraction(math.comb(degree, exponent))
+                * column ** (degree - exponent)
+                * (-1) ** exponent
+                * (column ** (exponent + 1) - row ** (exponent + 1))
+                / (exponent + 1)
+            )
+            for exponent in range(degree + 1)
+        ) / math.factorial(degree)
+
+    cases = [
+        (Fraction(-5), Fraction(-2), Fraction(3), Fraction(9)),
+        (Fraction(-7, 3), Fraction(-1, 2), Fraction(5, 4), Fraction(11, 3)),
+        (Fraction(0), Fraction(0), Fraction(0), Fraction(4)),
+        (Fraction(-3), Fraction(2, 5), Fraction(2, 5), Fraction(8)),
+    ]
+    for degree in range(8):
+        for lower, row, column, upper in cases:
+            assert lower <= row <= column <= upper
+            integral = expanded_polynomial_integral(degree, row, column)
+            assert integral == normalized(degree + 1, row, column)
+
+            # The two factors vanish off (row, column), so enlarging either
+            # common-domain endpoint contributes exactly zero.
+            assert normalized(0, row, lower) == 0
+            assert normalized(degree, upper, column) == 0
+
+    row, column = Fraction(-3, 2), Fraction(7, 3)
+    assert math.factorial(7) * normalized(7, row, column) == (column - row) ** 7
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

@@ -1797,3 +1797,15 @@ This annotation records delivered identifiers without changing the goals above.
   continuous Cauchy--Binet, all-orders tail sign regularity, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 83 tests and no
   known dependency vulnerabilities.
+- Post-v1 research phase AW: verified locally on 2026-10-10 and open as draft
+  PR #51.
+  `normalizedTruncatedPowerKernel_zero` fixes the elementary strict order
+  kernel at degree zero,
+  `normalizedTruncatedPowerKernel_succ_integral` proves the exact normalized
+  successor recurrence on its natural interval, and
+  `normalizedTruncatedPowerKernel_succ_integral_commonDomain` extends that
+  recurrence to any common containing interval. The existing seventh-degree
+  factor is `7!` times the normalized degree-seven member. All-orders total
+  nonnegativity, continuous Cauchy--Binet, all-orders tail sign regularity,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 84
+  tests and no known dependency vulnerabilities.
