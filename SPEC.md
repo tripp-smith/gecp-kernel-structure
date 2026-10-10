@@ -1656,3 +1656,17 @@ This annotation records delivered identifiers without changing the goals above.
   gauges, produce a threshold-parametric nested-band restart, establish
   Conjecture G1, or solve Problem 4.2. The root command passes with 70 tests
   and no known dependency vulnerabilities.
+- Post-v1 research phase AK: verified locally on 2026-10-10; delivery is
+  pending. `anchoredSignGaugeKernel_pos_of_crossProductSignCoherent` converts
+  the residual's balanced cross-product signs into anchor-based row and column
+  signs that make every nonzero entry positive, while
+  `abs_anchoredSignGaugeKernel` proves the transformation preserves entry
+  magnitudes and `anchoredSignGaugeKernel_minor_det` gives its exact action on
+  every finite minor. `Run.FreshRow`, `Run.FreshColumn`, and the Phase AJ
+  nonvanishing theorem discharge the nonzero conditions for strictly
+  sign-regular runs, yielding the fermionic specialization
+  `fermionicKernel_finalResidual_anchoredSignGauge_pos`. This is order-one
+  checkerboard normalization, not yet a compound-minor positivity theorem or
+  a sharper determinant bound; it does not prove Conjecture G1 or solve
+  Problem 4.2. The root command passes with 71 tests and no known dependency
+  vulnerabilities.

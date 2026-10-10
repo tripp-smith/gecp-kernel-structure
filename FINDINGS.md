@@ -500,6 +500,13 @@ pivots.
   fermionic residual-minor nonsingularity results use only the permitted Lean
   axioms; exact `Fraction` arithmetic independently checks border sizes zero
   through three. The change passed CI and merged as PR #38.
+- On 2026-10-10 the Phase AK root command passed the same gate with 71 Python
+  tests and no known dependency vulnerabilities. Its balanced-sign theorem
+  turns residual cross-product coherence into an explicit magnitude-one
+  diagonal gauge, proves positivity on every fresh fermionic entry, preserves
+  all entry magnitudes, and records exact finite-minor scaling. An exact
+  `Fraction` regression checks every unselected anchor and entry after three
+  geometric-surrogate pivots. Delivery is pending review.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
