@@ -3211,7 +3211,7 @@ Verification:
 
 ## Phase AP — unmasked Taylor-tail beta structure
 
-State: verified locally; under review in draft PR #44.
+State: complete; delivered in merged PR #44 with green CI.
 
 Phase AO rules out the discontinuously masked remainder, not the local Taylor
 tail itself. Taylor's integral remainder rewrites the positive eighth-order

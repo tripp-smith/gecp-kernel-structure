@@ -559,7 +559,7 @@ pivots.
   normalized margin above `4.3e-6`. This is evidence and an exact reduction,
   not yet a proof of the beta-moment sign inequality or all-orders strict sign
   regularity. The root command passes with 77 tests and no known dependency
-  vulnerabilities; delivery is pending.
+  vulnerabilities. The change passed CI and merged as PR #44.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

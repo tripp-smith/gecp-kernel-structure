@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AP — unmasked Taylor-tail beta structure<br>
-> **Phase state:** verified; delivery pending<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase AP `./scripts/verify.sh` passed with 77 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AP under review in [draft PR #44](https://github.com/tripp-smith/gecp-kernel-structure/pull/44)<br>
+> **Delivery:** Phase AP merged with green CI as [PR #44](https://github.com/tripp-smith/gecp-kernel-structure/pull/44)<br>
 > **Claim level:** extracting the unmasked eighth-order Taylor tail as a beta-weighted exponential mixture and isolating its exact order-two sign obligation<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -59,7 +59,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AM | Two-border condensation inequality | complete | exact selected-core Desnanot--Jacobi identity; same-sign factor-one max bound; fermionic specialization | Lean build; public axiom audit; exhaustive exact 256-case two-border regression; 73-test root verification; green CI | merged PR #41 |
 | AN | Factorial-free continuation determinants | complete | recursive sign coherence; continuation pivot envelope; exact `B^m` selected-core determinant bound; fermionic specialization | Lean build; public axiom audit; exact all-suffix determinant regression and 1-dominance obstruction; 75-test root verification; green CI | merged PR #42 |
 | AO | Masked dyadic remainder obstruction | complete | `dyadicTaylorError_not_strictSignRegularAtOrder_two`; exact first-transition positive-minor witness | Lean build; public axiom audit; 100-digit implementation check and 36-point transition sweep; 76-test root verification; green CI | merged PR #43 |
-| AP | Unmasked Taylor-tail beta structure | verified | `eighthOrderTail_eq_betaMoment`; strict positivity; exact order-two beta-moment sign reduction | Lean build; public axiom audit; 100-digit triple evaluation and 315-minor sweep; 77-test root verification | draft PR #44 |
+| AP | Unmasked Taylor-tail beta structure | complete | `eighthOrderTail_eq_betaMoment`; strict positivity; exact order-two beta-moment sign reduction | Lean build; public axiom audit; 100-digit triple evaluation and 315-minor sweep; 77-test root verification; green CI | merged PR #44 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

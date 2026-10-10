@@ -1721,7 +1721,8 @@ This annotation records delivered identifiers without changing the goals above.
   not exclude smooth overlaps, unmasked local tails, another compatible
   decomposition, Conjecture G1, or Problem 4.2. The root command passes with
   76 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AP: verified locally; under review in draft PR #44.
+- Post-v1 research phase AP: complete with green CI on 2026-10-10 and
+  delivered in merged PR #44.
   `eighthOrderTail_eq_betaMoment` gives an exact
   unit-interval beta-weighted Laplace representation of the unmasked
   eighth-order Taylor tail, `eighthOrderTail_pos` proves strict positivity,
