@@ -3011,3 +3011,109 @@ Verification:
   after a three-pivot geometric-surrogate run;
 - `./scripts/verify.sh` passes with 73 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AN — factorial-free continuation determinants
+
+State: verified; delivery pending.
+
+Phase AM shows that compound sign balance removes a local triangle factor, but
+also shows why condensation alone is homogeneous and cannot manufacture
+decay. The next useful abstraction comes from total-positive elimination: if a
+strictly sign-regular residual is already uniformly bounded by `B`, every
+complete continuation pivot remains bounded by `B`, so its selected-core
+determinant is bounded by `B^m` with no Leibniz factorial. This is the exact
+determinant estimate needed if the dyadic approximation remainder can be shown
+to retain compatible sign regularity.
+
+Frozen public Lean targets:
+
+- express a finite continuation whose current residual is realized by a prefix
+  of the original strictly sign-regular kernel;
+- prove that a domain-complete continuation preserves an initial uniform bound
+  at every recursive step using selected-cross sign coherence;
+- bound every continuation pivot by that same envelope;
+- combine the pivot-product identity with the pointwise bounds to prove
+  `abs(det selectedCore) <= B ^ card` without `card.factorial`;
+- specialize the result to fermionic prefixes and cutoff-domain continuations.
+
+Proof contract:
+
+- use the existing dependent `Run`, `Run.append`, complete-pivot, and
+  sign-coherent nonexpansiveness APIs; do not introduce an inverse;
+- keep the theorem finite and continuation-local rather than encoding an
+  artificial infinite residual sequence;
+- make nonnegativity of `B` explicit and retain the exact selected-core
+  exponent;
+- do not claim strict decay: the result converts a small structured remainder
+  envelope into a determinant power but does not prove that the current
+  fermionic dyadic remainder satisfies the required compatibility.
+
+Independent checks:
+
+- use exact `Fraction` arithmetic on geometric sign-regular surrogates to check
+  every suffix determinant against the appropriate residual sup power;
+- include an exact witness that complete-pivot interpolation coefficients need
+  not be bounded by one, ruling out that stronger shortcut;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if dependent prefix transport blocks direct recursion three times, isolate a
+  reusable bounded-continuation predicate and prove determinant control from
+  that predicate before reconnecting strict sign regularity.
+
+Non-claims:
+
+- this phase does not prove total positivity of the dyadic Taylor remainder,
+  compatibility of mixed approximation/remainder columns, Conjecture G1, or
+  Simons Problem 4.2.
+
+Delivered:
+
+- `Run.SignCoherent` and `Run.PivotsBounded` record the recursive hypotheses
+  needed by a finite dependent run without inventing an infinite sequence;
+- `Run.pivotsBounded_of_signCoherent_completeOn` proves by recursive Schur
+  updates that complete sign-coherent pivoting preserves the initial uniform
+  envelope at every step;
+- `Run.abs_selectedCore_det_le_pow_of_pivotsBounded` combines those pointwise
+  bounds with the exact pivot-product identity, producing `B^m` with no
+  `m.factorial`;
+- `strictSignRegular_continuation_signCoherent` transports the original
+  all-orders sign theorem through an arbitrary successful prefix and finite
+  continuation;
+- `strictSignRegular_completeContinuation_pivotsBounded` and
+  `strictSignRegular_completeContinuation_selectedCore_det_le_pow` close the
+  generic result, while
+  `fermionicKernel_completeContinuation_selectedCore_det_le_pow` supplies the
+  fermionic specialization.
+
+Result:
+
+- total-positive elimination does remove the generic determinant factorial
+  once the matrix being eliminated is itself a complete sign-coherent
+  continuation with a small entry envelope;
+- this is precisely the `epsilon^m` mechanism needed for a structured
+  approximation remainder, but the current dyadic decomposition has not yet
+  been proved compatible with that continuation structure;
+- a stronger shortcut is false: an exact `8 x 8` geometric surrogate at rank
+  six has a row-replacement interpolation coefficient
+  `6243374306 / 4938550965 > 1`, so complete pivoting plus strict sign
+  regularity does not make the selected core 1-dominant;
+- high-precision diagnostics indicate that even Taylor remainders retain the
+  expected minor signs in the approximation regime. This is consistent with
+  neighboring beta--gamma total-positivity results for integer parameters
+  ([Simon, 2012](https://arxiv.org/abs/1207.6464)), and makes remainder
+  sign-regularity plus mixed-column compatibility the next disciplined target.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic checks every suffix length after every prefix of
+  an eight-point geometric-surrogate GECP run against the corresponding
+  residual-supremum power;
+- the same exact regression certifies the explicit failure of factor-one core
+  dominance;
+- `./scripts/verify.sh` passes with 75 Python tests and no known dependency
+  vulnerabilities.

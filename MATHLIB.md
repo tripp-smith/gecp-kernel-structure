@@ -150,6 +150,14 @@ elementary real lemma `abs_sub_le_max_of_mul_nonneg` may also be useful more
 broadly, although its proof is short and no upstream proposal is warranted
 without a second independent consumer.
 
+Phase AN adds two generic recursive run predicates and proves that a uniformly
+bounded, sign-coherent complete continuation has determinant at most `B^m`
+through its exact pivot product. The algebra is reusable, but the statements
+are expressed in the project's dependent `Run`, `CompleteOn`, and kernel APIs;
+they are therefore local candidates rather than standalone mathlib proposals.
+The proof also reuses dependent run transport, whose pivot-list preservation
+is already listed above.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

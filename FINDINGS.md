@@ -524,6 +524,17 @@ pivots.
   it propagates one-border magnitude estimates and does not by itself generate
   determinant decay, prove Conjecture G1, or solve Problem 4.2. The change
   passed CI and merged as PR #41.
+- On 2026-10-10 the Phase AN root command passed the same gate with 75 Python
+  tests and no known dependency vulnerabilities. Every finite complete
+  continuation of a strictly sign-regular run now inherits recursive selected-
+  cross coherence, keeps all pivots inside its initial uniform envelope `B`,
+  and has selected-core determinant at most `B^m` with no factorial. Exact
+  `Fraction` arithmetic checks every suffix of an eight-point geometric run.
+  A separate exact coefficient `6243374306 / 4938550965 > 1` rules out
+  automatic factor-one core dominance. Applying the factorial-free mechanism
+  to the dyadic approximation still requires sign-regularity and mixed-column
+  compatibility for its remainder; Conjecture G1 and Problem 4.2 remain open.
+  Delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -17,6 +17,7 @@ import GECPKernelStructure.Fermionic.ResidualMinors
 import GECPKernelStructure.Fermionic.ResidualGauge
 import GECPKernelStructure.Fermionic.CompoundResidual
 import GECPKernelStructure.Fermionic.Condensation
+import GECPKernelStructure.Fermionic.ContinuationDeterminant
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant
