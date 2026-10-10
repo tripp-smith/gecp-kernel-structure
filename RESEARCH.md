@@ -2434,7 +2434,7 @@ Verification:
 
 ## Phase AH — finite central-prefix runs
 
-State: verified on 2026-10-09; delivery pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #36.
 
 Phase AD localizes each later pivot above one quarter to the central frequency
 half-band, while Phase AG consumes a continuation whose complete pivots are

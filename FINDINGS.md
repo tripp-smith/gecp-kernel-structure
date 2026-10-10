@@ -486,7 +486,8 @@ pivots.
   tests and no known dependency vulnerabilities. Its trajectory constructor
   and central-prefix results use only the permitted Lean axioms; an exact
   rational recurrence independently reconstructs three above-quarter complete
-  pivots, their central columns, and the final residual. Delivery is pending.
+  pivots, their central columns, and the final residual. The change passed CI
+  and merged as PR #36.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

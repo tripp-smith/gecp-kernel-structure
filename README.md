@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AH — finite central-prefix runs<br>
-> **Phase state:** verified; delivery pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AH `./scripts/verify.sh` passed with 68 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AH verified; draft PR pending<br>
+> **Delivery:** merged [PR #36](https://github.com/tripp-smith/gecp-kernel-structure/pull/36)<br>
 > **Claim level:** every finite above-quarter continuation prefix is now an actual central-half-complete dependent run, and the Phase AD localization composes through Phase AG to a closed smaller-band determinant estimate<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -51,7 +51,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AE | Exceptional-column determinant restart | complete | `Matrix.abs_det_le_two_pow_mul_of_factors_approx_except`; fermionic smaller-band determinant decay with exact exceptional columns | Lean build; public axiom audit; exact zero/two-exception rank-shift regression; 65-test root verification; green CI | merged PR #33 |
 | AF | GECP exceptional-column composition | complete | `fermionicKernel_gecp_error_pow_le_two_pow_except`; selected-core decay at an independent smaller approximation scale | Lean build; public axiom audit; exact exceptional selected-core/pivot-product regression; 66-test root verification; green CI | merged PR #34 |
 | AG | Two-corner exceptional indices | complete | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification; green CI | merged PR #35 |
-| AH | Finite central-prefix runs | verified | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification | draft PR pending |
+| AH | Finite central-prefix runs | complete | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification; green CI | merged PR #36 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
