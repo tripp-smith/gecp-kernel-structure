@@ -371,6 +371,26 @@ def test_above_quarter_trajectory_prefix_reconstructs_final_residual_exactly() -
     assert reconstructed == trajectory[len(prefix_pivots)] == residual
 
 
+def test_above_quarter_stopping_budget_exactly() -> None:
+    transition_neighbors = {
+        neighbor
+        for exponent in range(1, 17)
+        for neighbor in (2**exponent - 1, 2**exponent, 2**exponent + 1)
+    }
+    for scale_plus_one in sorted(set(range(1, 257)) | transition_neighbors):
+        approximation_order = 24 * scale_plus_one
+        continuation_length = 2048 * scale_plus_one**2
+        binary_bits = 2 * scale_plus_one + 10
+        effective_rank = 16 * scale_plus_one * approximation_order
+        assert effective_rank <= continuation_length
+        assert continuation_length + 2 <= 2**binary_bits
+        assert (binary_bits + 3) * (
+            continuation_length + 2
+        ) + effective_rank <= approximation_order * (
+            continuation_length - effective_rank
+        )
+
+
 def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
     for scale in range(33):
         accuracy_order = 16 * (scale + 1)

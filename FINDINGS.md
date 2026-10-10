@@ -488,6 +488,11 @@ pivots.
   rational recurrence independently reconstructs three above-quarter complete
   pivots, their central columns, and the final residual. The change passed CI
   and merged as PR #36.
+- On 2026-10-09 the Phase AI root command passed the same gate with 69 Python
+  tests and no known dependency vulnerabilities. Its determinant-sandwich and
+  explicit stopping results use only the permitted Lean axioms; exact integer
+  regression verifies the effective-rank, binary-size, and exponent budgets
+  across ordinary and power-of-two-adjacent scales. Delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

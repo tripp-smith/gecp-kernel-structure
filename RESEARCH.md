@@ -2540,3 +2540,102 @@ Verification:
   its complete pivots, central columns, and final residual without rounding;
 - `./scripts/verify.sh` passes with 68 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AI — above-quarter stopping bound
+
+State: verified on 2026-10-09; delivery pending.
+
+Phase AH gives an upper bound for the selected-core determinant of any finite
+continuation prefix whose pivots all remain above one quarter. The same
+determinant is exactly the product of the two prescribed corner pivots and the
+continuation pivots. A volume-sandwich argument can therefore rule out a long
+all-above-quarter prefix once an explicit dyadic approximation order makes the
+upper determinant smaller than the product lower bound.
+
+Frozen public Lean targets:
+
+- lower-bound the two prescribed corner pivots uniformly at dyadic cutoffs;
+- identify the absolute selected-core determinant of the constructed full run
+  with the product of its absolute pivots and derive a strict quarter-power
+  lower bound from an all-above-quarter continuation;
+- prove a reusable arithmetic criterion that bounds Phase AH's determinant
+  upper estimate by the same quarter power using `n! <= n^n`, a binary size
+  bound, and an exponent-budget inequality;
+- instantiate the criterion with explicit polynomial parameters and conclude
+  that some continuation pivot in the certified prefix is at most one quarter.
+- transfer that stopping-pivot bound through complete-pivot maximality to a
+  global quarter bound for the corresponding residual.
+
+Proof contract:
+
+- derive the determinant lower bound from actual stored pivots, not a fresh
+  nonsingularity or volume assumption;
+- keep the two strict corner inequalities explicit so the contradiction
+  remains strict even for a zero-length continuation product;
+- separate analytic, determinant, and natural-number exponent arithmetic into
+  independently reusable lemmas;
+- state the resulting stopping index explicitly and preserve complete-pivot
+  tie semantics (`<= 1/4`, not an assumed strict drop).
+
+Independent checks:
+
+- evaluate the proposed parameter family with exact integers across ordinary
+  scales and powers-of-two transition neighborhoods;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the first explicit polynomial constants make the exponent budget awkward
+  after three attempts, enlarge them and retain the clean proof; optimization
+  belongs after the stopping mechanism is certified.
+
+Non-claims:
+
+- this phase forces the first quarter-scale stopping event but does not yet
+  turn it into a repeated shrinking-band recurrence;
+- it does not remove the logarithmic startup in the existing global rate,
+  prove Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `Run.abs_selectedCore_det_eq_prod_abs_pivots` exposes the absolute pivot
+  product on the recursively indexed selected core;
+- `fermionicKernel_cutoffCorner_gt_half` and
+  `fermionicKernel_firstPivot_reflected_gt_half` give strict uniform lower
+  bounds for the two prescribed corner pivots at cutoff at least one;
+- `fermionicKernel_aboveQuarterPrefix_sample_det_gt_quarter_pow` proves the
+  strict determinant lower bound `(1/4)^(length+1)` from an actual all-above-
+  quarter trajectory prefix;
+- `aboveQuarter_determinant_upper_le_quarter_pow` reduces the determinant
+  contradiction to a binary size bound and a natural-number exponent budget;
+- `fermionicKernel_exists_pivot_le_quarter_of_exponent_budget` packages the
+  reusable stopping criterion;
+- `aboveQuarterStoppingOrder`, `aboveQuarterStoppingLength`, and
+  `aboveQuarterStoppingBits` instantiate it with `24(s+1)`, `2048(s+1)^2`,
+  and `2(s+1)+10`;
+- `fermionicKernel_exists_residual_le_quarter_explicit` concludes that at some
+  continuation index below `2048(s+1)^2`, complete-pivot maximality bounds the
+  entire cutoff-domain residual by one quarter.
+
+Result:
+
+- the Phase AD localization is no longer merely conditional for arbitrarily
+  long prefixes: the Phase AH volume upper bound and exact pivot-product lower
+  bound force a finite quarter-scale stopping event;
+- the constants are intentionally conservative and the quadratic scale cost
+  is not competitive with the earlier global logarithmic block, but the new
+  theorem tracks the localized dependent continuation and is suitable for a
+  renormalized or nested-band argument;
+- the next structural obligation is to generalize the fixed outer-quarter
+  strip invariant to a threshold/band family that can restart after this
+  stopping event, rather than proving only the first absolute threshold.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only Lean's
+  permitted default axioms;
+- exact integer regression checks the rank, binary-size, and exponent budgets
+  through scale 256 and neighborhoods of powers of two through `2^16`;
+- `./scripts/verify.sh` passes with 69 Python tests and no known dependency
+  vulnerabilities.

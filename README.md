@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AH — finite central-prefix runs<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase AH `./scripts/verify.sh` passed with 68 tests and no known dependency vulnerabilities on 2026-10-09<br>
+> **Current phase:** AI — above-quarter stopping bound<br>
+> **Phase state:** verified; delivery pending<br>
+> **Last verification:** Phase AI `./scripts/verify.sh` passed with 69 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #36](https://github.com/tripp-smith/gecp-kernel-structure/pull/36)<br>
-> **Claim level:** every finite above-quarter continuation prefix is now an actual central-half-complete dependent run, and the Phase AD localization composes through Phase AG to a closed smaller-band determinant estimate<br>
+> **Delivery:** Phase AI verified; draft PR pending<br>
+> **Claim level:** at dyadic half-cutoff `2^s`, some continuation pivot—and hence its whole complete-pivot residual—is at most one quarter before `2048(s+1)^2` continuation steps<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -52,6 +52,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AF | GECP exceptional-column composition | complete | `fermionicKernel_gecp_error_pow_le_two_pow_except`; selected-core decay at an independent smaller approximation scale | Lean build; public axiom audit; exact exceptional selected-core/pivot-product regression; 66-test root verification; green CI | merged PR #34 |
 | AG | Two-corner exceptional indices | complete | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification; green CI | merged PR #35 |
 | AH | Finite central-prefix runs | complete | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification; green CI | merged PR #36 |
+| AI | Above-quarter stopping bound | verified | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

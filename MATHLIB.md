@@ -115,6 +115,13 @@ within the local GECP API, but that API is not part of mathlib; no standalone
 upstream mathlib candidate is proposed. The central-half specialization and
 determinant composition remain fermionic-project results.
 
+Phase AI reuses mathlib's `Nat.factorial_le_pow`,
+`Nat.two_mul_sq_add_one_le_two_pow_two_mul`, ordered-power lemmas, and existing
+real exponential bounds. The determinant sandwich is formulated around the
+project's dependent GECP run and fermionic corner pivots; it exposes no missing
+standalone mathlib abstraction. The conservative exponent-budget arithmetic is
+also project-specific, so no new upstream candidate is recorded.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -1631,3 +1631,14 @@ This annotation records delivered identifiers without changing the goals above.
   for the above-quarter prefix, a repeated shrinking-band recurrence,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 68
   tests and no known dependency vulnerabilities.
+- Post-v1 research phase AI: verified on 2026-10-09; delivery pending. The
+  exact pivot-product identity and strict lower bounds on the two prescribed
+  corner pivots turn every all-above-quarter continuation into a strict
+  selected-core determinant lower bound. A binary-size/exponent-budget lemma
+  contradicts Phase AH's smaller-band determinant upper bound at explicit
+  parameters `p=24(s+1)` and continuation length `2048(s+1)^2`. Consequently,
+  when `Lambda/2=2^s`, some continuation pivot before that length is at most
+  `1/4`, and complete-pivot maximality bounds its whole cutoff-domain residual
+  by `1/4`. A threshold-parametric nested-band restart, removal of the
+  logarithmic startup, Conjecture G1, and Problem 4.2 remain open. The root
+  command passes with 69 tests and no known dependency vulnerabilities.
