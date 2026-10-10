@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AK — balanced-sign residual gauges<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase AK `./scripts/verify.sh` passed with 71 tests and no known dependency vulnerabilities on 2026-10-10<br>
+> **Current phase:** AL — compound residual gauges<br>
+> **Phase state:** verified; delivery pending<br>
+> **Last verification:** Phase AL `./scripts/verify.sh` passed with 72 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged [PR #39](https://github.com/tripp-smith/gecp-kernel-structure/pull/39)<br>
-> **Claim level:** every strictly sign-regular final residual has an explicit anchor-based diagonal sign gauge that makes all fresh entries positive without changing their magnitudes, with exact finite-minor scaling
+> **Delivery:** Phase AL verified locally; draft pull request pending; Phase AK merged as [PR #39](https://github.com/tripp-smith/gecp-kernel-structure/pull/39)<br>
+> **Claim level:** at every finite order, fresh residual minors form a cross-product-sign-coherent compound kernel with a positive magnitude-preserving anchor gauge; this holds unconditionally for fermionic runs<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -55,6 +55,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AI | Above-quarter stopping bound | complete | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification; green CI | merged PR #37 |
 | AJ | Multi-bordered residual minors | complete | arbitrary-border determinant factorization; orientation-aware all-orders sign transfer; fermionic residual-minor nonsingularity | Lean build; public axiom audit; exact rational border sizes 0--3; 70-test root verification; green CI | merged PR #38 |
 | AK | Balanced-sign residual gauges | complete | anchor-based sign normalization; fresh-coordinate positivity; magnitude preservation; exact minor scaling | Lean build; public axiom audit; exact all-anchor rational regression; 71-test root verification; green CI | merged PR #39 |
+| AL | Compound residual gauges | verified | fresh tuple types; compound-minor cross-product coherence; positive magnitude-preserving compound gauges | Lean build; public axiom audit; exact rational compound orders 1--3; 72-test root verification | draft PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

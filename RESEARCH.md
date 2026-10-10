@@ -2828,3 +2828,96 @@ Verification:
   preservation;
 - `./scripts/verify.sh` passes with 71 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AL — compound residual gauges
+
+State: verified on 2026-10-10; delivery pending.
+
+Phase AK solves the sign normalization problem for individual residual
+entries. Exterior algebra suggests the correct all-orders lift: for each
+minor order, regard residual determinants as the entries of a compound kernel
+whose row and column vertices are fresh tuples. Phase AJ's orientation formula
+then makes the compound signing balanced because four row/column orientation
+factors occur in squares.
+
+Frozen public Lean targets:
+
+- define fresh row-tuple and column-tuple types for an arbitrary finite minor
+  order and a dependent run;
+- define the final-residual compound kernel whose entries are the corresponding
+  minors;
+- prove every compound entry nonzero under strict sign regularity;
+- prove the compound kernel is cross-product sign coherent by multiplying four
+  Phase AJ orientation-aware inequalities and cancelling squared signs;
+- apply Phase AK's anchor gauge to obtain a positive, magnitude-preserving
+  normalization of every fixed-order fermionic compound kernel.
+
+Proof contract:
+
+- keep the minor order as an arbitrary finite index type rather than reduce to
+  lists or fixed natural sizes;
+- use the existing all-orders residual identity and orientation theorem; do
+  not reprove Schur complement algebra;
+- expose strict positivity of the four-minor compound product, not merely
+  nonnegativity, because freshness supplies nonvanishing;
+- do not claim that the independent gauge at each compound order is induced by
+  one base-kernel row/column gauge.
+
+Independent checks:
+
+- for exact rational geometric-surrogate residuals, build compound matrices at
+  orders one through three and verify every anchor gauge, magnitude, and
+  four-entry product;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the four-factor sign algebra becomes brittle after three attempts, first
+  package the common signed determinant factor and prove its square is one,
+  then finish with a separate ordered-ring lemma.
+
+Non-claims:
+
+- compound positivity is a sign-structure theorem; it does not yet provide a
+  quantitative determinant decay estimate or a linear-size contraction block;
+- this phase does not prove Conjecture G1 or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `Run.FreshRows` and `Run.FreshColumns` package arbitrary finite tuples whose
+  augmentation by the selected coordinates remains injective;
+- `Run.finalResidualMinorKernel` treats fixed-order residual determinants as a
+  kernel on those tuple types;
+- `strictSignRegular_finalResidualMinorKernel_ne_zero` proves every compound
+  entry nonzero;
+- `strictSignRegular_finalResidualMinorKernel_crossProductSignCoherent`
+  multiplies four Phase AJ signed-minor inequalities and cancels the squared
+  orientation factors, proving balanced signs at every order;
+- `strictSignRegular_finalResidualMinorKernel_anchoredSignGauge_pos` and its
+  absolute-value companion apply Phase AK to expose a positive compound
+  kernel without changing any minor magnitude;
+- the fermionic cross-product and positive-gauge corollaries instantiate the
+  result for every successful fermionic run.
+
+Result:
+
+- the order-one balanced-sign theorem now holds on every exterior power of a
+  final residual, with the minor order represented by an arbitrary finite
+  index type;
+- all fresh fermionic minors lie in a single positive sign chamber after an
+  independently chosen magnitude-one compound gauge at each order;
+- this supplies the sign premise needed for subtraction-sensitive minor
+  identities. The next quantitative target is a Desnanot--Jacobi/Dodgson
+  condensation inequality for these positive compound coordinates, seeking a
+  recursive determinant bound without the generic factorial prefactor.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic constructs compound matrices of orders one
+  through three after a three-pivot geometric-surrogate run and checks every
+  four-entry product, anchor gauge, and preserved magnitude;
+- `./scripts/verify.sh` passes with 72 Python tests and no known dependency
+  vulnerabilities.

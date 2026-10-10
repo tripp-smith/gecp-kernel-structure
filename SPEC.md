@@ -1671,3 +1671,15 @@ This annotation records delivered identifiers without changing the goals above.
   a sharper determinant bound; it does not prove Conjecture G1 or solve
   Problem 4.2. The root command passes with 71 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase AL: verified locally on 2026-10-10; delivery is
+  pending. `Run.FreshRows`, `Run.FreshColumns`, and
+  `Run.finalResidualMinorKernel` represent every fixed-order family of fresh
+  final-residual minors as a compound kernel. The theorem
+  `strictSignRegular_finalResidualMinorKernel_crossProductSignCoherent`
+  multiplies four Phase AJ orientation-aware inequalities so all tuple signs
+  cancel in squares, while the anchor-gauge and absolute-value corollaries
+  produce a positive compound kernel without changing minor magnitudes. The
+  fermionic specializations hold for every successful run. This does not yet
+  derive a quantitative condensation inequality, remove the determinant
+  prefactor, prove Conjecture G1, or solve Problem 4.2. The root command passes
+  with 72 tests and no known dependency vulnerabilities.
