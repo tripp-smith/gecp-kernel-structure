@@ -595,6 +595,7 @@ pivots.
   every minor of a product-bounded grid. This is local order-two sign
   regularity, not yet an all-orders or global smooth-remainder theorem. The
   root command passes with 80 tests and no known dependency vulnerabilities.
+  The change passed CI and merged as PR #47.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

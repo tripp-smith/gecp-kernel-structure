@@ -3475,7 +3475,7 @@ Verification:
 
 ## Phase AS — local beta-moment order-two sign
 
-State: verified with green CI in PR #47.
+State: complete; delivered in merged PR #47 with green CI.
 
 Phase AR proves that the logarithmic elasticity
 `E(x) = -x J_1(x) / M(x)` is strictly decreasing on `0 <= x <= 2`. For
