@@ -185,6 +185,12 @@ new abstraction is a private beta-power-moment differentiation helper; its
 weight and local domination bound are specific to the eighth-order tail, so no
 upstream candidate is recorded.
 
+Phase AS combines the standard quotient derivative, derivative-based strict
+monotonicity on a convex interval, and ordered-field cross multiplication. The
+scale-ratio argument is a project-specific specialization of the classical
+monotone-ratio criterion for multiplicative kernels; mathlib's existing API is
+sufficient, so no upstream candidate is recorded.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

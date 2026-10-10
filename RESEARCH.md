@@ -3472,3 +3472,90 @@ Verification:
   derivative margin `-E'(x)` above `0.078`;
 - `./scripts/verify.sh` passes with 79 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AS — local beta-moment order-two sign
+
+State: in progress.
+
+Phase AR proves that the logarithmic elasticity
+`E(x) = -x J_1(x) / M(x)` is strictly decreasing on `0 <= x <= 2`. For
+positive ordered scales `t₀ < t₁`, this makes the ratio
+`M(t₀ * ω) / M(t₁ * ω)` strictly increasing in positive `ω`, which is exactly
+the cross-multiplied order-two determinant inequality.
+
+Frozen public Lean targets:
+
+- define the beta-moment scale ratio and prove its exact derivative from the
+  Phase AR moment derivative;
+- prove strict monotonicity of the ratio on every positive frequency interval
+  whose largest product `t₁ * ω₁` is at most `2`;
+- prove the corresponding strict negative order-two beta-moment determinant;
+- transfer the sign through Phase AP's positive factorization to the unmasked
+  eighth-order Taylor tail.
+
+Proof contract:
+
+- obtain the derivative numerator from the quotient rule and derive its strict
+  positivity by cross-multiplying the Phase AR elasticity inequality through
+  positive moments;
+- keep every positivity and local-product condition explicit; do not use a
+  logarithm whose domain obligations obscure the argument;
+- use the monotone scale ratio to prove the determinant sign, not an sampled
+  four-point certificate;
+- keep the theorem local to the eighth-order regime `t₁ * ω₁ <= 2`.
+
+Independent checks:
+
+- verify the scale-ratio derivative against 100-digit numerical
+  differentiation on asymmetric row pairs and endpoint/logarithmic frequency
+  grids;
+- verify all ordered beta-moment and tail minors on an independent product-
+  bounded grid and record the smallest signed margins;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if direct derivative positivity is algebraically brittle after three
+  attempts, isolate the exact cross-multiplication lemma between elasticity
+  order and the scale-ratio numerator;
+- if closed-interval strict monotonicity creates only endpoint obligations,
+  prove continuity globally and derivative positivity on the open interior
+  rather than weakening the determinant result.
+
+Non-claims:
+
+- this phase does not prove all-orders tail sign regularity, sign regularity of
+  a global smooth dyadic remainder, a factorial-free approximation theorem,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `eighthOrderBetaMomentScaleRatio_hasDerivAt` gives the exact quotient-rule
+  derivative of `M(t₀ * ω) / M(t₁ * ω)`;
+- `eighthOrderBetaMomentScaleRatio_strictMonoOn` derives strict increase on
+  every positive product-bounded frequency interval from Phase AR elasticity;
+- `eighthOrderBetaMoment_fin_two_det_neg` proves the normalized local
+  order-two minor is strictly negative;
+- `eighthOrderTail_fin_two_det_neg` transfers that sign through Phase AP's
+  exact positive tail factorization.
+
+Result:
+
+- the entire local order-two sign argument for the unmasked eighth-order tail
+  is now formal: beta integral, moment inequality, differentiation,
+  elasticity order, scale-ratio order, and determinant sign;
+- the next structural question is whether this order-two mechanism extends to
+  all compound orders or can support a smooth overlapping approximation whose
+  remainder is compatible with Phase AN's factorial-free continuation bound.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- 100-decimal numerical differentiation validates the scale-ratio derivative
+  on three asymmetric row pairs, with observed derivative above `0.0015`;
+- an independent product-bounded grid verifies all beta-moment and tail minors,
+  with signed margins above `2.4e-5` and `1e-46` respectively;
+- `./scripts/verify.sh` passes with 80 Python tests and no known dependency
+  vulnerabilities.

@@ -584,6 +584,17 @@ pivots.
   product transfer and final beta-moment minor theorem remain separate tasks.
   The root command passes with 79 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #46.
+- Phase AS completes the local order-two sign chain for the unmasked Taylor
+  tail. For `0 < t₀ < t₁`, the exact derivative of
+  `M(t₀ ω) / M(t₁ ω)` is positive on positive intervals with
+  `t₁ ω <= 2`, because Phase AR's decreasing elasticity cross-multiplies to
+  precisely the quotient-rule numerator. Therefore every ordered normalized
+  beta-moment minor is strictly negative, and Phase AP's positive monomial
+  factor gives the same sign for the eighth-order tail. A 100-decimal
+  independent check validates the ratio derivative on asymmetric scales and
+  every minor of a product-bounded grid. This is local order-two sign
+  regularity, not yet an all-orders or global smooth-remainder theorem. The
+  root command passes with 80 tests and no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
