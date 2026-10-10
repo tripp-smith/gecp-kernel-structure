@@ -306,6 +306,71 @@ def test_prescribed_two_corner_run_has_exactly_two_exceptional_columns() -> None
     assert fraction_determinant(selected_core) == math.prod(pivots)
 
 
+def test_above_quarter_trajectory_prefix_reconstructs_final_residual_exactly() -> None:
+    size = 7
+    matrix = [
+        [64 * value for value in row]
+        for row in geometric_surrogate(size, Fraction(2, 3))
+    ]
+    residual = [row.copy() for row in matrix]
+
+    def update(pivot_row: int, pivot_column: int) -> Fraction:
+        pivot = residual[pivot_row][pivot_column]
+        assert pivot != 0
+        pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+        pivot_row_values = residual[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                residual[i][j] -= pivot_column_values[i] * pivot_row_values[j] / pivot
+        return pivot
+
+    update(0, size - 1)
+    update(size - 1, 0)
+    initial_continuation_residual = [row.copy() for row in residual]
+    trajectory = [[row.copy() for row in residual]]
+    prefix_rows: list[int] = []
+    prefix_columns: list[int] = []
+    prefix_pivots: list[Fraction] = []
+
+    while True:
+        pivot_row, pivot_column = max(
+            itertools.product(range(size), range(size)),
+            key=lambda coordinate: (
+                abs(residual[coordinate[0]][coordinate[1]]),
+                -coordinate[0],
+                -coordinate[1],
+            ),
+        )
+        pivot = residual[pivot_row][pivot_column]
+        if abs(pivot) <= Fraction(1, 4):
+            break
+        assert 1 <= pivot_column < size - 1
+        assert abs(pivot) == max(abs(value) for row in residual for value in row)
+        prefix_rows.append(pivot_row)
+        prefix_columns.append(pivot_column)
+        prefix_pivots.append(update(pivot_row, pivot_column))
+        trajectory.append([row.copy() for row in residual])
+
+    assert len(prefix_pivots) == 3
+    assert all(abs(pivot) > Fraction(1, 4) for pivot in prefix_pivots)
+    assert max(abs(value) for row in residual for value in row) <= Fraction(1, 4)
+
+    reconstructed = [row.copy() for row in initial_continuation_residual]
+    for step, (pivot_row, pivot_column, pivot) in enumerate(
+        zip(prefix_rows, prefix_columns, prefix_pivots, strict=True)
+    ):
+        assert reconstructed == trajectory[step]
+        assert reconstructed[pivot_row][pivot_column] == pivot
+        pivot_column_values = [reconstructed[i][pivot_column] for i in range(size)]
+        pivot_row_values = reconstructed[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                reconstructed[i][j] -= (
+                    pivot_column_values[i] * pivot_row_values[j] / pivot
+                )
+    assert reconstructed == trajectory[len(prefix_pivots)] == residual
+
+
 def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
     for scale in range(33):
         accuracy_order = 16 * (scale + 1)

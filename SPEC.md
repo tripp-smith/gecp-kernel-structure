@@ -1618,3 +1618,15 @@ This annotation records delivered identifiers without changing the goals above.
   pivot condition, a shrinking-band recurrence, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 67 tests and no known
   dependency vulnerabilities.
+- Post-v1 research phase AH: verified on 2026-10-09; delivery pending.
+  `Run.ofResidualSequenceFrom` turns an indexed exact residual recurrence into
+  a finite dependent run and proves its final residual, consecutive pivots,
+  and exact selected-index cardinality. The symmetric two-corner specialization
+  realizes every continuation residual from the original fermionic kernel.
+  `fermionicKernel_aboveQuarterPrefix_completeOn_centralHalf` lifts Phase AD's
+  pointwise localization to recursive central-half completeness, and
+  `fermionicKernel_aboveQuarterPrefix_sample_det_le_two_pow` composes that fact
+  with Phase AG's two-exception determinant bound. An explicit stopping bound
+  for the above-quarter prefix, a repeated shrinking-band recurrence,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 68
+  tests and no known dependency vulnerabilities.

@@ -2431,3 +2431,112 @@ Verification:
   selected-core determinant, and pivot product;
 - `./scripts/verify.sh` passes with 67 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AH — finite central-prefix runs
+
+State: verified on 2026-10-09; delivery pending.
+
+Phase AD localizes each later pivot above one quarter to the central frequency
+half-band, while Phase AG consumes a continuation whose complete pivots are
+already known to lie in that band. The missing bridge is structural: assemble
+a finite dependent `Run` from the indexed residual recurrence, and lift the
+pointwise localization/maximality facts to `Run.CompleteOn` for every finite
+above-quarter prefix.
+
+Frozen public Lean targets:
+
+- `Run.ofResidualSequenceFrom`: construct a successful run of any requested
+  finite length from a residual recurrence and its nonzero pivot witnesses;
+- `Run.finalResidual_ofResidualSequenceFrom`: identify its final residual with
+  the indexed residual at `start + length`;
+- `Run.pivots_ofResidualSequenceFrom` and
+  `Run.card_selectedIndex_ofResidualSequenceFrom`: identify the consecutive
+  pivot values and exact dependent selected-index cardinality;
+- `Run.completeOn_ofResidualSequenceFrom`: assemble bounded pointwise
+  `CompletePivotOn` witnesses into dependent `Run.CompleteOn` evidence;
+- `fermionicKernel_laterCompletePivot_completeOn_centralHalf_of_quarter_lt`:
+  restrict a later full-cutoff complete pivot above one quarter to the central
+  half-band;
+- `fermionicKernel_aboveQuarterPrefix_completeOn_centralHalf`: package every
+  finite above-quarter continuation prefix as central-half complete.
+- `symmetricTwoCornerResidualSequence_realized`: derive the formerly separate
+  realization hypothesis from the recurrence itself by prepending the exact
+  two-corner run.
+- `symmetricTwoCornerPrefixRun_card`: expose the exact `length + 2` cardinality
+  needed by Phase AG's determinant bound.
+- `fermionicKernel_aboveQuarterPrefix_sample_det_le_two_pow`: discharge Phase
+  AG's continuation-domain and cardinality hypotheses from the indexed
+  above-quarter trajectory, completing the Phase AD-to-AG composition.
+
+Proof contract:
+
+- transport the recursively constructed tail only across the stated residual
+  update equality; do not assume definitional equality of indexed residuals;
+- prove the final-residual and completeness transport lemmas by equality
+  elimination, so no proof-irrelevance or list-position assumption enters the
+  public statements;
+- obtain central frequency membership from Phase AD and obtain maximality on
+  the smaller band solely by restricting the existing full-band complete
+  pivot witness;
+- keep the theorem finite and threshold-conditional: the first pivot at or
+  below one quarter ends the prefix and is not silently discarded.
+- do not retain an independent realization assumption in the final prefix
+  theorem when the constructed dependent run already proves it.
+
+Independent checks:
+
+- exactly execute a finite residual recurrence and verify the reconstructed
+  prefix length, pivot order, final residual, and central-band restriction;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if dependent equality transport becomes brittle after three proof attempts,
+  expose a private cast helper proved by `cases` on the update equality; do not
+  weaken the run constructor to a list or add an equality assumption containing
+  the desired conclusion.
+
+Non-claims:
+
+- the phase does not prove that the above-quarter prefix has a prescribed
+  length, nor that the first following pivot is at most one quarter;
+- it does not yet iterate the central-half restart, remove the logarithmic
+  startup, prove Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `Run.ofResidualSequenceFrom` constructs a dependent run from an indexed
+  exact update recurrence, while its final-residual, pivot-list, and selected-
+  index-cardinality theorems recover the exact requested prefix data;
+- `Run.completeOn_ofResidualSequenceFrom` converts bounded pointwise complete-
+  pivot evidence into recursive `Run.CompleteOn` evidence;
+- `symmetricTwoCornerContinuationPrefix` transports that run to the exact
+  symmetric two-corner residual, and
+  `symmetricTwoCornerResidualSequence_realized` prepends the prescribed
+  corners to realize every continuation residual from the original kernel;
+- `fermionicKernel_aboveQuarterPrefix_completeOn_centralHalf` turns Phase AD's
+  per-step localization into central-half completeness for the whole prefix;
+- `fermionicKernel_aboveQuarterPrefix_sample_det_le_two_pow` discharges Phase
+  AG's continuation-domain, realization, and cardinality bookkeeping and gives
+  the closed smaller-band determinant bound with exact `length + 2` order.
+
+Result:
+
+- Phase AD and Phase AG now compose on the actual dependent GECP trajectory,
+  rather than through a separately hypothesized continuation;
+- the remaining quantitative task is a stopping argument: compare the lower
+  determinant product forced by an all-above-quarter prefix with the new upper
+  determinant estimate, choose the approximation order, and prove that such a
+  prefix cannot exceed an explicit scale-dependent length;
+- this is still not a shrinking-band recurrence below the first quarter-scale
+  stopping point, Conjecture G1, or a solution of Problem 4.2.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only Lean's
+  permitted default axioms;
+- an exact rational recurrence reconstructs a three-step above-quarter prefix,
+  its complete pivots, central columns, and final residual without rounding;
+- `./scripts/verify.sh` passes with 68 Python tests and no known dependency
+  vulnerabilities.

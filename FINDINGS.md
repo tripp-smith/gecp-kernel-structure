@@ -482,6 +482,11 @@ pivots.
   verifies the two exceptional indices, central continuation columns,
   selected-core determinant, and complete pivot product. The change passed CI
   and merged as PR #35.
+- On 2026-10-09 the Phase AH root command passed the same gate with 68 Python
+  tests and no known dependency vulnerabilities. Its trajectory constructor
+  and central-prefix results use only the permitted Lean axioms; an exact
+  rational recurrence independently reconstructs three above-quarter complete
+  pivots, their central columns, and the final residual. Delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

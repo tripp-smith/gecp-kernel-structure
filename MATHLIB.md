@@ -108,6 +108,13 @@ are specific to the fermionic pivot prescription. They reuse existing `Sum`,
 `Finset`, and `Run.SelectedIndex` APIs without exposing a missing general
 abstraction, so no additional mathlib candidate is proposed.
 
+Phase AH adds a reusable constructor from an indexed residual recurrence to
+the project's dependent `Run`, together with exact final-residual, pivot-list,
+cardinality, and `CompleteOn` transport theorems. These abstractions are generic
+within the local GECP API, but that API is not part of mathlib; no standalone
+upstream mathlib candidate is proposed. The central-half specialization and
+determinant composition remain fermionic-project results.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
