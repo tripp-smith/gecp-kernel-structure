@@ -3559,3 +3559,90 @@ Verification:
   with signed margins above `2.4e-5` and `1e-46` respectively;
 - `./scripts/verify.sh` passes with 80 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AT — truncated-power composition bridge
+
+State: verified with green CI in PR #48.
+
+The Phase AP beta integral admits the scaling substitution `v = ω u`:
+`ω^8 M(tω) = integral_0^ω (ω-v)^7 exp(-tv) dv`. Consequently the unmasked
+tail is, up to the positive row factor `t^8 / 7!`, the composition of the
+sign-regular exponential kernel with the truncated-power kernel. This is the
+classical spline/variation-diminishing structure suggested by the successful
+order-three through order-five numerical minors.
+
+Frozen public Lean targets:
+
+- define the nonnegative seventh-degree truncated-power kernel
+  `max (ω-v) 0 ^ 7`;
+- prove the exact scaled-beta identity on positive frequencies;
+- prove a common-cutoff composition identity that replaces the column-varying
+  upper limit by any shared cutoff above `ω`;
+- derive the corresponding composition representation of `eighthOrderTail`.
+
+Proof contract:
+
+- obtain the scaling identity from mathlib's interval-integral change of
+  variables, with exact powers and no asymptotic argument;
+- prove the common-cutoff extension by interval additivity and exact vanishing
+  of the truncated power above its knot;
+- expose positive row scaling separately so future determinant composition can
+  reuse the kernel identity directly;
+- do not claim total positivity from the representation alone.
+
+Independent checks:
+
+- recompute the beta, scaled truncated-power, and common-cutoff integrals at
+  100 digits on asymmetric points;
+- sweep ordered minors through orders two to five on a product-bounded grid to
+  test the all-orders direction without promoting it to proof;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if a common-cutoff identity is blocked only by max-function integration,
+  first prove exact interval vanishing above the knot and then compose with
+  interval additivity;
+- if strict all-orders sign needs a missing continuous Cauchy--Binet theorem,
+  record that theorem as the next contract rather than asserting sign
+  regularity from numerical evidence.
+
+Non-claims:
+
+- this phase does not prove total positivity of the truncated-power kernel,
+  an integral Cauchy--Binet composition theorem, all-orders tail sign
+  regularity, a globally sign-regular dyadic remainder, Conjecture G1, or
+  Simons Problem 4.2.
+
+Delivered:
+
+- `eighthOrderTruncatedPowerKernel` defines the nonnegative kernel
+  `max (ω-v) 0 ^ 7`;
+- `eighthOrderBetaMoment_scaled_eq_truncatedPower` proves the exact scaling
+  substitution `ω^8 M(tω) = integral_0^ω (ω-v)^7 exp(-tv) dv`;
+- `eighthOrderTruncatedPower_integral_commonCutoff` proves that any shared
+  cutoff above the knot gives the same composition integral;
+- `eighthOrderTail_eq_truncatedPowerComposition_commonCutoff` exposes the
+  unmasked tail as a positive row scaling of that shared-domain composition.
+
+Result:
+
+- the product argument that blocked a direct application of the basic
+  composition formula in Phase AP has been removed by the scaled variable
+  `v = ωu`;
+- the next exact target is now structural and reusable: total nonnegativity of
+  the truncated-power kernel plus a finite-order continuous Cauchy--Binet
+  formula with strictness conditions.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- the beta integral, scaled truncated-power integral, shared-cutoff integral,
+  and tail composition agree at 100 digits on four asymmetric configurations;
+- an independent product-bounded grid has the expected strict signature at
+  orders two through five, with observed margins above `6e-6`, `4e-12`,
+  `1.7e-18`, and `2e-24` respectively;
+- `./scripts/verify.sh` passes with 81 Python tests and no known dependency
+  vulnerabilities.

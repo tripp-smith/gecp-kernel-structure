@@ -596,6 +596,17 @@ pivots.
   regularity, not yet an all-orders or global smooth-remainder theorem. The
   root command passes with 80 tests and no known dependency vulnerabilities.
   The change passed CI and merged as PR #47.
+- Phase AT uncovers a different route to all orders. The exact substitution
+  `v = ωu` rewrites the normalized beta moment as
+  `ω^8 M(tω) = integral_0^ω (ω-v)^7 exp(-tv) dv`, and the tail becomes the
+  positive row scaling `t^8 / 7!` of this integral. Lean also extends the
+  integral to any shared cutoff using the nonnegative truncated-power kernel
+  `max (ω-v) 0 ^ 7`, putting every column on the same integration domain.
+  This removes Phase AP's product-argument obstacle to a basic composition
+  formula. Numerically, the expected signature persists through orders two to
+  five on a product-bounded grid. Total positivity of the truncated-power
+  factor and continuous Cauchy--Binet strictness remain to be formalized. The
+  root command passes with 81 tests and no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

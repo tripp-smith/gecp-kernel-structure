@@ -191,6 +191,14 @@ scale-ratio argument is a project-specific specialization of the classical
 monotone-ratio criterion for multiplicative kernels; mathlib's existing API is
 sufficient, so no upstream candidate is recorded.
 
+Phase AT uses `intervalIntegral.smul_integral_comp_mul_left`, interval
+additivity, and exact support vanishing to put a truncated-power composition on
+a shared domain. The next step exposes a credible upstream gap: a finite-order
+continuous Cauchy--Binet/Andreief identity for determinants of integral-kernel
+compositions, including measurable/integrable hypotheses and a strictness
+corollary. That abstraction would apply beyond this repository and is recorded
+as a candidate rather than rederived prematurely inside the fermionic API.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

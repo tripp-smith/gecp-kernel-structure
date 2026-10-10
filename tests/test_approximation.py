@@ -297,6 +297,69 @@ def test_beta_moment_scale_ratio_and_local_minor_sign() -> None:
         assert smallest_tail_margin > mp.mpf("1e-46")
 
 
+def test_truncated_power_composition_and_higher_order_minor_sweep() -> None:
+    with mp.workdps(100):
+        for time, frequency, cutoff in [
+            (mp.mpf("0.2"), mp.mpf("0.1"), mp.mpf("2")),
+            (mp.mpf("1.3"), mp.mpf("0.7"), mp.mpf("1.5")),
+            (mp.mpf("2"), mp.mpf("1"), mp.mpf("1.2")),
+            (mp.mpf("0.05"), mp.mpf("2"), mp.mpf("3")),
+        ]:
+            beta_moment = _eighth_order_beta_moment(time * frequency)
+            scaled_beta = frequency**8 * beta_moment
+            truncated_integral = mp.quad(
+                lambda value, frequency=frequency, time=time: (
+                    (frequency - value) ** 7 * mp.exp(-time * value)
+                ),
+                [0, frequency],
+            )
+            common_cutoff_integral = mp.quad(
+                lambda value, frequency=frequency, time=time: (
+                    max(frequency - value, mp.mpf(0)) ** 7 * mp.exp(-time * value)
+                ),
+                [0, frequency, cutoff],
+            )
+            tail = (time * frequency) ** 8 / mp.factorial(7) * beta_moment
+            composition_tail = time**8 / mp.factorial(7) * common_cutoff_integral
+            assert mp.almosteq(scaled_beta, truncated_integral)
+            assert mp.almosteq(truncated_integral, common_cutoff_integral)
+            assert mp.almosteq(tail, composition_tail)
+
+        grid = list(map(mp.mpf, ["0.02", "0.08", "0.2", "0.5", "1", "1.4"]))
+        moments = {
+            (time, frequency): mp.hyp1f1(1, 9, -time * frequency) / 8
+            for time in grid
+            for frequency in grid
+        }
+        expected_margins = {
+            2: mp.mpf("6e-6"),
+            3: mp.mpf("4e-12"),
+            4: mp.mpf("1.7e-18"),
+            5: mp.mpf("2e-24"),
+        }
+        for order, expected_margin in expected_margins.items():
+            signature = (-1) ** (order * (order - 1) // 2)
+            smallest_signed_margin = mp.inf
+            for rows in itertools.combinations(grid, order):
+                for columns in itertools.combinations(grid, order):
+                    if rows[-1] * columns[-1] > 2:
+                        continue
+                    determinant = mp.det(
+                        mp.matrix(
+                            [
+                                [moments[row, column] for column in columns]
+                                for row in rows
+                            ]
+                        )
+                    )
+                    signed_determinant = signature * determinant
+                    assert signed_determinant > 0
+                    smallest_signed_margin = min(
+                        smallest_signed_margin, signed_determinant
+                    )
+            assert smallest_signed_margin > expected_margin
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)
