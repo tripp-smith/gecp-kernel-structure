@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase AT `./scripts/verify.sh` passed with 81 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AT is under development; Phase AS merged with green CI as [PR #47](https://github.com/tripp-smith/gecp-kernel-structure/pull/47)<br>
+> **Delivery:** Phase AT is under review in [draft PR #48](https://github.com/tripp-smith/gecp-kernel-structure/pull/48)<br>
 > **Claim level:** rewriting the unmasked tail as an exponential/truncated-power kernel composition for the all-orders route
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -63,7 +63,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AQ | Tilted-beta moment gap | complete | `eighthOrderBetaMoment_two_mul_two_lt_one`; `eighthOrderBetaMoment_variance_numerator_lt` | Lean build; public axiom audit; exact `Fraction` check; 100-digit dense sweep; 78-test root verification; green CI | merged PR #45 |
 | AR | Beta-moment logarithmic elasticity | complete | moment derivatives; `eighthOrderBetaElasticity_hasDerivAt`; `eighthOrderBetaElasticity_strictAntiOn` | Lean build; public axiom audit; 100-digit derivative/monotonicity sweep; 79-test root verification; green CI | merged PR #46 |
 | AS | Local beta-moment order-two sign | complete | scale-ratio monotonicity; `eighthOrderBetaMoment_fin_two_det_neg`; `eighthOrderTail_fin_two_det_neg` | Lean build; public axiom audit; 100-digit ratio/minor sweep; 80-test root verification; green CI | merged PR #47 |
-| AT | Truncated-power composition bridge | in progress | scaled beta identity; common-cutoff exponential/truncated-power composition | Lean build; public axiom audit; 100-digit identity checks; order 2--5 minor sweep; 81-test root verification | pending |
+| AT | Truncated-power composition bridge | in progress | scaled beta identity; common-cutoff exponential/truncated-power composition | Lean build; public axiom audit; 100-digit identity checks; order 2--5 minor sweep; 81-test root verification | draft PR #48 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
