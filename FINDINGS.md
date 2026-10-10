@@ -637,7 +637,7 @@ pivots.
   degrees zero through seven, including coincident endpoints. This establishes
   the convolution ladder, not total nonnegativity or continuous
   Cauchy--Binet. The root command passes with 84 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #51.
   The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.

@@ -3919,3 +3919,4 @@ Verification:
   rational and coincident endpoints and enlarged common domains;
 - `./scripts/verify.sh` passes with 84 Python tests and no known dependency
   vulnerabilities.
+- The change passed CI and merged as PR #51.

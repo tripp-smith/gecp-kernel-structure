@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AW — normalized truncated-power convolution ladder<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase AW `./scripts/verify.sh` passed with 84 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AW open as draft [PR #51](https://github.com/tripp-smith/gecp-kernel-structure/pull/51)<br>
+> **Delivery:** Phase AW merged with green CI as [PR #51](https://github.com/tripp-smith/gecp-kernel-structure/pull/51)<br>
 > **Claim level:** exact natural-interval and shared-domain convolution recurrences; no all-orders determinant claim yet
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -66,7 +66,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AT | Truncated-power composition bridge | complete | scaled beta identity; common-cutoff exponential/truncated-power composition | Lean build; public axiom audit; 100-digit identity checks; order 2--5 minor sweep; 81-test root verification; green CI | merged PR #48 |
 | AU | Finite composition strictness | complete | `signature_mul_det_mul_rect_nonneg`; selected-summand lower bound; `signature_mul_det_mul_rect_pos` | Lean build; public axiom audit; exact rational composition regression; 82-test root verification; green CI | merged PR #49 |
 | AV | Truncated-power total-nonnegativity base | complete | `TotallyNonnegativeAtOrder`; orders one and two; exact Schoenberg--Whitney support criterion | Lean build; public axiom audit; exact 784-case support regression; 83-test root verification; green CI | merged PR #50 |
-| AW | Normalized truncated-power convolution ladder | verified | `normalizedTruncatedPowerKernel`; degree-seven bridge; natural and shared-domain successor recurrences | Lean build; public axiom audit; exact rational degrees 0--7; 84-test root verification | draft PR #51 |
+| AW | Normalized truncated-power convolution ladder | complete | `normalizedTruncatedPowerKernel`; degree-seven bridge; natural and shared-domain successor recurrences | Lean build; public axiom audit; exact rational degrees 0--7; 84-test root verification; green CI | merged PR #51 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
