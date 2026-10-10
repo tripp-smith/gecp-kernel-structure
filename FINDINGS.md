@@ -546,7 +546,7 @@ pivots.
   cannot use this masked remainder directly; smooth overlaps, unmasked local
   tails, or a different compatible decomposition remain viable. Conjecture G1
   and Problem 4.2 remain open. The root command passes with 76 tests and no
-  known dependency vulnerabilities; delivery is pending.
+  known dependency vulnerabilities. The change passed CI and merged as PR #43.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
