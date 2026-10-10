@@ -3646,3 +3646,93 @@ Verification:
   `1.7e-18`, and `2e-24` respectively;
 - `./scripts/verify.sh` passes with 81 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AU — finite composition strictness
+
+State: verified locally; draft PR pending.
+
+Phase AT reduces the eighth-order unmasked tail to a shared-domain
+composition of the exponential kernel and the seventh-degree truncated-power
+kernel. Before introducing product-measure integration, the exact finite
+algebraic strictness mechanism should be isolated: an ordered Cauchy--Binet
+sum is bounded below by any selected summand when all signed summands are
+nonnegative, and is therefore strictly signed when one selected summand is
+positive.
+
+Frozen public Lean targets:
+
+- define a readable signed ordered Cauchy--Binet summand;
+- prove nonnegativity of the signed determinant from nonnegativity of every
+  ordered summand;
+- prove a selected-summand lower bound and strict signed determinant theorem;
+- keep the result generic over rectangular real matrices so finite
+  quadratures and later simple-function approximations can reuse it.
+
+Proof contract:
+
+- use the existing ordered expansion `Matrix.det_mul_rect` rather than a new
+  determinant expansion;
+- distribute the external signature through the finite sum exactly;
+- retain an explicit strictly positive summand instead of relying only on
+  positivity of a sequence of determinants;
+- inspect the assumptions to ensure they constrain individual composition
+  minors and do not restate the determinant conclusion.
+
+Independent checks:
+
+- use exact rational arithmetic on a signed `2 x 3` by `3 x 2` composition;
+- verify every ordered signed summand, the Cauchy--Binet sum, the selected
+  lower bound, and strictness independently;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the ordered-sum proof needs only a missing finite-sum lemma, prove the
+  smallest local helper;
+- if the actual truncated-power factor has a negative ordered minor, record a
+  minimized exact obstruction rather than weakening the generic algebraic
+  theorem;
+- otherwise make total nonnegativity of the truncated-power factor the next
+  theorem contract.
+
+Non-claims:
+
+- this phase does not prove total nonnegativity of the truncated-power kernel,
+  continuous or integral Cauchy--Binet, all-orders tail sign regularity, a
+  globally sign-regular dyadic remainder, Conjecture G1, or Simons Problem
+  4.2.
+
+Delivered:
+
+- `Matrix.signedOrderedCauchyBinetTerm` names the signed product of the two
+  ordered minors at one increasing intermediate tuple;
+- `Matrix.signature_mul_det_mul_rect_eq_sum` distributes the orientation
+  through the existing ordered Cauchy--Binet expansion;
+- `Matrix.signature_mul_det_mul_rect_nonneg` proves signed determinant
+  nonnegativity from termwise nonnegativity;
+- `Matrix.signedOrderedCauchyBinetTerm_le_signature_mul_det_mul_rect` retains
+  any selected summand as an exact lower bound, and
+  `Matrix.signature_mul_det_mul_rect_pos` converts one positive witness into
+  strict signed determinant positivity.
+
+Result:
+
+- finite positive quadratures of a sign-compatible kernel composition now
+  inherit both the desired determinant orientation and an explicit strict
+  lower bound;
+- the hypotheses are local to the factor minors and do not assume the product
+  determinant conclusion;
+- the next structural target is total nonnegativity of
+  `max (ω-v) 0 ^ 7`, including the support-induced zero cases and a strict
+  witness region suitable for the retained-term argument.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact rational arithmetic gives the three signed ordered summands
+  `1, 4, 1`, their sum and the signed product determinant `6`, and the retained
+  strict lower bound `4 <= 6`;
+- `./scripts/verify.sh` passes with 82 Python tests and no known dependency
+  vulnerabilities.

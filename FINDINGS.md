@@ -608,6 +608,15 @@ pivots.
   factor and continuous Cauchy--Binet strictness remain to be formalized. The
   root command passes with 81 tests and no known dependency vulnerabilities.
   The change passed CI and merged as PR #48.
+- Phase AU isolates the finite strictness mechanism required by that route.
+  The signed ordered Cauchy--Binet determinant is nonnegative when every
+  factor-minor product has the common orientation, every selected summand is
+  an exact lower bound for the signed product determinant, and one positive
+  summand makes the determinant strictly signed. An exact `2 x 3` by `3 x 2`
+  regression independently obtains summands `1, 4, 1` and determinant `6`.
+  This closes finite algebra only: truncated-power total nonnegativity and the
+  passage to integrals remain open. The root command passes with 82 tests and
+  no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -26,6 +26,39 @@ def test_fraction_determinant_and_exact_pivots() -> None:
     assert all(pivot != 0 for pivot in pivots)
 
 
+def test_signed_ordered_cauchy_binet_retains_positive_term_exactly() -> None:
+    signature = Fraction(-1)
+    left = [
+        [Fraction(1), Fraction(1), Fraction(1)],
+        [Fraction(-1), Fraction(-2), Fraction(-3)],
+    ]
+    right = [
+        [Fraction(1), Fraction(1)],
+        [Fraction(1), Fraction(2)],
+        [Fraction(1), Fraction(3)],
+    ]
+
+    ordered_terms: list[Fraction] = []
+    for first, second in itertools.combinations(range(3), 2):
+        left_minor = fraction_determinant([[row[first], row[second]] for row in left])
+        right_minor = fraction_determinant([right[first], right[second]])
+        ordered_terms.append(signature * left_minor * right_minor)
+
+    product = [
+        [
+            sum((left[i][k] * right[k][j] for k in range(3)), Fraction())
+            for j in range(2)
+        ]
+        for i in range(2)
+    ]
+    signed_product_det = signature * fraction_determinant(product)
+
+    assert ordered_terms == [Fraction(1), Fraction(4), Fraction(1)]
+    assert all(term >= 0 for term in ordered_terms)
+    assert signed_product_det == sum(ordered_terms) == Fraction(6)
+    assert Fraction(0) < ordered_terms[1] <= signed_product_det
+
+
 def test_bordered_core_determinant_identity_exactly() -> None:
     matrix = geometric_surrogate(4, Fraction(2, 3))
     pivot_rows, pivot_columns, pivots = exact_gecp(matrix)

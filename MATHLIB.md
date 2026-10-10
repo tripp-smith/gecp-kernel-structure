@@ -199,6 +199,14 @@ compositions, including measurable/integrable hypotheses and a strictness
 corollary. That abstraction would apply beyond this repository and is recorded
 as a candidate rather than rederived prematurely inside the fermionic API.
 
+Phase AU builds only short order-theoretic corollaries of the repository's
+ordered rectangular Cauchy--Binet formula: termwise nonnegativity, retention
+of a selected summand, and strictness from one positive term. These corollaries
+would be natural companions if the finite rectangular formula were upstreamed,
+but they do not constitute a separate mathlib proposal. The continuous
+Cauchy--Binet/Andreief candidate recorded in Phase AT remains the relevant
+upstream gap.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

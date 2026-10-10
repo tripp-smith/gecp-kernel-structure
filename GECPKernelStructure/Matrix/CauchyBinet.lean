@@ -1,5 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Data.Fin.Tuple.Sort
+import Mathlib.Data.Real.Basic
 
 namespace Matrix
 
@@ -120,5 +121,67 @@ theorem det_mul_rect {a b : ℕ} (A : Matrix (Fin a) (Fin b) R)
       rw [hPermute, Matrix.det_permute']
       simp only [Matrix.submatrix_apply, id_eq]
       ring
+
+/--
+One signed summand in the ordered rectangular Cauchy--Binet expansion.
+Keeping the signature outside the two minors matches sign-regular kernel
+applications, where their product has a prescribed common orientation.
+-/
+def signedOrderedCauchyBinetTerm {a b : ℕ} (signature : ℝ)
+    (A : Matrix (Fin a) (Fin b) ℝ) (B : Matrix (Fin b) (Fin a) ℝ)
+    (q : {q : Fin a → Fin b // StrictMono q}) : ℝ :=
+  signature *
+    ((A.submatrix id q.1).det * (B.submatrix q.1 id).det)
+
+/-- The ordered Cauchy--Binet expansion with an external sign orientation. -/
+theorem signature_mul_det_mul_rect_eq_sum {a b : ℕ} (signature : ℝ)
+    (A : Matrix (Fin a) (Fin b) ℝ) (B : Matrix (Fin b) (Fin a) ℝ) :
+    signature * (A * B).det =
+      ∑ q : {q : Fin a → Fin b // StrictMono q},
+        signedOrderedCauchyBinetTerm signature A B q := by
+  rw [det_mul_rect, Finset.mul_sum]
+  rfl
+
+/--
+If every ordered signed Cauchy--Binet summand is nonnegative, then the signed
+determinant of the rectangular product is nonnegative.
+-/
+theorem signature_mul_det_mul_rect_nonneg {a b : ℕ} (signature : ℝ)
+    (A : Matrix (Fin a) (Fin b) ℝ) (B : Matrix (Fin b) (Fin a) ℝ)
+    (hnonneg : ∀ q : {q : Fin a → Fin b // StrictMono q},
+      0 ≤ signedOrderedCauchyBinetTerm signature A B q) :
+    0 ≤ signature * (A * B).det := by
+  rw [signature_mul_det_mul_rect_eq_sum]
+  exact Finset.sum_nonneg fun q _ => hnonneg q
+
+/--
+Every selected signed summand is a lower bound for the signed product
+determinant when all the other ordered summands are nonnegative.
+-/
+theorem signedOrderedCauchyBinetTerm_le_signature_mul_det_mul_rect
+    {a b : ℕ} (signature : ℝ)
+    (A : Matrix (Fin a) (Fin b) ℝ) (B : Matrix (Fin b) (Fin a) ℝ)
+    (q₀ : {q : Fin a → Fin b // StrictMono q})
+    (hnonneg : ∀ q : {q : Fin a → Fin b // StrictMono q},
+      0 ≤ signedOrderedCauchyBinetTerm signature A B q) :
+    signedOrderedCauchyBinetTerm signature A B q₀ ≤
+      signature * (A * B).det := by
+  rw [signature_mul_det_mul_rect_eq_sum]
+  exact Finset.single_le_sum (fun q _ => hnonneg q) (Finset.mem_univ q₀)
+
+/--
+A nonnegative signed ordered Cauchy--Binet expansion is strictly signed as
+soon as one explicitly selected summand is positive.
+-/
+theorem signature_mul_det_mul_rect_pos {a b : ℕ} (signature : ℝ)
+    (A : Matrix (Fin a) (Fin b) ℝ) (B : Matrix (Fin b) (Fin a) ℝ)
+    (q₀ : {q : Fin a → Fin b // StrictMono q})
+    (hnonneg : ∀ q : {q : Fin a → Fin b // StrictMono q},
+      0 ≤ signedOrderedCauchyBinetTerm signature A B q)
+    (hpos : 0 < signedOrderedCauchyBinetTerm signature A B q₀) :
+    0 < signature * (A * B).det :=
+  hpos.trans_le
+    (signedOrderedCauchyBinetTerm_le_signature_mul_det_mul_rect
+      signature A B q₀ hnonneg)
 
 end Matrix
