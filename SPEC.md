@@ -1631,7 +1631,8 @@ This annotation records delivered identifiers without changing the goals above.
   for the above-quarter prefix, a repeated shrinking-band recurrence,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 68
   tests and no known dependency vulnerabilities.
-- Post-v1 research phase AI: verified on 2026-10-09; delivery pending. The
+- Post-v1 research phase AI: complete with green CI on 2026-10-09 and
+  delivered in merged PR #37. The
   exact pivot-product identity and strict lower bounds on the two prescribed
   corner pivots turn every all-above-quarter continuation into a strict
   selected-core determinant lower bound. A binary-size/exponent-budget lemma

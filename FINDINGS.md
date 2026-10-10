@@ -492,7 +492,8 @@ pivots.
   tests and no known dependency vulnerabilities. Its determinant-sandwich and
   explicit stopping results use only the permitted Lean axioms; exact integer
   regression verifies the effective-rank, binary-size, and exponent budgets
-  across ordinary and power-of-two-adjacent scales. Delivery is pending.
+  across ordinary and power-of-two-adjacent scales. The change passed CI and
+  merged as PR #37.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

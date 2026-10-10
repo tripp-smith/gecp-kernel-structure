@@ -2543,7 +2543,7 @@ Verification:
 
 ## Phase AI — above-quarter stopping bound
 
-State: verified on 2026-10-09; delivery pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #37.
 
 Phase AH gives an upper bound for the selected-core determinant of any finite
 continuation prefix whose pivots all remain above one quarter. The same

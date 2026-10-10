@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AI — above-quarter stopping bound<br>
-> **Phase state:** verified; delivery pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AI `./scripts/verify.sh` passed with 69 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AI verified; draft PR pending<br>
+> **Delivery:** merged [PR #37](https://github.com/tripp-smith/gecp-kernel-structure/pull/37)<br>
 > **Claim level:** at dyadic half-cutoff `2^s`, some continuation pivot—and hence its whole complete-pivot residual—is at most one quarter before `2048(s+1)^2` continuation steps<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -52,7 +52,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AF | GECP exceptional-column composition | complete | `fermionicKernel_gecp_error_pow_le_two_pow_except`; selected-core decay at an independent smaller approximation scale | Lean build; public axiom audit; exact exceptional selected-core/pivot-product regression; 66-test root verification; green CI | merged PR #34 |
 | AG | Two-corner exceptional indices | complete | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification; green CI | merged PR #35 |
 | AH | Finite central-prefix runs | complete | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification; green CI | merged PR #36 |
-| AI | Above-quarter stopping bound | verified | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification | draft PR pending |
+| AI | Above-quarter stopping bound | complete | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification; green CI | merged PR #37 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
