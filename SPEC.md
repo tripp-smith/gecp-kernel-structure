@@ -1785,3 +1785,14 @@ This annotation records delivered identifiers without changing the goals above.
   Cauchy--Binet, all-orders tail sign regularity, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 82 tests and no known
   dependency vulnerabilities.
+- Post-v1 research phase AV: locally verified on 2026-10-10.
+  `GECP.TotallyNonnegativeAtOrder` and `GECP.TotallyNonnegative` add the weak
+  ordered-minor vocabulary needed by the truncated-power factor;
+  `eighthOrderTruncatedPowerKernel_totallyNonnegativeAtOrder_one` and
+  `eighthOrderTruncatedPowerKernel_totallyNonnegativeAtOrder_two` prove its
+  first two orders; and
+  `eighthOrderTruncatedPowerKernel_fin_two_det_pos_iff` gives the exact paired
+  support criterion for strictness. The all-orders truncated-power theorem,
+  continuous Cauchy--Binet, all-orders tail sign regularity, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes with 83 tests and no
+  known dependency vulnerabilities.

@@ -30,6 +30,16 @@ def StrictSignRegularAtOrder (K : Kernel α β ℝ) (n : ℕ) (signature : ℝ) 
 def StrictSignRegular (K : Kernel α β ℝ) (signature : ℕ → ℝ) : Prop :=
   ∀ n, StrictSignRegularAtOrder K n (signature n)
 
+/-- All ordered minors of one fixed order are nonnegative. -/
+def TotallyNonnegativeAtOrder (K : Kernel α β ℝ) (n : ℕ) : Prop :=
+  ∀ (rows : Fin n → α) (columns : Fin n → β),
+    StrictMono rows → StrictMono columns →
+      0 ≤ (minorMatrix K rows columns).det
+
+/-- A kernel is totally nonnegative when every ordered square minor is nonnegative. -/
+def TotallyNonnegative (K : Kernel α β ℝ) : Prop :=
+  ∀ n, TotallyNonnegativeAtOrder K n
+
 /-- The orientation sign of a finite tuple, computed by its sorting permutation. -/
 noncomputable def tupleOrientation {γ : Type*} [LinearOrder γ] {n : ℕ}
     (values : Fin n → γ) : ℝ :=

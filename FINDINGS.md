@@ -618,6 +618,15 @@ pivots.
   passage to integrals remain open. The root command passes with 82 tests and
   no known dependency vulnerabilities. The change passed CI and merged as PR
   #49.
+- Phase AV begins the missing factor theorem without erasing its support
+  geometry. New total-nonnegativity predicates separate weak minor signs from
+  strict sign regularity. The seventh-degree truncated-power kernel is proved
+  totally nonnegative at orders one and two, and its ordered `2 x 2` minor is
+  positive exactly when both paired row knots lie below their corresponding
+  column knots. Exact arithmetic checks all 784 ordered pair configurations
+  on `[-3,4]`, including boundary zeros and the full-support determinant
+  `14197`. The all-orders theorem and continuous composition remain open. The
+  root command passes with 83 tests and no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

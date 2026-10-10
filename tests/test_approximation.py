@@ -360,6 +360,32 @@ def test_truncated_power_composition_and_higher_order_minor_sweep() -> None:
             assert smallest_signed_margin > expected_margin
 
 
+def test_truncated_power_order_two_support_geometry_exactly() -> None:
+    def kernel(row: Fraction, column: Fraction) -> Fraction:
+        return max(column - row, Fraction()) ** 7
+
+    def minor(
+        rows: tuple[Fraction, Fraction], columns: tuple[Fraction, Fraction]
+    ) -> Fraction:
+        return kernel(rows[0], columns[0]) * kernel(rows[1], columns[1]) - kernel(
+            rows[0], columns[1]
+        ) * kernel(rows[1], columns[0])
+
+    assert minor((Fraction(2), Fraction(3)), (Fraction(0), Fraction(1))) == 0
+    assert minor((Fraction(0), Fraction(2)), (Fraction(0), Fraction(3))) == 0
+    assert minor((Fraction(0), Fraction(2)), (Fraction(1), Fraction(3))) == 1
+    assert minor((Fraction(0), Fraction(1)), (Fraction(1), Fraction(2))) == 1
+    assert minor((Fraction(0), Fraction(1)), (Fraction(2), Fraction(3))) == 14197
+
+    points = list(map(Fraction, range(-3, 5)))
+    for rows in itertools.combinations(points, 2):
+        for columns in itertools.combinations(points, 2):
+            determinant = minor(rows, columns)
+            paired_support = rows[0] < columns[0] and rows[1] < columns[1]
+            assert determinant >= 0
+            assert (determinant > 0) is paired_support
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

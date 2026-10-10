@@ -3736,3 +3736,102 @@ Verification:
   strict lower bound `4 <= 6`;
 - `./scripts/verify.sh` passes with 82 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AV — truncated-power total-nonnegativity base
+
+State: verified locally; draft PR #50 open.
+
+Phase AU reduces strictness of a finite composition determinant to common-sign
+factor minors plus one positive summand. The factor still missing is the
+seventh-degree truncated-power kernel `max (ω-v) 0 ^ 7`. Classical Pólya-
+frequency theory predicts total nonnegativity at every order for positive
+integer powers, with strictness controlled by the Schoenberg--Whitney support
+geometry. The Lean research loop begins with the first nontrivial order so
+that support zeros and the orientation convention are fixed before an
+all-orders proof is attempted.
+
+Frozen public Lean targets:
+
+- add reusable `TotallyNonnegativeAtOrder` and `TotallyNonnegative` kernel
+  predicates alongside the existing strict-sign-regular predicates;
+- prove total nonnegativity of `eighthOrderTruncatedPowerKernel` at orders one
+  and two on arbitrary strictly increasing real tuples;
+- prove the exact order-two strict-support implication: the determinant is
+  positive when each ordered row knot lies strictly below its paired column
+  knot;
+- expose the scalar cross-product inequalities used by the matrix theorems.
+
+Proof contract:
+
+- split the support geometry exactly rather than replacing `max` by a
+  polynomial globally;
+- in the full-support case reduce the seventh powers to the base cross-product
+  identity `(v₁-v₀)(ω₁-ω₀) > 0`;
+- distinguish nonnegative minors from strict minors in the public API;
+- do not import the classical all-orders theorem as an axiom.
+
+Independent checks:
+
+- enumerate exact rational separated, interlacing, boundary-zero, and
+  full-support configurations;
+- verify the determinant sign and strict-support criterion directly;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the two-by-two claim fails, minimize and record the exact support
+  configuration;
+- if it succeeds, use the support classification to choose between a
+  Schoenberg--Whitney determinant induction and a repeated order-kernel
+  composition proof for all orders.
+
+Non-claims:
+
+- this phase does not prove all-orders total nonnegativity of the
+  truncated-power kernel, continuous Cauchy--Binet, all-orders tail sign
+  regularity, a globally sign-regular dyadic remainder, Conjecture G1, or
+  Simons Problem 4.2.
+
+Delivered:
+
+- `GECP.TotallyNonnegativeAtOrder` and `GECP.TotallyNonnegative` distinguish
+  nonnegative ordered minors from the repository's existing strict-sign-
+  regular predicates;
+- `eighthOrderTruncatedPowerKernel_cross_nonneg` proves the global ordered
+  cross-product inequality with all support-zero cases included;
+- `eighthOrderTruncatedPowerKernel_cross_pos_iff` proves that, for strict row
+  and column pairs, positivity is equivalent to the two paired support
+  inequalities;
+- `eighthOrderTruncatedPowerKernel_totallyNonnegativeAtOrder_one` and
+  `eighthOrderTruncatedPowerKernel_totallyNonnegativeAtOrder_two` establish
+  the first two total-nonnegativity orders;
+- `eighthOrderTruncatedPowerKernel_fin_two_det_pos_iff` packages the exact
+  order-two Schoenberg--Whitney criterion at the matrix-minor level.
+
+Result:
+
+- support zeros are now part of the formal theorem rather than excluded by a
+  full-support assumption;
+- in the full-support case the proof reduces seventh powers to the strict base
+  identity controlled by `(v₁-v₀)(ω₁-ω₀)`;
+- a [primary-source check of Karlin's Pólya-frequency theorem](https://arxiv.org/html/2008.05121v2#S1.SS2)
+  confirms total nonnegativity for positive integer truncated powers after
+  removing the theorem's harmless positive exponential row and column factors,
+  so the most promising all-orders route is a normalized truncated-power
+  convolution ladder rather than separate determinant expansions at each
+  order;
+- the next exact target is the shared-domain recurrence for normalized
+  truncated powers and the all-orders total nonnegativity of its order-kernel
+  base, followed by continuous composition closure.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact rational arithmetic checks separated, boundary, interlacing, and
+  full-support witnesses, including the full-support determinant `14197`;
+- all 784 ordered pair configurations on the integer grid `[-3,4]` satisfy
+  nonnegativity and the exact paired-support strictness equivalence;
+- `./scripts/verify.sh` passes with 83 Python tests and no known dependency
+  vulnerabilities.
