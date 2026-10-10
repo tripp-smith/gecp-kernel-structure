@@ -1721,3 +1721,12 @@ This annotation records delivered identifiers without changing the goals above.
   not exclude smooth overlaps, unmasked local tails, another compatible
   decomposition, Conjecture G1, or Problem 4.2. The root command passes with
   76 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AP: verified locally; delivery pending.
+  `eighthOrderTail_eq_betaMoment` gives an exact
+  unit-interval beta-weighted Laplace representation of the unmasked
+  eighth-order Taylor tail, `eighthOrderTail_pos` proves strict positivity,
+  and `eighthOrderTail_fin_two_det_neg_iff_betaMoment` reduces its order-two
+  sign question to the normalized beta-moment kernel without changing the
+  sign. The remaining beta-moment inequality, all-orders compatibility, a
+  global smooth decomposition, Conjecture G1, and Problem 4.2 remain open.
+  The root command passes with 77 tests and no known dependency vulnerabilities.

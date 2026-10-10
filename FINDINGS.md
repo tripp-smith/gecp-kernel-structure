@@ -547,6 +547,19 @@ pivots.
   tails, or a different compatible decomposition remain viable. Conjecture G1
   and Problem 4.2 remain open. The root command passes with 76 tests and no
   known dependency vulnerabilities. The change passed CI and merged as PR #43.
+- Phase AP identifies the exact structure that survives Phase AO's mask
+  obstruction. The unmasked eighth-order tail is
+  `x^8 / 7!` times the strictly positive beta-weighted Laplace moment
+  `integral_0^1 (1-u)^7 exp(-ux) du`. Consequently, every order-two tail
+  minor is a positive monomial row/column scaling of the corresponding beta-
+  moment minor: no sign is lost in normalization. At 100 decimal digits, the
+  integral, convergent series tail, direct subtraction, and repository
+  implementation agree throughout `0.001 <= x <= 2`; all 315 ordered minors
+  on the independent positive grid have the expected negative sign, with
+  normalized margin above `4.3e-6`. This is evidence and an exact reduction,
+  not yet a proof of the beta-moment sign inequality or all-orders strict sign
+  regularity. The root command passes with 77 tests and no known dependency
+  vulnerabilities; delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

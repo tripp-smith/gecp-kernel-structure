@@ -3208,3 +3208,94 @@ Verification:
   same positive determinant sign;
 - `./scripts/verify.sh` passes with 76 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AP — unmasked Taylor-tail beta structure
+
+State: verified locally; delivery pending.
+
+Phase AO rules out the discontinuously masked remainder, not the local Taylor
+tail itself. Taylor's integral remainder rewrites the positive eighth-order
+tail as a monomial row/column scaling of a beta-weighted Laplace transform.
+This is the natural bridge to the basic composition and variation-diminishing
+ideas of total-positivity theory, while retaining an exact Lean target.
+
+Frozen public Lean targets:
+
+- define the unmasked eighth-order negative-exponential tail and its normalized
+  beta moment;
+- prove the exact unit-interval integral representation from mathlib's Taylor
+  theorem with integral remainder;
+- prove strict positivity for positive arguments;
+- factor every ordered `2 x 2` tail minor into positive monomial row/column
+  factors and the corresponding normalized beta-moment minor, isolating the
+  one remaining sign inequality without assuming it.
+
+Proof contract:
+
+- derive the representation from `map_add_eq_sum_add_integral_iteratedFDeriv`
+  or `taylor_integral_remainder`, not from a new axiom or an equality fitted
+  numerically;
+- keep the beta weight and factorial normalization explicit;
+- treat total-positivity composition as motivation only until its hypotheses
+  are formalized for this product kernel;
+- do not reintroduce hard masks or claim that local order-two evidence closes
+  the all-orders, mixed-column, or global dyadic problem.
+
+Independent checks:
+
+- compare the integral, convergent tail, and direct implementation at high
+  precision over the approximation regime `0 < x <= 2`;
+- sweep ordered positive row/column pairs over logarithmic and boundary-focused
+  grids and record the smallest signed order-two margin;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if the exact integral representation does not reduce cleanly after three
+  proof attempts, retain the interval `[0,x]` representation and defer the
+  unit-interval change of variables explicitly;
+- if order-two signs fail numerically, minimize and formalize the witness
+  instead of pursuing the beta-moment inequality.
+
+Non-claims:
+
+- this phase does not prove all-orders strict sign regularity of an unmasked
+  Taylor tail, construct a global smooth dyadic approximation, prove
+  Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered:
+
+- `eighthOrderTail_eq_betaMoment` derives directly from mathlib's Taylor
+  theorem with integral remainder the identity
+  `tail(x) = x^8 / 7! * integral_0^1 (1-u)^7 exp(-ux) du`;
+- `eighthOrderBetaMoment_pos` and `eighthOrderTail_pos` prove the normalized
+  moment and the positive-argument tail are strictly positive;
+- `eighthOrderTail_fin_two_det_factor` removes all monomial row/column factors
+  from an arbitrary order-two tail minor;
+- `eighthOrderTail_fin_two_det_neg_iff_betaMoment` proves that on positive row
+  and column arguments the tail minor is negative exactly when its normalized
+  beta-moment minor is negative.
+
+Result:
+
+- the unmasked tail retains a smooth positive integral structure absent from
+  the hard-masked approximation;
+- the next exact analytic target is no longer a four-entry transcendental
+  determinant: it is the order-two submodularity inequality for the single
+  scalar beta moment;
+- the representation is compatible with classical total-positivity
+  composition ideas, but the product argument `t*omega` means the basic
+  composition formula cannot be invoked without an additional kernel theorem.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- at 100 decimal digits, the beta integral agrees with both the convergent
+  tail and direct Taylor subtraction at six points from `0.001` through `2`;
+- the beta representation agrees with the repository evaluator at every node
+  of a positive `6 x 7` grid, and all 315 ordered order-two minors have the
+  expected negative sign with normalized margin above `4.3e-6`;
+- `./scripts/verify.sh` passes with 77 Python tests and no known dependency
+  vulnerabilities.
