@@ -62,6 +62,45 @@ def test_bordered_core_determinant_identity_exactly() -> None:
         selected_columns.append(pivot_column)
 
 
+def test_multi_bordered_residual_minor_identity_exactly() -> None:
+    size = 7
+    prefix_length = 3
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, pivots = exact_gecp(matrix)
+    selected_rows = pivot_rows[:prefix_length]
+    selected_columns = pivot_columns[:prefix_length]
+    residual = [row.copy() for row in matrix]
+
+    for step in range(prefix_length):
+        pivot_row = selected_rows[step]
+        pivot_column = selected_columns[step]
+        pivot = residual[pivot_row][pivot_column]
+        assert pivot == pivots[step]
+        pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+        pivot_row_values = residual[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                residual[i][j] -= pivot_column_values[i] * pivot_row_values[j] / pivot
+
+    selected_core = [[matrix[i][j] for j in selected_columns] for i in selected_rows]
+    selected_core_det = fraction_determinant(selected_core)
+    remaining_rows = [i for i in range(size) if i not in selected_rows]
+    remaining_columns = [j for j in range(size) if j not in selected_columns]
+
+    for border_size in range(4):
+        border_rows = remaining_rows[:border_size]
+        border_columns = remaining_columns[:border_size]
+        augmented_rows = [*selected_rows, *border_rows]
+        augmented_columns = [*selected_columns, *border_columns]
+        augmented = [[matrix[i][j] for j in augmented_columns] for i in augmented_rows]
+        residual_minor = [[residual[i][j] for j in border_columns] for i in border_rows]
+        residual_minor_det = fraction_determinant(residual_minor)
+        assert fraction_determinant(augmented) == (
+            selected_core_det * residual_minor_det
+        )
+        assert residual_minor_det != 0
+
+
 def test_low_rank_perturbation_determinant_bound_exactly() -> None:
     rng = random.Random(0xC0FFEE)
 

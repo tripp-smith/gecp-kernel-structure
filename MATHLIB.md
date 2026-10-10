@@ -122,6 +122,13 @@ project's dependent GECP run and fermionic corner pivots; it exposes no missing
 standalone mathlib abstraction. The conservative exponent-budget arithmetic is
 also project-specific, so no new upstream candidate is recorded.
 
+Phase AJ's recursive `Run.AugmentedIndex` and its determinant factorization
+reuse mathlib's finite `Sum` indices, block-matrix operations, determinant
+multiplicativity, and permutation signs. The construction is generic inside
+the project's dependent GECP API but is not a standalone mathlib abstraction;
+the fermionic specialization is project-specific. No new upstream candidate
+is recorded.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

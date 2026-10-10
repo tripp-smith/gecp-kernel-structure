@@ -1643,3 +1643,16 @@ This annotation records delivered identifiers without changing the goals above.
   by `1/4`. A threshold-parametric nested-band restart, removal of the
   logarithmic startup, Conjecture G1, and Problem 4.2 remain open. The root
   command passes with 69 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AJ: verified locally on 2026-10-10; delivery is
+  pending. `Run.augmentedCore_step_det` and
+  `Run.augmentedCore_det_eq_selectedCore_det_mul_finalResidual_minor` extend
+  the one-border Schur identity to arbitrary finite residual minors while
+  preserving the dependent pivot order. Under injectivity of the combined
+  selected and border coordinates,
+  `GECP.strictSignRegular_finalResidual_minor_oriented_pos` transfers the
+  exact strict sign through explicit row and column orientation factors, and
+  the generic and fermionic corollaries prove every such residual minor is
+  nonzero. This does not yet factor the orientation into pointwise residual
+  gauges, produce a threshold-parametric nested-band restart, establish
+  Conjecture G1, or solve Problem 4.2. The root command passes with 70 tests
+  and no known dependency vulnerabilities.

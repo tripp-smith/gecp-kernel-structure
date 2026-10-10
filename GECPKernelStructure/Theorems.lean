@@ -12,6 +12,8 @@ import GECPKernelStructure.Fermionic.OuterHalfInvariant
 import GECPKernelStructure.Fermionic.TwoCornerRun
 import GECPKernelStructure.Fermionic.CentralPrefixRun
 import GECPKernelStructure.Fermionic.AboveQuarterStopping
+import GECPKernelStructure.GECP.AugmentedDeterminant
+import GECPKernelStructure.Fermionic.ResidualMinors
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant
