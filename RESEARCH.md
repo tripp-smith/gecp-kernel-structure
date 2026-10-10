@@ -3120,7 +3120,7 @@ Verification:
 
 ## Phase AO — masked dyadic remainder obstruction
 
-State: verified locally; delivery pending.
+State: verified locally; under review in draft PR #43.
 
 Phase AN removes the determinant factorial if the small approximation
 remainder itself supplies compatible sign-coherent complete elimination. The
