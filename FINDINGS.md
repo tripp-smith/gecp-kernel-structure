@@ -627,6 +627,7 @@ pivots.
   on `[-3,4]`, including boundary zeros and the full-support determinant
   `14197`. The all-orders theorem and continuous composition remain open. The
   root command passes with 83 tests and no known dependency vulnerabilities.
+  The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

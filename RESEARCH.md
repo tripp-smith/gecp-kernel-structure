@@ -3739,7 +3739,7 @@ Verification:
 
 ## Phase AV — truncated-power total-nonnegativity base
 
-State: verified locally; draft PR #50 open.
+State: complete; delivered in merged PR #50 with green CI.
 
 Phase AU reduces strictness of a finite composition determinant to common-sign
 factor minors plus one positive summand. The factor still missing is the
