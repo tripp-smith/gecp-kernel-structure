@@ -3299,3 +3299,88 @@ Verification:
   expected negative sign with normalized margin above `4.3e-6`;
 - `./scripts/verify.sh` passes with 77 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AQ — tilted-beta moment gap
+
+State: verified locally; under review in draft PR #45.
+
+Phase AP reduces the local tail's order-two sign to the normalized moment
+`M(x) = integral_0^1 (1-u)^7 exp(-ux) du`. Differentiating its logarithmic
+elasticity produces the tilted-beta variance numerator. On the local Taylor
+regime `0 <= x <= 2`, it is enough to prove the sharper elementary gap
+`2 J_2(x) < J_1(x)`, where `J_k` inserts `u^k` in the same integral.
+
+Frozen public Lean targets:
+
+- define the first and second tilted-beta moments consistently with Phase AP's
+  normalized moment;
+- prove the exact unweighted identity
+  `integral_0^1 u(1-2u)(1-u)^7 du = 1/120`;
+- prove `2 J_2(x) < J_1(x)` for every `x >= 0` by comparing the decreasing
+  exponential weight on the two sides of `u = 1/2`;
+- derive the strict variance-numerator inequality
+  `x (J_2 M - J_1^2) < J_1 M` for `0 <= x <= 2`.
+
+Proof contract:
+
+- use interval-integral monotonicity and exact polynomial calculus; do not
+  replace the continuous moment inequality by a sampled certificate;
+- keep all denominators and strictness explicit at `x = 0` and `x = 2`;
+- expose the variance numerator without yet assuming differentiation under the
+  integral or the final monotonic-ratio theorem;
+- do not broaden the result beyond the local eighth-order regime in this phase.
+
+Independent checks:
+
+- recompute the polynomial integral exactly with `Fraction` arithmetic;
+- verify the moment gap and variance inequality at 100 digits on endpoint,
+  logarithmic, and dense local grids;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if direct polynomial integration is brittle after three attempts, introduce
+  the explicit antiderivative and prove its derivative by `ring`;
+- if the midpoint comparison is insufficient, formalize the single-crossing
+  cumulative-integral argument rather than weakening strictness.
+
+Non-claims:
+
+- this phase does not yet prove the beta-moment kernel's order-two sign,
+  all-orders tail sign regularity, a global smooth dyadic approximation,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `eighthOrder_unweighted_moment_gap` evaluates the exact polynomial integral
+  to `1/120` through an explicit degree-ten antiderivative;
+- `eighthOrderBetaMoment_two_mul_two_lt_one` uses the one sign change at
+  `u = 1/2` and the decreasing exponential tilt to prove
+  `2 J_2(x) < J_1(x)` for every `x >= 0`;
+- `eighthOrderBetaMoment_variance_numerator_lt` combines that gap with Phase
+  AP's strict positivity to prove the local variance-numerator inequality for
+  every `0 <= x <= 2`.
+
+Result:
+
+- the numerical order-two pattern from Phase AP now has its decisive local
+  moment inequality proved exactly;
+- after differentiating `M`, the remaining route is to show the logarithmic
+  elasticity `-x J_1(x)/M(x)` is strictly decreasing and transfer that
+  monotonicity to ordered products `t*omega`;
+- the proof's midpoint comparison is a one-dimensional monotone-likelihood-
+  ratio argument, a concrete variation-diminishing mechanism rather than an
+  appeal to total-positivity terminology alone.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic independently recovers the unweighted value
+  `1/120`;
+- a 100-decimal grid containing both endpoints, logarithmic near-zero values,
+  and 101 equally spaced local points verifies the moment gap and variance
+  bound, with observed margins above `0.0062` and `0.0008` respectively;
+- `./scripts/verify.sh` passes with 78 Python tests and no known dependency
+  vulnerabilities.

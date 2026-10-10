@@ -560,6 +560,18 @@ pivots.
   not yet a proof of the beta-moment sign inequality or all-orders strict sign
   regularity. The root command passes with 77 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #44.
+- Phase AQ proves the first analytic inequality needed for the beta-moment
+  order-two sign. The exact unweighted gap is `1/120`, and monotonicity of the
+  exponential tilt around its single sign change at `u = 1/2` gives
+  `2 J_2(x) < J_1(x)` for every `x >= 0`. On the local approximation regime
+  `0 <= x <= 2`, Lean then proves
+  `x (J_2(x) M(x) - J_1(x)^2) < J_1(x) M(x)`, the strict variance-numerator
+  inequality governing logarithmic elasticity. Exact `Fraction` arithmetic
+  independently recomputes `1/120`; a 100-decimal endpoint/logarithmic/dense
+  sweep keeps the moment gap above `0.0062` and the variance margin above
+  `0.0008`. Differentiation and the final ordered-minor theorem remain to be
+  formalized. The root command passes with 78 tests and no known dependency
+  vulnerabilities; delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

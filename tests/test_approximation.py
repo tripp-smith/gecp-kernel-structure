@@ -1,4 +1,6 @@
 import itertools
+import math
+from fractions import Fraction
 
 import mpmath as mp
 import numpy as np
@@ -29,7 +31,11 @@ def _stable_masked_eighth_order_error(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
 
 
 def _eighth_order_beta_moment(x: mp.mpf) -> mp.mpf:
-    return mp.quad(lambda u: (1 - u) ** 7 * mp.exp(-u * x), [0, 1])
+    return _eighth_order_beta_power_moment(0, x)
+
+
+def _eighth_order_beta_power_moment(power: int, x: mp.mpf) -> mp.mpf:
+    return mp.quad(lambda u: u**power * (1 - u) ** 7 * mp.exp(-u * x), [0, 1])
 
 
 def test_explicit_rank_counts() -> None:
@@ -149,6 +155,35 @@ def test_unmasked_eighth_order_tail_beta_structure_and_order_two_sign() -> None:
                 assert determinant < 0
                 smallest_signed_margin = min(smallest_signed_margin, -determinant)
         assert smallest_signed_margin > mp.mpf("4.3e-6")
+
+
+def test_tilted_beta_moment_gap_and_variance_bound() -> None:
+    unweighted_gap = sum(
+        Fraction((-1) ** degree * math.comb(7, degree))
+        * (Fraction(1, degree + 2) - 2 * Fraction(1, degree + 3))
+        for degree in range(8)
+    )
+    assert unweighted_gap == Fraction(1, 120)
+
+    with mp.workdps(100):
+        points = {mp.mpf(index) / 50 for index in range(101)}
+        points.update(map(mp.mpf, ["1e-12", "1e-9", "1e-6", "0.001", "0.01", "0.1"]))
+        smallest_moment_gap = mp.inf
+        smallest_variance_margin = mp.inf
+        for x in sorted(points):
+            moment_zero = _eighth_order_beta_power_moment(0, x)
+            moment_one = _eighth_order_beta_power_moment(1, x)
+            moment_two = _eighth_order_beta_power_moment(2, x)
+            moment_gap = moment_one - 2 * moment_two
+            variance_margin = moment_one * moment_zero - x * (
+                moment_two * moment_zero - moment_one**2
+            )
+            assert moment_gap > 0
+            assert variance_margin > 0
+            smallest_moment_gap = min(smallest_moment_gap, moment_gap)
+            smallest_variance_margin = min(smallest_variance_margin, variance_margin)
+        assert smallest_moment_gap > mp.mpf("0.0062")
+        assert smallest_variance_margin > mp.mpf("0.0008")
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
