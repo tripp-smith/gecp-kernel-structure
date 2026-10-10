@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** Phase AV `./scripts/verify.sh` passed with 83 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AV draft PR pending<br>
+> **Delivery:** Phase AV [draft PR #50](https://github.com/tripp-smith/gecp-kernel-structure/pull/50)<br>
 > **Claim level:** orders one and two plus strict support geometry for the truncated-power total-nonnegativity route
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -65,7 +65,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AS | Local beta-moment order-two sign | complete | scale-ratio monotonicity; `eighthOrderBetaMoment_fin_two_det_neg`; `eighthOrderTail_fin_two_det_neg` | Lean build; public axiom audit; 100-digit ratio/minor sweep; 80-test root verification; green CI | merged PR #47 |
 | AT | Truncated-power composition bridge | complete | scaled beta identity; common-cutoff exponential/truncated-power composition | Lean build; public axiom audit; 100-digit identity checks; order 2--5 minor sweep; 81-test root verification; green CI | merged PR #48 |
 | AU | Finite composition strictness | complete | `signature_mul_det_mul_rect_nonneg`; selected-summand lower bound; `signature_mul_det_mul_rect_pos` | Lean build; public axiom audit; exact rational composition regression; 82-test root verification; green CI | merged PR #49 |
-| AV | Truncated-power total-nonnegativity base | verified | `TotallyNonnegativeAtOrder`; orders one and two; exact Schoenberg--Whitney support criterion | Lean build; public axiom audit; exact 784-case support regression; 83-test root verification | draft PR pending |
+| AV | Truncated-power total-nonnegativity base | verified | `TotallyNonnegativeAtOrder`; orders one and two; exact Schoenberg--Whitney support criterion | Lean build; public axiom audit; exact 784-case support regression; 83-test root verification | draft PR #50 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
