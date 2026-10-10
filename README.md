@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AT — truncated-power composition bridge<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase AT `./scripts/verify.sh` passed with 81 tests and no known dependency vulnerabilities on 2026-10-10<br>
+> **Current phase:** AU — finite composition strictness<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase AU `./scripts/verify.sh` passed with 82 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AT merged with green CI as [PR #48](https://github.com/tripp-smith/gecp-kernel-structure/pull/48)<br>
-> **Claim level:** rewriting the unmasked tail as an exponential/truncated-power kernel composition for the all-orders route
+> **Delivery:** Phase AU [draft PR #49](https://github.com/tripp-smith/gecp-kernel-structure/pull/49)<br>
+> **Claim level:** exact finite Cauchy--Binet lower bound and strictness criterion for the continuous-composition route
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -64,6 +64,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AR | Beta-moment logarithmic elasticity | complete | moment derivatives; `eighthOrderBetaElasticity_hasDerivAt`; `eighthOrderBetaElasticity_strictAntiOn` | Lean build; public axiom audit; 100-digit derivative/monotonicity sweep; 79-test root verification; green CI | merged PR #46 |
 | AS | Local beta-moment order-two sign | complete | scale-ratio monotonicity; `eighthOrderBetaMoment_fin_two_det_neg`; `eighthOrderTail_fin_two_det_neg` | Lean build; public axiom audit; 100-digit ratio/minor sweep; 80-test root verification; green CI | merged PR #47 |
 | AT | Truncated-power composition bridge | complete | scaled beta identity; common-cutoff exponential/truncated-power composition | Lean build; public axiom audit; 100-digit identity checks; order 2--5 minor sweep; 81-test root verification; green CI | merged PR #48 |
+| AU | Finite composition strictness | verified | `signature_mul_det_mul_rect_nonneg`; selected-summand lower bound; `signature_mul_det_mul_rect_pos` | Lean build; public axiom audit; exact rational composition regression; 82-test root verification | draft PR #49 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

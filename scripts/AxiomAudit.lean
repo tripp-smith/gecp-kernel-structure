@@ -46,6 +46,10 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.generalizedVandermonde_det_nonneg
 #print axioms Matrix.det_mul_rect_eq_sum_injective
 #print axioms Matrix.det_mul_rect
+#print axioms Matrix.signature_mul_det_mul_rect_eq_sum
+#print axioms Matrix.signature_mul_det_mul_rect_nonneg
+#print axioms Matrix.signedOrderedCauchyBinetTerm_le_signature_mul_det_mul_rect
+#print axioms Matrix.signature_mul_det_mul_rect_pos
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_pos
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_ge_principal
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_tendsto_expMatrix
