@@ -616,7 +616,8 @@ pivots.
   regression independently obtains summands `1, 4, 1` and determinant `6`.
   This closes finite algebra only: truncated-power total nonnegativity and the
   passage to integrals remain open. The root command passes with 82 tests and
-  no known dependency vulnerabilities.
+  no known dependency vulnerabilities. The change passed CI and merged as PR
+  #49.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

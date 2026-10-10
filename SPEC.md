@@ -1773,7 +1773,8 @@ This annotation records delivered identifiers without changing the goals above.
   Cauchy--Binet strictness, all-orders tail sign regularity, Conjecture G1, and
   Problem 4.2 remain open. The root command passes with 81 tests and no known
   dependency vulnerabilities.
-- Post-v1 research phase AU: locally verified on 2026-10-10.
+- Post-v1 research phase AU: complete with green CI on 2026-10-10 and
+  delivered in merged PR #49.
   `Matrix.signature_mul_det_mul_rect_nonneg` proves nonnegativity of a signed
   rectangular product determinant from the common orientation of every
   ordered Cauchy--Binet summand,
