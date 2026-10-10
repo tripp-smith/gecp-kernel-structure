@@ -1606,3 +1606,15 @@ This annotation records delivered identifiers without changing the goals above.
   deriving all remaining selected-column bounds from Phase AD, a shrinking-
   band recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 66 tests and no known dependency vulnerabilities.
+- Post-v1 research phase AG: verified on its implementation branch on
+  2026-10-09; merge and CI are pending. `symmetricTwoCornerRun` prepends the
+  exact prescribed cutoff pivots to any continuation of the two-corner
+  residual, while `symmetricTwoCornerExceptional` identifies their two
+  recursive selected indices and has proved cardinality two. Every
+  nonexceptional selected column inherits the continuation's domain, and
+  `fermionicKernel_symmetricTwoCornerRun_sample_det_le_two_pow` therefore
+  applies the smaller-band determinant estimate with the exact rank shift
+  `+2`. Deriving smaller-band `Run.CompleteOn` from Phase AD's above-quarter
+  pivot condition, a shrinking-band recurrence, Conjecture G1, and Problem
+  4.2 remain open. The root command passes with 67 tests and no known
+  dependency vulnerabilities.

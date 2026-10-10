@@ -215,6 +215,12 @@
   uses an independent smaller approximation scale on every nonexceptional
   selected column. The resulting residual-power exponent charges exactly
   `16*p*(s+1) + exceptional.card` effective coordinates.
+- The canonical two-corner prefix is now represented as an actual dependent
+  elimination run. Its recursive selected-index type has a proved two-element
+  exceptional set consisting exactly of the `(0,Lambda)` and `(1,-Lambda)`
+  steps. Every other selected column belongs to the continuation, so a
+  continuation complete on the smaller band gives the closed determinant
+  exponent `16*p*(s+1)+2` without positional list assumptions.
 - Its time and frequency derivatives are proved exactly. On
   `[0,1] × [-Λ,Λ]`, the kernel is at most one and the coordinate derivative
   magnitudes are bounded by `Λ` and one, respectively.
@@ -315,10 +321,10 @@ scale-invariant mechanism, but the exact Phase AB obstruction rules out using
 only the two outer corners at every scale. Phase AC forces the third complete
 pivot into the central half-band, and Phase AD proves that the original
 outer-half quarter exclusion survives every later update. It remains
-conjectural whether the Phase AE exceptional-column determinant bound can be
-instantiated with exactly the two recursive cutoff-corner indices and Phase
-AD's localized continuation to restart the argument on the central
-restriction and iterate shrinking bands using only linearly many pivots.
+conjectural whether Phase AD's pointwise above-quarter localization can be
+lifted to `Run.CompleteOn` for a finite continuation and then iterated to
+restart the argument on the central restriction using only linearly many
+pivots.
 
 ## Not claimed
 
@@ -361,10 +367,10 @@ restriction and iterate shrinking bands using only linearly many pivots.
   the first two symmetric corner pivots halve the residual for every cutoff.
 - A shrinking-band iteration of the central-half localization theorem. Phase
   AD preserves the fixed outer-half quarter bound through all later Schur
-  updates, while Phases AE–AF permit exact exceptional columns in the actual
-  GECP selected-core estimate. The first two recursive indices have not yet
-  been packaged as the exceptional set, and no new relative central-half
-  bound follows yet.
+  updates, while Phases AE–AG permit the exact two corner columns in the
+  smaller-band selected-core estimate. A finite continuation has not yet been
+  proved `CompleteOn` that smaller band from the above-quarter condition, and
+  no new relative central-half bound follows yet.
 - Material-specific validation of the Hubbard-like or gapped fixtures. They
   are stylized synthetic densities, not outputs fitted to experiment, a named
   compound, DMFT, or quantum Monte Carlo.
@@ -470,6 +476,12 @@ restriction and iterate shrinking bands using only linearly many pivots.
   use only the permitted Lean axioms; an exact `Fraction` regression verifies
   a full-rank GECP selected core, its pivot product, and the two-exception
   effective-rank determinant bound. The change passed CI and merged as PR #34.
+- On 2026-10-09 the Phase AG root command passed the same gate with 67 Python
+  tests and no known dependency vulnerabilities. Its five new public results
+  use only the permitted Lean axioms; an exact rational prescribed-corner run
+  verifies the two exceptional indices, central continuation columns,
+  selected-core determinant, and complete pivot product. Merge and CI are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

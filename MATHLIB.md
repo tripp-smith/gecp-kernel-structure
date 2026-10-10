@@ -103,6 +103,11 @@ dependent GECP run and fermionic strict-sign-regularity APIs. The composition
 introduces no new general-purpose matrix lemma beyond the Phase AE candidates,
 so no additional upstream proposal is recorded.
 
+Phase AG's dependent two-corner run and recursive selected-index exception set
+are specific to the fermionic pivot prescription. They reuse existing `Sum`,
+`Finset`, and `Run.SelectedIndex` APIs without exposing a missing general
+abstraction, so no additional mathlib candidate is proposed.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
