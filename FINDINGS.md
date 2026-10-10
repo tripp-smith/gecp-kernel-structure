@@ -535,6 +535,18 @@ pivots.
   to the dyadic approximation still requires sign-regularity and mixed-column
   compatibility for its remainder; Conjecture G1 and Problem 4.2 remain open.
   The change passed CI and merged as PR #42.
+- Phase AO proves that the current hard-masked dyadic Taylor remainder is not
+  strictly sign regular even at order two. At `p = 1`, `s = 2`, rows
+  `(1/2, 3/5)`, and columns `(2, 5/2)`, its ordered determinant is strictly
+  positive, whereas `expKernelSignature 2 = -1` requires it to be negative.
+  Lean derives the four entries from the actual dyadic evaluator and proves
+  the sign with rational exponential bounds. A 100-decimal independent check
+  places the determinant in `(4.96e-6, 4.97e-6)` and a 36-point neighborhood
+  sweep shows the same reversal. Thus the Phase AN factorial-free mechanism
+  cannot use this masked remainder directly; smooth overlaps, unmasked local
+  tails, or a different compatible decomposition remain viable. Conjecture G1
+  and Problem 4.2 remain open. The root command passes with 76 tests and no
+  known dependency vulnerabilities; delivery is pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

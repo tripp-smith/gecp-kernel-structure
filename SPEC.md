@@ -1709,3 +1709,14 @@ This annotation records delivered identifiers without changing the goals above.
   requires a compatible sign-regular remainder theorem; Conjecture G1 and
   Problem 4.2 remain open. The root command passes with 75 tests and no known
   dependency vulnerabilities.
+- Post-v1 research phase AO: verified locally; under review in draft PR #43.
+  `dyadicTaylorError` instantiates the positive-frequency
+  error of the existing hard-masked dyadic Taylor construction, and
+  `dyadicTaylorError_not_strictSignRegularAtOrder_two` proves an exact
+  obstruction at its first mask transition. For rows `(1/2, 3/5)` and columns
+  `(2, 5/2)`, the ordered error minor is positive instead of having the
+  negative sign `expKernelSignature 2`. Hence the Phase AN factorial-free
+  route cannot be applied directly to this approximation remainder. This does
+  not exclude smooth overlaps, unmasked local tails, another compatible
+  decomposition, Conjecture G1, or Problem 4.2. The root command passes with
+  76 tests and no known dependency vulnerabilities.

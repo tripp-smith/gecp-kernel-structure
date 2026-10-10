@@ -3117,3 +3117,94 @@ Verification:
   dominance;
 - `./scripts/verify.sh` passes with 75 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AO — masked dyadic remainder obstruction
+
+State: verified locally; under review in draft PR #43.
+
+Phase AN removes the determinant factorial if the small approximation
+remainder itself supplies compatible sign-coherent complete elimination. The
+unmasked even Taylor tail has strong numerical and neighboring theoretical
+evidence for the expected total-positive signs, but the approximation actually
+used by this repository contains discontinuous dyadic masks. Before attempting
+an all-orders tail theorem, this phase tests the first scale transition exactly.
+
+Frozen public Lean targets:
+
+- define the positive-frequency error of the existing masked dyadic Taylor
+  approximation;
+- reduce its values at `t = (1/2, 3/5)` and `omega = (2, 5/2)` to three
+  eighth-order Taylor remainders and one masked full exponential;
+- prove by explicit exponential-series bounds that the resulting `2 x 2`
+  determinant is positive;
+- conclude that the masked remainder is not strictly sign regular at order two
+  with `expKernelSignature 2`.
+
+Proof contract:
+
+- prove the sign with rational inequalities and mathlib exponential bounds;
+  floating-point output may guide constants but is not the theorem source;
+- reuse `eval_dyadicSeparatedTerms_succ` and `expNegTaylor`; do not restate a
+  simplified surrogate mask;
+- keep the obstruction on the positive-frequency exponential numerator, since
+  the fermionic logistic denominator is a positive column scaling and cannot
+  repair the minor sign;
+- do not infer failure of a different smooth dyadic approximation or of the
+  unmasked local Taylor tail.
+
+Independent checks:
+
+- evaluate the four entries and determinant at high precision using a stable
+  Taylor-tail expression;
+- sweep nearby rational/grid points across the same mask boundary;
+- run focused Lean builds, the expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if direct `Real.exp_bound` arithmetic becomes unwieldy after three attempts,
+  prove a reusable alternating-tail interval lemma first and instantiate it at
+  the four rational products.
+
+Non-claims:
+
+- this obstruction does not rule out a smooth partition, an unmasked
+  remainder theorem, another compatible low-rank decomposition, Conjecture G1,
+  or Simons Problem 4.2.
+
+Delivered:
+
+- `dyadicTaylorError` is the positive-frequency error of the repository's
+  actual `dyadicSeparatedTerms (8 * p) p s` construction;
+- at `p = 1`, `s = 2`, rows `(1/2, 3/5)`, and columns `(2, 5/2)`, four
+  reduction lemmas expose three eighth-order Taylor tails and the masked value
+  `exp(-3/2)` directly through `eval_dyadicSeparatedTerms_succ`;
+- `eighthOrder_maskTransition_det_pos` proves the resulting determinant is
+  positive using rational Taylor-remainder bounds and elementary exponential
+  inequalities, with no floating-point premise;
+- `dyadicTaylorError_not_strictSignRegularAtOrder_two` proves that this
+  positive ordered minor contradicts the negative signature required by
+  `expKernelSignature 2`.
+
+Result:
+
+- the Phase AN factorial-free continuation mechanism cannot be applied
+  directly to the current hard-masked dyadic approximation remainder;
+- the failure occurs at the first transition and at the smallest nontrivial
+  minor order, so an all-orders proof search for this particular remainder is
+  closed rather than merely deferred;
+- the next approximation-level route should remove the discontinuous mask,
+  for example by a smooth overlap or a globally sign-compatible remainder,
+  and must retest order two before attempting an all-orders theorem.
+
+Verification:
+
+- the focused module and expanded public axiom audit pass with only Lean's
+  permitted default axioms;
+- a 100-decimal evaluator built from the convergent exponential tail agrees
+  with the repository implementation and places the witness determinant in
+  `(4.96e-6, 4.97e-6)`;
+- all 36 nearby transition-crossing samples in the independent sweep have the
+  same positive determinant sign;
+- `./scripts/verify.sh` passes with 76 Python tests and no known dependency
+  vulnerabilities.
