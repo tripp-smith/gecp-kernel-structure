@@ -571,7 +571,7 @@ pivots.
   sweep keeps the moment gap above `0.0062` and the variance margin above
   `0.0008`. Differentiation and the final ordered-minor theorem remain to be
   formalized. The root command passes with 78 tests and no known dependency
-  vulnerabilities; delivery is pending.
+  vulnerabilities. The change passed CI and merged as PR #45.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

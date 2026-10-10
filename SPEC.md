@@ -1731,7 +1731,8 @@ This annotation records delivered identifiers without changing the goals above.
   sign. The remaining beta-moment inequality, all-orders compatibility, a
   global smooth decomposition, Conjecture G1, and Problem 4.2 remain open.
   The root command passes with 77 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AQ: verified locally; under review in draft PR #45.
+- Post-v1 research phase AQ: complete with green CI on 2026-10-10 and
+  delivered in merged PR #45.
   `eighthOrder_unweighted_moment_gap` proves the exact
   `1/120` polynomial integral,
   `eighthOrderBetaMoment_two_mul_two_lt_one` proves the strict tilted first/
