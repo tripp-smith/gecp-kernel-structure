@@ -3302,7 +3302,7 @@ Verification:
 
 ## Phase AQ — tilted-beta moment gap
 
-State: verified locally; delivery pending.
+State: verified locally; under review in draft PR #45.
 
 Phase AP reduces the local tail's order-two sign to the normalized moment
 `M(x) = integral_0^1 (1-u)^7 exp(-ux) du`. Differentiating its logarithmic
