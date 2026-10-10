@@ -165,6 +165,13 @@ policy and does not suggest a standalone mathlib theorem. A reusable
 alternating exponential-tail interval lemma was considered but was not needed:
 the existing exponential estimates close the exact rational bounds directly.
 
+Phase AP uses `map_add_eq_sum_add_integral_iteratedFDeriv` to obtain the exact
+unit-interval beta representation of the eighth-order exponential tail.
+Mathlib's existing Taylor-integral, iterated-derivative, interval-integral
+positivity, and finite determinant tools are sufficient; no missing upstream
+lemma was encountered. The resulting beta-moment minor reduction is specialized
+to the local approximation target and is not proposed for upstreaming.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

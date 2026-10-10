@@ -1,3 +1,5 @@
+import itertools
+
 import mpmath as mp
 import numpy as np
 
@@ -24,6 +26,10 @@ def _stable_masked_eighth_order_error(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
     if not active:
         return mp.exp(-x)
     return mp.nsum(lambda k: (-x) ** k / mp.factorial(k), [8, mp.inf])
+
+
+def _eighth_order_beta_moment(x: mp.mpf) -> mp.mpf:
+    return mp.quad(lambda u: (1 - u) ** 7 * mp.exp(-u * x), [0, 1])
 
 
 def test_explicit_rank_counts() -> None:
@@ -96,6 +102,53 @@ def test_masked_dyadic_remainder_reverses_order_two_sign() -> None:
                             upper_time, lower_frequency
                         )
                         assert diagonal - off_diagonal > 0
+
+
+def test_unmasked_eighth_order_tail_beta_structure_and_order_two_sign() -> None:
+    with mp.workdps(100):
+        for x in map(mp.mpf, ["0.001", "0.01", "0.1", "0.5", "1", "2"]):
+            beta_tail = x**8 / mp.factorial(7) * _eighth_order_beta_moment(x)
+            convergent_tail = mp.nsum(
+                lambda k, x=x: (-x) ** k / mp.factorial(k), [8, mp.inf]
+            )
+            direct_tail = mp.exp(-x) - mp.fsum(
+                (-x) ** k / mp.factorial(k) for k in range(8)
+            )
+            assert mp.almosteq(beta_tail, convergent_tail)
+            assert mp.almosteq(beta_tail, direct_tail)
+
+        rows = list(map(mp.mpf, ["0.05", "0.1", "0.25", "0.5", "0.75", "1"]))
+        columns = list(map(mp.mpf, ["0.05", "0.1", "0.25", "0.5", "1", "1.5", "2"]))
+        moments = {
+            (time, frequency): _eighth_order_beta_moment(time * frequency)
+            for time in rows
+            for frequency in columns
+        }
+        approximation = DyadicTaylorApproximation(
+            cutoff=2, accuracy_bits=1, scale=1, precision_bits=384
+        )
+        smallest_signed_margin = mp.inf
+        for time, frequency in moments:
+            implemented_error = mp.exp(-time * frequency) - (
+                approximation._positive_value(time, frequency)
+                * (1 + mp.exp(-frequency))
+            )
+            beta_error = (
+                (time * frequency) ** 8 / mp.factorial(7) * moments[time, frequency]
+            )
+            assert mp.almosteq(beta_error, implemented_error)
+
+        for lower_time, upper_time in itertools.combinations(rows, 2):
+            for lower_frequency, upper_frequency in itertools.combinations(columns, 2):
+                determinant = (
+                    moments[lower_time, lower_frequency]
+                    * moments[upper_time, upper_frequency]
+                    - moments[lower_time, upper_frequency]
+                    * moments[upper_time, lower_frequency]
+                )
+                assert determinant < 0
+                smallest_signed_margin = min(smallest_signed_margin, -determinant)
+        assert smallest_signed_margin > mp.mpf("4.3e-6")
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
