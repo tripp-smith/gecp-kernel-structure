@@ -3920,3 +3920,80 @@ Verification:
 - `./scripts/verify.sh` passes with 84 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #51.
+
+## Phase AX contract: all-orders order-kernel total nonnegativity
+
+Phase AX attacks the algebraic base of the convolution ladder.  On increasing
+row and column tuples, the degree-zero matrix is a staircase of zeros and
+ones.  Expanding its first column yields a three-way induction: a zero column,
+duplicate all-one rows, or one leading pivot followed by the smaller staircase
+minor.
+
+Frozen public Lean targets:
+
+- name the strict order kernel underlying normalized degree zero;
+- prove that every ordered square minor of this kernel is exactly zero or one;
+- derive all-orders `TotallyNonnegative` for both the named order kernel and
+  `normalizedTruncatedPowerKernel 0`.
+
+Proof contract:
+
+- induct on the matrix order using the first-column staircase geometry;
+- in the two-support-row case prove determinant zero from duplicate rows;
+- in the one-support-row case reduce the Laplace expansion exactly to the
+  tail minor with positive sign;
+- do not appeal to an external total-unimodularity or total-positivity axiom.
+
+Independent checks:
+
+- exhaust strictly increasing integer row and column tuples through order
+  five and verify every determinant is zero or one;
+- run focused Lean builds, extend the public axiom audit, and run root
+  verification.
+
+Decision rule:
+
+- if the exact induction closes, the next phase targets a bounded continuous
+  composition theorem capable of propagating this result up the normalized
+  truncated-power ladder;
+- if the Laplace reduction fails, record the exact missing finite-index lemma
+  rather than weakening to sampled orders.
+
+Non-claims:
+
+- this phase does not prove higher-degree total nonnegativity, continuous
+  Cauchy--Binet, all-orders tail sign regularity, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered:
+
+- `strictOrderKernel` names the strict zero/one kernel at normalized degree
+  zero;
+- `strictOrderKernel_minor_det_eq_zero_or_one` proves by induction that every
+  ordered square minor is exactly zero or one;
+- `strictOrderKernel_totallyNonnegative` and
+  `normalizedTruncatedPowerKernel_zero_totallyNonnegative` establish the
+  all-orders base theorem in both named forms.
+
+Result:
+
+- the first-column induction exposes the exact finite mechanism: no supported
+  row gives a zero column, at least two supported rows give duplicate all-one
+  rows, and exactly one supported row leaves the tail minor with positive
+  cofactor sign;
+- this is a stronger finite statement than nonnegativity alone and confirms
+  that the degree-zero kernel is a staircase/network matrix with no hidden
+  negative orientation;
+- together with Phase AW, the remaining gap to all normalized degrees is now
+  a continuous composition closure theorem with explicit measurability and
+  interval-integrability hypotheses.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic exhausts 3,381 pairs of strictly increasing
+  integer tuples on `[-3,3]` through order five and finds every determinant in
+  `{0,1}`;
+- `./scripts/verify.sh` passes with 85 Python tests and no known dependency
+  vulnerabilities.

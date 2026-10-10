@@ -224,6 +224,14 @@ ordered minors through integration; that abstraction should be proposed only
 after the order-kernel consumer fixes the necessary measurability and
 integrability hypotheses.
 
+Phase AX's first-column induction is a specialized consecutive-ones/Ferrers
+matrix argument. Mathlib's `Matrix.IsTotallyUnimodular` API is adjacent, but
+using it would still require proving the consecutive-ones criterion and would
+lose the stronger nonnegative `0`/`1` orientation obtained directly here. The
+local proof is therefore appropriate; a general consecutive-ones total-
+unimodularity theorem is a possible upstream result only if another consumer
+appears.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

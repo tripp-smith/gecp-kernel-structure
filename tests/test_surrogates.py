@@ -59,6 +59,31 @@ def test_signed_ordered_cauchy_binet_retains_positive_term_exactly() -> None:
     assert Fraction(0) < ordered_terms[1] <= signed_product_det
 
 
+def test_strict_order_kernel_minors_are_zero_or_one_exactly() -> None:
+    points = list(map(Fraction, range(-3, 4)))
+    checked = 0
+    for order in range(1, 6):
+        for rows in itertools.combinations(points, order):
+            for columns in itertools.combinations(points, order):
+                matrix = [
+                    [Fraction(int(row < column)) for column in columns] for row in rows
+                ]
+                determinant = fraction_determinant(matrix)
+                assert determinant in {Fraction(), Fraction(1)}
+                checked += 1
+
+    assert checked == 3381
+    assert (
+        fraction_determinant(
+            [
+                [Fraction(int(row < column)) for column in (0, 2, 4, 6)]
+                for row in (-1, 1, 3, 5)
+            ]
+        )
+        == 1
+    )
+
+
 def test_bordered_core_determinant_identity_exactly() -> None:
     matrix = geometric_surrogate(4, Fraction(2, 3))
     pivot_rows, pivot_columns, pivots = exact_gecp(matrix)

@@ -26,6 +26,7 @@ import GECPKernelStructure.Fermionic.BetaMomentElasticity
 import GECPKernelStructure.Fermionic.BetaMomentMinor
 import GECPKernelStructure.Fermionic.TruncatedPowerComposition
 import GECPKernelStructure.Fermionic.TruncatedPowerConvolution
+import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
