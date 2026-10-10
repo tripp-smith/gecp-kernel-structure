@@ -172,6 +172,12 @@ positivity, and finite determinant tools are sufficient; no missing upstream
 lemma was encountered. The resulting beta-moment minor reduction is specialized
 to the local approximation target and is not proposed for upstreaming.
 
+Phase AQ proves a local tilted-beta moment inequality with existing interval-
+integral monotonicity and the fundamental theorem of calculus. The explicit
+degree-ten primitive and the split at `u = 1/2` are specialized to the eighth-
+order tail. The single-crossing comparison pattern may be reusable, but no
+upstream abstraction is proposed until a second independent consumer appears.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

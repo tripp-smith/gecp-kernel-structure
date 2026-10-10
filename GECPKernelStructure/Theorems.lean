@@ -20,6 +20,7 @@ import GECPKernelStructure.Fermionic.Condensation
 import GECPKernelStructure.Fermionic.ContinuationDeterminant
 import GECPKernelStructure.Fermionic.DyadicRemainderObstruction
 import GECPKernelStructure.Fermionic.TaylorTailBeta
+import GECPKernelStructure.Fermionic.BetaMomentGap
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant
