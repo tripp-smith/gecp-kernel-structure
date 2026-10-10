@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AK — balanced-sign residual gauges<br>
-> **Phase state:** verified; delivery pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AK `./scripts/verify.sh` passed with 71 tests and no known dependency vulnerabilities on 2026-10-10<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AK verified locally; draft pull request pending; Phase AJ merged as [PR #38](https://github.com/tripp-smith/gecp-kernel-structure/pull/38)<br>
+> **Delivery:** merged [PR #39](https://github.com/tripp-smith/gecp-kernel-structure/pull/39)<br>
 > **Claim level:** every strictly sign-regular final residual has an explicit anchor-based diagonal sign gauge that makes all fresh entries positive without changing their magnitudes, with exact finite-minor scaling
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -54,7 +54,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AH | Finite central-prefix runs | complete | `Run.ofResidualSequenceFrom`; exact final residual/pivots/cardinality; above-quarter central completeness and determinant composition | Lean build; public axiom audit; exact three-step recurrence reconstruction; 68-test root verification; green CI | merged PR #36 |
 | AI | Above-quarter stopping bound | complete | strict pivot-product determinant lower bound; exponent-budget contradiction; global quarter residual before `2048(s+1)^2` steps | Lean build; public axiom audit; exact scale/transition arithmetic; 69-test root verification; green CI | merged PR #37 |
 | AJ | Multi-bordered residual minors | complete | arbitrary-border determinant factorization; orientation-aware all-orders sign transfer; fermionic residual-minor nonsingularity | Lean build; public axiom audit; exact rational border sizes 0--3; 70-test root verification; green CI | merged PR #38 |
-| AK | Balanced-sign residual gauges | verified | anchor-based sign normalization; fresh-coordinate positivity; magnitude preservation; exact minor scaling | Lean build; public axiom audit; exact all-anchor rational regression; 71-test root verification | draft PR pending |
+| AK | Balanced-sign residual gauges | complete | anchor-based sign normalization; fresh-coordinate positivity; magnitude preservation; exact minor scaling | Lean build; public axiom audit; exact all-anchor rational regression; 71-test root verification; green CI | merged PR #39 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

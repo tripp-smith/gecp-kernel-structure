@@ -2735,7 +2735,7 @@ Verification:
 
 ## Phase AK — balanced-sign residual gauges
 
-State: verified on 2026-10-10; delivery pending.
+State: complete with green CI on 2026-10-10; delivered in merged PR #39.
 
 Phase AJ identifies the exact orientation carried by every residual minor, but
 the tuple-level sorting signs are awkward for recursive analysis. The order-one

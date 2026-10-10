@@ -506,7 +506,7 @@ pivots.
   diagonal gauge, proves positivity on every fresh fermionic entry, preserves
   all entry magnitudes, and records exact finite-minor scaling. An exact
   `Fraction` regression checks every unselected anchor and entry after three
-  geometric-surrogate pivots. Delivery is pending review.
+  geometric-surrogate pivots. The change passed CI and merged as PR #39.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

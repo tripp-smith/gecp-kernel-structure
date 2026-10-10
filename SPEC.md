@@ -1656,8 +1656,9 @@ This annotation records delivered identifiers without changing the goals above.
   gauges, produce a threshold-parametric nested-band restart, establish
   Conjecture G1, or solve Problem 4.2. The root command passes with 70 tests
   and no known dependency vulnerabilities.
-- Post-v1 research phase AK: verified locally on 2026-10-10; delivery is
-  pending. `anchoredSignGaugeKernel_pos_of_crossProductSignCoherent` converts
+- Post-v1 research phase AK: complete with green CI on 2026-10-10 and
+  delivered in merged PR #39.
+  `anchoredSignGaugeKernel_pos_of_crossProductSignCoherent` converts
   the residual's balanced cross-product signs into anchor-based row and column
   signs that make every nonzero entry positive, while
   `abs_anchoredSignGaugeKernel` proves the transformation preserves entry
