@@ -2831,7 +2831,7 @@ Verification:
 
 ## Phase AL — compound residual gauges
 
-State: verified on 2026-10-10; delivery pending.
+State: complete with green CI on 2026-10-10; delivered in merged PR #40.
 
 Phase AK solves the sign normalization problem for individual residual
 entries. Exterior algebra suggests the correct all-orders lift: for each

@@ -1671,8 +1671,8 @@ This annotation records delivered identifiers without changing the goals above.
   a sharper determinant bound; it does not prove Conjecture G1 or solve
   Problem 4.2. The root command passes with 71 tests and no known dependency
   vulnerabilities.
-- Post-v1 research phase AL: verified locally on 2026-10-10; delivery is
-  pending. `Run.FreshRows`, `Run.FreshColumns`, and
+- Post-v1 research phase AL: complete with green CI on 2026-10-10 and
+  delivered in merged PR #40. `Run.FreshRows`, `Run.FreshColumns`, and
   `Run.finalResidualMinorKernel` represent every fixed-order family of fresh
   final-residual minors as a compound kernel. The theorem
   `strictSignRegular_finalResidualMinorKernel_crossProductSignCoherent`
