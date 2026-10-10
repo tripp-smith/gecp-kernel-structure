@@ -142,6 +142,62 @@ def test_residual_anchor_sign_gauge_exactly() -> None:
                     assert abs(gauged) == abs(entry)
 
 
+def test_residual_compound_anchor_sign_gauges_exactly() -> None:
+    size = 7
+    prefix_length = 3
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    pivot_rows, pivot_columns, _ = exact_gecp(matrix)
+    selected_rows = pivot_rows[:prefix_length]
+    selected_columns = pivot_columns[:prefix_length]
+    residual = [row.copy() for row in matrix]
+
+    for step in range(prefix_length):
+        pivot_row = selected_rows[step]
+        pivot_column = selected_columns[step]
+        pivot = residual[pivot_row][pivot_column]
+        pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+        pivot_row_values = residual[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                residual[i][j] -= pivot_column_values[i] * pivot_row_values[j] / pivot
+
+    remaining_rows = [i for i in range(size) if i not in selected_rows]
+    remaining_columns = [j for j in range(size) if j not in selected_columns]
+
+    for order in range(1, 4):
+        row_tuples = list(itertools.combinations(remaining_rows, order))
+        column_tuples = list(itertools.combinations(remaining_columns, order))
+        compound = [
+            [
+                fraction_determinant([[residual[i][j] for j in columns] for i in rows])
+                for columns in column_tuples
+            ]
+            for rows in row_tuples
+        ]
+        assert all(entry != 0 for row in compound for entry in row)
+
+        for anchor_row in range(len(row_tuples)):
+            for anchor_column in range(len(column_tuples)):
+                anchor = compound[anchor_row][anchor_column]
+                for row in range(len(row_tuples)):
+                    row_weight = compound[row][anchor_column]
+                    row_gauge = 1 if row_weight > 0 else -1
+                    for column in range(len(column_tuples)):
+                        entry = compound[row][column]
+                        column_weight = compound[anchor_row][column] * anchor
+                        column_gauge = 1 if column_weight > 0 else -1
+                        four_product = (
+                            entry
+                            * anchor
+                            * compound[row][anchor_column]
+                            * compound[anchor_row][column]
+                        )
+                        assert four_product > 0
+                        gauged = row_gauge * entry * column_gauge
+                        assert gauged > 0
+                        assert abs(gauged) == abs(entry)
+
+
 def test_low_rank_perturbation_determinant_bound_exactly() -> None:
     rng = random.Random(0xC0FFEE)
 

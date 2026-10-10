@@ -507,6 +507,13 @@ pivots.
   all entry magnitudes, and records exact finite-minor scaling. An exact
   `Fraction` regression checks every unselected anchor and entry after three
   geometric-surrogate pivots. The change passed CI and merged as PR #39.
+- On 2026-10-10 the Phase AL root command passed the same gate with 72 Python
+  tests and no known dependency vulnerabilities. Fresh residual minors at
+  every finite order now form a cross-product-sign-coherent compound kernel,
+  and an anchor-based magnitude-one gauge makes every compound entry positive.
+  Exact `Fraction` regressions exhaust every anchor and entry at compound
+  orders one through three after three geometric-surrogate pivots. Delivery is
+  pending review.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

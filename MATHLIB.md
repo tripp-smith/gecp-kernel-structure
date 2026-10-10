@@ -135,6 +135,13 @@ bipartite kernel. The anchor-gauge construction is short and generic, but its
 current formulation is specialized to the local `Kernel` and GECP residual
 interfaces; no standalone mathlib candidate is proposed.
 
+Phase AL packages exterior-power entries as a local compound kernel and proves
+their balanced signing by elementary ordered-field algebra. Mathlib supplies
+the determinant and finite-type foundations but currently exposes no directly
+applicable Desnanot--Jacobi or Dodgson-condensation theorem; that identity is a
+credible upstream candidate if the next quantitative phase requires a generic
+matrix formulation.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
