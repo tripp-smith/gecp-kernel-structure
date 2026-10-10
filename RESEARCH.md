@@ -2339,7 +2339,7 @@ Verification:
 
 ## Phase AG — two-corner exceptional indices
 
-State: verified on 2026-10-09; merge and CI pending.
+State: complete with green CI on 2026-10-09; delivered in merged PR #35.
 
 Phase AF accepts an arbitrary exceptional subset of an actual GECP selected
 core. The canonical application needs a dependent run whose first two steps

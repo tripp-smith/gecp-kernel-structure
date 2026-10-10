@@ -480,8 +480,8 @@ pivots.
   tests and no known dependency vulnerabilities. Its five new public results
   use only the permitted Lean axioms; an exact rational prescribed-corner run
   verifies the two exceptional indices, central continuation columns,
-  selected-core determinant, and complete pivot product. Merge and CI are
-  pending.
+  selected-core determinant, and complete pivot product. The change passed CI
+  and merged as PR #35.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

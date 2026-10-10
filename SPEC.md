@@ -1606,8 +1606,8 @@ This annotation records delivered identifiers without changing the goals above.
   deriving all remaining selected-column bounds from Phase AD, a shrinking-
   band recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 66 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AG: verified on its implementation branch on
-  2026-10-09; merge and CI are pending. `symmetricTwoCornerRun` prepends the
+- Post-v1 research phase AG: complete with green CI on 2026-10-09 and
+  delivered in merged PR #35. `symmetricTwoCornerRun` prepends the
   exact prescribed cutoff pivots to any continuation of the two-corner
   residual, while `symmetricTwoCornerExceptional` identifies their two
   recursive selected indices and has proved cardinality two. Every

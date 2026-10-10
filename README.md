@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** AG — two-corner exceptional indices<br>
-> **Phase state:** verified; merge and CI pending<br>
+> **Phase state:** complete; green CI<br>
 > **Last verification:** Phase AG `./scripts/verify.sh` passed with 67 tests and no known dependency vulnerabilities on 2026-10-09<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** implementation branch; draft PR pending<br>
+> **Delivery:** merged [PR #35](https://github.com/tripp-smith/gecp-kernel-structure/pull/35)<br>
 > **Claim level:** the prescribed two-corner prefix now has an exact two-index exception set, and every other selected column inherits the continuation's smaller band; deriving that continuation hypothesis from Phase AD remains next<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -50,7 +50,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AD | Persistent outer-half exclusion | complete | `fermionicKernel_outerHalfBound_preserved`; mixed strip/global update invariant; later-pivot localization above one quarter | Lean build; public axiom audit; exact sign-orientation checks; 80-decimal five-update regression; 64-test root verification; green CI | merged PR #32 |
 | AE | Exceptional-column determinant restart | complete | `Matrix.abs_det_le_two_pow_mul_of_factors_approx_except`; fermionic smaller-band determinant decay with exact exceptional columns | Lean build; public axiom audit; exact zero/two-exception rank-shift regression; 65-test root verification; green CI | merged PR #33 |
 | AF | GECP exceptional-column composition | complete | `fermionicKernel_gecp_error_pow_le_two_pow_except`; selected-core decay at an independent smaller approximation scale | Lean build; public axiom audit; exact exceptional selected-core/pivot-product regression; 66-test root verification; green CI | merged PR #34 |
-| AG | Two-corner exceptional indices | verified | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification | draft PR pending |
+| AG | Two-corner exceptional indices | complete | `symmetricTwoCornerRun`; exact two-index exception set; smaller-band continuation determinant decay | Lean build; public axiom audit; exact prescribed-corner/central-continuation regression; 67-test root verification; green CI | merged PR #35 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
