@@ -226,6 +226,77 @@ def test_beta_moment_derivatives_and_elasticity_monotonicity() -> None:
         assert smallest_negative_derivative > mp.mpf("0.078")
 
 
+def test_beta_moment_scale_ratio_and_local_minor_sign() -> None:
+    with mp.workdps(100):
+        smallest_ratio_derivative = mp.inf
+        for lower_time, upper_time in [
+            (mp.mpf("0.05"), mp.mpf("1")),
+            (mp.mpf("0.2"), mp.mpf("0.75")),
+            (mp.mpf("0.49"), mp.mpf("0.51")),
+        ]:
+            frequencies = [
+                mp.mpf("0.03"),
+                mp.mpf("0.1"),
+                mp.mpf("0.5"),
+                mp.mpf("1"),
+                2 / upper_time,
+            ]
+            ratios: list[mp.mpf] = []
+            for frequency in frequencies:
+                lower_moment = _eighth_order_beta_power_moment(
+                    0, lower_time * frequency
+                )
+                upper_moment = _eighth_order_beta_power_moment(
+                    0, upper_time * frequency
+                )
+                lower_first = _eighth_order_beta_power_moment(1, lower_time * frequency)
+                upper_first = _eighth_order_beta_power_moment(1, upper_time * frequency)
+                analytic_derivative = (
+                    -lower_time * lower_first * upper_moment
+                    + upper_time * lower_moment * upper_first
+                ) / upper_moment**2
+                differentiated_ratio = mp.diff(
+                    lambda omega, lower_time=lower_time, upper_time=upper_time: (
+                        _eighth_order_beta_power_moment(0, lower_time * omega)
+                        / _eighth_order_beta_power_moment(0, upper_time * omega)
+                    ),
+                    frequency,
+                )
+                assert mp.almosteq(analytic_derivative, differentiated_ratio)
+                assert analytic_derivative > 0
+                ratios.append(lower_moment / upper_moment)
+                smallest_ratio_derivative = min(
+                    smallest_ratio_derivative, analytic_derivative
+                )
+            assert all(upper > lower for lower, upper in itertools.pairwise(ratios))
+        assert smallest_ratio_derivative > mp.mpf("0.0015")
+
+        rows = list(map(mp.mpf, ["0.07", "0.21", "0.57", "0.93"]))
+        columns = list(map(mp.mpf, ["0.03", "0.13", "0.41", "1.1", "2"]))
+        smallest_beta_margin = mp.inf
+        smallest_tail_margin = mp.inf
+        for lower_time, upper_time in itertools.combinations(rows, 2):
+            for lower_frequency, upper_frequency in itertools.combinations(columns, 2):
+                beta_determinant = _eighth_order_beta_moment(
+                    lower_time * lower_frequency
+                ) * _eighth_order_beta_moment(
+                    upper_time * upper_frequency
+                ) - _eighth_order_beta_moment(
+                    lower_time * upper_frequency
+                ) * _eighth_order_beta_moment(upper_time * lower_frequency)
+                tail_determinant = (
+                    (lower_time * upper_time * lower_frequency * upper_frequency) ** 8
+                    / mp.factorial(7) ** 2
+                    * beta_determinant
+                )
+                assert beta_determinant < 0
+                assert tail_determinant < 0
+                smallest_beta_margin = min(smallest_beta_margin, -beta_determinant)
+                smallest_tail_margin = min(smallest_tail_margin, -tail_determinant)
+        assert smallest_beta_margin > mp.mpf("2.4e-5")
+        assert smallest_tail_margin > mp.mpf("1e-46")
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

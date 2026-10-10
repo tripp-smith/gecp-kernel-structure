@@ -1752,3 +1752,12 @@ This annotation records delivered identifiers without changing the goals above.
   theorem, all-orders compatibility, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 79 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase AS: verified with green CI in PR #47. The scale-ratio theorem
+  `eighthOrderBetaMomentScaleRatio_strictMonoOn` transfers the Phase AR
+  elasticity order to positive product-bounded frequency intervals,
+  `eighthOrderBetaMoment_fin_two_det_neg` proves the normalized beta-moment
+  determinant is strictly negative, and `eighthOrderTail_fin_two_det_neg`
+  transfers that sign to the unmasked eighth-order Taylor tail. All-orders
+  compatibility, a global smooth remainder, Conjecture G1, and Problem 4.2
+  remain open. The root command passes with 80 tests and no known dependency
+  vulnerabilities.
