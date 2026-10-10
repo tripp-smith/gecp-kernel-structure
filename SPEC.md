@@ -1695,7 +1695,8 @@ This annotation records delivered identifiers without changing the goals above.
   stable-interpolation magnitude estimate before it can improve determinant
   decay; Conjecture G1 and Problem 4.2 remain open. The root command passes
   with 73 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AN: verified on 2026-10-10; delivery pending.
+- Post-v1 research phase AN: complete with green CI on 2026-10-10 and
+  delivered in merged PR #42.
   `strictSignRegular_continuation_signCoherent` transfers selected-cross sign
   coherence through any successful prefix and finite continuation, while
   `strictSignRegular_completeContinuation_pivotsBounded` preserves an initial

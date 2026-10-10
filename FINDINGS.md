@@ -534,7 +534,7 @@ pivots.
   automatic factor-one core dominance. Applying the factorial-free mechanism
   to the dyadic approximation still requires sign-regularity and mixed-column
   compatibility for its remainder; Conjecture G1 and Problem 4.2 remain open.
-  Delivery is pending.
+  The change passed CI and merged as PR #42.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

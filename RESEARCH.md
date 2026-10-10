@@ -3014,7 +3014,7 @@ Verification:
 
 ## Phase AN — factorial-free continuation determinants
 
-State: verified; delivery pending.
+State: complete; delivered in merged PR #42 with green CI.
 
 Phase AM shows that compound sign balance removes a local triangle factor, but
 also shows why condensation alone is homogeneous and cannot manufacture
