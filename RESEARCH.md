@@ -3649,7 +3649,7 @@ Verification:
 
 ## Phase AU — finite composition strictness
 
-State: verified locally; draft PR pending.
+State: verified locally; draft PR #49 open.
 
 Phase AT reduces the eighth-order unmasked tail to a shared-domain
 composition of the exponential kernel and the seventh-degree truncated-power
