@@ -607,6 +607,7 @@ pivots.
   five on a product-bounded grid. Total positivity of the truncated-power
   factor and continuous Cauchy--Binet strictness remain to be formalized. The
   root command passes with 81 tests and no known dependency vulnerabilities.
+  The change passed CI and merged as PR #48.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -3562,7 +3562,7 @@ Verification:
 
 ## Phase AT — truncated-power composition bridge
 
-State: verified with green CI in PR #48.
+State: complete; delivered in merged PR #48 with green CI.
 
 The Phase AP beta integral admits the scaling substitution `v = ω u`:
 `ω^8 M(tω) = integral_0^ω (ω-v)^7 exp(-tv) dv`. Consequently the unmasked

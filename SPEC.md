@@ -1762,7 +1762,8 @@ This annotation records delivered identifiers without changing the goals above.
   compatibility, a global smooth remainder, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 80 tests and no known dependency
   vulnerabilities.
-- Post-v1 research phase AT: verified with green CI in PR #48.
+- Post-v1 research phase AT: complete with green CI on 2026-10-10 and
+  delivered in merged PR #48.
   `eighthOrderBetaMoment_scaled_eq_truncatedPower` proves the exact scaled beta
   identity, `eighthOrderTruncatedPower_integral_commonCutoff` moves every
   column to a shared integration domain, and
