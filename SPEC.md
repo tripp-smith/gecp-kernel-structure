@@ -1762,3 +1762,13 @@ This annotation records delivered identifiers without changing the goals above.
   compatibility, a global smooth remainder, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 80 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase AT: in progress.
+  `eighthOrderBetaMoment_scaled_eq_truncatedPower` proves the exact scaled beta
+  identity, `eighthOrderTruncatedPower_integral_commonCutoff` moves every
+  column to a shared integration domain, and
+  `eighthOrderTail_eq_truncatedPowerComposition_commonCutoff` expresses the
+  unmasked tail as a positive row scaling of an exponential/truncated-power
+  composition. Total positivity of the truncated-power factor, continuous
+  Cauchy--Binet strictness, all-orders tail sign regularity, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes with 81 tests and no known
+  dependency vulnerabilities.
