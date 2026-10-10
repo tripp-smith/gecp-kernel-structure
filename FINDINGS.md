@@ -572,6 +572,18 @@ pivots.
   `0.0008`. Differentiation and the final ordered-minor theorem remain to be
   formalized. The root command passes with 78 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #45.
+- Phase AR supplies the analytic hinge left open by Phase AQ. A single
+  dominated-parametric-integral lemma proves
+  `M'(x) = -J_1(x)` and `J_1'(x) = -J_2(x)` for every real `x`. The exact
+  quotient rule then identifies the derivative of
+  `E(x) = -x J_1(x) / M(x)` with the Phase AQ variance numerator divided by
+  `M(x)^2`, so `eighthOrderBetaElasticity_strictAntiOn` proves that `E` is
+  strictly decreasing on `0 <= x <= 2`. At 100 decimal digits, independently
+  differentiated integrals agree at endpoint and logarithmic test points; a
+  dense local sweep keeps `-E'(x)` above `0.078`. The two-variable ordered-
+  product transfer and final beta-moment minor theorem remain separate tasks.
+  The root command passes with 79 tests and no known dependency
+  vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
