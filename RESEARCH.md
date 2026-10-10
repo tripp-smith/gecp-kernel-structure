@@ -2639,3 +2639,96 @@ Verification:
   through scale 256 and neighborhoods of powers of two through `2^16`;
 - `./scripts/verify.sh` passes with 69 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AJ — multi-bordered residual minors
+
+State: verified on 2026-10-10; delivery pending.
+
+The current bordered determinant API handles one appended row and column,
+which is exactly enough for pointwise residual identities and order-two cross
+sign coherence. A renormalization argument needs the stronger Schur-complement
+closure fact: every finite minor of a run's final residual is the corresponding
+multi-bordered original-kernel determinant divided by the selected-core
+determinant. This is the all-orders analogue of the one-border identity.
+
+Frozen public Lean targets:
+
+- define a recursive arbitrary-border index, row map, column map, and augmented
+  core that preserve the run's dependent pivot order;
+- prove the one-step augmented determinant factorization by exact block
+  elimination, without introducing an inverse;
+- prove the full identity `det augmented = det selectedCore * det residualMinor`;
+- transfer nonsingularity from an injective augmented original-kernel minor to
+  the corresponding final-residual minor;
+- specialize the transfer to strictly sign-regular kernels and the fermionic
+  kernel at every finite order.
+
+Proof contract:
+
+- recurse on `Run`, retaining the selected coordinates before all appended
+  border coordinates; do not flatten through lists;
+- use factorization/elimination rather than an explicit matrix inverse;
+- keep arbitrary finite border index types in the generic algebraic theorem;
+- require injectivity of the combined augmented coordinates explicitly when
+  invoking strict sign regularity, so repeated selected/border nodes correctly
+  remain a zero-minor obstruction.
+
+Independent checks:
+
+- verify the multi-border identity exactly for rational runs with border sizes
+  zero through three;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if transporting an arbitrary border through the recursive sum index becomes
+  brittle after three attempts, introduce a dedicated recursive
+  `AugmentedIndex` rather than reindexing `(SelectedIndex + border)` at every
+  step.
+
+Non-claims:
+
+- this phase establishes the determinant mechanism for all residual orders;
+  it does not yet prove a globally fixed residual signature after arbitrary
+  pivot interleavings;
+- it does not by itself create the threshold-parametric nested-band restart,
+  prove Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `Run.selectedCore_det_ne`, `Run.selectedRow_injective`, and
+  `Run.selectedColumn_injective` expose the nonsingularity and coordinate
+  distinctness already forced by a valid dependent run;
+- `Run.AugmentedIndex`, `Run.augmentedRow`, `Run.augmentedColumn`, and
+  `Run.augmentedCore` retain every pivot before an arbitrary finite border;
+- `Run.augmentedCore_step_det` proves the exact one-step block factorization,
+  and `Run.augmentedCore_det_eq_selectedCore_det_mul_finalResidual_minor`
+  iterates it through the full run;
+- `GECP.strictSignRegular_finalResidual_minor_oriented_pos` transports the
+  strict sign of an injective augmented minor through the selected-core and
+  explicit row/column orientation gauges;
+- `GECP.strictSignRegular_finalResidual_minor_ne_zero` and the fermionic
+  specializations in `Fermionic.ResidualMinors` prove all corresponding
+  residual minors nonzero.
+
+Result:
+
+- the former one-border/order-two mechanism now holds for every finite minor
+  order without an inverse or a fixed-size reindexing;
+- sign regularity is preserved exactly after accounting for the permutation
+  gauge created by interleaving new border coordinates with the run's pivot
+  order;
+- the next useful target is to factor those tuple orientations into pointwise
+  row and column gauges. That would package a gauge-scaled final residual as a
+  strictly sign-regular kernel and make recursive band restarts substantially
+  easier to state and compose.
+
+Verification:
+
+- focused generic and fermionic Lean builds and the expanded public axiom
+  audit pass with only Lean's permitted default axioms;
+- exact `Fraction` arithmetic checks the determinant identity and nonzero
+  residual minors for border sizes zero through three;
+- `./scripts/verify.sh` passes with 70 Python tests and no known dependency
+  vulnerabilities.

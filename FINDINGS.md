@@ -494,6 +494,12 @@ pivots.
   regression verifies the effective-rank, binary-size, and exponent budgets
   across ordinary and power-of-two-adjacent scales. The change passed CI and
   merged as PR #37.
+- On 2026-10-10 the Phase AJ root command passed the same gate with 70 Python
+  tests and no known dependency vulnerabilities. Its arbitrary-border
+  determinant factorization, orientation-aware strict-sign transfer, and
+  fermionic residual-minor nonsingularity results use only the permitted Lean
+  axioms; exact `Fraction` arithmetic independently checks border sizes zero
+  through three. Delivery is pending review.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
