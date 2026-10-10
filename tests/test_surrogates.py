@@ -260,6 +260,52 @@ def test_exceptional_columns_compose_with_exact_gecp_selected_core() -> None:
     )
 
 
+def test_prescribed_two_corner_run_has_exactly_two_exceptional_columns() -> None:
+    size = 7
+    matrix = geometric_surrogate(size, Fraction(2, 3))
+    residual = [row.copy() for row in matrix]
+    selected_rows: list[int] = []
+    selected_columns: list[int] = []
+    pivots: list[Fraction] = []
+
+    def update(pivot_row: int, pivot_column: int) -> None:
+        pivot = residual[pivot_row][pivot_column]
+        assert pivot != 0
+        selected_rows.append(pivot_row)
+        selected_columns.append(pivot_column)
+        pivots.append(pivot)
+        pivot_column_values = [residual[i][pivot_column] for i in range(size)]
+        pivot_row_values = residual[pivot_row].copy()
+        for i in range(size):
+            for j in range(size):
+                residual[i][j] -= pivot_column_values[i] * pivot_row_values[j] / pivot
+
+    update(0, size - 1)
+    update(size - 1, 0)
+    central_columns = range(1, size - 1)
+    for _step in range(size - 2):
+        pivot_row, pivot_column = max(
+            itertools.product(range(size), central_columns),
+            key=lambda coordinate: (
+                abs(residual[coordinate[0]][coordinate[1]]),
+                -coordinate[0],
+                -coordinate[1],
+            ),
+        )
+        update(pivot_row, pivot_column)
+
+    exceptional_indices = {0, 1}
+    assert selected_columns[:2] == [size - 1, 0]
+    assert len(exceptional_indices) == 2
+    assert all(
+        1 <= column < size - 1
+        for index, column in enumerate(selected_columns)
+        if index not in exceptional_indices
+    )
+    selected_core = [[matrix[i][j] for j in selected_columns] for i in selected_rows]
+    assert fraction_determinant(selected_core) == math.prod(pivots)
+
+
 def test_quadratic_block_satisfies_exact_half_contraction_condition() -> None:
     for scale in range(33):
         accuracy_order = 16 * (scale + 1)

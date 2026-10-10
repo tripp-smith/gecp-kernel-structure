@@ -9,6 +9,7 @@ import GECPKernelStructure.Fermionic.PowerSecantResidual
 import GECPKernelStructure.Fermionic.TwoCornerObstruction
 import GECPKernelStructure.Fermionic.ThirdPivotLocalization
 import GECPKernelStructure.Fermionic.OuterHalfInvariant
+import GECPKernelStructure.Fermionic.TwoCornerRun
 import GECPKernelStructure.Matrix.DeterminantObstruction
 import GECPKernelStructure.GECP.ApproxPivot
 import GECPKernelStructure.GECP.BorderedDeterminant

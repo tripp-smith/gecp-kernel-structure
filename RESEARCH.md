@@ -2336,3 +2336,98 @@ Verification:
   core determinant/pivot-product identity and the two-exception rank shift;
 - `./scripts/verify.sh` passes with 66 Python tests and no known dependency
   vulnerabilities.
+
+## Phase AG — two-corner exceptional indices
+
+State: verified on 2026-10-09; merge and CI pending.
+
+Phase AF accepts an arbitrary exceptional subset of an actual GECP selected
+core. The canonical application needs a dependent run whose first two steps
+are the prescribed symmetric cutoff corners and a concrete exceptional set
+containing exactly those recursive selected indices. Every other index then
+belongs definitionally to the continuation run, so central-band completeness
+of the continuation supplies the smaller-cutoff hypotheses required by Phase
+AE without list-position reconstruction.
+
+Frozen public Lean targets:
+
+- `symmetricTwoCornerRun`: prepend the exact pivots `(0,Lambda)` and
+  `(1,-Lambda)` to any successful continuation of
+  `symmetricTwoCornerResidual`;
+- `symmetricTwoCornerExceptional`: define the two first recursive selected
+  indices of that run;
+- `symmetricTwoCornerExceptional_card`: prove the exceptional set has exactly
+  two elements;
+- `symmetricTwoCornerRun_selectedColumn_mem_of_not_exceptional`: transfer
+  continuation column-domain membership to every nonexceptional full-run
+  selected index;
+- `fermionicKernel_symmetricTwoCornerRun_sample_det_le_two_pow`: instantiate
+  Phase AE's determinant estimate with the two exact corner columns and a
+  smaller-band complete continuation.
+
+Proof contract:
+
+- retain the exact nonzero witnesses already used by
+  `symmetricTwoCornerResidual` so the run's final residual is definitionally
+  the continuation kernel;
+- define the exceptional set in the recursive `Fin 1 + Fin 1 + tail` index
+  type, not by an assumed list ordering;
+- prove nonexceptional membership by dependent sum elimination and the
+  existing `Run.selectedColumn_mem_of_completeOn` theorem;
+- charge exactly two exceptional coordinates in the closed determinant
+  exponent.
+
+Independent checks:
+
+- run an exact rational prescribed two-pivot prefix followed by a central
+  continuation and verify selected-column order, two exceptions, determinant,
+  and pivot product;
+- run the focused Lean build, expanded public axiom audit, and root
+  verification.
+
+Decision rule:
+
+- if `Finset` simplification over the dependent recursive index fails after
+  three attempts, expose the equivalent two-constructor membership predicate
+  and prove its finite cardinality separately; do not assume the exception
+  count or selected-column order.
+
+Non-claims:
+
+- continuation completeness on the central band remains a hypothesis here;
+  deriving it from Phase AD's above-quarter condition is the next phase;
+- this phase does not prove a shrinking-band recurrence, remove the
+  logarithmic startup, prove Conjecture G1, or solve Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `symmetricTwoCornerRun` embeds the exact prescribed corner steps before an
+  arbitrary successful continuation;
+- `symmetricTwoCornerExceptional` and
+  `symmetricTwoCornerExceptional_card` identify exactly two recursive selected
+  indices without converting through lists;
+- `symmetricTwoCornerRun_selectedRow_mem` and
+  `symmetricTwoCornerRun_selectedColumn_mem_of_not_exceptional` transfer the
+  physical row and continuation-column domains to the full run;
+- `fermionicKernel_symmetricTwoCornerRun_sample_det_le_two_pow` specializes
+  Phase AE with the exact `+2` effective-rank shift.
+
+Result:
+
+- the two cutoff corners are now formally isolated as the only selected
+  columns exempt from a smaller-band approximation;
+- no ordering assumption or cardinality hypothesis is used for the exception
+  set: both follow from the dependent run constructors;
+- the next obligation is to build a finite continuation from the Phase AD
+  residual sequence and prove its `CompleteOn` property on the central band
+  while its pivots remain above one quarter.
+
+Verification:
+
+- the focused Lean build and expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- an exact rational prescribed-corner prefix followed by a central complete-
+  pivot continuation verifies selected-column order, the two exceptions,
+  selected-core determinant, and pivot product;
+- `./scripts/verify.sh` passes with 67 Python tests and no known dependency
+  vulnerabilities.
