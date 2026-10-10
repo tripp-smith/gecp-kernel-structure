@@ -583,7 +583,7 @@ pivots.
   dense local sweep keeps `-E'(x)` above `0.078`. The two-variable ordered-
   product transfer and final beta-moment minor theorem remain separate tasks.
   The root command passes with 79 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #46.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -1742,7 +1742,8 @@ This annotation records delivered identifiers without changing the goals above.
   order-two beta-moment kernel theorem, all-orders compatibility, Conjecture
   G1, and Problem 4.2 remain open. The root command passes with 78 tests and no
   known dependency vulnerabilities.
-- Post-v1 research phase AR: verified with green CI in PR #46. The public derivative theorems
+- Post-v1 research phase AR: complete with green CI on 2026-10-10 and
+  delivered in merged PR #46. The public derivative theorems
   `eighthOrderBetaMoment_hasDerivAt` and
   `eighthOrderBetaMomentOne_hasDerivAt` justify differentiation under the beta
   integral, while `eighthOrderBetaElasticity_hasDerivAt` exposes the exact

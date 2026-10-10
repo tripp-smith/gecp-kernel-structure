@@ -3387,7 +3387,7 @@ Verification:
 
 ## Phase AR — beta-moment logarithmic elasticity
 
-State: verified with green CI in PR #46.
+State: complete; delivered in merged PR #46 with green CI.
 
 Phase AQ proves the strict numerator inequality obtained by formally
 differentiating the logarithmic elasticity of the normalized beta moment. This
