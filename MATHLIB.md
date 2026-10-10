@@ -142,6 +142,14 @@ applicable Desnanot--Jacobi or Dodgson-condensation theorem; that identity is a
 credible upstream candidate if the next quantitative phase requires a generic
 matrix formulation.
 
+Phase AM proves the needed two-border Desnanot--Jacobi identity by composing
+the project's selected-core Schur factorizations with `Matrix.det_fin_two`.
+That wrapper is tied to the local dependent `Run` API, but a generic finite
+matrix Desnanot--Jacobi theorem remains a credible upstream candidate. The
+elementary real lemma `abs_sub_le_max_of_mul_nonneg` may also be useful more
+broadly, although its proof is short and no upstream proposal is warranted
+without a second independent consumer.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
