@@ -1683,7 +1683,8 @@ This annotation records delivered identifiers without changing the goals above.
   derive a quantitative condensation inequality, remove the determinant
   prefactor, prove Conjecture G1, or solve Problem 4.2. The root command passes
   with 72 tests and no known dependency vulnerabilities.
-- Post-v1 research phase AM: verified on 2026-10-10; delivery pending.
+- Post-v1 research phase AM: complete with green CI on 2026-10-10 and
+  delivered in merged PR #41.
   `Run.augmentedCore_fin_two_mul_selectedCore_det` proves the exact
   selected-core Desnanot--Jacobi identity for two arbitrary appended rows and
   columns, while

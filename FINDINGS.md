@@ -522,8 +522,8 @@ pivots.
   exhausts all 256 ordered fresh two-border choices after a three-pivot
   geometric-surrogate run. This is a verified subtraction-sensitive gain, but
   it propagates one-border magnitude estimates and does not by itself generate
-  determinant decay, prove Conjecture G1, or solve Problem 4.2. Delivery is
-  pending.
+  determinant decay, prove Conjecture G1, or solve Problem 4.2. The change
+  passed CI and merged as PR #41.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

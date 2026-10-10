@@ -2924,7 +2924,7 @@ Verification:
 
 ## Phase AM — two-border condensation inequality
 
-State: verified; delivery pending.
+State: complete; delivered in merged PR #41 with green CI.
 
 Phase AL supplies positive sign chambers for compound minors. The first
 quantitative identity to exploit is Desnanot--Jacobi condensation: a selected
