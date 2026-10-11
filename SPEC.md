@@ -1956,3 +1956,12 @@ This annotation records delivered identifiers without changing the goals above.
   these coefficients, dyadic assembly, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 96 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #64.
+- Post-v1 research phase BK: verified locally on 2026-10-11.
+  `mixedColumnPolynomial_rank_amplification` combines low-rank coefficient
+  vanishing with nonnegative mixed coefficients to prove
+  `lambda^(n-k) det(E+LR) <= det(lambda E+LR)` for `lambda >= 1`.
+  `positiveSeriesFermionic_rank_amplification` supplies the exact rank-eight
+  fermionic specialization. A fixed-base amplified determinant envelope,
+  dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 97 tests and no known dependency vulnerabilities. Delivery is
+  pending.

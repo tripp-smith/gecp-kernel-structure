@@ -263,6 +263,10 @@ Phase BJ also adds no public Python API. The 120-digit truncation experiment
 independently checks the proved infinite-tail coefficient limit; it does not
 yet provide a quantitative runtime convergence certificate for GECP.
 
+Phase BK also adds no public Python API. Its 350-digit sweep independently
+checks the formal determinant-pencil amplification law; it is not a runtime
+certificate and does not yet expose a completed GECP rate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

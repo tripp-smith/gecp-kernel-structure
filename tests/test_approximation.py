@@ -773,6 +773,41 @@ def test_positive_tail_mixed_coefficients_converge() -> None:
     assert all(later < earlier for earlier, later in itertools.pairwise(errors))
 
 
+def test_positive_tail_rank_amplification() -> None:
+    mp.mp.dps = 350
+    smallest_relative_slack = mp.inf
+
+    for order in range(9, 17):
+        nodes = [mp.mpf(index) / (order + 1) for index in range(1, order + 1)]
+        low = mp.matrix(
+            [
+                [
+                    mp.fsum(
+                        (row * column) ** degree / mp.factorial(degree)
+                        for degree in range(8)
+                    )
+                    for column in nodes
+                ]
+                for row in nodes
+            ]
+        )
+        full = mp.matrix([[mp.exp(row * column) for column in nodes] for row in nodes])
+        tail = full - low
+        full_det = mp.det(full)
+        assert full_det > 0
+
+        for weight in (mp.mpf(2), mp.mpf(8), mp.mpf(40320)):
+            amplified_det = mp.det(low + weight * tail)
+            lower_bound = weight ** (order - 8) * full_det
+            slack = amplified_det - lower_bound
+            assert slack > 0
+            smallest_relative_slack = min(
+                smallest_relative_slack, slack / amplified_det
+            )
+
+    assert smallest_relative_slack > 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

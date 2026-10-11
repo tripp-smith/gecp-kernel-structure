@@ -328,6 +328,13 @@ small reusable lemma over finite matrix types; an upstream version should be
 generalized from real matrices to a topological commutative ring. The
 finite-to-infinite Taylor-tail specialization remains project-specific.
 
+Phase BK adds a generic coefficient-support consequence: if the background
+matrix factors through `k`, multilinearity kills coefficients below degree
+`n-k`; nonnegative coefficients then give a monotone determinant-pencil
+amplification inequality. This is a plausible polynomial/matrix upstream
+lemma once generalized beyond real matrices and phrased using an ordered
+coefficient semiring. The eighth-order and fermionic instances remain local.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

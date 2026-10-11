@@ -797,6 +797,17 @@ pivots.
   96 tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #64.
 
+- Phase BK turns the exact coefficient signs into a quantitative scaling law.
+  A low block factoring through `k` coordinates forces every mixed coefficient
+  below degree `n-k` to vanish. Hence, for every `lambda >= 1`, nonnegative
+  coefficients give the division-free comparison
+  `lambda^(n-k) det(E+B) <= det(lambda E+B)`. The exact positive exponential
+  split has `k=8`, and positive fermionic denominator scaling preserves the
+  inequality. A 350-digit sweep verifies strict slack at orders 9--16 and
+  weights 2, 8, and `8!`. The remaining quantitative target is a fixed-base
+  upper envelope for the amplified determinant. The root command passes with
+  97 tests and no known dependency vulnerabilities. Delivery is pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
