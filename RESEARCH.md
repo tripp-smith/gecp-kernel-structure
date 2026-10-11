@@ -4485,7 +4485,7 @@ Verification:
 
 ## Phase BH contract: block-feature coefficientwise Cauchy--Binet
 
-State: verified locally.
+State: complete; merged as PR #62 with green CI.
 
 Phase BH freezes the finite algebra suggested by Phase BG. A rectangular
 feature product is split into low and high feature blocks; scaling every high

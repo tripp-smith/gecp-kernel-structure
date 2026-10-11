@@ -772,7 +772,7 @@ pivots.
   Cauchy--Binet grouping and finds every coefficient strictly positive. The
   infinite-tail limit and a quantitative mixed-determinant bound remain open.
   The root command passes with 95 tests and no known dependency
-  vulnerabilities. Delivery is draft PR #62.
+  vulnerabilities. The change passed CI and merged as PR #62.
 
 ## Run provenance
 
