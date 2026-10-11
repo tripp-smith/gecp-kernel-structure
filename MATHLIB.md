@@ -322,6 +322,12 @@ block-feature Cauchy--Binet polynomial. The proof uses existing polynomial
 extensionality over `Real`; an upstream version should be stated over the
 weakest infinite integral-domain or sufficiently-large-domain hypotheses.
 
+Phase BJ adds a generic topological companion: fixed-cardinality sums of
+mixed-column determinants are jointly continuous in both matrices. This is a
+small reusable lemma over finite matrix types; an upstream version should be
+generalized from real matrices to a topological commutative ring. The
+finite-to-infinite Taylor-tail specialization remains project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

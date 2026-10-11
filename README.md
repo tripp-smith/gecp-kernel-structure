@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BI — mixed-column coefficient bridge<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase BH `./scripts/verify.sh` passed with 95 tests and no known dependency vulnerabilities on 2026-10-11<br>
+> **Current phase:** BJ — infinite-tail mixed coefficients<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase BJ `./scripts/verify.sh` passed with 96 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BI merged as PR #63 with green CI<br>
-> **Claim level:** fixed-cardinality sums of finite positive-Taylor mixed-column determinants are nonnegative; the infinite-tail limit and quantitative contraction remain open
+> **Delivery:** Phase BJ verified locally; PR pending<br>
+> **Claim level:** exact positive-exponential-tail mixed-column coefficient sums are nonnegative; a quantitative determinant/contraction bound remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -79,6 +79,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BG | Positive-series compatible fermionic split | complete | equivalent `u=1-t` positive-exponential representation; eight positive monomial features; strictly totally positive tail; `(1/8!)^n` tail-GECP envelope | Lean build; public axiom audit; 140-digit mixed-coefficient sweep through order six; 94-test root verification; green CI | merged PR #61 |
 | BH | Block-feature coefficientwise Cauchy--Binet | complete | `highFeatureCount`; `signature_mul_det_weightedFeatureProduct_eq_sum`; `expTaylor_blockFeatureCoefficient_nonneg` | Lean build; public axiom audit; exact rational coefficient regression; 95-test root verification; green CI | merged PR #62 |
 | BI | Mixed-column coefficient bridge | complete | `mixedColumnPolynomial`; `blockFeatureCoefficient_eq_mixedColumnCoefficient`; `expTaylor_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; exact rational coefficient identity; 95-test root verification; green CI | merged PR #63 |
+| BJ | Infinite-tail mixed coefficients | verified | `mixedColumnCoefficient_tendsto`; exact eighth-order tail matrix; `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; 120-digit truncation convergence; 96-test root verification | PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

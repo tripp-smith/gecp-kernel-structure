@@ -4553,6 +4553,73 @@ Verification:
 - `./scripts/verify.sh` passes with 95 Python tests and no known dependency
   vulnerabilities.
 
+## Phase BJ contract: infinite-tail mixed coefficients
+
+State: verified locally.
+
+Phase BJ passes the finite physical-column coefficient sign from Phase BI to
+the exact positive exponential tail. Because a mixed coefficient is a finite
+sum of finite determinants, entrywise matrix convergence is sufficient; no
+infinite-dimensional Cauchy--Binet theorem is needed.
+
+Frozen public Lean targets:
+
+- prove continuity of `mixedColumnCoefficient` in its high and low matrix
+  arguments;
+- define the fixed eighth-order Taylor matrix, finite tail truncations, and
+  exact exponential tail matrix;
+- prove finite tail truncations converge entrywise to the exact tail matrix;
+- identify the finite truncations with the Phase BI low/high feature products;
+- prove every fixed-cardinality exact-tail mixed-column coefficient
+  nonnegative on nonnegative strictly ordered nodes.
+
+Independent check:
+
+- use high precision to show the finite coefficient vector converges to the
+  direct exact-tail coefficient vector on a deterministic ordered sample.
+
+Decision rule:
+
+- factor the proof through generic finite-matrix continuity before specializing
+  exponential Taylor sums;
+- if the feature-product identification is the only obstruction, expose it as
+  a separate exact finite-sum lemma rather than weakening the limit theorem.
+
+Non-claims:
+
+- coefficientwise nonnegativity does not by itself give a closed determinant
+  magnitude bound;
+- dyadic assembly, Conjecture G1, and Simons Problem 4.2 remain open.
+
+Delivered:
+
+- `Matrix.mixedColumnCoefficient_tendsto` proves joint continuity of every
+  fixed-cardinality mixed-column coefficient;
+- `positiveEighthOrderFiniteTailMatrix_tendsto` passes the finite Taylor tail
+  matrices to the exact positive exponential tail;
+- `lowFeatureProduct_eight` and `highFeatureProduct_eight` identify those
+  matrices with the Phase BI feature split exactly;
+- `positiveEighthOrderTailMatrix_apply` identifies the limit entrywise with
+  `positiveEighthOrderTail`;
+- `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` proves every exact
+  mixed coefficient sum nonnegative on nonnegative strictly ordered nodes.
+
+Result:
+
+The coefficientwise sign pattern observed numerically in Phase BG is now
+proved for the exact infinite positive exponential tail at every matrix order
+and tail-column count. The proof uses only finite determinant continuity after
+the polynomial bridge, avoiding an infinite feature-index formalization.
+
+Verification:
+
+- all new public declarations report only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- a 120-digit ordered `3 x 3` regression checks strict positivity of the exact
+  coefficient vector and monotone convergence from cutoffs 16, 24, 40, and 64;
+- `./scripts/verify.sh` passes with 96 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.
