@@ -4243,3 +4243,78 @@ Verification:
 - `./scripts/verify.sh` passes with 88 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #55.
+
+## Phase BB contract: Andréief integrand symmetrization
+
+Phase BB isolates the algebraic heart of continuous Cauchy--Binet. Before
+integration, sum the row-wise composition integrand over every permutation of
+the intermediate sample. Alternation of the right determinant supplies the
+permutation sign, and the sum becomes exactly the product of the sampled left
+and right determinants.
+
+Frozen public Lean targets:
+
+- define the row-wise composition sample integrand;
+- prove its sum over all coordinate permutations equals the product of the two
+  sampled determinants;
+- specialize to the exponential and seventh-degree truncated-power kernels and
+  prove the prescribed weak sign on every strictly ordered intermediate sample.
+
+Proof contract:
+
+- use `Matrix.det_permute` for the right factor and `Matrix.det_apply'` on the
+  transpose of the left factor;
+- consume the all-orders exponential strict-sign theorem and Phase BA
+  truncated-power total nonnegativity directly;
+- keep integration and strictness outside the theorem statement so the exact
+  remaining analytic obligation is visible.
+
+Independent checks:
+
+- evaluate the six permutation terms of an exact rational `3 x 3` example and
+  independently multiply the two determinants;
+- require both calculations to equal `-2205`;
+- run focused Lean builds, the public axiom audit, and root verification.
+
+Decision rule:
+
+- if symmetrization closes, the next phase proves that the finite product
+  measure on a shared interval is invariant under coordinate permutations and
+  integrates the identity into continuous Cauchy--Binet;
+- if determinant orientations disagree, record the exact permutation
+  convention rather than altering the kernel signature.
+
+Non-claims:
+
+- this phase does not yet integrate the symmetrized identity, establish strict
+  support for the truncated-power determinant, prove all-orders tail sign
+  regularity, Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.compositionSampleIntegrand` records the unsymmetrized row-wise
+  composition term;
+- `Matrix.sum_compositionSampleIntegrand_comp_perm` proves exact finite
+  permutation symmetrization;
+- `eighthOrderComposition_symmetrized_nonneg` combines exponential strict sign
+  regularity with all-orders truncated-power total nonnegativity on ordered
+  intermediate samples.
+
+Result:
+
+- the determinant algebra needed by Andréief is complete at every finite order;
+- the remaining bridge is measure-theoretic: permutation invariance of the
+  shared cube and finite-sum/integral exchange;
+- strict tail signs additionally require a positive-measure region where the
+  truncated-power determinant is positive.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic sums all six permutation terms of a rational
+  `3 x 3` example and independently multiplies its two determinants, obtaining
+  `-2205` by both routes;
+- `./scripts/verify.sh` passes with 89 Python tests and no known dependency
+  vulnerabilities.
+- The verified change is open as draft PR #56.

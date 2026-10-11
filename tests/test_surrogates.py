@@ -132,6 +132,28 @@ def test_ordered_strict_order_kernel_row_integrals_are_nonnegative_exactly() -> 
     assert fraction_determinant(collapsed_integrated) == 0
 
 
+def test_andreief_integrand_symmetrization_exactly() -> None:
+    left = [
+        [Fraction(1), Fraction(2), Fraction(4)],
+        [Fraction(3), Fraction(1), Fraction(5)],
+        [Fraction(2), Fraction(6), Fraction(1)],
+    ]
+    right = [
+        [Fraction(2), Fraction(1), Fraction(3)],
+        [Fraction(1), Fraction(4), Fraction(2)],
+        [Fraction(5), Fraction(2), Fraction(1)],
+    ]
+
+    symmetrized = Fraction()
+    for permutation in itertools.permutations(range(3)):
+        left_product = math.prod(left[i][permutation[i]] for i in range(3))
+        permuted_right = [right[permutation[i]] for i in range(3)]
+        symmetrized += left_product * fraction_determinant(permuted_right)
+
+    expected = fraction_determinant(left) * fraction_determinant(right)
+    assert symmetrized == expected == -2205
+
+
 def test_bordered_core_determinant_identity_exactly() -> None:
     matrix = geometric_surrogate(4, Fraction(2, 3))
     pivot_rows, pivot_columns, pivots = exact_gecp(matrix)

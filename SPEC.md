@@ -1853,3 +1853,14 @@ This annotation records delivered identifiers without changing the goals above.
   seventh-degree factor theorem. Exact strict support, all-orders tail sign
   regularity, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 88 tests and no known dependency vulnerabilities.
+- Post-v1 research phase BB: verified locally on 2026-10-11 and open as draft
+  PR #56.
+  `Matrix.sum_compositionSampleIntegrand_comp_perm` proves that finite
+  permutation symmetrization of the row-wise composition integrand equals the
+  product of the two sampled determinants, while
+  `eighthOrderComposition_symmetrized_nonneg` gives the prescribed weak sign
+  on every ordered intermediate sample using exponential strict sign
+  regularity and the all-orders truncated-power theorem. Product-measure
+  integration, strict support, all-orders tail sign regularity, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes with 89 tests and no
+  known dependency vulnerabilities.

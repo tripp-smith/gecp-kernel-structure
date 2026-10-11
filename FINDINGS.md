@@ -680,6 +680,16 @@ pivots.
   support and all-orders tail-composition signs remain open. The root command
   passes with 88 tests and no known dependency vulnerabilities. The change
   passed CI and merged as PR #55.
+- Phase BB isolates the exact algebra behind continuous Cauchy--Binet. Summing
+  the row-wise composition integrand over all permutations of an intermediate
+  sample equals the product of the sampled exponential and truncated-power
+  determinants. On strictly ordered samples this product has the exponential
+  signature's weak sign at every order, by exponential strict sign regularity
+  and the new all-orders truncated-power theorem. An exact rational `3 x 3`
+  regression obtains `-2205` both from six permutation terms and from the
+  determinant product. Product-measure permutation invariance, integration,
+  and a strict positive-measure witness remain open. The root command passes
+  with 89 tests and no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
