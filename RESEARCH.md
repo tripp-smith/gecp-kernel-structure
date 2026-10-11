@@ -4774,7 +4774,7 @@ Verification:
 
 ## Phase BM contract: total-positive Hadamard envelope
 
-State: verified locally; draft PR #67 open.
+State: complete; merged as PR #67 with green CI.
 
 Phase BL proves that the `8!`-amplified positive-series kernel is strictly
 totally positive and bounded by two, but its complete-run envelope does not
@@ -4847,7 +4847,7 @@ Verification:
   minors of an `8 x 8` positive-feature matrix, plus the determinant/product
   inequality and every northwest Schur stage;
 - `./scripts/verify.sh` passes with 99 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #67.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

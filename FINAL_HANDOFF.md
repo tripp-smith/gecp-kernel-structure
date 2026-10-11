@@ -172,7 +172,7 @@ not represented by the completed goal counter.
 | BJ — infinite-tail mixed coefficients | complete; green CI | merged [PR #64](https://github.com/tripp-smith/gecp-kernel-structure/pull/64) |
 | BK — low-rank tail amplification | complete; green CI | merged [PR #65](https://github.com/tripp-smith/gecp-kernel-structure/pull/65) |
 | BL — amplified-kernel envelope | complete; green CI | merged [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) |
-| BM — total-positive Hadamard envelope | verified locally | draft [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
+| BM — total-positive Hadamard envelope | complete; green CI | merged [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

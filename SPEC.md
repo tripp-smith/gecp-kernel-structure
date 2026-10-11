@@ -1987,4 +1987,4 @@ This annotation records delivered identifiers without changing the goals above.
   `det K_n <= 2^n / (8!)^(n-8)` for the original positive-series matrix when
   `n >= 8`. GECP composition, dyadic band/reflection assembly, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 99 tests and no
-  known dependency vulnerabilities.
+  known dependency vulnerabilities. The change passed CI and merged as PR #67.

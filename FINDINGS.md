@@ -832,7 +832,8 @@ pivots.
   Exact arithmetic checks all 12,869 nonempty ordered subminors at order eight
   and every Schur stage. GECP composition, band/reflection assembly,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 99
-  tests and no known dependency vulnerabilities.
+  tests and no known dependency vulnerabilities. The change passed CI and
+  merged as PR #67.
 
 ## Run provenance
 
