@@ -4849,6 +4849,56 @@ Verification:
 - `./scripts/verify.sh` passes with 99 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #67.
 
+## Phase BN contract: positive-series GECP composition
+
+State: in progress.
+
+Phase BM supplies exponential determinant decay for ordered samples of the
+reflected positive-series kernel, while Phase T bounds a complete-pivot
+residual power by the selected-core determinant. The selected pivots occur in
+algorithmic rather than sorted order, so the exact remaining bridge is an
+absolute determinant bound invariant under independent row and column
+permutations.
+
+Frozen public Lean targets:
+
+- prove a generic sorting lemma that transfers an ordered-sample determinant
+  upper bound to the absolute determinant of every injective sample of a
+  positive-minor kernel;
+- define the unamplified reflected positive-series fermionic kernel and identify
+  its sample matrices with `positiveSeriesFermionicMatrix`;
+- transfer Phase BM to arbitrary injective unit-band samples, obtaining
+  `|det K_n| <= 2^n / (8!)^(n-8)` for `n >= 8`;
+- compose that estimate with
+  `strictSignRegular_gecp_error_pow_le_selectedCore_det` for exact complete-
+  pivot runs on the positive unit band;
+- discharge the explicit arithmetic at `n = 10` and prove that every residual
+  entry after ten pivots has magnitude at most `1/2`.
+
+Independent check:
+
+- run high-precision complete pivoting on deterministic positive-unit-band
+  grids, verify the selected-core determinant inequality at rank ten, and
+  confirm the residual maximum is below the formal half bound.
+
+Decision rule:
+
+- sort the two selected tuples independently and track determinant signs only
+  through absolute values; do not assume the GECP pivot order is monotone;
+- reuse `Run.selectedRow_injective`, `Run.selectedColumn_injective`, and the
+  Phase T residual-power theorem instead of restating pivot-product algebra;
+- if endpoint closure is needed, isolate it as a later continuity theorem
+  rather than silently replacing strict positive arguments by nonnegative
+  ones.
+
+Non-claims:
+
+- this phase treats complete pivoting on the reflected positive-series kernel
+  over positive unit-band arguments; it does not yet combine positive and
+  negative frequency columns from a full fermionic run;
+- it does not yet prove endpoint closure, dyadic rescaling, Conjecture G1, or
+  Simons Problem 4.2.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.
