@@ -4393,3 +4393,92 @@ Verification:
   the exact split, every tail pivot, and every cumulative selected-core bound;
 - `./scripts/verify.sh` passes with 93 Python tests and no known dependency
   vulnerabilities.
+
+## Phase BG contract: positive-series compatible fermionic split
+
+State: verified locally; review and merge pending.
+
+The direct negative-exponential split from Phase BF is compatible at the pure
+tail endpoint but not coefficientwise compatible with its low-rank Taylor
+part. Exact high-precision diagnostics show that the one-tail-column
+coefficient of a `2 x 2` determinant has the opposite sign. Phase BG changes
+to the equivalent positive coordinate `u = 1 - t`, where
+`fermionicKernel t omega = exp (u * omega) / (1 + exp omega)` for positive
+frequency and every Taylor feature has positive coefficient.
+
+Frozen public Lean targets:
+
+- define the positive eighth-order exponential tail and its rank-eight Taylor
+  component;
+- prove the exact positive-series fermionic identity and decomposition;
+- prove strict total positivity of the positive tail on positive arguments,
+  using the Phase BE composition theorem with the necessary row-orientation
+  transport;
+- prove the unit-square `1 / 8!` error envelope after positive denominator
+  scaling.
+
+Independent checks:
+
+- record the sign failure of the negative-series `2 x 2` mixed coefficient;
+- verify on deterministic high-precision grids that every coefficient of
+  `det(P + lambda E)` for the positive-series split has the predicted common
+  sign through the tested orders.
+
+Decision rule:
+
+- if positive-tail strictness fails under row reversal, isolate the exact
+  orientation factor rather than weakening the determinant statement;
+- if positive-series mixed coefficients still disagree, minimize and retain a
+  counterexample instead of claiming compatibility;
+- after success, formalize a coefficientwise mixed-determinant bound and then
+  generalize from order eight to `8p`.
+
+Non-claims:
+
+- this phase does not itself bound every mixed determinant or prove a global
+  GECP contraction;
+- the endpoint `u = 0`, negative frequencies, dyadic assembly, Conjecture G1,
+  and Simons Problem 4.2 remain outside this contract.
+
+Failed hypothesis retained:
+
+- for rows and columns `(1/2, 1)`, the one-tail-column coefficient in the
+  `2 x 2` negative-exponential split is positive even though the full ordered
+  determinant orientation is negative. Thus Phase BF's direct split is not
+  coefficientwise sign compatible, despite both endpoint kernels having the
+  prescribed pure-minor sign.
+
+Delivered:
+
+- `positiveTaylorSeparatedTerms` gives the positive monomial feature family,
+  and `dividePositiveSeparatedRight` absorbs the reflected fermionic
+  denominator;
+- `positiveExpTaylor_error_le_next_mul_exp` supplies the positive-exponential
+  Lagrange envelope;
+- `eighthOrderTail_minor_signed_pos_of_rows_ne_zero` exposes the even-power
+  strengthening needed for row reversal;
+- `positiveSeriesEighthOrderTailKernel_strictSignRegular` proves strict total
+  positivity of the positive tail;
+- `fermionicKernel_one_sub_eq_positiveSeriesTaylorApprox_add_tail` gives the
+  exact reflected rank-eight-plus-tail decomposition;
+- the positive-series tail error and complete-run theorems retain the sharp
+  `1 / 8!` and `(1 / 8!)^rank` bounds after denominator scaling.
+
+Result:
+
+- the low and high feature families now use the same positive monomial
+  orientation, removing the exact order-two obstruction in the original
+  coordinate;
+- a 140-digit sweep finds every coefficient of `det(P + lambda E)` positive
+  through order six for deterministic positive nodes;
+- coefficientwise positivity is numerical evidence here, not yet a Lean
+  theorem. Its finite Cauchy--Binet formulation is the next contract.
+
+Verification:
+
+- focused Lean builds and the public axiom audit pass with only Lean's
+  permitted default axioms;
+- the independent mixed-coefficient regression checks both the negative-route
+  obstruction and the positive-series orientation through order six;
+- `./scripts/verify.sh` passes with 94 Python tests and no known dependency
+  vulnerabilities.

@@ -35,6 +35,7 @@ import GECPKernelStructure.Fermionic.TailCompositionSymmetrization
 import GECPKernelStructure.Fermionic.TailCompositionSign
 import GECPKernelStructure.Fermionic.TruncatedPowerStrictSupport
 import GECPKernelStructure.Fermionic.TailGECPEnvelope
+import GECPKernelStructure.Fermionic.PositiveSeriesTail
 import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction

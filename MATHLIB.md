@@ -298,6 +298,13 @@ nonexpansiveness yields a factorial-free determinant envelope. The reusable
 upstream candidate remains the generic continuation theorem from Phase AN;
 the new tail and rank-eight decomposition are fermionic-specific.
 
+Phase BG uses a project-specific reflection to replace an alternating Taylor
+feature family by positive monomial features. The reusable ingredient is a
+potential coefficientwise Cauchy--Binet theorem for a feature matrix split
+into two ordered index blocks with nonnegative weights. That abstraction is
+not yet formalized; the current strict-tail and mixed-coefficient results
+should remain local until the precise finite statement is proved.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
