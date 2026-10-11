@@ -246,6 +246,10 @@ Phase BF adds no public Python API. Its 120-digit complete-pivot regression is
 an independent check of the formal positive-unit-band tail envelope; it does
 not certify mixed low-rank-plus-tail determinants or a global GECP rate.
 
+Phase BG also adds no public Python API. Its 140-digit mixed-coefficient sweep
+selects the next formal theorem; the observed common sign is not exposed as a
+runtime certificate or claimed as a proved cutoff-uniform rate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

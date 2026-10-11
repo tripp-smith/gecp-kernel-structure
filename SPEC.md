@@ -1914,3 +1914,17 @@ This annotation records delivered identifiers without changing the goals above.
   extensions, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 93 tests and no known dependency vulnerabilities. The change
   passed CI and merged as PR #60.
+- Post-v1 research phase BG: verified locally on 2026-10-11.
+  The direct negative-exponential split has an order-two mixed-coefficient
+  sign obstruction. The equivalent reflected identity
+  `fermionicKernel_one_sub_eq_positive_exp` instead exposes the positive
+  series `exp(u*omega)/(1+exp(omega))`. Eight positive monomial features give
+  the low-rank component, while
+  `positiveSeriesEighthOrderTailKernel_strictSignRegular` proves the tail is
+  strictly totally positive. Denominator scaling preserves that structure and
+  the unit-band `1 / 8!` error and `(1 / 8!)^rank` complete-run determinant
+  envelopes. A 140-digit sweep observes common-sign mixed coefficients
+  through order six, but the coefficientwise finite Cauchy--Binet theorem,
+  dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 94 tests and no known dependency vulnerabilities; review and
+  delivery are pending.

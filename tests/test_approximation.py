@@ -588,6 +588,75 @@ def test_positive_tail_has_factorial_free_gecp_envelope() -> None:
         )
 
 
+def test_positive_series_split_aligns_mixed_determinant_coefficients() -> None:
+    mp.mp.dps = 140
+
+    def negative_taylor(x: mp.mpf) -> mp.mpf:
+        return mp.fsum((-x) ** degree / math.factorial(degree) for degree in range(8))
+
+    def positive_taylor(x: mp.mpf) -> mp.mpf:
+        return mp.fsum(x**degree / math.factorial(degree) for degree in range(8))
+
+    def mixed_coefficient(
+        rows: list[mp.mpf],
+        columns: list[mp.mpf],
+        tail_columns: int,
+        approximation,
+        remainder,
+    ) -> mp.mpf:
+        order = len(rows)
+        return mp.fsum(
+            mp.det(
+                mp.matrix(
+                    [
+                        [
+                            remainder(row * column)
+                            if column_index in selected
+                            else approximation(row * column)
+                            for column_index, column in enumerate(columns)
+                        ]
+                        for row in rows
+                    ]
+                )
+            )
+            for selected_tuple in itertools.combinations(range(order), tail_columns)
+            for selected in [set(selected_tuple)]
+        )
+
+    def negative_remainder(x: mp.mpf) -> mp.mpf:
+        return mp.exp(-x) - negative_taylor(x)
+
+    obstruction_nodes = [mp.mpf("0.5"), mp.mpf(1)]
+    negative_mixed = mixed_coefficient(
+        obstruction_nodes,
+        obstruction_nodes,
+        1,
+        negative_taylor,
+        negative_remainder,
+    )
+    # A 2 x 2 negative-exponential determinant should be negative, but its
+    # one-tail-column coefficient is positive: the direct split is not
+    # coefficientwise sign compatible.
+    assert negative_mixed > 0
+
+    def positive_remainder(x: mp.mpf) -> mp.mpf:
+        return mp.exp(x) - positive_taylor(x)
+
+    for order in range(1, 7):
+        nodes = [mp.mpf(index) / (order + 1) for index in range(1, order + 1)]
+        denominator_product = mp.fprod(1 + mp.exp(node) for node in nodes)
+        for tail_columns in range(order + 1):
+            coefficient = mixed_coefficient(
+                nodes,
+                nodes,
+                tail_columns,
+                positive_taylor,
+                positive_remainder,
+            )
+            assert coefficient > 0
+            assert coefficient / denominator_product > 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

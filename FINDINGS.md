@@ -748,6 +748,19 @@ pivots.
   The root command passes with 93 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #60.
 
+- Phase BG identifies and repairs a mixed-sign obstruction in the local
+  decomposition. For the direct negative-exponential Taylor split, the
+  one-tail-column coefficient of a `2 x 2` determinant can have the opposite
+  sign from the full exponential determinant. Reflecting time instead gives
+  `K(1-u,omega)=exp(u*omega)/(1+exp(omega))`: all eight low features are
+  positive monomials, and the high tail is proved strictly totally positive.
+  The denominator-scaled tail retains the unit-band `1 / 8!` error and
+  `(1 / 8!)^rank` complete-GECP determinant bounds. A 140-digit deterministic
+  sweep finds all mixed coefficients positive through order six; that
+  coefficientwise statement remains experimental pending a finite
+  Cauchy--Binet theorem. The root command passes with 94 tests and no known
+  dependency vulnerabilities; review and delivery are pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
