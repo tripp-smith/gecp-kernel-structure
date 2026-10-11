@@ -4555,7 +4555,7 @@ Verification:
 
 ## Phase BI contract: mixed-column coefficient bridge
 
-State: verified locally.
+State: complete; merged as PR #63 with green CI.
 
 Phase BI connects the feature-index coefficient from Phase BH to the
 coordinate-space mixed determinants needed for the exact tail limit. The
