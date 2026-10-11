@@ -291,6 +291,13 @@ that positive-support argument from the project-specific midpoint witness;
 the current implementation keeps the abstraction local until its minimal
 topological and measure hypotheses are clearer.
 
+Phase BF is primarily an application-level composition of existing generic
+results: subtype restriction and positive column scaling turn a strict-minor
+family into a `StrictSignRegular` kernel, after which complete-pivot
+nonexpansiveness yields a factorial-free determinant envelope. The reusable
+upstream candidate remains the generic continuation theorem from Phase AN;
+the new tail and rank-eight decomposition are fermionic-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

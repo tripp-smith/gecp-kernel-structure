@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BE — strict all-orders Taylor-tail signs<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase BE `./scripts/verify.sh` passed with 92 tests and no known dependency vulnerabilities on 2026-10-11<br>
+> **Current phase:** BF — factorial-free Taylor-tail GECP envelope<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase BF `./scripts/verify.sh` passed with 93 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BE merged as PR #59 with green CI<br>
-> **Claim level:** strict all-orders sign regularity for positive-time/positive-frequency eighth-order Taylor-tail minors; its quantitative GECP consequences, Conjecture G1, and Problem 4.2 remain open
+> **Delivery:** Phase BF verified locally; review and merge pending<br>
+> **Claim level:** exact rank-eight-plus-tail decomposition and a factorial-free `(1/8!)^n` complete-GECP determinant envelope hold on the positive unit band; mixed-sum determinants, arbitrary-order/cutoff composition, Conjecture G1, and Problem 4.2 remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -75,6 +75,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BC | Product-measure Andréief identity | complete | coordinate-permutation invariance; integrated factorial symmetrization; determinant of pair integrals; division-free finite-order Andréief theorem | Lean build; public axiom audit; exact three-monomial unit-cube regression; 90-test root verification; green CI | merged PR #57 |
 | BD | Arbitrary-sample and Taylor-tail weak signs | complete | common-permutation sign cancellation; sorting/repeated-sample dichotomy; weak-sign integral-composition closure; all-orders Taylor-tail weak signs | Lean build; public axiom audit; exact six-permutation/repeated-sample regression; 91-test root verification; green CI | merged PR #58 |
 | BE | Strict all-orders Taylor-tail signs | complete | explicit interlacing support sample; positive truncated-power determinant at every order; compact-support positive-measure localization; strict Andréief and Taylor-tail signs | Lean build; public axiom audit; exact interlacing staircase through order 12; 92-test root verification; green CI | merged PR #59 |
+| BF | Factorial-free Taylor-tail GECP envelope | verified | positive-quadrant strict-sign-regular tail kernel; exact rank-eight decomposition; unit-band `(1/8!)^n` complete-run determinant bound | Lean build; public axiom audit; 120-digit eight-step complete-pivot regression; 93-test root verification | review and merge pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
