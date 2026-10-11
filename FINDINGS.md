@@ -730,8 +730,8 @@ pivots.
   triangular witness through order 12, including orders beyond the polynomial
   degree. The remaining problem is quantitative: exploit this compatible tail
   sign in a cutoff-uniform GECP contraction. The root command passes with 92
-  tests and no known dependency vulnerabilities; review and delivery are
-  pending.
+  tests and no known dependency vulnerabilities. The change passed CI and
+  merged as PR #59.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
