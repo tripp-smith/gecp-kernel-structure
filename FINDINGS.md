@@ -668,6 +668,17 @@ pivots.
   Exact arithmetic checks the positive staircase and a collapsed-interval zero
   boundary. The root command passes with 87 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #54.
+- Phase BA closes the all-orders truncated-power factor theorem. Reversing row
+  order turns subtraction of each next row into mathlib's existing
+  predecessor-row determinant invariance; interval additivity then converts
+  common-upper tails into ordered adjacent intervals. This proves that total
+  nonnegativity propagates from normalized degree `d` to degree `d+1`.
+  Starting from the strict order kernel, every normalized degree is therefore
+  totally nonnegative, and positive `7!` scaling gives the repository's
+  seventh-degree factor at every order. Exact arithmetic checks 7,088 minors
+  across degrees zero through seven and orders one through four. Exact strict
+  support and all-orders tail-composition signs remain open. The root command
+  passes with 88 tests and no known dependency vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

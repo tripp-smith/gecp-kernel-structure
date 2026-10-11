@@ -14,6 +14,7 @@ from kernelgecp import (
     fermionic_dyadic_taylor_approximation,
     fermionic_separated_approximation,
 )
+from kernelgecp.surrogates import fraction_determinant
 
 
 def _stable_masked_eighth_order_error(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
@@ -426,6 +427,28 @@ def test_normalized_truncated_power_convolution_exactly() -> None:
 
     row, column = Fraction(-3, 2), Fraction(7, 3)
     assert math.factorial(7) * normalized(7, row, column) == (column - row) ** 7
+
+
+def test_all_normalized_truncated_power_minors_are_nonnegative_exactly() -> None:
+    def normalized(degree: int, row: Fraction, column: Fraction) -> Fraction:
+        if row >= column:
+            return Fraction()
+        return (column - row) ** degree / math.factorial(degree)
+
+    points = list(map(Fraction, range(-2, 4)))
+    checked = 0
+    for degree in range(8):
+        for order in range(1, 5):
+            for rows in itertools.combinations(points, order):
+                for columns in itertools.combinations(points, order):
+                    matrix = [
+                        [normalized(degree, row, column) for column in columns]
+                        for row in rows
+                    ]
+                    assert fraction_determinant(matrix) >= 0
+                    checked += 1
+
+    assert checked == 7088
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:

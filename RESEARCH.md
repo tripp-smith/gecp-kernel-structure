@@ -4155,3 +4155,90 @@ Verification:
 - `./scripts/verify.sh` passes with 87 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #54.
+
+## Phase BA contract: all-orders truncated-power total nonnegativity
+
+Phase BA closes the algebraic bridge from common-upper row integrals to the
+ordered disjoint intervals handled by Phase AZ. Successive subtraction of the
+next row preserves the determinant and converts nested tails into adjacent
+intervals. Applied to the normalized truncated-power recurrence, this raises
+total nonnegativity by one degree.
+
+Frozen public Lean targets:
+
+- define successive adjacent row differences and prove determinant invariance;
+- prove that a matrix of common-upper row integrals has the same determinant as
+  its adjacent-interval row-integral matrix;
+- transfer total nonnegativity through common-upper row integration;
+- prove integrability and the common-upper recurrence for every normalized
+  truncated-power degree;
+- prove degree-successor total-nonnegativity closure, all-degree closure, and
+  the all-orders result for the seventh-degree factor.
+
+Proof contract:
+
+- reverse the row order and reuse mathlib's predecessor-row determinant
+  invariance rather than developing a second elimination recursion;
+- use interval additivity to identify row differences exactly;
+- choose the maximum of the final row and column knots as a shared upper bound;
+- handle order zero separately and derive all positive orders from common-upper
+  integration;
+- scale the normalized degree-seven result by `7!` only through an explicit
+  nonnegative-scaling lemma.
+
+Independent checks:
+
+- enumerate exact rational minors for degrees zero through seven and orders one
+  through four on a six-point grid;
+- require all 7,088 determinants to be nonnegative;
+- run focused Lean builds, the public axiom audit, and root verification.
+
+Decision rule:
+
+- if the degree-successor theorem closes, replace the former order-one/two
+  factor boundary with the all-orders theorem and next propagate it through the
+  exponential/truncated-power composition;
+- if common-upper integrability blocks the result, retain the generic
+  determinant reduction and record the missing scalar-to-vector integration
+  bridge.
+
+Non-claims:
+
+- total nonnegativity alone does not identify exact strict-support regions;
+- this phase does not yet prove all-orders tail sign regularity, Conjecture G1,
+  or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.successiveRowDifference` and
+  `Matrix.det_successiveRowDifference` formalize determinant-preserving
+  subtraction of each next row;
+- `Matrix.det_commonUpperRowIntegral_eq_adjacent` identifies nested-tail and
+  adjacent-interval determinants;
+- `det_commonUpperRowIntegral_kernel_nonneg` transfers total nonnegativity
+  through common-upper row integration;
+- `normalizedTruncatedPowerKernel_intervalIntegrable_to_commonUpper` and
+  `normalizedTruncatedPowerKernel_succ_integral_to_commonUpper` supply the
+  analytic hypotheses and recurrence;
+- `normalizedTruncatedPowerKernel_succ_totallyNonnegativeAtOrder` propagates
+  one degree, `normalizedTruncatedPowerKernel_totallyNonnegative` closes every
+  degree, and `eighthOrderTruncatedPowerKernel_totallyNonnegative` delivers the
+  all-orders seventh-degree factor theorem.
+
+Result:
+
+- the truncated-power factor is no longer limited to minors of orders one and
+  two: every ordered square minor is nonnegative;
+- the proof is constructive along the convolution ladder and isolates reusable
+  common-upper integration machinery;
+- exact strictness/support geometry and the continuous tail-composition sign
+  theorem remain the next boundary.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic checks 7,088 ordered minors across normalized
+  degrees zero through seven and orders one through four on a six-point grid;
+- `./scripts/verify.sh` passes with 88 Python tests and no known dependency
+  vulnerabilities.
