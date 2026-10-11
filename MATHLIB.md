@@ -305,6 +305,15 @@ into two ordered index blocks with nonnegative weights. That abstraction is
 not yet formalized; the current strict-tail and mixed-coefficient results
 should remain local until the precise finite statement is proved.
 
+Phase BH formalizes that reusable finite statement locally. The generic
+upstream candidate is a block-weighted rectangular Cauchy--Binet theorem:
+mark columns of one factor, scale them by a scalar, and group ordered minor
+terms by the number of marked columns selected. The core theorem is independent
+of the fermionic kernel; only the nonnegative generalized-Vandermonde
+specialization is project-facing. Before upstreaming, it would be worth
+generalizing the coefficient semiring and checking whether mathlib's
+polynomial matrix API offers a more canonical coefficient formulation.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

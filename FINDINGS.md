@@ -761,6 +761,19 @@ pivots.
   Cauchy--Binet theorem. The root command passes with 94 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #61.
 
+- Phase BH proves the finite coefficientwise statement selected by Phase BG.
+  Scaling an arbitrary marked block of rectangular features by `lambda`
+  weights each ordered Cauchy--Binet term by exactly the number of marked
+  features it selects. Grouping terms by that count produces nonnegative
+  coefficients whenever the base ordered terms are nonnegative. Generalized
+  Vandermonde positivity discharges this hypothesis for finite positive
+  exponential Taylor features at every order and cutoff. An independent exact
+  rational `3 x 3` calculation agrees between determinant multilinearity and
+  Cauchy--Binet grouping and finds every coefficient strictly positive. The
+  infinite-tail limit and a quantitative mixed-determinant bound remain open.
+  The root command passes with 95 tests and no known dependency
+  vulnerabilities. Delivery is draft PR #62.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

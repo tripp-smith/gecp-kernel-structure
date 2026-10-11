@@ -1928,3 +1928,13 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 94 tests and no known dependency vulnerabilities. The change
   passed CI and merged as PR #61.
+- Post-v1 research phase BH: verified locally on 2026-10-11.
+  `signature_mul_det_weightedFeatureProduct_eq_sum` proves the exact finite
+  block-feature Cauchy--Binet expansion, and
+  `expTaylor_blockFeatureCoefficient_nonneg` proves every fixed high-feature
+  coefficient nonnegative for positive exponential Taylor features on
+  nonnegative ordered nodes. This closes the finite coefficientwise gap from
+  Phase BG. Passing to the exact infinite tail, extracting a quantitative
+  mixed-determinant bound, dyadic assembly, Conjecture G1, and Problem 4.2
+  remain open. The root command passes with 95 tests and no known dependency
+  vulnerabilities. Delivery is draft PR #62.
