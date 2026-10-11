@@ -343,6 +343,16 @@ evaluation API, generalized from real matrices to a suitable ordered
 commutative ring. The amplified fermionic kernel, its strict positivity, and
 the numerical choice `8!` remain project-specific.
 
+Phase BM adds a reusable finite-matrix abstraction around strict total
+positivity. The main upstream candidates are preservation under a scalar
+northwest Schur complement and
+`Matrix.det_le_prod_diagonal_of_strictlyTotallyPositive`. The current proof is
+specialized to real square matrices and reuses this project's augmented GECP
+determinant identity; an upstream version should be generalized to an ordered
+field and connected to mathlib's existing Schur-complement API if that avoids
+extra index equivalences. The positive-series kernel specialization and the
+constants `8!` and `2` remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

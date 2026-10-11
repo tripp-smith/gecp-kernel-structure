@@ -41,6 +41,16 @@ The remaining rate gap is the arbitrary ordered-sample determinant envelope:
 the original GECP nodes are not assumed to be complete pivots of the amplified
 kernel.
 
+Post-v1 Phase BM removes that pivot-path restriction. A generic northwest-
+Schur induction proves that every strictly totally positive finite matrix has
+determinant at most its diagonal product, so an entry bound applies to every
+ordered sample, not only a complete run of the bounded kernel. Combining the
+arbitrary-sample `2^n` amplified envelope with the Phase BK rank-eight
+amplification gives
+`det K_n <= 2^n / (8!)^(n-8)` for positive unit-band samples and `n >= 8`.
+The remaining rate gap is now composition with the original GECP selected-
+core/geometric-mean theorem and assembly across reflections and dyadic bands.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -162,6 +172,7 @@ not represented by the completed goal counter.
 | BJ — infinite-tail mixed coefficients | complete; green CI | merged [PR #64](https://github.com/tripp-smith/gecp-kernel-structure/pull/64) |
 | BK — low-rank tail amplification | complete; green CI | merged [PR #65](https://github.com/tripp-smith/gecp-kernel-structure/pull/65) |
 | BL — amplified-kernel envelope | complete; green CI | merged [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) |
+| BM — total-positive Hadamard envelope | verified locally | delivery pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -445,9 +456,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Use the now-proved selected-pivot nonexpansiveness to prevent residual growth
-between strict contractions, and extend the exact `Λ≤1` two-corner half
-contraction across dyadic frequency layers. The missing result is a
-cutoff-rescaling or localization lemma that supplies at least one strict
-contraction per bounded-size dyadic block; this is the remaining path toward
-Conjecture G1 and the Simons Problem 4.2 rate.
+Compose the Phase BM positive-unit-band determinant decay with
+`strictSignRegular_gecp_error_pow_le_selectedCore_det`, tracking the reflected
+positive-series representation on the nodes selected by the original GECP
+run. Then package the result under frequency rescaling and assemble it across
+dyadic bands. This is the shortest remaining route to a cutoff-uniform block
+contraction, Conjecture G1, and the Simons Problem 4.2 rate.

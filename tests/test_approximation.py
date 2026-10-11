@@ -844,6 +844,56 @@ def test_factorial_amplified_positive_kernel_envelope_and_minors() -> None:
     assert smallest_determinant > 0
 
 
+def test_exact_total_positive_hadamard_envelope_through_order_eight() -> None:
+    order = 8
+    terms = 16
+    rows = tuple(Fraction(index, order + 1) for index in range(1, order + 1))
+    columns = tuple(Fraction(index, order + 2) for index in range(1, order + 1))
+
+    def truncated_exp(row: Fraction, column: Fraction) -> Fraction:
+        product = row * column
+        return sum(
+            (product**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    matrix = [[truncated_exp(row, column) for column in columns] for row in rows]
+
+    # The finite positive-feature kernel is strictly totally positive on this
+    # sample: check every one of its 12,869 nonempty ordered square minors.
+    checked_minors = 0
+    for minor_order in range(1, order + 1):
+        for selected_rows in itertools.combinations(range(order), minor_order):
+            for selected_columns in itertools.combinations(range(order), minor_order):
+                minor = [
+                    [matrix[i][j] for j in selected_columns] for i in selected_rows
+                ]
+                assert fraction_determinant(minor) > 0
+                checked_minors += 1
+    assert checked_minors == math.comb(2 * order, order) - 1
+
+    # Exact scalar Schur elimination mirrors the Lean induction: positivity is
+    # retained and each Schur diagonal can only decrease.
+    schur = matrix
+    while schur:
+        determinant = fraction_determinant(schur)
+        diagonal_product = math.prod(schur[index][index] for index in range(len(schur)))
+        assert 0 < determinant <= diagonal_product
+        if len(schur) == 1:
+            break
+        pivot = schur[0][0]
+        next_schur = [
+            [
+                schur[i][j] - schur[i][0] * schur[0][j] / pivot
+                for j in range(1, len(schur))
+            ]
+            for i in range(1, len(schur))
+        ]
+        for index in range(len(next_schur)):
+            assert 0 < next_schur[index][index] <= schur[index + 1][index + 1]
+        schur = next_schur
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

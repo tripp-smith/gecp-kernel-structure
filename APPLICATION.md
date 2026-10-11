@@ -272,6 +272,12 @@ independently checks the formal amplified-kernel envelope and ordered-minor
 positivity; it is research evidence rather than a runtime certificate, and it
 does not identify original and amplified complete-pivot paths.
 
+Phase BM also adds no public Python API. Its exact rational exhaustive-minor
+check independently exercises the formal total-positive Hadamard argument.
+The resulting fixed-base determinant decay is a Lean theorem, not a new
+runtime GECP convergence certificate; GECP composition and global band
+assembly remain research obligations.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

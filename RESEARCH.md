@@ -4774,7 +4774,7 @@ Verification:
 
 ## Phase BM contract: total-positive Hadamard envelope
 
-State: in progress.
+State: verified locally; delivery pending.
 
 Phase BL proves that the `8!`-amplified positive-series kernel is strictly
 totally positive and bounded by two, but its complete-run envelope does not
@@ -4820,6 +4820,34 @@ Non-claims:
 - the final GECP residual contraction, dyadic assembly, Conjecture G1, and
   Simons Problem 4.2 remain open until the determinant decay is composed with
   the existing geometric-mean machinery.
+
+Delivered:
+
+- `Matrix.StrictlyTotallyPositive` packages positivity of every ordered square
+  subminor, and `Matrix.StrictlyTotallyPositive.northwestSchur` proves that a
+  scalar northwest Schur step preserves it using the existing augmented-core
+  determinant factorization;
+- `Matrix.det_le_prod_diagonal_of_strictlyTotallyPositive` iterates those
+  Schur steps to prove the finite diagonal-product inequality;
+- `minorMatrix_det_le_pow_of_strictSignRegular_one` transfers the result to
+  every ordered sample of a positive-minor kernel, independently of how the
+  sample nodes were selected;
+- `positiveSeriesAmplifiedFermionicKernel_factorial_minor_det_le_two_pow`
+  gives the arbitrary unit-band amplified-minor envelope `det <= 2^n`;
+- `positiveSeriesFermionic_factorial_amplified_det_le_two_pow` and
+  `positiveSeriesFermionic_det_le_two_pow_div_factorial_pow` compose the
+  envelope with Phase BK, giving
+  `(8!)^(n-8) det K_n <= 2^n` and its quotient form for every `n >= 8`.
+
+Verification:
+
+- every new public theorem reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- an exact `Fraction` regression checks all 12,869 nonempty ordered square
+  minors of an `8 x 8` positive-feature matrix, plus the determinant/product
+  inequality and every northwest Schur stage;
+- `./scripts/verify.sh` passes with 99 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

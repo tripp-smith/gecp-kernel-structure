@@ -1976,3 +1976,15 @@ This annotation records delivered identifiers without changing the goals above.
   GECP composition, dyadic assembly, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 98 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #66.
+- Post-v1 research phase BM: verified locally on 2026-10-11.
+  `Matrix.det_le_prod_diagonal_of_strictlyTotallyPositive` proves the generic
+  diagonal-product envelope by northwest Schur induction, and
+  `minorMatrix_det_le_pow_of_strictSignRegular_one` transfers it to arbitrary
+  ordered samples of a positive-minor kernel. Consequently
+  `positiveSeriesAmplifiedFermionicKernel_factorial_minor_det_le_two_pow`
+  bounds every unit-band amplified sample determinant by `2^n`, while
+  `positiveSeriesFermionic_det_le_two_pow_div_factorial_pow` gives
+  `det K_n <= 2^n / (8!)^(n-8)` for the original positive-series matrix when
+  `n >= 8`. GECP composition, dyadic band/reflection assembly, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes with 99 tests and no
+  known dependency vulnerabilities.
