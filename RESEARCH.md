@@ -4622,7 +4622,7 @@ Verification:
 
 ## Phase BK contract: low-rank tail amplification
 
-State: verified locally.
+State: complete; merged as PR #65 with green CI.
 
 Phase BK converts exact coefficientwise nonnegativity into the first
 quantitative determinant inequality. If the low block factors through `k`

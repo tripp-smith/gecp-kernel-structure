@@ -1963,5 +1963,5 @@ This annotation records delivered identifiers without changing the goals above.
   `positiveSeriesFermionic_rank_amplification` supplies the exact rank-eight
   fermionic specialization. A fixed-base amplified determinant envelope,
   dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
-  passes with 97 tests and no known dependency vulnerabilities. Delivery is
-  draft PR #65.
+  passes with 97 tests and no known dependency vulnerabilities. The change
+  passed CI and merged as PR #65.
