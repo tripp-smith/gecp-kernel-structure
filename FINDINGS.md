@@ -678,7 +678,8 @@ pivots.
   seventh-degree factor at every order. Exact arithmetic checks 7,088 minors
   across degrees zero through seven and orders one through four. Exact strict
   support and all-orders tail-composition signs remain open. The root command
-  passes with 88 tests and no known dependency vulnerabilities.
+  passes with 88 tests and no known dependency vulnerabilities. The change
+  passed CI and merged as PR #55.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
