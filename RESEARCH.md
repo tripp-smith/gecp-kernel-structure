@@ -4693,7 +4693,7 @@ Verification:
 
 ## Phase BL contract: amplified-kernel envelope
 
-State: verified locally; opened as draft PR #66.
+State: complete; merged as PR #66 with green CI.
 
 Phase BK reduces the determinant-decay problem to an upper envelope for the
 tail-amplified positive-series fermionic kernel. Phase BL freezes the first

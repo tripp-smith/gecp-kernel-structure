@@ -819,7 +819,8 @@ pivots.
   and positive ordered determinants through order eight. The outstanding gap
   is not positivity or entry control, but transfer of the `2^n` envelope to
   arbitrary ordered sample minors selected by the original GECP run. The root
-  command passes with 98 tests and no known dependency vulnerabilities.
+  command passes with 98 tests and no known dependency vulnerabilities. The
+  change passed CI and merged as PR #66.
 
 ## Run provenance
 

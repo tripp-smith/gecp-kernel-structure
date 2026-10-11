@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BL — amplified-kernel envelope<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BL `./scripts/verify.sh` passed with 98 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BL [draft PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66)<br>
+> **Delivery:** Phase BL merged as [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) with green CI<br>
 > **Claim level:** the `8!`-amplified kernel is strictly totally positive, bounded by `2` on the positive unit band, and has a `2^n` complete-run envelope; the arbitrary-sample determinant bridge and GECP composition remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -81,7 +81,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BI | Mixed-column coefficient bridge | complete | `mixedColumnPolynomial`; `blockFeatureCoefficient_eq_mixedColumnCoefficient`; `expTaylor_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; exact rational coefficient identity; 95-test root verification; green CI | merged PR #63 |
 | BJ | Infinite-tail mixed coefficients | complete | `mixedColumnCoefficient_tendsto`; exact eighth-order tail matrix; `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; 120-digit truncation convergence; 96-test root verification; green CI | merged PR #64 |
 | BK | Low-rank tail amplification | complete | `mixedColumnCoefficient_eq_zero_of_rank`; `mixedColumnPolynomial_rank_amplification`; positive-series fermionic specialization | Lean build; public axiom audit; 350-digit orders 9--16 sweep; 97-test root verification; green CI | merged PR #65 |
-| BL | Amplified-kernel envelope | verified | `mixedColumnPolynomial_det_mono`; amplified-kernel strict total positivity; unit-band bound `2`; complete-run bound `2^n` | Lean build; public axiom audit; 250-digit orders 1--8 regression; 98-test root verification | draft PR #66 |
+| BL | Amplified-kernel envelope | complete | `mixedColumnPolynomial_det_mono`; amplified-kernel strict total positivity; unit-band bound `2`; complete-run bound `2^n` | Lean build; public axiom audit; 250-digit orders 1--8 regression; 98-test root verification; green CI | merged PR #66 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
