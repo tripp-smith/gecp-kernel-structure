@@ -147,7 +147,7 @@ not represented by the completed goal counter.
 | BE — strict all-orders Taylor-tail signs | complete; green CI | merged [PR #59](https://github.com/tripp-smith/gecp-kernel-structure/pull/59) |
 | BF — factorial-free Taylor-tail GECP envelope | complete; green CI | merged [PR #60](https://github.com/tripp-smith/gecp-kernel-structure/pull/60) |
 | BG — positive-series compatible fermionic split | complete; green CI | merged [PR #61](https://github.com/tripp-smith/gecp-kernel-structure/pull/61) |
-| BH — block-feature coefficientwise Cauchy--Binet | verified locally | PR pending |
+| BH — block-feature coefficientwise Cauchy--Binet | verified locally | draft [PR #62](https://github.com/tripp-smith/gecp-kernel-structure/pull/62) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
