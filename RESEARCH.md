@@ -4242,3 +4242,4 @@ Verification:
   degrees zero through seven and orders one through four on a six-point grid;
 - `./scripts/verify.sh` passes with 88 Python tests and no known dependency
   vulnerabilities.
+- The verified change is open as draft PR #55.

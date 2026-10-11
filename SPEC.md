@@ -1840,8 +1840,8 @@ This annotation records delivered identifiers without changing the goals above.
   higher-degree total nonnegativity, all-orders tail sign regularity,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 87
   tests and no known dependency vulnerabilities.
-- Post-v1 research phase BA: verified locally on 2026-10-11 and awaiting
-  pull-request review.
+- Post-v1 research phase BA: verified locally on 2026-10-11 and open as draft
+  PR #55.
   `Matrix.det_successiveRowDifference` and
   `Matrix.det_commonUpperRowIntegral_eq_adjacent` reduce nested common-upper
   row integrals to ordered adjacent intervals,

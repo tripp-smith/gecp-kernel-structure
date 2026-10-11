@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** Phase BA `./scripts/verify.sh` passed with 88 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BA awaiting pull-request review<br>
+> **Delivery:** Phase BA open as draft [PR #55](https://github.com/tripp-smith/gecp-kernel-structure/pull/55)<br>
 > **Claim level:** all-orders total nonnegativity of every normalized truncated-power degree and the seventh-degree factor; strict support and tail-composition consequences remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -70,7 +70,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AX | All-orders order-kernel total nonnegativity | complete | exact `0`/`1` minor classification; `TotallyNonnegative` degree-zero base | Lean build; public axiom audit; 3,381 exact staircase minors through order five; 85-test root verification; green CI | merged PR #52 |
 | AY | Determinant/interval-integral commutation | complete | `detUpdateRowCLM`; exact commutation; nonnegative and strict transfer | Lean build; public axiom audit; exact affine-row regression; 86-test root verification; green CI | merged PR #53 |
 | AZ | Ordered multi-row determinant integration | complete | weak-order minor closure; finite row-integration iteration; ordered-interval TN transfer | Lean build; public axiom audit; exact staircase-integral regression; 87-test root verification; green CI | merged PR #54 |
-| BA | All-orders truncated-power total nonnegativity | verified | adjacent-row determinant invariance; common-upper TN transfer; degree-successor closure; all-orders degree-seven factor | Lean build; public axiom audit; 7,088 exact minors across degrees 0--7 and orders 1--4; 88-test root verification | pending PR |
+| BA | All-orders truncated-power total nonnegativity | verified | adjacent-row determinant invariance; common-upper TN transfer; degree-successor closure; all-orders degree-seven factor | Lean build; public axiom audit; 7,088 exact minors across degrees 0--7 and orders 1--4; 88-test root verification | draft PR #55 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
