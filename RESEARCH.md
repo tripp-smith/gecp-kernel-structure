@@ -4482,3 +4482,73 @@ Verification:
   obstruction and the positive-series orientation through order six;
 - `./scripts/verify.sh` passes with 94 Python tests and no known dependency
   vulnerabilities.
+
+## Phase BH contract: block-feature coefficientwise Cauchy--Binet
+
+State: verified locally.
+
+Phase BH freezes the finite algebra suggested by Phase BG. A rectangular
+feature product is split into low and high feature blocks; scaling every high
+feature by `lambda` makes each ordered Cauchy--Binet summand acquire exactly
+`lambda^m`, where `m` is the number of selected high features.
+
+Frozen public Lean targets:
+
+- define the high-feature count of an ordered feature selection;
+- prove the exact weighted rectangular Cauchy--Binet expansion with exponent
+  equal to that count;
+- define the coefficient obtained by grouping selections of a fixed count and
+  prove it nonnegative whenever every unweighted ordered summand is
+  nonnegative;
+- specialize the hypotheses to finite positive exponential Taylor features
+  on nonnegative strictly ordered nodes.
+
+Independent check:
+
+- use exact rational arithmetic to expand a finite positive Taylor feature
+  determinant as a polynomial in the high-block weight and independently
+  group Cauchy--Binet terms by high-feature count.
+
+Decision rule:
+
+- if the general sum regrouping is disproportionately costly, retain the
+  exact selection-indexed monomial expansion plus fixed-count coefficient
+  nonnegativity; that is sufficient for the later limit theorem;
+- if a finite positive-Taylor summand changes sign, minimize the exact
+  rational witness instead of weakening the generic algebra.
+
+Non-claims:
+
+- this phase does not pass to the infinite positive-exponential tail;
+- it does not yet provide a closed determinant magnitude bound, dyadic
+  assembly, Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.highFeatureCount` counts marked features in an ordered rectangular
+  selection;
+- `Matrix.signature_mul_det_weightedFeatureProduct_eq_sum` gives the exact
+  determinant expansion after scaling the marked feature block by `lambda`;
+- `Matrix.blockFeatureCoefficient_nonneg` groups any fixed high-feature count
+  and proves its coefficient nonnegative from termwise nonnegativity;
+- `expTaylor_signedOrderedCauchyBinetTerm_nonneg` and
+  `expTaylor_blockFeatureCoefficient_nonneg` discharge those hypotheses for
+  positive exponential Taylor features on nonnegative ordered nodes.
+
+Result:
+
+The positive-series observation from Phase BG is now a theorem at every finite
+Taylor cutoff and every block degree: its mixed determinant coefficients are
+nonnegative sums of ordered Cauchy--Binet terms. This is the finite algebraic
+input for a limit argument; it does not yet identify the coefficients of the
+exact infinite tail or bound their sum quantitatively.
+
+Verification:
+
+- every new public declaration reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- an exact rational `3 x 3`, six-feature regression independently agrees
+  between determinant multilinearity and feature-selection grouping and finds
+  all four coefficients strictly positive;
+- `./scripts/verify.sh` passes with 95 Python tests and no known dependency
+  vulnerabilities.

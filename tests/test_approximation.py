@@ -657,6 +657,59 @@ def test_positive_series_split_aligns_mixed_determinant_coefficients() -> None:
             assert coefficient / denominator_product > 0
 
 
+def test_block_feature_cauchy_binet_coefficients_exactly() -> None:
+    rows = (Fraction(1), Fraction(2), Fraction(3))
+    columns = (Fraction(1), Fraction(2), Fraction(4))
+    order = len(rows)
+    low_terms = 3
+    terms = 6
+
+    def feature_sum(row: Fraction, column: Fraction, start: int, stop: int) -> Fraction:
+        return sum(
+            (row * column) ** degree / math.factorial(degree)
+            for degree in range(start, stop)
+        )
+
+    low = [
+        [feature_sum(row, column, 0, low_terms) for column in columns] for row in rows
+    ]
+    high = [
+        [feature_sum(row, column, low_terms, terms) for column in columns]
+        for row in rows
+    ]
+
+    multilinear_coefficients = []
+    for high_count in range(order + 1):
+        coefficient = Fraction()
+        for selected_tuple in itertools.combinations(range(order), high_count):
+            selected = set(selected_tuple)
+            coefficient += fraction_determinant(
+                [
+                    [
+                        high[row][column] if column in selected else low[row][column]
+                        for column in range(order)
+                    ]
+                    for row in range(order)
+                ]
+            )
+        multilinear_coefficients.append(coefficient)
+
+    cauchy_binet_coefficients = [Fraction() for _ in range(order + 1)]
+    for exponents in itertools.combinations(range(terms), order):
+        left = [
+            [row**degree / math.factorial(degree) for degree in exponents]
+            for row in rows
+        ]
+        right = [[column**degree for column in columns] for degree in exponents]
+        high_count = sum(degree >= low_terms for degree in exponents)
+        cauchy_binet_coefficients[high_count] += fraction_determinant(
+            left
+        ) * fraction_determinant(right)
+
+    assert multilinear_coefficients == cauchy_binet_coefficients
+    assert all(coefficient > 0 for coefficient in cauchy_binet_coefficients)
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

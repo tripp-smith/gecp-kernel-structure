@@ -250,6 +250,11 @@ Phase BG also adds no public Python API. Its 140-digit mixed-coefficient sweep
 selects the next formal theorem; the observed common sign is not exposed as a
 runtime certificate or claimed as a proved cutoff-uniform rate.
 
+Phase BH also adds no public Python API. It formally proves the corresponding
+finite positive-Taylor coefficient signs and retains the exact rational check
+as independent evidence. It does not expose infinite-tail coefficients or a
+new runtime convergence certificate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

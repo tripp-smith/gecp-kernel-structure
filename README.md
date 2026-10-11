@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BG — positive-series compatible fermionic split<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase BG `./scripts/verify.sh` passed with 94 tests and no known dependency vulnerabilities on 2026-10-11<br>
+> **Current phase:** BH — block-feature coefficientwise Cauchy--Binet<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase BH `./scripts/verify.sh` passed with 95 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BG merged as PR #61 with green CI<br>
-> **Claim level:** the reflected positive-series split has eight positive monomial features, a strictly totally positive tail, and a factorial-free tail-GECP envelope; coefficientwise mixed-sum determinant bounds, Conjecture G1, and Problem 4.2 remain open
+> **Delivery:** Phase BH verified locally; PR pending<br>
+> **Claim level:** finite positive-Taylor block coefficients are nonnegative; the infinite tail limit, quantitative mixed bound, Conjecture G1, and Problem 4.2 remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -77,6 +77,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BE | Strict all-orders Taylor-tail signs | complete | explicit interlacing support sample; positive truncated-power determinant at every order; compact-support positive-measure localization; strict Andréief and Taylor-tail signs | Lean build; public axiom audit; exact interlacing staircase through order 12; 92-test root verification; green CI | merged PR #59 |
 | BF | Factorial-free Taylor-tail GECP envelope | complete | positive-quadrant strict-sign-regular tail kernel; exact rank-eight decomposition; unit-band `(1/8!)^n` complete-run determinant bound | Lean build; public axiom audit; 120-digit eight-step complete-pivot regression; 93-test root verification; green CI | merged PR #60 |
 | BG | Positive-series compatible fermionic split | complete | equivalent `u=1-t` positive-exponential representation; eight positive monomial features; strictly totally positive tail; `(1/8!)^n` tail-GECP envelope | Lean build; public axiom audit; 140-digit mixed-coefficient sweep through order six; 94-test root verification; green CI | merged PR #61 |
+| BH | Block-feature coefficientwise Cauchy--Binet | verified | `highFeatureCount`; `signature_mul_det_weightedFeatureProduct_eq_sum`; `expTaylor_blockFeatureCoefficient_nonneg` | Lean build; public axiom audit; exact rational coefficient regression; 95-test root verification | PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
