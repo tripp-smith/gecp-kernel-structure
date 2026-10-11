@@ -794,7 +794,7 @@ pivots.
   tail-column count on nonnegative strictly ordered nodes. A 120-digit `3 x 3`
   regression sees monotone convergence through cutoff 64. A quantitative bound
   on the sum is still needed for GECP contraction. The root command passes with
-  96 tests and no known dependency vulnerabilities. Delivery is pending.
+  96 tests and no known dependency vulnerabilities. Delivery is draft PR #64.
 
 ## Run provenance
 

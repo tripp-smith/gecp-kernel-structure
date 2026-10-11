@@ -1955,4 +1955,4 @@ This annotation records delivered identifiers without changing the goals above.
   infinite-tail mixed coefficient sum nonnegative. A quantitative bound on
   these coefficients, dyadic assembly, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 96 tests and no known dependency
-  vulnerabilities. Delivery is pending.
+  vulnerabilities. Delivery is draft PR #64.
