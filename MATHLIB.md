@@ -282,6 +282,15 @@ Phase BC Andreief theorem this yields a reusable weak-sign composition-closure
 result. Both lemmas are plausible upstream companions to a continuous
 Cauchy--Binet API; the Taylor-tail specialization remains project-local.
 
+Phase BE adds strictness with a classical Schoenberg--Whitney interlacing
+witness. The generic analytic pattern is broader than this kernel: a
+continuous nonnegative Andreief integrand with one strict interior point is
+localized by a compactly supported bump, giving positive integral and hence a
+strict composition determinant. A reusable upstream theorem should abstract
+that positive-support argument from the project-specific midpoint witness;
+the current implementation keeps the abstraction local until its minimal
+topological and measure hypotheses are clearer.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

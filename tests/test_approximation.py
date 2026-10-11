@@ -515,6 +515,26 @@ def test_common_sample_permutation_signs_cancel_exactly() -> None:
     assert fraction_determinant(repeated_right) == 0
 
 
+def test_truncated_power_interlacing_witness_is_strict_at_high_orders() -> None:
+    for order in range(1, 13):
+        columns = tuple(Fraction(index + 1) for index in range(order))
+        sample = (columns[0] / 2,) + tuple(
+            (columns[index - 1] + columns[index]) / 2 for index in range(1, order)
+        )
+        matrix = [
+            [max(column - value, Fraction()) ** 7 for column in columns]
+            for value in sample
+        ]
+        determinant = fraction_determinant(matrix)
+
+        assert all(sample[index] < columns[index] for index in range(order))
+        assert all(
+            matrix[row][column] == 0 for row in range(order) for column in range(row)
+        )
+        assert determinant == Fraction(1, 2 ** (7 * order))
+        assert determinant > 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

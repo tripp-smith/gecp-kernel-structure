@@ -717,6 +717,21 @@ pivots.
   tail sign regularity remain open. The root command passes with 91 tests and
   no known dependency vulnerabilities. The change passed CI and merged as
   PR #58.
+- Phase BE closes the all-orders strict-support gap for the eighth-order
+  Taylor tail. The explicit intermediate tuple starts halfway between zero
+  and the first positive frequency knot, then uses adjacent-knot midpoints.
+  Its truncated-power matrix is upper triangular with positive diagonal, so
+  its determinant is positive at every order; the exponential determinant has
+  the matching strict signed orientation. A continuous bump supported inside
+  the common-cutoff cube turns this point witness into positive product
+  measure, and the exact Andreief identity makes the composed determinant
+  strict. Positive row scaling transfers strictness to every ordered tail
+  minor on positive times and frequencies. Exact arithmetic checks the
+  triangular witness through order 12, including orders beyond the polynomial
+  degree. The remaining problem is quantitative: exploit this compatible tail
+  sign in a cutoff-uniform GECP contraction. The root command passes with 92
+  tests and no known dependency vulnerabilities; review and delivery are
+  pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
