@@ -4774,7 +4774,7 @@ Verification:
 
 ## Phase BM contract: total-positive Hadamard envelope
 
-State: verified locally; delivery pending.
+State: verified locally; draft PR #67 open.
 
 Phase BL proves that the `8!`-amplified positive-series kernel is strictly
 totally positive and bounded by two, but its complete-run envelope does not
