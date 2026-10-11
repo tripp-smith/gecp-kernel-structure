@@ -451,6 +451,45 @@ def test_all_normalized_truncated_power_minors_are_nonnegative_exactly() -> None
     assert checked == 7088
 
 
+def test_andreief_identity_for_three_monomials_exactly() -> None:
+    order = 3
+    permutations = list(itertools.permutations(range(order)))
+
+    def sign(permutation: tuple[int, ...]) -> int:
+        inversions = sum(
+            permutation[left] > permutation[right]
+            for left in range(order)
+            for right in range(left + 1, order)
+        )
+        return (-1) ** inversions
+
+    # The pair-integral matrix is the 3 x 3 Hilbert matrix:
+    # integral_0^1 x^(i+j) dx = 1/(i+j+1).
+    hilbert = [
+        [Fraction(1, row + column + 1) for column in range(order)]
+        for row in range(order)
+    ]
+    determinant_side = math.factorial(order) * fraction_determinant(hilbert)
+
+    # Independently expand both sampled determinants and integrate each
+    # coordinate monomial over the unit cube.
+    product_measure_side = sum(
+        Fraction(sign(left_permutation) * sign(right_permutation))
+        * math.prod(
+            Fraction(
+                1,
+                left_permutation[coordinate] + right_permutation[coordinate] + 1,
+            )
+            for coordinate in range(order)
+        )
+        for left_permutation in permutations
+        for right_permutation in permutations
+    )
+
+    assert determinant_side == Fraction(1, 360)
+    assert product_measure_side == determinant_side
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

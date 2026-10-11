@@ -264,6 +264,16 @@ analysis and is a plausible supporting lemma for an eventual mathlib
 continuous Cauchy--Binet theorem. The next upstream-relevant question is which
 finite-product-measure permutation API gives the cleanest integration proof.
 
+Phase BC answers that question with `measurePreserving_piCongrLeft`, its
+integrability and integral transport lemmas, finite-sum integration, and
+`integral_fintype_prod_eq_prod`. The resulting generic division-free
+finite-order Andreief identity is independent of the fermionic application
+and is now a concrete upstream candidate, together with its coordinate-
+permutation invariance helpers. Before proposing it upstream, the hypotheses
+should be compared with a Bochner-valued or dependent-measure formulation;
+the present real-valued common-measure statement is the minimal theorem needed
+by this repository.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
