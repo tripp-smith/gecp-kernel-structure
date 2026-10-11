@@ -149,6 +149,7 @@ not represented by the completed goal counter.
 | BG — positive-series compatible fermionic split | complete; green CI | merged [PR #61](https://github.com/tripp-smith/gecp-kernel-structure/pull/61) |
 | BH — block-feature coefficientwise Cauchy--Binet | complete; green CI | merged [PR #62](https://github.com/tripp-smith/gecp-kernel-structure/pull/62) |
 | BI — mixed-column coefficient bridge | complete; green CI | merged [PR #63](https://github.com/tripp-smith/gecp-kernel-structure/pull/63) |
+| BJ — infinite-tail mixed coefficients | verified locally | draft [PR #64](https://github.com/tripp-smith/gecp-kernel-structure/pull/64) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

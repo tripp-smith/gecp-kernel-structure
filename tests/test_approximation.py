@@ -710,6 +710,69 @@ def test_block_feature_and_mixed_column_coefficients_exactly() -> None:
     assert all(coefficient > 0 for coefficient in cauchy_binet_coefficients)
 
 
+def test_positive_tail_mixed_coefficients_converge() -> None:
+    mp.mp.dps = 120
+    rows = (mp.mpf("0.2"), mp.mpf("0.55"), mp.mpf("0.9"))
+    columns = (mp.mpf("0.15"), mp.mpf("0.6"), mp.mpf("0.95"))
+    order = len(rows)
+
+    def taylor_entry(row: mp.mpf, column: mp.mpf, start: int, stop: int) -> mp.mpf:
+        product = row * column
+        return mp.fsum(
+            product**degree / mp.factorial(degree) for degree in range(start, stop)
+        )
+
+    low = mp.matrix(
+        [[taylor_entry(row, column, 0, 8) for column in columns] for row in rows]
+    )
+    exact_tail = mp.matrix(
+        [
+            [mp.exp(row * column) - low[i, j] for j, column in enumerate(columns)]
+            for i, row in enumerate(rows)
+        ]
+    )
+
+    def coefficient(tail: mp.matrix, degree: int) -> mp.mpf:
+        return mp.fsum(
+            mp.det(
+                mp.matrix(
+                    [
+                        [
+                            tail[i, j] if j in selected else low[i, j]
+                            for j in range(order)
+                        ]
+                        for i in range(order)
+                    ]
+                )
+            )
+            for selected_tuple in itertools.combinations(range(order), degree)
+            for selected in [set(selected_tuple)]
+        )
+
+    exact_coefficients = [
+        coefficient(exact_tail, degree) for degree in range(order + 1)
+    ]
+    assert all(value > 0 for value in exact_coefficients)
+
+    errors = []
+    for terms in (16, 24, 40, 64):
+        finite_tail = mp.matrix(
+            [
+                [taylor_entry(row, column, 8, terms) for column in columns]
+                for row in rows
+            ]
+        )
+        errors.append(
+            max(
+                abs(coefficient(finite_tail, degree) - exact_coefficients[degree])
+                for degree in range(1, order + 1)
+            )
+        )
+
+    assert errors[-1] < mp.mpf("1e-80")
+    assert all(later < earlier for earlier, later in itertools.pairwise(errors))
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

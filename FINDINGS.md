@@ -785,6 +785,17 @@ pivots.
   continuity problem. The root command passes with 95 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #63.
 
+- Phase BJ passes the finite positive-Taylor mixed-column signs to the exact
+  infinite eighth-order tail. A generic continuity theorem handles each
+  fixed-cardinality sum of column-choice determinants. Exact low/high feature
+  identities connect the finite truncations to Phase BI, and entrywise Taylor
+  convergence identifies the limit with `positiveEighthOrderTail`. Therefore
+  every exact mixed-column coefficient sum is nonnegative at every order and
+  tail-column count on nonnegative strictly ordered nodes. A 120-digit `3 x 3`
+  regression sees monotone convergence through cutoff 64. A quantitative bound
+  on the sum is still needed for GECP contraction. The root command passes with
+  96 tests and no known dependency vulnerabilities. Delivery is draft PR #64.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

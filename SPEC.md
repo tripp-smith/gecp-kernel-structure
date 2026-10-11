@@ -1947,3 +1947,12 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 95
   tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #63.
+- Post-v1 research phase BJ: verified locally on 2026-10-11.
+  `mixedColumnCoefficient_tendsto` supplies the finite determinant-continuity
+  passage, the low/high feature products are identified with finite eighth-
+  order Taylor tails, and
+  `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` proves every exact
+  infinite-tail mixed coefficient sum nonnegative. A quantitative bound on
+  these coefficients, dyadic assembly, Conjecture G1, and Problem 4.2 remain
+  open. The root command passes with 96 tests and no known dependency
+  vulnerabilities. Delivery is draft PR #64.
