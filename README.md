@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BB — Andréief integrand symmetrization<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BB `./scripts/verify.sh` passed with 89 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BB open as draft [PR #56](https://github.com/tripp-smith/gecp-kernel-structure/pull/56)<br>
+> **Delivery:** Phase BB merged with green CI as [PR #56](https://github.com/tripp-smith/gecp-kernel-structure/pull/56)<br>
 > **Claim level:** exact permutation symmetrization and ordered-sample weak sign for the exponential/truncated-power integrand; permutation-invariant integration and strict tail signs remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -71,7 +71,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AY | Determinant/interval-integral commutation | complete | `detUpdateRowCLM`; exact commutation; nonnegative and strict transfer | Lean build; public axiom audit; exact affine-row regression; 86-test root verification; green CI | merged PR #53 |
 | AZ | Ordered multi-row determinant integration | complete | weak-order minor closure; finite row-integration iteration; ordered-interval TN transfer | Lean build; public axiom audit; exact staircase-integral regression; 87-test root verification; green CI | merged PR #54 |
 | BA | All-orders truncated-power total nonnegativity | complete | adjacent-row determinant invariance; common-upper TN transfer; degree-successor closure; all-orders degree-seven factor | Lean build; public axiom audit; 7,088 exact minors across degrees 0--7 and orders 1--4; 88-test root verification; green CI | merged PR #55 |
-| BB | Andréief integrand symmetrization | verified | exact permutation-sum/product-of-determinants identity; all-orders ordered-sample weak sign | Lean build; public axiom audit; exact rational `3 x 3` permutation regression; 89-test root verification | draft PR #56 |
+| BB | Andréief integrand symmetrization | complete | exact permutation-sum/product-of-determinants identity; all-orders ordered-sample weak sign | Lean build; public axiom audit; exact rational `3 x 3` permutation regression; 89-test root verification; green CI | merged PR #56 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

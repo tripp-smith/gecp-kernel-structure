@@ -689,7 +689,8 @@ pivots.
   regression obtains `-2205` both from six permutation terms and from the
   determinant product. Product-measure permutation invariance, integration,
   and a strict positive-measure witness remain open. The root command passes
-  with 89 tests and no known dependency vulnerabilities.
+  with 89 tests and no known dependency vulnerabilities. The change passed CI
+  and merged as PR #56.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
