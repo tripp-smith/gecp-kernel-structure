@@ -655,8 +655,8 @@ pivots.
   transfer pointwise signs through the integral. An exact affine-row example
   independently gives determinant integral `6` on both sides. Multi-row
   iteration and higher-degree total nonnegativity remain open. The root
-  command passes with 86 tests and no known dependency vulnerabilities.
-  The change passed CI and merged as PR #50.
+  command passes with 86 tests and no known dependency vulnerabilities. The
+  change passed CI and merged as PR #53.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

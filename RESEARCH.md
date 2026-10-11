@@ -4075,3 +4075,4 @@ Verification:
   obtains `6` from both sides, with pointwise determinant `4-z > 0`;
 - `./scripts/verify.sh` passes with 86 Python tests and no known dependency
   vulnerabilities.
+- The change passed CI and merged as PR #53.
