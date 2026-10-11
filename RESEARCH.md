@@ -4772,6 +4772,55 @@ Verification:
 - `./scripts/verify.sh` passes with 98 Python tests and no known dependency
   vulnerabilities.
 
+## Phase BM contract: total-positive Hadamard envelope
+
+State: in progress.
+
+Phase BL proves that the `8!`-amplified positive-series kernel is strictly
+totally positive and bounded by two, but its complete-run envelope does not
+apply to arbitrary nodes selected by a different kernel. Phase BM removes
+that path-dependence. The proposed finite theorem is the total-positive
+analogue of Hadamard's inequality: a strictly totally positive matrix has
+determinant at most the product of its diagonal entries.
+
+Frozen public Lean targets:
+
+- define finite strict total positivity in terms of every ordered square
+  subminor;
+- prove that the northwest scalar Schur complement of a strictly totally
+  positive matrix is again strictly totally positive;
+- prove by induction that a strictly totally positive matrix satisfies
+  `det A <= product i, A i i`;
+- transfer this to arbitrary ordered kernel samples with positive minor
+  signature and a pointwise bound `B`, obtaining `det <= B^n`;
+- specialize to the `8!`-amplified positive-series fermionic kernel on the
+  unit band, obtaining the arbitrary-sample bound `det <= 2^n`;
+- compose that bound with Phase BK's amplification inequality to obtain
+  `(8!)^(n-8) det K_n <= 2^n` for every order at least eight.
+
+Independent check:
+
+- use exact rational arithmetic on finite positive-exponential feature
+  matrices through order eight, checking every ordered subminor, the diagonal-
+  product inequality, and each northwest Schur-complement stage.
+
+Decision rule:
+
+- prove the generic finite theorem before the fermionic specialization;
+- use the existing one-step augmented-determinant factorization for the Schur
+  identity instead of introducing an inverse or an LU axiom;
+- after three failures around one indexing fact, isolate that fact as an
+  explicit helper rather than weakening the determinant claim.
+
+Non-claims:
+
+- this phase does not assert that arbitrary entrywise-bounded matrices have a
+  fixed-base determinant envelope;
+- it does not identify pivot paths between the original and amplified kernels;
+- the final GECP residual contraction, dyadic assembly, Conjecture G1, and
+  Simons Problem 4.2 remain open until the determinant decay is composed with
+  the existing geometric-mean machinery.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BL — amplified-kernel envelope<br>
-> **Phase state:** complete<br>
+> **Current phase:** BM — total-positive Hadamard envelope<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BL `./scripts/verify.sh` passed with 98 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BL merged as [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) with green CI<br>
-> **Claim level:** the `8!`-amplified kernel is strictly totally positive, bounded by `2` on the positive unit band, and has a `2^n` complete-run envelope; the arbitrary-sample determinant bridge and GECP composition remain open
+> **Delivery:** Phase BM implementation branch open; Phase BL merged as [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) with green CI<br>
+> **Claim level:** Phase BM targets the arbitrary-sample Hadamard inequality for strictly totally positive matrices and its explicit amplified-fermionic determinant-decay corollary
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -82,6 +82,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BJ | Infinite-tail mixed coefficients | complete | `mixedColumnCoefficient_tendsto`; exact eighth-order tail matrix; `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; 120-digit truncation convergence; 96-test root verification; green CI | merged PR #64 |
 | BK | Low-rank tail amplification | complete | `mixedColumnCoefficient_eq_zero_of_rank`; `mixedColumnPolynomial_rank_amplification`; positive-series fermionic specialization | Lean build; public axiom audit; 350-digit orders 9--16 sweep; 97-test root verification; green CI | merged PR #65 |
 | BL | Amplified-kernel envelope | complete | `mixedColumnPolynomial_det_mono`; amplified-kernel strict total positivity; unit-band bound `2`; complete-run bound `2^n` | Lean build; public axiom audit; 250-digit orders 1--8 regression; 98-test root verification; green CI | merged PR #66 |
+| BM | Total-positive Hadamard envelope | in progress | arbitrary-sample determinant versus diagonal product; amplified-minor `2^n` bound; original determinant decay | focused Lean checks pending | implementation branch |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
