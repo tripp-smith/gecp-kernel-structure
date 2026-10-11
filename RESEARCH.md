@@ -4154,4 +4154,4 @@ Verification:
   while a collapsed middle interval gives determinant zero;
 - `./scripts/verify.sh` passes with 87 Python tests and no known dependency
   vulnerabilities.
-- The verified change is open as draft PR #54.
+- The change passed CI and merged as PR #54.

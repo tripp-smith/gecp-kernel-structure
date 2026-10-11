@@ -667,7 +667,7 @@ pivots.
   and hence higher-degree total nonnegativity, remain open.
   Exact arithmetic checks the positive staircase and a collapsed-interval zero
   boundary. The root command passes with 87 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #54.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
