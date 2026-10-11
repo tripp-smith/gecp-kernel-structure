@@ -54,6 +54,9 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.det_updateRow_intervalIntegral
 #print axioms Matrix.det_updateRow_intervalIntegral_nonneg
 #print axioms Matrix.det_updateRow_intervalIntegral_pos
+#print axioms GECPKernelStructure.GECP.TotallyNonnegativeAtOrder.det_minorMatrix_nonneg_of_monotone
+#print axioms GECPKernelStructure.GECP.det_rowIntervalIntegral_nonneg
+#print axioms GECPKernelStructure.GECP.det_rowIntervalIntegral_kernel_nonneg
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_pos
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_ge_principal
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_tendsto_expMatrix

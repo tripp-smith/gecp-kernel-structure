@@ -4076,3 +4076,81 @@ Verification:
 - `./scripts/verify.sh` passes with 86 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #53.
+
+## Phase AZ contract: ordered multi-row determinant integration
+
+Phase AZ iterates the one-row analytic transfer without introducing a product
+measure.  The determinant is integrated one row at a time, while all remaining
+rows are frozen at admissible samples.  This is the finite-dimensional analogue
+of iterated expectation and keeps the proof aligned with determinant
+multilinearity.
+
+Frozen public Lean targets:
+
+- extend total nonnegativity from strictly increasing tuples to monotone tuples,
+  with repeated rows or columns handled by a zero determinant;
+- define a partially integrated row matrix indexed by a finite set of rows;
+- prove nonnegativity after integrating every row whenever every simultaneous
+  pointwise sample has nonnegative determinant;
+- specialize the result to a totally nonnegative kernel on ordered disjoint row
+  intervals.
+
+Proof contract:
+
+- induct over the finite set of integrated rows and use
+  `Matrix.det_updateRow_intervalIntegral_nonneg` at each step;
+- retain explicit interval-order, bound, and Bochner-integrability hypotheses;
+- derive weakly ordered pointwise minors from total nonnegativity, using the
+  existing repeated-row and repeated-column determinant lemmas at shared
+  endpoints;
+- do not claim a product-measure Andreief identity or higher-degree closure yet.
+
+Independent checks:
+
+- integrate the strict order kernel exactly over three adjacent rational
+  intervals, obtaining the unit upper-triangular matrix and determinant `1`;
+- collapse one interval and confirm the boundary determinant is exactly zero;
+- run focused Lean builds, the public axiom audit, and root verification.
+
+Decision rule:
+
+- if finite row iteration closes, the next phase proves determinant-preserving
+  adjacent row differences for common-upper integrals and combines the two
+  results into total-nonnegativity propagation along the normalized
+  truncated-power ladder;
+- if row-update bookkeeping blocks the induction, retain the weak-order lemma
+  and record the smallest missing matrix-update identity.
+
+Non-claims:
+
+- this phase does not yet prove that every normalized truncated-power degree is
+  totally nonnegative, all-orders tail sign regularity, Conjecture G1, or
+  Simons Problem 4.2.
+
+Delivered:
+
+- `TotallyNonnegativeAtOrder.det_minorMatrix_nonneg_of_monotone` extends the
+  strict-tuple definition to weakly ordered samples;
+- `partialRowIntervalIntegral` records exactly which rows have already been
+  integrated;
+- `det_rowIntervalIntegral_nonneg` performs finite iterated row integration;
+- `det_rowIntervalIntegral_kernel_nonneg` transfers a totally nonnegative minor
+  through ordered disjoint row intervals.
+
+Result:
+
+- multi-row determinant integration now follows from the one-row theorem with
+  no Fubini or product-measure dependency;
+- shared interval endpoints are covered exactly by zero-minor degeneracy;
+- the remaining algebraic bridge is the adjacent-row difference reduction from
+  common-upper integrals to ordered disjoint intervals.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic integrates the strict order kernel over three
+  adjacent intervals to a unit upper-triangular matrix with determinant `1`,
+  while a collapsed middle interval gives determinant zero;
+- `./scripts/verify.sh` passes with 87 Python tests and no known dependency
+  vulnerabilities.

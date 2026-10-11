@@ -239,6 +239,15 @@ it is a credible mathlib companion to `det_updateRow_add` and
 `det_updateRow_smul`. A larger Andreief theorem should wait until the
 repository's ordered-interval iteration determines the cleanest hypotheses.
 
+Phase AZ supplies that ordered-interval iteration using only `Finset` induction
+and the Phase AY one-row theorem. The generic
+`det_rowIntervalIntegral_nonneg` is a useful intermediate abstraction: it
+requires pointwise determinant nonnegativity for every simultaneous interval
+sample and concludes nonnegativity of the determinant of row integrals. Its
+ordered-kernel specialization is repository-local vocabulary, while the
+generic finite-row theorem and the one-row commutation lemma together form a
+credible small upstream API independent of a full Andreief identity.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

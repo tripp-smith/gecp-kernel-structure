@@ -657,6 +657,17 @@ pivots.
   iteration and higher-degree total nonnegativity remain open. The root
   command passes with 86 tests and no known dependency vulnerabilities. The
   change passed CI and merged as PR #53.
+- Phase AZ iterates that atom over every row. A finite-set induction freezes
+  unintegrated rows, integrates one selected row, and repeats; no product
+  measure is needed. Total nonnegativity also controls weakly ordered samples,
+  because any repeated row or column makes the determinant zero. Consequently,
+  integrating a totally nonnegative kernel over ordered disjoint row intervals
+  preserves the minor's nonnegative sign. The adjacent-row reduction needed to
+  turn common-upper truncated-power integrals into these disjoint intervals,
+  and hence higher-degree total nonnegativity, remain open.
+  Exact arithmetic checks the positive staircase and a collapsed-interval zero
+  boundary. The root command passes with 87 tests and no known dependency
+  vulnerabilities.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

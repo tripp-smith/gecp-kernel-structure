@@ -1829,3 +1829,14 @@ This annotation records delivered identifiers without changing the goals above.
   nonnegativity, all-orders tail sign regularity, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 86 tests and no known
   dependency vulnerabilities.
+- Post-v1 research phase AZ: verified locally on 2026-10-11 and awaiting
+  pull-request review.
+  `TotallyNonnegativeAtOrder.det_minorMatrix_nonneg_of_monotone` covers weakly
+  ordered samples by repeated-row or repeated-column degeneracy,
+  `det_rowIntervalIntegral_nonneg` iterates the one-row determinant integral
+  theorem over a finite set of rows, and
+  `det_rowIntervalIntegral_kernel_nonneg` transfers total nonnegativity through
+  ordered disjoint row intervals. The adjacent-row common-upper reduction,
+  higher-degree total nonnegativity, all-orders tail sign regularity,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 87
+  tests and no known dependency vulnerabilities.
