@@ -2,6 +2,7 @@ import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.Matrix.CauchyBinet
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
+import GECPKernelStructure.Matrix.OrderedSampleSign
 import GECPKernelStructure.GECP.TotalNonnegativeIntegral
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction
@@ -31,6 +32,7 @@ import GECPKernelStructure.Fermionic.TruncatedPowerComposition
 import GECPKernelStructure.Fermionic.TruncatedPowerConvolution
 import GECPKernelStructure.Fermionic.TruncatedPowerTotalNonnegative
 import GECPKernelStructure.Fermionic.TailCompositionSymmetrization
+import GECPKernelStructure.Fermionic.TailCompositionSign
 import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction

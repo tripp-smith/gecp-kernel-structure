@@ -703,6 +703,19 @@ pivots.
   by a common sorting permutation, and then proving strict support, remain the
   next analytic steps. The root command passes with 90 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #57.
+- Phase BD removes the ordered-intermediate-sample restriction. Every
+  injective finite real sample has a monotone sorting permutation, and the
+  permutation signs of the sampled exponential columns and truncated-power
+  rows cancel in their determinant product. If the sample is not injective,
+  the repeated row makes the truncated-power determinant zero. This pointwise
+  result integrates through Andreief to give weak-sign closure for finite
+  integral-kernel composition. The common-cutoff representation and positive
+  `t^8/7!` row scaling therefore prove the prescribed weak sign for every
+  ordered eighth-order Taylor-tail minor on positive times and nonnegative
+  frequencies. An exact rational regression checks all six permutations and
+  the repeated-sample boundary. Strict support and hence strict all-orders
+  tail sign regularity remain open. The root command passes with 91 tests and
+  no known dependency vulnerabilities; review and delivery are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

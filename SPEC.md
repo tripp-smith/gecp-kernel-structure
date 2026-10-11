@@ -1875,3 +1875,16 @@ This annotation records delivered identifiers without changing the goals above.
   support, all-orders tail sign regularity, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 90 tests and no known dependency
   vulnerabilities.
+- Post-v1 research phase BD: verified locally on 2026-10-11.
+  `Matrix.signed_det_mul_det_nonneg_of_strictMono` sorts injective samples by
+  one common permutation, whose two determinant signs cancel, and handles
+  repeated samples by determinant vanishing. Combined with the Phase BC
+  Andreief identity, `Matrix.signature_mul_det_integral_nonneg` transfers
+  ordered-sample weak signs through finite integral-kernel composition.
+  Specializing to the exponential and seventh-degree truncated-power factors
+  proves `eighthOrderTail_minor_signed_nonneg`: every ordered eighth-order
+  Taylor-tail minor on positive times and nonnegative frequencies has the
+  prescribed weak sign. Strict support, strict all-orders tail sign
+  regularity, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 91 tests and no known dependency vulnerabilities; review and
+  delivery are pending.
