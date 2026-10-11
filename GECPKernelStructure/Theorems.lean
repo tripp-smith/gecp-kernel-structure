@@ -40,6 +40,7 @@ import GECPKernelStructure.Fermionic.TailGECPEnvelope
 import GECPKernelStructure.Fermionic.PositiveSeriesTail
 import GECPKernelStructure.Fermionic.PositiveSeriesMixedCoefficients
 import GECPKernelStructure.Fermionic.TailAmplification
+import GECPKernelStructure.Fermionic.AmplifiedKernelEnvelope
 import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction

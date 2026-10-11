@@ -31,6 +31,16 @@ two-step residual is at most one half of the initial complete-pivot magnitude.
 This verifies the base block but does not supply the dyadic scaling lemma
 needed for Conjecture G1.
 
+Post-v1 Phase BL closes the qualitative and pointwise parts of the amplified-
+determinant strategy. Lean proves that nonnegative mixed coefficients make the
+tail-weight pencil determinant-monotone, that every amplification weight at
+least one preserves strict total positivity, and that the `8!`-amplified
+positive-series kernel is bounded by two on the unit band. Complete runs of
+that amplified kernel therefore have a `2^n` selected-core determinant bound.
+The remaining rate gap is the arbitrary ordered-sample determinant envelope:
+the original GECP nodes are not assumed to be complete pivots of the amplified
+kernel.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -151,6 +161,7 @@ not represented by the completed goal counter.
 | BI — mixed-column coefficient bridge | complete; green CI | merged [PR #63](https://github.com/tripp-smith/gecp-kernel-structure/pull/63) |
 | BJ — infinite-tail mixed coefficients | complete; green CI | merged [PR #64](https://github.com/tripp-smith/gecp-kernel-structure/pull/64) |
 | BK — low-rank tail amplification | complete; green CI | merged [PR #65](https://github.com/tripp-smith/gecp-kernel-structure/pull/65) |
+| BL — amplified-kernel envelope | verified locally | pull request pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

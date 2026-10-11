@@ -22,6 +22,27 @@ theorem mixedColumnCoefficient_eq_zero_of_rank
     simpa [hs] using hcard
   · rw [if_neg hs]
 
+/-- A determinant pencil with nonnegative mixed-column coefficients is monotone
+on nonnegative scalar weights. -/
+theorem mixedColumnPolynomial_det_mono
+    (E B : Matrix n n ℝ)
+    (coefficient_nonneg : ∀ degree,
+      0 ≤ mixedColumnCoefficient degree E B)
+    {mu lambda : ℝ} (mu_nonneg : 0 ≤ mu) (mu_le_lambda : mu ≤ lambda) :
+    (mu • E + B).det ≤ (lambda • E + B).det := by
+  let p := mixedColumnPolynomial E B
+  have p_coefficient_nonneg (degree : ℕ) : 0 ≤ p.coeff degree := by
+    rw [mixedColumnPolynomial_coeff]
+    exact coefficient_nonneg degree
+  rw [← mixedColumnPolynomial_eval mu E B,
+    ← mixedColumnPolynomial_eval lambda E B]
+  rw [Polynomial.eval_eq_sum, Polynomial.eval_eq_sum]
+  apply Finset.sum_le_sum
+  intro degree _
+  exact mul_le_mul_of_nonneg_left
+    (pow_le_pow_left₀ mu_nonneg mu_le_lambda degree)
+    (p_coefficient_nonneg degree)
+
 /-- Low-rank vanishing and nonnegative coefficients amplify every tail weight above one. -/
 theorem mixedColumnPolynomial_rank_amplification
     (E : Matrix n n ℝ) (L : Matrix n k ℝ) (R : Matrix k n ℝ)

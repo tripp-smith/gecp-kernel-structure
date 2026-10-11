@@ -809,6 +809,18 @@ pivots.
   97 tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #65.
 
+- Phase BL proves that the amplified target itself has the needed qualitative
+  structure. Nonnegative mixed-column coefficients make its determinant
+  monotone in the tail weight, so every weight at least one preserves strict
+  total positivity. At the balancing weight `8!`, the existing tail remainder
+  estimate and the bounded base kernel give a uniform entry bound of two; a
+  complete run of this amplified kernel consequently has selected-core
+  determinant at most `2^n`. A 250-digit regression checks the entry envelope
+  and positive ordered determinants through order eight. The outstanding gap
+  is not positivity or entry control, but transfer of the `2^n` envelope to
+  arbitrary ordered sample minors selected by the original GECP run. The root
+  command passes with 98 tests and no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

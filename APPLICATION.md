@@ -267,6 +267,11 @@ Phase BK also adds no public Python API. Its 350-digit sweep independently
 checks the formal determinant-pencil amplification law; it is not a runtime
 certificate and does not yet expose a completed GECP rate.
 
+Phase BL also adds no public Python API. Its 250-digit unit-band sweep
+independently checks the formal amplified-kernel envelope and ordered-minor
+positivity; it is research evidence rather than a runtime certificate, and it
+does not identify original and amplified complete-pivot paths.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

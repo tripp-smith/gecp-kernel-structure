@@ -335,6 +335,14 @@ amplification inequality. This is a plausible polynomial/matrix upstream
 lemma once generalized beyond real matrices and phrased using an ordered
 coefficient semiring. The eighth-order and fermionic instances remain local.
 
+Phase BL adds the simpler companion
+`Matrix.mixedColumnPolynomial_det_mono`: a determinant pencil is monotone on
+nonnegative weights when all of its mixed-column coefficients are
+nonnegative. This is a plausible upstream lemma beside the coefficient and
+evaluation API, generalized from real matrices to a suitable ordered
+commutative ring. The amplified fermionic kernel, its strict positivity, and
+the numerical choice `8!` remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

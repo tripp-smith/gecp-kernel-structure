@@ -4693,7 +4693,7 @@ Verification:
 
 ## Phase BL contract: amplified-kernel envelope
 
-State: in progress.
+State: verified locally; pull request pending.
 
 Phase BK reduces the determinant-decay problem to an upper envelope for the
 tail-amplified positive-series fermionic kernel. Phase BL freezes the first
@@ -4737,6 +4737,40 @@ Non-claims:
 - this phase does not yet prove the arbitrary ordered-sample inequality
   `det K <= 2^n`, compose determinant decay into a GECP residual contraction,
   or close Conjecture G1 or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.mixedColumnPolynomial_det_mono` proves monotonicity of every
+  nonnegative-coefficient determinant pencil on nonnegative weights;
+- `positiveSeriesAmplifiedFermionicKernel_minorMatrix` identifies the kernel
+  and matrix formulations exactly;
+- `positiveSeriesAmplifiedFermionicKernel_strictSignRegular` proves strict
+  total positivity for every weight at least one;
+- `positiveSeriesAmplifiedFermionicKernel_factorial_abs_le_two` proves the
+  fixed entry envelope at weight `8!`;
+- `positiveSeriesAmplifiedFermionicKernel_factorial_completeRun_det_le`
+  supplies the corresponding `2^n` envelope for complete runs of that kernel.
+
+Result:
+
+The amplification comparison from Phase BK no longer points at an uncontrolled
+kernel: at the balancing weight `8!`, the target kernel is strictly totally
+positive and uniformly bounded by two on the unit band. Its own complete GECP
+runs therefore have factorial-free selected-core determinants. The remaining
+bridge is now sharply isolated: prove the same `2^n` determinant envelope for
+an arbitrary ordered sample minor, because the original GECP nodes need not be
+complete pivots for the amplified kernel.
+
+Verification:
+
+- every new public declaration reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- a 250-digit endpoint-resolved regression verifies the entry envelope and
+  positive ordered determinants through order eight; its largest sampled entry
+  is approximately `1.0331592962`, and the order-eight determinant is
+  approximately `2.2972915790e-38`;
+- `./scripts/verify.sh` passes with 98 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

@@ -1965,3 +1965,14 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 97 tests and no known dependency vulnerabilities. The change
   passed CI and merged as PR #65.
+- Post-v1 research phase BL: verified locally on 2026-10-11.
+  `mixedColumnPolynomial_det_mono` turns the exact coefficient signs into
+  monotonicity of the tail-weight determinant pencil.
+  `positiveSeriesAmplifiedFermionicKernel_strictSignRegular` proves that every
+  weight at least one is strictly totally positive, while
+  `positiveSeriesAmplifiedFermionicKernel_factorial_abs_le_two` and its
+  complete-run corollary give a unit-band entry bound of `2` and selected-core
+  bound `2^n` at weight `8!`. The arbitrary ordered-sample determinant bridge,
+  GECP composition, dyadic assembly, Conjecture G1, and Problem 4.2 remain
+  open. The root command passes with 98 tests and no known dependency
+  vulnerabilities. Pull-request delivery is pending.
