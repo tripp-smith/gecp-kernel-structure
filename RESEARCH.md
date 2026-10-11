@@ -4691,6 +4691,53 @@ Verification:
 - `./scripts/verify.sh` passes with 97 Python tests and no known dependency
   vulnerabilities.
 
+## Phase BL contract: amplified-kernel envelope
+
+State: in progress.
+
+Phase BK reduces the determinant-decay problem to an upper envelope for the
+tail-amplified positive-series fermionic kernel. Phase BL freezes the first
+quantitative half of that envelope. It treats the amplification parameter as
+a genuine kernel pencil, proves that increasing a nonnegative mixed-column
+pencil preserves strict ordered-minor positivity, and fixes the natural
+weight `8!`, where the existing unit-band tail estimate balances exactly.
+
+Frozen public Lean targets:
+
+- prove monotonicity of a determinant pencil between nonnegative scalar
+  weights whenever every mixed-column coefficient is nonnegative;
+- define the positive-series amplified fermionic kernel and identify each
+  ordered sample matrix with `positiveSeriesAmplifiedFermionicMatrix`;
+- prove strict total positivity of that kernel for every amplification weight
+  at least one;
+- prove the pointwise unit-band envelope `abs K <= 2` at weight `8!`;
+- derive the existing factorial-free `2^n` selected-core determinant bound
+  for complete runs of the amplified kernel.
+
+Independent check:
+
+- evaluate the `8!`-amplified kernel at high precision on endpoint-resolved
+  unit-band grids and check ordered determinants through several orders,
+  recording the largest entry and smallest positive determinant.
+
+Decision rule:
+
+- reuse mixed-column coefficient positivity rather than attempting a second
+  total-positivity representation of the weighted tail;
+- keep the envelope at `2`, avoiding numerical optimization of an irrelevant
+  constant;
+- if complete-run machinery cannot apply directly, retain the strict
+  total-positivity and pointwise theorem and record the exact type mismatch,
+  without weakening either analytic claim.
+
+Non-claims:
+
+- a complete run of the amplified kernel is not assumed to share pivot nodes
+  with a GECP run of the original kernel;
+- this phase does not yet prove the arbitrary ordered-sample inequality
+  `det K <= 2^n`, compose determinant decay into a GECP residual contraction,
+  or close Conjecture G1 or Simons Problem 4.2.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

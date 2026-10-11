@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BK — low-rank tail amplification<br>
-> **Phase state:** complete<br>
+> **Current phase:** BL — amplified-kernel envelope<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BK `./scripts/verify.sh` passed with 97 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BK merged as PR #65 with green CI<br>
-> **Claim level:** rank-eight vanishing yields a `lambda^(n-8)` amplified-determinant lower comparison; a fixed-base upper envelope for the amplified determinant remains open
+> **Delivery:** Phase BL implementation branch open; Phase BK merged as PR #65 with green CI<br>
+> **Claim level:** Phase BL targets strict total positivity and a uniform unit-band entry envelope for the `8!`-amplified kernel; the arbitrary-sample determinant envelope and GECP composition remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -81,6 +81,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BI | Mixed-column coefficient bridge | complete | `mixedColumnPolynomial`; `blockFeatureCoefficient_eq_mixedColumnCoefficient`; `expTaylor_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; exact rational coefficient identity; 95-test root verification; green CI | merged PR #63 |
 | BJ | Infinite-tail mixed coefficients | complete | `mixedColumnCoefficient_tendsto`; exact eighth-order tail matrix; `positiveEighthOrderTail_mixedColumnCoefficient_nonneg` | Lean build; public axiom audit; 120-digit truncation convergence; 96-test root verification; green CI | merged PR #64 |
 | BK | Low-rank tail amplification | complete | `mixedColumnCoefficient_eq_zero_of_rank`; `mixedColumnPolynomial_rank_amplification`; positive-series fermionic specialization | Lean build; public axiom audit; 350-digit orders 9--16 sweep; 97-test root verification; green CI | merged PR #65 |
+| BL | Amplified-kernel envelope | in progress | strict total positivity of the weighted tail pencil; uniform unit-band entry bound; complete-run determinant corollary | focused Lean checks pending | implementation branch |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
