@@ -1975,4 +1975,4 @@ This annotation records delivered identifiers without changing the goals above.
   bound `2^n` at weight `8!`. The arbitrary ordered-sample determinant bridge,
   GECP composition, dyadic assembly, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 98 tests and no known dependency
-  vulnerabilities. Pull-request delivery is pending.
+  vulnerabilities. Delivery is recorded in draft PR #66.

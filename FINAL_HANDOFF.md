@@ -161,7 +161,7 @@ not represented by the completed goal counter.
 | BI — mixed-column coefficient bridge | complete; green CI | merged [PR #63](https://github.com/tripp-smith/gecp-kernel-structure/pull/63) |
 | BJ — infinite-tail mixed coefficients | complete; green CI | merged [PR #64](https://github.com/tripp-smith/gecp-kernel-structure/pull/64) |
 | BK — low-rank tail amplification | complete; green CI | merged [PR #65](https://github.com/tripp-smith/gecp-kernel-structure/pull/65) |
-| BL — amplified-kernel envelope | verified locally | pull request pending |
+| BL — amplified-kernel envelope | verified locally | draft [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
