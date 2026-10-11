@@ -4620,6 +4620,77 @@ Verification:
 - `./scripts/verify.sh` passes with 96 Python tests and no known dependency
   vulnerabilities.
 
+## Phase BK contract: low-rank tail amplification
+
+State: verified locally.
+
+Phase BK converts exact coefficientwise nonnegativity into the first
+quantitative determinant inequality. If the low block factors through `k`
+features, every mixed coefficient below degree `n-k` vanishes. For a tail
+weight `lambda >= 1`, every remaining monomial gains at least
+`lambda^(n-k)`.
+
+Frozen public Lean targets:
+
+- prove `mixedColumnCoefficient` vanishes when the chosen tail-column count
+  plus the low feature rank is smaller than the matrix order;
+- express determinant-pencil evaluation through its coefficient support;
+- prove the generic amplification inequality
+  `lambda^(n-k) * det (E+B) <= det (lambda • E+B)` under low-rank
+  factorization and coefficient nonnegativity;
+- specialize to the exact eighth-order positive exponential Taylor/tail split
+  on nonnegative strictly ordered nodes.
+
+Independent check:
+
+- use high precision to compare both sides across orders 9--16 and several
+  `lambda >= 1`, recording the smallest observed slack.
+
+Decision rule:
+
+- keep the comparison division-free so it remains valid without proving the
+  amplified determinant positive separately;
+- if polynomial support bookkeeping dominates, isolate it as a generic lemma
+  instead of weakening the rank threshold.
+
+Non-claims:
+
+- this phase does not yet bound the amplified determinant by a fixed-base
+  exponential;
+- the GECP contraction, dyadic assembly, Conjecture G1, and Problem 4.2 remain
+  open until that envelope is supplied.
+
+Delivered:
+
+- `Matrix.mixedColumnCoefficient_eq_zero_of_rank` proves exact vanishing below
+  the codimension of a factored low block;
+- `Matrix.mixedColumnPolynomial_rank_amplification` proves the division-free
+  generic inequality
+  `lambda^(n-k) * det(E + LR) <= det(lambda E + LR)` for `lambda >= 1` and
+  nonnegative mixed coefficients;
+- `positiveEighthOrderTail_rank_amplification` specializes the comparison to
+  the exact positive exponential Taylor/tail split;
+- `positiveSeriesFermionic_rank_amplification` preserves it under the positive
+  fermionic denominator scaling.
+
+Result:
+
+Every determinant term that survives the rank-eight low block contains at
+least `n - 8` exact tail columns. Increasing the tail weight therefore
+amplifies the full determinant by at least `lambda^(n-8)`, without division,
+factorials, or a finite Taylor cutoff. This isolates the remaining quantitative
+problem: bound the amplified totally-positive determinant by `C^n` for a
+fixed `C`.
+
+Verification:
+
+- each public declaration reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- a 350-digit sweep checks strict inequality at orders 9--16 for weights 2,
+  8, and `8!`;
+- `./scripts/verify.sh` passes with 97 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.
