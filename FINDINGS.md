@@ -715,7 +715,8 @@ pivots.
   frequencies. An exact rational regression checks all six permutations and
   the repeated-sample boundary. Strict support and hence strict all-orders
   tail sign regularity remain open. The root command passes with 91 tests and
-  no known dependency vulnerabilities; review and delivery are pending.
+  no known dependency vulnerabilities. The change passed CI and merged as
+  PR #58.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

@@ -143,7 +143,7 @@ not represented by the completed goal counter.
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
 | G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | BC — product-measure Andréief identity | complete; green CI | merged [PR #57](https://github.com/tripp-smith/gecp-kernel-structure/pull/57) |
-| BD — arbitrary-sample and Taylor-tail weak signs | verified locally | review and merge pending |
+| BD — arbitrary-sample and Taylor-tail weak signs | complete; green CI | merged [PR #58](https://github.com/tripp-smith/gecp-kernel-structure/pull/58) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

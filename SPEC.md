@@ -1875,7 +1875,8 @@ This annotation records delivered identifiers without changing the goals above.
   support, all-orders tail sign regularity, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 90 tests and no known dependency
   vulnerabilities.
-- Post-v1 research phase BD: verified locally on 2026-10-11.
+- Post-v1 research phase BD: complete with green CI on 2026-10-11 and
+  delivered in merged PR #58.
   `Matrix.signed_det_mul_det_nonneg_of_strictMono` sorts injective samples by
   one common permutation, whose two determinant signs cancel, and handles
   repeated samples by determinant vanishing. Combined with the Phase BC
@@ -1886,5 +1887,4 @@ This annotation records delivered identifiers without changing the goals above.
   Taylor-tail minor on positive times and nonnegative frequencies has the
   prescribed weak sign. Strict support, strict all-orders tail sign
   regularity, Conjecture G1, and Problem 4.2 remain open. The root command
-  passes with 91 tests and no known dependency vulnerabilities; review and
-  delivery are pending.
+  passes with 91 tests and no known dependency vulnerabilities.
