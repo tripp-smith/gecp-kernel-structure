@@ -257,6 +257,13 @@ kernel-level total-nonnegativity consequences remain project vocabulary, while
 the matrix identities are credible upstream candidates with consumers beyond
 truncated powers.
 
+Phase BB proves the finite algebraic symmetrization underlying Andréief's
+identity using existing determinant expansion and row-permutation lemmas. The
+generic `Matrix.sum_compositionSampleIntegrand_comp_perm` is independent of
+analysis and is a plausible supporting lemma for an eventual mathlib
+continuous Cauchy--Binet theorem. The next upstream-relevant question is which
+finite-product-measure permutation API gives the cleanest integration proof.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
