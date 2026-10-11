@@ -1964,4 +1964,4 @@ This annotation records delivered identifiers without changing the goals above.
   fermionic specialization. A fixed-base amplified determinant envelope,
   dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 97 tests and no known dependency vulnerabilities. Delivery is
-  pending.
+  draft PR #65.

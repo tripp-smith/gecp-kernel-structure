@@ -806,7 +806,7 @@ pivots.
   inequality. A 350-digit sweep verifies strict slack at orders 9--16 and
   weights 2, 8, and `8!`. The remaining quantitative target is a fixed-base
   upper envelope for the amplified determinant. The root command passes with
-  97 tests and no known dependency vulnerabilities. Delivery is pending.
+  97 tests and no known dependency vulnerabilities. Delivery is draft PR #65.
 
 ## Run provenance
 
