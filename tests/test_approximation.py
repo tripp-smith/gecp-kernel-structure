@@ -490,6 +490,31 @@ def test_andreief_identity_for_three_monomials_exactly() -> None:
     assert product_measure_side == determinant_side
 
 
+def test_common_sample_permutation_signs_cancel_exactly() -> None:
+    ordered_sample = (Fraction(1, 4), Fraction(3, 4), Fraction(3, 2))
+    columns = (Fraction(1), Fraction(2), Fraction(3))
+    products: set[Fraction] = set()
+
+    for sample in itertools.permutations(ordered_sample):
+        left_matrix = [[value**degree for value in sample] for degree in range(3)]
+        right_matrix = [
+            [max(column - value, Fraction()) ** 3 for column in columns]
+            for value in sample
+        ]
+        products.add(
+            fraction_determinant(left_matrix) * fraction_determinant(right_matrix)
+        )
+
+    assert products == {Fraction(119085, 131072)}
+
+    repeated_sample = (Fraction(1, 4), Fraction(3, 4), Fraction(3, 4))
+    repeated_right = [
+        [max(column - value, Fraction()) ** 3 for column in columns]
+        for value in repeated_sample
+    ]
+    assert fraction_determinant(repeated_right) == 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

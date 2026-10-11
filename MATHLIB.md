@@ -274,6 +274,14 @@ should be compared with a Bochner-valued or dependent-measure formulation;
 the present real-valued common-measure statement is the minimal theorem needed
 by this repository.
 
+Phase BD uses `Tuple.sort` to isolate a generic sign-transfer lemma: a product
+of two sampled determinants is invariant when the same permutation is applied
+to the left columns and right rows, so an ordered-sample weak sign extends to
+all samples after separating injective and repeated cases. Together with the
+Phase BC Andreief theorem this yields a reusable weak-sign composition-closure
+result. Both lemmas are plausible upstream companions to a continuous
+Cauchy--Binet API; the Taylor-tail specialization remains project-local.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
