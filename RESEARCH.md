@@ -4552,3 +4552,71 @@ Verification:
   all four coefficients strictly positive;
 - `./scripts/verify.sh` passes with 95 Python tests and no known dependency
   vulnerabilities.
+
+## Phase BI contract: mixed-column coefficient bridge
+
+State: verified locally.
+
+Phase BI connects the feature-index coefficient from Phase BH to the
+coordinate-space mixed determinants needed for the exact tail limit. The
+low/high feature split produces a matrix pencil `B + lambda E`; determinant
+multilinearity produces its coefficients as sums over physical column choices,
+while weighted Cauchy--Binet produces the same polynomial by feature count.
+
+Frozen public Lean targets:
+
+- define low- and high-block feature matrices and prove their weighted
+  recombination identity;
+- define the fixed-cardinality sum of physical mixed-column determinants;
+- prove, by equality of determinant polynomials, that this physical
+  coefficient equals the grouped feature coefficient;
+- conclude nonnegativity of every physical mixed-column coefficient from
+  termwise nonnegative ordered Cauchy--Binet summands;
+- specialize the result to finite positive exponential Taylor features.
+
+Independent check:
+
+- extend the exact rational regression to compare each feature-count
+  coefficient with the corresponding fixed-cardinality physical-column sum.
+
+Decision rule:
+
+- use polynomial extensionality over `Real` rather than differentiating the
+  determinant pencil; this exposes the algebraic coefficient identity directly;
+- if the generic polynomial bridge becomes dominated by coercion plumbing,
+  retain the theorem over real matrices rather than prematurely generalizing
+  the coefficient ring.
+
+Non-claims:
+
+- this phase remains finite-dimensional in the feature cutoff;
+- it does not yet pass the positive Taylor tail to infinity or prove the
+  quantitative determinant, dyadic, Conjecture G1, or Problem 4.2 bounds.
+
+Delivered:
+
+- `Matrix.mixedColumnPolynomial` packages determinant multilinearity by the
+  number of selected high-block columns;
+- `Matrix.blockFeaturePolynomial_eq_mixedColumnPolynomial` proves equality of
+  the feature-selection and physical-column generating polynomials by
+  evaluation at every real weight;
+- `Matrix.blockFeatureCoefficient_eq_mixedColumnCoefficient` extracts the
+  coefficient identity by polynomial uniqueness;
+- `expTaylor_mixedColumnCoefficient_nonneg` proves every fixed-cardinality sum
+  of finite positive-Taylor mixed-column determinants nonnegative.
+
+Result:
+
+Phase BH's abstract feature-count coefficient is exactly the coordinate-space
+quantity needed for a tail limit. This matters because the latter is a finite
+sum of ordinary determinants, so entrywise convergence of finite Taylor tails
+will preserve its sign without an infinite-dimensional Cauchy--Binet theorem.
+
+Verification:
+
+- every new public result reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- the exact rational regression compares determinant multilinearity,
+  fixed-cardinality physical-column sums, and ordered feature grouping;
+- `./scripts/verify.sh` passes with 95 Python tests and no known dependency
+  vulnerabilities.

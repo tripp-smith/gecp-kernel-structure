@@ -657,7 +657,7 @@ def test_positive_series_split_aligns_mixed_determinant_coefficients() -> None:
             assert coefficient / denominator_product > 0
 
 
-def test_block_feature_cauchy_binet_coefficients_exactly() -> None:
+def test_block_feature_and_mixed_column_coefficients_exactly() -> None:
     rows = (Fraction(1), Fraction(2), Fraction(3))
     columns = (Fraction(1), Fraction(2), Fraction(4))
     order = len(rows)

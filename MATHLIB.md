@@ -314,6 +314,14 @@ specialization is project-facing. Before upstreaming, it would be worth
 generalizing the coefficient semiring and checking whether mathlib's
 polynomial matrix API offers a more canonical coefficient formulation.
 
+Phase BI finds that canonical formulation: the weighted feature expansion and
+the physical mixed-column expansion are two presentations of the same
+determinant polynomial. The generic upstream candidate now includes
+`mixedColumnPolynomial` and its coefficient theorem, plus the equality with a
+block-feature Cauchy--Binet polynomial. The proof uses existing polynomial
+extensionality over `Real`; an upstream version should be stated over the
+weakest infinite integral-domain or sufficiently-large-domain hypotheses.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
