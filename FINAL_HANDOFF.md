@@ -145,7 +145,7 @@ not represented by the completed goal counter.
 | BC — product-measure Andréief identity | complete; green CI | merged [PR #57](https://github.com/tripp-smith/gecp-kernel-structure/pull/57) |
 | BD — arbitrary-sample and Taylor-tail weak signs | complete; green CI | merged [PR #58](https://github.com/tripp-smith/gecp-kernel-structure/pull/58) |
 | BE — strict all-orders Taylor-tail signs | complete; green CI | merged [PR #59](https://github.com/tripp-smith/gecp-kernel-structure/pull/59) |
-| BF — factorial-free Taylor-tail GECP envelope | verified locally | [PR #60](https://github.com/tripp-smith/gecp-kernel-structure/pull/60) pending |
+| BF — factorial-free Taylor-tail GECP envelope | complete; green CI | merged [PR #60](https://github.com/tripp-smith/gecp-kernel-structure/pull/60) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

@@ -746,7 +746,7 @@ pivots.
   cumulative determinant envelope. This does not yet control determinants of
   the low-rank-plus-tail sum or extend the result to the `8p` dyadic orders.
   The root command passes with 93 tests and no known dependency
-  vulnerabilities; review and delivery are pending.
+  vulnerabilities. The change passed CI and merged as PR #60.
 
 ## Run provenance
 

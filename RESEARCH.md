@@ -4321,7 +4321,7 @@ Verification:
 
 ## Phase BF contract: factorial-free Taylor-tail GECP envelope
 
-State: verified locally in PR #60; review and merge pending.
+State: complete; green CI; merged in PR #60.
 
 Phase BF converts the Phase BE ordered-minor theorem into the exact interface
 needed by the earlier continuation-determinant machinery. It is intentionally
