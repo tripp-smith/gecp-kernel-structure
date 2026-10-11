@@ -84,6 +84,24 @@ def test_strict_order_kernel_minors_are_zero_or_one_exactly() -> None:
     )
 
 
+def test_determinant_commutes_with_exact_affine_row_integral() -> None:
+    matrix = [
+        [Fraction(1), Fraction(2), Fraction()],
+        [Fraction(), Fraction(), Fraction()],
+        [Fraction(), Fraction(1), Fraction(1)],
+    ]
+
+    # f(z) = [z, 5 + z, 1] on [0, 2]. Integrate each coordinate exactly.
+    integrated_row = [Fraction(2), Fraction(12), Fraction(2)]
+    integrated_matrix = [matrix[0], integrated_row, matrix[2]]
+    determinant_after_integrating_row = fraction_determinant(integrated_matrix)
+
+    # The pointwise determinant is 4 - z, whose exact antiderivative gives 6.
+    determinant_integral = Fraction(4) * 2 - Fraction(2**2, 2)
+    assert determinant_after_integrating_row == determinant_integral == 6
+    assert all(Fraction(4) - Fraction(z, 10) > 0 for z in range(21))
+
+
 def test_bordered_core_determinant_identity_exactly() -> None:
     matrix = geometric_surrogate(4, Fraction(2, 3))
     pivot_rows, pivot_columns, pivots = exact_gecp(matrix)

@@ -3998,3 +3998,80 @@ Verification:
 - `./scripts/verify.sh` passes with 85 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #52.
+
+## Phase AY contract: determinant/interval-integral commutation
+
+Phase AY isolates the analytic atom needed by continuous Cauchy--Binet.  With
+all but one matrix row fixed, the determinant is a linear functional of the
+remaining row; finite dimensionality makes that functional continuous, so it
+commutes with the Bochner interval integral.
+
+Frozen public Lean targets:
+
+- define the continuous linear functional obtained by updating one matrix row
+  and taking the determinant;
+- prove `Matrix.det_updateRow_intervalIntegral`, commuting that functional
+  with an interval integral of row vectors;
+- derive nonnegative transfer from pointwise nonnegative updated determinants;
+- derive strict transfer for a continuous row path that is nonnegative on the
+  interval and positive somewhere.
+
+Proof contract:
+
+- use `Matrix.det_updateRow_add`, `Matrix.det_updateRow_smul`, finite-
+  dimensional continuity, and `ContinuousLinearMap.intervalIntegral_comp_comm`;
+- state interval order, integrability, continuity, and pointwise sign
+  hypotheses explicitly;
+- do not encode the desired determinant sign inside a certificate wrapper.
+
+Independent checks:
+
+- integrate an affine rational row in an exact `3 x 3` example and recompute
+  both determinant sides independently;
+- run focused Lean builds, extend the public axiom audit, and run root
+  verification.
+
+Decision rule:
+
+- if the row-integral bridge closes, the next phase iterates it over ordered
+  disjoint row intervals and combines it with determinant-preserving adjacent
+  row differences;
+- if finite-dimensional continuity is insufficient, record the exact missing
+  normed-space instance rather than specializing the theorem to one order.
+
+Non-claims:
+
+- this phase does not yet prove a multi-row continuous Cauchy--Binet theorem,
+  higher-degree total nonnegativity, all-orders tail sign regularity,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.detUpdateRowCLM` packages the determinant after one row update as a
+  continuous linear functional;
+- `Matrix.det_updateRow_intervalIntegral` proves exact commutation with the
+  Bochner interval integral of a row-vector path;
+- `Matrix.det_updateRow_intervalIntegral_nonneg` transfers pointwise
+  nonnegativity on an ordered interval;
+- `Matrix.det_updateRow_intervalIntegral_pos` transfers strictness from a
+  continuous nonnegative path that is positive somewhere.
+
+Result:
+
+- determinant multilinearity is now connected to the interval-integral API
+  without expanding permutations or constructing a product measure;
+- the strict corollary preserves the witness mechanism needed later for
+  Schoenberg--Whitney support regions;
+- the next exact target is to iterate this one-row theorem over pairwise
+  ordered row intervals after determinant-preserving adjacent row
+  differences.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- exact `Fraction` arithmetic integrates the affine row
+  `[z, 5+z, 1]` on `[0,2]` inside a `3 x 3` determinant and independently
+  obtains `6` from both sides, with pointwise determinant `4-z > 0`;
+- `./scripts/verify.sh` passes with 86 Python tests and no known dependency
+  vulnerabilities.

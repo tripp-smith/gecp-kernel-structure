@@ -1819,3 +1819,13 @@ This annotation records delivered identifiers without changing the goals above.
   Cauchy--Binet, all-orders tail sign regularity, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 85 tests and no known
   dependency vulnerabilities.
+- Post-v1 research phase AY: verified locally on 2026-10-11 and open as draft
+  PR #53.
+  `Matrix.detUpdateRowCLM` exposes the determinant as a continuous linear
+  functional of one updated row,
+  `Matrix.det_updateRow_intervalIntegral` commutes it with a Bochner interval
+  integral, and the `_nonneg` and `_pos` corollaries transfer pointwise weak
+  and strict signs. Multi-row continuous composition, higher-degree total
+  nonnegativity, all-orders tail sign regularity, Conjecture G1, and Problem
+  4.2 remain open. The root command passes with 86 tests and no known
+  dependency vulnerabilities.

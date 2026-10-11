@@ -648,6 +648,14 @@ pivots.
   continuous Cauchy--Binet remain open. The root command passes with 85 tests
   and no known dependency vulnerabilities. The change passed CI and merged as
   PR #52.
+- Phase AY formalizes the analytic atom for iterating that result.
+  `Matrix.det_updateRow_intervalIntegral` proves that integrating one row
+  commutes exactly with the determinant because the fixed-row determinant is
+  a continuous linear functional. Its nonnegative and strict corollaries
+  transfer pointwise signs through the integral. An exact affine-row example
+  independently gives determinant integral `6` on both sides. Multi-row
+  iteration and higher-degree total nonnegativity remain open. The root
+  command passes with 86 tests and no known dependency vulnerabilities.
   The change passed CI and merged as PR #50.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.

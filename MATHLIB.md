@@ -232,6 +232,13 @@ local proof is therefore appropriate; a general consecutive-ones total-
 unimodularity theorem is a possible upstream result only if another consumer
 appears.
 
+Phase AY composes existing determinant row-linearity, automatic continuity of
+finite-dimensional linear maps, and Bochner integral commutation. The local
+`Matrix.det_updateRow_intervalIntegral` lemma is short and broadly reusable;
+it is a credible mathlib companion to `det_updateRow_add` and
+`det_updateRow_smul`. A larger Andreief theorem should wait until the
+repository's ordered-interval iteration determines the cleanest hypotheses.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

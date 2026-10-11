@@ -50,6 +50,10 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.signature_mul_det_mul_rect_nonneg
 #print axioms Matrix.signedOrderedCauchyBinetTerm_le_signature_mul_det_mul_rect
 #print axioms Matrix.signature_mul_det_mul_rect_pos
+#print axioms Matrix.detUpdateRowCLM_apply
+#print axioms Matrix.det_updateRow_intervalIntegral
+#print axioms Matrix.det_updateRow_intervalIntegral_nonneg
+#print axioms Matrix.det_updateRow_intervalIntegral_pos
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_pos
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_det_ge_principal
 #print axioms GECPKernelStructure.Fermionic.expTaylorMatrix_tendsto_expMatrix
