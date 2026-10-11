@@ -4555,7 +4555,7 @@ Verification:
 
 ## Phase BJ contract: infinite-tail mixed coefficients
 
-State: verified locally.
+State: complete; merged as PR #64 with green CI.
 
 Phase BJ passes the finite physical-column coefficient sign from Phase BI to
 the exact positive exponential tail. Because a mixed coefficient is a finite
