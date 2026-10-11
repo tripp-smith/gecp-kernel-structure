@@ -691,6 +691,18 @@ pivots.
   and a strict positive-measure witness remain open. The root command passes
   with 89 tests and no known dependency vulnerabilities. The change passed CI
   and merged as PR #56.
+- Phase BC completes the finite-product analytic identity behind Andreief.
+  Coordinate permutations preserve both integrability and integration for a
+  product of one common sigma-finite measure. Finite-sum integration turns the
+  Phase BB symmetrization into the exact factorial normalization, while a
+  separate determinant expansion and finite-product Fubini theorem identify
+  the unsymmetrized integral with the determinant of pair integrals. Together
+  these give a division-free finite-order Andreief theorem. An independent
+  exact three-monomial unit-cube expansion gives `1/360` on both sides.
+  Extending the ordered exponential/truncated-power sign to arbitrary samples
+  by a common sorting permutation, and then proving strict support, remain the
+  next analytic steps. The root command passes with 90 tests and no known
+  dependency vulnerabilities; review and delivery are pending.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 

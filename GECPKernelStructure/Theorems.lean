@@ -1,6 +1,7 @@
 import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.Matrix.CauchyBinet
 import GECPKernelStructure.Matrix.DeterminantIntegral
+import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.GECP.TotalNonnegativeIntegral
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction
