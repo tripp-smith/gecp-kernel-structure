@@ -1888,3 +1888,16 @@ This annotation records delivered identifiers without changing the goals above.
   prescribed weak sign. Strict support, strict all-orders tail sign
   regularity, Conjecture G1, and Problem 4.2 remain open. The root command
   passes with 91 tests and no known dependency vulnerabilities.
+- Post-v1 research phase BE: verified locally on 2026-10-11.
+  `interlacingSample` places each intermediate coordinate strictly between
+  adjacent positive frequency knots. The resulting truncated-power matrix is
+  upper triangular with positive diagonal at every order. A continuous
+  compactly supported bump promotes this explicit strict point to positive
+  product-measure support, so Andreief gives
+  `eighthOrderComposition_interval_det_pos`. Positive `t^8/7!` row scaling
+  then proves `eighthOrderTail_minor_signed_pos`: every positive-order tail
+  minor on strictly ordered positive times and frequencies has the prescribed
+  strict sign. Translating this new compatible remainder structure into a
+  cutoff-uniform GECP block contraction, Conjecture G1, and Problem 4.2 remain
+  open. The root command passes with 92 tests and no known dependency
+  vulnerabilities; review and delivery are pending.
