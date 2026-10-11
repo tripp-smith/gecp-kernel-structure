@@ -1938,3 +1938,11 @@ This annotation records delivered identifiers without changing the goals above.
   mixed-determinant bound, dyadic assembly, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 95 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #62.
+- Post-v1 research phase BI: verified locally on 2026-10-11.
+  `blockFeaturePolynomial_eq_mixedColumnPolynomial` identifies the Phase BH
+  feature-count expansion with determinant multilinearity in physical columns,
+  and `expTaylor_mixedColumnCoefficient_nonneg` proves every finite positive-
+  Taylor fixed-cardinality mixed-column sum nonnegative. The exact infinite-
+  tail limit, quantitative mixed-determinant bound, dyadic assembly,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 95
+  tests and no known dependency vulnerabilities. Delivery is pending.

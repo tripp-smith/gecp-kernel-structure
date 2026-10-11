@@ -774,6 +774,17 @@ pivots.
   The root command passes with 95 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #62.
 
+- Phase BI identifies each grouped feature-count coefficient with the sum of
+  physical mixed-column determinants using exactly that many tail columns.
+  Both expansions are packaged as determinant polynomials in a scalar tail
+  weight; equality at every real weight and polynomial uniqueness give the
+  coefficient identity. Consequently every fixed-cardinality mixed-column sum
+  for a finite positive exponential Taylor split is nonnegative. The exact
+  rational regression independently compares both coefficient constructions.
+  Passing these signs to the exact infinite tail is now a finite determinant-
+  continuity problem. The root command passes with 95 tests and no known
+  dependency vulnerabilities. Delivery is pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
