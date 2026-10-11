@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** AY — determinant/interval-integral commutation<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase AY `./scripts/verify.sh` passed with 86 tests and no known dependency vulnerabilities on 2026-10-11<br>
+> **Current phase:** AZ — ordered multi-row determinant integration<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase AZ `./scripts/verify.sh` passed with 87 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase AY merged with green CI as [PR #53](https://github.com/tripp-smith/gecp-kernel-structure/pull/53)<br>
-> **Claim level:** one-row analytic transfer for determinant nonnegativity and strictness; full multi-row composition remains open
+> **Delivery:** Phase AZ open as draft [PR #54](https://github.com/tripp-smith/gecp-kernel-structure/pull/54)<br>
+> **Claim level:** multi-row nonnegative transfer over ordered disjoint intervals; adjacent-row reduction and higher-degree total nonnegativity remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -69,6 +69,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AW | Normalized truncated-power convolution ladder | complete | `normalizedTruncatedPowerKernel`; degree-seven bridge; natural and shared-domain successor recurrences | Lean build; public axiom audit; exact rational degrees 0--7; 84-test root verification; green CI | merged PR #51 |
 | AX | All-orders order-kernel total nonnegativity | complete | exact `0`/`1` minor classification; `TotallyNonnegative` degree-zero base | Lean build; public axiom audit; 3,381 exact staircase minors through order five; 85-test root verification; green CI | merged PR #52 |
 | AY | Determinant/interval-integral commutation | complete | `detUpdateRowCLM`; exact commutation; nonnegative and strict transfer | Lean build; public axiom audit; exact affine-row regression; 86-test root verification; green CI | merged PR #53 |
+| AZ | Ordered multi-row determinant integration | verified | weak-order minor closure; finite row-integration iteration; ordered-interval TN transfer | Lean build; public axiom audit; exact staircase-integral regression; 87-test root verification | draft PR #54 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

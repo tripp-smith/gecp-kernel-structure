@@ -102,6 +102,36 @@ def test_determinant_commutes_with_exact_affine_row_integral() -> None:
     assert all(Fraction(4) - Fraction(z, 10) > 0 for z in range(21))
 
 
+def test_ordered_strict_order_kernel_row_integrals_are_nonnegative_exactly() -> None:
+    intervals = [
+        (Fraction(0), Fraction(1)),
+        (Fraction(1), Fraction(2)),
+        (Fraction(2), Fraction(3)),
+    ]
+    columns = [Fraction(1), Fraction(2), Fraction(4)]
+
+    # The integral of 1[x < column] on [lower, upper] is the clipped length.
+    integrated = [
+        [max(Fraction(), min(upper, column) - lower) for column in columns]
+        for lower, upper in intervals
+    ]
+
+    assert integrated == [
+        [Fraction(1), Fraction(1), Fraction(1)],
+        [Fraction(), Fraction(1), Fraction(1)],
+        [Fraction(), Fraction(), Fraction(1)],
+    ]
+    assert fraction_determinant(integrated) == 1
+
+    # A collapsed middle interval exercises the weak-order/zero-minor boundary.
+    collapsed = [intervals[0], (Fraction(1), Fraction(1)), intervals[2]]
+    collapsed_integrated = [
+        [max(Fraction(), min(upper, column) - lower) for column in columns]
+        for lower, upper in collapsed
+    ]
+    assert fraction_determinant(collapsed_integrated) == 0
+
+
 def test_bordered_core_determinant_identity_exactly() -> None:
     matrix = geometric_surrogate(4, Fraction(2, 3))
     pivot_rows, pivot_columns, pivots = exact_gecp(matrix)
