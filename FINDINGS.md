@@ -759,7 +759,7 @@ pivots.
   sweep finds all mixed coefficients positive through order six; that
   coefficientwise statement remains experimental pending a finite
   Cauchy--Binet theorem. The root command passes with 94 tests and no known
-  dependency vulnerabilities; review and delivery are pending.
+  dependency vulnerabilities. The change passed CI and merged as PR #61.
 
 ## Run provenance
 

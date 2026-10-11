@@ -1926,5 +1926,5 @@ This annotation records delivered identifiers without changing the goals above.
   envelopes. A 140-digit sweep observes common-sign mixed coefficients
   through order six, but the coefficientwise finite Cauchy--Binet theorem,
   dyadic assembly, Conjecture G1, and Problem 4.2 remain open. The root command
-  passes with 94 tests and no known dependency vulnerabilities; review and
-  delivery are pending.
+  passes with 94 tests and no known dependency vulnerabilities. The change
+  passed CI and merged as PR #61.

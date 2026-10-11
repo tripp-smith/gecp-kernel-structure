@@ -4396,7 +4396,7 @@ Verification:
 
 ## Phase BG contract: positive-series compatible fermionic split
 
-State: verified locally in PR #61; review and merge pending.
+State: complete; green CI; merged in PR #61.
 
 The direct negative-exponential split from Phase BF is compatible at the pure
 tail endpoint but not coefficientwise compatible with its low-rank Taylor
