@@ -822,6 +822,18 @@ pivots.
   command passes with 98 tests and no known dependency vulnerabilities. The
   change passed CI and merged as PR #66.
 
+- Phase BM removes the amplified-kernel pivot-path mismatch. A generic
+  northwest-Schur induction proves that every strictly totally positive finite
+  matrix has determinant at most the product of its diagonal entries. The
+  kernel transfer bounds every ordered amplified positive-series sample by
+  `2^n`, including samples selected by the original kernel, and Phase BK then
+  yields `(8!)^(n-8) det K_n <= 2^n`, equivalently
+  `det K_n <= 2^n / (8!)^(n-8)`, on the positive unit band for `n >= 8`.
+  Exact arithmetic checks all 12,869 nonempty ordered subminors at order eight
+  and every Schur stage. GECP composition, band/reflection assembly,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 99
+  tests and no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

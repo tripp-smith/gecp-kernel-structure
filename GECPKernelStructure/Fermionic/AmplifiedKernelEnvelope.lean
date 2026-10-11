@@ -1,5 +1,6 @@
 import GECPKernelStructure.Fermionic.TailAmplification
 import GECPKernelStructure.Fermionic.ContinuationDeterminant
+import GECPKernelStructure.Matrix.TotalPositiveHadamard
 
 namespace GECPKernelStructure
 namespace Fermionic
@@ -174,6 +175,71 @@ theorem positiveSeriesAmplifiedFermionicKernel_factorial_completeRun_det_le
     (fun _u _omega hu homega =>
       positiveSeriesAmplifiedFermionicKernel_factorial_abs_le_two hu homega)
     complete
+
+/-- Every ordered unit-band sample of the `8!`-amplified kernel has
+determinant at most `2^order`, independently of any pivot path. -/
+theorem positiveSeriesAmplifiedFermionicKernel_factorial_minor_det_le_two_pow
+    {order : ℕ} (rows columns : Fin order → PositiveArgument)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns)
+    (rows_le_one : ∀ i, (rows i : ℝ) ≤ 1)
+    (columns_le_one : ∀ j, (columns j : ℝ) ≤ 1) :
+    (minorMatrix
+      (positiveSeriesAmplifiedFermionicKernel (Nat.factorial 8 : ℝ))
+      rows columns).det ≤ (2 : ℝ) ^ order := by
+  apply minorMatrix_det_le_pow_of_strictSignRegular_one
+    (positiveSeriesAmplifiedFermionicKernel_strictSignRegular (by norm_num))
+    rows columns rows_mono columns_mono
+  intro i
+  exact (le_abs_self _).trans
+    (positiveSeriesAmplifiedFermionicKernel_factorial_abs_le_two
+      (rows_le_one i) (columns_le_one i))
+
+/-- Rank-eight amplification plus the total-positive Hadamard envelope gives
+an explicit fixed-base determinant-decay comparison for every ordered
+positive-series fermionic sample. -/
+theorem positiveSeriesFermionic_factorial_amplified_det_le_two_pow
+    {order : ℕ} (rows columns : Fin order → PositiveArgument)
+    (eight_le : 8 ≤ order)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns)
+    (rows_le_one : ∀ i, (rows i : ℝ) ≤ 1)
+    (columns_le_one : ∀ j, (columns j : ℝ) ≤ 1) :
+    (Nat.factorial 8 : ℝ) ^ (order - 8) *
+        (positiveSeriesFermionicMatrix
+          (fun i => (rows i : ℝ)) (fun j => (columns j : ℝ))).det ≤
+      (2 : ℝ) ^ order := by
+  have realRows_mono : StrictMono (fun i => (rows i : ℝ)) := by
+    intro i j hij
+    exact rows_mono hij
+  have realColumns_mono : StrictMono (fun j => (columns j : ℝ)) := by
+    intro i j hij
+    exact columns_mono hij
+  have amplification := positiveSeriesFermionic_rank_amplification
+    (fun i => (rows i : ℝ)) (fun j => (columns j : ℝ)) eight_le
+    (fun i => (rows i).property.le) (fun j => (columns j).property.le)
+    realRows_mono realColumns_mono (lambda := (Nat.factorial 8 : ℝ))
+    (by norm_num)
+  have amplified_bound :=
+    positiveSeriesAmplifiedFermionicKernel_factorial_minor_det_le_two_pow
+      rows columns rows_mono columns_mono rows_le_one columns_le_one
+  rw [positiveSeriesAmplifiedFermionicKernel_minorMatrix] at amplified_bound
+  exact amplification.trans amplified_bound
+
+/-- Division by the positive amplification factor exposes the determinant's
+fixed-base exponential decay. -/
+theorem positiveSeriesFermionic_det_le_two_pow_div_factorial_pow
+    {order : ℕ} (rows columns : Fin order → PositiveArgument)
+    (eight_le : 8 ≤ order)
+    (rows_mono : StrictMono rows) (columns_mono : StrictMono columns)
+    (rows_le_one : ∀ i, (rows i : ℝ) ≤ 1)
+    (columns_le_one : ∀ j, (columns j : ℝ) ≤ 1) :
+    (positiveSeriesFermionicMatrix
+        (fun i => (rows i : ℝ)) (fun j => (columns j : ℝ))).det ≤
+      (2 : ℝ) ^ order /
+        (Nat.factorial 8 : ℝ) ^ (order - 8) := by
+  apply (le_div_iff₀ (pow_pos (by norm_num) (order - 8))).2
+  simpa only [mul_comm] using
+    (positiveSeriesFermionic_factorial_amplified_det_le_two_pow
+      rows columns eight_le rows_mono columns_mono rows_le_one columns_le_one)
 
 end Fermionic
 end GECPKernelStructure

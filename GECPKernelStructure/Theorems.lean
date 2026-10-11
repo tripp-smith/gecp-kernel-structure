@@ -5,6 +5,7 @@ import GECPKernelStructure.Matrix.MixedColumnCoefficients
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign
+import GECPKernelStructure.Matrix.TotalPositiveHadamard
 import GECPKernelStructure.GECP.TotalNonnegativeIntegral
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction
