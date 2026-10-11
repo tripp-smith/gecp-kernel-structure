@@ -1945,4 +1945,4 @@ This annotation records delivered identifiers without changing the goals above.
   Taylor fixed-cardinality mixed-column sum nonnegative. The exact infinite-
   tail limit, quantitative mixed-determinant bound, dyadic assembly,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 95
-  tests and no known dependency vulnerabilities. Delivery is pending.
+  tests and no known dependency vulnerabilities. Delivery is draft PR #63.

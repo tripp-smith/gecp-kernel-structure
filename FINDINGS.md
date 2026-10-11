@@ -783,7 +783,7 @@ pivots.
   rational regression independently compares both coefficient constructions.
   Passing these signs to the exact infinite tail is now a finite determinant-
   continuity problem. The root command passes with 95 tests and no known
-  dependency vulnerabilities. Delivery is pending.
+  dependency vulnerabilities. Delivery is draft PR #63.
 
 ## Run provenance
 
