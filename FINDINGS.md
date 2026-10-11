@@ -735,6 +735,19 @@ pivots.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
+- Phase BF packages the positive-quadrant eighth-order Taylor tail as a global
+  strictly sign-regular kernel and preserves that structure after the
+  positive fermionic denominator scaling. The positive-frequency fermionic
+  kernel is exactly an eight-separated-term Taylor component plus this tail.
+  On the positive unit band the tail has uniform magnitude at most `1 / 8!`,
+  so every exact complete-pivot run on the tail has selected-core determinant
+  at most `(1 / 8!)^rank`, with no generic determinant factorial. A 120-digit
+  eight-step regression independently checks the decomposition, pivots, and
+  cumulative determinant envelope. This does not yet control determinants of
+  the low-rank-plus-tail sum or extend the result to the `8p` dyadic orders.
+  The root command passes with 93 tests and no known dependency
+  vulnerabilities; review and delivery are pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

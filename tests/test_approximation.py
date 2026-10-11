@@ -535,6 +535,59 @@ def test_truncated_power_interlacing_witness_is_strict_at_high_orders() -> None:
         assert determinant > 0
 
 
+def test_positive_tail_has_factorial_free_gecp_envelope() -> None:
+    mp.mp.dps = 120
+    nodes = [mp.mpf(index) / 8 for index in range(1, 9)]
+    bound = mp.mpf(1) / math.factorial(8)
+
+    def taylor(x: mp.mpf) -> mp.mpf:
+        return mp.fsum((-x) ** degree / math.factorial(degree) for degree in range(8))
+
+    def tail(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
+        denominator = 1 + mp.exp(-omega)
+        exact = mp.exp(-t * omega) / denominator
+        approximation = taylor(t * omega) / denominator
+        remainder = (mp.exp(-t * omega) - taylor(t * omega)) / denominator
+        assert mp.almosteq(exact, approximation + remainder)
+        assert abs(remainder) <= bound
+        return remainder
+
+    original = mp.matrix([[tail(t, omega) for omega in nodes] for t in nodes])
+    residual = mp.matrix(original)
+    selected_rows: list[int] = []
+    selected_columns: list[int] = []
+
+    for rank in range(1, len(nodes) + 1):
+        pivot_row, pivot_column = max(
+            itertools.product(range(len(nodes)), repeat=2),
+            key=lambda index: abs(residual[index]),
+        )
+        pivot = residual[pivot_row, pivot_column]
+        assert pivot != 0
+        assert abs(pivot) <= bound
+        selected_rows.append(pivot_row)
+        selected_columns.append(pivot_column)
+
+        core = mp.matrix(
+            [
+                [original[row, column] for column in selected_columns]
+                for row in selected_rows
+            ]
+        )
+        assert abs(mp.det(core)) <= bound**rank * (1 + mp.mpf("1e-90"))
+
+        residual = mp.matrix(
+            [
+                [
+                    residual[row, column]
+                    - residual[row, pivot_column] * residual[pivot_row, column] / pivot
+                    for column in range(len(nodes))
+                ]
+                for row in range(len(nodes))
+            ]
+        )
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

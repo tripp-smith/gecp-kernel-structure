@@ -1901,3 +1901,16 @@ This annotation records delivered identifiers without changing the goals above.
   cutoff-uniform GECP block contraction, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 92 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #59.
+- Post-v1 research phase BF: verified locally on 2026-10-11.
+  `positiveEighthOrderTailKernel_strictSignRegular` and its denominator-scaled
+  fermionic counterpart turn the Phase BE ordered-minor theorem into global
+  strict-sign-regular kernels on positive-real subtypes. The exact identity
+  `fermionicKernel_eq_positiveEighthOrderTaylorApprox_add_tail` splits the
+  positive-frequency kernel into eight separated Taylor terms and the
+  compatible tail. On the positive unit band the tail is bounded by `1 / 8!`,
+  and `positiveEighthOrderFermionicTailKernel_completeRun_selectedCore_det_le`
+  gives the factorial-free complete-run determinant envelope
+  `(1 / 8!)^rank`. Mixed determinants of the sum, the order-`8p` and dyadic
+  extensions, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes with 93 tests and no known dependency vulnerabilities; review and
+  delivery are pending.

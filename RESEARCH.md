@@ -4318,3 +4318,78 @@ Verification:
 - `./scripts/verify.sh` passes with 89 Python tests and no known dependency
   vulnerabilities.
 - The change passed CI and merged as PR #56.
+
+## Phase BF contract: factorial-free Taylor-tail GECP envelope
+
+State: verified locally in PR #60; review and merge pending.
+
+Phase BF converts the Phase BE ordered-minor theorem into the exact interface
+needed by the earlier continuation-determinant machinery. It is intentionally
+restricted to the positive unit band and the eighth-order local Taylor split;
+arbitrary dyadic scales and order `8p` are a later phase.
+
+Frozen public Lean targets:
+
+- package `eighthOrderTail (t * omega)` on positive-real subtypes as a global
+  `StrictSignRegular` kernel;
+- transfer strict sign regularity through the positive fermionic denominator;
+- expose the fermionic kernel as an exact eight-separated-term Taylor
+  component plus that compatible tail;
+- prove the unit-band tail and approximation error bound `1 / 8!`;
+- combine strict sign regularity, complete pivoting, and the uniform tail bound
+  into the factorial-free selected-core estimate `(1 / 8!)^rank`.
+
+Independent check:
+
+- use 120-digit arithmetic on an eight-by-eight positive unit grid, verify the
+  exact decomposition numerically, execute deterministic complete pivoting on
+  the fermionic tail, and check every pivot and cumulative selected-core
+  determinant against the proved envelope.
+
+Decision rule:
+
+- if subtype packaging or column scaling fails, isolate the missing transport
+  lemma without weakening the Phase BE strict-minor theorem;
+- if the complete-run composition fails, retain the exact decomposition and
+  state the precise mismatch with `ContinuationDeterminant`;
+- after success, generalize the same interface from order eight to order
+  `8p`, then attack the mixed low-rank-plus-tail determinant estimate.
+
+Non-claims:
+
+- the phase does not yet give a factorial-free bound for determinants of the
+  sum of the Taylor component and its tail;
+- it does not remove dyadic masks, cover negative frequencies, prove a
+  cutoff-uniform block contraction, Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `positiveEighthOrderTailKernel_strictSignRegular` packages the Phase BE
+  theorem on positive-real row and column subtypes;
+- `positiveEighthOrderFermionicTailKernel_strictSignRegular` transfers it
+  through the positive denominator scaling;
+- `positiveEighthOrderFermionicTaylorApprox_eq_evalSeparated` and
+  `fermionicKernel_eq_positiveEighthOrderTaylorApprox_add_tail` give the exact
+  eight-term-plus-compatible-tail split;
+- the unit-band error theorems prove the explicit `1 / 8!` envelope;
+- the two `_completeRun_selectedCore_det_le` theorems compose the envelope
+  with complete-pivot sign coherence to obtain `(1 / 8!)^rank` without a
+  determinant factorial.
+
+Result:
+
+- the earlier Phase AN continuation theorem now applies to a concrete
+  fermionic approximation remainder rather than an abstract compatible tail;
+- the remaining determinant problem is specifically mixed: control a sampled
+  determinant of the sum from the rank-eight part and the compatible tail;
+- the next analytic generalization is from the local eighth-order split to
+  the `8p` orders used by the dyadic approximation.
+
+Verification:
+
+- focused Lean builds and the expanded public axiom audit pass with only
+  Lean's permitted default axioms;
+- a deterministic 120-digit eight-by-eight complete-pivot computation checks
+  the exact split, every tail pivot, and every cumulative selected-core bound;
+- `./scripts/verify.sh` passes with 93 Python tests and no known dependency
+  vulnerabilities.
