@@ -111,5 +111,63 @@ theorem normalizedTruncatedPowerKernel_succ_integral_commonDomain
     _ = ∫ z in lower..ω, f z := by rw [← haddleft, hleft, zero_add]
     _ = ∫ z in lower..upper, f z := by rw [← haddright, hright, add_zero]
 
+/-- A normalized truncated power is interval-integrable up to any common upper bound. -/
+theorem normalizedTruncatedPowerKernel_intervalIntegrable_to_commonUpper
+    (degree : ℕ) {lower ω upper : ℝ} (hlower : lower ≤ upper)
+    (hω : ω ≤ upper) :
+    IntervalIntegrable
+      (fun z => normalizedTruncatedPowerKernel degree z ω)
+      MeasureTheory.volume lower upper := by
+  let polynomial : ℝ → ℝ := fun z =>
+    (ω - z) ^ degree / (Nat.factorial degree : ℝ)
+  by_cases hlω : lower ≤ ω
+  · have left : IntervalIntegrable
+        (fun z => normalizedTruncatedPowerKernel degree z ω)
+        MeasureTheory.volume lower ω := by
+      apply ((show Continuous polynomial by unfold polynomial; fun_prop).intervalIntegrable
+        lower ω).congr_uIoo
+      intro z hz
+      rw [uIoo_of_le hlω] at hz
+      simp [normalizedTruncatedPowerKernel, polynomial, hz.2]
+    have right : IntervalIntegrable
+        (fun z => normalizedTruncatedPowerKernel degree z ω)
+        MeasureTheory.volume ω upper := by
+      apply IntervalIntegrable.zero.congr_uIoo
+      intro z hz
+      rw [uIoo_of_le hω] at hz
+      simp [normalizedTruncatedPowerKernel, not_lt_of_ge hz.1.le]
+    exact left.trans right
+  · have hωlower : ω ≤ lower := le_of_not_ge hlω
+    apply IntervalIntegrable.zero.congr_uIoo
+    intro z hz
+    rw [uIoo_of_le hlower] at hz
+    simp [normalizedTruncatedPowerKernel,
+      not_lt_of_ge (hωlower.trans hz.1.le)]
+
+/-- The successor recurrence may end at any common upper bound beyond the column knot. -/
+theorem normalizedTruncatedPowerKernel_succ_integral_to_commonUpper
+    (degree : ℕ) {v ω upper : ℝ} (hv : v ≤ upper) (hω : ω ≤ upper) :
+    normalizedTruncatedPowerKernel (degree + 1) v ω =
+      ∫ z in v..upper, normalizedTruncatedPowerKernel degree z ω := by
+  by_cases hvo : v ≤ ω
+  · rw [normalizedTruncatedPowerKernel_succ_integral_commonDomain
+      degree le_rfl hvo hω]
+    apply intervalIntegral.integral_congr_Ioo_of_le hv
+    intro z hz
+    simp [normalizedTruncatedPowerKernel, hz.1]
+  · have hωv : ω ≤ v := le_of_not_ge hvo
+    have left_zero : normalizedTruncatedPowerKernel (degree + 1) v ω = 0 := by
+      simp [normalizedTruncatedPowerKernel, not_lt_of_ge hωv]
+    rw [left_zero]
+    symm
+    calc
+      (∫ z in v..upper, normalizedTruncatedPowerKernel degree z ω) =
+          ∫ _z in v..upper, (0 : ℝ) := by
+        apply intervalIntegral.integral_congr_Ioo_of_le hv
+        intro z hz
+        simp [normalizedTruncatedPowerKernel,
+          not_lt_of_ge (hωv.trans hz.1.le)]
+      _ = 0 := by simp
+
 end Fermionic
 end GECPKernelStructure

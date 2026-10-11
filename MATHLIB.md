@@ -248,6 +248,15 @@ ordered-kernel specialization is repository-local vocabulary, while the
 generic finite-row theorem and the one-row commutation lemma together form a
 credible small upstream API independent of a full Andreief identity.
 
+Phase BA uses `Matrix.det_eq_of_forall_row_eq_smul_add_pred` after reversing
+the row order to prove determinant invariance under successive next-row
+subtraction. The resulting `Matrix.det_successiveRowDifference` and
+`Matrix.det_commonUpperRowIntegral_eq_adjacent` are plausible general-purpose
+companions to the existing row-operation and interval-additivity APIs. The
+kernel-level total-nonnegativity consequences remain project vocabulary, while
+the matrix identities are credible upstream candidates with consumers beyond
+truncated powers.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
