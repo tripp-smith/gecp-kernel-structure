@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BC — product-measure Andréief identity<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BC `./scripts/verify.sh` passed with 90 tests and no known dependency vulnerabilities on 2026-10-11<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BC verified locally; review and merge pending<br>
+> **Delivery:** Phase BC merged with green CI as [PR #57](https://github.com/tripp-smith/gecp-kernel-structure/pull/57)<br>
 > **Claim level:** exact finite-order Andréief identity over a common measure; arbitrary-sample sign transfer, strict tail signs, Conjecture G1, and Problem 4.2 remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -72,7 +72,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | AZ | Ordered multi-row determinant integration | complete | weak-order minor closure; finite row-integration iteration; ordered-interval TN transfer | Lean build; public axiom audit; exact staircase-integral regression; 87-test root verification; green CI | merged PR #54 |
 | BA | All-orders truncated-power total nonnegativity | complete | adjacent-row determinant invariance; common-upper TN transfer; degree-successor closure; all-orders degree-seven factor | Lean build; public axiom audit; 7,088 exact minors across degrees 0--7 and orders 1--4; 88-test root verification; green CI | merged PR #55 |
 | BB | Andréief integrand symmetrization | complete | exact permutation-sum/product-of-determinants identity; all-orders ordered-sample weak sign | Lean build; public axiom audit; exact rational `3 x 3` permutation regression; 89-test root verification; green CI | merged PR #56 |
-| BC | Product-measure Andréief identity | verified | coordinate-permutation invariance; integrated factorial symmetrization; determinant of pair integrals; division-free finite-order Andréief theorem | Lean build; public axiom audit; exact three-monomial unit-cube regression; 90-test root verification | review and merge pending |
+| BC | Product-measure Andréief identity | complete | coordinate-permutation invariance; integrated factorial symmetrization; determinant of pair integrals; division-free finite-order Andréief theorem | Lean build; public axiom audit; exact three-monomial unit-cube regression; 90-test root verification; green CI | merged PR #57 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

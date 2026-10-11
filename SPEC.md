@@ -1864,7 +1864,8 @@ This annotation records delivered identifiers without changing the goals above.
   integration, strict support, all-orders tail sign regularity, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 89 tests and no
   known dependency vulnerabilities.
-- Post-v1 research phase BC: verified locally on 2026-10-11.
+- Post-v1 research phase BC: complete with green CI on 2026-10-11 and
+  delivered in merged PR #57.
   `Matrix.integral_comp_perm_pi` proves that a finite product of one common
   measure is invariant under coordinate permutations, and
   `Matrix.factorial_mul_det_integral_eq_integral_det_mul_det` packages the
@@ -1873,4 +1874,4 @@ This annotation records delivered identifiers without changing the goals above.
   one-dimensional pair integrals. Arbitrary-sample sign transfer, strict
   support, all-orders tail sign regularity, Conjecture G1, and Problem 4.2
   remain open. The root command passes with 90 tests and no known dependency
-  vulnerabilities; review and delivery are pending.
+  vulnerabilities.

@@ -702,7 +702,7 @@ pivots.
   Extending the ordered exponential/truncated-power sign to arbitrary samples
   by a common sorting permutation, and then proving strict support, remain the
   next analytic steps. The root command passes with 90 tests and no known
-  dependency vulnerabilities; review and delivery are pending.
+  dependency vulnerabilities. The change passed CI and merged as PR #57.
 - The verification refresh changes no proved, observed, conjectured, or
   not-claimed mathematical statement above.
 
