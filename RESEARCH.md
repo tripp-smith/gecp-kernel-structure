@@ -4691,6 +4691,87 @@ Verification:
 - `./scripts/verify.sh` passes with 97 Python tests and no known dependency
   vulnerabilities.
 
+## Phase BL contract: amplified-kernel envelope
+
+State: verified locally; opened as draft PR #66.
+
+Phase BK reduces the determinant-decay problem to an upper envelope for the
+tail-amplified positive-series fermionic kernel. Phase BL freezes the first
+quantitative half of that envelope. It treats the amplification parameter as
+a genuine kernel pencil, proves that increasing a nonnegative mixed-column
+pencil preserves strict ordered-minor positivity, and fixes the natural
+weight `8!`, where the existing unit-band tail estimate balances exactly.
+
+Frozen public Lean targets:
+
+- prove monotonicity of a determinant pencil between nonnegative scalar
+  weights whenever every mixed-column coefficient is nonnegative;
+- define the positive-series amplified fermionic kernel and identify each
+  ordered sample matrix with `positiveSeriesAmplifiedFermionicMatrix`;
+- prove strict total positivity of that kernel for every amplification weight
+  at least one;
+- prove the pointwise unit-band envelope `abs K <= 2` at weight `8!`;
+- derive the existing factorial-free `2^n` selected-core determinant bound
+  for complete runs of the amplified kernel.
+
+Independent check:
+
+- evaluate the `8!`-amplified kernel at high precision on endpoint-resolved
+  unit-band grids and check ordered determinants through several orders,
+  recording the largest entry and smallest positive determinant.
+
+Decision rule:
+
+- reuse mixed-column coefficient positivity rather than attempting a second
+  total-positivity representation of the weighted tail;
+- keep the envelope at `2`, avoiding numerical optimization of an irrelevant
+  constant;
+- if complete-run machinery cannot apply directly, retain the strict
+  total-positivity and pointwise theorem and record the exact type mismatch,
+  without weakening either analytic claim.
+
+Non-claims:
+
+- a complete run of the amplified kernel is not assumed to share pivot nodes
+  with a GECP run of the original kernel;
+- this phase does not yet prove the arbitrary ordered-sample inequality
+  `det K <= 2^n`, compose determinant decay into a GECP residual contraction,
+  or close Conjecture G1 or Simons Problem 4.2.
+
+Delivered:
+
+- `Matrix.mixedColumnPolynomial_det_mono` proves monotonicity of every
+  nonnegative-coefficient determinant pencil on nonnegative weights;
+- `positiveSeriesAmplifiedFermionicKernel_minorMatrix` identifies the kernel
+  and matrix formulations exactly;
+- `positiveSeriesAmplifiedFermionicKernel_strictSignRegular` proves strict
+  total positivity for every weight at least one;
+- `positiveSeriesAmplifiedFermionicKernel_factorial_abs_le_two` proves the
+  fixed entry envelope at weight `8!`;
+- `positiveSeriesAmplifiedFermionicKernel_factorial_completeRun_det_le`
+  supplies the corresponding `2^n` envelope for complete runs of that kernel.
+
+Result:
+
+The amplification comparison from Phase BK no longer points at an uncontrolled
+kernel: at the balancing weight `8!`, the target kernel is strictly totally
+positive and uniformly bounded by two on the unit band. Its own complete GECP
+runs therefore have factorial-free selected-core determinants. The remaining
+bridge is now sharply isolated: prove the same `2^n` determinant envelope for
+an arbitrary ordered sample minor, because the original GECP nodes need not be
+complete pivots for the amplified kernel.
+
+Verification:
+
+- every new public declaration reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- a 250-digit endpoint-resolved regression verifies the entry envelope and
+  positive ordered determinants through order eight; its largest sampled entry
+  is approximately `1.0331592962`, and the order-eight determinant is
+  approximately `2.2972915790e-38`;
+- `./scripts/verify.sh` passes with 98 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

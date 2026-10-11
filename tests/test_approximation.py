@@ -808,6 +808,42 @@ def test_positive_tail_rank_amplification() -> None:
     assert smallest_relative_slack > 0
 
 
+def test_factorial_amplified_positive_kernel_envelope_and_minors() -> None:
+    mp.mp.dps = 250
+    weight = mp.mpf(mp.factorial(8))
+    largest_entry = mp.mpf(0)
+    smallest_determinant = mp.inf
+
+    def amplified_entry(row: mp.mpf, column: mp.mpf) -> mp.mpf:
+        product = row * column
+        low = mp.fsum(product**degree / mp.factorial(degree) for degree in range(8))
+        tail = mp.exp(product) - low
+        return (low + weight * tail) / (1 + mp.exp(column))
+
+    endpoint_grid = [mp.mpf("1e-20")] + [mp.mpf(index) / 16 for index in range(1, 17)]
+    for row in endpoint_grid:
+        for column in endpoint_grid:
+            value = amplified_entry(row, column)
+            assert value > 0
+            assert value <= 2
+            largest_entry = max(largest_entry, value)
+
+    for order in range(1, 9):
+        rows = [mp.mpf(index) / (order + 1) for index in range(1, order + 1)]
+        columns = [mp.mpf(index + 1) / (order + 2) for index in range(1, order + 1)]
+        determinant = mp.det(
+            mp.matrix(
+                [[amplified_entry(row, column) for column in columns] for row in rows]
+            )
+        )
+        assert determinant > 0
+        assert determinant <= mp.mpf(2) ** order
+        smallest_determinant = min(smallest_determinant, determinant)
+
+    assert largest_entry < 2
+    assert smallest_determinant > 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)
