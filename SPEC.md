@@ -2021,8 +2021,8 @@ This annotation records delivered identifiers without changing the goals above.
   selected core, the shrinking-band recurrence, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 102 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #70.
-- Post-v1 research phase BQ: verified locally on 2026-10-12; pull request
-  pending. `mixedColumnPolynomial_rank_amplification_abs` proves the absolute
+- Post-v1 research phase BQ: verified locally on 2026-10-12; draft PR #71
+  open. `mixedColumnPolynomial_rank_amplification_abs` proves the absolute
   determinant amplification law, while `finalResidual_rank_amplification` and
   `augmentedCore_rank_amplification` show that an exact compatible split of
   the final Schur residual keeps exponent `n-k` independent of the selected

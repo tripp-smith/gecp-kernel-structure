@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BQ contract: residual amplification bridge
 
-State: verified locally on 2026-10-12; pull request pending.
+State: verified locally on 2026-10-12; draft PR #71 open.
 
 Phase BP supplies a center-uniform local determinant contraction for the
 original kernel.  Restarting it after earlier pivots is not an exceptional-
