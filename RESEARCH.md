@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BU contract: companion Plücker factorization
 
-State: verified locally on 2026-10-12; pull request pending.
+State: verified locally on 2026-10-12; draft PR #75.
 
 Phase BT shows that the conditioned low block factors through separately
 projected left and right features, and exact evidence suggests their matched

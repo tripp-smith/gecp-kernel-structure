@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** Phase BU `./scripts/verify.sh` passed a 3,570-job Lean build with 106 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BU verified on `codex/phase-bu-companion-plucker-factorization`; pull request pending<br>
+> **Delivery:** Phase BU verified on `codex/phase-bu-companion-plucker-factorization`; draft PR #75<br>
 > **Claim level:** Phase BU proves that every conditioned matched-minor sign is exactly the sign of two original feature-bordered determinants because the selected-core factor is squared; the remaining target is a confluent-exponential sign theorem for those borders
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -90,7 +90,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BR | Schur-aware feature elimination | complete | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | Lean build; public axiom audit; exact three-pivot feature-transport and rank regression; 104-test root verification; green CI | merged PR #72 |
 | BS | Finite-weight conditioned-pencil amplification | complete | degree-eight norming set for rank-eight determinant pencils; sign-free amplification from nine fixed weights; order-18 half-power reduction | Lean build; public axiom audit; exact interpolation, obstruction, and norming regression; 105-test root verification; green CI | merged PR #73 |
 | BT | Two-sided companion projection | complete | linear two-sided fixed-pivot projection; selected-row/column annihilation; exact transport of both feature factors; matched-minor Cauchy--Binet interface | 3,568-job Lean build; public axiom audit; 2,760 exact sign-coherence samples; 106-test root verification; green CI | merged PR #74 |
-| BU | Companion Plücker factorization | verified | left/right feature-augmented cores; selected-core determinant factorization; exact matched-minor product and sign equivalence | 3,570-job Lean build; public axiom audit; 2,382 exact bordered-minor identities; 106-test root verification | pull request pending |
+| BU | Companion Plücker factorization | verified | left/right feature-augmented cores; selected-core determinant factorization; exact matched-minor product and sign equivalence | 3,570-job Lean build; public axiom audit; 2,382 exact bordered-minor identities; 106-test root verification | draft PR #75 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
