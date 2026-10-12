@@ -5092,6 +5092,58 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BT contract: two-sided companion projection
+
+State: in progress.
+
+Phase BS leaves nine determinant envelopes for the one-sided conditioned
+companion. Exact searches show that those envelopes are plausible, but the
+one-sided companion loses coefficient signs and strict sign regularity. The
+natural construction from oblique projection theory is two-sided: apply the
+fixed pivot's left row projector and right column projector to the companion
+matrix. This map is linear in the companion, recovers the ordinary Schur
+update on the pivoting matrix, annihilates the selected row and column, and
+maps `L*R` to a product of separately conditioned feature factors.
+
+Frozen public Lean targets:
+
+- define fixed-pivot left and right companion feature updates and the
+  two-sided companion update;
+- prove the expanded four-term formula and show that self-application is the
+  ordinary residual update;
+- prove linearity, scalar compatibility, selected-row/column annihilation,
+  and exact factor transport
+  `biUpdate(K, L*R) = leftUpdate(K,L) * rightUpdate(K,R)`;
+- iterate the construction through an arbitrary fixed `GECP.Run`, proving
+  self-conditioning and transport of an initial `K = E + L*R` split with the
+  same feature dimension on both sides;
+- expose the finite sampled factorization needed by the mixed-column and
+  block-feature determinant APIs.
+
+Independent check:
+
+- use exact `Fraction` arithmetic on multi-pivot finite positive-Taylor
+  matrices to verify the two-sided split, annihilation, and feature product;
+- exhaustively check that all nonzero mixed coefficients share one sign over
+  deterministic randomized prefixes and fresh samples, while retaining a
+  fixed witness where the one-sided coefficients have mixed signs.
+
+Decision rule:
+
+- keep pivot data fixed by the original run and preserve linearity in the
+  companion;
+- represent the two-sided map through separately conditioned feature factors,
+  not an explicit inverse;
+- expose matched left/right feature-minor sign coherence as the next analytic
+  theorem; do not promote the exact search to a proof.
+
+Non-claims:
+
+- this phase does not prove all-orders matched-minor sign coherence or the
+  nine Phase BS determinant envelopes;
+- it does not yet prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 
 State: complete; merged as PR #73 with green CI.

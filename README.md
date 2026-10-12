@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BS — finite-weight conditioned-pencil amplification<br>
-> **Phase state:** complete<br>
+> **Current phase:** BT — two-sided companion projection<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BS `./scripts/verify.sh` passed with 105 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** merged PR #73 with green CI<br>
-> **Claim level:** Phase BS replaces the false coefficient-sign and real-rootedness routes by a sign-free nine-weight norming theorem; nine constant-base amplified companion envelopes at fresh order 18 now suffice for a half contraction
+> **Delivery:** Phase BT contract frozen; implementation in progress<br>
+> **Claim level:** Phase BS reduces restart to nine finite companion envelopes; Phase BT is replacing the asymmetric row conditioner by the natural two-sided oblique projection, whose feature factorization exposes a matched-minor sign route to those envelopes
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -89,6 +89,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BQ | Residual amplification bridge | complete | exact obstruction to one-sided frozen-column amplification; prefix-independent Schur-residual rank amplification and augmented-core composition | Lean build; public axiom audit; exact rational LU certificate and residual-split regression; 103-test root verification; green CI | merged PR #71 |
 | BR | Schur-aware feature elimination | complete | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | Lean build; public axiom audit; exact three-pivot feature-transport and rank regression; 104-test root verification; green CI | merged PR #72 |
 | BS | Finite-weight conditioned-pencil amplification | complete | degree-eight norming set for rank-eight determinant pencils; sign-free amplification from nine fixed weights; order-18 half-power reduction | Lean build; public axiom audit; exact interpolation, obstruction, and norming regression; 105-test root verification; green CI | merged PR #73 |
+| BT | Two-sided companion projection | in progress | linear two-sided fixed-pivot projection; selected-row/column annihilation; exact transport of both feature factors; matched-minor interface | pending | pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
