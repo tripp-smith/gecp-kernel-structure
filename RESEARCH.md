@@ -5004,6 +5004,94 @@ Verification:
 - `./scripts/verify.sh` passes with 101 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #69.
 
+## Phase BP contract: translated unit-band amplification
+
+State: verified locally; opened as draft PR #70.
+
+Phase BO centers its affine positive coordinate at frequency zero, but none of
+the tail-amplification constants should depend on that center.  For an
+arbitrary `center` and `omega` in `[center - 1, center + 1]`, setting
+`z = center + 1 - omega` again gives `0 <= z <= 2` and expresses the original
+fermionic kernel as a positive row scaling, a positive exponential product,
+and a positive column scaling.  The key quantitative observation is uniform:
+the weighted exponential term is the original fermionic kernel itself, hence
+is at most one on the full time strip independently of `center`.
+
+Frozen public Lean targets:
+
+- define the center-parametric shifted kernel and prove its exact identity
+  with the original fermionic kernel;
+- prove strict positivity of every ordered tail-amplified sample for arbitrary
+  center and amplification weight at least one;
+- prove that weight `128` stays inside the entry envelope `2` uniformly in the
+  center on `0 <= t <= 1` and `0 <= z <= 2`;
+- derive the arbitrary-sample determinant estimate
+  `|det K_n| <= 2^n / 128^(n-8)` on every translated width-two band;
+- compose the estimate with the exact complete-pivot residual-power theorem
+  and prove the same twelve-pivot half contraction on
+  `[0,1] x [center-1,center+1]`.
+
+Independent check:
+
+- run deterministic high-precision complete pivoting at several widely
+  separated positive and negative centers, checking the amplified entry
+  envelope, determinant estimate, and twelve-step residual contraction.
+
+Decision rule:
+
+- retain the center in row and column diagonal factors and reuse the existing
+  positive-exponential mixed-coefficient theorem; do not reduce to Phase BO by
+  a diagonal comparison whose products would obscure the uniform constants;
+- use `fermionicKernel_le_one` for the center-independent tail envelope;
+- if direct duplicated matrix plumbing dominates, factor only the shared
+  diagonal determinant identity rather than refactoring the verified Phase BO
+  API during this phase.
+
+Non-claims:
+
+- a translated original-kernel block is not yet a restart theorem for a Schur
+  residual conditioned by earlier pivots;
+- this phase does not prove the exceptional-column coefficient sign law, the
+  shrinking-band recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `translatedUnitShiftedKernel` and
+  `fermionicKernel_eq_translatedUnitShiftedKernel` give the exact affine
+  coordinate at an arbitrary band center;
+- `translatedUnitShiftedAmplifiedMatrix_det_pos` and
+  `translatedUnitShiftedAmplifiedMatrix_strictlyTotallyPositive` preserve
+  strict total positivity at every tail weight at least one;
+- `translatedUnitShiftedAmplifiedMatrix_abs_le_two` proves the center-uniform
+  weight-`128` entry envelope;
+- `fermionicKernel_translatedUnit_abs_sample_det_le` proves
+  `|det K_n| <= 2^n / 128^(n-8)` for every injective sample in any translated
+  width-two band;
+- `fermionicKernel_translatedUnit_gecp_error_pow_le` and
+  `fermionicKernel_translatedUnit_gecp_error_le_half_twelve` compose the
+  determinant decay with exact complete pivoting.
+
+Result:
+
+- absolute frequency location has been removed from the local-block theorem:
+  the determinant and twelve-pivot contraction constants are identical on
+  `[center-1,center+1]` for every real center;
+- the remaining transition problem is therefore purely about conditioning by
+  the prior selected core, not about recentering the fermionic denominator;
+- the next target is a two-flank exceptional-column or equivalent Schur-
+  residual amplification theorem that transports this local block through an
+  existing outer-scale prefix.
+
+Verification:
+
+- every new public theorem reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- a deterministic 180-digit regression checks the amplified entry envelope,
+  selected determinant bound, and twelve-step residual at centers `-8`, `-2`,
+  `3`, and `9`;
+- `./scripts/verify.sh` passes with 102 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

@@ -70,6 +70,15 @@ the exact selected-core residual-power theorem proves a uniform half
 contraction after twelve complete pivots on `[0,1] x [-1,1]`. The remaining
 global step is dyadic rescaling/continuation across larger cutoffs.
 
+Post-v1 Phase BP removes absolute band location from that local theorem. For
+every real center, the coordinate `z = center + 1 - omega` maps the closed
+width-two band to `[0,2]`. The weight-`128` amplified kernel remains strictly
+totally positive and bounded by two uniformly in the center, so arbitrary
+injective samples satisfy the same `2^n / 128^(n-8)` determinant envelope and
+twelve exact complete pivots give the same one-half residual contraction. The
+remaining global step is now specifically a conditioned-residual restart
+across the selected outer-scale prefix, not an affine recentering problem.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -194,6 +203,7 @@ not represented by the completed goal counter.
 | BM — total-positive Hadamard envelope | complete; green CI | merged [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
 | BN — positive-series GECP composition | complete; green CI | merged [PR #68](https://github.com/tripp-smith/gecp-kernel-structure/pull/68) |
 | BO — signed unit-band amplification | complete; green CI | merged [PR #69](https://github.com/tripp-smith/gecp-kernel-structure/pull/69) |
+| BP — translated unit-band amplification | verified locally | [draft PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -403,6 +413,9 @@ git status --short
   convergence proof.
 - The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
   cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
+- The Phase BP width-two theorem is uniform under translation, but it applies
+  to the original kernel rather than a Schur residual conditioned by earlier
+  pivots; that restart theorem remains open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -477,10 +490,10 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Use the Phase BO twelve-pivot signed-unit-band contraction as the local block
-in the existing outer-half localization and continuation framework. Prove a
-scale-transition lemma showing that, after the prescribed corner pivots and
-each above-threshold block, the active residual can be normalized to the next
-signed unit band without losing completeness or the determinant-power bound.
-Iterating that transition over the `O(log Lambda)` dyadic levels is now the
-shortest remaining route to Conjecture G1 and the Simons Problem 4.2 rate.
+Use the Phase BP center-uniform twelve-pivot theorem as the local block in the
+existing outer-half localization and continuation framework. Prove a two-flank
+exceptional-column amplification theorem, or an equivalent Schur-residual
+normalization theorem, showing that the local determinant-power bound survives
+conditioning by the already selected outer-scale prefix. Iterating that
+transition over the `O(log Lambda)` dyadic levels is now the shortest remaining
+route to Conjecture G1 and the Simons Problem 4.2 rate.
