@@ -5092,6 +5092,56 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BV contract: graded Plücker pairing
+
+State: in progress.
+
+Phase BU converts conditioned matched terms into products of original
+feature-bordered determinants. A stronger exact search then falsifies the
+tempting termwise continuation: after three positive-unit finite-Taylor GECP
+pivots, two of 56 order-three feature subsets have the opposite bordered-
+product sign. The fixed-degree sums nevertheless retain a common orientation
+in every search so far. The correct object is therefore the graded exterior-
+algebra pairing of the two Plücker vectors, not each coordinate product.
+
+Frozen public Lean targets:
+
+- define the finite combined feature matrices obtained by adjoining a fixed
+  coordinate block `U,V` to a feature factorization `A,B`;
+- prove that marking the fixed block by `mu` produces exactly
+  `mu • (U*V) + A*B`;
+- identify the block-feature coefficient at the full fixed-coordinate degree
+  with the corresponding physical mixed-column coefficient;
+- expose the ordered Cauchy--Binet sum at that degree as the graded Plücker
+  pairing which survives the termwise obstruction;
+- record the exact finite-Taylor counterexample to coordinatewise sign
+  coherence and verify that its full graded sum has the predicted sign.
+
+Independent check:
+
+- reproduce the three-pivot rational witness with selected rows
+  `[6,0,3]`, selected columns `[6,0,2]`, and all 56 order-three subsets of
+  eight low features;
+- verify that exactly two individual bordered products reverse sign while the
+  total fixed-degree pairing agrees with the determinant coefficient;
+- continue deterministic randomized checks of the graded coefficient rather
+  than treating the failed coordinatewise property as evidence.
+
+Decision rule:
+
+- preserve the full signed sum: do not take absolute values term by term;
+- use existing block-feature Cauchy--Binet and mixed-column polynomial APIs
+  instead of creating a parallel determinant expansion;
+- keep the algebra generic over finite real matrices and isolate all
+  fermionic sign claims as later analytic premises.
+
+Non-claims:
+
+- this phase does not prove positivity of the graded pairing for arbitrary
+  fermionic prefixes;
+- it does not prove the nine Phase BS companion envelopes, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BU contract: companion Plücker factorization
 
 State: complete; merged as PR #75 with green CI.
