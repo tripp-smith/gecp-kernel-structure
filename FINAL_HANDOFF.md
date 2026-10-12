@@ -119,6 +119,16 @@ left/right feature minors. Exact finite searches consistently recover a
 common coefficient orientation, but the corresponding all-orders
 matched-minor sign theorem remains open.
 
+Post-v1 Phase BU removes the conditioning from that sign theorem. Exact left
+and right feature-augmented determinant identities express each conditioned
+feature minor as a Schur quotient by the selected core. In a matched product
+the core is squared, so pivot order and core sign cannot affect the result.
+For the fermionic rank-eight block, every conditioned Cauchy--Binet term now
+has the sign of two original bordered feature determinants. Those borders are
+confluent exponential systems: the polynomial features are derivatives of
+the exponential family at parameter zero. Proving their oriented signs is the
+next analytic step.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -465,6 +475,9 @@ git status --short
   matched-minor interface, but the observed common orientation of those
   conditioned minor products is still numerical evidence rather than a
   theorem.
+- Phase BU proves the exact bordered-determinant sign equivalence, but it does
+  not yet prove the required oriented signs for the resulting confluent
+  exponential determinants.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -539,12 +552,14 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove common orientation of the matched left/right conditioned feature-minor
-products exposed by Phase BT. The most promising formulation is an oriented-
-matroid or planar-network statement for the paired oblique projectors, where
-the left and right sign changes cancel termwise even though neither
-conditioned factor is totally positive by itself. Feed that theorem into the
-block-feature Cauchy--Binet expansion to prove the nine Phase BS companion
-determinant envelopes at weights `56, 65, ..., 128`; Phase BS then supplies
-the order-eighteen half contraction automatically. Iterate that block across
-the `O(log Lambda)` dyadic levels toward Conjecture G1 and Simons Problem 4.2.
+Prove the oriented signs of the two original feature-bordered determinants
+from Phase BU. Treat the monomial features as confluent nodes of the strictly
+totally positive exponential kernel: approximate derivatives at parameter
+zero by divided differences at coalescing ordered nodes, prove the finite
+determinant sign before taking the limit, and retain strictness through the
+extended-Chebyshev/Wronskian structure where needed. The resulting paired sign
+theorem should make every conditioned rank-eight Cauchy--Binet term
+nonnegative. Feed it into the Phase BS companion envelopes at weights
+`56, 65, ..., 128`; Phase BS then supplies the order-eighteen half contraction
+automatically. Iterate that block across the `O(log Lambda)` dyadic levels
+toward Conjecture G1 and Simons Problem 4.2.

@@ -1487,7 +1487,7 @@ def test_finite_weight_norming_replaces_conditioned_sign_and_root_assumptions() 
     assert quadratic[1] ** 2 - 4 * quadratic[0] * quadratic[2] < 0
 
 
-def test_two_sided_companion_projection_preserves_features_and_sign_evidence() -> None:
+def test_two_sided_projection_and_plucker_factorization_exactly() -> None:
     def finite_exp(x: Fraction, terms: int = 9) -> Fraction:
         return sum(
             (x**degree / math.factorial(degree) for degree in range(terms)),
@@ -1696,6 +1696,116 @@ def test_two_sided_companion_projection_preserves_features_and_sign_evidence() -
                 assert len(signs) <= 1
                 checked_samples += 1
     assert checked_samples == 2760
+
+    def check_plucker_factorizations(
+        row_values: tuple[int, ...],
+        column_values: tuple[int, ...],
+        denominator: int,
+        low_terms: int,
+        prefix_length: int,
+    ) -> int:
+        rows = tuple(Fraction(value, denominator) for value in row_values)
+        columns = tuple(Fraction(value, denominator) for value in column_values)
+        size = len(rows)
+        original = [[finite_exp(x * y) for y in columns] for x in rows]
+        original_left = [
+            [x**degree / math.factorial(degree) for degree in range(low_terms)]
+            for x in rows
+        ]
+        original_right = [[y**degree for y in columns] for degree in range(low_terms)]
+        conditioned_left = [line[:] for line in original_left]
+        conditioned_right = [line[:] for line in original_right]
+        residual = [line[:] for line in original]
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            conditioned_left = row_condition(
+                residual, conditioned_left, pivot_row, pivot_column
+            )
+            conditioned_right = column_condition(
+                residual, conditioned_right, pivot_row, pivot_column
+            )
+            residual = row_condition(residual, residual, pivot_row, pivot_column)
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+
+        core_det = fraction_determinant(
+            [[original[i][j] for j in selected_columns] for i in selected_rows]
+        )
+        assert core_det
+        fresh_rows = tuple(index for index in range(size) if index not in selected_rows)
+        fresh_columns = tuple(
+            index for index in range(size) if index not in selected_columns
+        )
+        minor_order = min(2, low_terms)
+        checked = 0
+        for sampled_rows in itertools.combinations(fresh_rows, minor_order):
+            augmented_rows = (*selected_rows, *sampled_rows)
+            for sampled_columns in itertools.combinations(fresh_columns, minor_order):
+                augmented_columns = (*selected_columns, *sampled_columns)
+                for features in itertools.combinations(range(low_terms), minor_order):
+                    left_core = [
+                        [
+                            original[i][selected_columns[j]]
+                            if j < prefix_length
+                            else original_left[i][features[j - prefix_length]]
+                            for j in range(prefix_length + minor_order)
+                        ]
+                        for i in augmented_rows
+                    ]
+                    right_core = [
+                        [
+                            original[selected_rows[i]][j]
+                            if i < prefix_length
+                            else original_right[features[i - prefix_length]][j]
+                            for j in augmented_columns
+                        ]
+                        for i in range(prefix_length + minor_order)
+                    ]
+                    left_minor = [
+                        [conditioned_left[i][degree] for degree in features]
+                        for i in sampled_rows
+                    ]
+                    right_minor = [
+                        [conditioned_right[degree][j] for j in sampled_columns]
+                        for degree in features
+                    ]
+                    left_det = fraction_determinant(left_core)
+                    right_det = fraction_determinant(right_core)
+                    conditioned_left_det = fraction_determinant(left_minor)
+                    conditioned_right_det = fraction_determinant(right_minor)
+                    assert left_det == core_det * conditioned_left_det
+                    assert right_det == core_det * conditioned_right_det
+                    assert left_det * right_det == core_det**2 * (
+                        conditioned_left_det * conditioned_right_det
+                    )
+                    checked += 1
+        return checked
+
+    checked_plucker = check_plucker_factorizations(*witness, 11, 2, 2)
+    plucker_rng = random.Random(0xB1C0)
+    for _ in range(18):
+        denominator = plucker_rng.choice((7, 9, 11, 13))
+        checked_plucker += check_plucker_factorizations(
+            tuple(sorted(plucker_rng.sample(range(denominator + 1), 6))),
+            tuple(sorted(plucker_rng.sample(range(1, 2 * denominator), 6))),
+            denominator,
+            plucker_rng.choice((1, 2, 3)),
+            plucker_rng.choice((1, 2)),
+        )
+    assert checked_plucker == 2382
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
