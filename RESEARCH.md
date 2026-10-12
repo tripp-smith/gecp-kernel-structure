@@ -4928,6 +4928,52 @@ Verification:
 - `./scripts/verify.sh` passes with 100 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #68.
 
+## Phase BO contract: signed unit-band amplification
+
+State: in progress.
+
+The full signed unit band admits a single positive-coordinate representation,
+without a sign partition.  For `0 <= t <= 1` and `-1 <= omega <= 1`, setting
+`z = 1 - omega` gives
+`K(t, omega) = exp(-t) * exp(t*z) / (1 + exp(z-1))`, with
+`0 <= z <= 2`.  This affine shift turns the remaining mixed-sign problem into
+the same positive exponential tail-amplification problem as Phases BK--BN,
+but on a product interval of width two.
+
+Frozen public Lean targets:
+
+- define the shifted signed-band kernel and prove its exact identity with the
+  original fermionic kernel;
+- prove an order-eight, weight-`128` tail amplification inequality for every
+  ordered signed-unit-band sample;
+- prove the amplified finite matrix is strictly totally positive and uniformly
+  bounded by `2`, then obtain the arbitrary-sample determinant estimate
+  `|det K_n| <= 2^n / 128^(n-8)` for `n >= 8`;
+- compose the determinant estimate with the existing exact complete-pivot
+  residual-power theorem;
+- discharge the arithmetic at `n = 12`, proving that twelve exact complete
+  pivots contract every residual entry on `[0,1] x [-1,1]` by one half.
+
+Independent check:
+
+- run deterministic high-precision complete pivoting on full signed-unit-band
+  grids, check the selected-core determinant envelope at rank twelve, and
+  confirm the residual maximum is below the formal half bound.
+
+Decision rule:
+
+- use the affine shift `z = 1 - omega`, not a mixed-column Laplace expansion;
+- keep the explicit amplification weight `128`, whose eighth-order tail cost
+  is absorbed by `2^8 / 8! < 1/128`;
+- sort arbitrary selected tuples only when passing from ordered determinants to
+  absolute determinants; do not assume GECP chooses monotone coordinates.
+
+Non-claims:
+
+- this phase treats only the full signed unit band;
+- it does not yet prove the shrinking-band recurrence, dyadic rescaling,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.
