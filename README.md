@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BQ — residual amplification bridge<br>
-> **Phase state:** complete<br>
+> **Current phase:** BR — Schur-aware feature elimination<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BQ `./scripts/verify.sh` passed with 103 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BQ merged as PR #71 with green CI<br>
-> **Claim level:** Phase BQ proves a prefix-independent amplification theorem for any exact compatible final-residual split and disproves the tempting frozen-column shortcut; constructing that split for arbitrary fermionic prefixes remains open
+> **Delivery:** Phase BR contract frozen; implementation in progress<br>
+> **Claim level:** Phase BQ proves amplification from a compatible final-residual split; Phase BR is constructing that split canonically by transporting the original low and tail feature blocks through the exact selected-prefix elimination
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -87,6 +87,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BO | Signed unit-band amplification | complete | affine frequency shift; `2^n / 128^(n-8)` arbitrary-sample determinant envelope; twelve-pivot full signed-band half contraction | Lean build; public axiom audit; 180-digit grids of sizes 16, 24, and 32; 101-test root verification; green CI | merged PR #69 |
 | BP | Translated unit-band amplification | complete | center-parametric affine shift; cutoff-uniform `2^n / 128^(n-8)` determinant envelope; twelve-pivot contraction on every width-two band | Lean build; public axiom audit; 180-digit centers `-8`, `-2`, `3`, and `9`; 102-test root verification; green CI | merged PR #70 |
 | BQ | Residual amplification bridge | complete | exact obstruction to one-sided frozen-column amplification; prefix-independent Schur-residual rank amplification and augmented-core composition | Lean build; public axiom audit; exact rational LU certificate and residual-split regression; 103-test root verification; green CI | merged PR #71 |
+| BR | Schur-aware feature elimination | in progress | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | pending | pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

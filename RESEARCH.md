@@ -5092,6 +5092,57 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BR contract: Schur-aware feature elimination
+
+State: in progress.
+
+Phase BQ leaves one exact premise: the final residual sample must be written as
+a conditioned tail plus a uniformly low-rank block.  The Schur update is
+nonlinear in the kernel that selects the pivot, but it is linear in a companion
+kernel once the pivot run is fixed.  Applying those fixed row operations to an
+initial identity `K = E + L*R` therefore transports `E` and `L` while leaving
+the right feature factor `R` unchanged.  This is the feature-level analogue of
+Gaussian elimination with multiple right-hand sides.
+
+Frozen public Lean targets:
+
+- define the one-step and full-run row-conditioning operators attached to an
+  exact `GECP.Run`;
+- prove that self-conditioning recovers `run.finalResidual`;
+- prove additivity and scalar compatibility of the conditioning operator;
+- prove that conditioning commutes with multiplication by a fixed right
+  feature matrix;
+- conclude that every initial split `K = E + L*R` yields the canonical final
+  split `run.finalResidual = condition(E) + condition(L)*R`, so the low-rank
+  feature dimension does not grow with prefix length;
+- sample that identity on arbitrary fresh rows and columns and compose it with
+  Phase BQ's residual amplification theorem under the remaining mixed-
+  coefficient sign premise.
+
+Independent check:
+
+- use exact `Fraction` arithmetic on a nontrivial multi-pivot matrix to compare
+  recursive GECP residuals with companion row conditioning, verify the
+  transported feature split entrywise, and check that the conditioned low
+  block retains its original feature rank bound.
+
+Decision rule:
+
+- keep the elimination coefficients fixed by the original run; do not define
+  a new run for the tail or amplified companion kernel;
+- preserve the right feature factor exactly, as in elimination with multiple
+  right-hand sides;
+- expose mixed-coefficient nonnegativity as the next analytic obligation
+  rather than assuming it through a renamed certificate.
+
+Non-claims:
+
+- this phase does not prove that the canonical conditioned fermionic tail has
+  nonnegative mixed coefficients;
+- it does not prove a uniform amplified determinant envelope for the
+  conditioned tail, the dyadic recurrence, Conjecture G1, or Simons Problem
+  4.2.
+
 ## Phase BQ contract: residual amplification bridge
 
 State: complete; merged as PR #71 with green CI.
