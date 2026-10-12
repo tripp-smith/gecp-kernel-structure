@@ -5006,7 +5006,7 @@ Verification:
 
 ## Phase BP contract: translated unit-band amplification
 
-State: verified locally; draft PR pending.
+State: verified locally; opened as draft PR #70.
 
 Phase BO centers its affine positive coordinate at frequency zero, but none of
 the tail-amplification constants should depend on that center.  For an
