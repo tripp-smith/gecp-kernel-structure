@@ -278,6 +278,11 @@ The resulting fixed-base determinant decay is a Lean theorem, not a new
 runtime GECP convergence certificate; GECP composition and global band
 assembly remain research obligations.
 
+Phase BN also adds no public Python API. Its 180-digit finite-grid GECP sweep
+independently checks the formal positive-unit-band half contraction, but is
+not a runtime certificate for arbitrary continuous pivot traces or the full
+signed-frequency domain.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

@@ -4849,6 +4849,85 @@ Verification:
 - `./scripts/verify.sh` passes with 99 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #67.
 
+## Phase BN contract: positive-series GECP composition
+
+State: verified locally; draft PR #68 open.
+
+Phase BM supplies exponential determinant decay for ordered samples of the
+reflected positive-series kernel, while Phase T bounds a complete-pivot
+residual power by the selected-core determinant. The selected pivots occur in
+algorithmic rather than sorted order, so the exact remaining bridge is an
+absolute determinant bound invariant under independent row and column
+permutations.
+
+Frozen public Lean targets:
+
+- prove a generic sorting lemma that transfers an ordered-sample determinant
+  upper bound to the absolute determinant of every injective sample of a
+  positive-minor kernel;
+- define the unamplified reflected positive-series fermionic kernel and identify
+  its sample matrices with `positiveSeriesFermionicMatrix`;
+- transfer Phase BM to arbitrary injective unit-band samples, obtaining
+  `|det K_n| <= 2^n / (8!)^(n-8)` for `n >= 8`;
+- compose that estimate with
+  `strictSignRegular_gecp_error_pow_le_selectedCore_det` for exact complete-
+  pivot runs on the positive unit band;
+- discharge the explicit arithmetic at `n = 10` and prove that every residual
+  entry after ten pivots has magnitude at most `1/2`.
+
+Independent check:
+
+- run high-precision complete pivoting on deterministic positive-unit-band
+  grids, verify the selected-core determinant inequality at rank ten, and
+  confirm the residual maximum is below the formal half bound.
+
+Decision rule:
+
+- sort the two selected tuples independently and track determinant signs only
+  through absolute values; do not assume the GECP pivot order is monotone;
+- reuse `Run.selectedRow_injective`, `Run.selectedColumn_injective`, and the
+  Phase T residual-power theorem instead of restating pivot-product algebra;
+- if endpoint closure is needed, isolate it as a later continuity theorem
+  rather than silently replacing strict positive arguments by nonnegative
+  ones.
+
+Non-claims:
+
+- this phase treats complete pivoting on the reflected positive-series kernel
+  over positive unit-band arguments; it does not yet combine positive and
+  negative frequency columns from a full fermionic run;
+- it does not yet prove endpoint closure, dyadic rescaling, Conjecture G1, or
+  Simons Problem 4.2.
+
+Delivered:
+
+- `abs_minorMatrix_det_le_pow_of_strictSignRegular_one` makes the Phase BM
+  diagonal-product envelope invariant under independent permutations of every
+  injective row and column sample;
+- `positiveSeriesFermionicKernel` names the reflected unamplified kernel,
+  `positiveSeriesFermionicKernel_eq_amplified_one` identifies it with unit
+  tail weight, and its sample-matrix and strict-positivity theorems expose the
+  exact finite representation;
+- `positiveSeriesFermionicKernel_abs_minor_det_le` transports the explicit
+  `2^n / (8!)^(n-8)` determinant decay from sorted samples to the algorithmic
+  order of any injective sample;
+- `positiveSeriesFermionicKernel_gecp_error_pow_le` composes that bound with
+  the exact complete-pivot geometric-mean inequality;
+- `positiveSeriesFermionicKernel_gecp_error_le_half_ten` discharges the
+  factorial arithmetic at rank ten and proves a uniform `1/2` residual bound
+  throughout the positive unit band.
+
+Verification:
+
+- every new public result reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- a deterministic 180-digit complete-pivot regression on `16 x 16`, `24 x
+  24`, and `32 x 32` positive-unit-band grids checks determinant magnitude
+  invariance under sorting, the rank-ten determinant envelope, and the final
+  residual maximum;
+- `./scripts/verify.sh` passes with 100 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

@@ -835,6 +835,18 @@ pivots.
   tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #67.
 
+- Phase BN composes the new arbitrary-sample determinant decay with exact
+  complete pivoting. Independent sorting of the selected row and column tuples
+  preserves determinant magnitude, so the algorithmic pivot order needs no
+  monotonicity assumption. On the reflected positive-series kernel over the
+  positive unit band, every rank-`n >= 8` residual satisfies the Phase BM
+  determinant-power envelope, and at `n = 10` its magnitude is uniformly at
+  most `1/2`. A 180-digit three-grid regression independently checks the
+  selected-core determinant and residual bounds. Endpoint closure, mixed-sign
+  frequency assembly, dyadic rescaling, Conjecture G1, and Problem 4.2 remain
+  open. The root command passes with 100 tests and no known dependency
+  vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

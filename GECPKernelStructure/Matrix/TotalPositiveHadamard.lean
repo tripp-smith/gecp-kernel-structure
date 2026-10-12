@@ -225,5 +225,76 @@ theorem minorMatrix_det_le_pow_of_strictSignRegular_one
       exact diagonal_bound i
   exact determinant_bound.trans (by simpa using diagonal_product_bound)
 
+/-- An ordered determinant envelope for a positive-minor kernel controls the
+absolute determinant of every injective sample, independently of the tuple
+order. -/
+theorem abs_minorMatrix_det_le_pow_of_strictSignRegular_one
+    {α : Type u} {β : Type v} [LinearOrder α] [LinearOrder β]
+    {K : Kernel α β ℝ}
+    (regular : StrictSignRegular K (fun _ => 1))
+    {n : ℕ} (rows : Fin n → α) (columns : Fin n → β)
+    (rows_injective : Function.Injective rows)
+    (columns_injective : Function.Injective columns)
+    {B : ℝ} (entry_bound : ∀ i j, K (rows i) (columns j) ≤ B) :
+    abs (minorMatrix K rows columns).det ≤ B ^ n := by
+  let rowPerm := Tuple.sort rows
+  let columnPerm := Tuple.sort columns
+  have rows_sorted : StrictMono (rows ∘ rowPerm) :=
+    (Tuple.monotone_sort rows).strictMono_of_injective
+      (rows_injective.comp rowPerm.injective)
+  have columns_sorted : StrictMono (columns ∘ columnPerm) :=
+    (Tuple.monotone_sort columns).strictMono_of_injective
+      (columns_injective.comp columnPerm.injective)
+  have sorted_pos := regular n (rows ∘ rowPerm) (columns ∘ columnPerm)
+    rows_sorted columns_sorted
+  simp only [one_mul] at sorted_pos
+  have sorted_bound := minorMatrix_det_le_pow_of_strictSignRegular_one
+    regular (rows ∘ rowPerm) (columns ∘ columnPerm)
+    rows_sorted columns_sorted
+    (fun i => entry_bound (rowPerm i) (columnPerm i))
+  let original := minorMatrix K rows columns
+  have sorted_matrix :
+      minorMatrix K (rows ∘ rowPerm) (columns ∘ columnPerm) =
+        original.submatrix rowPerm columnPerm := by
+    rfl
+  have det_sorted :
+      (original.submatrix rowPerm columnPerm).det =
+        tupleOrientation rows * tupleOrientation columns * original.det := by
+    calc
+      (original.submatrix rowPerm columnPerm).det =
+          ((original.submatrix rowPerm id).submatrix id columnPerm).det := by
+            rfl
+      _ = tupleOrientation columns * (original.submatrix rowPerm id).det := by
+        rw [Matrix.det_permute']
+        rfl
+      _ = tupleOrientation columns * (tupleOrientation rows * original.det) := by
+        rw [Matrix.det_permute]
+        rfl
+      _ = tupleOrientation rows * tupleOrientation columns * original.det := by
+        ring
+  have row_orientation_abs : abs (tupleOrientation rows) = 1 := by
+    have square := tupleOrientation_sq rows
+    rw [← sq_abs] at square
+    nlinarith [abs_nonneg (tupleOrientation rows)]
+  have column_orientation_abs : abs (tupleOrientation columns) = 1 := by
+    have square := tupleOrientation_sq columns
+    rw [← sq_abs] at square
+    nlinarith [abs_nonneg (tupleOrientation columns)]
+  have abs_eq : abs original.det =
+      (minorMatrix K (rows ∘ rowPerm) (columns ∘ columnPerm)).det := by
+    calc
+      abs original.det =
+          abs (tupleOrientation rows * tupleOrientation columns * original.det) := by
+            rw [abs_mul, abs_mul, row_orientation_abs, column_orientation_abs]
+            ring
+      _ = abs (original.submatrix rowPerm columnPerm).det :=
+        congrArg abs det_sorted.symm
+      _ = abs (minorMatrix K (rows ∘ rowPerm) (columns ∘ columnPerm)).det := by
+        rw [sorted_matrix]
+      _ = (minorMatrix K (rows ∘ rowPerm) (columns ∘ columnPerm)).det :=
+        abs_of_pos sorted_pos
+  rw [abs_eq]
+  exact sorted_bound
+
 end GECP
 end GECPKernelStructure

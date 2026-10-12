@@ -51,6 +51,15 @@ amplification gives
 The remaining rate gap is now composition with the original GECP selected-
 core/geometric-mean theorem and assembly across reflections and dyadic bands.
 
+Post-v1 Phase BN completes the first exact GECP composition of that decay.
+Independent sorting removes the mismatch between monotone determinant
+theorems and algorithmic pivot order, after which the selected-core
+geometric-mean inequality gives a residual-power bound. Exact arithmetic at
+rank ten proves a uniform one-half contraction for complete pivoting on the
+reflected positive-series kernel over the positive unit band. The remaining
+global step is to assemble positive and negative frequency columns, close the
+zero endpoints, and transport the unit-band block across dyadic scales.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -173,6 +182,7 @@ not represented by the completed goal counter.
 | BK — low-rank tail amplification | complete; green CI | merged [PR #65](https://github.com/tripp-smith/gecp-kernel-structure/pull/65) |
 | BL — amplified-kernel envelope | complete; green CI | merged [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) |
 | BM — total-positive Hadamard envelope | complete; green CI | merged [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
+| BN — positive-series GECP composition | verified locally | draft [PR #68](https://github.com/tripp-smith/gecp-kernel-structure/pull/68) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -456,9 +466,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Compose the Phase BM positive-unit-band determinant decay with
-`strictSignRegular_gecp_error_pow_le_selectedCore_det`, tracking the reflected
-positive-series representation on the nodes selected by the original GECP
-run. Then package the result under frequency rescaling and assemble it across
-dyadic bands. This is the shortest remaining route to a cutoff-uniform block
-contraction, Conjecture G1, and the Simons Problem 4.2 rate.
+Use a column-sign partition and Laplace expansion to combine the Phase BN
+positive-series determinant envelope with its reflected negative-frequency
+counterpart for arbitrary selected cores on `[-1,1]`. After closing the zero
+endpoints, package that full unit-band contraction under frequency rescaling
+and assemble dyadic blocks. This is the shortest remaining route to
+Conjecture G1 and the Simons Problem 4.2 rate.
