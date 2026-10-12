@@ -5092,6 +5092,59 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BX contract: double-bordered companion determinant
+
+State: in progress.
+
+Phase BW linearizes a rank-update pencil, but Phase BS requires bounds on the
+amplified conditioned tail plus the conditioned rank-eight block. For a fixed
+GECP prefix, two-sided companion conditioning has a more direct global form.
+If `C` is the selected core, the fresh companion block is the two-sided Schur
+expression
+
+`H - K_L C⁻¹ H_R - H_L C⁻¹ K_R + K_L C⁻¹ H_C C⁻¹ K_R`.
+
+This is the Schur complement of one double-bordered matrix whose leading block
+is upper triangular with two copies of `C`. Its determinant therefore carries
+the factor `det(C)^2` seen termwise in Phase BU, but without expanding any
+Plücker coordinates. This is the object that directly matches the two-sided
+finite-weight companion envelope.
+
+Frozen public Lean targets:
+
+- define the generic two-sided companion Schur expression for an invertible
+  finite core `C`;
+- define its double-bordered matrix with leading block
+  `[[C, H_C], [0, C]]` and the corresponding `K/H` cross blocks;
+- prove that the double-bordered determinant equals
+  `det(C)^2 * det(twoSidedCompanionSchur ...)`;
+- keep the identity generic over finite real matrices and make every
+  invertibility assumption explicit.
+
+Independent check:
+
+- for the exact Phase BV three-pivot witness, compare direct iterative
+  `conditionBoth` against the closed two-sided Schur formula entrywise;
+- verify the squared-core determinant identity at weight one and all nine
+  Phase BS weights;
+- inspect whether the double border removes or merely relocates the Phase BW
+  signed-cycle obstruction.
+
+Decision rule:
+
+- use Mathlib's upper-block-triangular inverse and Schur determinant APIs;
+- retain the complete determinant rather than expanding feature subsets;
+- if the fixed-run equality needs a separate selected-core inverse theorem,
+  record that theorem precisely as the next contract instead of hiding it in
+  a numerical premise.
+
+Non-claims:
+
+- this phase does not yet identify every recursive `Run.conditionBoth` entry
+  with the generic Schur expression in Lean;
+- it does not prove the double-bordered determinant envelope, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BW contract: bordered-pencil linearization
 
 State: complete; merged as PR #77 with green CI.
