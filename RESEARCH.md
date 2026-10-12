@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BT contract: two-sided companion projection
 
-State: verified locally on 2026-10-12; draft PR #74.
+State: complete; merged as PR #74 with green CI.
 
 Phase BS leaves nine determinant envelopes for the one-sided conditioned
 companion. Exact searches show that those envelopes are plausible, but the
@@ -5184,7 +5184,8 @@ Verification:
 - the exact regression verifies the residual split, selected row and column
   zeros, and separately transported feature product after every pivot;
 - `./scripts/verify.sh` passes a 3,568-job Lean build, 106 Python tests, and
-  the dependency audit with no known vulnerabilities.
+  the dependency audit with no known vulnerabilities; the change passed CI
+  and merged as PR #74.
 
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 

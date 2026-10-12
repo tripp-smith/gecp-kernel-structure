@@ -932,7 +932,7 @@ pivots.
   coefficient orientation. This evidence identifies matched-minor sign
   coherence as the next theorem but does not prove it. The root command passes
   a 3,568-job Lean build with 106 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #74.
 
 ## Run provenance
 
