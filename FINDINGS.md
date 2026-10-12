@@ -965,6 +965,19 @@ pivots.
   fermionic prefixes remains the analytic target. The change passed CI and
   merged as PR #76.
 
+- Phase BW keeps the Phase BV cancellations inside one matrix. The bordered
+  pencil with blocks `1`, `V`, `-mu • U`, and `B` has determinant exactly
+  `det(mu • (U*V) + B)` for arbitrary finite real matrices, with no
+  invertibility premise. It therefore linearizes both the mixed-column
+  polynomial and the combined fixed-plus-feature block polynomial at every
+  weight. Exact arithmetic verifies the identity on the Phase BV witness at
+  weight one and all nine Phase BS weights. The same witness exposes a
+  negative signed four-cycle crossing the four blocks. Since that cycle sign
+  is invariant under independent row and column sign changes, no sign gauge
+  can make the bordered matrix entrywise nonnegative, ruling out a direct
+  totally-nonnegative-matrix proof. The root command passes a 3,572-job Lean
+  build with 107 tests and no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
