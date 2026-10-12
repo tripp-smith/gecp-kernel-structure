@@ -1378,6 +1378,36 @@ def test_finite_weight_norming_replaces_conditioned_sign_and_root_assumptions() 
             for i in range(len(companion))
         ]
 
+    def column_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * pivot_matrix[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def bi_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        return column_condition(
+            pivot_matrix,
+            row_condition(pivot_matrix, companion, pivot_row, pivot_column),
+            pivot_row,
+            pivot_column,
+        )
+
     def conditioned_pencil_coefficients(
         row_numerators: tuple[int, ...],
         column_numerators: tuple[int, ...],
@@ -1829,6 +1859,34 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             for i in range(len(left))
         ]
 
+    def solve(
+        coefficient: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        order = len(coefficient)
+        columns = len(right[0])
+        upper = [row[:] for row in coefficient]
+        transformed = [row[:] for row in right]
+        for pivot_index in range(order):
+            pivot = upper[pivot_index][pivot_index]
+            assert pivot
+            for i in range(pivot_index + 1, order):
+                factor = upper[i][pivot_index] / pivot
+                for j in range(pivot_index, order):
+                    upper[i][j] -= factor * upper[pivot_index][j]
+                for j in range(columns):
+                    transformed[i][j] -= factor * transformed[pivot_index][j]
+        solution = [[Fraction() for _ in range(columns)] for _ in range(order)]
+        for i in reversed(range(order)):
+            for j in range(columns):
+                solution[i][j] = (
+                    transformed[i][j]
+                    - sum(
+                        (upper[i][k] * solution[k][j] for k in range(i + 1, order)),
+                        Fraction(),
+                    )
+                ) / upper[i][i]
+        return solution
+
     def row_condition(
         pivot_matrix: list[list[Fraction]],
         companion: list[list[Fraction]],
@@ -1845,6 +1903,36 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             ]
             for i in range(len(companion))
         ]
+
+    def column_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * pivot_matrix[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def bi_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        return column_condition(
+            pivot_matrix,
+            row_condition(pivot_matrix, companion, pivot_row, pivot_column),
+            pivot_row,
+            pivot_column,
+        )
 
     def mixed_coefficient(
         high: list[list[Fraction]],
@@ -1962,6 +2050,13 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     # matrix.
     finite_weights = (1, 56, 65, 74, 83, 92, 101, 110, 119, 128)
     order = len(augmented_rows)
+    global_low = multiply(left, right)
+    global_tail = [
+        [original[i][j] - global_low[i][j] for j in range(size)] for i in range(size)
+    ]
+    core = [[original[i][j] for j in selected_columns] for i in selected_rows]
+    core_det = fraction_determinant(core)
+    assert core_det
     for weight in finite_weights:
         rank_update = [
             [feature_product[i][j] + weight * fixed_product[i][j] for j in range(order)]
@@ -1992,6 +2087,81 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             * bordered[prefix_length][prefix_length]
         )
         assert sign_cycle < 0
+
+        companion = [
+            [global_low[i][j] + weight * global_tail[i][j] for j in range(size)]
+            for i in range(size)
+        ]
+        pivot_kernel = [row[:] for row in original]
+        conditioned = [row[:] for row in companion]
+        for pivot_row, pivot_column in zip(
+            selected_rows, selected_columns, strict=True
+        ):
+            conditioned = bi_condition(
+                pivot_kernel, conditioned, pivot_row, pivot_column
+            )
+            pivot_kernel = row_condition(
+                pivot_kernel, pivot_kernel, pivot_row, pivot_column
+            )
+
+        kernel_left = [[original[i][j] for j in selected_columns] for i in fresh_rows]
+        kernel_right = [[original[i][j] for j in fresh_columns] for i in selected_rows]
+        companion_core = [
+            [companion[i][j] for j in selected_columns] for i in selected_rows
+        ]
+        companion_left = [
+            [companion[i][j] for j in selected_columns] for i in fresh_rows
+        ]
+        companion_right = [
+            [companion[i][j] for j in fresh_columns] for i in selected_rows
+        ]
+        companion_fresh = [[companion[i][j] for j in fresh_columns] for i in fresh_rows]
+        core_solve_companion_right = solve(core, companion_right)
+        core_solve_kernel_right = solve(core, kernel_right)
+        core_solve_mixed = solve(
+            core, multiply(companion_core, core_solve_kernel_right)
+        )
+        schur = [
+            [
+                companion_fresh[i][j]
+                - multiply(kernel_left, core_solve_companion_right)[i][j]
+                - multiply(companion_left, core_solve_kernel_right)[i][j]
+                + multiply(kernel_left, core_solve_mixed)[i][j]
+                for j in range(len(fresh_columns))
+            ]
+            for i in range(len(fresh_rows))
+        ]
+        conditioned_fresh = [
+            [conditioned[i][j] for j in fresh_columns] for i in fresh_rows
+        ]
+        assert schur == conditioned_fresh
+
+        zero_core = [[Fraction() for _ in selected_rows] for _ in selected_rows]
+        double_bordered = (
+            [
+                [*core[i], *companion_core[i], *companion_right[i]]
+                for i in range(prefix_length)
+            ]
+            + [
+                [*zero_core[i], *core[i], *kernel_right[i]]
+                for i in range(prefix_length)
+            ]
+            + [
+                [*kernel_left[i], *companion_left[i], *companion_fresh[i]]
+                for i in range(len(fresh_rows))
+            ]
+        )
+        assert fraction_determinant(double_bordered) == core_det**2 * (
+            fraction_determinant(conditioned_fresh)
+        )
+        assert any(
+            fraction_determinant(
+                [[double_bordered[i][j] for j in columns] for i in rows]
+            )
+            < 0
+            for rows in itertools.combinations(range(len(double_bordered)), 2)
+            for columns in itertools.combinations(range(len(double_bordered)), 2)
+        )
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:

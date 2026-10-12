@@ -452,6 +452,14 @@ should be generalized to a commutative ring and placed near the
 Weinstein--Aronszajn identities. The sign-cycle obstruction and fermionic
 finite weights remain project-specific.
 
+Phase BX gives a generic determinant formula for a two-sided oblique
+companion Schur expression. Its leading block is the upper-triangular matrix
+`[[C,H_C],[0,C]]`, so the full double border factors by `det(C)^2` without any
+positivity assumption. This is a reusable block-linear-algebra identity over
+a field and could be generalized beyond real matrices near Mathlib's Schur
+complement API. The GECP interpretation, positive-series specialization, and
+finite-weight envelope are project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

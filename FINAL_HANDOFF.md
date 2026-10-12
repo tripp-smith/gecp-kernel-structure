@@ -155,6 +155,16 @@ the global determinant through cancellation-preserving structure. The root
 command passes a 3,572-job Lean build with 107 tests and no known dependency
 vulnerabilities; the change passed CI and merged as PR #77.
 
+Post-v1 Phase BX redirects the bordered method to the actual Phase BS
+companion premise. A fixed two-sided projection has the closed four-term Schur
+formula determined by the selected core, the original-kernel cross blocks,
+and the companion cross blocks. Lean packages it as one double-bordered
+matrix and proves its determinant is the squared selected-core determinant
+times the projected companion determinant. Exact arithmetic confirms that
+three iterative pivots agree entrywise with this formula at all ten relevant
+weights. The large matrix still has negative order-two minors, so the next
+step is a normalized double-border bound, not total nonnegativity.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -510,6 +520,10 @@ git status --short
 - Phase BW proves a single-determinant linearization at every required weight,
   but its exact signed four-cycle obstruction rules out making the bordered
   matrix totally nonnegative by row and column sign changes.
+- Phase BX proves the generic squared-core double-border factorization and
+  verifies its multi-pivot interpretation exactly, but the equality with
+  arbitrary recursive `Run.conditionBoth` is not yet formalized in Lean and
+  the normalized double-border envelope remains open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -584,13 +598,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Control the bordered determinant from Phase BW as a whole. The negative signed
-four-cycle rules out a row/column gauge into the ordinary totally nonnegative
-cone, so the most promising replacements are a planar-network construction
-whose path cancellation is built into the determinant, a complementary-minor
-identity reducing it to a known positive kernel minor, or a mixed-discriminant
-inequality stable under the Schur prefix. The exact 2-of-56 coordinate witness
-and all ten bordered-weight identities are regression boundaries. A uniform
-envelope at `56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen
-half contraction; iterating that block across `O(log Lambda)` dyadic levels
-then targets Conjecture G1 and Simons Problem 4.2.
+First identify arbitrary `Run.conditionBoth` samples with Phase BX's closed
+selected-core Schur expression. Then control the normalized double-bordered
+determinant, whose exact factor `|det(C)|²` cancels the prefix core. Negative
+order-two minors rule out ordinary total nonnegativity, so promising methods
+are complementary-minor condensation, a planar-network construction with
+cancellation internal to the determinant, or a mixed-discriminant inequality
+stable under the Schur prefix. A uniform normalized envelope at
+`56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen half
+contraction; iterating that block across `O(log Lambda)` dyadic levels then
+targets Conjecture G1 and Simons Problem 4.2.
