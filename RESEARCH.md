@@ -4930,7 +4930,7 @@ Verification:
 
 ## Phase BO contract: signed unit-band amplification
 
-State: verified locally; delivery pending.
+State: verified locally; draft PR #69 open.
 
 The full signed unit band admits a single positive-coordinate representation,
 without a sign partition.  For `0 <= t <= 1` and `-1 <= omega <= 1`, setting
