@@ -151,7 +151,9 @@ Exact rational checks cover weight one and all nine norming weights. A
 negative four-cycle across the four blocks is unchanged by row/column sign
 gauges, so this bordered matrix cannot be made entrywise nonnegative and a
 naive total-positivity proof is impossible. The remaining route must control
-the global determinant through cancellation-preserving structure.
+the global determinant through cancellation-preserving structure. The root
+command passes a 3,572-job Lean build with 107 tests and no known dependency
+vulnerabilities; the change passed CI and merged as PR #77.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency

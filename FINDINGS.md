@@ -976,7 +976,8 @@ pivots.
   is invariant under independent row and column sign changes, no sign gauge
   can make the bordered matrix entrywise nonnegative, ruling out a direct
   totally-nonnegative-matrix proof. The root command passes a 3,572-job Lean
-  build with 107 tests and no known dependency vulnerabilities.
+  build with 107 tests and no known dependency vulnerabilities. The change
+  passed CI and merged as PR #77.
 
 ## Run provenance
 
