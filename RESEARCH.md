@@ -5092,6 +5092,52 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BY contract: selected-core companion closed form
+
+State: in progress.
+
+Phase BX proves the correct generic double-border determinant formula, and
+exact arithmetic confirms that it matches a three-pivot companion run. The
+remaining algebraic bridge is to identify the recursively defined
+`Run.conditionBoth` with that selected-core Schur expression for every run.
+This can be proved without expanding Plücker coordinates: row conditioning is
+the unique correction by selected kernel columns that vanishes on selected
+rows, the column statement is dual, and left/right elementary projectors
+commute.
+
+Frozen public Lean targets:
+
+- define selected kernel and companion row/column block matrices for a run;
+- prove closed selected-core inverse formulas for `conditionRows` and
+  `conditionColumns`;
+- prove fixed left and right companion updates commute and deduce
+  `conditionBoth = conditionColumns ∘ conditionRows`;
+- derive the four-term selected-core formula for `conditionBoth`;
+- specialize Phase BX's squared-core determinant identity to arbitrary finite
+  samples of a successful run.
+
+Independent check:
+
+- retain the exact Phase BX three-pivot entrywise and determinant checks;
+- add deterministic exact randomized runs comparing the recursive and closed
+  formulas for multiple prefix lengths, companion weights, and fresh blocks;
+- use solve-based rational arithmetic and never form an explicit inverse.
+
+Decision rule:
+
+- construct the selected-core inverse instance only from the already proved
+  `selectedCore_det_ne` theorem;
+- use annihilation and interpolation uniqueness instead of recursively
+  expanding a block inverse when possible;
+- stop at a precise missing lemma if dependent selected-index bookkeeping
+  prevents the full sampled specialization.
+
+Non-claims:
+
+- this phase does not prove the normalized double-border envelope;
+- it does not prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BX contract: double-bordered companion determinant
 
 State: complete; merged as PR #78 with green CI.
