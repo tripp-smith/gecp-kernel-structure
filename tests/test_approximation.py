@@ -1110,6 +1110,69 @@ def test_translated_unit_bands_have_uniform_twelve_pivot_contraction() -> None:
         assert residual_maximum <= mp.mpf("0.5")
 
 
+def test_residual_amplification_bridge_and_frozen_column_obstruction() -> None:
+    rows = (Fraction(0), Fraction(1, 4), Fraction(1, 2), Fraction(1))
+    columns = (Fraction(1, 4), Fraction(1, 2), Fraction(1), Fraction(2))
+
+    def finite_exp(x: Fraction, terms: int = 6) -> Fraction:
+        return sum(
+            (x**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    full = [[finite_exp(row * column) for column in columns] for row in rows]
+    frozen_tail = [
+        [Fraction() if j == 3 else full[i][j] - 1 for j in range(4)] for i in range(4)
+    ]
+    frozen_low = [[full[i][j] - frozen_tail[i][j] for j in range(4)] for i in range(4)]
+    amplified_frozen = [
+        [128 * frozen_tail[i][j] + frozen_low[i][j] for j in range(4)] for i in range(4)
+    ]
+    original_det = fraction_determinant(full)
+    amplified_frozen_det = fraction_determinant(amplified_frozen)
+    assert original_det == Fraction(91063777, 85899345920)
+    assert amplified_frozen_det == -Fraction(32176499, 983040)
+    assert amplified_frozen_det < 128 ** (4 - 2) * original_det
+
+    # A one-pivot Schur residual of a finite positive-feature kernel has the
+    # compatible split that the formal bridge requires.  The selected point
+    # is x=y=0, so the exact Schur residual simply removes the constant feature.
+    fresh = (Fraction(1, 4), Fraction(1, 2), Fraction(1))
+    residual = [[finite_exp(row * column) - 1 for column in fresh] for row in fresh]
+    low = [[row * column for column in fresh] for row in fresh]
+    tail = [[residual[i][j] - low[i][j] for j in range(3)] for i in range(3)]
+
+    coefficients: list[Fraction] = []
+    for degree in range(4):
+        coefficient = Fraction()
+        for selected_tuple in itertools.combinations(range(3), degree):
+            selected = set(selected_tuple)
+            coefficient += fraction_determinant(
+                [
+                    [tail[i][j] if j in selected else low[i][j] for j in range(3)]
+                    for i in range(3)
+                ]
+            )
+        coefficients.append(coefficient)
+    assert coefficients[0] == coefficients[1] == 0
+    assert all(coefficient >= 0 for coefficient in coefficients)
+
+    weight = 128
+    amplified_residual = [
+        [weight * tail[i][j] + low[i][j] for j in range(3)] for i in range(3)
+    ]
+    assert weight ** (3 - 1) * fraction_determinant(residual) <= fraction_determinant(
+        amplified_residual
+    )
+
+    augmented_nodes = (Fraction(0), *fresh)
+    augmented = [
+        [finite_exp(row * column) for column in augmented_nodes]
+        for row in augmented_nodes
+    ]
+    assert fraction_determinant(augmented) == fraction_determinant(residual)
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

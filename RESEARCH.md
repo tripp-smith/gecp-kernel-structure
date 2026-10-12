@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BQ contract: residual amplification bridge
 
-State: in progress.
+State: verified locally on 2026-10-12; pull request pending.
 
 Phase BP supplies a center-uniform local determinant contraction for the
 original kernel.  Restarting it after earlier pivots is not an exceptional-
@@ -5123,6 +5123,32 @@ Frozen public Lean targets:
 - specialize the bridge to fermionic runs while leaving the analytic residual
   decomposition as an explicit premise.
 
+Delivered identifiers:
+
+- `Matrix.mixedColumnPolynomial_rank_amplification_abs`;
+- `GECP.Run.finalResidual_rank_amplification`;
+- `GECP.Run.augmentedCore_rank_amplification`;
+- `frozenColumnLow_eq_mul`;
+- `frozenColumnTaylor_original_det`;
+- `frozenColumnTaylor_amplified_det`;
+- `frozenColumnTaylor_rankAmplification_fails`;
+- `fermionicKernel_finalResidual_rank_amplification`;
+- `fermionicKernel_augmentedCore_rank_amplification`.
+
+Result:
+
+- an exact six-term positive-Taylor sample has original determinant
+  `91063777 / 85899345920 > 0`, but amplifying the three fresh-column tails by
+  `128` gives determinant `-32176499 / 983040`; its frozen background factors
+  through two features, so one-sided frozen-column rank amplification is
+  false even in this finite positive-feature setting;
+- for an exact final-residual split `E + L*R` with nonnegative mixed
+  coefficients and residual low rank `k < n`, weight `lambda >= 1` gives
+  `lambda^(n-k) * |det(E+L*R)| <= |det(lambda E+L*R)|`;
+- composing with the Phase AJ augmented-core identity leaves the selected
+  prefix only in the multiplicative factor `|det selectedCore|`; it does not
+  reduce the fresh-sample amplification exponent.
+
 Independent checks:
 
 - recompute the obstruction entirely with `Fraction` arithmetic, including
@@ -5130,6 +5156,17 @@ Independent checks:
   and the failed comparison;
 - verify the augmented/residual determinant comparison on exact rational
   geometric-surrogate runs with nontrivial prefixes and low-rank splits.
+
+Verification:
+
+- the rational obstruction is kernel-checked from explicit LU
+  factorizations; the public axiom audit contains only the accepted Lean
+  foundations and no evaluator or sorry axiom;
+- the exact `Fraction` regression independently checks the obstruction, a
+  compatible one-pivot residual split, coefficient signs, rank amplification,
+  and the augmented/residual determinant identity;
+- `./scripts/verify.sh` passes all 3,563 Lean jobs and 103 Python tests with no
+  known dependency vulnerabilities.
 
 Decision rule:
 
