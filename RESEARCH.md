@@ -5092,6 +5092,62 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BQ contract: residual amplification bridge
+
+State: in progress.
+
+Phase BP supplies a center-uniform local determinant contraction for the
+original kernel.  Restarting it after earlier pivots is not an exceptional-
+column problem: changing a fresh column also changes its entries on previously
+selected rows, so the selected Schur data are no longer fixed.  Exact finite
+positive-Taylor experiments exhibit the resulting sign failure.  The correct
+object is the final residual itself.  Its finite sample is already the Schur
+complement encoded by the run, and Phase AJ identifies every augmented
+original-kernel determinant with the selected-core determinant times that
+residual minor.
+
+Frozen public Lean targets:
+
+- give an exact rational finite positive-Taylor witness showing that keeping
+  one old column exact while tail-amplifying the remaining columns can reverse
+  the amplified determinant sign and violate the proposed rank amplification;
+- prove that a sampled final residual admitting an exact decomposition
+  `E + L*R`, nonnegative mixed coefficients, and rank `k` satisfies the same
+  `lambda^(n-k)` determinant amplification as an unconditioned kernel;
+- prove nonnegativity of the original and amplified residual determinants from
+  the coefficient and rank hypotheses, so the result is available in absolute
+  value without an orientation assumption;
+- compose the residual theorem with the arbitrary-border determinant identity,
+  exposing the selected-core determinant only as a multiplicative factor and
+  keeping the decay exponent independent of the prefix length;
+- specialize the bridge to fermionic runs while leaving the analytic residual
+  decomposition as an explicit premise.
+
+Independent checks:
+
+- recompute the obstruction entirely with `Fraction` arithmetic, including
+  the original positive determinant, the negative weight-`128` determinant,
+  and the failed comparison;
+- verify the augmented/residual determinant comparison on exact rational
+  geometric-surrogate runs with nontrivial prefixes and low-rank splits.
+
+Decision rule:
+
+- formulate the bridge at the residual sample level rather than masking rows
+  or columns of the original kernel;
+- reuse `mixedColumnPolynomial_rank_amplification` and Phase AJ's exact
+  augmented determinant factorization; do not introduce an inverse;
+- if absolute-value transport requires extra orientation plumbing, first prove
+  determinant nonnegativity directly from nonnegative coefficients and strict
+  rank deficiency.
+
+Non-claims:
+
+- the algebraic bridge does not assert that a fermionic final residual already
+  has the required low-rank-plus-compatible-tail decomposition;
+- this phase does not prove the shrinking-band recurrence, Conjecture G1, or
+  Simons Problem 4.2.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.
