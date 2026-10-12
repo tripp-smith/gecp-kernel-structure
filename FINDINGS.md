@@ -845,7 +845,7 @@ pivots.
   selected-core determinant and residual bounds. Endpoint closure, mixed-sign
   frequency assembly, dyadic rescaling, Conjecture G1, and Problem 4.2 remain
   open. The root command passes with 100 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #68.
 
 ## Run provenance
 

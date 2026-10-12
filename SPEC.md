@@ -1988,7 +1988,7 @@ This annotation records delivered identifiers without changing the goals above.
   `n >= 8`. GECP composition, dyadic band/reflection assembly, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 99 tests and no
   known dependency vulnerabilities. The change passed CI and merged as PR #67.
-- Post-v1 research phase BN: verified locally on 2026-10-11.
+- Post-v1 research phase BN: verified locally on 2026-10-12.
   `positiveSeriesFermionicKernel_abs_minor_det_le` transfers the Phase BM
   determinant decay to injective samples in arbitrary algorithmic order, and
   `positiveSeriesFermionicKernel_gecp_error_pow_le` composes it with the exact
@@ -1998,3 +1998,4 @@ This annotation records delivered identifiers without changing the goals above.
   reflected positive unit band. Full signed-frequency assembly, endpoint
   closure, dyadic rescaling, Conjecture G1, and Problem 4.2 remain open. The
   root command passes with 100 tests and no known dependency vulnerabilities.
+  The change passed CI and merged as PR #68.

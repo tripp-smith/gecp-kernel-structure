@@ -4851,7 +4851,7 @@ Verification:
 
 ## Phase BN contract: positive-series GECP composition
 
-State: verified locally; draft PR #68 open.
+State: complete; merged as PR #68 with green CI.
 
 Phase BM supplies exponential determinant decay for ordered samples of the
 reflected positive-series kernel, while Phase T bounds a complete-pivot
@@ -4926,7 +4926,7 @@ Verification:
   invariance under sorting, the rank-ten determinant envelope, and the final
   residual maximum;
 - `./scripts/verify.sh` passes with 100 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #68.
 
 ## Phase BI contract: mixed-column coefficient bridge
 
