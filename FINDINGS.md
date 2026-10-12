@@ -902,7 +902,7 @@ pivots.
   useful invariant should therefore exploit alternating signs, real-rootedness,
   or a direct two-weight determinant comparison rather than coefficientwise
   positivity. The root command passes with 104 tests and no known dependency
-  vulnerabilities. Draft PR #72.
+  vulnerabilities. The change passed CI and merged as PR #72.
 
 ## Run provenance
 

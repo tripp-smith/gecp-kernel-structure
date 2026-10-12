@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BR — Schur-aware feature elimination<br>
-> **Phase state:** verified; draft PR #72<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BR `./scripts/verify.sh` passed with 104 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** draft PR #72<br>
+> **Delivery:** merged PR #72 with green CI<br>
 > **Claim level:** Phase BR constructs the compatible final-residual split canonically and preserves its rank-eight right feature factor through every selected prefix; coefficientwise positivity of the conditioned tail is false in general, so the next target is a signed or real-rooted determinant-pencil law
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -87,7 +87,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BO | Signed unit-band amplification | complete | affine frequency shift; `2^n / 128^(n-8)` arbitrary-sample determinant envelope; twelve-pivot full signed-band half contraction | Lean build; public axiom audit; 180-digit grids of sizes 16, 24, and 32; 101-test root verification; green CI | merged PR #69 |
 | BP | Translated unit-band amplification | complete | center-parametric affine shift; cutoff-uniform `2^n / 128^(n-8)` determinant envelope; twelve-pivot contraction on every width-two band | Lean build; public axiom audit; 180-digit centers `-8`, `-2`, `3`, and `9`; 102-test root verification; green CI | merged PR #70 |
 | BQ | Residual amplification bridge | complete | exact obstruction to one-sided frozen-column amplification; prefix-independent Schur-residual rank amplification and augmented-core composition | Lean build; public axiom audit; exact rational LU certificate and residual-split regression; 103-test root verification; green CI | merged PR #71 |
-| BR | Schur-aware feature elimination | verified | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | Lean build; public axiom audit; exact three-pivot feature-transport and rank regression; 104-test root verification | draft PR #72 |
+| BR | Schur-aware feature elimination | complete | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | Lean build; public axiom audit; exact three-pivot feature-transport and rank regression; 104-test root verification; green CI | merged PR #72 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BR contract: Schur-aware feature elimination
 
-State: verified; draft PR #72.
+State: complete; merged as PR #72 with green CI.
 
 Phase BQ leaves one exact premise: the final residual sample must be written as
 a conditioned tail plus a uniformly low-rank block.  The Schur update is
@@ -5184,7 +5184,7 @@ Verification:
   companion split entrywise after every step, and verifies every `3 x 3`
   minor of the conditioned rank-two low block vanishes;
 - `./scripts/verify.sh` passes with 104 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #72.
 
 ## Phase BQ contract: residual amplification bridge
 
