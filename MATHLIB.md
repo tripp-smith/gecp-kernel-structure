@@ -370,6 +370,15 @@ generic amplification and strictly-totally-positive Hadamard lemmas identified
 in Phases BK--BN; the constants `128`, `2`, and the affine fermionic identity
 are project-specific.
 
+Phase BP likewise needs no new general-purpose matrix primitive. It observes
+that the Phase BO diagonal-factor and tail-amplification proof is uniform under
+an arbitrary translation of the frequency window: the positive product
+coordinate still has width two, while the weighted exponential is the
+original fermionic kernel and remains bounded by one. The center-parametric
+kernel identities and constants are project-specific; the reusable upstream
+candidates remain the mixed-column rank amplification and strictly-total-
+positive diagonal-product lemmas already identified in Phases BK--BN.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

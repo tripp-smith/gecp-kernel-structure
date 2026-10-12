@@ -5006,7 +5006,7 @@ Verification:
 
 ## Phase BP contract: translated unit-band amplification
 
-State: in progress.
+State: verified locally; draft PR pending.
 
 Phase BO centers its affine positive coordinate at frequency zero, but none of
 the tail-amplification constants should depend on that center.  For an
@@ -5053,6 +5053,44 @@ Non-claims:
   residual conditioned by earlier pivots;
 - this phase does not prove the exceptional-column coefficient sign law, the
   shrinking-band recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `translatedUnitShiftedKernel` and
+  `fermionicKernel_eq_translatedUnitShiftedKernel` give the exact affine
+  coordinate at an arbitrary band center;
+- `translatedUnitShiftedAmplifiedMatrix_det_pos` and
+  `translatedUnitShiftedAmplifiedMatrix_strictlyTotallyPositive` preserve
+  strict total positivity at every tail weight at least one;
+- `translatedUnitShiftedAmplifiedMatrix_abs_le_two` proves the center-uniform
+  weight-`128` entry envelope;
+- `fermionicKernel_translatedUnit_abs_sample_det_le` proves
+  `|det K_n| <= 2^n / 128^(n-8)` for every injective sample in any translated
+  width-two band;
+- `fermionicKernel_translatedUnit_gecp_error_pow_le` and
+  `fermionicKernel_translatedUnit_gecp_error_le_half_twelve` compose the
+  determinant decay with exact complete pivoting.
+
+Result:
+
+- absolute frequency location has been removed from the local-block theorem:
+  the determinant and twelve-pivot contraction constants are identical on
+  `[center-1,center+1]` for every real center;
+- the remaining transition problem is therefore purely about conditioning by
+  the prior selected core, not about recentering the fermionic denominator;
+- the next target is a two-flank exceptional-column or equivalent Schur-
+  residual amplification theorem that transports this local block through an
+  existing outer-scale prefix.
+
+Verification:
+
+- every new public theorem reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- a deterministic 180-digit regression checks the amplified entry envelope,
+  selected determinant bound, and twelve-step residual at centers `-8`, `-2`,
+  `3`, and `9`;
+- `./scripts/verify.sh` passes with 102 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

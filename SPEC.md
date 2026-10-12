@@ -2010,3 +2010,14 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 101
   tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #69.
+- Post-v1 research phase BP: verified locally on 2026-10-12.
+  The center-parametric coordinate `z = center + 1 - omega` extends Phase BO
+  from `[-1,1]` to every translated width-two frequency band without changing
+  its constants. The weight-`128` amplified kernel remains strictly totally
+  positive and bounded by two independently of `center`, giving
+  `|det K_n| <= 2^n / 128^(n-8)` for arbitrary injective samples and a uniform
+  twelve-pivot half contraction on
+  `[0,1] x [center-1,center+1]`. Restarting this theorem after an earlier
+  selected core, the shrinking-band recurrence, Conjecture G1, and Problem
+  4.2 remain open. The root command passes with 102 tests and no known
+  dependency vulnerabilities.

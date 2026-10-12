@@ -860,6 +860,19 @@ pivots.
   Problem 4.2 remain open. The root command passes with 101 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #69.
 
+- Phase BP removes absolute frequency location from the local contraction
+  theorem. For every real `center`, the affine coordinate
+  `z = center + 1 - omega` maps `[center-1,center+1]` to `[0,2]`. The weighted
+  positive-exponential term is exactly the original fermionic kernel and is
+  therefore at most one on the full time strip, uniformly in `center`.
+  Weight-`128` tail amplification consequently gives the same
+  `|det K_n| <= 2^n / 128^(n-8)` envelope and the same twelve-pivot one-half
+  residual bound on every translated width-two band. A 180-digit regression
+  checks centers `-8`, `-2`, `3`, and `9`. This is an original-kernel local
+  block, not yet a restart theorem for a residual conditioned by earlier
+  pivots. The root command passes with 102 tests and no known dependency
+  vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
