@@ -946,7 +946,8 @@ pivots.
   factors are confluent exponential determinants: `t^d/d!` and the
   denominator-scaled `omega^d` features arise from derivatives at exponential
   parameter zero. The root command passes a 3,570-job Lean build with 106
-  tests and no known dependency vulnerabilities.
+  tests and no known dependency vulnerabilities. The change passed CI and
+  merged as PR #75.
 
 ## Run provenance
 

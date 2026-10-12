@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BU contract: companion Plücker factorization
 
-State: verified locally on 2026-10-12; draft PR #75.
+State: complete; merged as PR #75 with green CI.
 
 Phase BT shows that the conditioned low block factors through separately
 projected left and right features, and exact evidence suggests their matched
@@ -5181,7 +5181,8 @@ Verification:
 - every new public theorem reports only the accepted Lean foundations in the
   axiom audit, with no `sorry`, `admit`, or custom axiom;
 - `./scripts/verify.sh` passes a 3,570-job Lean build, 106 Python tests, and
-  the dependency audit with no known vulnerabilities.
+  the dependency audit with no known vulnerabilities; the change passed CI
+  and merged as PR #75.
 
 ## Phase BT contract: two-sided companion projection
 

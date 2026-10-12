@@ -2075,7 +2075,7 @@ This annotation records delivered identifiers without changing the goals above.
   recurrence, Conjecture G1, or Problem 4.2. The root command passes a
   3,568-job Lean build with 106 tests and no known dependency vulnerabilities.
   The change passed CI and merged as PR #74.
-- Post-v1 research phase BU: verified locally on 2026-10-12; draft PR #75.
+- Post-v1 research phase BU: complete; merged as PR #75 with green CI.
   Left and right feature-augmented core determinants factor exactly
   as `selectedCore.det` times the corresponding conditioned feature minor.
   Their matched product therefore contains `selectedCore.det ^ 2`, and
@@ -2087,4 +2087,5 @@ This annotation records delivered identifiers without changing the goals above.
   systems, but their all-orders sign theorem, the nine Phase BS companion
   envelopes, residual half contraction, the dyadic recurrence, Conjecture G1,
   and Problem 4.2 remain open. The root command passes a 3,570-job Lean build
-  with 106 tests and no known dependency vulnerabilities.
+  with 106 tests and no known dependency vulnerabilities. The change passed
+  CI and merged as PR #75.
