@@ -1999,3 +1999,13 @@ This annotation records delivered identifiers without changing the goals above.
   closure, dyadic rescaling, Conjecture G1, and Problem 4.2 remain open. The
   root command passes with 100 tests and no known dependency vulnerabilities.
   The change passed CI and merged as PR #68.
+- Post-v1 research phase BO: verified locally on 2026-10-12.
+  The affine frequency shift `z = 1 - omega` converts the full closed signed
+  unit band into one positive exponential product band. Tail amplification at
+  weight `128`, strict total positivity, and the diagonal-product determinant
+  envelope prove `|det K_n| <= 2^n / 128^(n-8)` for every injective signed-band
+  sample. `fermionicKernel_signedUnit_gecp_error_le_half_twelve` then proves
+  that twelve exact complete pivots contract the original fermionic residual
+  uniformly by one half on `[0,1] x [-1,1]`. Dyadic rescaling/continuation,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes with 101
+  tests and no known dependency vulnerabilities.

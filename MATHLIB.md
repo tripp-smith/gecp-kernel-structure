@@ -361,6 +361,15 @@ could accept an arbitrary ordered-sample determinant bound instead of the
 current diagonal-product specialization. The positive-series GECP composition
 and rank-ten arithmetic remain project-specific.
 
+Phase BO needs no new general-purpose matrix primitive. Its key simplification
+is kernel-specific: the affine coordinate `z = 1 - omega` converts the whole
+signed unit band into a positive exponential product band, so the existing
+mixed-column polynomial, total-positivity, and determinant-permutation APIs
+compose directly. The reusable upstream candidates therefore remain the
+generic amplification and strictly-totally-positive Hadamard lemmas identified
+in Phases BK--BN; the constants `128`, `2`, and the affine fermionic identity
+are project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

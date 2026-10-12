@@ -60,6 +60,16 @@ reflected positive-series kernel over the positive unit band. The remaining
 global step is to assemble positive and negative frequency columns, close the
 zero endpoints, and transport the unit-band block across dyadic scales.
 
+Post-v1 Phase BO closes the full signed-unit-band and endpoint obligations in
+one step. The affine coordinate `z = 1 - omega` rewrites the original kernel
+as positive diagonal weights times `exp(t*z)` on `[0,1] x [0,2]`, avoiding a
+mixed-column Laplace expansion. A weight-`128` eighth-order tail amplification,
+strict total positivity, and the diagonal-product envelope prove
+`|det K_n| <= 2^n / 128^(n-8)` for arbitrary injective samples. Composing with
+the exact selected-core residual-power theorem proves a uniform half
+contraction after twelve complete pivots on `[0,1] x [-1,1]`. The remaining
+global step is dyadic rescaling/continuation across larger cutoffs.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -183,6 +193,7 @@ not represented by the completed goal counter.
 | BL — amplified-kernel envelope | complete; green CI | merged [PR #66](https://github.com/tripp-smith/gecp-kernel-structure/pull/66) |
 | BM — total-positive Hadamard envelope | complete; green CI | merged [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
 | BN — positive-series GECP composition | complete; green CI | merged [PR #68](https://github.com/tripp-smith/gecp-kernel-structure/pull/68) |
+| BO — signed unit-band amplification | verified locally | draft [PR #69](https://github.com/tripp-smith/gecp-kernel-structure/pull/69) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -466,9 +477,10 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Use a column-sign partition and Laplace expansion to combine the Phase BN
-positive-series determinant envelope with its reflected negative-frequency
-counterpart for arbitrary selected cores on `[-1,1]`. After closing the zero
-endpoints, package that full unit-band contraction under frequency rescaling
-and assemble dyadic blocks. This is the shortest remaining route to
-Conjecture G1 and the Simons Problem 4.2 rate.
+Use the Phase BO twelve-pivot signed-unit-band contraction as the local block
+in the existing outer-half localization and continuation framework. Prove a
+scale-transition lemma showing that, after the prescribed corner pivots and
+each above-threshold block, the active residual can be normalized to the next
+signed unit band without losing completeness or the determinant-power bound.
+Iterating that transition over the `O(log Lambda)` dyadic levels is now the
+shortest remaining route to Conjecture G1 and the Simons Problem 4.2 rate.
