@@ -2008,4 +2008,5 @@ This annotation records delivered identifiers without changing the goals above.
   that twelve exact complete pivots contract the original fermionic residual
   uniformly by one half on `[0,1] x [-1,1]`. Dyadic rescaling/continuation,
   Conjecture G1, and Problem 4.2 remain open. The root command passes with 101
-  tests and no known dependency vulnerabilities.
+  tests and no known dependency vulnerabilities. The change passed CI and
+  merged as PR #69.

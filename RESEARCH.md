@@ -4930,7 +4930,7 @@ Verification:
 
 ## Phase BO contract: signed unit-band amplification
 
-State: verified locally; draft PR #69 open.
+State: complete; merged as PR #69 with green CI.
 
 The full signed unit band admits a single positive-coordinate representation,
 without a sign partition.  For `0 <= t <= 1` and `-1 <= omega <= 1`, setting
@@ -5002,7 +5002,7 @@ Verification:
   `16 x 16`, `24 x 24`, and `32 x 32` signed-unit-band grids checks determinant
   magnitude invariance, the rank-twelve envelope, and the final residual;
 - `./scripts/verify.sh` passes with 101 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #69.
 
 ## Phase BI contract: mixed-column coefficient bridge
 
