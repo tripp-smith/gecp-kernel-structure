@@ -379,6 +379,16 @@ kernel identities and constants are project-specific; the reusable upstream
 candidates remain the mixed-column rank amplification and strictly-total-
 positive diagonal-product lemmas already identified in Phases BK--BN.
 
+Phase BQ adds a reusable residual-level composition pattern. The generic
+upstream candidates are the absolute-value form of mixed-column rank
+amplification—deriving both determinant signs from coefficient
+nonnegativity—and a lemma composing any Schur-complement sample split with a
+bordered determinant factorization. The former belongs beside the polynomial
+coefficient API proposed in Phases BI--BK. The latter is presently phrased in
+this project's `GECP.Run` vocabulary; an upstream version would fit a general
+Schur-complement determinant API. The exact frozen-column counterexample and
+fermionic specializations remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -873,6 +873,20 @@ pivots.
   pivots. The root command passes with 102 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #70.
 
+- Phase BQ proves the exact algebraic restart bridge and rules out the
+  misleading one-sided substitute. A rational finite positive-Taylor matrix
+  with a rank-two frozen background has positive original determinant
+  `91063777 / 85899345920`, while weight-`128` amplification of only the three
+  fresh-column tails makes the determinant `-32176499 / 983040`. In contrast,
+  if the actual final Schur residual sample admits `E + L*R` with nonnegative
+  mixed coefficients and residual low rank `k`, then its determinant magnitude
+  amplifies by `lambda^(n-k)`, independently of the earlier prefix length.
+  Phase AJ transports this to the augmented original-kernel determinant with
+  the selected core only as a multiplicative factor. The remaining analytic
+  target is now exact and unavoidable: construct such a compatible split for
+  arbitrary fermionic final residuals. The root command passes with 103 tests
+  and no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

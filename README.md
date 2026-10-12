@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BP — translated unit-band amplification<br>
-> **Phase state:** complete; green CI<br>
-> **Last verification:** Phase BP `./scripts/verify.sh` passed with 102 tests and no known dependency vulnerabilities on 2026-10-12<br>
+> **Current phase:** BQ — residual amplification bridge<br>
+> **Phase state:** verified; draft PR #71 open<br>
+> **Last verification:** Phase BQ `./scripts/verify.sh` passed with 103 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BP merged as [PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) with green CI<br>
-> **Claim level:** Phase BP proves that twelve exact complete pivots contract the original fermionic-kernel residual by one half on every translated closed width-two frequency band, uniformly in its center; conditioned-residual restart remains open
+> **Delivery:** Phase BQ verified locally; draft PR #71<br>
+> **Claim level:** Phase BQ proves a prefix-independent amplification theorem for any exact compatible final-residual split and disproves the tempting frozen-column shortcut; constructing that split for arbitrary fermionic prefixes remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -86,6 +86,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BN | Positive-series GECP composition | complete | permutation-invariant determinant envelope; residual-power composition; ten-pivot half contraction | Lean build; public axiom audit; 180-digit grids of sizes 16, 24, and 32; 100-test root verification; green CI | merged PR #68 |
 | BO | Signed unit-band amplification | complete | affine frequency shift; `2^n / 128^(n-8)` arbitrary-sample determinant envelope; twelve-pivot full signed-band half contraction | Lean build; public axiom audit; 180-digit grids of sizes 16, 24, and 32; 101-test root verification; green CI | merged PR #69 |
 | BP | Translated unit-band amplification | complete | center-parametric affine shift; cutoff-uniform `2^n / 128^(n-8)` determinant envelope; twelve-pivot contraction on every width-two band | Lean build; public axiom audit; 180-digit centers `-8`, `-2`, `3`, and `9`; 102-test root verification; green CI | merged PR #70 |
+| BQ | Residual amplification bridge | verified | exact obstruction to one-sided frozen-column amplification; prefix-independent Schur-residual rank amplification and augmented-core composition | Lean build; public axiom audit; exact rational LU certificate and residual-split regression; 103-test root verification | draft PR #71 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

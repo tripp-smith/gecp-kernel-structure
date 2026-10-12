@@ -5092,6 +5092,99 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BQ contract: residual amplification bridge
+
+State: verified locally on 2026-10-12; draft PR #71 open.
+
+Phase BP supplies a center-uniform local determinant contraction for the
+original kernel.  Restarting it after earlier pivots is not an exceptional-
+column problem: changing a fresh column also changes its entries on previously
+selected rows, so the selected Schur data are no longer fixed.  Exact finite
+positive-Taylor experiments exhibit the resulting sign failure.  The correct
+object is the final residual itself.  Its finite sample is already the Schur
+complement encoded by the run, and Phase AJ identifies every augmented
+original-kernel determinant with the selected-core determinant times that
+residual minor.
+
+Frozen public Lean targets:
+
+- give an exact rational finite positive-Taylor witness showing that keeping
+  one old column exact while tail-amplifying the remaining columns can reverse
+  the amplified determinant sign and violate the proposed rank amplification;
+- prove that a sampled final residual admitting an exact decomposition
+  `E + L*R`, nonnegative mixed coefficients, and rank `k` satisfies the same
+  `lambda^(n-k)` determinant amplification as an unconditioned kernel;
+- prove nonnegativity of the original and amplified residual determinants from
+  the coefficient and rank hypotheses, so the result is available in absolute
+  value without an orientation assumption;
+- compose the residual theorem with the arbitrary-border determinant identity,
+  exposing the selected-core determinant only as a multiplicative factor and
+  keeping the decay exponent independent of the prefix length;
+- specialize the bridge to fermionic runs while leaving the analytic residual
+  decomposition as an explicit premise.
+
+Delivered identifiers:
+
+- `Matrix.mixedColumnPolynomial_rank_amplification_abs`;
+- `GECP.Run.finalResidual_rank_amplification`;
+- `GECP.Run.augmentedCore_rank_amplification`;
+- `frozenColumnLow_eq_mul`;
+- `frozenColumnTaylor_original_det`;
+- `frozenColumnTaylor_amplified_det`;
+- `frozenColumnTaylor_rankAmplification_fails`;
+- `fermionicKernel_finalResidual_rank_amplification`;
+- `fermionicKernel_augmentedCore_rank_amplification`.
+
+Result:
+
+- an exact six-term positive-Taylor sample has original determinant
+  `91063777 / 85899345920 > 0`, but amplifying the three fresh-column tails by
+  `128` gives determinant `-32176499 / 983040`; its frozen background factors
+  through two features, so one-sided frozen-column rank amplification is
+  false even in this finite positive-feature setting;
+- for an exact final-residual split `E + L*R` with nonnegative mixed
+  coefficients and residual low rank `k < n`, weight `lambda >= 1` gives
+  `lambda^(n-k) * |det(E+L*R)| <= |det(lambda E+L*R)|`;
+- composing with the Phase AJ augmented-core identity leaves the selected
+  prefix only in the multiplicative factor `|det selectedCore|`; it does not
+  reduce the fresh-sample amplification exponent.
+
+Independent checks:
+
+- recompute the obstruction entirely with `Fraction` arithmetic, including
+  the original positive determinant, the negative weight-`128` determinant,
+  and the failed comparison;
+- verify the augmented/residual determinant comparison on exact rational
+  geometric-surrogate runs with nontrivial prefixes and low-rank splits.
+
+Verification:
+
+- the rational obstruction is kernel-checked from explicit LU
+  factorizations; the public axiom audit contains only the accepted Lean
+  foundations and no evaluator or sorry axiom;
+- the exact `Fraction` regression independently checks the obstruction, a
+  compatible one-pivot residual split, coefficient signs, rank amplification,
+  and the augmented/residual determinant identity;
+- `./scripts/verify.sh` passes all 3,563 Lean jobs and 103 Python tests with no
+  known dependency vulnerabilities.
+
+Decision rule:
+
+- formulate the bridge at the residual sample level rather than masking rows
+  or columns of the original kernel;
+- reuse `mixedColumnPolynomial_rank_amplification` and Phase AJ's exact
+  augmented determinant factorization; do not introduce an inverse;
+- if absolute-value transport requires extra orientation plumbing, first prove
+  determinant nonnegativity directly from nonnegative coefficients and strict
+  rank deficiency.
+
+Non-claims:
+
+- the algebraic bridge does not assert that a fermionic final residual already
+  has the required low-rank-plus-compatible-tail decomposition;
+- this phase does not prove the shrinking-band recurrence, Conjecture G1, or
+  Simons Problem 4.2.
+
 ## Phase BI contract: mixed-column coefficient bridge
 
 State: complete; merged as PR #63 with green CI.

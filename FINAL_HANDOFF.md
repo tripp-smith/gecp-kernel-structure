@@ -79,6 +79,16 @@ twelve exact complete pivots give the same one-half residual contraction. The
 remaining global step is now specifically a conditioned-residual restart
 across the selected outer-scale prefix, not an affine recentering problem.
 
+Post-v1 Phase BQ identifies the exact restart interface. It disproves
+one-sided frozen-column amplification by a kernel-checked rational
+positive-Taylor witness, then proves that an exact low-rank-plus-tail split of
+the actual final Schur residual retains the full fresh-order amplification
+exponent. Phase AJ's bordered factorization composes this with the selected
+core without charging prefix length against that exponent. What remains is no
+longer an algebraic composition ambiguity: it is the analytic construction of
+a compatible split, with nonnegative mixed coefficients, for arbitrary
+fermionic final residuals.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -413,9 +423,10 @@ git status --short
   convergence proof.
 - The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
   cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
-- The Phase BP width-two theorem is uniform under translation, but it applies
-  to the original kernel rather than a Schur residual conditioned by earlier
-  pivots; that restart theorem remains open.
+- Phase BQ proves the restart theorem conditional on an exact compatible
+  low-rank-plus-tail split of the final residual. It does not yet construct
+  that split for arbitrary fermionic prefixes; the exact rational obstruction
+  shows that freezing only old columns cannot supply it.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -490,10 +501,12 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Use the Phase BP center-uniform twelve-pivot theorem as the local block in the
-existing outer-half localization and continuation framework. Prove a two-flank
-exceptional-column amplification theorem, or an equivalent Schur-residual
-normalization theorem, showing that the local determinant-power bound survives
-conditioning by the already selected outer-scale prefix. Iterating that
-transition over the `O(log Lambda)` dyadic levels is now the shortest remaining
-route to Conjecture G1 and the Simons Problem 4.2 rate.
+Construct the premise of Phase BQ for the actual fermionic final residual.
+The most promising route is a Schur-aware feature decomposition: eliminate
+the selected prefix at the feature level, identify a residual low block of
+uniform rank, and prove nonnegativity of every mixed residual coefficient.
+The frozen-column witness rules out treating old columns as inert. Once this
+analytic split is available, compose it with the Phase BQ augmented-core
+theorem and the Phase BP width-two envelope, then iterate the resulting
+half-contraction over the `O(log Lambda)` dyadic levels toward Conjecture G1
+and Simons Problem 4.2.
