@@ -389,6 +389,18 @@ this project's `GECP.Run` vocabulary; an upstream version would fit a general
 Schur-complement determinant API. The exact frozen-column counterexample and
 fermionic specializations remain project-specific.
 
+Phase BR adds a reusable fixed-elimination companion operator. Once pivot
+rows, columns, and coefficients have been selected from one matrix, the same
+row operations form a linear map on every compatible matrix and commute with
+right multiplication. This is Gaussian elimination with multiple right-hand
+sides expressed at the matrix-function level. A mathlib-facing abstraction
+could package elementary row operations as linear maps and prove their
+composition commutes with rectangular matrix multiplication; the current
+`GECP.Run.conditionRows` formulation and the rank-eight fermionic feature
+split remain project-specific. The exact negative mixed-coefficient witness
+also cautions against an upstream theorem claiming that arbitrary fixed Schur
+conditioning preserves coefficientwise nonnegativity of determinant pencils.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

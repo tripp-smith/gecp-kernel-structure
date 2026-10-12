@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BR contract: Schur-aware feature elimination
 
-State: in progress.
+State: verified locally; PR pending.
 
 Phase BQ leaves one exact premise: the final residual sample must be written as
 a conditioned tail plus a uniformly low-rank block.  The Schur update is
@@ -5142,6 +5142,49 @@ Non-claims:
 - it does not prove a uniform amplified determinant envelope for the
   conditioned tail, the dyadic recurrence, Conjecture G1, or Simons Problem
   4.2.
+
+Delivered identifiers:
+
+- `GECP.companionRowUpdate` and `GECP.Run.conditionRows` apply the pivot
+  coefficients selected by one fixed run to an arbitrary companion matrix;
+- `companionRowUpdate_self` and `conditionRows_self` recover the ordinary
+  residual update and final residual;
+- `conditionRows_add`, `conditionRows_smul`, and `conditionRows_mul` establish
+  linearity and exact commutation with a fixed right feature factor;
+- `finalResidual_eq_conditionRows_add_mul` and its sampled form transport any
+  initial identity `K = E + L*R` through an arbitrary selected prefix without
+  enlarging the feature dimension;
+- `positiveSeriesFermionicKernel_finalResidual_featureSplit` gives the
+  canonical rank-eight split for the positive-series fermionic kernel;
+- `conditionRows_rank_amplification` and
+  `positiveSeriesFermionicKernel_conditioned_rank_amplification` compose that
+  split with Phase BQ once the conditioned-tail coefficient signs are known.
+
+Result:
+
+- the algebraic compatibility premise of Phase BQ is now constructed rather
+  than assumed: every fermionic prefix has an exact conditioned-tail plus
+  rank-eight feature split;
+- the right feature factor is literally unchanged through the full prefix,
+  so earlier pivots do not consume the fresh determinant exponent;
+- the remaining sign premise is not automatic. In the exact finite
+  positive-Taylor regression, the first conditioned mixed coefficients have
+  signs `0, 0, +, -, +`; in particular the degree-three coefficient is
+  `-846159 / 4172800000000000`;
+- this rules out a direct reuse of the unconditioned coefficientwise-
+  nonnegative pencil. The promising replacement is a signed, alternating, or
+  real-rooted determinant-pencil theorem strong enough to compare the
+  physical and amplified values at the two positive weights actually used.
+
+Verification:
+
+- every new public theorem reports only the accepted Lean foundations in the
+  public axiom audit;
+- an exact `Fraction` regression follows three GECP pivots, checks the
+  companion split entrywise after every step, and verifies every `3 x 3`
+  minor of the conditioned rank-two low block vanishes;
+- `./scripts/verify.sh` passes with 104 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BQ contract: residual amplification bridge
 
