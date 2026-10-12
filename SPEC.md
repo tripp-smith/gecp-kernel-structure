@@ -2117,4 +2117,5 @@ This annotation records delivered identifiers without changing the goals above.
   direct total-nonnegativity proof is unavailable. The nine companion
   envelopes, residual half contraction, the dyadic recurrence, Conjecture G1,
   and Problem 4.2 remain open. The root command passes a 3,572-job Lean build
-  with 107 tests and no known dependency vulnerabilities.
+  with 107 tests and no known dependency vulnerabilities. Draft PR #77 is
+  open.

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BW contract: bordered-pencil linearization
 
-State: verified locally; pull request pending.
+State: verified locally; draft PR #77 open.
 
 Phase BV identifies the surviving signed Plücker sum with a coefficient of
 `det(mu • (U*V) + A*B)`. Expanding that coefficient returns to the cancelling
