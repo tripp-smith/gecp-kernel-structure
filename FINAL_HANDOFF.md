@@ -143,6 +143,16 @@ each Plücker coordinate. The root command passes a 3,571-job Lean build with
 107 tests and no known dependency vulnerabilities; the change passed CI and
 merged as PR #76.
 
+Post-v1 Phase BW linearizes the whole Phase BV determinant pencil before any
+coefficient expansion. The block matrix with corners `1`, `V`, `-mu • U`,
+and `B` has determinant `det(mu • (U*V) + B)` without invertibility
+assumptions, so every Phase BS finite weight is now one bordered determinant.
+Exact rational checks cover weight one and all nine norming weights. A
+negative four-cycle across the four blocks is unchanged by row/column sign
+gauges, so this bordered matrix cannot be made entrywise nonnegative and a
+naive total-positivity proof is impossible. The remaining route must control
+the global determinant through cancellation-preserving structure.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -495,6 +505,9 @@ git status --short
 - Phase BV proves the aggregate graded-pairing identity, but the observed
   positivity of that mixed-column coefficient is not yet a theorem for
   arbitrary fermionic prefixes.
+- Phase BW proves a single-determinant linearization at every required weight,
+  but its exact signed four-cycle obstruction rules out making the bordered
+  matrix totally nonnegative by row and column sign changes.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -569,13 +582,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove positivity of the single full-fixed-degree coefficient isolated by
-Phase BV. Work at the compound-matrix level: seek either a sign-reversing
-involution that pairs the exceptional Plücker coordinates with dominating
-positive coordinates, or a stable/Lorentzian determinant-pencil theorem whose
-coefficient inequalities survive the Schur prefix. The exact 2-of-56 witness
-is the regression boundary for any candidate argument. Once this aggregate
-coefficient is nonnegative at the nine Phase BS weights
-`56, 65, ..., 128`, use the finite-weight norming theorem to obtain the
-order-eighteen half contraction, then iterate across the
-`O(log Lambda)` dyadic levels toward Conjecture G1 and Simons Problem 4.2.
+Control the bordered determinant from Phase BW as a whole. The negative signed
+four-cycle rules out a row/column gauge into the ordinary totally nonnegative
+cone, so the most promising replacements are a planar-network construction
+whose path cancellation is built into the determinant, a complementary-minor
+identity reducing it to a known positive kernel minor, or a mixed-discriminant
+inequality stable under the Schur prefix. The exact 2-of-56 coordinate witness
+and all ten bordered-weight identities are regression boundaries. A uniform
+envelope at `56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen
+half contraction; iterating that block across `O(log Lambda)` dyadic levels
+then targets Conjecture G1 and Simons Problem 4.2.

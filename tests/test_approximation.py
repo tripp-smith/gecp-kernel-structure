@@ -1956,6 +1956,43 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     )
     assert graded_pairing > 0
 
+    # Linearize every finite weight as one bordered determinant.  The signed
+    # four-cycle also rules out repairing these matrices by a fixed row/column
+    # sign gauge into an entrywise-nonnegative (hence totally nonnegative)
+    # matrix.
+    finite_weights = (1, 56, 65, 74, 83, 92, 101, 110, 119, 128)
+    order = len(augmented_rows)
+    for weight in finite_weights:
+        rank_update = [
+            [feature_product[i][j] + weight * fixed_product[i][j] for j in range(order)]
+            for i in range(order)
+        ]
+        bordered = [
+            [
+                Fraction(i == j)
+                if j < prefix_length
+                else fixed_right[i][j - prefix_length]
+                for j in range(prefix_length + order)
+            ]
+            for i in range(prefix_length)
+        ] + [
+            [
+                -weight * fixed_left[i][j]
+                if j < prefix_length
+                else feature_product[i][j - prefix_length]
+                for j in range(prefix_length + order)
+            ]
+            for i in range(order)
+        ]
+        assert fraction_determinant(bordered) == fraction_determinant(rank_update)
+        sign_cycle = (
+            bordered[0][0]
+            * bordered[0][prefix_length]
+            * bordered[prefix_length][0]
+            * bordered[prefix_length][prefix_length]
+        )
+        assert sign_cycle < 0
+
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)

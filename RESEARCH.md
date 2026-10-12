@@ -5092,6 +5092,77 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BW contract: bordered-pencil linearization
+
+State: verified locally; draft PR #77 open.
+
+Phase BV identifies the surviving signed Plücker sum with a coefficient of
+`det(mu • (U*V) + A*B)`. Expanding that coefficient returns to the cancelling
+coordinates. A standard linearization from mixed-discriminant and systems
+theory instead embeds the entire pencil into one bordered determinant with an
+identity corner. This keeps all cancellations internal and creates a single
+matrix on which total-positivity, planar-network, or Schur-complement methods
+can operate.
+
+Frozen public Lean targets:
+
+- define the bordered rank-update pencil with blocks `1`, `V`, `-mu • U`,
+  and `B`;
+- prove its determinant is exactly `det(mu • (U*V) + B)` without any
+  invertibility hypothesis;
+- compose the identity with Phase BV's combined fixed-plus-feature matrices
+  and the existing block-feature polynomial;
+- expose the result as a reusable linearization of every finite weight needed
+  by Phase BS.
+
+Independent check:
+
+- verify the bordered determinant identity in exact rational arithmetic on
+  the Phase BV three-pivot witness at weights `1, 56, 65, ..., 128`;
+- preserve the exact 2-of-56 coordinate-sign obstruction while confirming
+  that the unexpanded bordered determinant agrees at every weight;
+- test whether a fixed row/column sign gauge makes the bordered matrices
+  totally nonnegative; if not, record the obstruction and keep the next target
+  at the aggregate determinant level.
+
+Decision rule:
+
+- use Mathlib's Schur-complement determinant identity with the identity block;
+- do not assume `B`, `U`, `V`, or any selected core is invertible;
+- prefer one determinant identity over another coordinate expansion.
+
+Non-claims:
+
+- this phase does not prove positivity or the required envelope for the
+  bordered determinant;
+- it does not prove the nine Phase BS companion envelopes, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `borderedRankUpdatePencil` places `1`, `V`, `-mu • U`, and `B` in one
+  square block matrix;
+- `borderedRankUpdatePencil_det` proves its determinant is exactly
+  `det(mu • (U*V) + B)` without invertibility assumptions;
+- `mixedColumnPolynomial_eval_eq_borderedRankUpdatePencil` and
+  `blockFeaturePolynomial_eval_eq_borderedRankUpdatePencil` connect the
+  generic and Phase BV graded polynomials to that single determinant;
+- exact rational arithmetic checks the identity at weight one and all nine
+  Phase BS weights `56, 65, ..., 128` on the Phase BV witness;
+- a negative four-cycle involving the identity, positive `V`, negative `U`,
+  and positive low block is invariant under row/column sign changes, proving
+  that no such gauge can make the bordered matrix entrywise nonnegative;
+- `./scripts/verify.sh` passes a 3,572-job Lean build, the public axiom audit,
+  107 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Exploit the bordered determinant without demanding total nonnegativity of its
+entries. The signed four-cycle points toward a cancellation-preserving planar
+network, a complementary-minor identity, or a mixed-discriminant inequality.
+Any next abstraction should target the determinant or its Schur complement as
+a whole and retain the exact finite-weight envelope required by Phase BS.
+
 ## Phase BV contract: graded Plücker pairing
 
 State: complete; merged as PR #76 with green CI.

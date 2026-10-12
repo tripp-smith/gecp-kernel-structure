@@ -2105,3 +2105,17 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,571-job Lean build with
   107 tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #76.
+- Post-v1 research phase BW: verified locally on 2026-10-12.
+  `borderedRankUpdatePencil_det` linearizes
+  `det(mu • (U*V) + B)` as the determinant of the block matrix with corners
+  `1`, `V`, `-mu • U`, and `B`, without invertibility assumptions. The mixed-
+  column and Phase BV block-feature polynomials inherit this representation at
+  every weight. Exact rational arithmetic verifies the identity at weight one
+  and all nine Phase BS weights on the three-pivot witness. A negative signed
+  four-cycle is invariant under row/column sign changes and proves that the
+  bordered matrix cannot be gauged into an entrywise-nonnegative matrix, so a
+  direct total-nonnegativity proof is unavailable. The nine companion
+  envelopes, residual half contraction, the dyadic recurrence, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes a 3,572-job Lean build
+  with 107 tests and no known dependency vulnerabilities. Draft PR #77 is
+  open.

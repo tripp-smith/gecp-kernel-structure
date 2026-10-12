@@ -442,6 +442,16 @@ polynomial APIs after generalizing from real matrices to a commutative ring.
 The fermionic sign obstruction and the search for positivity of the aggregate
 pairing are project-specific.
 
+Phase BW packages the elementary identity
+`det(fromBlocks 1 V (-mu • U) B) = det(mu • (U*V) + B)` and composes it with
+the repository's determinant-polynomial APIs. The determinant equality itself
+is a short specialization of Mathlib's existing `det_fromBlocks_one₁₁`; the
+reusable value is the named rank-update linearization and its bridges to
+mixed-column and graded block-feature polynomials. If proposed upstream, it
+should be generalized to a commutative ring and placed near the
+Weinstein--Aronszajn identities. The sign-cycle obstruction and fermionic
+finite weights remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

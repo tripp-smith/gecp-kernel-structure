@@ -447,6 +447,9 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.weightedCombinedFeatureProduct
 #print axioms Matrix.fixedBlockPluckerPairing_eq_mixedColumnCoefficient
 #print axioms Matrix.fixedBlockPluckerPairing_eq_sum
+#print axioms Matrix.borderedRankUpdatePencil_det
+#print axioms Matrix.mixedColumnPolynomial_eval_eq_borderedRankUpdatePencil
+#print axioms Matrix.blockFeaturePolynomial_eval_eq_borderedRankUpdatePencil
 #print axioms GECPKernelStructure.Fermionic.normalizedTruncatedPowerKernel_zero_eq_strictOrderKernel
 #print axioms GECPKernelStructure.Fermionic.strictOrderKernel_minor_det_eq_zero_or_one
 #print axioms GECPKernelStructure.Fermionic.strictOrderKernel_totallyNonnegative
