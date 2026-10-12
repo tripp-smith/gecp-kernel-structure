@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BX contract: double-bordered companion determinant
 
-State: verified locally; pull request pending.
+State: verified locally; draft PR #78 open.
 
 Phase BW linearizes a rank-update pencil, but Phase BS requires bounds on the
 amplified conditioned tail plus the conditioned rank-eight block. For a fixed

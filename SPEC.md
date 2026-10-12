@@ -2132,4 +2132,4 @@ This annotation records delivered identifiers without changing the goals above.
   `Run.conditionBoth`, the normalized double-border envelope, residual half
   contraction, the dyadic recurrence, Conjecture G1, and Problem 4.2 remain
   open. The root command passes a 3,573-job Lean build with 107 tests and no
-  known dependency vulnerabilities.
+  known dependency vulnerabilities. Draft PR #78 is open.
