@@ -934,6 +934,20 @@ pivots.
   a 3,568-job Lean build with 106 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #74.
 
+- Phase BU identifies the exact Plücker coordinates behind Phase BT's sign
+  evidence. A left conditioned feature minor equals an original selected-core
+  determinant bordered by left feature columns, divided algebraically by the
+  selected core; the right feature minor has the transposed identity.
+  Multiplying them makes the selected-core determinant a square, so every
+  conditioned matched-minor sign is equivalent to the sign of a product of
+  two original bordered determinants. The fermionic specialization exposes
+  this equivalence term by term in the ordered Cauchy--Binet expansion. Exact
+  arithmetic verifies 2,382 left, right, and product identities. The remaining
+  factors are confluent exponential determinants: `t^d/d!` and the
+  denominator-scaled `omega^d` features arise from derivatives at exponential
+  parameter zero. The root command passes a 3,570-job Lean build with 106
+  tests and no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

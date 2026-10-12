@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BU contract: companion Plücker factorization
 
-State: in progress.
+State: verified locally on 2026-10-12; pull request pending.
 
 Phase BT shows that the conditioned low block factors through separately
 projected left and right features, and exact evidence suggests their matched
@@ -5139,6 +5139,49 @@ Non-claims:
   determinants or all-orders matched-minor coherence;
 - it does not prove the nine Phase BS companion envelopes, residual half
   contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `GECP.Run.leftFeatureColumn`, `leftFeatureCore`, `rightFeatureRow`, and
+  `rightFeatureCore`;
+- `leftFeatureCore_step_det` and `rightFeatureCore_step_det`;
+- `leftFeatureCore_det_eq_selectedCore_det_mul_conditionRows_minor`;
+- `rightFeatureCore_det_eq_selectedCore_det_mul_conditionColumns_minor`;
+- `leftFeatureCore_det_mul_rightFeatureCore_det`;
+- `positiveSeriesLowLeft_featureCore_det` and
+  `positiveSeriesLowRight_featureCore_det`;
+- `positiveSeriesConditionedLow_core_sq_mul_signedTerm`;
+- `positiveSeriesConditionedLow_signedTerm_nonneg_iff`.
+
+Result:
+
+- every left or right conditioned feature minor is exactly its original
+  feature-augmented determinant divided algebraically by the nonzero selected
+  core, with the proof performed by elementary elimination rather than an
+  inverse;
+- multiplying matched left/right identities makes the selected-core factor a
+  square, so its pivot-order sign disappears;
+- for the positive-series rank-eight features, nonnegativity of every
+  conditioned signed Cauchy--Binet term is equivalent to nonnegativity of the
+  corresponding product of two original bordered determinants;
+- the remaining sign problem is therefore unconditioned. Each bordered
+  family mixes exponential columns or rows with monomials, and the monomials
+  are confluent derivatives of the exponential family at parameter zero.
+
+Independent checks:
+
+- exact `Fraction` arithmetic verifies 2,382 left, right, and matched-product
+  determinant identities over the Phase BT witness and deterministic
+  randomized multi-pivot finite positive-Taylor runs;
+- every tested feature subset is enumerated at each tested minor order, and
+  the earlier 2,760-sample two-sided sign regression remains intact.
+
+Verification:
+
+- every new public theorem reports only the accepted Lean foundations in the
+  axiom audit, with no `sorry`, `admit`, or custom axiom;
+- `./scripts/verify.sh` passes a 3,570-job Lean build, 106 Python tests, and
+  the dependency audit with no known vulnerabilities.
 
 ## Phase BT contract: two-sided companion projection
 

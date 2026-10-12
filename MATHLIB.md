@@ -422,6 +422,16 @@ operations as linear maps and state their product compatibility over a field.
 The fermionic rank-eight split, exact sign search, and proposed matched-minor
 orientation theorem remain project-specific.
 
+Phase BU adds rectangular Schur-complement identities for feature-augmented
+cores. They are Plücker-coordinate versions of Gaussian elimination: a minor
+of the projected left or right feature factor equals a bordered original
+determinant divided by the selected-core determinant, and a matched product
+contains the square of that core. These are plausible general-purpose lemmas
+for a matrix Schur-complement or Grassmannian API, generalized from fields and
+the repository's dependent `GECP.Run` encoding. The next confluent-
+exponential sign specialization belongs with total positivity or extended
+complete Chebyshev systems rather than with the generic elimination API.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
