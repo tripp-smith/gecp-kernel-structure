@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 
-State: verified; draft PR #73.
+State: complete; merged as PR #73 with green CI.
 
 Phase BR reduces the restart problem to a rank-eight determinant pencil, but
 its exact regression shows that conditioning can make individual mixed-column
@@ -5183,7 +5183,7 @@ Verification:
   `+128` amplification, a negative-discriminant conditioned pencil, and the
   surviving nine-weight certificate;
 - `./scripts/verify.sh` passes with 105 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #73.
 
 ## Phase BR contract: Schur-aware feature elimination
 
