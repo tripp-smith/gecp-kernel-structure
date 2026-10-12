@@ -5092,6 +5092,54 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BU contract: companion Plücker factorization
+
+State: in progress.
+
+Phase BT shows that the conditioned low block factors through separately
+projected left and right features, and exact evidence suggests their matched
+minors acquire opposite sign changes which cancel in each Cauchy--Binet term.
+The natural exact invariant comes from Schur-complement and Grassmannian
+geometry: a conditioned feature minor should be the corresponding original
+feature-bordered determinant divided by the selected-core determinant.
+
+Frozen public Lean targets:
+
+- define a left feature-augmented core whose selected columns come from the
+  pivoting kernel and whose finite border columns come from an arbitrary left
+  companion factor;
+- define the transposed right analogue with selected kernel rows and arbitrary
+  right companion feature rows;
+- prove both determinant factorizations through `run.selectedCore.det` and
+  the sampled minors of `run.conditionRows` and `run.conditionColumns`;
+- combine the two formulas into an exact matched-product identity with the
+  square of the selected-core determinant;
+- specialize the interface to the positive-series fermionic left and right
+  rank-eight features.
+
+Independent check:
+
+- use exact `Fraction` arithmetic across multi-pivot finite positive-Taylor
+  runs to compare both augmented determinants with the conditioned minors;
+- verify the matched-product identity for every feature subset of each tested
+  order, including the Phase BT mixed-sign witness.
+
+Decision rule:
+
+- define the feature-augmented cores recursively in pivot order so the proof
+  uses elementary elimination and never an explicit inverse;
+- keep row and column identities separate until their determinant signs and
+  index orientations are explicit;
+- treat the formulas as Plücker-coordinate identities only after exact
+  determinant equalities are proved.
+
+Non-claims:
+
+- this phase does not prove the signs of the original bordered feature
+  determinants or all-orders matched-minor coherence;
+- it does not prove the nine Phase BS companion envelopes, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BT contract: two-sided companion projection
 
 State: complete; merged as PR #74 with green CI.
