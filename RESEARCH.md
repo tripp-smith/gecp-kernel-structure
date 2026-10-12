@@ -4851,7 +4851,7 @@ Verification:
 
 ## Phase BN contract: positive-series GECP composition
 
-State: verified locally; delivery pending.
+State: verified locally; draft PR #68 open.
 
 Phase BM supplies exponential determinant decay for ordered samples of the
 reflected positive-series kernel, while Phase T bounds a complete-pivot
