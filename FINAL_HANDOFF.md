@@ -203,7 +203,7 @@ not represented by the completed goal counter.
 | BM — total-positive Hadamard envelope | complete; green CI | merged [PR #67](https://github.com/tripp-smith/gecp-kernel-structure/pull/67) |
 | BN — positive-series GECP composition | complete; green CI | merged [PR #68](https://github.com/tripp-smith/gecp-kernel-structure/pull/68) |
 | BO — signed unit-band amplification | complete; green CI | merged [PR #69](https://github.com/tripp-smith/gecp-kernel-structure/pull/69) |
-| BP — translated unit-band amplification | verified locally | [draft PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) |
+| BP — translated unit-band amplification | complete; green CI | merged [PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

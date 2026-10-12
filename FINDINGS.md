@@ -871,7 +871,7 @@ pivots.
   checks centers `-8`, `-2`, `3`, and `9`. This is an original-kernel local
   block, not yet a restart theorem for a residual conditioned by earlier
   pivots. The root command passes with 102 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #70.
 
 ## Run provenance
 

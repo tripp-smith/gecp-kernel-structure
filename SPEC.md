@@ -2020,4 +2020,4 @@ This annotation records delivered identifiers without changing the goals above.
   `[0,1] x [center-1,center+1]`. Restarting this theorem after an earlier
   selected core, the shrinking-band recurrence, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 102 tests and no known
-  dependency vulnerabilities.
+  dependency vulnerabilities. The change passed CI and merged as PR #70.

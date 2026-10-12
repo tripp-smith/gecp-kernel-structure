@@ -5006,7 +5006,7 @@ Verification:
 
 ## Phase BP contract: translated unit-band amplification
 
-State: verified locally; opened as draft PR #70.
+State: complete; merged as PR #70 with green CI.
 
 Phase BO centers its affine positive coordinate at frequency zero, but none of
 the tail-amplification constants should depend on that center.  For an
@@ -5090,7 +5090,7 @@ Verification:
   selected determinant bound, and twelve-step residual at centers `-8`, `-2`,
   `3`, and `9`;
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #70.
 
 ## Phase BI contract: mixed-column coefficient bridge
 
