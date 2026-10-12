@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BT contract: two-sided companion projection
 
-State: verified locally on 2026-10-12; pull request pending.
+State: verified locally on 2026-10-12; draft PR #74.
 
 Phase BS leaves nine determinant envelopes for the one-sided conditioned
 companion. Exact searches show that those envelopes are plausible, but the

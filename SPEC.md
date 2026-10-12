@@ -2060,8 +2060,8 @@ This annotation records delivered identifiers without changing the goals above.
   certificate. The nine companion envelopes, dyadic iteration, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 105 tests and no
   known dependency vulnerabilities. The change passed CI and merged as PR #73.
-- Post-v1 research phase BT: verified locally on 2026-10-12; pull request
-  pending. `GECP.companionBiUpdate` applies both fixed oblique pivot
+- Post-v1 research phase BT: verified locally on 2026-10-12; draft PR #74.
+  `GECP.companionBiUpdate` applies both fixed oblique pivot
   projectors to a companion, recovers the ordinary Schur update under
   self-application, annihilates the selected row and column, and transports
   `L*R` as separately conditioned feature factors. Its iteration through
