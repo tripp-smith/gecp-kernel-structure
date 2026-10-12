@@ -2,6 +2,7 @@ import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.Matrix.CauchyBinet
 import GECPKernelStructure.Matrix.BlockFeatureCauchyBinet
 import GECPKernelStructure.Matrix.MixedColumnCoefficients
+import GECPKernelStructure.Matrix.GradedPluckerPairing
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign

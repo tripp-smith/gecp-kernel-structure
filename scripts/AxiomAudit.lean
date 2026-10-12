@@ -440,6 +440,13 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.positiveSeriesLowRight_featureCore_det
 #print axioms GECPKernelStructure.Fermionic.positiveSeriesConditionedLow_core_sq_mul_signedTerm
 #print axioms GECPKernelStructure.Fermionic.positiveSeriesConditionedLow_signedTerm_nonneg_iff
+#print axioms Matrix.isFixedCoordinate_castAdd
+#print axioms Matrix.not_isFixedCoordinate_natAdd
+#print axioms Matrix.highFeatureLeft_combined_mul
+#print axioms Matrix.lowFeatureLeft_combined_mul
+#print axioms Matrix.weightedCombinedFeatureProduct
+#print axioms Matrix.fixedBlockPluckerPairing_eq_mixedColumnCoefficient
+#print axioms Matrix.fixedBlockPluckerPairing_eq_sum
 #print axioms GECPKernelStructure.Fermionic.normalizedTruncatedPowerKernel_zero_eq_strictOrderKernel
 #print axioms GECPKernelStructure.Fermionic.strictOrderKernel_minor_det_eq_zero_or_one
 #print axioms GECPKernelStructure.Fermionic.strictOrderKernel_totallyNonnegative

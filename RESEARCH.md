@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BV contract: graded Plücker pairing
 
-State: in progress.
+State: verified locally; pull request pending.
 
 Phase BU converts conditioned matched terms into products of original
 feature-bordered determinants. A stronger exact search then falsifies the
@@ -5141,6 +5141,31 @@ Non-claims:
   fermionic prefixes;
 - it does not prove the nine Phase BS companion envelopes, residual half
   contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `combinedFeatureLeft` and `combinedFeatureRight` adjoin a fixed block to an
+  arbitrary rectangular feature factorization;
+- `weightedCombinedFeatureProduct` identifies fixed-coordinate weighting with
+  the physical pencil `mu • (U*V) + A*B`;
+- `fixedBlockPluckerPairing_eq_mixedColumnCoefficient` and
+  `fixedBlockPluckerPairing_eq_sum` identify its full-fixed-degree coefficient
+  with the surviving signed ordered Cauchy--Binet sum;
+- the exact three-pivot witness recovers selected rows `[6,0,3]`, selected
+  columns `[6,0,2]`, and 2 negative versus 54 positive feature-coordinate
+  products, while their total is positive and exactly equals the degree-three
+  mixed-column coefficient;
+- `./scripts/verify.sh` passes a 3,571-job Lean build, the public axiom audit,
+  107 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Treat coefficient positivity as a single compound-matrix pairing problem.
+The most promising mechanisms are a sign-reversing cancellation/involution on
+the exceptional Plücker coordinates, or a stability/Lorentzian property of
+the determinant pencil strong enough to control its full-fixed-degree
+coefficient. Coordinatewise total positivity is ruled out by the exact
+witness and should not be revisited without a genuinely stronger invariant.
 
 ## Phase BU contract: companion Plücker factorization
 

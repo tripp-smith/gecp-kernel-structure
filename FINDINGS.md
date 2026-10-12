@@ -949,6 +949,21 @@ pivots.
   tests and no known dependency vulnerabilities. The change passed CI and
   merged as PR #75.
 
+- Phase BV shows that the termwise route from Phase BU is false but that its
+  invariant sum survives. In the exact positive-unit finite-Taylor witness,
+  three complete pivots select rows `[6,0,3]` and columns `[6,0,2]`; among the
+  56 order-three feature subsets, exactly two products of left and right
+  bordered determinants have the opposite sign. Adjoining the fixed pivot
+  blocks `U,V` to arbitrary feature factors `A,B` instead packages all of
+  those products into one graded Cauchy--Binet coefficient. Lean proves that
+  weighting the fixed coordinates gives `mu • (U*V) + A*B` and that the
+  full-fixed-degree Plücker pairing is exactly the corresponding mixed-column
+  coefficient. The witness verifies the signed sum identity and a positive
+  total without discarding the two negative coordinates. The root command
+  passes a 3,571-job Lean build with 107 tests and no known dependency
+  vulnerabilities. Positivity of the full coefficient for arbitrary
+  fermionic prefixes remains the analytic target.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

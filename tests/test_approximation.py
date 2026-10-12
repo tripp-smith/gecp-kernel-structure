@@ -1808,6 +1808,155 @@ def test_two_sided_projection_and_plucker_factorization_exactly() -> None:
     assert checked_plucker == 2382
 
 
+def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
+    def finite_exp(value: Fraction, terms: int = 14) -> Fraction:
+        return sum(
+            (value**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def row_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - pivot_matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def mixed_coefficient(
+        high: list[list[Fraction]],
+        low: list[list[Fraction]],
+        degree: int,
+    ) -> Fraction:
+        order = len(high)
+        return sum(
+            (
+                fraction_determinant(
+                    [
+                        [
+                            high[i][j] if j in selected else low[i][j]
+                            for j in range(order)
+                        ]
+                        for i in range(order)
+                    ]
+                )
+                for selected_tuple in itertools.combinations(range(order), degree)
+                for selected in [set(selected_tuple)]
+            ),
+            Fraction(),
+        )
+
+    denominator = 17
+    row_values = (3, 5, 6, 12, 13, 15, 17)
+    column_values = (1, 7, 11, 12, 13, 16, 17)
+    rows = tuple(Fraction(value, denominator) for value in row_values)
+    columns = tuple(Fraction(value, denominator) for value in column_values)
+    size = len(rows)
+    feature_count = 8
+    prefix_length = 3
+
+    original = [[finite_exp(x * y) for y in columns] for x in rows]
+    left = [
+        [x**degree / math.factorial(degree) for degree in range(feature_count)]
+        for x in rows
+    ]
+    right = [[y**degree for y in columns] for degree in range(feature_count)]
+    residual = [line[:] for line in original]
+    selected_rows: list[int] = []
+    selected_columns: list[int] = []
+    for _ in range(prefix_length):
+        _, _, _, pivot_row, pivot_column = max(
+            (
+                abs(residual[i][j]),
+                -i,
+                -j,
+                i,
+                j,
+            )
+            for i in range(size)
+            for j in range(size)
+            if i not in selected_rows and j not in selected_columns
+        )
+        residual = row_condition(residual, residual, pivot_row, pivot_column)
+        selected_rows.append(pivot_row)
+        selected_columns.append(pivot_column)
+
+    assert selected_rows == [6, 0, 3]
+    assert selected_columns == [6, 0, 2]
+    fresh_rows = (1, 2, 4)
+    fresh_columns = (3, 4, 5)
+    augmented_rows = (*selected_rows, *fresh_rows)
+    augmented_columns = (*selected_columns, *fresh_columns)
+
+    products: list[Fraction] = []
+    for features in itertools.combinations(range(feature_count), len(fresh_rows)):
+        left_core = [
+            [
+                original[i][selected_columns[j]]
+                if j < prefix_length
+                else left[i][features[j - prefix_length]]
+                for j in range(prefix_length + len(features))
+            ]
+            for i in augmented_rows
+        ]
+        right_core = [
+            [
+                original[selected_rows[i]][j]
+                if i < prefix_length
+                else right[features[i - prefix_length]][j]
+                for j in augmented_columns
+            ]
+            for i in range(prefix_length + len(features))
+        ]
+        products.append(
+            fraction_determinant(left_core) * fraction_determinant(right_core)
+        )
+
+    assert len(products) == math.comb(feature_count, len(fresh_rows)) == 56
+    assert sum(product < 0 for product in products) == 2
+    assert sum(product > 0 for product in products) == 54
+
+    fixed_left = [[original[i][j] for j in selected_columns] for i in augmented_rows]
+    fixed_right = [[original[i][j] for j in augmented_columns] for i in selected_rows]
+    feature_left = [
+        [left[i][degree] for degree in range(feature_count)] for i in augmented_rows
+    ]
+    feature_right = [
+        [right[degree][j] for j in augmented_columns] for degree in range(feature_count)
+    ]
+    fixed_product = multiply(fixed_left, fixed_right)
+    feature_product = multiply(feature_left, feature_right)
+    graded_pairing = sum(products, Fraction())
+
+    assert graded_pairing == mixed_coefficient(
+        fixed_product, feature_product, prefix_length
+    )
+    assert graded_pairing > 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)
