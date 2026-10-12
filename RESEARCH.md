@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BQ contract: residual amplification bridge
 
-State: verified locally on 2026-10-12; draft PR #71 open.
+State: complete; merged as PR #71 with green CI.
 
 Phase BP supplies a center-uniform local determinant contraction for the
 original kernel.  Restarting it after earlier pivots is not an exceptional-
@@ -5166,7 +5166,8 @@ Verification:
   compatible one-pivot residual split, coefficient signs, rank amplification,
   and the augmented/residual determinant identity;
 - `./scripts/verify.sh` passes all 3,563 Lean jobs and 103 Python tests with no
-  known dependency vulnerabilities.
+  known dependency vulnerabilities; the change passed CI and merged as PR
+  #71.
 
 Decision rule:
 

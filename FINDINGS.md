@@ -885,7 +885,8 @@ pivots.
   the selected core only as a multiplicative factor. The remaining analytic
   target is now exact and unavoidable: construct such a compatible split for
   arbitrary fermionic final residuals. The root command passes with 103 tests
-  and no known dependency vulnerabilities.
+  and no known dependency vulnerabilities. The change passed CI and merged as
+  PR #71.
 
 ## Run provenance
 
