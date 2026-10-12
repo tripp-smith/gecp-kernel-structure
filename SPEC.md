@@ -2033,7 +2033,7 @@ This annotation records delivered identifiers without changing the goals above.
   residual split, dyadic iteration, Conjecture G1, and Problem 4.2 remain open.
   The root command passes with 103 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #71.
-- Post-v1 research phase BR: verified locally on 2026-10-12; PR pending.
+- Post-v1 research phase BR: verified on 2026-10-12; draft PR #72.
   `GECP.Run.conditionRows` applies the coefficients of a fixed GECP prefix
   linearly to an arbitrary companion matrix, and its additivity, scalar, and
   right-multiplication laws prove the exact transport identity

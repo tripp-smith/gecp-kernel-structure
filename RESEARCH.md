@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BR contract: Schur-aware feature elimination
 
-State: verified locally; PR pending.
+State: verified; draft PR #72.
 
 Phase BQ leaves one exact premise: the final residual sample must be written as
 a conditioned tail plus a uniformly low-rank block.  The Schur update is
