@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BV contract: graded Plücker pairing
 
-State: verified locally; pull request pending.
+State: verified locally; draft PR #76 open.
 
 Phase BU converts conditioned matched terms into products of original
 feature-bordered determinants. A stronger exact search then falsifies the
