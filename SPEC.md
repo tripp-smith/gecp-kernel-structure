@@ -2033,3 +2033,17 @@ This annotation records delivered identifiers without changing the goals above.
   residual split, dyadic iteration, Conjecture G1, and Problem 4.2 remain open.
   The root command passes with 103 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #71.
+- Post-v1 research phase BR: verified on 2026-10-12; draft PR #72.
+  `GECP.Run.conditionRows` applies the coefficients of a fixed GECP prefix
+  linearly to an arbitrary companion matrix, and its additivity, scalar, and
+  right-multiplication laws prove the exact transport identity
+  `finalResidual = conditionRows(E) + conditionRows(L)*R` whenever
+  `K = E + L*R`. The positive-series fermionic specialization therefore
+  preserves its rank-eight right feature block through every prefix and
+  composes with Phase BQ under the remaining conditioned-tail sign premise.
+  An exact three-pivot regression verifies the identity and low-rank minors,
+  but also finds a negative degree-three mixed coefficient, disproving the
+  hoped-for automatic coefficientwise nonnegativity. A signed or real-rooted
+  determinant-pencil comparison, dyadic iteration, Conjecture G1, and Problem
+  4.2 remain open. The root command passes with 104 tests and no known
+  dependency vulnerabilities.

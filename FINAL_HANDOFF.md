@@ -89,6 +89,17 @@ longer an algebraic composition ambiguity: it is the analytic construction of
 a compatible split, with nonnegative mixed coefficients, for arbitrary
 fermionic final residuals.
 
+Post-v1 Phase BR constructs that compatible split exactly. The pivot
+coefficients of a fixed run define a linear companion row-conditioning
+operator which commutes with a fixed right feature factor. Consequently the
+positive-series fermionic decomposition remains a conditioned tail plus a
+rank-eight block after every prefix, with no prefix-length penalty in the
+Phase BQ exponent. Exact arithmetic also shows that conditioning does not
+preserve coefficientwise nonnegativity: a mixed coefficient becomes
+negative. The remaining analytic target is therefore a signed or real-rooted
+conditioned determinant-pencil comparison, not the previously anticipated
+all-nonnegative coefficient theorem.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -423,10 +434,11 @@ git status --short
   convergence proof.
 - The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
   cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
-- Phase BQ proves the restart theorem conditional on an exact compatible
-  low-rank-plus-tail split of the final residual. It does not yet construct
-  that split for arbitrary fermionic prefixes; the exact rational obstruction
-  shows that freezing only old columns cannot supply it.
+- Phase BR constructs the exact compatible low-rank-plus-tail split for every
+  fermionic prefix and preserves the rank-eight feature factor. It does not
+  prove the conditioned-tail amplification inequality: exact arithmetic shows
+  that the unconditioned coefficientwise-nonnegative premise can fail after
+  conditioning.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -501,12 +513,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Construct the premise of Phase BQ for the actual fermionic final residual.
-The most promising route is a Schur-aware feature decomposition: eliminate
-the selected prefix at the feature level, identify a residual low block of
-uniform rank, and prove nonnegativity of every mixed residual coefficient.
-The frozen-column witness rules out treating old columns as inert. Once this
-analytic split is available, compose it with the Phase BQ augmented-core
-theorem and the Phase BP width-two envelope, then iterate the resulting
-half-contraction over the `O(log Lambda)` dyadic levels toward Conjecture G1
-and Simons Problem 4.2.
+Prove a two-weight determinant comparison for the conditioned tail pencil.
+Phase BR supplies the exact rank-eight residual split, but its rational
+regression disproves coefficientwise nonnegativity after conditioning. The
+observed alternating coefficients suggest importing the language of
+real-rooted or stable polynomials: identify a sign normalization or
+generalized-eigenvalue/interlacing statement that compares the physical and
+weight-`128` pencil values without requiring every coefficient to be
+nonnegative. Compose that comparison with Phases BQ and BP, then iterate the
+resulting half-contraction across the `O(log Lambda)` dyadic levels toward
+Conjecture G1 and Simons Problem 4.2.

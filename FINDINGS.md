@@ -888,6 +888,22 @@ pivots.
   and no known dependency vulnerabilities. The change passed CI and merged as
   PR #71.
 
+- Phase BR constructs the compatible split left open by Phase BQ. A fixed
+  GECP run acts linearly on companion matrices, commutes with multiplication
+  by a fixed right feature factor, and therefore transports
+  `K = E + L*R` exactly to
+  `finalResidual = conditionRows(E) + conditionRows(L)*R`. Applied to the
+  positive-series fermionic decomposition, this preserves the rank-eight
+  feature block through an arbitrarily long selected prefix and feeds
+  directly into the Phase BQ amplification theorem. Exact three-pivot
+  arithmetic independently verifies the transported split and rank. It also
+  reveals the next obstruction: conditioned-tail mixed coefficients need not
+  remain nonnegative—the first example has signs `0, 0, +, -, +`. The next
+  useful invariant should therefore exploit alternating signs, real-rootedness,
+  or a direct two-weight determinant comparison rather than coefficientwise
+  positivity. The root command passes with 104 tests and no known dependency
+  vulnerabilities. Draft PR #72.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

@@ -1173,6 +1173,142 @@ def test_residual_amplification_bridge_and_frozen_column_obstruction() -> None:
     assert fraction_determinant(augmented) == fraction_determinant(residual)
 
 
+def test_schur_feature_elimination_preserves_right_feature_rank_exactly() -> None:
+    nodes = tuple(Fraction(index, 4) for index in range(5))
+    columns = tuple(Fraction(index, 5) for index in range(1, 6))
+
+    def finite_exp(x: Fraction) -> Fraction:
+        return sum(
+            (x**degree / math.factorial(degree) for degree in range(6)),
+            Fraction(),
+        )
+
+    original = [[finite_exp(row * column) for column in columns] for row in nodes]
+    left = [[Fraction(1), row] for row in nodes]
+    right = [[Fraction(1) for _ in columns], list(columns)]
+    tail = [
+        [
+            original[i][j]
+            - sum(left[i][feature] * right[feature][j] for feature in range(2))
+            for j in range(5)
+        ]
+        for i in range(5)
+    ]
+
+    def row_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - pivot_matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    residual = original
+    conditioned_tail = tail
+    conditioned_left = left
+    for step in range(3):
+        _, _, _, pivot_row, pivot_column = max(
+            (
+                abs(residual[i][j]),
+                -i,
+                -j,
+                i,
+                j,
+            )
+            for i in range(5)
+            for j in range(5)
+        )
+        next_residual = row_condition(residual, residual, pivot_row, pivot_column)
+        conditioned_tail = row_condition(
+            residual, conditioned_tail, pivot_row, pivot_column
+        )
+        conditioned_left = row_condition(
+            residual, conditioned_left, pivot_row, pivot_column
+        )
+        residual = next_residual
+
+        transported = [
+            [
+                conditioned_tail[i][j]
+                + sum(
+                    conditioned_left[i][feature] * right[feature][j]
+                    for feature in range(2)
+                )
+                for j in range(5)
+            ]
+            for i in range(5)
+        ]
+        assert transported == residual
+
+        if step == 0:
+            fresh_rows = [i for i in range(5) if i != pivot_row]
+            fresh_columns = [j for j in range(5) if j != pivot_column]
+            conditioned_low_now = [
+                [
+                    sum(
+                        conditioned_left[i][feature] * right[feature][j]
+                        for feature in range(2)
+                    )
+                    for j in fresh_columns
+                ]
+                for i in fresh_rows
+            ]
+            conditioned_tail_now = [
+                [conditioned_tail[i][j] for j in fresh_columns] for i in fresh_rows
+            ]
+            mixed_coefficients: list[Fraction] = []
+            for degree in range(5):
+                coefficient = Fraction()
+                for tail_columns_tuple in itertools.combinations(range(4), degree):
+                    tail_columns = set(tail_columns_tuple)
+                    coefficient += fraction_determinant(
+                        [
+                            [
+                                conditioned_tail_now[i][j]
+                                if j in tail_columns
+                                else conditioned_low_now[i][j]
+                                for j in range(4)
+                            ]
+                            for i in range(4)
+                        ]
+                    )
+                mixed_coefficients.append(coefficient)
+            assert mixed_coefficients == [
+                Fraction(),
+                Fraction(),
+                Fraction(777, 3338240000000),
+                -Fraction(846159, 4172800000000000),
+                Fraction(81, 260800000000000000),
+            ]
+
+    # The prefix may be arbitrarily long, but the transported low block still
+    # factors through the original two features, so every 3 x 3 minor vanishes.
+    conditioned_low = [
+        [
+            sum(
+                conditioned_left[i][feature] * right[feature][j] for feature in range(2)
+            )
+            for j in range(5)
+        ]
+        for i in range(5)
+    ]
+    for selected_rows in itertools.combinations(range(5), 3):
+        for selected_columns in itertools.combinations(range(5), 3):
+            minor = [
+                [conditioned_low[i][j] for j in selected_columns] for i in selected_rows
+            ]
+            assert fraction_determinant(minor) == 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)
