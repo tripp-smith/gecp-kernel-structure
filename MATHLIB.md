@@ -401,6 +401,17 @@ split remain project-specific. The exact negative mixed-coefficient witness
 also cautions against an upstream theorem claiming that arbitrary fixed Schur
 conditioning preserves coefficientwise nonnegativity of determinant pencils.
 
+Phase BS adds a reusable low-rank determinant-pencil norming pattern. If a
+matrix pencil has a rank-`k` background, its determinant has a forced zero of
+order `n-k`; after division, any norming set for degree `k` polynomials turns
+finitely many determinant bounds into a sign-free amplification theorem. The
+current implementation fixes `k = 8` and an integer Lagrange set optimized for
+the fermionic constants. An upstream abstraction could combine
+`Polynomial.X_pow_dvd_iff`, a general finite Lagrange basis, and
+`Matrix.mixedColumnPolynomial` over an ordered normed field. The specific
+weights, constant `518173`, and order-eighteen arithmetic remain
+project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -904,6 +904,20 @@ pivots.
   positivity. The root command passes with 104 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #72.
 
+- Phase BS removes the false analytic premise exposed by Phase BR. After the
+  rank-eight forced zero is factored out, every conditioned determinant pencil
+  has degree at most eight, regardless of its coefficient signs or roots.
+  Exact Lagrange interpolation at the nine weights `56, 65, ..., 128` gives a
+  norming constant below `518173`. Lean combines this with rank vanishing to
+  prove a sign-free determinant amplification theorem and the sharp usable
+  corollary: at fresh order eighteen, a `2^18` determinant envelope at each
+  norming weight forces the physical determinant below `2^-18`. Exact
+  arithmetic simultaneously exhibits failures of coefficient positivity,
+  real-rootedness, and single-weight `+128` domination, confirming that the
+  finite norming set is not cosmetic. The remaining target is the nine
+  constant-base companion envelopes. The root command passes with 105 tests
+  and no known dependency vulnerabilities. PR pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

@@ -2047,3 +2047,16 @@ This annotation records delivered identifiers without changing the goals above.
   determinant-pencil comparison, dyadic iteration, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 104 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #72.
+- Post-v1 research phase BS: verified locally on 2026-10-12; PR pending.
+  Rank-eight coefficient vanishing reduces every canonical conditioned
+  determinant pencil to degree at most eight after its forced zero is removed.
+  Exact Lagrange interpolation at weights `56, 65, ..., 128` therefore gives
+  a sign-free norming theorem with constant `518173`. At fresh order eighteen,
+  nine amplified determinant envelopes of size `2^18` imply the exact
+  physical determinant bound `2^-18`, and
+  `positiveSeriesFermionicKernel_conditioned_det_le_halfPow` connects this
+  directly to the Phase BR split. Exact regressions disprove real-rootedness
+  and domination at the single weight `128`, while verifying the finite-weight
+  certificate. The nine companion envelopes, dyadic iteration, Conjecture G1,
+  and Problem 4.2 remain open. The root command passes with 105 tests and no
+  known dependency vulnerabilities.

@@ -1309,6 +1309,183 @@ def test_schur_feature_elimination_preserves_right_feature_rank_exactly() -> Non
             assert fraction_determinant(minor) == 0
 
 
+def test_finite_weight_norming_replaces_conditioned_sign_and_root_assumptions() -> None:
+    nodes = tuple(56 + 9 * index for index in range(9))
+    denominator = 387420489
+    weights = tuple(
+        Fraction(numerator, denominator)
+        for numerator in (
+            1271136797320,
+            -8739065481575,
+            26815762573600,
+            -47745138240800,
+            53778864502000,
+            -39151013357456,
+            17959180439200,
+            -4739832125600,
+            550492313800,
+        )
+    )
+    for degree in range(9):
+        assert (
+            sum(
+                (
+                    weight * node**degree
+                    for weight, node in zip(weights, nodes, strict=True)
+                ),
+                Fraction(),
+            )
+            == 1
+        )
+    assert sum(map(abs, weights), Fraction()) < 518173
+    assert Fraction(518173) * 4**18 < Fraction(56) ** 10
+
+    def finite_exp(x: Fraction, terms: int = 9) -> Fraction:
+        return sum(
+            (x**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def row_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - pivot_matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def conditioned_pencil_coefficients(
+        row_numerators: tuple[int, ...],
+        column_numerators: tuple[int, ...],
+        grid_denominator: int,
+        low_terms: int,
+        prefix_length: int,
+        fresh_rows: tuple[int, ...],
+        fresh_columns: tuple[int, ...],
+    ) -> list[Fraction]:
+        rows = tuple(Fraction(value, grid_denominator) for value in row_numerators)
+        columns = tuple(
+            Fraction(value, grid_denominator) for value in column_numerators
+        )
+        size = len(rows)
+        original = [[finite_exp(x * y) for y in columns] for x in rows]
+        left = [
+            [x**degree / math.factorial(degree) for degree in range(low_terms)]
+            for x in rows
+        ]
+        right = [[y**degree for y in columns] for degree in range(low_terms)]
+        low = multiply(left, right)
+        tail = [[original[i][j] - low[i][j] for j in range(size)] for i in range(size)]
+        residual = original
+        conditioned_tail = tail
+        conditioned_left = left
+        selected_rows: set[int] = set()
+        selected_columns: set[int] = set()
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            conditioned_tail = row_condition(
+                residual, conditioned_tail, pivot_row, pivot_column
+            )
+            conditioned_left = row_condition(
+                residual, conditioned_left, pivot_row, pivot_column
+            )
+            residual = row_condition(residual, residual, pivot_row, pivot_column)
+            selected_rows.add(pivot_row)
+            selected_columns.add(pivot_column)
+        conditioned_low = multiply(conditioned_left, right)
+        order = len(fresh_rows)
+        coefficients: list[Fraction] = []
+        for degree in range(order + 1):
+            coefficient = Fraction()
+            for selected_tuple in itertools.combinations(range(order), degree):
+                selected = set(selected_tuple)
+                coefficient += fraction_determinant(
+                    [
+                        [
+                            conditioned_tail[fresh_rows[i]][fresh_columns[j]]
+                            if j in selected
+                            else conditioned_low[fresh_rows[i]][fresh_columns[j]]
+                            for j in range(order)
+                        ]
+                        for i in range(order)
+                    ]
+                )
+            coefficients.append(coefficient)
+        return coefficients
+
+    # A genuine conditioned positive-Taylor pencil can violate amplification
+    # at the single weight 128.
+    coefficients = conditioned_pencil_coefficients(
+        (0, 3, 4, 6, 7, 10, 13),
+        (1, 2, 3, 4, 6, 8, 13),
+        13,
+        1,
+        1,
+        (0, 3, 5),
+        (0, 1, 3),
+    )
+
+    def evaluate(values: list[Fraction], value: int) -> Fraction:
+        return sum(
+            (coefficient * value**degree for degree, coefficient in enumerate(values)),
+            Fraction(),
+        )
+
+    assert abs(evaluate(coefficients, 128)) < 128**2 * abs(evaluate(coefficients, 1))
+    norming_values = [abs(evaluate(coefficients, node)) for node in nodes]
+    assert 56**2 * abs(evaluate(coefficients, 1)) <= 518173 * max(norming_values)
+
+    # Real-rootedness also fails: after removing the forced quadratic zero,
+    # this exact quadratic has negative discriminant.
+    nonreal_coefficients = conditioned_pencil_coefficients(
+        (0, 2, 3, 4, 6, 7, 11),
+        (3, 5, 6, 7, 8, 9, 11),
+        11,
+        2,
+        2,
+        (1, 2, 3, 4),
+        (1, 2, 4, 5),
+    )
+    assert nonreal_coefficients[:2] == [0, 0]
+    quadratic = nonreal_coefficients[2:]
+    assert len(quadratic) == 3
+    assert quadratic[1] ** 2 - 4 * quadratic[0] * quadratic[2] < 0
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

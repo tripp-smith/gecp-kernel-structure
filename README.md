@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BS — finite-weight conditioned-pencil amplification<br>
-> **Phase state:** in progress<br>
-> **Last verification:** Phase BR `./scripts/verify.sh` passed with 104 tests and no known dependency vulnerabilities on 2026-10-12<br>
+> **Phase state:** verified locally; PR pending<br>
+> **Last verification:** Phase BS `./scripts/verify.sh` passed with 105 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BS contract frozen; implementation in progress<br>
-> **Claim level:** Phase BR constructs the canonical rank-eight final-residual split; Phase BS replaces the false coefficient-sign route by a sign-free, nine-weight interpolation certificate whose surviving analytic premise is a constant-base envelope for finitely many amplified companion residuals
+> **Delivery:** Phase BS implementation verified locally; PR pending<br>
+> **Claim level:** Phase BS replaces the false coefficient-sign and real-rootedness routes by a sign-free nine-weight norming theorem; nine constant-base amplified companion envelopes at fresh order 18 now suffice for a half contraction
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -88,7 +88,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BP | Translated unit-band amplification | complete | center-parametric affine shift; cutoff-uniform `2^n / 128^(n-8)` determinant envelope; twelve-pivot contraction on every width-two band | Lean build; public axiom audit; 180-digit centers `-8`, `-2`, `3`, and `9`; 102-test root verification; green CI | merged PR #70 |
 | BQ | Residual amplification bridge | complete | exact obstruction to one-sided frozen-column amplification; prefix-independent Schur-residual rank amplification and augmented-core composition | Lean build; public axiom audit; exact rational LU certificate and residual-split regression; 103-test root verification; green CI | merged PR #71 |
 | BR | Schur-aware feature elimination | complete | canonical linear row-conditioning operator; exact preservation of a right-feature low-rank factor through arbitrary GECP prefixes; BQ-ready residual split | Lean build; public axiom audit; exact three-pivot feature-transport and rank regression; 104-test root verification; green CI | merged PR #72 |
-| BS | Finite-weight conditioned-pencil amplification | in progress | degree-eight norming set for rank-eight determinant pencils; sign-free amplification from nine fixed weights; order-18 half-power reduction | pending | pending |
+| BS | Finite-weight conditioned-pencil amplification | verified | degree-eight norming set for rank-eight determinant pencils; sign-free amplification from nine fixed weights; order-18 half-power reduction | Lean build; public axiom audit; exact interpolation, obstruction, and norming regression; 105-test root verification | PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
