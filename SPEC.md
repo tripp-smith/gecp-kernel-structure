@@ -2089,3 +2089,18 @@ This annotation records delivered identifiers without changing the goals above.
   and Problem 4.2 remain open. The root command passes a 3,570-job Lean build
   with 106 tests and no known dependency vulnerabilities. The change passed
   CI and merged as PR #75.
+- Post-v1 research phase BV: verified locally on 2026-10-12.
+  `combinedFeatureLeft` and `combinedFeatureRight` adjoin fixed pivot blocks
+  to arbitrary feature factors, and `weightedCombinedFeatureProduct` proves
+  that marking those coordinates produces `mu • (U*V) + A*B`. Theorems
+  `fixedBlockPluckerPairing_eq_mixedColumnCoefficient` and
+  `fixedBlockPluckerPairing_eq_sum` identify the full-fixed-degree signed
+  Plücker pairing with one physical mixed-column determinant coefficient.
+  An exact three-pivot finite-Taylor witness has two negative and 54 positive
+  bordered-feature products while their signed total is positive and equals
+  that coefficient, disproving the Phase BU termwise-sign continuation while
+  preserving its invariant aggregate. Positivity of the aggregate for
+  arbitrary fermionic prefixes, the nine Phase BS companion envelopes,
+  residual half contraction, the dyadic recurrence, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,571-job Lean build with
+  107 tests and no known dependency vulnerabilities. Draft PR #76 is open.

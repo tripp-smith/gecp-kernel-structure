@@ -129,6 +129,18 @@ confluent exponential systems: the polynomial features are derivatives of
 the exponential family at parameter zero. Proving their oriented signs is the
 next analytic step.
 
+Post-v1 Phase BV corrects that proposed next step. An exact three-pivot
+finite-Taylor witness has two negative products among its 56 order-three
+bordered-feature coordinates, so coordinatewise confluent positivity is
+false. The complete signed sum nevertheless has a canonical invariant form:
+adjoin the selected kernel blocks `U,V` to the two feature factors `A,B`, mark
+the fixed coordinates, and take their full-degree block coefficient. Lean
+proves this is exactly the mixed-column coefficient of
+`det(mu • (U*V) + A*B)`. In the witness the coefficient equals the signed sum
+and remains positive. The open analytic problem is positivity of this
+aggregate graded pairing for arbitrary fermionic prefixes, not positivity of
+each Plücker coordinate.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -476,8 +488,11 @@ git status --short
   conditioned minor products is still numerical evidence rather than a
   theorem.
 - Phase BU proves the exact bordered-determinant sign equivalence, but it does
-  not yet prove the required oriented signs for the resulting confluent
-  exponential determinants.
+  not make the resulting products sign coherent; Phase BV gives an exact
+  counterexample with two negative products among 56 coordinates.
+- Phase BV proves the aggregate graded-pairing identity, but the observed
+  positivity of that mixed-column coefficient is not yet a theorem for
+  arbitrary fermionic prefixes.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -552,14 +567,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the oriented signs of the two original feature-bordered determinants
-from Phase BU. Treat the monomial features as confluent nodes of the strictly
-totally positive exponential kernel: approximate derivatives at parameter
-zero by divided differences at coalescing ordered nodes, prove the finite
-determinant sign before taking the limit, and retain strictness through the
-extended-Chebyshev/Wronskian structure where needed. The resulting paired sign
-theorem should make every conditioned rank-eight Cauchy--Binet term
-nonnegative. Feed it into the Phase BS companion envelopes at weights
-`56, 65, ..., 128`; Phase BS then supplies the order-eighteen half contraction
-automatically. Iterate that block across the `O(log Lambda)` dyadic levels
-toward Conjecture G1 and Simons Problem 4.2.
+Prove positivity of the single full-fixed-degree coefficient isolated by
+Phase BV. Work at the compound-matrix level: seek either a sign-reversing
+involution that pairs the exceptional Plücker coordinates with dominating
+positive coordinates, or a stable/Lorentzian determinant-pencil theorem whose
+coefficient inequalities survive the Schur prefix. The exact 2-of-56 witness
+is the regression boundary for any candidate argument. Once this aggregate
+coefficient is nonnegative at the nine Phase BS weights
+`56, 65, ..., 128`, use the finite-weight norming theorem to obtain the
+order-eighteen half contraction, then iterate across the
+`O(log Lambda)` dyadic levels toward Conjecture G1 and Simons Problem 4.2.

@@ -432,6 +432,16 @@ the repository's dependent `GECP.Run` encoding. The next confluent-
 exponential sign specialization belongs with total positivity or extended
 complete Chebyshev systems rather than with the generic elimination API.
 
+Phase BV adds a generic finite-matrix construction for adjoining a marked
+coordinate block to rectangular left and right factors. Its weighted product
+identity and coefficient theorem say that the full marked-degree ordered
+Cauchy--Binet sum is the matching mixed-column coefficient of
+`mu • (U*V) + A*B`. This is a compact exterior-power/compound-matrix bridge
+that could plausibly live near Mathlib's Cauchy--Binet and determinant
+polynomial APIs after generalizing from real matrices to a commutative ring.
+The fermionic sign obstruction and the search for positivity of the aggregate
+pairing are project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
