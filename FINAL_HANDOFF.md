@@ -100,6 +100,15 @@ negative. The remaining analytic target is therefore a signed or real-rooted
 conditioned determinant-pencil comparison, not the previously anticipated
 all-nonnegative coefficient theorem.
 
+Post-v1 Phase BS removes that failed sign theorem from the critical path.
+Rank-eight vanishing leaves a polynomial of degree at most eight, so exact
+Lagrange interpolation at nine weights between `56` and `128` controls its
+value at one without assumptions on coefficients or roots. The formal
+order-eighteen corollary converts nine `2^18` companion determinant envelopes
+into the `2^-18` physical determinant bound required for a half-contraction
+block. The remaining restart problem is thus a finite constant-base envelope
+for those companion residuals, not a coefficientwise positivity theorem.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -439,6 +448,9 @@ git status --short
   prove the conditioned-tail amplification inequality: exact arithmetic shows
   that the unconditioned coefficientwise-nonnegative premise can fail after
   conditioning.
+- Phase BS proves the sign-free finite-weight amplification reduction, but it
+  does not yet prove the nine amplified companion determinant envelopes. Those
+  envelopes are the remaining premise for the order-eighteen half contraction.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -513,13 +525,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove a two-weight determinant comparison for the conditioned tail pencil.
-Phase BR supplies the exact rank-eight residual split, but its rational
-regression disproves coefficientwise nonnegativity after conditioning. The
-observed alternating coefficients suggest importing the language of
-real-rooted or stable polynomials: identify a sign normalization or
-generalized-eigenvalue/interlacing statement that compares the physical and
-weight-`128` pencil values without requiring every coefficient to be
-nonnegative. Compose that comparison with Phases BQ and BP, then iterate the
-resulting half-contraction across the `O(log Lambda)` dyadic levels toward
-Conjecture G1 and Simons Problem 4.2.
+Prove the finite companion-envelope premise from Phase BS. For each of the
+nine weights `56, 65, ..., 128`, show that every ordered order-eighteen sample
+of the amplified companion residual has determinant magnitude at most
+`2^18`. The most promising route is a relative-total-positivity or planar-
+network domination theorem for fixed elimination applied to two members of
+the same positive-feature family; exact searches support the determinant
+envelope even though they disprove strict sign regularity of the companion.
+Phase BS then gives the half contraction automatically. Iterate that block
+across the `O(log Lambda)` dyadic levels toward Conjecture G1 and Simons
+Problem 4.2.

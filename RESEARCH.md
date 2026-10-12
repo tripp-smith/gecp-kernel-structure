@@ -5092,6 +5092,99 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BS contract: finite-weight conditioned-pencil amplification
+
+State: verified; draft PR #73.
+
+Phase BR reduces the restart problem to a rank-eight determinant pencil, but
+its exact regression shows that conditioning can make individual mixed-column
+coefficients negative. Further exact searches rule out two tempting repairs:
+the conditioned pencil need not be real-rooted, and amplification at the
+single weight `128` need not dominate its value at one. The degree after
+factoring the forced rank-eight zero is nevertheless at most eight. Polynomial
+norming sets therefore offer a sign-free replacement: a degree-eight
+polynomial is controlled by its values at nine fixed weights.
+
+Frozen public Lean targets:
+
+- define the nine integer weights `56, 65, ..., 128` and their exact Lagrange
+  coefficients for evaluation at one;
+- prove the degree-eight interpolation identity and the explicit coefficient-
+  mass bound by `518173`;
+- combine low-rank coefficient vanishing with that identity to prove a
+  sign-free determinant amplification theorem from uniform bounds at those
+  nine weights;
+- specialize to rank eight and fresh order eighteen, where exact arithmetic
+  turns a `2^18` envelope at every norming weight into a `2^-18` bound for the
+  physical residual determinant;
+- compose the result with Phase BR's canonical conditioned fermionic split,
+  leaving only the finite companion-envelope premise explicit.
+
+Independent check:
+
+- use exact `Fraction` arithmetic to verify every Lagrange moment through
+  degree eight, the constant bound, and the order-eighteen half-power
+  inequality;
+- search exact finite positive-Taylor companion pencils for failures of
+  coefficient positivity, real-rootedness, and single-weight amplification,
+  while checking the nine-weight certificate on every case.
+
+Decision rule:
+
+- use a finite positive norming set, not an unproved sign, root-location, or
+  stability hypothesis;
+- keep all weights at most `128`, so every future analytic envelope can reuse
+  the translated-band entry bound `2`;
+- expose the nine companion determinant envelopes as the next analytic
+  obligation rather than hiding them in a new certificate predicate.
+
+Non-claims:
+
+- this phase does not prove the companion determinant envelopes themselves;
+- it does not yet prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `rankEightAmplificationNode` and `rankEightLagrangeWeight` encode the exact
+  nine-node norming set `56, 65, ..., 128` and its evaluation-at-one weights;
+- `rankEightLagrange_moment`, `rankEightLagrange_eval_one`, and
+  `rankEightLagrange_abs_sum_le` prove the degree-eight interpolation identity
+  and the explicit coefficient-mass bound `518173`;
+- `rankEightLagrange_norming_bound` removes every coefficient-sign and
+  root-location assumption from the polynomial comparison;
+- `mixedColumnPolynomial_rankEight_finiteWeight_bound` combines that norming
+  theorem with rank-eight coefficient vanishing;
+- `rankEight_finiteWeight_det_le_halfPow` proves that nine `2^18` envelopes at
+  fresh order eighteen imply the exact physical determinant bound `2^-18`;
+- `positiveSeriesFermionicKernel_conditioned_det_le_halfPow` applies the
+  result directly to Phase BR's canonical conditioned fermionic split.
+
+Result:
+
+- conditioned coefficient positivity, alternating signs, real-rootedness,
+  and domination at one preferred weight are no longer proof obligations;
+- the entire determinant-pencil question is reduced to nine fixed companion
+  matrices, all with weights at most `128` and therefore compatible with the
+  existing translated-band entry envelope;
+- the order-eighteen constants have ample exact slack:
+  `518173 * 4^18 < 56^10`;
+- the remaining analytic target is to prove a `2^18` determinant envelope for
+  each of those nine companion residual samples. This is strictly weaker and
+  more stable than coefficientwise positivity and is supported by exhaustive
+  exact finite-Taylor minor checks performed during the research loop.
+
+Verification:
+
+- every new public theorem reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- exact `Fraction` arithmetic verifies all nine interpolation moments, the
+  constant and half-power inequalities, a genuine failure of fixed-weight
+  `+128` amplification, a negative-discriminant conditioned pencil, and the
+  surviving nine-weight certificate;
+- `./scripts/verify.sh` passes with 105 Python tests and no known dependency
+  vulnerabilities.
+
 ## Phase BR contract: Schur-aware feature elimination
 
 State: complete; merged as PR #72 with green CI.
