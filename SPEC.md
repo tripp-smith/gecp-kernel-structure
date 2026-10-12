@@ -2119,3 +2119,17 @@ This annotation records delivered identifiers without changing the goals above.
   and Problem 4.2 remain open. The root command passes a 3,572-job Lean build
   with 107 tests and no known dependency vulnerabilities. The change passed
   CI and merged as PR #77.
+- Post-v1 research phase BX: verified locally on 2026-10-12.
+  `twoSidedCompanionSchur` gives the closed four-term projection formula for
+  separate kernel and companion cross blocks around an invertible core.
+  `doubleBorderedCompanionMatrix_det` and its absolute-value form prove that
+  the corresponding double-bordered determinant factors by `det(C)^2`.
+  Exact solve-based rational checks show that three iterative two-sided
+  companion pivots agree entrywise with the closed formula at weight one and
+  all nine Phase BS weights, and independently verify the determinant
+  factorization. Negative order-two minors persist, so total nonnegativity is
+  not obtained. Formal identification with arbitrary recursive
+  `Run.conditionBoth`, the normalized double-border envelope, residual half
+  contraction, the dyadic recurrence, Conjecture G1, and Problem 4.2 remain
+  open. The root command passes a 3,573-job Lean build with 107 tests and no
+  known dependency vulnerabilities.

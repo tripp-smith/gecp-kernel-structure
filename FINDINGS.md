@@ -979,6 +979,20 @@ pivots.
   build with 107 tests and no known dependency vulnerabilities. The change
   passed CI and merged as PR #77.
 
+- Phase BX aligns the bordered approach with the actual two-sided companion
+  envelope. For an invertible selected core `C`, the closed companion block is
+  `H - K_L C⁻¹ H_R - H_L C⁻¹ K_R + K_L C⁻¹ H_C C⁻¹ K_R`.
+  A single double-bordered matrix has upper-left block
+  `[[C,H_C],[0,C]]` and this expression as its Schur complement. Lean proves
+  its determinant and absolute determinant are `det(C)^2` and
+  `|det(C)|^2`, respectively, times the companion determinant. Exact
+  solve-based rational checks show that this closed expression agrees
+  entrywise with three iterative two-sided companion pivots at weight one and
+  all nine Phase BS weights. Negative order-two minors persist in the large
+  matrix, so the factorization exposes rather than removes the cancellation.
+  The root command passes a 3,573-job Lean build with 107 tests and no known
+  dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

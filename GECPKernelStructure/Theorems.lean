@@ -4,6 +4,7 @@ import GECPKernelStructure.Matrix.BlockFeatureCauchyBinet
 import GECPKernelStructure.Matrix.MixedColumnCoefficients
 import GECPKernelStructure.Matrix.GradedPluckerPairing
 import GECPKernelStructure.Matrix.BorderedPencil
+import GECPKernelStructure.Matrix.DoubleBorderedCompanion
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign

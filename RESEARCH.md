@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BX contract: double-bordered companion determinant
 
-State: in progress.
+State: verified locally; pull request pending.
 
 Phase BW linearizes a rank-update pencil, but Phase BS requires bounds on the
 amplified conditioned tail plus the conditioned rank-eight block. For a fixed
@@ -5144,6 +5144,33 @@ Non-claims:
   with the generic Schur expression in Lean;
 - it does not prove the double-bordered determinant envelope, residual half
   contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `twoSidedCompanionSchur` is the exact four-term projection formula for an
+  arbitrary invertible finite core and separate kernel/companion cross blocks;
+- `doubleBorderedCompanionMatrix` packages the core, companion core, four
+  cross blocks, and fresh companion block into one matrix;
+- `doubleBorderedCompanionMatrix_det` and
+  `abs_doubleBorderedCompanionMatrix_det` prove the exact and absolute
+  factorizations by `det(C)^2`;
+- exact solve-based rational arithmetic shows that three iterative companion
+  pivots equal the closed Schur expression entrywise at weight one and every
+  Phase BS norming weight, and independently verifies the determinant
+  factorization;
+- negative order-two minors remain in every checked double border, so the new
+  representation preserves the required cancellation but is not totally
+  nonnegative;
+- `./scripts/verify.sh` passes a 3,573-job Lean build, the public axiom audit,
+  107 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Prove the selected-core closed form for `Run.conditionBoth` in Lean and
+specialize the double-border factorization to the positive-series amplified
+companion. That makes the nine Phase BS premises equivalent to normalized
+double-bordered determinant bounds, with no ambiguity between the coefficient
+surrogates of Phases BV/BW and the actual conditioned-tail envelope.
 
 ## Phase BW contract: bordered-pencil linearization
 
