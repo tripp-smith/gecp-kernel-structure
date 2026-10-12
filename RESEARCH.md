@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BT contract: two-sided companion projection
 
-State: in progress.
+State: verified locally on 2026-10-12; pull request pending.
 
 Phase BS leaves nine determinant envelopes for the one-sided conditioned
 companion. Exact searches show that those envelopes are plausible, but the
@@ -5143,6 +5143,48 @@ Non-claims:
   nine Phase BS determinant envelopes;
 - it does not yet prove residual half contraction, the dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `GECP.companionColumnUpdate` and `GECP.companionBiUpdate`;
+- `companionBiUpdate_apply`, `companionBiUpdate_self`,
+  `companionBiUpdate_selectedRow`, and `companionBiUpdate_selectedColumn`;
+- `companionBiUpdate_add`, `companionBiUpdate_smul`, and
+  `companionBiUpdate_mul`;
+- `GECP.Run.conditionColumns` and `GECP.Run.conditionBoth` with their
+  self-conditioning, linearity, and factor-transport theorems;
+- `GECP.Run.finalResidual_eq_conditionBoth_add_mul` and its sampled form;
+- `positiveSeriesFermionicKernel_finalResidual_biFeatureSplit` and its
+  sampled form;
+- `positiveSeriesConditionedLow_signature_mul_det_eq_sum`.
+
+Result:
+
+- one fixed pivot acts on a companion as the explicit four-term two-sided
+  oblique projection and annihilates both its selected row and selected
+  column;
+- self-application is exactly the ordinary Schur residual update, while a
+  rank-`k` product is transported as separately conditioned left and right
+  factors, so an arbitrary prefix preserves the feature dimension on both
+  sides;
+- the positive-series fermionic residual therefore has a canonical
+  two-sided rank-eight split, and its conditioned low determinant is exposed
+  as a sum of products of matched left/right feature minors;
+- exact arithmetic retains the one-sided witness with coefficient signs
+  `0, 0, +, -, +`, whereas its two-sided counterpart has signs
+  `0, 0, +, +, +`. Across 2,760 exhaustively enumerated fresh samples from
+  deterministic randomized prefixes, every set of nonzero two-sided mixed
+  coefficients has one common orientation. This is evidence, not the
+  all-orders sign theorem.
+
+Verification:
+
+- all new public results report only the accepted Lean foundations in the
+  axiom audit, with no `sorry`, `admit`, or custom axiom;
+- the exact regression verifies the residual split, selected row and column
+  zeros, and separately transported feature product after every pivot;
+- `./scripts/verify.sh` passes a 3,568-job Lean build, 106 Python tests, and
+  the dependency audit with no known vulnerabilities.
 
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 

@@ -1,5 +1,6 @@
 import itertools
 import math
+import random
 from fractions import Fraction
 
 import mpmath as mp
@@ -1484,6 +1485,217 @@ def test_finite_weight_norming_replaces_conditioned_sign_and_root_assumptions() 
     quadratic = nonreal_coefficients[2:]
     assert len(quadratic) == 3
     assert quadratic[1] ** 2 - 4 * quadratic[0] * quadratic[2] < 0
+
+
+def test_two_sided_companion_projection_preserves_features_and_sign_evidence() -> None:
+    def finite_exp(x: Fraction, terms: int = 9) -> Fraction:
+        return sum(
+            (x**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def add(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [left[i][j] + right[i][j] for j in range(len(left[0]))]
+            for i in range(len(left))
+        ]
+
+    def row_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - pivot_matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def column_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * pivot_matrix[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def bi_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        return column_condition(
+            pivot_matrix,
+            row_condition(pivot_matrix, companion, pivot_row, pivot_column),
+            pivot_row,
+            pivot_column,
+        )
+
+    def mixed_coefficients(
+        tail: list[list[Fraction]],
+        low: list[list[Fraction]],
+        rows: tuple[int, ...],
+        columns: tuple[int, ...],
+    ) -> list[Fraction]:
+        order = len(rows)
+        coefficients: list[Fraction] = []
+        for degree in range(order + 1):
+            coefficient = Fraction()
+            for selected_tuple in itertools.combinations(range(order), degree):
+                selected = set(selected_tuple)
+                coefficient += fraction_determinant(
+                    [
+                        [
+                            tail[rows[i]][columns[j]]
+                            if j in selected
+                            else low[rows[i]][columns[j]]
+                            for j in range(order)
+                        ]
+                        for i in range(order)
+                    ]
+                )
+            coefficients.append(coefficient)
+        return coefficients
+
+    def conditioned_data(
+        row_values: tuple[int, ...],
+        column_values: tuple[int, ...],
+        denominator: int,
+        low_terms: int,
+        prefix_length: int,
+        *,
+        two_sided: bool,
+    ) -> tuple[
+        list[list[Fraction]],
+        list[list[Fraction]],
+        set[int],
+        set[int],
+    ]:
+        rows = tuple(Fraction(value, denominator) for value in row_values)
+        columns = tuple(Fraction(value, denominator) for value in column_values)
+        size = len(rows)
+        original = [[finite_exp(x * y) for y in columns] for x in rows]
+        left = [
+            [x**degree / math.factorial(degree) for degree in range(low_terms)]
+            for x in rows
+        ]
+        right = [[y**degree for y in columns] for degree in range(low_terms)]
+        low = multiply(left, right)
+        tail = [[original[i][j] - low[i][j] for j in range(size)] for i in range(size)]
+        direct_low = [line[:] for line in low]
+        residual = [line[:] for line in original]
+        selected_rows: set[int] = set()
+        selected_columns: set[int] = set()
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            if two_sided:
+                tail = bi_condition(residual, tail, pivot_row, pivot_column)
+                direct_low = bi_condition(residual, direct_low, pivot_row, pivot_column)
+                left = row_condition(residual, left, pivot_row, pivot_column)
+                right = column_condition(residual, right, pivot_row, pivot_column)
+                assert direct_low == multiply(left, right)
+            else:
+                tail = row_condition(residual, tail, pivot_row, pivot_column)
+                direct_low = row_condition(
+                    residual, direct_low, pivot_row, pivot_column
+                )
+            residual = row_condition(residual, residual, pivot_row, pivot_column)
+            selected_rows.add(pivot_row)
+            selected_columns.add(pivot_column)
+            assert residual == add(tail, direct_low)
+            if two_sided:
+                assert all(not tail[pivot_row][j] for j in range(size))
+                assert all(not tail[i][pivot_column] for i in range(size))
+                assert all(not direct_low[pivot_row][j] for j in range(size))
+                assert all(not direct_low[i][pivot_column] for i in range(size))
+        return tail, direct_low, selected_rows, selected_columns
+
+    witness = ((1, 2, 6, 8, 9, 10, 11), (2, 3, 4, 10, 15, 19, 20))
+    one_tail, one_low, _, _ = conditioned_data(*witness, 11, 2, 2, two_sided=False)
+    bi_tail, bi_low, _, _ = conditioned_data(*witness, 11, 2, 2, two_sided=True)
+    sample = (1, 2, 3, 4)
+    one_signs = [
+        0 if value == 0 else 1 if value > 0 else -1
+        for value in mixed_coefficients(one_tail, one_low, sample, sample)
+    ]
+    bi_signs = [
+        0 if value == 0 else 1 if value > 0 else -1
+        for value in mixed_coefficients(bi_tail, bi_low, sample, sample)
+    ]
+    assert one_signs == [0, 0, 1, -1, 1]
+    assert bi_signs == [0, 0, 1, 1, 1]
+
+    rng = random.Random(0xB17B1)
+    checked_samples = 0
+    for _ in range(36):
+        size = 6
+        denominator = rng.choice((7, 9, 11, 13))
+        row_values = tuple(sorted(rng.sample(range(denominator + 1), size)))
+        column_values = tuple(sorted(rng.sample(range(1, 2 * denominator), size)))
+        low_terms = rng.choice((1, 2, 3))
+        prefix_length = rng.choice((1, 2))
+        tail, low, selected_rows, selected_columns = conditioned_data(
+            row_values,
+            column_values,
+            denominator,
+            low_terms,
+            prefix_length,
+            two_sided=True,
+        )
+        fresh_rows = tuple(index for index in range(size) if index not in selected_rows)
+        fresh_columns = tuple(
+            index for index in range(size) if index not in selected_columns
+        )
+        for rows in itertools.combinations(fresh_rows, 3):
+            for columns in itertools.combinations(fresh_columns, 3):
+                coefficients = mixed_coefficients(tail, low, rows, columns)
+                signs = {value > 0 for value in coefficients if value}
+                assert len(signs) <= 1
+                checked_samples += 1
+    assert checked_samples == 2760
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:

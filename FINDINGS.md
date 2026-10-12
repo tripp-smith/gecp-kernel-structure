@@ -919,6 +919,21 @@ pivots.
   and no known dependency vulnerabilities. The change passed CI and merged as
   PR #73.
 
+- Phase BT replaces asymmetric companion row conditioning by the natural
+  two-sided fixed-pivot oblique projection. The map is linear, annihilates the
+  selected row and column, recovers the ordinary Schur update on the pivoting
+  matrix, and transports `L*R` as separately conditioned left and right
+  factors through an arbitrary prefix. The positive-series fermionic residual
+  consequently retains an exact two-sided rank-eight split whose low-block
+  determinant is an ordered Cauchy--Binet sum of matched conditioned feature
+  minors. In exact arithmetic, the earlier one-sided sign witness
+  `0, 0, +, -, +` becomes `0, 0, +, +, +`; all 2,760 exhaustively enumerated
+  samples from deterministic randomized prefixes have a common nonzero
+  coefficient orientation. This evidence identifies matched-minor sign
+  coherence as the next theorem but does not prove it. The root command passes
+  a 3,568-job Lean build with 106 tests and no known dependency
+  vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
