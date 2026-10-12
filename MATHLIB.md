@@ -412,6 +412,16 @@ the fermionic constants. An upstream abstraction could combine
 weights, constant `518173`, and order-eighteen arithmetic remain
 project-specific.
 
+Phase BT adds the right-projector companion to Phase BR's fixed row
+elimination. Together they form a linear two-sided oblique projection which
+commutes with rectangular factorization: a product `L*R` is sent to the
+product of the separately projected factors. Iteration over a fixed pivot
+trace is a reusable multiple-right-hand-side Schur-complement abstraction.
+An upstream version would preferably package the left and right elementary
+operations as linear maps and state their product compatibility over a field.
+The fermionic rank-eight split, exact sign search, and proposed matched-minor
+orientation theorem remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

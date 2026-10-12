@@ -5092,6 +5092,100 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BT contract: two-sided companion projection
+
+State: verified locally on 2026-10-12; draft PR #74.
+
+Phase BS leaves nine determinant envelopes for the one-sided conditioned
+companion. Exact searches show that those envelopes are plausible, but the
+one-sided companion loses coefficient signs and strict sign regularity. The
+natural construction from oblique projection theory is two-sided: apply the
+fixed pivot's left row projector and right column projector to the companion
+matrix. This map is linear in the companion, recovers the ordinary Schur
+update on the pivoting matrix, annihilates the selected row and column, and
+maps `L*R` to a product of separately conditioned feature factors.
+
+Frozen public Lean targets:
+
+- define fixed-pivot left and right companion feature updates and the
+  two-sided companion update;
+- prove the expanded four-term formula and show that self-application is the
+  ordinary residual update;
+- prove linearity, scalar compatibility, selected-row/column annihilation,
+  and exact factor transport
+  `biUpdate(K, L*R) = leftUpdate(K,L) * rightUpdate(K,R)`;
+- iterate the construction through an arbitrary fixed `GECP.Run`, proving
+  self-conditioning and transport of an initial `K = E + L*R` split with the
+  same feature dimension on both sides;
+- expose the finite sampled factorization needed by the mixed-column and
+  block-feature determinant APIs.
+
+Independent check:
+
+- use exact `Fraction` arithmetic on multi-pivot finite positive-Taylor
+  matrices to verify the two-sided split, annihilation, and feature product;
+- exhaustively check that all nonzero mixed coefficients share one sign over
+  deterministic randomized prefixes and fresh samples, while retaining a
+  fixed witness where the one-sided coefficients have mixed signs.
+
+Decision rule:
+
+- keep pivot data fixed by the original run and preserve linearity in the
+  companion;
+- represent the two-sided map through separately conditioned feature factors,
+  not an explicit inverse;
+- expose matched left/right feature-minor sign coherence as the next analytic
+  theorem; do not promote the exact search to a proof.
+
+Non-claims:
+
+- this phase does not prove all-orders matched-minor sign coherence or the
+  nine Phase BS determinant envelopes;
+- it does not yet prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered identifiers:
+
+- `GECP.companionColumnUpdate` and `GECP.companionBiUpdate`;
+- `companionBiUpdate_apply`, `companionBiUpdate_self`,
+  `companionBiUpdate_selectedRow`, and `companionBiUpdate_selectedColumn`;
+- `companionBiUpdate_add`, `companionBiUpdate_smul`, and
+  `companionBiUpdate_mul`;
+- `GECP.Run.conditionColumns` and `GECP.Run.conditionBoth` with their
+  self-conditioning, linearity, and factor-transport theorems;
+- `GECP.Run.finalResidual_eq_conditionBoth_add_mul` and its sampled form;
+- `positiveSeriesFermionicKernel_finalResidual_biFeatureSplit` and its
+  sampled form;
+- `positiveSeriesConditionedLow_signature_mul_det_eq_sum`.
+
+Result:
+
+- one fixed pivot acts on a companion as the explicit four-term two-sided
+  oblique projection and annihilates both its selected row and selected
+  column;
+- self-application is exactly the ordinary Schur residual update, while a
+  rank-`k` product is transported as separately conditioned left and right
+  factors, so an arbitrary prefix preserves the feature dimension on both
+  sides;
+- the positive-series fermionic residual therefore has a canonical
+  two-sided rank-eight split, and its conditioned low determinant is exposed
+  as a sum of products of matched left/right feature minors;
+- exact arithmetic retains the one-sided witness with coefficient signs
+  `0, 0, +, -, +`, whereas its two-sided counterpart has signs
+  `0, 0, +, +, +`. Across 2,760 exhaustively enumerated fresh samples from
+  deterministic randomized prefixes, every set of nonzero two-sided mixed
+  coefficients has one common orientation. This is evidence, not the
+  all-orders sign theorem.
+
+Verification:
+
+- all new public results report only the accepted Lean foundations in the
+  axiom audit, with no `sorry`, `admit`, or custom axiom;
+- the exact regression verifies the residual split, selected row and column
+  zeros, and separately transported feature product after every pivot;
+- `./scripts/verify.sh` passes a 3,568-job Lean build, 106 Python tests, and
+  the dependency audit with no known vulnerabilities.
+
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 
 State: complete; merged as PR #73 with green CI.

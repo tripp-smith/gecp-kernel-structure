@@ -2060,3 +2060,17 @@ This annotation records delivered identifiers without changing the goals above.
   certificate. The nine companion envelopes, dyadic iteration, Conjecture G1,
   and Problem 4.2 remain open. The root command passes with 105 tests and no
   known dependency vulnerabilities. The change passed CI and merged as PR #73.
+- Post-v1 research phase BT: verified locally on 2026-10-12; draft PR #74.
+  `GECP.companionBiUpdate` applies both fixed oblique pivot
+  projectors to a companion, recovers the ordinary Schur update under
+  self-application, annihilates the selected row and column, and transports
+  `L*R` as separately conditioned feature factors. Its iteration through
+  `GECP.Run.conditionBoth` gives the exact two-sided rank-eight fermionic
+  residual split and exposes the conditioned low determinant as an ordered
+  sum of matched feature-minor products. An exact `Fraction` regression keeps
+  the one-sided mixed-sign witness but finds common orientation for every
+  nonzero two-sided coefficient in 2,760 exhaustively enumerated deterministic
+  samples. This does not prove all-orders matched-minor sign coherence, the
+  nine Phase BS companion envelopes, residual half contraction, the dyadic
+  recurrence, Conjecture G1, or Problem 4.2. The root command passes a
+  3,568-job Lean build with 106 tests and no known dependency vulnerabilities.

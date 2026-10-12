@@ -109,6 +109,16 @@ into the `2^-18` physical determinant bound required for a half-contraction
 block. The remaining restart problem is thus a finite constant-base envelope
 for those companion residuals, not a coefficientwise positivity theorem.
 
+Post-v1 Phase BT gives that finite-envelope problem its natural two-sided
+coordinates. Each fixed pivot applies a left and right oblique projector to a
+companion, annihilating both selected directions while preserving linearity.
+The projector transports `L*R` by conditioning the two factors separately, so
+every fermionic prefix retains an exact two-sided rank-eight split. The
+conditioned low determinant is now an ordered Cauchy--Binet sum of matched
+left/right feature minors. Exact finite searches consistently recover a
+common coefficient orientation, but the corresponding all-orders
+matched-minor sign theorem remains open.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -451,6 +461,10 @@ git status --short
 - Phase BS proves the sign-free finite-weight amplification reduction, but it
   does not yet prove the nine amplified companion determinant envelopes. Those
   envelopes are the remaining premise for the order-eighteen half contraction.
+- Phase BT proves the exact two-sided companion factorization and exposes the
+  matched-minor interface, but the observed common orientation of those
+  conditioned minor products is still numerical evidence rather than a
+  theorem.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -525,13 +539,12 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the finite companion-envelope premise from Phase BS. For each of the
-nine weights `56, 65, ..., 128`, show that every ordered order-eighteen sample
-of the amplified companion residual has determinant magnitude at most
-`2^18`. The most promising route is a relative-total-positivity or planar-
-network domination theorem for fixed elimination applied to two members of
-the same positive-feature family; exact searches support the determinant
-envelope even though they disprove strict sign regularity of the companion.
-Phase BS then gives the half contraction automatically. Iterate that block
-across the `O(log Lambda)` dyadic levels toward Conjecture G1 and Simons
-Problem 4.2.
+Prove common orientation of the matched left/right conditioned feature-minor
+products exposed by Phase BT. The most promising formulation is an oriented-
+matroid or planar-network statement for the paired oblique projectors, where
+the left and right sign changes cancel termwise even though neither
+conditioned factor is totally positive by itself. Feed that theorem into the
+block-feature Cauchy--Binet expansion to prove the nine Phase BS companion
+determinant envelopes at weights `56, 65, ..., 128`; Phase BS then supplies
+the order-eighteen half contraction automatically. Iterate that block across
+the `O(log Lambda)` dyadic levels toward Conjecture G1 and Simons Problem 4.2.
