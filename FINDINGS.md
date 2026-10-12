@@ -991,7 +991,7 @@ pivots.
   all nine Phase BS weights. Negative order-two minors persist in the large
   matrix, so the factorization exposes rather than removes the cancellation.
   The root command passes a 3,573-job Lean build with 107 tests and no known
-  dependency vulnerabilities.
+  dependency vulnerabilities. The change passed CI and merged as PR #78.
 
 ## Run provenance
 

@@ -163,7 +163,9 @@ matrix and proves its determinant is the squared selected-core determinant
 times the projected companion determinant. Exact arithmetic confirms that
 three iterative pivots agree entrywise with this formula at all ten relevant
 weights. The large matrix still has negative order-two minors, so the next
-step is a normalized double-border bound, not total nonnegativity.
+step is a normalized double-border bound, not total nonnegativity. The root
+command passes a 3,573-job Lean build with 107 tests and no known dependency
+vulnerabilities; the change passed CI and merged as PR #78.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency

@@ -2119,7 +2119,7 @@ This annotation records delivered identifiers without changing the goals above.
   and Problem 4.2 remain open. The root command passes a 3,572-job Lean build
   with 107 tests and no known dependency vulnerabilities. The change passed
   CI and merged as PR #77.
-- Post-v1 research phase BX: verified locally on 2026-10-12.
+- Post-v1 research phase BX: complete; merged as PR #78 with green CI.
   `twoSidedCompanionSchur` gives the closed four-term projection formula for
   separate kernel and companion cross blocks around an invertible core.
   `doubleBorderedCompanionMatrix_det` and its absolute-value form prove that
@@ -2132,4 +2132,4 @@ This annotation records delivered identifiers without changing the goals above.
   `Run.conditionBoth`, the normalized double-border envelope, residual half
   contraction, the dyadic recurrence, Conjecture G1, and Problem 4.2 remain
   open. The root command passes a 3,573-job Lean build with 107 tests and no
-  known dependency vulnerabilities. Draft PR #78 is open.
+  known dependency vulnerabilities. The change passed CI and merged as PR #78.

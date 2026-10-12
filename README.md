@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BX — double-bordered companion determinant<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BX `./scripts/verify.sh` passed a 3,573-job Lean build with 107 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BX verified locally; draft PR #78 open<br>
+> **Delivery:** Phase BX merged as PR #78 with green CI<br>
 > **Claim level:** Phase BX proves the generic squared-core double-border factorization matching the actual two-sided companion envelope; identifying every recursive run with its closed Schur expression in Lean remains next
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -93,7 +93,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BU | Companion Plücker factorization | complete | left/right feature-augmented cores; selected-core determinant factorization; exact matched-minor product and sign equivalence | 3,570-job Lean build; public axiom audit; 2,382 exact bordered-minor identities; 106-test root verification; green CI | merged PR #75 |
 | BV | Graded Plücker pairing | complete | exact termwise-sign obstruction; fixed-coordinate block-feature factorization; graded bordered-minor coefficient identity | 3,571-job Lean build; public axiom audit; exact 2-of-56 sign obstruction and graded-sum identity; 107-test root verification; green CI | merged PR #76 |
 | BW | Bordered-pencil linearization | complete | rank-update block determinant; graded feature-pencil bridge; exact finite-weight linearization and sign-cycle obstruction | 3,572-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification; green CI | merged PR #77 |
-| BX | Double-bordered companion determinant | verified | generic two-sided companion Schur formula; squared-core determinant factorization; exact multi-pivot companion checks and minor-sign obstruction | 3,573-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification | draft PR #78 |
+| BX | Double-bordered companion determinant | complete | generic two-sided companion Schur formula; squared-core determinant factorization; exact multi-pivot companion checks and minor-sign obstruction | 3,573-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification; green CI | merged PR #78 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
