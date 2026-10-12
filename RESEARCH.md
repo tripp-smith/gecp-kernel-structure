@@ -4930,7 +4930,7 @@ Verification:
 
 ## Phase BO contract: signed unit-band amplification
 
-State: in progress.
+State: verified locally; delivery pending.
 
 The full signed unit band admits a single positive-coordinate representation,
 without a sign partition.  For `0 <= t <= 1` and `-1 <= omega <= 1`, setting
@@ -4973,6 +4973,36 @@ Non-claims:
 - this phase treats only the full signed unit band;
 - it does not yet prove the shrinking-band recurrence, dyadic rescaling,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered:
+
+- `fermionicKernel_eq_signedUnitShiftedKernel` replaces the proposed
+  positive/negative column partition by the single affine coordinate
+  `z = 1 - omega`, valid at both signed-band endpoints;
+- `signedUnitShiftedAmplifiedMatrix_det_pos` proves strict total positivity of
+  every closed nonnegative shifted sample after arbitrary tail amplification
+  `lambda >= 1`;
+- `signedUnitShiftedAmplifiedMatrix_one_two_abs_le_two` uses the weighted
+  Taylor remainder and the exact choice `lambda = 128` to keep the amplified
+  kernel inside the entry envelope `2` on `[0,1] x [0,2]`;
+- `signedUnitShiftedMatrix_abs_det_le_two_pow_div_128_pow` and
+  `fermionicKernel_signedUnit_abs_sample_det_le` give
+  `|det K_n| <= 2^n / 128^(n-8)` for every injective sample on the full closed
+  signed unit band, independently of sample order;
+- `fermionicKernel_signedUnit_gecp_error_pow_le` composes that bound with the
+  exact complete-pivot geometric-mean inequality, and
+  `fermionicKernel_signedUnit_gecp_error_le_half_twelve` proves the uniform
+  twelve-pivot half contraction.
+
+Verification:
+
+- every new public theorem reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- a deterministic 180-digit complete-pivot regression on full closed
+  `16 x 16`, `24 x 24`, and `32 x 32` signed-unit-band grids checks determinant
+  magnitude invariance, the rank-twelve envelope, and the final residual;
+- `./scripts/verify.sh` passes with 101 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

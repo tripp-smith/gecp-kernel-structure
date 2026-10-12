@@ -847,6 +847,19 @@ pivots.
   open. The root command passes with 100 tests and no known dependency
   vulnerabilities. The change passed CI and merged as PR #68.
 
+- Phase BO eliminates the mixed-sign Laplace-expansion obligation. The affine
+  change `z = 1 - omega` rewrites the original fermionic kernel on
+  `[0,1] x [-1,1]` as positive row and column weights times `exp(t*z)`, with
+  `z` in the closed interval `[0,2]`. Weighting the eighth-order positive tail
+  by `128` preserves strict total positivity and stays within the pointwise
+  envelope `2`, yielding the arbitrary-sample bound
+  `|det K_n| <= 2^n / 128^(n-8)`. Exact complete-pivot composition gives a
+  uniform one-half residual bound after twelve pivots on the full closed
+  signed unit band. A 180-digit three-grid regression checks the determinant
+  and residual bounds. Dyadic rescaling/continuation, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes with 101 tests and no known
+  dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
