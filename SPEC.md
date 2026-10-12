@@ -2089,7 +2089,7 @@ This annotation records delivered identifiers without changing the goals above.
   and Problem 4.2 remain open. The root command passes a 3,570-job Lean build
   with 106 tests and no known dependency vulnerabilities. The change passed
   CI and merged as PR #75.
-- Post-v1 research phase BV: verified locally on 2026-10-12.
+- Post-v1 research phase BV: complete; merged as PR #76 with green CI.
   `combinedFeatureLeft` and `combinedFeatureRight` adjoin fixed pivot blocks
   to arbitrary feature factors, and `weightedCombinedFeatureProduct` proves
   that marking those coordinates produces `mu • (U*V) + A*B`. Theorems
@@ -2103,4 +2103,5 @@ This annotation records delivered identifiers without changing the goals above.
   arbitrary fermionic prefixes, the nine Phase BS companion envelopes,
   residual half contraction, the dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,571-job Lean build with
-  107 tests and no known dependency vulnerabilities. Draft PR #76 is open.
+  107 tests and no known dependency vulnerabilities. The change passed CI and
+  merged as PR #76.

@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** BV — graded Plücker pairing<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase BV `./scripts/verify.sh` passed a 3,571-job Lean build with 107 tests and no known dependency vulnerabilities on 2026-10-12<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BV verified locally; draft PR #76 open<br>
+> **Delivery:** Phase BV merged as PR #76 with green CI<br>
 > **Claim level:** Phase BV proves that the signed fixed-degree Plücker sum is exactly one mixed-column determinant coefficient; positivity of that coefficient for arbitrary fermionic prefixes remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -91,7 +91,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BS | Finite-weight conditioned-pencil amplification | complete | degree-eight norming set for rank-eight determinant pencils; sign-free amplification from nine fixed weights; order-18 half-power reduction | Lean build; public axiom audit; exact interpolation, obstruction, and norming regression; 105-test root verification; green CI | merged PR #73 |
 | BT | Two-sided companion projection | complete | linear two-sided fixed-pivot projection; selected-row/column annihilation; exact transport of both feature factors; matched-minor Cauchy--Binet interface | 3,568-job Lean build; public axiom audit; 2,760 exact sign-coherence samples; 106-test root verification; green CI | merged PR #74 |
 | BU | Companion Plücker factorization | complete | left/right feature-augmented cores; selected-core determinant factorization; exact matched-minor product and sign equivalence | 3,570-job Lean build; public axiom audit; 2,382 exact bordered-minor identities; 106-test root verification; green CI | merged PR #75 |
-| BV | Graded Plücker pairing | verified | exact termwise-sign obstruction; fixed-coordinate block-feature factorization; graded bordered-minor coefficient identity | 3,571-job Lean build; public axiom audit; exact 2-of-56 sign obstruction and graded-sum identity; 107-test root verification | draft PR #76 |
+| BV | Graded Plücker pairing | complete | exact termwise-sign obstruction; fixed-coordinate block-feature factorization; graded bordered-minor coefficient identity | 3,571-job Lean build; public axiom audit; exact 2-of-56 sign obstruction and graded-sum identity; 107-test root verification; green CI | merged PR #76 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

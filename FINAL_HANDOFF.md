@@ -139,7 +139,9 @@ proves this is exactly the mixed-column coefficient of
 `det(mu • (U*V) + A*B)`. In the witness the coefficient equals the signed sum
 and remains positive. The open analytic problem is positivity of this
 aggregate graded pairing for arbitrary fermionic prefixes, not positivity of
-each Plücker coordinate.
+each Plücker coordinate. The root command passes a 3,571-job Lean build with
+107 tests and no known dependency vulnerabilities; the change passed CI and
+merged as PR #76.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency

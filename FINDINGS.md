@@ -962,7 +962,8 @@ pivots.
   total without discarding the two negative coordinates. The root command
   passes a 3,571-job Lean build with 107 tests and no known dependency
   vulnerabilities. Positivity of the full coefficient for arbitrary
-  fermionic prefixes remains the analytic target.
+  fermionic prefixes remains the analytic target. The change passed CI and
+  merged as PR #76.
 
 ## Run provenance
 
