@@ -916,7 +916,7 @@ pivots.
   real-rootedness, and single-weight `+128` domination, confirming that the
   finite norming set is not cosmetic. The remaining target is the nine
   constant-base companion envelopes. The root command passes with 105 tests
-  and no known dependency vulnerabilities. PR pending.
+  and no known dependency vulnerabilities. Draft PR #73.
 
 ## Run provenance
 

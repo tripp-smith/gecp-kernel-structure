@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BS contract: finite-weight conditioned-pencil amplification
 
-State: verified locally; PR pending.
+State: verified; draft PR #73.
 
 Phase BR reduces the restart problem to a rank-eight determinant pencil, but
 its exact regression shows that conditioning can make individual mixed-column

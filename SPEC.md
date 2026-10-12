@@ -2047,7 +2047,7 @@ This annotation records delivered identifiers without changing the goals above.
   determinant-pencil comparison, dyadic iteration, Conjecture G1, and Problem
   4.2 remain open. The root command passes with 104 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #72.
-- Post-v1 research phase BS: verified locally on 2026-10-12; PR pending.
+- Post-v1 research phase BS: verified on 2026-10-12; draft PR #73.
   Rank-eight coefficient vanishing reduces every canonical conditioned
   determinant pencil to degree at most eight after its forced zero is removed.
   Exact Lagrange interpolation at weights `56, 65, ..., 128` therefore gives
