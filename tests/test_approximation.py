@@ -894,6 +894,72 @@ def test_exact_total_positive_hadamard_envelope_through_order_eight() -> None:
         schur = next_schur
 
 
+def test_positive_series_ten_pivot_half_contraction() -> None:
+    mp.mp.dps = 180
+    determinant_bound = mp.mpf(2) ** 10 / mp.factorial(8) ** 2
+
+    for size in (16, 24, 32):
+        rows = [mp.mpf(index) / size for index in range(1, size + 1)]
+        columns = [mp.mpf(index) / size for index in range(1, size + 1)]
+        original = mp.matrix(
+            [
+                [mp.exp(row * column) / (1 + mp.exp(column)) for column in columns]
+                for row in rows
+            ]
+        )
+        residual = mp.matrix(original)
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+
+        for _ in range(10):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[row, column]),
+                    -row,
+                    -column,
+                    row,
+                    column,
+                )
+                for row in range(size)
+                for column in range(size)
+            )
+            pivot = residual[pivot_row, pivot_column]
+            assert pivot != 0
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+            pivot_column_values = [residual[row, pivot_column] for row in range(size)]
+            pivot_row_values = [residual[pivot_row, column] for column in range(size)]
+            residual = mp.matrix(
+                [
+                    [
+                        residual[row, column]
+                        - pivot_column_values[row] * pivot_row_values[column] / pivot
+                        for column in range(size)
+                    ]
+                    for row in range(size)
+                ]
+            )
+
+        selected_core = mp.matrix(
+            [
+                [original[row, column] for column in selected_columns]
+                for row in selected_rows
+            ]
+        )
+        sorted_core = mp.matrix(
+            [
+                [original[row, column] for column in sorted(selected_columns)]
+                for row in sorted(selected_rows)
+            ]
+        )
+        assert mp.almosteq(abs(mp.det(selected_core)), mp.det(sorted_core))
+        assert abs(mp.det(selected_core)) <= determinant_bound
+        residual_maximum = max(
+            abs(residual[row, column]) for row in range(size) for column in range(size)
+        )
+        assert residual_maximum <= mp.mpf("0.5")
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

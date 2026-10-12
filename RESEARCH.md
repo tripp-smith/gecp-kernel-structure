@@ -4851,7 +4851,7 @@ Verification:
 
 ## Phase BN contract: positive-series GECP composition
 
-State: in progress.
+State: verified locally; delivery pending.
 
 Phase BM supplies exponential determinant decay for ordered samples of the
 reflected positive-series kernel, while Phase T bounds a complete-pivot
@@ -4898,6 +4898,35 @@ Non-claims:
   negative frequency columns from a full fermionic run;
 - it does not yet prove endpoint closure, dyadic rescaling, Conjecture G1, or
   Simons Problem 4.2.
+
+Delivered:
+
+- `abs_minorMatrix_det_le_pow_of_strictSignRegular_one` makes the Phase BM
+  diagonal-product envelope invariant under independent permutations of every
+  injective row and column sample;
+- `positiveSeriesFermionicKernel` names the reflected unamplified kernel,
+  `positiveSeriesFermionicKernel_eq_amplified_one` identifies it with unit
+  tail weight, and its sample-matrix and strict-positivity theorems expose the
+  exact finite representation;
+- `positiveSeriesFermionicKernel_abs_minor_det_le` transports the explicit
+  `2^n / (8!)^(n-8)` determinant decay from sorted samples to the algorithmic
+  order of any injective sample;
+- `positiveSeriesFermionicKernel_gecp_error_pow_le` composes that bound with
+  the exact complete-pivot geometric-mean inequality;
+- `positiveSeriesFermionicKernel_gecp_error_le_half_ten` discharges the
+  factorial arithmetic at rank ten and proves a uniform `1/2` residual bound
+  throughout the positive unit band.
+
+Verification:
+
+- every new public result reports only `propext`, `Classical.choice`, and
+  `Quot.sound` in the public axiom audit;
+- a deterministic 180-digit complete-pivot regression on `16 x 16`, `24 x
+  24`, and `32 x 32` positive-unit-band grids checks determinant magnitude
+  invariance under sorting, the rank-ten determinant envelope, and the final
+  residual maximum;
+- `./scripts/verify.sh` passes with 100 Python tests and no known dependency
+  vulnerabilities.
 
 ## Phase BI contract: mixed-column coefficient bridge
 

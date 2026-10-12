@@ -353,6 +353,14 @@ field and connected to mathlib's existing Schur-complement API if that avoids
 extra index equivalences. The positive-series kernel specialization and the
 constants `8!` and `2` remain project-specific.
 
+Phase BN adds the generic order-invariance companion
+`abs_minorMatrix_det_le_pow_of_strictSignRegular_one`: independently sort two
+injective sample tuples, apply the ordered positive-minor envelope, and remove
+both permutation signs through absolute value. A more general upstream theorem
+could accept an arbitrary ordered-sample determinant bound instead of the
+current diagonal-product specialization. The positive-series GECP composition
+and rank-ten arithmetic remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
