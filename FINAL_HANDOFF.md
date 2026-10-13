@@ -167,6 +167,18 @@ step is a normalized double-border bound, not total nonnegativity. The root
 command passes a 3,573-job Lean build with 107 tests and no known dependency
 vulnerabilities; the change passed CI and merged as PR #78.
 
+Post-v1 Phase BY proves that this double border is not merely a finite witness
+construction. For every successful run, the iterated row and column
+projectors commute and equal their original selected-core corrections, so
+`Run.conditionBoth` is exactly the four-term companion Schur expression.
+Every finite sample consequently satisfies the Phase BX determinant identity
+with the actual recursive companion determinant. Exact rational solves check
+144 deterministic randomized combinations of prefix length, companion weight,
+and fresh block. The remaining task is now the normalized double-border
+envelope itself, with no recursive-versus-closed-form gap. The root command
+passes a 3,574-job Lean build with 107 tests and no known dependency
+vulnerabilities.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -522,10 +534,10 @@ git status --short
 - Phase BW proves a single-determinant linearization at every required weight,
   but its exact signed four-cycle obstruction rules out making the bordered
   matrix totally nonnegative by row and column sign changes.
-- Phase BX proves the generic squared-core double-border factorization and
-  verifies its multi-pivot interpretation exactly, but the equality with
-  arbitrary recursive `Run.conditionBoth` is not yet formalized in Lean and
-  the normalized double-border envelope remains open.
+- Phase BY formally identifies arbitrary recursive `Run.conditionBoth` with
+  the Phase BX selected-core Schur expression and specializes the
+  double-border factorization to arbitrary finite samples. The normalized
+  double-border envelope remains open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -600,9 +612,9 @@ only after the root command passes.
 
 ## Recommended next research step
 
-First identify arbitrary `Run.conditionBoth` samples with Phase BX's closed
-selected-core Schur expression. Then control the normalized double-bordered
-determinant, whose exact factor `|det(C)|²` cancels the prefix core. Negative
+Control the normalized double-bordered determinant, whose exact factor
+`|det(C)|²` cancels the prefix core. Phase BY now proves that this is exactly
+the arbitrary-run `Run.conditionBoth` sample required by Phase BS. Negative
 order-two minors rule out ordinary total nonnegativity, so promising methods
 are complementary-minor condensation, a planar-network construction with
 cancellation internal to the determinant, or a mixed-discriminant inequality

@@ -9,11 +9,15 @@ variable {core fresh : Type*}
 /-- The closed two-sided companion projection associated with an invertible
 core and separate kernel/companion cross blocks. -/
 noncomputable def twoSidedCompanionSchur
-    (C : Matrix core core ℝ) [Invertible C]
-    (KLeft : Matrix fresh core ℝ) (KRight : Matrix core fresh ℝ)
-    (HCore : Matrix core core ℝ)
-    (HLeft : Matrix fresh core ℝ) (HRight : Matrix core fresh ℝ)
-    (H : Matrix fresh fresh ℝ) : Matrix fresh fresh ℝ :=
+    {leftFresh rightFresh 𝕜 : Type*} [Field 𝕜]
+    (C : Matrix core core 𝕜) [Invertible C]
+    (KLeft : Matrix leftFresh core 𝕜)
+    (KRight : Matrix core rightFresh 𝕜)
+    (HCore : Matrix core core 𝕜)
+    (HLeft : Matrix leftFresh core 𝕜)
+    (HRight : Matrix core rightFresh 𝕜)
+    (H : Matrix leftFresh rightFresh 𝕜) :
+    Matrix leftFresh rightFresh 𝕜 :=
   H - KLeft * ⅟C * HRight - HLeft * ⅟C * KRight +
     KLeft * ⅟C * HCore * ⅟C * KRight
 
