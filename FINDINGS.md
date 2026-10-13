@@ -1027,6 +1027,17 @@ pivots.
   with no known dependency vulnerabilities. The change passed CI and merged
   as PR #80.
 
+- Phase CA makes the tangent sign problem factorwise. An ordered
+  three-factor Cauchy--Binet theorem expands each sampled tangent determinant
+  over a pair of feature flags, and a modular Lean theorem composes separate
+  left, middle, and right orientations. Twenty-four exact shuffled
+  rectangular checks reproduce the expansion. The middle matrix is not
+  totally nonnegative in layer-major order, but interleaving each feature's
+  two layers turns it into contiguous `2 x 2` unitriangular cells; the
+  induced shuffle parity is therefore the most promising next exact lemma.
+  The root command passes a 3,579-job Lean build, the public axiom audit, and
+  108 tests. Delivery is pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

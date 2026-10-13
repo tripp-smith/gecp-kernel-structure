@@ -2465,6 +2465,7 @@ def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
 
     tangent_rng = random.Random(0x7A6E17)
     checked_factorizations = 0
+    checked_triple_expansions = 0
     for _ in range(24):
         row_count = tangent_rng.randint(2, 4)
         feature_count = tangent_rng.randint(1, 4)
@@ -2502,6 +2503,56 @@ def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
         )
         lifted = upper_tangent(base, companion)
         assert factored == lifted
+
+        # Exercise the exact ordered three-factor Cauchy--Binet expansion on
+        # arbitrary (usually nonmonotone) outer samples.  Only the two feature
+        # flags are enumerated in increasing order.
+        sample_order = tangent_rng.randint(
+            1,
+            min(3, 2 * row_count, 2 * feature_count, 2 * column_count),
+        )
+        sampled_lifted_rows = tuple(
+            tangent_rng.sample(range(2 * row_count), sample_order)
+        )
+        sampled_lifted_columns = tuple(
+            tangent_rng.sample(range(2 * column_count), sample_order)
+        )
+        lifted_sample_det = fraction_determinant(
+            [
+                [lifted[i][j] for j in sampled_lifted_columns]
+                for i in sampled_lifted_rows
+            ]
+        )
+        lifted_left = block_diagonal(left)
+        lifted_right = block_diagonal(right)
+        triple_sum = sum(
+            (
+                fraction_determinant(
+                    [
+                        [lifted_left[i][j] for j in left_flag]
+                        for i in sampled_lifted_rows
+                    ]
+                )
+                * fraction_determinant(
+                    [[middle[i][j] for j in right_flag] for i in left_flag]
+                )
+                * fraction_determinant(
+                    [
+                        [lifted_right[i][j] for j in sampled_lifted_columns]
+                        for i in right_flag
+                    ]
+                )
+                for left_flag in itertools.combinations(
+                    range(2 * feature_count), sample_order
+                )
+                for right_flag in itertools.combinations(
+                    range(2 * feature_count), sample_order
+                )
+            ),
+            Fraction(),
+        )
+        assert triple_sum == lifted_sample_det
+        checked_triple_expansions += 1
 
         selected_row = tangent_rng.randrange(row_count)
         selected_column = tangent_rng.randrange(column_count)
@@ -2697,6 +2748,7 @@ def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
             )
 
     assert checked_coefficients == 360
+    assert checked_triple_expansions == 24
     assert found_negative_ordinary_minor
 
 

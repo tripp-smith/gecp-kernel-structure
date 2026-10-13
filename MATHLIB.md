@@ -485,6 +485,17 @@ encode the layer counts and cross-inversion sign explicitly rather than expose
 an overbroad positivity class. The positive-series kernel and its nine weights
 remain project-specific.
 
+Phase CA adds ordered Cauchy--Binet for a rectangular three-factor product.
+Unlike two nested opaque applications, the theorem indexes both intermediate
+flags and exposes all three minors in each summand. A companion criterion
+combines independent left, middle, and right orientations whose product is
+the external determinant orientation. Both results are generic finite real
+matrix facts and are plausible upstream additions beside rectangular
+Cauchy--Binet; the statements could be generalized to a linearly ordered
+commutative ring. The upper-tangent sample specialization is also generic,
+but its eventual exponential flag-minor sign certificates are project-facing
+until a reusable confluent-total-positivity abstraction emerges.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

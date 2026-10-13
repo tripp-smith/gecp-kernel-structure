@@ -2162,3 +2162,16 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes a
   3,577-job Lean build with 108 tests and no known dependency vulnerabilities;
   the change passed CI and merged as PR #80.
+- Post-v1 research phase CA: verified; delivery pending.
+  `signature_mul_det_mul_mul_rect_eq_sum` expands an arbitrary rectangular
+  three-factor determinant over two ordered intermediate flags, and
+  `signature_mul_det_mul_mul_rect_nonneg_of_factor_orientations` composes
+  separate left, middle, and right minor orientations. The upper-tangent
+  specialization canonically reindexes both feature layers and exposes every
+  sampled tangent determinant through those three minor families. Exact
+  rational checks cover 24 shuffled rectangular triple expansions while
+  retaining the Phase BZ coefficient and negative-minor guards. The actual
+  exponential flag-minor signs, normalized tangent envelope, residual half
+  contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
+  The root command passes a 3,579-job Lean build with 108 tests and no known
+  dependency vulnerabilities.

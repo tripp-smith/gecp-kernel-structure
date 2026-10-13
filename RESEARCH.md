@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CA contract: shuffle-aware tangent Cauchy--Binet
 
-State: in progress.
+State: verified; delivery pending.
 
 Phase BZ identifies the required companion determinant with a distinguished
 minor of a three-factor upper-tangent lift.  The remaining sign problem is
@@ -5138,6 +5138,37 @@ Non-claims:
 - this phase does not prove the finite exponential flag-minor inequalities;
 - it does not prove the nine normalized tangent-minor bounds, residual half
   contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `signedOrderedTripleCauchyBinetTerm` exposes the left, middle, and right
+  minors of one ordered three-factor summand;
+- `signature_mul_det_mul_mul_rect_eq_sum` proves the exact double-flag
+  expansion for arbitrary rectangular real factors;
+- `signature_mul_det_mul_mul_rect_nonneg_of_factor_orientations` composes
+  independent factor orientations without assuming the final determinant
+  sign;
+- `upperTangentSampleLeft`, `upperTangentFeatureMiddle`, and
+  `upperTangentSampleRight` canonically reindex the two feature layers;
+- `signature_mul_det_submatrix_upperTangentMatrix_eq_sum` specializes the
+  expansion to arbitrary sampled upper-tangent feature factorizations;
+- `signature_mul_det_submatrix_upperTangentMatrix_nonneg_of_flag_orientations`
+  states the missing sign theorem using exactly three factor-minor families;
+- exact rational arithmetic verifies 24 randomized rectangular
+  factorizations and 24 shuffled three-factor expansions, while the Phase BZ
+  negative ordinary-minor and 360 oriented-coefficient checks remain active;
+- `./scripts/verify.sh` passes a 3,579-job Lean build, the expanded public
+  axiom audit, 108 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Classify minors of the canonically reindexed middle matrix
+`[[1,W],[0,1]]` for nonnegative diagonal `W`.  Interleaving the two copies of
+each feature turns it into contiguous `2 x 2` unitriangular blocks; the
+conversion back to layer-major order should supply the middle shuffle sign.
+The remaining left and right minors are then confluent/generalized
+Vandermonde flag minors, for which the existing exponential total-positivity
+library is the natural source of the two outer orientation certificates.
 
 ## Phase BZ contract: upper-tangent companion lift
 

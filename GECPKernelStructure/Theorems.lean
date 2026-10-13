@@ -1,11 +1,13 @@
 import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.Matrix.CauchyBinet
+import GECPKernelStructure.Matrix.TripleCauchyBinet
 import GECPKernelStructure.Matrix.BlockFeatureCauchyBinet
 import GECPKernelStructure.Matrix.MixedColumnCoefficients
 import GECPKernelStructure.Matrix.GradedPluckerPairing
 import GECPKernelStructure.Matrix.BorderedPencil
 import GECPKernelStructure.Matrix.DoubleBorderedCompanion
 import GECPKernelStructure.Matrix.UpperTangent
+import GECPKernelStructure.Matrix.UpperTangentCauchyBinet
 import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift
 import GECPKernelStructure.Matrix.DeterminantIntegral
