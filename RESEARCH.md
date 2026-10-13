@@ -5092,6 +5092,55 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CB contract: interleaved tangent cells
+
+State: in progress.
+
+Phase CA separates the tangent determinant into left, middle, and right flag
+minors. For the diagonal feature weights used by the exponential family, the
+middle matrix is a disjoint collection of `2 x 2` upper-unitriangular cells;
+its negative layer-major minors arise only because those cells are not
+contiguous in the layer ordering. Interleaving the two copies of each feature
+should turn the middle problem into ordinary total nonnegativity of a sparse
+upper-bidiagonal matrix, with the lost sign recovered by tuple orientation.
+
+Frozen public Lean targets:
+
+- define the layer/feature equivalence and the local weighted tangent cell;
+- prove that the diagonal-weight upper-tangent middle matrix reindexes to a
+  block diagonal family of those cells in feature-major order;
+- prove every local cell minor is nonnegative and compute the determinant of
+  the complete interleaved middle matrix;
+- add the nonstrict analogue of arbitrary-tuple orientation transfer for a
+  totally nonnegative kernel;
+- derive a middle-factor sign certificate from total nonnegativity of the
+  interleaved cell matrix, with the exact shuffle orientation exposed in the
+  theorem statement.
+
+Independent check:
+
+- exhaustively enumerate all square minors for deterministic diagonal weights
+  and feature counts through five;
+- verify that feature-major minors are nonnegative and layer-major signs agree
+  with the row/column sorting orientations;
+- retain a negative layer-major order-two witness so no ordinary-TN claim can
+  enter through the original ordering.
+
+Decision rule:
+
+- if the interleaved matrix is uniformly TN, make its sparse upper-bidiagonal
+  proof the next exact theorem (or close it in this phase if the Lean proof is
+  short);
+- if feature-major TN fails, minimize the first exact cell-level obstruction
+  before changing representations;
+- do not assume a layer-major minor sign without its explicit orientation.
+
+Non-claims:
+
+- this phase need not prove all-orders TN of the interleaved middle matrix;
+- it does not prove the outer confluent Vandermonde flag signs, the normalized
+  tangent envelope, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CA contract: shuffle-aware tangent Cauchy--Binet
 
 State: complete; merged as PR #81 with green CI.
