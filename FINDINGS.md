@@ -1024,7 +1024,8 @@ pivots.
   row/column tuples. This is strong evidence for a flag-minor or two-layer
   planar-network theorem, not a proof of the missing envelope. The root
   command passes a 3,577-job Lean build, the public axiom audit, and 108 tests
-  with no known dependency vulnerabilities.
+  with no known dependency vulnerabilities. The change passed CI and merged
+  as PR #80.
 
 ## Run provenance
 

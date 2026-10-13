@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BZ contract: upper-tangent companion lift
 
-State: locally verified; PR #80 awaiting CI.
+State: complete; merged as PR #80 with green CI.
 
 Phase BY makes every recursive companion determinant a normalized Phase BX
 double border. The most useful next representation comes from tangent and

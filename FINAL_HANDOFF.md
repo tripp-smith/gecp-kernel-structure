@@ -188,7 +188,7 @@ order-two minors but a consistent cross-inversion orientation for all 360
 tested complete-prefix coefficient polynomials. This isolates a narrower
 flag-minor or two-layer planar-network theorem as the next target. The root
 command passes a 3,577-job Lean build with 108 tests and no known dependency
-vulnerabilities.
+vulnerabilities; the change passed CI and merged as PR #80.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
