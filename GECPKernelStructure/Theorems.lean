@@ -5,7 +5,9 @@ import GECPKernelStructure.Matrix.MixedColumnCoefficients
 import GECPKernelStructure.Matrix.GradedPluckerPairing
 import GECPKernelStructure.Matrix.BorderedPencil
 import GECPKernelStructure.Matrix.DoubleBorderedCompanion
+import GECPKernelStructure.Matrix.UpperTangent
 import GECPKernelStructure.GECP.CompanionClosedForm
+import GECPKernelStructure.GECP.CompanionTangentLift
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign
@@ -54,6 +56,7 @@ import GECPKernelStructure.Fermionic.SchurFeatureElimination
 import GECPKernelStructure.Fermionic.FiniteWeightAmplification
 import GECPKernelStructure.Fermionic.TwoSidedFeatureElimination
 import GECPKernelStructure.Fermionic.ConditionedFeaturePlucker
+import GECPKernelStructure.Fermionic.CompanionTangentLift
 import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction

@@ -25,12 +25,13 @@ noncomputable def twoSidedCompanionSchur
 `twoSidedCompanionSchur`.  Its leading block is upper triangular with two
 copies of the selected core. -/
 def doubleBorderedCompanionMatrix
-    (C : Matrix core core ℝ)
-    (KLeft : Matrix fresh core ℝ) (KRight : Matrix core fresh ℝ)
-    (HCore : Matrix core core ℝ)
-    (HLeft : Matrix fresh core ℝ) (HRight : Matrix core fresh ℝ)
-    (H : Matrix fresh fresh ℝ) :
-    Matrix ((core ⊕ core) ⊕ fresh) ((core ⊕ core) ⊕ fresh) ℝ :=
+    {𝕜 : Type*} [Zero 𝕜]
+    (C : Matrix core core 𝕜)
+    (KLeft : Matrix fresh core 𝕜) (KRight : Matrix core fresh 𝕜)
+    (HCore : Matrix core core 𝕜)
+    (HLeft : Matrix fresh core 𝕜) (HRight : Matrix core fresh 𝕜)
+    (H : Matrix fresh fresh 𝕜) :
+    Matrix ((core ⊕ core) ⊕ fresh) ((core ⊕ core) ⊕ fresh) 𝕜 :=
   Matrix.fromBlocks
     (Matrix.fromBlocks C HCore 0 C)
     (fun index j => Sum.elim (fun i => HRight i j) (fun i => KRight i j) index)

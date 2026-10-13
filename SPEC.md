@@ -2147,3 +2147,17 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes a
   3,574-job Lean build with 107 tests and no known dependency vulnerabilities;
   the change passed CI and merged as PR #79.
+- Post-v1 research phase BZ: locally verified on 2026-10-13; PR #80 awaiting
+  CI. `upperTangentMatrix` identifies the Phase BX double border as a
+  distinguished minor of `[[K,H],[0,K]]`, while
+  `upperTangentMatrix_mul_factorization` exposes the shared feature
+  factorization through `[[1,W],[0,1]]`.
+  `positiveSeriesFermionicKernel_det_le_halfPow_of_upperTangent` proves that
+  the nine normalized tangent-minor bounds imply the Phase BS order-eighteen
+  half-power estimate. Exact rational tests cover 24 randomized
+  factorizations and 360 complete-prefix coefficient polynomials; all tested
+  coefficients obey the explicit selected/fresh cross-inversion orientation,
+  even though ordinary order-two minors can be negative. The oriented-minor
+  theorem, normalized envelope, residual half contraction, dyadic recurrence,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes a
+  3,577-job Lean build with 108 tests and no known dependency vulnerabilities.

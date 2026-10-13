@@ -179,6 +179,17 @@ envelope itself, with no recursive-versus-closed-form gap. The root command
 passes a 3,574-job Lean build with 107 tests and no known dependency
 vulnerabilities; the change passed CI and merged as PR #79.
 
+Post-v1 Phase BZ places the double border inside the upper-tangent kernel
+`[[K,H],[0,K]]` and factors the latter through the common feature matrices and
+the middle block `[[1,W],[0,1]]`. The positive-series specialization proves
+that normalized bounds for its nine distinguished minors imply the Phase BS
+half-power determinant estimate. Exact rational checks find negative ordinary
+order-two minors but a consistent cross-inversion orientation for all 360
+tested complete-prefix coefficient polynomials. This isolates a narrower
+flag-minor or two-layer planar-network theorem as the next target. The root
+command passes a 3,577-job Lean build with 108 tests and no known dependency
+vulnerabilities.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -538,6 +549,10 @@ git status --short
   the Phase BX selected-core Schur expression and specializes the
   double-border factorization to arbitrary finite samples. The normalized
   double-border envelope remains open.
+- Phase BZ proves that those double borders are distinguished upper-tangent
+  minors and that their normalized bounds feed Phase BS directly. The tested
+  cross-inversion coefficient orientation is not yet a theorem, and the
+  normalized envelope remains open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -612,13 +627,12 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Control the normalized double-bordered determinant, whose exact factor
-`|det(C)|²` cancels the prefix core. Phase BY now proves that this is exactly
-the arbitrary-run `Run.conditionBoth` sample required by Phase BS. Negative
-order-two minors rule out ordinary total nonnegativity, so promising methods
-are complementary-minor condensation, a planar-network construction with
-cancellation internal to the determinant, or a mixed-discriminant inequality
-stable under the Schur prefix. A uniform normalized envelope at
+Prove the cross-inversion-oriented flag-minor theorem suggested by Phase BZ's
+upper-tangent factorization. The promising concrete routes are a shuffle-aware
+Cauchy--Binet expansion or a two-layer planar network whose crossing parity is
+the recorded row/column sign. Ordinary total nonnegativity remains false, so
+the theorem must target only the distinguished selected/fresh minors. A
+uniform normalized envelope at
 `56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen half
 contraction; iterating that block across `O(log Lambda)` dyadic levels then
 targets Conjecture G1 and Simons Problem 4.2.

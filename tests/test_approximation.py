@@ -2331,6 +2331,375 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     assert checked_closed_forms == 144
 
 
+def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def upper_tangent(
+        base: list[list[Fraction]], companion: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        row_count = len(base)
+        column_count = len(base[0])
+        return [
+            [
+                base[i][j]
+                if row_layer == column_layer
+                else companion[i][j]
+                if row_layer == 0 and column_layer == 1
+                else Fraction()
+                for column_layer in range(2)
+                for j in range(column_count)
+            ]
+            for row_layer in range(2)
+            for i in range(row_count)
+        ]
+
+    def block_diagonal(
+        matrix: list[list[Fraction]],
+    ) -> list[list[Fraction]]:
+        row_count = len(matrix)
+        column_count = len(matrix[0])
+        return [
+            [
+                matrix[i][j] if row_layer == column_layer else Fraction()
+                for column_layer in range(2)
+                for j in range(column_count)
+            ]
+            for row_layer in range(2)
+            for i in range(row_count)
+        ]
+
+    def solve_vector(
+        coefficient: list[list[Fraction]], right: list[Fraction]
+    ) -> list[Fraction]:
+        order = len(coefficient)
+        upper = [line[:] for line in coefficient]
+        transformed = right[:]
+        for pivot_index in range(order):
+            pivot_row = next(
+                i for i in range(pivot_index, order) if upper[i][pivot_index]
+            )
+            if pivot_row != pivot_index:
+                upper[pivot_index], upper[pivot_row] = (
+                    upper[pivot_row],
+                    upper[pivot_index],
+                )
+                transformed[pivot_index], transformed[pivot_row] = (
+                    transformed[pivot_row],
+                    transformed[pivot_index],
+                )
+            pivot = upper[pivot_index][pivot_index]
+            for i in range(pivot_index + 1, order):
+                factor = upper[i][pivot_index] / pivot
+                for j in range(pivot_index, order):
+                    upper[i][j] -= factor * upper[pivot_index][j]
+                transformed[i] -= factor * transformed[pivot_index]
+        solution = [Fraction() for _ in range(order)]
+        for i in reversed(range(order)):
+            solution[i] = (
+                transformed[i]
+                - sum(
+                    (upper[i][j] * solution[j] for j in range(i + 1, order)),
+                    Fraction(),
+                )
+            ) / upper[i][i]
+        return solution
+
+    def row_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - pivot_matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def column_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * pivot_matrix[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def bi_condition(
+        pivot_matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        return column_condition(
+            pivot_matrix,
+            row_condition(pivot_matrix, companion, pivot_row, pivot_column),
+            pivot_row,
+            pivot_column,
+        )
+
+    tangent_rng = random.Random(0x7A6E17)
+    checked_factorizations = 0
+    for _ in range(24):
+        row_count = tangent_rng.randint(2, 4)
+        feature_count = tangent_rng.randint(1, 4)
+        column_count = tangent_rng.randint(2, 4)
+        left = [
+            [
+                Fraction(tangent_rng.randint(-5, 7), tangent_rng.randint(1, 5))
+                for _ in range(feature_count)
+            ]
+            for _ in range(row_count)
+        ]
+        weight = [
+            [
+                Fraction(tangent_rng.randint(-4, 6), tangent_rng.randint(1, 5))
+                for _ in range(feature_count)
+            ]
+            for _ in range(feature_count)
+        ]
+        right = [
+            [
+                Fraction(tangent_rng.randint(-6, 8), tangent_rng.randint(1, 5))
+                for _ in range(column_count)
+            ]
+            for _ in range(feature_count)
+        ]
+        base = multiply(left, right)
+        companion = multiply(multiply(left, weight), right)
+        identity = [
+            [Fraction(i == j) for j in range(feature_count)]
+            for i in range(feature_count)
+        ]
+        middle = upper_tangent(identity, weight)
+        factored = multiply(
+            multiply(block_diagonal(left), middle), block_diagonal(right)
+        )
+        lifted = upper_tangent(base, companion)
+        assert factored == lifted
+
+        selected_row = tangent_rng.randrange(row_count)
+        selected_column = tangent_rng.randrange(column_count)
+        fresh_row = next(i for i in range(row_count) if i != selected_row)
+        fresh_column = next(j for j in range(column_count) if j != selected_column)
+        lifted_rows = (selected_row, row_count + selected_row, fresh_row)
+        lifted_columns = (
+            selected_column,
+            column_count + selected_column,
+            column_count + fresh_column,
+        )
+        distinguished = [[lifted[i][j] for j in lifted_columns] for i in lifted_rows]
+        double_bordered = [
+            [
+                base[selected_row][selected_column],
+                companion[selected_row][selected_column],
+                companion[selected_row][fresh_column],
+            ],
+            [
+                Fraction(),
+                base[selected_row][selected_column],
+                base[selected_row][fresh_column],
+            ],
+            [
+                base[fresh_row][selected_column],
+                companion[fresh_row][selected_column],
+                companion[fresh_row][fresh_column],
+            ],
+        ]
+        assert distinguished == double_bordered
+        checked_factorizations += 1
+    assert checked_factorizations == 24
+
+    # The full lift is not totally nonnegative, but the distinguished
+    # complete-prefix minors exhibit a narrower coefficientwise orientation.
+    # Interpolate their exact tail-weight polynomials and retain this as
+    # evidence for a future matrix-valued total-positivity theorem.
+    coefficient_rng = random.Random(0x7A6E)
+    checked_coefficients = 0
+    found_negative_ordinary_minor = False
+    for _ in range(8):
+        size = 6
+        denominator = coefficient_rng.choice((11, 13, 17))
+        row_nodes = tuple(
+            sorted(
+                Fraction(value, denominator)
+                for value in coefficient_rng.sample(range(1, denominator + 1), size)
+            )
+        )
+        column_nodes = tuple(
+            sorted(
+                Fraction(value, denominator)
+                for value in coefficient_rng.sample(range(1, 2 * denominator), size)
+            )
+        )
+        terms = 8
+        low_terms = 3
+        kernel = [
+            [
+                sum(
+                    (
+                        x**degree * y**degree / math.factorial(degree)
+                        for degree in range(terms)
+                    ),
+                    Fraction(),
+                )
+                for y in column_nodes
+            ]
+            for x in row_nodes
+        ]
+        residual = [line[:] for line in kernel]
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+        for _ in range(3):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+            residual = row_condition(residual, residual, pivot_row, pivot_column)
+
+        for prefix_length in (1, 2, 3):
+            prefix_rows = selected_rows[:prefix_length]
+            prefix_columns = selected_columns[:prefix_length]
+            available_rows = [i for i in range(size) if i not in prefix_rows]
+            available_columns = [j for j in range(size) if j not in prefix_columns]
+            for order in (1, 2, 3):
+                for _ in range(5):
+                    sampled_rows = tuple(
+                        sorted(coefficient_rng.sample(available_rows, order))
+                    )
+                    sampled_columns = tuple(
+                        sorted(coefficient_rng.sample(available_columns, order))
+                    )
+                    values: list[Fraction] = []
+                    for tail_weight in range(order + 1):
+                        companion = [
+                            [
+                                sum(
+                                    (
+                                        (1 if degree < low_terms else tail_weight)
+                                        * x**degree
+                                        * y**degree
+                                        / math.factorial(degree)
+                                        for degree in range(terms)
+                                    ),
+                                    Fraction(),
+                                )
+                                for y in column_nodes
+                            ]
+                            for x in row_nodes
+                        ]
+                        pivot_kernel = [line[:] for line in kernel]
+                        for pivot_row, pivot_column in zip(
+                            prefix_rows, prefix_columns, strict=True
+                        ):
+                            companion = bi_condition(
+                                pivot_kernel,
+                                companion,
+                                pivot_row,
+                                pivot_column,
+                            )
+                            pivot_kernel = row_condition(
+                                pivot_kernel,
+                                pivot_kernel,
+                                pivot_row,
+                                pivot_column,
+                            )
+                        values.append(
+                            fraction_determinant(
+                                [
+                                    [companion[i][j] for j in sampled_columns]
+                                    for i in sampled_rows
+                                ]
+                            )
+                        )
+                    vandermonde = [
+                        [Fraction(node) ** degree for degree in range(order + 1)]
+                        for node in range(order + 1)
+                    ]
+                    coefficients = solve_vector(vandermonde, values)
+                    cross_inversions = sum(
+                        selected > fresh
+                        for selected in prefix_rows
+                        for fresh in sampled_rows
+                    ) + sum(
+                        selected > fresh
+                        for selected in prefix_columns
+                        for fresh in sampled_columns
+                    )
+                    orientation = -1 if cross_inversions % 2 else 1
+                    assert all(
+                        orientation * coefficient >= 0 for coefficient in coefficients
+                    )
+                    assert any(
+                        orientation * coefficient > 0 for coefficient in coefficients
+                    )
+                    assert orientation * values[1] > 0
+                    checked_coefficients += 1
+
+        if not found_negative_ordinary_minor:
+            weighted = [
+                [
+                    sum(
+                        (
+                            (1 if degree < low_terms else 7)
+                            * x**degree
+                            * y**degree
+                            / math.factorial(degree)
+                            for degree in range(terms)
+                        ),
+                        Fraction(),
+                    )
+                    for y in column_nodes
+                ]
+                for x in row_nodes
+            ]
+            lifted = upper_tangent(kernel, weighted)
+            found_negative_ordinary_minor = any(
+                fraction_determinant([[lifted[i][j] for j in columns] for i in rows])
+                < 0
+                for rows in itertools.combinations(range(2 * size), 2)
+                for columns in itertools.combinations(range(2 * size), 2)
+            )
+
+    assert checked_coefficients == 360
+    assert found_negative_ordinary_minor
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)
