@@ -5092,6 +5092,84 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CA contract: shuffle-aware tangent Cauchy--Binet
+
+State: verified; delivery pending.
+
+Phase BZ identifies the required companion determinant with a distinguished
+minor of a three-factor upper-tangent lift.  The remaining sign problem is
+therefore not an ordinary total-nonnegativity claim: it is a flag-minor claim
+whose left, middle, and right factors carry separate shuffle orientations.
+The next reusable step is to expose all three minors in one ordered
+Cauchy--Binet expansion and make their orientation certificates composable.
+
+Frozen public Lean targets:
+
+- define the ordered three-factor Cauchy--Binet summand for rectangular real
+  matrices `A * M * B`;
+- prove the exact double-sum expansion of an externally oriented determinant;
+- prove a nonnegative-summand criterion and a modular criterion that combines
+  separate left, middle, and right orientation certificates;
+- specialize the expansion to finite upper-tangent feature factorizations,
+  including arbitrary distinguished row and column samples;
+- expose a single theorem whose remaining hypotheses are precisely the three
+  families of oriented flag-minor inequalities needed for the Phase BZ
+  envelope.
+
+Independent check:
+
+- add deterministic exact rational checks of the three-factor expansion under
+  nontrivial sample shuffles and rectangular feature dimensions;
+- retain the Phase BZ negative ordinary minor as a regression guard;
+- compare the summand signs with the recorded selected/fresh cross-inversion
+  parity rather than inferring positivity from determinant values alone.
+
+Decision rule:
+
+- if the upper-tangent specialization isolates uniform factorwise signs,
+  pursue those finite exponential flag-minor inequalities next;
+- if a factor family still changes sign after the explicit shuffle
+  orientation, minimize that factor-level obstruction and move to a
+  cancellation-preserving network or compound-matrix formulation;
+- do not assume the desired determinant sign as a hypothesis.
+
+Non-claims:
+
+- this phase does not prove the finite exponential flag-minor inequalities;
+- it does not prove the nine normalized tangent-minor bounds, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `signedOrderedTripleCauchyBinetTerm` exposes the left, middle, and right
+  minors of one ordered three-factor summand;
+- `signature_mul_det_mul_mul_rect_eq_sum` proves the exact double-flag
+  expansion for arbitrary rectangular real factors;
+- `signature_mul_det_mul_mul_rect_nonneg_of_factor_orientations` composes
+  independent factor orientations without assuming the final determinant
+  sign;
+- `upperTangentSampleLeft`, `upperTangentFeatureMiddle`, and
+  `upperTangentSampleRight` canonically reindex the two feature layers;
+- `signature_mul_det_submatrix_upperTangentMatrix_eq_sum` specializes the
+  expansion to arbitrary sampled upper-tangent feature factorizations;
+- `signature_mul_det_submatrix_upperTangentMatrix_nonneg_of_flag_orientations`
+  states the missing sign theorem using exactly three factor-minor families;
+- exact rational arithmetic verifies 24 randomized rectangular
+  factorizations and 24 shuffled three-factor expansions, while the Phase BZ
+  negative ordinary-minor and 360 oriented-coefficient checks remain active;
+- `./scripts/verify.sh` passes a 3,579-job Lean build, the expanded public
+  axiom audit, 108 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Classify minors of the canonically reindexed middle matrix
+`[[1,W],[0,1]]` for nonnegative diagonal `W`.  Interleaving the two copies of
+each feature turns it into contiguous `2 x 2` unitriangular blocks; the
+conversion back to layer-major order should supply the middle shuffle sign.
+The remaining left and right minors are then confluent/generalized
+Vandermonde flag minors, for which the existing exponential total-positivity
+library is the natural source of the two outer orientation certificates.
+
 ## Phase BZ contract: upper-tangent companion lift
 
 State: complete; merged as PR #80 with green CI.

@@ -190,6 +190,18 @@ flag-minor or two-layer planar-network theorem as the next target. The root
 command passes a 3,577-job Lean build with 108 tests and no known dependency
 vulnerabilities; the change passed CI and merged as PR #80.
 
+Post-v1 Phase CA expands every finite sampled upper-tangent factorization over
+two ordered feature flags. Each summand is now the product of an explicit
+left block-diagonal feature minor, a middle unitriangular tangent minor, and a
+right block-diagonal feature minor. Lean proves that independent orientation
+certificates for those three factors compose to the required determinant
+orientation, without assuming the conclusion. Exact rational arithmetic
+checks 24 shuffled rectangular triple expansions and retains the negative
+ordinary-minor guard. This localizes the remaining theorem to a middle
+shuffle classification and two confluent Vandermonde flag-minor signs. The
+root command passes a 3,579-job Lean build and 108 tests with no known
+dependency vulnerabilities; delivery is pending.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -553,6 +565,9 @@ git status --short
   minors and that their normalized bounds feed Phase BS directly. The tested
   cross-inversion coefficient orientation is not yet a theorem, and the
   normalized envelope remains open.
+- Phase CA proves the exact double-flag Cauchy--Binet expansion and the
+  factorwise orientation-composition interface. It does not prove the three
+  exponential flag-minor sign families or the normalized envelope.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -627,12 +642,14 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the cross-inversion-oriented flag-minor theorem suggested by Phase BZ's
-upper-tangent factorization. The promising concrete routes are a shuffle-aware
-Cauchy--Binet expansion or a two-layer planar network whose crossing parity is
-the recorded row/column sign. Ordinary total nonnegativity remains false, so
-the theorem must target only the distinguished selected/fresh minors. A
-uniform normalized envelope at
+Prove the three factor-minor sign families exposed by Phase CA. Start with the
+middle block: interleave the two copies of each feature so diagonal
+`[[1,w_k],[0,1]]` cells become contiguous, classify its nonzero minors, and
+transport their permutation sign back to layer-major order. Then prove the
+left and right block-diagonal feature signs as confluent/generalized
+Vandermonde flag minors. Ordinary total nonnegativity remains false, so these
+certificates must retain the explicit shuffle orientations. A uniform
+normalized envelope at
 `56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen half
 contraction; iterating that block across `O(log Lambda)` dyadic levels then
 targets Conjecture G1 and Simons Problem 4.2.
