@@ -2133,8 +2133,8 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, the dyadic recurrence, Conjecture G1, and Problem 4.2 remain
   open. The root command passes a 3,573-job Lean build with 107 tests and no
   known dependency vulnerabilities. The change passed CI and merged as PR #78.
-- Post-v1 research phase BY: locally verified on 2026-10-13; pull request and
-  CI pending. `conditionRows_eq_selectedCoreSchur` and
+- Post-v1 research phase BY: locally verified on 2026-10-13; PR #79 awaiting
+  CI. `conditionRows_eq_selectedCoreSchur` and
   `conditionColumns_eq_selectedCoreSchur` prove the closed one-sided
   selected-core formulas, while
   `conditionBoth_eq_twoSidedCompanionSchur` identifies every arbitrary
