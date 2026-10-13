@@ -5092,6 +5092,53 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CA contract: shuffle-aware tangent Cauchy--Binet
+
+State: in progress.
+
+Phase BZ identifies the required companion determinant with a distinguished
+minor of a three-factor upper-tangent lift.  The remaining sign problem is
+therefore not an ordinary total-nonnegativity claim: it is a flag-minor claim
+whose left, middle, and right factors carry separate shuffle orientations.
+The next reusable step is to expose all three minors in one ordered
+Cauchy--Binet expansion and make their orientation certificates composable.
+
+Frozen public Lean targets:
+
+- define the ordered three-factor Cauchy--Binet summand for rectangular real
+  matrices `A * M * B`;
+- prove the exact double-sum expansion of an externally oriented determinant;
+- prove a nonnegative-summand criterion and a modular criterion that combines
+  separate left, middle, and right orientation certificates;
+- specialize the expansion to finite upper-tangent feature factorizations,
+  including arbitrary distinguished row and column samples;
+- expose a single theorem whose remaining hypotheses are precisely the three
+  families of oriented flag-minor inequalities needed for the Phase BZ
+  envelope.
+
+Independent check:
+
+- add deterministic exact rational checks of the three-factor expansion under
+  nontrivial sample shuffles and rectangular feature dimensions;
+- retain the Phase BZ negative ordinary minor as a regression guard;
+- compare the summand signs with the recorded selected/fresh cross-inversion
+  parity rather than inferring positivity from determinant values alone.
+
+Decision rule:
+
+- if the upper-tangent specialization isolates uniform factorwise signs,
+  pursue those finite exponential flag-minor inequalities next;
+- if a factor family still changes sign after the explicit shuffle
+  orientation, minimize that factor-level obstruction and move to a
+  cancellation-preserving network or compound-matrix formulation;
+- do not assume the desired determinant sign as a hypothesis.
+
+Non-claims:
+
+- this phase does not prove the finite exponential flag-minor inequalities;
+- it does not prove the nine normalized tangent-minor bounds, residual half
+  contraction, the dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BZ contract: upper-tangent companion lift
 
 State: complete; merged as PR #80 with green CI.

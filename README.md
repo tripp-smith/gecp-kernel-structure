@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BZ — upper-tangent companion lift<br>
-> **Phase state:** complete<br>
+> **Current phase:** CA — shuffle-aware tangent Cauchy--Binet<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BZ `./scripts/verify.sh` passed a 3,577-job Lean build with 108 tests and no known dependency vulnerabilities on 2026-10-13<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BZ merged in [PR #80](https://github.com/tripp-smith/gecp-kernel-structure/pull/80) with green CI<br>
-> **Claim level:** every normalized double border is now one distinguished minor of the layered upper-tangent kernel `[[K,H],[0,K]]`; a uniform bound for those nine oriented minors conditionally yields the Phase BS half-power estimate
+> **Delivery:** Phase CA implementation branch; Phase BZ merged in [PR #80](https://github.com/tripp-smith/gecp-kernel-structure/pull/80) with green CI<br>
+> **Claim level:** the current target is an exact three-factor expansion that separates the left, middle, and right shuffle orientations of the distinguished upper-tangent minors; the required factorwise flag-minor signs remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -96,6 +96,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BX | Double-bordered companion determinant | complete | generic two-sided companion Schur formula; squared-core determinant factorization; exact multi-pivot companion checks and minor-sign obstruction | 3,573-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification; green CI | merged PR #78 |
 | BY | Selected-core companion closed form | complete | closed row/column conditioning formulas; commuting projectors; arbitrary-run four-term formula; sampled double-border determinant specialization | 3,574-job Lean build; public axiom audit; 144 exact deterministic randomized closed-form checks; 107-test root verification; green CI | merged PR #79 |
 | BZ | Upper-tangent companion lift | complete | layered-kernel minor representation; feature-space tangent factorization; normalized-envelope-to-half-power theorem; cross-inversion-oriented coefficient evidence | 3,577-job Lean build; public axiom audit; 24 exact tangent factorizations; 360 exact oriented coefficient polynomials; 108-test root verification; green CI | merged PR #80 |
+| CA | Shuffle-aware tangent Cauchy--Binet | in progress | ordered three-factor expansion; modular factor-orientation criterion; upper-tangent sample specialization | pending | implementation branch |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
