@@ -2162,7 +2162,7 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes a
   3,577-job Lean build with 108 tests and no known dependency vulnerabilities;
   the change passed CI and merged as PR #80.
-- Post-v1 research phase CA: verified; delivery pending.
+- Post-v1 research phase CA: complete; merged as PR #81 with green CI.
   `signature_mul_det_mul_mul_rect_eq_sum` expands an arbitrary rectangular
   three-factor determinant over two ordered intermediate flags, and
   `signature_mul_det_mul_mul_rect_nonneg_of_factor_orientations` composes
@@ -2174,4 +2174,4 @@ This annotation records delivered identifiers without changing the goals above.
   exponential flag-minor signs, normalized tangent envelope, residual half
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,579-job Lean build with 108 tests and no known
-  dependency vulnerabilities.
+  dependency vulnerabilities; the change passed CI and merged as PR #81.

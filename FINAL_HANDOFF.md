@@ -200,7 +200,7 @@ checks 24 shuffled rectangular triple expansions and retains the negative
 ordinary-minor guard. This localizes the remaining theorem to a middle
 shuffle classification and two confluent Vandermonde flag-minor signs. The
 root command passes a 3,579-job Lean build and 108 tests with no known
-dependency vulnerabilities; delivery is pending.
+dependency vulnerabilities; the change passed CI and merged as PR #81.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency

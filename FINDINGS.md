@@ -1036,7 +1036,7 @@ pivots.
   two layers turns it into contiguous `2 x 2` unitriangular cells; the
   induced shuffle parity is therefore the most promising next exact lemma.
   The root command passes a 3,579-job Lean build, the public axiom audit, and
-  108 tests. Delivery is pending.
+  108 tests. The change passed CI and merged as PR #81.
 
 ## Run provenance
 

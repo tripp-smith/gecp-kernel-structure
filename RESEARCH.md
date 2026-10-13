@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CA contract: shuffle-aware tangent Cauchy--Binet
 
-State: verified; delivery pending.
+State: complete; merged as PR #81 with green CI.
 
 Phase BZ identifies the required companion determinant with a distinguished
 minor of a three-factor upper-tangent lift.  The remaining sign problem is
