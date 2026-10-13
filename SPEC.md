@@ -2147,8 +2147,8 @@ This annotation records delivered identifiers without changing the goals above.
   Conjecture G1, and Problem 4.2 remain open. The root command passes a
   3,574-job Lean build with 107 tests and no known dependency vulnerabilities;
   the change passed CI and merged as PR #79.
-- Post-v1 research phase BZ: locally verified on 2026-10-13; pull request and
-  CI pending. `upperTangentMatrix` identifies the Phase BX double border as a
+- Post-v1 research phase BZ: locally verified on 2026-10-13; PR #80 awaiting
+  CI. `upperTangentMatrix` identifies the Phase BX double border as a
   distinguished minor of `[[K,H],[0,K]]`, while
   `upperTangentMatrix_mul_factorization` exposes the shared feature
   factorization through `[[1,W],[0,1]]`.
