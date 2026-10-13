@@ -5092,6 +5092,66 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BZ contract: upper-tangent companion lift
+
+State: in progress.
+
+Phase BY makes every recursive companion determinant a normalized Phase BX
+double border. The most useful next representation comes from tangent and
+dual-number linear algebra: the double-bordered matrix is a distinguished
+minor of the two-layer kernel
+
+`upperTangent(K,H) = [[K,H],[0,K]]`.
+
+When `K = A*B` and `H = A*W*B`, this lift factors through the same left and
+right feature systems with the upper-unitriangular middle block
+`[[1,W],[0,1]]`. Thus the missing envelope becomes a structured layered-minor
+problem closely related to confluent total positivity, planar networks, and
+compound matrices. This keeps all cancellations inside one determinant while
+exposing the positive diagonal feature weights of the amplified exponential
+family.
+
+Frozen public Lean targets:
+
+- define the generic rectangular upper-tangent matrix `[[K,H],[0,K]]`;
+- define the distinguished row and column embeddings selected by a GECP run
+  and arbitrary fresh samples;
+- prove that the induced submatrix is exactly Phase BX's double-bordered
+  companion matrix;
+- combine that equality with Phase BY to identify its determinant with
+  `det(selectedCore)^2` times the sampled recursive `conditionBoth`
+  determinant;
+- prove the generic feature-space factorization of the upper-tangent matrix
+  when `K=A*B` and `H=A*W*B`;
+- expose the positive-series amplified companion as
+  `lambda • positiveSeriesTailMatrix + positiveSeriesLowLeft *
+  positiveSeriesLowRight`.
+
+Independent check:
+
+- verify the layered-minor and feature-factorization identities in exact
+  rational arithmetic across deterministic randomized dimensions and weights;
+- enumerate the distinguished minors and their polynomial coefficients along
+  complete-pivot prefixes, testing whether a fixed shuffle orientation makes
+  them nonnegative;
+- if that sign claim fails, minimize and retain the first exact obstruction,
+  separating failure of ordinary total positivity from the narrower
+  distinguished-minor class actually needed by Phase BS.
+
+Decision rule:
+
+- if distinguished coefficients retain one orientation, make matrix-valued or
+  confluent total positivity the next theorem contract;
+- if they do not, use the minimized obstruction to select an absolute-norm,
+  complementary-minor, or mixed-discriminant bound instead;
+- do not infer a determinant envelope from finite sign evidence.
+
+Non-claims:
+
+- this phase does not itself prove the nine normalized double-border bounds;
+- it does not prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase BY contract: selected-core companion closed form
 
 State: complete; merged as PR #79 with green CI.

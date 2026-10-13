@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** BY — selected-core companion closed form<br>
-> **Phase state:** complete<br>
+> **Current phase:** BZ — upper-tangent companion lift<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase BY `./scripts/verify.sh` passed a 3,574-job Lean build with 107 tests and no known dependency vulnerabilities on 2026-10-13<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase BY merged in [PR #79](https://github.com/tripp-smith/gecp-kernel-structure/pull/79) with green CI<br>
-> **Claim level:** every recursive two-sided companion run is now formally equal to Phase BX's selected-core Schur expression, so the nine Phase BS premises reduce exactly to normalized double-bordered determinant bounds
+> **Delivery:** Phase BZ contract frozen; implementation in progress<br>
+> **Claim level:** Phase BZ is representing every normalized double border as one distinguished minor of the layered upper-tangent kernel `[[K,H],[0,K]]`, exposing a confluent-total-positivity interface for the remaining nine bounds
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -95,6 +95,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BW | Bordered-pencil linearization | complete | rank-update block determinant; graded feature-pencil bridge; exact finite-weight linearization and sign-cycle obstruction | 3,572-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification; green CI | merged PR #77 |
 | BX | Double-bordered companion determinant | complete | generic two-sided companion Schur formula; squared-core determinant factorization; exact multi-pivot companion checks and minor-sign obstruction | 3,573-job Lean build; public axiom audit; 10 exact rational weights; 107-test root verification; green CI | merged PR #78 |
 | BY | Selected-core companion closed form | complete | closed row/column conditioning formulas; commuting projectors; arbitrary-run four-term formula; sampled double-border determinant specialization | 3,574-job Lean build; public axiom audit; 144 exact deterministic randomized closed-form checks; 107-test root verification; green CI | merged PR #79 |
+| BZ | Upper-tangent companion lift | in progress | layered-kernel minor representation; feature-space tangent factorization; oriented-minor obstruction/evidence | pending | pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
