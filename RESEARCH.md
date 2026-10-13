@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BY contract: selected-core companion closed form
 
-State: locally verified; PR #79 awaiting CI.
+State: complete; merged as PR #79 with green CI.
 
 Phase BX proves the correct generic double-border determinant formula, and
 exact arithmetic confirms that it matches a three-pivot companion run. The

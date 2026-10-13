@@ -1008,7 +1008,7 @@ pivots.
   normalized double-border bounds, but does not prove those bounds or the
   resulting half contraction. The root command passes a 3,574-job Lean build,
   the public axiom audit, and 107 tests with no known dependency
-  vulnerabilities.
+  vulnerabilities. The change passed CI and merged as PR #79.
 
 ## Run provenance
 

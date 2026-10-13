@@ -177,7 +177,7 @@ with the actual recursive companion determinant. Exact rational solves check
 and fresh block. The remaining task is now the normalized double-border
 envelope itself, with no recursive-versus-closed-form gap. The root command
 passes a 3,574-job Lean build with 107 tests and no known dependency
-vulnerabilities.
+vulnerabilities; the change passed CI and merged as PR #79.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
