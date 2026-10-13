@@ -1010,6 +1010,22 @@ pivots.
   the public axiom audit, and 107 tests with no known dependency
   vulnerabilities. The change passed CI and merged as PR #79.
 
+- Phase BZ recognizes the double border as a tangent/dual-number lift. The
+  matrix `[[K,H],[0,K]]` contains every selected-core double border as one
+  distinguished minor, and when `K=A*B`, `H=A*W*B` it factors through
+  `diag(A,A)`, the single upper-unitriangular block `[[1,W],[0,1]]`, and
+  `diag(B,B)`. Lean specializes this to the positive-series amplified kernel
+  and proves that a normalized `2^18` envelope for the nine distinguished
+  minors implies the Phase BS order-eighteen half-power bound. Exact rational
+  tests verify 24 arbitrary feature factorizations and 360 complete-prefix
+  determinant polynomials. Although the full lift still has negative
+  order-two minors, every tested polynomial coefficient has the explicit
+  cross-inversion orientation predicted by sorting the selected and fresh
+  row/column tuples. This is strong evidence for a flag-minor or two-layer
+  planar-network theorem, not a proof of the missing envelope. The root
+  command passes a 3,577-job Lean build, the public axiom audit, and 108 tests
+  with no known dependency vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

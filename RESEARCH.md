@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase BZ contract: upper-tangent companion lift
 
-State: in progress.
+State: locally verified; pull request and CI pending.
 
 Phase BY makes every recursive companion determinant a normalized Phase BX
 double border. The most useful next representation comes from tangent and
@@ -5151,6 +5151,50 @@ Non-claims:
 - this phase does not itself prove the nine normalized double-border bounds;
 - it does not prove residual half contraction, the dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `Matrix.upperTangentMatrix` defines the rectangular layered matrix
+  `[[K,H],[0,K]]`, with explicit distinguished double-border row and column
+  embeddings;
+- `Matrix.submatrix_upperTangentMatrix_eq_doubleBorderedCompanionMatrix` and
+  `Run.upperTangentMatrix_submatrix_eq_doubleBorderedCompanionMatrix` prove
+  that the selected/fresh layered minor is definitionally the Phase BX double
+  border;
+- `Matrix.upperTangentMatrix_mul_factorization` proves
+  `upperTangent(A*B,A*W*B) = diag(A,A) * [[1,W],[0,1]] * diag(B,B)`, exposing
+  the common feature system and the sole companion weight block;
+- `Run.upperTangentMatrix_distinguishedMinor_det` identifies the distinguished
+  determinant with `det(selectedCore)^2` times the recursive companion sample;
+- `positiveSeriesAmplifiedFermionicKernel_eq_smul_tail_add_low` and
+  `conditionBoth_positiveSeriesAmplifiedFermionicKernel` show that the
+  positive-series amplified kernel is exactly the two-sided Phase BS pencil;
+- `positiveSeriesAmplified_upperTangentMinor_det` is its specialized tangent
+  identity, and
+  `positiveSeriesFermionicKernel_det_le_halfPow_of_upperTangent` proves that
+  normalized `2^18` bounds for the nine tangent minors already imply the
+  required order-eighteen half-power determinant estimate;
+- exact rational arithmetic verifies 24 randomized feature factorizations and
+  360 complete-prefix determinant polynomials. Every polynomial coefficient
+  becomes nonnegative after multiplying by the explicit shuffle sign
+  `(-1)^(row cross-inversions + column cross-inversions)`; at the same time,
+  ordinary order-two minors of the full lift remain negative.
+- `./scripts/verify.sh` passes a 3,577-job Lean build, the expanded public
+  axiom audit, 108 Python tests, formatting, typing, and the dependency audit.
+
+The coefficient observation is evidence, not a theorem. It is materially
+narrower than total nonnegativity and survives precisely where the ordinary
+minor property fails.
+
+Next decision:
+
+Formalize the cross-inversion-oriented coefficient statement as a flag-minor
+or matrix-valued total-positivity theorem for the exponential feature lift.
+The feature factorization suggests two disciplined routes: a shuffle-aware
+Cauchy--Binet expansion of `diag(A,A) * [[1,W],[0,1]] * diag(B,B)`, or a
+two-layer planar network whose path-family crossing sign is exactly the
+recorded parity. Either theorem should target only the distinguished
+selected/fresh minors, since ordinary total nonnegativity is exactly false.
 
 ## Phase BY contract: selected-core companion closed form
 

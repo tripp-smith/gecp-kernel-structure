@@ -473,6 +473,18 @@ projector, submatrix compatibility, and square double-border determinant
 specialization are plausible additions near the Schur-complement API; the
 fermionic finite weights and normalized envelope remain project-specific.
 
+Phase BZ packages the tangent functor for rectangular matrices:
+`upperTangent(K,H) = [[K,H],[0,K]]`. It preserves shared factorizations by
+`upperTangent(A*B,A*W*B) = diag(A,A) * [[1,W],[0,1]] * diag(B,B)`, and its
+distinguished selected/fresh submatrix is exactly a double-bordered Schur
+matrix. These are generic semiring/ring identities suitable for a block-matrix
+API. The next possible upstream abstraction is subtler: a shuffle-oriented
+minor theory for upper-tangent lifts, analogous to confluent total positivity
+or flag minors. Ordinary total nonnegativity is false, so any proposal should
+encode the layer counts and cross-inversion sign explicitly rather than expose
+an overbroad positivity class. The positive-series kernel and its nine weights
+remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
