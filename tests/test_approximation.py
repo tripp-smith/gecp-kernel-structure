@@ -2163,6 +2163,173 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             for columns in itertools.combinations(range(len(double_bordered)), 2)
         )
 
+    # Exercise the arbitrary-run closed form independently of the fixed
+    # finite-Taylor witness.  Cauchy kernels give exact nonsingular pivot
+    # cores, while deterministic random companions, weights, prefix lengths,
+    # and fresh blocks probe the full rectangular projection before the
+    # square determinant specialization.  Every core action is evaluated by
+    # exact Gaussian solves rather than by forming an inverse.
+    closed_form_rng = random.Random(0xC105EDF0)
+    checked_closed_forms = 0
+    for _ in range(12):
+        random_rows = tuple(sorted(closed_form_rng.sample(range(1, 45), 6)))
+        random_columns = tuple(sorted(closed_form_rng.sample(range(47, 101), 6)))
+        random_kernel = [
+            [Fraction(1, random_rows[i] + random_columns[j]) for j in range(6)]
+            for i in range(6)
+        ]
+        companion_base = [
+            [
+                Fraction(
+                    closed_form_rng.randint(-11, 11),
+                    closed_form_rng.randint(1, 9),
+                )
+                for _ in range(6)
+            ]
+            for _ in range(6)
+        ]
+        companion_direction = [
+            [
+                Fraction(closed_form_rng.randint(-9, 9), closed_form_rng.randint(1, 7))
+                for _ in range(6)
+            ]
+            for _ in range(6)
+        ]
+
+        pivot_kernel = [line[:] for line in random_kernel]
+        random_selected_rows: list[int] = []
+        random_selected_columns: list[int] = []
+        for _ in range(3):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(pivot_kernel[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(6)
+                for j in range(6)
+                if i not in random_selected_rows and j not in random_selected_columns
+            )
+            assert pivot_kernel[pivot_row][pivot_column]
+            random_selected_rows.append(pivot_row)
+            random_selected_columns.append(pivot_column)
+            pivot_kernel = row_condition(
+                pivot_kernel, pivot_kernel, pivot_row, pivot_column
+            )
+
+        for prefix_length in (1, 2, 3):
+            prefix_rows = random_selected_rows[:prefix_length]
+            prefix_columns = random_selected_columns[:prefix_length]
+            available_rows = [i for i in range(6) if i not in prefix_rows]
+            available_columns = [j for j in range(6) if j not in prefix_columns]
+            fresh_order = closed_form_rng.randint(1, min(3, len(available_rows)))
+            sampled_rows = tuple(
+                sorted(closed_form_rng.sample(available_rows, fresh_order))
+            )
+            sampled_columns = tuple(
+                sorted(closed_form_rng.sample(available_columns, fresh_order))
+            )
+            core = [[random_kernel[i][j] for j in prefix_columns] for i in prefix_rows]
+            core_det = fraction_determinant(core)
+            assert core_det
+
+            for weight in (-3, 0, 2, 7):
+                random_companion = [
+                    [
+                        companion_base[i][j] + weight * companion_direction[i][j]
+                        for j in range(6)
+                    ]
+                    for i in range(6)
+                ]
+                recursive = [line[:] for line in random_companion]
+                recursive_kernel = [line[:] for line in random_kernel]
+                for pivot_row, pivot_column in zip(
+                    prefix_rows, prefix_columns, strict=True
+                ):
+                    recursive = bi_condition(
+                        recursive_kernel, recursive, pivot_row, pivot_column
+                    )
+                    recursive_kernel = row_condition(
+                        recursive_kernel,
+                        recursive_kernel,
+                        pivot_row,
+                        pivot_column,
+                    )
+
+                kernel_left = [
+                    [random_kernel[i][j] for j in prefix_columns] for i in sampled_rows
+                ]
+                kernel_right = [
+                    [random_kernel[i][j] for j in sampled_columns] for i in prefix_rows
+                ]
+                companion_core = [
+                    [random_companion[i][j] for j in prefix_columns]
+                    for i in prefix_rows
+                ]
+                companion_left = [
+                    [random_companion[i][j] for j in prefix_columns]
+                    for i in sampled_rows
+                ]
+                companion_right = [
+                    [random_companion[i][j] for j in sampled_columns]
+                    for i in prefix_rows
+                ]
+                companion_fresh = [
+                    [random_companion[i][j] for j in sampled_columns]
+                    for i in sampled_rows
+                ]
+                left_right_correction = multiply(
+                    kernel_left, solve(core, companion_right)
+                )
+                right_left_correction = multiply(
+                    companion_left, solve(core, kernel_right)
+                )
+                mixed_correction = multiply(
+                    kernel_left,
+                    solve(core, multiply(companion_core, solve(core, kernel_right))),
+                )
+                closed = [
+                    [
+                        companion_fresh[i][j]
+                        - left_right_correction[i][j]
+                        - right_left_correction[i][j]
+                        + mixed_correction[i][j]
+                        for j in range(fresh_order)
+                    ]
+                    for i in range(fresh_order)
+                ]
+                recursive_fresh = [
+                    [recursive[i][j] for j in sampled_columns] for i in sampled_rows
+                ]
+                assert recursive_fresh == closed
+
+                zero_core = [
+                    [Fraction() for _ in range(prefix_length)]
+                    for _ in range(prefix_length)
+                ]
+                double_bordered = (
+                    [
+                        [*core[i], *companion_core[i], *companion_right[i]]
+                        for i in range(prefix_length)
+                    ]
+                    + [
+                        [*zero_core[i], *core[i], *kernel_right[i]]
+                        for i in range(prefix_length)
+                    ]
+                    + [
+                        [*kernel_left[i], *companion_left[i], *companion_fresh[i]]
+                        for i in range(fresh_order)
+                    ]
+                )
+                assert fraction_determinant(double_bordered) == core_det**2 * (
+                    fraction_determinant(recursive_fresh)
+                )
+                checked_closed_forms += 1
+
+    assert checked_closed_forms == 144
+
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)

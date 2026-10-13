@@ -993,6 +993,23 @@ pivots.
   The root command passes a 3,573-job Lean build with 107 tests and no known
   dependency vulnerabilities. The change passed CI and merged as PR #78.
 
+- Phase BY removes the last algebraic ambiguity in that representation. For
+  every successful run, Lean proves that fixed row and column projectors
+  commute, that each iterated one-sided operator is its selected-core
+  correction, and that `conditionBoth` is exactly the global four-term Schur
+  expression. Arbitrary finite samples therefore satisfy Phase BX's
+  double-border identity with determinant
+  `det(selectedCore)^2 * det(sample(conditionBoth H))`. The inverse instance
+  comes only from the already proved nonzero selected-core determinant. An
+  independent exact regression checks 144 deterministic randomized cases
+  across prefix lengths one through three, four companion weights, and
+  varying fresh blocks using rational solves rather than explicit inverses.
+  This identifies the nine Phase BS companion premises exactly with
+  normalized double-border bounds, but does not prove those bounds or the
+  resulting half contraction. The root command passes a 3,574-job Lean build,
+  the public axiom audit, and 107 tests with no known dependency
+  vulnerabilities.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

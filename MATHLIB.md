@@ -460,6 +460,19 @@ a field and could be generalized beyond real matrices near Mathlib's Schur
 complement API. The GECP interpretation, positive-series specialization, and
 finite-weight envelope are project-specific.
 
+Phase BY adds the reusable fixed-trace counterpart. Iterated elementary left
+and right elimination maps commute, and their composition is the single
+rectangular selected-core Schur projector
+`H - K_L C⁻¹ H_R - H_L C⁻¹ K_R + K_L C⁻¹ H_C C⁻¹ K_R`.
+The proof uses only nonsingularity of the selected core, annihilation on its
+selected coordinates, and uniqueness of the resulting interpolation
+correction. A mathlib-facing version could avoid this repository's dependent
+`GECP.Run` type by accepting a finite list of certified elementary operations
+or directly assuming an invertible pivot core. The generic rectangular
+projector, submatrix compatibility, and square double-border determinant
+specialization are plausible additions near the Schur-complement API; the
+fermionic finite weights and normalized envelope remain project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

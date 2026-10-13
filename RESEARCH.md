@@ -5092,6 +5092,87 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase BY contract: selected-core companion closed form
+
+State: locally verified; PR #79 awaiting CI.
+
+Phase BX proves the correct generic double-border determinant formula, and
+exact arithmetic confirms that it matches a three-pivot companion run. The
+remaining algebraic bridge is to identify the recursively defined
+`Run.conditionBoth` with that selected-core Schur expression for every run.
+This can be proved without expanding Plücker coordinates: row conditioning is
+the unique correction by selected kernel columns that vanishes on selected
+rows, the column statement is dual, and left/right elementary projectors
+commute.
+
+Frozen public Lean targets:
+
+- define selected kernel and companion row/column block matrices for a run;
+- prove closed selected-core inverse formulas for `conditionRows` and
+  `conditionColumns`;
+- prove fixed left and right companion updates commute and deduce
+  `conditionBoth = conditionColumns ∘ conditionRows`;
+- derive the four-term selected-core formula for `conditionBoth`;
+- specialize Phase BX's squared-core determinant identity to arbitrary finite
+  samples of a successful run.
+
+Independent check:
+
+- retain the exact Phase BX three-pivot entrywise and determinant checks;
+- add deterministic exact randomized runs comparing the recursive and closed
+  formulas for multiple prefix lengths, companion weights, and fresh blocks;
+- use solve-based rational arithmetic and never form an explicit inverse.
+
+Decision rule:
+
+- construct the selected-core inverse instance only from the already proved
+  `selectedCore_det_ne` theorem;
+- use annihilation and interpolation uniqueness instead of recursively
+  expanding a block inverse when possible;
+- stop at a precise missing lemma if dependent selected-index bookkeeping
+  prevents the full sampled specialization.
+
+Non-claims:
+
+- this phase does not prove the normalized double-border envelope;
+- it does not prove residual half contraction, the dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `Run.conditionRows_eq_selectedCoreSchur` and
+  `Run.conditionColumns_eq_selectedCoreSchur` identify both iterated
+  one-sided operators with their selected-core oblique-projector formulas;
+- `companionRowUpdate_companionColumnUpdate` and
+  `Run.conditionBoth_eq_conditionColumns_conditionRows` prove that the
+  recursively interleaved left/right operations may be globally composed;
+- `Run.conditionBoth_eq_twoSidedCompanionSchur` proves the exact four-term
+  formula for every successful run over an arbitrary field;
+- `Run.conditionBoth_sample_eq_twoSidedCompanionSchur` transports the formula
+  to arbitrary finite row and column samples, while
+  `Run.doubleBorderedCompanionMatrix_det_eq_conditionBoth_sample` specializes
+  Phase BX to show that the double-border determinant is exactly
+  `det(selectedCore)^2` times the sampled recursive companion determinant;
+- the selected-core inverse is constructed solely from
+  `selectedCore_det_ne`; no extra invertibility assumption is exposed;
+- exact solve-based rational arithmetic checks 144 deterministic randomized
+  combinations of Cauchy-kernel runs, prefix lengths one through three, four
+  companion weights, and varying fresh blocks, in addition to retaining the
+  Phase BX witness checks.
+- `./scripts/verify.sh` passes a 3,574-job Lean build, the expanded public
+  axiom audit, 107 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Control the normalized double-bordered determinant for the positive-series
+amplified companions at the nine Phase BS weights. The recursive/closed-form
+ambiguity is gone: this is now the exact remaining analytic premise. Ordinary
+total nonnegativity is unavailable because Phase BX's negative order-two
+minors persist, so the next phase should test cancellation-preserving routes
+such as complementary-minor condensation, planar-network realizations with
+internal signed paths, or a mixed-discriminant inequality stable under the
+selected-core Schur prefix.
+
 ## Phase BX contract: double-bordered companion determinant
 
 State: complete; merged as PR #78 with green CI.
