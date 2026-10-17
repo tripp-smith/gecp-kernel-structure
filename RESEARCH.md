@@ -5092,6 +5092,59 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CL contract: fresh-order-two Lorentzian bridge
+
+State: in progress.
+
+Phase CK isolates nonnegative generalized spectrum as the promising compound
+invariant. At fresh order two the threshold determinant is quadratic, so this
+claim has a sharp scalar form. If its oriented coefficients are
+`c0,c1,c2`, real nonpositive roots are equivalent (away from degenerate
+endpoints) to the Lorentzian/Alexandrov--Fenchel inequality
+`4*c0*c2 ≤ c1^2`. A first attempt to force this from one row or column
+cross-minor sign is false on most exact samples; the proof must preserve the
+full mixed-minor sum, as in a Hodge--Riemann or mixed-discriminant argument.
+
+Frozen public Lean targets:
+
+- define the constant, mixed, and quadratic coefficients of a `2 x 2`
+  determinant pencil and prove its exact polynomial expansion;
+- identify the polynomial discriminant with `c1^2 - 4*c0*c2` and expose the
+  exact Lorentzian inequality required for real roots;
+- construct nonnegative spectral factors from nonnegative coefficients,
+  positive quadratic coefficient, and the Lorentzian inequality, proving the
+  factorization for every scalar weight;
+- compose that scalar factorization with the matrix-pencil expansion, without
+  introducing an inverse or an eigenvalue axiom.
+
+Independent check:
+
+- audit deterministic exact finite-Taylor complete-pivot prefixes through
+  fresh order two, checking every threshold coefficient and discriminant;
+- evaluate both tempting single row- and column-cross-minor sufficient signs,
+  and retain their failure count so they cannot be mistaken for the missing
+  theorem;
+- independently substitute the constructed quadratic factors back into each
+  audited polynomial using exact arithmetic plus certified real-square-root
+  identities in Lean.
+
+Decision rule:
+
+- if the exact Lorentzian inequality survives while the single-cross-minor
+  criteria fail, next seek a compound mixed-discriminant/Hodge--Riemann proof;
+- if the inequality fails, minimize the exact fresh-order-two witness and
+  retreat to the nine finite Phase BS weights;
+- do not infer arbitrary fresh order or the infinite-tail result from a
+  quadratic theorem.
+
+Non-claims:
+
+- this phase does not prove the fermionic Lorentzian inequality itself or the
+  compound grouped-sign theorem beyond the stated discriminant premise;
+- it does not prove the infinite-tail passage, normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
 ## Phase CK contract: compound generalized-spectrum reduction
 
 State: complete; merged as PR #91 with green CI.
