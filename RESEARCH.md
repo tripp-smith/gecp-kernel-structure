@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CB contract: interleaved tangent cells
 
-State: verified; delivery pending.
+State: complete; merged as PR #82 with green CI.
 
 Phase CA separates the tangent determinant into left, middle, and right flag
 minors. For the diagonal feature weights used by the exponential family, the

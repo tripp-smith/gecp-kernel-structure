@@ -1047,7 +1047,7 @@ pivots.
   five cells; negative unoriented layer-major minors still occur. The single
   remaining middle lemma is all-orders TN of the sparse upper-bidiagonal
   direct sum. The root command passes a 3,580-job Lean build, the public axiom
-  audit, and 109 tests. Delivery is pending.
+  audit, and 109 tests. The change passed CI and merged as PR #82.
 
 ## Run provenance
 

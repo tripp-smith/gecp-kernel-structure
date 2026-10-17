@@ -213,7 +213,7 @@ layer-major counterparts through five cells, while retaining a negative
 unoriented witness. The remaining middle obligation is the generic
 all-orders TN closure for this sparse upper-bidiagonal direct sum. The root
 command passes a 3,580-job Lean build and 109 tests with no known dependency
-vulnerabilities; delivery is pending.
+vulnerabilities; the change passed CI and merged as PR #82.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency

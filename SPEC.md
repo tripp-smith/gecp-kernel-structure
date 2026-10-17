@@ -2175,7 +2175,7 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,579-job Lean build with 108 tests and no known
   dependency vulnerabilities; the change passed CI and merged as PR #81.
-- Post-v1 research phase CB: verified; delivery pending.
+- Post-v1 research phase CB: complete; merged as PR #82 with green CI.
   `reindex_upperTangent_diagonal_eq_blockDiagonal` identifies the diagonal
   tangent middle factor, after feature interleaving, with independent
   `2 x 2` cells `[[1,w],[0,1]]`.
@@ -2187,4 +2187,5 @@ This annotation records delivered identifiers without changing the goals above.
   through five cells. All-orders TN of the cell direct sum, the two outer
   flag-minor signs, normalized tangent envelope, Conjecture G1, and Problem
   4.2 remain open. The root command passes a 3,580-job Lean build with 109
-  tests and no known dependency vulnerabilities.
+  tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #82.
