@@ -1173,7 +1173,8 @@ pivots.
   of arbitrary conditioned fermionic low/high pairs, the infinite-tail
   passage, normalized tangent envelope, order-eighteen contraction, dyadic
   recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
-  passes a 3,593-job Lean build and 116 tests.
+  passes a 3,593-job Lean build and 116 tests. The change passed CI and merged
+  as PR #91.
 
 ## Run provenance
 

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CK contract: compound generalized-spectrum reduction
 
-State: verified in PR #91; merge pending.
+State: complete; merged as PR #91 with green CI.
 
 Phase CJ proves the complete one-pivot grouped theorem, but its scalar
 conditional-covariance argument does not extend coordinatewise to feature
@@ -5165,6 +5165,7 @@ Delivered result:
   common diagonal factorization, for the conditioned low/high pair.
 - `./scripts/verify.sh` passes a 3,593-job Lean build, the expanded public
   axiom audit, 116 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #91.
 
 Next decision:
 
