@@ -2232,7 +2232,7 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,584-job Lean build with
   112 tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #85.
-- Post-v1 research phase CF: verified; pull request pending.
+- Post-v1 research phase CF: complete; merged as PR #86 with green CI.
   `sparseFeatureProjection` packages a one-hot feature inclusion and its
   transpose as a nonnegative diagonal action.
   `det_mul_sparseFeatureProjection_mul` proves that inserting this projection
@@ -2246,4 +2246,4 @@ This annotation records delivered identifiers without changing the goals above.
   coefficient signs, the normalized tangent envelope, order-eighteen
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,585-job Lean build with 112 tests and no known
-  dependency vulnerabilities.
+  dependency vulnerabilities; the change passed CI and merged as PR #86.

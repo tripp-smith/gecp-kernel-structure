@@ -1098,6 +1098,7 @@ pivots.
   exact witness. The next target is therefore positivity of grouped tail-count
   coefficients for contiguous step weights. The root command passes a
   3,585-job Lean build and 112 tests.
+  The change passed CI and merged as PR #86.
 
 ## Run provenance
 

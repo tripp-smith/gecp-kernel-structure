@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CF — sparse diagonal obstruction<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase CF `./scripts/verify.sh` passed a 3,585-job Lean build with 112 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CF implementation is verified locally; pull request pending<br>
+> **Delivery:** Phase CF merged in [PR #86](https://github.com/tripp-smith/gecp-kernel-structure/pull/86) with green CI<br>
 > **Claim level:** Phase CF proves arbitrary nonnegative diagonal action is too broad by isolating the negative Phase BV Plucker coordinates; the surviving sign target is the physical contiguous step-weight family
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -101,7 +101,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CC | Upper-bidiagonal total nonnegativity | complete | noncrossing-support TN criterion; all-orders interleaved-middle TN; unconditional diagonal middle shuffle certificate | 3,581-job Lean build; public axiom audit; 12,403 exact nonidentity matching terms; 110-test root verification; green CI | merged PR #83 |
 | CD | Factorwise orientation obstruction | complete | exact negative double-flag term; impossibility of separate factor orientations; positive complete tangent determinant | 3,582-job Lean build; public axiom audit; exact 2/3-feature census; 111-test root verification; green CI | merged PR #84 |
 | CE | Conditioned tangent cancellation collapse | complete | factorized distinguished-minor identity; global double-flag regrouping; finite positive-Taylor diagonal specialization | 3,584-job Lean build; public axiom audit; 5,000 exact nonnegative-weight cases; 112-test root verification; green CI | merged PR #85 |
-| CF | Sparse diagonal obstruction | verified | sparse feature projection; isolated matched-coordinate determinant; physical step-weight narrowing | 3,585-job Lean build; public axiom audit; 2 exact sparse failures and 90 positive step weights; 112-test root verification | PR pending |
+| CF | Sparse diagonal obstruction | complete | sparse feature projection; isolated matched-coordinate determinant; physical step-weight narrowing | 3,585-job Lean build; public axiom audit; 2 exact sparse failures and 90 positive step weights; 112-test root verification; green CI | merged PR #86 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

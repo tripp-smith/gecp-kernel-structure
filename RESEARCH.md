@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CF contract: sparse diagonal obstruction
 
-State: verified; pull request pending.
+State: complete; merged as PR #86 with green CI.
 
 Phase CE's dense exact census suggested that arbitrary nonnegative diagonal
 weights might preserve the distinguished orientation.  Phase BV already
@@ -5169,6 +5169,7 @@ Delivered result:
   and the sparse projection is the decisive adversarial test;
 - `./scripts/verify.sh` passes a 3,585-job Lean build, the expanded public
   axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #86.
 
 Next decision:
 
