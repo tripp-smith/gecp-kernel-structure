@@ -2262,3 +2262,20 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,586-job Lean build with
   112 tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #87.
+- Post-v1 research phase CH: verified; pull request pending.
+  `phaseCH_middle_borderedProduct_neg` gives the minimal observed one-pivot
+  positive-Taylor coordinate cancellation at the exact nodes
+  `x=(1/8,1/4)`, `y=(6,22)`, with bordered products
+  `561/64`, `-7/256`, and `801/32`.
+  `phaseCH_proper_contiguous_groups_pos` proves that all proper nonempty
+  prefix and suffix groups remain positive, and `phaseCH_firstStep_pos` and
+  `phaseCH_secondStep_pos` prove the two nontrivial contiguous-step
+  determinants positive for every nonnegative scalar weight. An independent
+  exact census checks 6,468 two-feature cases without a negative coordinate
+  and finds 800 three-feature cancellations, beginning with the formal
+  witness. This isolates adjacent-degree compensation but does not prove the
+  grouped sign for arbitrary nodes, prefixes, or fresh order. The infinite-
+  tail passage, normalized tangent envelope, order-eighteen contraction,
+  dyadic recurrence, Conjecture G1, and Problem 4.2 remain open. The root
+  command passes a 3,587-job Lean build with 113 tests and no known dependency
+  vulnerabilities.

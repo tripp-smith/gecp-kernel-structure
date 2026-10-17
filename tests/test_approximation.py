@@ -3075,6 +3075,140 @@ def test_conditioned_tangent_nonnegative_weight_boundary_exactly() -> None:
     assert signed_weight_failure == Fraction(-4, 169)
 
 
+def test_minimal_grouped_cancellation_witness_exactly() -> None:
+    def taylor_factors(
+        feature_count: int,
+        row_nodes: tuple[Fraction, Fraction],
+        column_nodes: tuple[Fraction, Fraction],
+    ) -> tuple[list[list[Fraction]], list[list[Fraction]]]:
+        left = [
+            [x**degree / math.factorial(degree) for degree in range(feature_count)]
+            for x in row_nodes
+        ]
+        right = [[y**degree for y in column_nodes] for degree in range(feature_count)]
+        return left, right
+
+    def multiply_exact(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(left[i][k] * right[k][j] for k in range(len(right)))
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def bordered_products(
+        feature_count: int,
+        row_nodes: tuple[Fraction, Fraction],
+        column_nodes: tuple[Fraction, Fraction],
+    ) -> tuple[Fraction, ...]:
+        left, right = taylor_factors(feature_count, row_nodes, column_nodes)
+        kernel = [
+            [
+                sum(
+                    left[i][degree] * right[degree][j]
+                    for degree in range(feature_count)
+                )
+                for j in range(2)
+            ]
+            for i in range(2)
+        ]
+        core = kernel[0][0]
+        conditioned_left = [
+            left[1][degree] - kernel[1][0] * left[0][degree] / core
+            for degree in range(feature_count)
+        ]
+        conditioned_right = [
+            right[degree][1] - right[degree][0] * kernel[0][1] / core
+            for degree in range(feature_count)
+        ]
+        products = tuple(
+            (core * left[1][degree] - left[0][degree] * kernel[1][0])
+            * (core * right[degree][1] - kernel[0][1] * right[degree][0])
+            for degree in range(feature_count)
+        )
+        assert products == tuple(
+            core**2 * conditioned_left[degree] * conditioned_right[degree]
+            for degree in range(feature_count)
+        )
+        return products
+
+    row_nodes = (Fraction(1, 8), Fraction(1, 4))
+    column_nodes = (Fraction(6), Fraction(22))
+    left, right = taylor_factors(3, row_nodes, column_nodes)
+    assert left == [
+        [Fraction(1), Fraction(1, 8), Fraction(1, 128)],
+        [Fraction(1), Fraction(1, 4), Fraction(1, 32)],
+    ]
+    assert right == [
+        [Fraction(1), Fraction(1)],
+        [Fraction(6), Fraction(22)],
+        [Fraction(36), Fraction(484)],
+    ]
+    kernel = multiply_exact(left, right)
+    assert kernel == [
+        [Fraction(65, 32), Fraction(241, 32)],
+        [Fraction(29, 8), Fraction(173, 8)],
+    ]
+
+    products = bordered_products(3, row_nodes, column_nodes)
+    assert products == (
+        Fraction(561, 64),
+        Fraction(-7, 256),
+        Fraction(801, 32),
+    )
+    assert products[1] < 0
+    prefix_sums = tuple(sum(products[:cutoff], Fraction()) for cutoff in range(4))
+    suffix_sums = tuple(sum(products[cutoff:], Fraction()) for cutoff in range(4))
+    assert prefix_sums == (
+        Fraction(),
+        Fraction(561, 64),
+        Fraction(2237, 256),
+        Fraction(8645, 256),
+    )
+    assert suffix_sums == (
+        Fraction(8645, 256),
+        Fraction(6401, 256),
+        Fraction(801, 32),
+        Fraction(),
+    )
+    assert all(prefix_sums[cutoff] > 0 for cutoff in (1, 2))
+    assert all(suffix_sums[cutoff] > 0 for cutoff in (1, 2))
+    for weight in map(Fraction, (0, 1, 56, 65, 128)):
+        assert prefix_sums[1] + weight * suffix_sums[1] > 0
+        assert prefix_sums[2] + weight * suffix_sums[2] > 0
+
+    # In this ordered physical grid, two features never produce a negative
+    # coordinate.  Three features do, and the formal witness is the first one
+    # in lexicographic enumeration.
+    physical_rows = tuple(Fraction(numerator, 8) for numerator in range(1, 9))
+    positive_columns = tuple(map(Fraction, range(1, 23)))
+    two_feature_cases = 0
+    three_feature_cancellations = []
+    for grid_rows in itertools.combinations(physical_rows, 2):
+        for grid_columns in itertools.combinations(positive_columns, 2):
+            assert all(
+                product >= 0
+                for product in bordered_products(2, grid_rows, grid_columns)
+            )
+            two_feature_cases += 1
+            three_products = bordered_products(3, grid_rows, grid_columns)
+            if any(product < 0 for product in three_products):
+                three_feature_cancellations.append(
+                    (*grid_rows, *grid_columns, three_products)
+                )
+
+    assert two_feature_cases == 6468
+    assert len(three_feature_cancellations) == 800
+    assert three_feature_cancellations[0] == (
+        *row_nodes,
+        *column_nodes,
+        products,
+    )
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(

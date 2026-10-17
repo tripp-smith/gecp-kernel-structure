@@ -1114,6 +1114,19 @@ pivots.
   112 tests.
   The change passed CI and merged as PR #87.
 
+- Phase CH isolates the smallest observed cancellation inside one grouped
+  coefficient. At one pivot with three consecutive Taylor features and exact
+  nodes `x=(1/8,1/4)`, `y=(6,22)`, the bordered products are `561/64`,
+  `-7/256`, and `801/32`: coordinatewise positivity fails, but every proper
+  nonempty prefix and suffix group is positive. Lean proves both nontrivial
+  contiguous-step determinants strictly positive for every nonnegative
+  weight. Exact arithmetic exhausts 6,468 ordered grid cases without any
+  two-feature cancellation and finds 800 three-feature cancellations, with
+  this witness first lexicographically. This points to an adjacent-degree
+  variation-diminishing inequality as the next analytic target; it does not
+  establish the arbitrary-prefix grouped theorem. The root command passes a
+  3,587-job Lean build and 113 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

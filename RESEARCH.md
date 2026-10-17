@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CH contract: minimal grouped cancellation witness
 
-State: in progress.
+State: verified; pull request pending.
 
 Phase CG reduces the analytic problem to signs of tail-count groups.  A search
 for the smallest cancellation mechanism finds it already with one pivot, one
@@ -5141,6 +5141,38 @@ Non-claims:
   fresh order, nor the infinite-tail passage or normalized tangent envelopes;
 - it does not prove the residual half contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `phaseCHKernel_eq` computes the exact three-feature Taylor kernel at
+  `x=(1/8,1/4)` and `y=(6,22)`;
+- `phaseCHBorderedProduct_zero`, `phaseCHBorderedProduct_one`, and
+  `phaseCHBorderedProduct_two` compute the three bordered products as
+  `561/64`, `-7/256`, and `801/32`, while
+  `phaseCH_middle_borderedProduct_neg` formally certifies the coordinatewise
+  obstruction;
+- `phaseCH_proper_contiguous_groups_pos` proves all proper nonempty prefix and
+  suffix groups positive, and `phaseCH_firstStep_pos` and
+  `phaseCH_secondStep_pos` prove both nontrivial contiguous-step determinants
+  positive for every nonnegative weight;
+- exact `Fraction` arithmetic independently recomputes the factors, kernel,
+  conditioned factors, bordered products, groups, and step evaluations;
+- an exhaustive ordered grid of 6,468 physical-row/positive-column cases has
+  no two-feature negative coordinate, while 800 three-feature cases do; the
+  formal witness is the first in lexicographic enumeration;
+- `./scripts/verify.sh` passes a 3,587-job Lean build, the expanded public
+  axiom audit, 113 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Derive the one-pivot three-feature products symbolically and prove the two
+adjacent grouped inequalities on the full ordered physical domain.  The
+promising mechanism is variation diminution in the feature degree: the middle
+coordinate may reverse sign, but its magnitude is controlled by a neighboring
+endpoint coordinate.  A successful order-three theorem should then be stated
+as a prefix/suffix-sum invariant that can plausibly lift by compound-matrix or
+sign-reversing-involution arguments, rather than as the already false
+coordinatewise positivity claim.
 
 ## Phase CG contract: grouped conditioned Plucker bridge
 
