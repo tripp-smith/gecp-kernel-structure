@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CI contract: three-feature grouped sign theorem
 
-State: verified; pull request pending.
+State: complete; merged as PR #89 with green CI.
 
 Phase CH exhibits the smallest observed coordinate cancellation but also shows
 that both neighboring groups stay positive.  Symbolic elimination for general
@@ -5165,6 +5165,7 @@ Delivered result:
   cases, including zero endpoints and row nodes larger than one;
 - `./scripts/verify.sh` passes a 3,588-job Lean build, the expanded public
   axiom audit, 114 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #89.
 
 Next decision:
 

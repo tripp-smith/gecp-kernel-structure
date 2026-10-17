@@ -2279,7 +2279,7 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic recurrence, Conjecture G1, and Problem 4.2 remain open. The root
   command passes a 3,587-job Lean build with 113 tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #88.
-- Post-v1 research phase CI: verified; pull request pending.
+- Post-v1 research phase CI: complete; merged as PR #89 with green CI.
   `positiveTaylorThree_prefix_factor` and
   `positiveTaylorThree_suffix_factor` express both adjacent one-pivot,
   three-feature groups as the product of the ordered row gap, ordered column
@@ -2295,4 +2295,4 @@ This annotation records delivered identifiers without changing the goals above.
   tail passage, normalized tangent envelope, order-eighteen contraction,
   dyadic recurrence, Conjecture G1, and Problem 4.2 remain open. The root
   command passes a 3,588-job Lean build with 114 tests and no known dependency
-  vulnerabilities.
+  vulnerabilities; the change passed CI and merged as PR #89.

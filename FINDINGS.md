@@ -1141,6 +1141,7 @@ pivots.
   feature weights, center two increasing exponential sequences, and decompose
   each prefix or suffix into conditional covariance plus same-sign mean
   shifts. The root command passes a 3,588-job Lean build and 114 tests.
+  The change passed CI and merged as PR #89.
 
 ## Run provenance
 
