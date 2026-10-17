@@ -516,6 +516,16 @@ behind Lindstrom--Gessel--Viennot and is a credible upstream lemma near a
 future total-nonnegative matrix API. The specialization to interleaved
 `2 x 2` tangent cells and its layer-shuffle orientation remain project-facing.
 
+Phase CD supplies a caution for any prospective oriented three-factor
+Cauchy--Binet API. Separate nonnegative orientations of the left, middle, and
+right minors are sufficient but not necessary for positivity of the complete
+product determinant: an exact positive-monomial tangent witness has negative
+individual double-flag terms and a positive total. The reusable abstraction
+should therefore stop at the existing sufficient criterion. A stronger
+future theory would need to encode cancellation globally, perhaps through
+compound matrices, exterior algebra, or a planar-network model; the concrete
+three-feature witness and fermionic envelope remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

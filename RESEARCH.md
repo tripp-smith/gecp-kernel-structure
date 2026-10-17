@@ -5092,6 +5092,87 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CD contract: factorwise orientation obstruction
+
+State: verified locally; delivery pending.
+
+Phase CC closes the middle matrix's all-orders total nonnegativity, but the
+Phase CA criterion additionally requires the three factor orientations to
+multiply to one external sign for every pair of intermediate flags.  Exact
+enumeration of the smallest distinguished positive-monomial tangent example
+shows that this stronger termwise condition fails: with two physical nodes,
+three features, positive diagonal weights, and one selected plus one fresh
+row and column, 12 double-flag terms are nonzero, 10 are positive, and 2 are
+negative, while their complete sum is positive.  The two-feature case has no
+mixed sign, making three features the first obstruction in this family.
+
+Frozen public Lean targets:
+
+- define the exact two-node, three-feature positive monomial factors,
+  positive diagonal tangent weights, distinguished row/column sample, and
+  explicit negative double flag;
+- prove the left, middle, and right flag minors and their negative product by
+  exact rational normalization;
+- prove that no left/middle/right orientation functions can satisfy Phase
+  CA's factorwise nonnegativity interface with external signature `1` on this
+  witness;
+- compute the complete distinguished tangent determinant and prove it is
+  positive, separating failure of the proof interface from failure of the
+  desired global sign.
+
+Independent check:
+
+- enumerate every double flag in exact `Fraction` arithmetic for feature
+  counts two and three;
+- verify that the two-feature witness has two positive nonzero terms, while
+  the three-feature witness has exactly 12 nonzero terms, 10 positive and 2
+  negative, summing to `24929 / 27648`;
+- retain the explicit negative term `-1 / 192` and independently compare the
+  full double sum with the directly sampled tangent determinant.
+
+Decision rule:
+
+- if Lean confirms the obstruction, retire termwise factor-orientation
+  composition as the route to the positive-series envelope and target a
+  cancellation-preserving confluent/jet determinant theorem next;
+- if the exact witness fails to formalize, identify the discrepancy between
+  the Python flags and the canonical Lean reindexing before changing claims;
+- do not weaken the final determinant sign objective merely because the
+  sufficient Phase CA interface is too strong.
+
+Non-claims:
+
+- this phase does not refute positivity of the complete distinguished tangent
+  determinant or its normalized envelope;
+- it does not prove the order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `phaseCD_negative_triple_term` proves that the flags `(0,1,5)` and
+  `(0,4,5)` contribute exactly `-1/192` to the ordered triple
+  Cauchy--Binet expansion;
+- `phaseCD_no_factorwise_positive_orientation` turns that witness into a
+  formal impossibility theorem for Phase CA's separate factor-orientation
+  interface with external signature one;
+- `phaseCD_complete_tangent_det` and its positivity corollary prove that the
+  complete distinguished determinant is nevertheless
+  `24929/27648 > 0`;
+- exact `Fraction` enumeration confirms that two features have only the
+  positive terms `1/2` and `1/36`, whereas three features have 12 nonzero
+  terms, 10 positive and 2 negative, whose sum matches the direct
+  determinant;
+- `./scripts/verify.sh` passes a 3,582-job Lean build, the expanded public
+  axiom audit, 111 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Retire separate factorwise orientation as the main route. The next target is
+a cancellation-preserving theorem for the complete confluent/jet determinant:
+either a planar-network/Lindstrom--Gessel--Viennot model whose path families
+encode the whole double-flag sum, or an exterior-algebra/sign-reversing
+involution that pairs the negative flags before estimating the determinant.
+
 ## Phase CC contract: upper-bidiagonal total nonnegativity
 
 State: complete; merged as PR #83 with green CI.

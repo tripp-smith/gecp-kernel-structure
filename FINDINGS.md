@@ -1049,6 +1049,29 @@ pivots.
   direct sum. The root command passes a 3,580-job Lean build, the public axiom
   audit, and 109 tests. The change passed CI and merged as PR #82.
 
+- Phase CC closes the middle-factor theorem at every order. The reusable
+  `totallyNonnegative_of_nonnegative_of_noncrossing` criterion shows that an
+  entrywise nonnegative matrix with planar, noncrossing support is totally
+  nonnegative because every nonidentity determinant matching vanishes.
+  Applied to the interleaved tangent cells, it removes Phase CA's conditional
+  middle-factor premise for arbitrary nonnegative diagonal weights. The root
+  command passes a 3,581-job Lean build and 110 tests; the change passed CI
+  and merged as PR #83.
+
+- Phase CD identifies a decisive limitation of the factorwise route. In the
+  first positive-monomial witness with mixed signs—two physical nodes and
+  three features—the ordered triple Cauchy--Binet expansion has 12 nonzero
+  terms, including the formally certified term `-1/192`, even though the
+  complete determinant is the positive value `24929/27648`. Lean therefore
+  proves that no separate left/middle/right orientation functions can satisfy
+  Phase CA's termwise interface on this witness. The two-feature case has only
+  the positive terms `1/2` and `1/36`, so three features are minimal in this
+  family. The surviving route must preserve cancellation globally, for
+  example through a confluent planar network, compound/exterior algebra, or a
+  sign-reversing involution; proving the final envelope, Conjecture G1, and
+  Problem 4.2 remains open. The root command passes a 3,582-job Lean build and
+  111 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

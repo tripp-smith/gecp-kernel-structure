@@ -227,6 +227,17 @@ now the only missing sign inputs to the three-factor expansion. The root
 command passes a 3,581-job Lean build and 110 tests with no known dependency
 vulnerabilities; the change passed CI and merged as PR #83.
 
+Post-v1 Phase CD shows that the remaining obstacle cannot be split into
+independent outer-factor signs. In an exact two-node, three-feature positive
+monomial tangent factorization, one ordered double-flag term is `-1/192` and
+Lean proves that no separate left/middle/right orientation functions can make
+all terms nonnegative with external signature one. The full distinguished
+determinant is nevertheless `24929/27648 > 0`. Exact enumeration confirms 10
+positive and 2 negative nonzero terms, while the two-feature predecessor has
+only two positive terms. The proof route must therefore preserve cancellation
+across flags, most plausibly through a global confluent/jet determinant,
+planar-network, or exterior-algebra argument.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -597,6 +608,10 @@ git status --short
   decomposition and the conditional shuffle-sign transfer.
 - Phase CC proves all-orders TN of that interleaved middle matrix and removes
   the conditional premise. Both outer flag families remain open.
+- Phase CD proves that those outer families cannot be oriented independently
+  to satisfy the Phase CA termwise criterion: a negative double-flag term
+  occurs even though the complete tangent determinant is positive. This is a
+  proof-interface obstruction, not a counterexample to the target envelope.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -671,13 +686,14 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the left and right block-diagonal feature signs as
-confluent/generalized Vandermonde flag minors. Phase CC has discharged the
-middle sign by proving that every nonidentity matching in feature-major order
-vanishes. Ordinary total
-nonnegativity remains false in layer-major order, so the final certificates
-must retain the explicit shuffle orientations. A uniform
-normalized envelope at
-`56, 65, ..., 128` feeds Phase BS to obtain the order-eighteen half
-contraction; iterating that block across `O(log Lambda)` dyadic levels then
-targets Conjecture G1 and Simons Problem 4.2.
+Prove positivity or the required normalized bound for the complete
+distinguished confluent/jet determinant without demanding termwise signs.
+Phase CD rules out independently orienting the three Cauchy--Binet factors,
+so the next theorem should retain cancellation across intermediate flags. Two
+disciplined candidates are a Lindstrom--Gessel--Viennot-style planar network
+whose whole path-family determinant realizes the tangent lift, and a
+sign-reversing involution or exterior-algebra identity pairing the negative
+double flags with larger positive contributions. A uniform normalized
+envelope at `56, 65, ..., 128` still feeds Phase BS to obtain the order-18
+half contraction; iterating that block across `O(log Lambda)` dyadic levels
+then targets Conjecture G1 and Simons Problem 4.2.
