@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CJ — weighted centered-group association<br>
-> **Phase state:** in progress<br>
-> **Last verification:** Phase CI `./scripts/verify.sh` passed a 3,588-job Lean build with 114 tests and no known dependency vulnerabilities on 2026-10-17<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase CJ `./scripts/verify.sh` passed a 3,592-job Lean build with 115 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CI merged in [PR #89](https://github.com/tripp-smith/gecp-kernel-structure/pull/89) with green CI; Phase CJ contract frozen<br>
-> **Claim level:** Phase CI proves the full-domain three-feature result; Phase CJ targets a weighted conditional-covariance theorem that would cover arbitrary finite one-pivot Taylor feature counts
+> **Delivery:** Phase CJ implementation is verified locally; pull request pending<br>
+> **Claim level:** Phase CJ proves arbitrary finite one-pivot Taylor prefix, suffix, and nonnegative step-weight grouped signs by a reusable weighted conditional-covariance theorem
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -105,7 +105,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CG | Grouped conditioned Plucker bridge | complete | grouped tail-count coefficient identity; contiguous step-weight bordered sum; grouped-sign implication | 3,586-job Lean build; public axiom audit; exact all-cutoff grouping and 90 step evaluations; 112-test root verification; green CI | merged PR #87 |
 | CH | Minimal grouped cancellation witness | complete | exact three-feature negative coordinate; positive proper prefix/suffix groups; two all-weight step inequalities | 3,587-job Lean build; public axiom audit; exact 6,468-case two-feature and 800-witness three-feature census; 113-test root verification; green CI | merged PR #88 |
 | CI | Three-feature grouped sign theorem | complete | three coordinate and two adjacent-group factorizations; arbitrary ordered-node positivity; all-weight step consequences | 3,588-job Lean build; public axiom audit; 2,198 exact boundary/interior rational cases; 114-test root verification; green CI | merged PR #89 |
-| CJ | Weighted centered-group association | in progress | weighted Chebyshev numerator; two-block conditional-mean decomposition; arbitrary-feature one-pivot grouped signs | pending | pending |
+| CJ | Weighted centered-group association | verified | weighted Chebyshev numerator; two-block conditional-mean decomposition; arbitrary-feature one-pivot grouped and step signs | 3,592-job Lean build; public axiom audit; 4,644 exact weighted groups and 6,782 Taylor groups; 115-test root verification | PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

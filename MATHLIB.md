@@ -578,6 +578,18 @@ shifts. If formalized independently of Taylor kernels, that result would be a
 credible addition near finite-sum Chebyshev or covariance inequalities; its
 application to bordered feature coordinates remains project-facing.
 
+Phase CJ formalizes that reusable abstraction. The identity
+`two_mul_weightedCovarianceNumerator` is weighted Chebyshev in pairwise form,
+and `weightedMass_mul_weightedCenteredGroup` is a division-free law of total
+covariance for one finite block. The lower/upper group theorems add ordered
+cross-block conditional-mean control. These results are independent of
+matrices and Taylor kernels and are credible upstream candidates near
+`Mathlib.Algebra.Order.Chebyshev`; a generalized ordered field version could
+replace the current real specialization. The geometric-sequence and Taylor
+bordered-product specializations remain project-facing. A future compound
+version would likely belong with finite FKG or multivariate total positivity,
+neither of which should be introduced upstream from this application alone.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -2296,3 +2296,19 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic recurrence, Conjecture G1, and Problem 4.2 remain open. The root
   command passes a 3,588-job Lean build with 114 tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #89.
+- Post-v1 research phase CJ: verified; pull request pending.
+  `two_mul_weightedCovarianceNumerator` and
+  `weightedMass_mul_weightedCenteredGroup` formalize the weighted Chebyshev
+  and conditional-covariance identities suggested by Phase CI.
+  `weightedCenteredLowerGroup_nonneg` and
+  `weightedCenteredUpperGroup_nonneg` prove both ordered block signs without
+  division. `onePivotTaylorProduct_eq_geometricCenteredProduct` then rewrites
+  every finite-Taylor bordered coordinate into the centered model, and the
+  prefix, suffix, and step theorems prove all finite one-pivot contiguous
+  grouped signs for arbitrary feature count and nonnegative step weight.
+  Exact arithmetic checks 4,644 exhaustive small weighted groups and 6,782
+  Taylor groups through 12 features, including 218 negative individual
+  coordinates. Higher fresh order, the infinite-tail passage, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence, Conjecture
+  G1, and Problem 4.2 remain open. The root command passes a 3,592-job Lean
+  build with 115 tests and no known dependency vulnerabilities.

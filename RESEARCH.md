@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CJ contract: weighted centered-group association
 
-State: in progress.
+State: verified; pull request pending.
 
 Phase CI's positive-coefficient polynomials are the first instance of a more
 general association principle.  At one pivot, normalize the positive pivot
@@ -5145,6 +5145,47 @@ Non-claims:
 - it does not prove the infinite-tail passage, normalized tangent envelope,
   residual half contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `two_mul_weightedCovarianceNumerator` proves the exact pairwise-increment
+  formula for weighted covariance, and
+  `weightedCovarianceNumerator_nonneg` gives a weighted Chebyshev theorem for
+  arbitrary finite monovary data;
+- `weightedMass_mul_weightedCenteredGroup` is the division-free conditional-
+  covariance decomposition; `weightedCenteredLowerGroup_nonneg` and
+  `weightedCenteredUpperGroup_nonneg` prove both ordered block signs from
+  local covariance and same-direction mean shifts;
+- `geometricCenteredProduct_prefix_nonneg` and
+  `geometricCenteredProduct_suffix_nonneg` specialize the abstraction to
+  arbitrary finite positive weights and two geometric sequences with ratios
+  at least one;
+- `onePivotTaylorProduct_eq_geometricCenteredProduct` identifies every
+  finite-Taylor bordered product with that centered model, including all
+  factorial and pivot scalings;
+- `onePivotTaylorProduct_prefix_nonneg` and
+  `onePivotTaylorProduct_suffix_nonneg` prove every nonempty finite one-pivot
+  Taylor prefix and suffix group nonnegative at arbitrary ordered positive
+  nodes, for every feature count;
+- `onePivotTaylorProduct_step_nonneg` combines those groups to prove every
+  nontrivial two-level contiguous step nonnegative for arbitrary nonnegative
+  scalar weight;
+- exact arithmetic exhausts 4,644 small weighted groups and checks 6,782
+  Taylor prefix/suffix groups across 512 randomized cases through 12 features;
+  all group signs survive despite 218 negative individual coordinates;
+- `./scripts/verify.sh` passes a 3,592-job Lean build, the expanded public
+  axiom audit, 115 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Lift the centered-association model from single degrees to feature subsets.
+For multiple fresh rows and columns, the natural index space is the ordered
+subset lattice; oriented generalized-Vandermonde minors supply positive base
+weights and Schur-like ratio functions.  The promising analogue of scalar
+Chebyshev is multivariate total positivity (`MTP2`) or an FKG association
+theorem for the resulting biorthogonal ensemble, conditioned on tail count.
+First identify the exact subset weight and test its log-supermodular minors on
+the Phase BV witness before committing to a formal compound theorem.
 
 ## Phase CI contract: three-feature grouped sign theorem
 

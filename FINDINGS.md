@@ -1143,6 +1143,21 @@ pivots.
   shifts. The root command passes a 3,588-job Lean build and 114 tests.
   The change passed CI and merged as PR #89.
 
+- Phase CJ removes the three-feature restriction at one pivot. A weighted
+  covariance numerator is half a sum of pairwise same-direction increments.
+  A two-block identity then decomposes every globally centered prefix or
+  suffix into a local covariance term and the product of two same-direction
+  conditional-mean shifts. Lean proves both terms nonnegative for arbitrary
+  positive weights and increasing geometric sequences. The finite-Taylor
+  bordered products match this model exactly, so every nonempty prefix,
+  suffix, and nonnegative two-level step is nonnegative for arbitrary feature
+  count and ordered positive nodes. Exact checks cover 4,644 weighted groups
+  and 6,782 Taylor groups through 12 features, while retaining 218 negative
+  individual coordinates. The next obstacle is genuinely compound: multiple
+  fresh rows/columns require association on a feature-subset lattice, likely
+  via an `MTP2`/FKG or biorthogonal-ensemble argument. The root command passes
+  a 3,592-job Lean build and 115 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
