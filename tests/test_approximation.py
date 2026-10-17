@@ -2765,8 +2765,11 @@ def test_interleaved_tangent_middle_minors_exactly() -> None:
     checked_layer_major_minors = 0
     found_negative_layer_major_minor = False
     for feature_count in range(1, 6):
+        # Mix positive and zero edge weights.  The formal theorem permits both,
+        # and zero weights exercise the weak (rather than strict) sign boundary.
         weights = tuple(
-            Fraction(feature + 1, feature + 2) for feature in range(feature_count)
+            Fraction() if feature % 3 == 1 else Fraction(feature + 1, feature + 2)
+            for feature in range(feature_count)
         )
         order = 2 * feature_count
         feature_major = [
@@ -2817,6 +2820,50 @@ def test_interleaved_tangent_middle_minors_exactly() -> None:
     assert checked_feature_major_minors == expected
     assert checked_layer_major_minors == expected
     assert found_negative_layer_major_minor
+
+
+def test_noncrossing_support_kills_nonidentity_matchings_exactly() -> None:
+    weights = (Fraction(2, 3), Fraction(), Fraction(4, 5))
+    order = 2 * len(weights)
+    matrix = [
+        [
+            Fraction(1)
+            if i == j
+            else weights[i // 2]
+            if i % 2 == 0 and j == i + 1
+            else Fraction()
+            for j in range(order)
+        ]
+        for i in range(order)
+    ]
+
+    for x1 in range(order):
+        for x2 in range(x1 + 1, order):
+            for y1 in range(order):
+                for y2 in range(y1 + 1, order):
+                    assert matrix[x2][y1] == 0 or matrix[x1][y2] == 0
+
+    checked_nonidentity_terms = 0
+    for minor_order in range(order + 1):
+        flags = tuple(itertools.combinations(range(order), minor_order))
+        identity = tuple(range(minor_order))
+        for rows in flags:
+            for columns in flags:
+                for permutation in itertools.permutations(range(minor_order)):
+                    if permutation == identity:
+                        continue
+                    term = math.prod(
+                        matrix[rows[permutation[j]]][columns[j]]
+                        for j in range(minor_order)
+                    )
+                    assert term == 0
+                    checked_nonidentity_terms += 1
+
+    expected = sum(
+        math.comb(order, minor_order) ** 2 * (math.factorial(minor_order) - 1)
+        for minor_order in range(order + 1)
+    )
+    assert checked_nonidentity_terms == expected
 
 
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:

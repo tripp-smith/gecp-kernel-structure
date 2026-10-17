@@ -8,6 +8,7 @@ import GECPKernelStructure.Matrix.BorderedPencil
 import GECPKernelStructure.Matrix.DoubleBorderedCompanion
 import GECPKernelStructure.Matrix.UpperTangent
 import GECPKernelStructure.Matrix.UpperTangentCauchyBinet
+import GECPKernelStructure.Matrix.NoncrossingTotalNonnegative
 import GECPKernelStructure.Matrix.InterleavedTangent
 import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift
