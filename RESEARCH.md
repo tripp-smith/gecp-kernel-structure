@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CH contract: minimal grouped cancellation witness
 
-State: verified; pull request pending.
+State: complete; merged as PR #88 with green CI.
 
 Phase CG reduces the analytic problem to signs of tail-count groups.  A search
 for the smallest cancellation mechanism finds it already with one pivot, one
@@ -5162,6 +5162,7 @@ Delivered result:
   formal witness is the first in lexicographic enumeration;
 - `./scripts/verify.sh` passes a 3,587-job Lean build, the expanded public
   axiom audit, 113 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #88.
 
 Next decision:
 

@@ -1126,6 +1126,7 @@ pivots.
   variation-diminishing inequality as the next analytic target; it does not
   establish the arbitrary-prefix grouped theorem. The root command passes a
   3,587-job Lean build and 113 tests.
+  The change passed CI and merged as PR #88.
 
 ## Run provenance
 
