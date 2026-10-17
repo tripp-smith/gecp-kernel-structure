@@ -5092,6 +5092,54 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CC contract: upper-bidiagonal total nonnegativity
+
+State: contract frozen; implementation in progress.
+
+Phase CB exposes the feature-major tangent middle matrix as a nonnegative
+upper-bidiagonal network: every row has its diagonal unit edge and at most one
+forward edge, and the forward edges are disjoint.  The exhaustive exact
+checks through five cells find no negative ordered minor.  The strongest
+remaining middle-factor statement is therefore not a collection of bounded
+checks but all-orders total nonnegativity.
+
+Frozen public Lean targets:
+
+- isolate a reusable total-nonnegativity theorem for the relevant sparse
+  upper-bidiagonal or ordered direct-sum structure;
+- prove `interleavedTangentMiddle` totally nonnegative for arbitrary finite
+  feature count and arbitrary nonnegative weights;
+- remove the conditional interleaved-TN premise from the diagonal tangent
+  middle-factor orientation certificate;
+- keep the theorem stated with explicit tuple orientations, since ordinary
+  total nonnegativity remains false in layer-major order.
+
+Independent check:
+
+- retain the exhaustive exact minor census through five cells;
+- add a deterministic theorem-facing regression that exercises zero and
+  positive weights and compares the unconditional oriented certificate with
+  the feature-major minors;
+- retain the negative ordinary layer-major minor as a guard against erasing
+  the shuffle sign.
+
+Decision rule:
+
+- prefer an order-theoretic determinant proof showing that every nonzero
+  matching is order-preserving and hence unique;
+- if direct determinant expansion creates disproportionate proof overhead,
+  factor the matrix into adjacent nonnegative Jacobi cells and prove closure
+  under ordered Cauchy--Binet;
+- if either route reveals a false generic abstraction, minimize the exact
+  obstruction and specialize only as far as the tangent-cell matrix requires.
+
+Non-claims:
+
+- this phase does not prove either outer confluent/generalized Vandermonde
+  flag-minor family;
+- it does not prove the normalized tangent envelope, the Phase BS contraction,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CB contract: interleaved tangent cells
 
 State: complete; merged as PR #82 with green CI.

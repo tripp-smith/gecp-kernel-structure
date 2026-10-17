@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CB — interleaved tangent cells<br>
-> **Phase state:** complete<br>
+> **Current phase:** CC — upper-bidiagonal total nonnegativity<br>
+> **Phase state:** contract frozen; implementation in progress<br>
 > **Last verification:** Phase CB `./scripts/verify.sh` passed a 3,580-job Lean build with 109 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CB merged in [PR #82](https://github.com/tripp-smith/gecp-kernel-structure/pull/82) with green CI<br>
-> **Claim level:** the diagonal tangent middle factor now reindexes exactly into contiguous totally nonnegative `2 x 2` feature cells, and interleaved TN conditionally supplies the exact layer-major shuffle sign; all-orders TN of their sparse direct sum and the outer flag signs remain open
+> **Delivery:** Phase CC in progress from synchronized `main`; Phase CB merged in [PR #82](https://github.com/tripp-smith/gecp-kernel-structure/pull/82) with green CI<br>
+> **Claim level:** Phase CC targets all-orders total nonnegativity of the sparse feature-major tangent middle matrix and the resulting unconditional layer-major shuffle certificate; the two outer flag signs remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
