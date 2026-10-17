@@ -533,9 +533,18 @@ upper-tangent and fixed-trace Schur APIs. A shared factorization
 ordered triple Cauchy--Binet identifies the entire double-flag sum with this
 single determinant after a common row/column reindexing. This is a plausible
 general-purpose lemma near Schur complements, compound matrices, or tangent
-block factorizations. The conjectural nonnegative diagonal-action sign for
-totally positive flags and its fermionic envelope remain project-specific
-until a reusable oriented-matroid or planar-network formulation is found.
+block factorizations. Phase CF shows that a sign theorem for every
+nonnegative diagonal action is false; the narrower fermionic step-weight
+envelope remains project-specific.
+
+Phase CF adds a one-hot feature inclusion and its sparse projection. The
+identities `L*S_q = L[:,q]`, `S_q^T*R = R[q,:]`, and
+`det(L*S_q*S_q^T*R) = det(L[:,q]) det(R[q,:])` are elementary but reusable
+coordinate-projection lemmas for rectangular matrices and compound-matrix
+arguments. They make an obstruction principle explicit: any negative matched
+compound coordinate defeats positivity under the full nonnegative diagonal
+cone. The Phase BV witness and the surviving contiguous step-weight family
+are project-facing.
 
 ## Run provenance
 

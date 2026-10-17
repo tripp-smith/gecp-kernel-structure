@@ -1999,7 +1999,7 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     augmented_rows = (*selected_rows, *fresh_rows)
     augmented_columns = (*selected_columns, *fresh_columns)
 
-    products: list[Fraction] = []
+    products: dict[tuple[int, ...], Fraction] = {}
     for features in itertools.combinations(range(feature_count), len(fresh_rows)):
         left_core = [
             [
@@ -2019,13 +2019,16 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             ]
             for i in range(prefix_length + len(features))
         ]
-        products.append(
-            fraction_determinant(left_core) * fraction_determinant(right_core)
+        products[features] = fraction_determinant(left_core) * fraction_determinant(
+            right_core
         )
 
     assert len(products) == math.comb(feature_count, len(fresh_rows)) == 56
-    assert sum(product < 0 for product in products) == 2
-    assert sum(product > 0 for product in products) == 54
+    assert [features for features, product in products.items() if product < 0] == [
+        (0, 1, 5),
+        (0, 2, 5),
+    ]
+    assert sum(product > 0 for product in products.values()) == 54
 
     fixed_left = [[original[i][j] for j in selected_columns] for i in augmented_rows]
     fixed_right = [[original[i][j] for j in augmented_columns] for i in selected_rows]
@@ -2037,12 +2040,66 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     ]
     fixed_product = multiply(fixed_left, fixed_right)
     feature_product = multiply(feature_left, feature_right)
-    graded_pairing = sum(products, Fraction())
+    graded_pairing = sum(products.values(), Fraction())
 
     assert graded_pairing == mixed_coefficient(
         fixed_product, feature_product, prefix_length
     )
     assert graded_pairing > 0
+    core = [[original[i][j] for j in selected_columns] for i in selected_rows]
+    core_det = fraction_determinant(core)
+    assert core_det
+
+    # Sparse nonnegative diagonal weights isolate a single matched Plucker
+    # coordinate, so the two negative coordinates refute positivity on the
+    # whole nonnegative diagonal cone.  The physical contiguous step weights
+    # remain positive throughout this witness.
+    conditioned_left = [line[:] for line in left]
+    conditioned_right = [line[:] for line in right]
+    pivot_kernel = [line[:] for line in original]
+    for pivot_row, pivot_column in zip(selected_rows, selected_columns, strict=True):
+        conditioned_left = row_condition(
+            pivot_kernel, conditioned_left, pivot_row, pivot_column
+        )
+        conditioned_right = column_condition(
+            pivot_kernel, conditioned_right, pivot_row, pivot_column
+        )
+        pivot_kernel = row_condition(
+            pivot_kernel, pivot_kernel, pivot_row, pivot_column
+        )
+
+    for negative_features in ((0, 1, 5), (0, 2, 5)):
+        sparse_left = [
+            [conditioned_left[i][degree] for degree in negative_features]
+            for i in fresh_rows
+        ]
+        sparse_right = [
+            [conditioned_right[degree][j] for j in fresh_columns]
+            for degree in negative_features
+        ]
+        sparse_det = fraction_determinant(multiply(sparse_left, sparse_right))
+        assert sparse_det == products[negative_features] / core_det**2
+        assert sparse_det < 0
+
+    phase_bs_weights = (1, 56, 65, 74, 83, 92, 101, 110, 119, 128)
+    checked_step_weights = 0
+    for cutoff in range(feature_count + 1):
+        for tail_weight in phase_bs_weights:
+            step_left = [
+                [
+                    conditioned_left[i][degree]
+                    * (1 if degree < cutoff else tail_weight)
+                    for degree in range(feature_count)
+                ]
+                for i in fresh_rows
+            ]
+            step_right = [
+                [conditioned_right[degree][j] for j in fresh_columns]
+                for degree in range(feature_count)
+            ]
+            assert fraction_determinant(multiply(step_left, step_right)) > 0
+            checked_step_weights += 1
+    assert checked_step_weights == 90
 
     # Linearize every finite weight as one bordered determinant.  The signed
     # four-cycle also rules out repairing these matrices by a fixed row/column
@@ -2054,9 +2111,6 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     global_tail = [
         [original[i][j] - global_low[i][j] for j in range(size)] for i in range(size)
     ]
-    core = [[original[i][j] for j in selected_columns] for i in selected_rows]
-    core_det = fraction_determinant(core)
-    assert core_det
     for weight in finite_weights:
         rank_update = [
             [feature_product[i][j] + weight * fixed_product[i][j] for j in range(order)]

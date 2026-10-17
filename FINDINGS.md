@@ -1081,10 +1081,23 @@ pivots.
   In 5,000 deterministic exact generalized-monomial cases, arbitrary
   nonnegative diagonal weights retain the selected/fresh cross-inversion
   orientation (3,964 strict and 1,036 zero), while the signed weight pair
-  `(-2,0)` already gives `-4/169`. This points to a nonnegative diagonal-action
-  theorem for totally positive flags, not a monotone-weight or termwise-sign
-  theorem. The root command passes a 3,584-job Lean build and 112 tests.
+  `(-2,0)` already gives `-4/169`. The dense census initially pointed toward a
+  nonnegative diagonal-action theorem, but Phase CF's sparse adversarial test
+  shows that inference is false. The root command passes a 3,584-job Lean
+  build and 112 tests.
   The change passed CI and merged as PR #85.
+
+- Phase CF isolates individual matched coordinates with a one-hot inclusion
+  matrix. The induced projection is entrywise nonnegative and diagonal, yet
+  its inserted determinant is exactly one left/right minor product. Thus the
+  two negative Phase BV coordinates, supported on `(0,1,5)` and `(0,2,5)`,
+  formally obstruct positivity on the whole nonnegative diagonal cone. The
+  earlier dense random search missed this sparse boundary. The physical
+  family survives the correction: all 90 combinations of contiguous cutoffs
+  `0,...,8` and weights `1,56,65,...,128` are strictly positive in the same
+  exact witness. The next target is therefore positivity of grouped tail-count
+  coefficients for contiguous step weights. The root command passes a
+  3,585-job Lean build and 112 tests.
 
 ## Run provenance
 
