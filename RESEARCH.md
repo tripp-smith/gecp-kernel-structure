@@ -5092,6 +5092,88 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CH contract: minimal grouped cancellation witness
+
+State: verified; pull request pending.
+
+Phase CG reduces the analytic problem to signs of tail-count groups.  A search
+for the smallest cancellation mechanism finds it already with one pivot, one
+fresh row and column, and three consecutive positive-Taylor features at
+physical-domain nodes `x=(1/8,1/4)`, `y=(6,22)`.  The individual bordered
+products by degree are `561/64`, `-7/256`, and `801/32`; every contiguous
+prefix and suffix sum is nevertheless positive.  This isolates adjacent-
+degree compensation without the combinatorics of a long prefix.
+
+Frozen public Lean targets:
+
+- define the exact two-node, three-feature Taylor factors and their finite
+  base kernel;
+- compute the three one-pivot bordered Plucker products and formally certify
+  the negative middle coordinate;
+- prove positivity of every contiguous prefix and suffix group at the two
+  nontrivial cutoffs;
+- prove the resulting scalar contiguous-step determinant positive for every
+  nonnegative weight, despite the negative coordinate.
+
+Independent check:
+
+- recompute all factor entries, base-kernel entries, conditioned factors,
+  bordered products, grouped sums, and step evaluations in exact `Fraction`
+  arithmetic;
+- exhaust a deterministic small rational grid for two- and three-feature
+  one-pivot witnesses, confirming that three features are the first observed
+  coordinate-level cancellation in the physical row interval `(0,1]`;
+- retain the Phase CF sparse-projection failures and Phase CG grouped
+  identities as regression guards.
+
+Decision rule:
+
+- if the exact witness formalizes, target a prefix/suffix-sum or adjacent-
+  degree sign-reversing theorem for one-pivot Taylor features before lifting
+  to arbitrary prefixes and fresh order;
+- if either grouped sum is nonpositive, abandon coefficientwise grouped
+  positivity and return to the nine finite evaluations;
+- do not infer the all-orders grouped theorem from this witness alone.
+
+Non-claims:
+
+- this phase does not prove grouped signs for arbitrary nodes, prefixes, or
+  fresh order, nor the infinite-tail passage or normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `phaseCHKernel_eq` computes the exact three-feature Taylor kernel at
+  `x=(1/8,1/4)` and `y=(6,22)`;
+- `phaseCHBorderedProduct_zero`, `phaseCHBorderedProduct_one`, and
+  `phaseCHBorderedProduct_two` compute the three bordered products as
+  `561/64`, `-7/256`, and `801/32`, while
+  `phaseCH_middle_borderedProduct_neg` formally certifies the coordinatewise
+  obstruction;
+- `phaseCH_proper_contiguous_groups_pos` proves all proper nonempty prefix and
+  suffix groups positive, and `phaseCH_firstStep_pos` and
+  `phaseCH_secondStep_pos` prove both nontrivial contiguous-step determinants
+  positive for every nonnegative weight;
+- exact `Fraction` arithmetic independently recomputes the factors, kernel,
+  conditioned factors, bordered products, groups, and step evaluations;
+- an exhaustive ordered grid of 6,468 physical-row/positive-column cases has
+  no two-feature negative coordinate, while 800 three-feature cases do; the
+  formal witness is the first in lexicographic enumeration;
+- `./scripts/verify.sh` passes a 3,587-job Lean build, the expanded public
+  axiom audit, 113 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Derive the one-pivot three-feature products symbolically and prove the two
+adjacent grouped inequalities on the full ordered physical domain.  The
+promising mechanism is variation diminution in the feature degree: the middle
+coordinate may reverse sign, but its magnitude is controlled by a neighboring
+endpoint coordinate.  A successful order-three theorem should then be stated
+as a prefix/suffix-sum invariant that can plausibly lift by compound-matrix or
+sign-reversing-involution arguments, rather than as the already false
+coordinatewise positivity claim.
+
 ## Phase CG contract: grouped conditioned Plucker bridge
 
 State: complete; merged as PR #87 with green CI.

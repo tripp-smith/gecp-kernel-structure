@@ -555,6 +555,17 @@ reusable compound-matrix/Schur-complement identity and could be generalized
 from real matrices to a commutative field. Positivity of the contiguous-degree
 groups for exponential features is the project-specific analytic problem.
 
+Phase CH is primarily a project-specific exact witness, but it clarifies the
+shape of any reusable future abstraction. Matched compound coordinates of two
+conditioned exponential-feature factors need not be nonnegative individually;
+positivity can instead live in consecutive prefix and suffix sums. This is
+closer to variation diminution, sign-regular sequences, or a sign-reversing
+involution than to ordinary total nonnegativity. No upstream proposal is
+appropriate from one order-three witness alone. A credible reusable theorem
+would first need a generic hypothesis on adjacent compound coordinates that
+proves all consecutive block sums nonnegative; the fixed rational nodes and
+Taylor degrees here remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

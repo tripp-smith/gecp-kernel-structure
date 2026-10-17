@@ -546,3 +546,13 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.sparseFeatureProjection_offDiagonal_eq_zero
 #print axioms Matrix.det_mul_sparseFeatureProjection_mul
 #print axioms Matrix.mul_sparseFeatureProjection_mul_det_neg
+#print axioms Matrix.phaseCHKernel_eq
+#print axioms Matrix.phaseCHBorderedProduct_zero
+#print axioms Matrix.phaseCHBorderedProduct_one
+#print axioms Matrix.phaseCHBorderedProduct_two
+#print axioms Matrix.phaseCH_middle_borderedProduct_neg
+#print axioms Matrix.phaseCH_first_suffix_pos
+#print axioms Matrix.phaseCH_second_prefix_pos
+#print axioms Matrix.phaseCH_proper_contiguous_groups_pos
+#print axioms Matrix.phaseCH_firstStep_pos
+#print axioms Matrix.phaseCH_secondStep_pos
