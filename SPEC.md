@@ -2217,3 +2217,17 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,582-job Lean build with 111 tests and no known
   dependency vulnerabilities; the change passed CI and merged as PR #84.
+- Post-v1 research phase CE: verified; pull request pending.
+  `upperTangentMatrix_factorized_distinguishedMinor_det` collapses every
+  distinguished tangent minor of `K=A*B`, `H=A*W*B` to the squared selected-
+  core determinant times one determinant of the separately conditioned
+  feature factors. `signature_mul_conditionedFeature_det_eq_doubleFlagSum`
+  identifies the entire ordered double-flag expansion with the same global
+  determinant, preserving the cancellations that Phase CD proved essential.
+  The finite positive-Taylor specialization exposes arbitrary diagonal degree
+  weights directly. Exact rational checks cover 5,000 generalized monomial
+  cases with arbitrary nonnegative weights and a signed-weight failure
+  `-4/169`. The nonnegative diagonal-action sign theorem, normalized tangent
+  envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,584-job Lean build with
+  112 tests and no known dependency vulnerabilities.

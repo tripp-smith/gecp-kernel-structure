@@ -1072,6 +1072,19 @@ pivots.
   Problem 4.2 remains open. The root command passes a 3,582-job Lean build and
   111 tests; the change passed CI and merged as PR #84.
 
+- Phase CE performs the cancellation before estimating signs. For every
+  shared factorization `K=A*B`, `H=A*W*B`, the complete distinguished tangent
+  determinant is `det(selectedCore)^2` times the determinant of
+  `conditionRows(A) * W * conditionColumns(B)`, and Lean identifies the full
+  ordered double-flag sum with exactly this quantity. The Phase CD negative
+  flags therefore live inside a globally positive conditioned determinant.
+  In 5,000 deterministic exact generalized-monomial cases, arbitrary
+  nonnegative diagonal weights retain the selected/fresh cross-inversion
+  orientation (3,964 strict and 1,036 zero), while the signed weight pair
+  `(-2,0)` already gives `-4/169`. This points to a nonnegative diagonal-action
+  theorem for totally positive flags, not a monotone-weight or termwise-sign
+  theorem. The root command passes a 3,584-job Lean build and 112 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

@@ -526,6 +526,17 @@ future theory would need to encode cancellation globally, perhaps through
 compound matrices, exterior algebra, or a planar-network model; the concrete
 three-feature witness and fermionic envelope remain project-facing.
 
+Phase CE adds a generic cancellation-preserving composition theorem for the
+upper-tangent and fixed-trace Schur APIs. A shared factorization
+`K=A*B`, `H=A*W*B` sends the distinguished tangent determinant directly to
+`det(C)^2 det(conditionRows(A) * W * conditionColumns(B))`; composing with
+ordered triple Cauchy--Binet identifies the entire double-flag sum with this
+single determinant after a common row/column reindexing. This is a plausible
+general-purpose lemma near Schur complements, compound matrices, or tangent
+block factorizations. The conjectural nonnegative diagonal-action sign for
+totally positive flags and its fermionic envelope remain project-specific
+until a reusable oriented-matroid or planar-network formulation is found.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
