@@ -5092,6 +5092,55 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CG contract: grouped conditioned Plucker bridge
+
+State: in progress.
+
+Phase CF narrows the viable diagonal actions to the contiguous two-level
+weights used by the physical tail amplification.  The existing block-feature
+polynomial already groups Cauchy--Binet terms by the number of tail features,
+while the companion Plucker API represents each conditioned term by original
+bordered determinants.  Their composition is the exact algebraic statement
+needed before attacking the remaining grouped signs.
+
+Frozen public Lean targets:
+
+- prove the generic squared-core identity for one conditioned signed ordered
+  Cauchy--Binet term and its two original feature-bordered determinants;
+- sum that identity at one fixed tail count to express every conditioned
+  block-feature coefficient as a grouped bordered Plucker pairing;
+- sum with the powers of a scalar step weight to express the entire
+  conditioned contiguous-step determinant as the corresponding weighted
+  bordered pairing;
+- expose the exact nonnegativity premise that would imply every required
+  finite step-weight sign, without assuming individual coordinate signs.
+
+Independent check:
+
+- on the Phase BV witness, compare every grouped coefficient computed from
+  conditioned feature factors with the same grouping of bordered products;
+- verify that the two negative sparse coordinates are absorbed into positive
+  grouped coefficients for each of the nine contiguous cutoffs;
+- compare direct step-weight determinants with evaluation of the grouped
+  coefficient polynomial at all Phase BS nodes.
+
+Decision rule:
+
+- if all grouped coefficients remain nonnegative, make their analytic sign
+  the next formal theorem and reuse the existing rank-amplification API;
+- if a grouped coefficient is negative but the nine required evaluations stay
+  positive, target the finite-node envelope directly and retain the
+  coefficient obstruction;
+- do not strengthen the claim back to coordinatewise or arbitrary-diagonal
+  positivity.
+
+Non-claims:
+
+- this phase does not prove the grouped coefficient signs or the nine
+  normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CF contract: sparse diagonal obstruction
 
 State: complete; merged as PR #86 with green CI.
