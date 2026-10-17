@@ -529,3 +529,7 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Discretization.grid_sup_le_max_add_lipschitz
 #print axioms GECPKernelStructure.Discretization.approxPivot_of_grid_certificate
 #print axioms GECPKernelStructure.greenError_le_kernelError_mul_l1
+#print axioms Matrix.phaseCD_negative_triple_term
+#print axioms Matrix.phaseCD_no_factorwise_positive_orientation
+#print axioms Matrix.phaseCD_complete_tangent_det
+#print axioms Matrix.phaseCD_complete_tangent_det_pos

@@ -2203,3 +2203,17 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,581-job Lean build with
   110 tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #83.
+- Post-v1 research phase CD: verified locally; delivery pending.
+  `phaseCD_negative_triple_term` proves that a positive-monomial,
+  positive-diagonal three-feature tangent factorization has an ordered
+  Cauchy--Binet summand equal to `-1/192`, and
+  `phaseCD_no_factorwise_positive_orientation` formally rules out the
+  separate factor-orientation interface used as Phase CA's sufficient
+  criterion. The complete distinguished determinant is nevertheless proved
+  equal to `24929/27648 > 0`. Exact enumeration finds two positive nonzero
+  terms at two features and 10 positive plus 2 negative terms at three
+  features, so the next route must preserve global cancellation rather than
+  establish termwise signs. The normalized tangent envelope, order-eighteen
+  contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
+  The root command passes a 3,582-job Lean build with 111 tests and no known
+  dependency vulnerabilities.

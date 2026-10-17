@@ -2752,6 +2752,105 @@ def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
     assert found_negative_ordinary_minor
 
 
+def test_tangent_factorwise_orientation_obstruction_exactly() -> None:
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def witness(
+        feature_count: int,
+    ) -> tuple[
+        list[tuple[tuple[int, ...], tuple[int, ...], Fraction]],
+        Fraction,
+    ]:
+        row_nodes = (Fraction(1, 3), Fraction(2, 3))
+        column_nodes = (Fraction(1, 4), Fraction(3, 4))
+        weights = tuple(Fraction(degree + 2) for degree in range(feature_count))
+        left_base = [
+            [node**degree / math.factorial(degree) for degree in range(feature_count)]
+            for node in row_nodes
+        ]
+        right_base = [
+            [node**degree for node in column_nodes] for degree in range(feature_count)
+        ]
+        zero_block = [Fraction() for _ in range(feature_count)]
+        left = [
+            left_base[0] + zero_block,
+            zero_block + left_base[0],
+            left_base[1] + zero_block,
+        ]
+        middle = [
+            [
+                Fraction(i == j)
+                + (
+                    weights[i]
+                    if i < feature_count and j == feature_count + i
+                    else Fraction()
+                )
+                for j in range(2 * feature_count)
+            ]
+            for i in range(2 * feature_count)
+        ]
+        right = [
+            [right_base[i][0], Fraction(), Fraction()] for i in range(feature_count)
+        ] + [
+            [Fraction(), right_base[i][0], right_base[i][1]]
+            for i in range(feature_count)
+        ]
+
+        terms: list[tuple[tuple[int, ...], tuple[int, ...], Fraction]] = []
+        for left_flag in itertools.combinations(range(2 * feature_count), 3):
+            left_minor = fraction_determinant(
+                [[left[i][j] for j in left_flag] for i in range(3)]
+            )
+            for right_flag in itertools.combinations(range(2 * feature_count), 3):
+                term = (
+                    left_minor
+                    * fraction_determinant(
+                        [[middle[i][j] for j in right_flag] for i in left_flag]
+                    )
+                    * fraction_determinant(
+                        [[right[i][j] for j in range(3)] for i in right_flag]
+                    )
+                )
+                if term:
+                    terms.append((left_flag, right_flag, term))
+
+        complete_det = fraction_determinant(multiply(multiply(left, middle), right))
+        assert sum((term for _, _, term in terms), Fraction()) == complete_det
+        return terms, complete_det
+
+    two_feature_terms, two_feature_det = witness(2)
+    assert [term for _, _, term in two_feature_terms] == [
+        Fraction(1, 2),
+        Fraction(1, 36),
+    ]
+    assert two_feature_det == Fraction(19, 36)
+
+    three_feature_terms, three_feature_det = witness(3)
+    three_feature_values = [term for _, _, term in three_feature_terms]
+    assert len(three_feature_values) == 12
+    assert sum(term > 0 for term in three_feature_values) == 10
+    assert sum(term < 0 for term in three_feature_values) == 2
+    assert (
+        (0, 1, 5),
+        (0, 4, 5),
+        Fraction(-1, 192),
+    ) in three_feature_terms
+    assert three_feature_det == Fraction(24929, 27648)
+    assert three_feature_det > 0
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(

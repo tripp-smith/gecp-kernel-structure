@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CD contract: factorwise orientation obstruction
 
-State: contract frozen; implementation in progress.
+State: verified locally; delivery pending.
 
 Phase CC closes the middle matrix's all-orders total nonnegativity, but the
 Phase CA criterion additionally requires the three factor orientations to
@@ -5146,6 +5146,32 @@ Non-claims:
   determinant or its normalized envelope;
 - it does not prove the order-eighteen contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `phaseCD_negative_triple_term` proves that the flags `(0,1,5)` and
+  `(0,4,5)` contribute exactly `-1/192` to the ordered triple
+  Cauchy--Binet expansion;
+- `phaseCD_no_factorwise_positive_orientation` turns that witness into a
+  formal impossibility theorem for Phase CA's separate factor-orientation
+  interface with external signature one;
+- `phaseCD_complete_tangent_det` and its positivity corollary prove that the
+  complete distinguished determinant is nevertheless
+  `24929/27648 > 0`;
+- exact `Fraction` enumeration confirms that two features have only the
+  positive terms `1/2` and `1/36`, whereas three features have 12 nonzero
+  terms, 10 positive and 2 negative, whose sum matches the direct
+  determinant;
+- `./scripts/verify.sh` passes a 3,582-job Lean build, the expanded public
+  axiom audit, 111 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Retire separate factorwise orientation as the main route. The next target is
+a cancellation-preserving theorem for the complete confluent/jet determinant:
+either a planar-network/Lindstrom--Gessel--Viennot model whose path families
+encode the whole double-flag sum, or an exterior-algebra/sign-reversing
+involution that pairs the negative flags before estimating the determinant.
 
 ## Phase CC contract: upper-bidiagonal total nonnegativity
 
