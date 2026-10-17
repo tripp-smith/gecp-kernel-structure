@@ -79,6 +79,7 @@ import GECPKernelStructure.Fermionic.TotalPositivity
 import GECPKernelStructure.Fermionic.GECPBounds
 import GECPKernelStructure.Fermionic.SignRegularity
 import GECPKernelStructure.Fermionic.ExponentialTotalPositivity
+import GECPKernelStructure.Fermionic.ThreeFeatureGroupedSign
 import GECPKernelStructure.Fermionic.CompleteRun
 import GECPKernelStructure.Fermionic.GeometricMean
 import GECPKernelStructure.Fermionic.TwoCorner

@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CI — three-feature grouped sign theorem<br>
-> **Phase state:** in progress<br>
-> **Last verification:** Phase CH `./scripts/verify.sh` passed a 3,587-job Lean build with 113 tests and no known dependency vulnerabilities on 2026-10-17<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase CI `./scripts/verify.sh` passed a 3,588-job Lean build with 114 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CH merged in [PR #88](https://github.com/tripp-smith/gecp-kernel-structure/pull/88) with green CI; Phase CI contract frozen<br>
-> **Claim level:** Phase CH proves the minimal exact cancellation witness; Phase CI targets the newly discovered positive-coefficient factorization of both adjacent groups for arbitrary ordered nonnegative nodes
+> **Delivery:** Phase CI implementation is verified locally; pull request pending<br>
+> **Claim level:** Phase CI proves positive-coefficient factorizations and strict positivity of both adjacent three-feature groups for arbitrary ordered nonnegative nodes, with both nontrivial step determinants positive for every nonnegative weight
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -104,7 +104,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CF | Sparse diagonal obstruction | complete | sparse feature projection; isolated matched-coordinate determinant; physical step-weight narrowing | 3,585-job Lean build; public axiom audit; 2 exact sparse failures and 90 positive step weights; 112-test root verification; green CI | merged PR #86 |
 | CG | Grouped conditioned Plucker bridge | complete | grouped tail-count coefficient identity; contiguous step-weight bordered sum; grouped-sign implication | 3,586-job Lean build; public axiom audit; exact all-cutoff grouping and 90 step evaluations; 112-test root verification; green CI | merged PR #87 |
 | CH | Minimal grouped cancellation witness | complete | exact three-feature negative coordinate; positive proper prefix/suffix groups; two all-weight step inequalities | 3,587-job Lean build; public axiom audit; exact 6,468-case two-feature and 800-witness three-feature census; 113-test root verification; green CI | merged PR #88 |
-| CI | Three-feature grouped sign theorem | in progress | symbolic adjacent-group factorizations; arbitrary ordered-node positivity; all-weight step consequence | pending | pending |
+| CI | Three-feature grouped sign theorem | verified | three coordinate and two adjacent-group factorizations; arbitrary ordered-node positivity; all-weight step consequences | 3,588-job Lean build; public axiom audit; 2,198 exact boundary/interior rational cases; 114-test root verification | PR pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CI contract: three-feature grouped sign theorem
 
-State: in progress.
+State: verified; pull request pending.
 
 Phase CH exhibits the smallest observed coordinate cancellation but also shows
 that both neighboring groups stay positive.  Symbolic elimination for general
@@ -5140,6 +5140,42 @@ Non-claims:
 - it does not prove the infinite-tail passage, normalized tangent envelope,
   residual half contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `positiveTaylorThreeProductZero_factor`,
+  `positiveTaylorThreeProductOne_factor`, and
+  `positiveTaylorThreeProductTwo_factor` compute all three generic one-pivot
+  matched bordered coordinates;
+- `positiveTaylorThree_prefix_factor` and
+  `positiveTaylorThree_suffix_factor` factor the two adjacent groups into the
+  ordered row gap, ordered column gap, and explicit polynomials whose
+  coefficients are all positive;
+- `positiveTaylorThree_prefix_pos` and
+  `positiveTaylorThree_suffix_pos` prove both groups strictly positive for
+  arbitrary strictly ordered nonnegative nodes, without the physical
+  restriction `x <= 1`;
+- `positiveTaylorThree_firstStep_pos` and
+  `positiveTaylorThree_secondStep_pos` deduce strict positivity of both
+  nontrivial contiguous-step determinants for every nonnegative scalar
+  weight, with the necessary positive selected-node condition at the first
+  cut when the weight can vanish;
+- exact arithmetic verifies every coordinate and group factorization on 150
+  boundary/interior grid cases and 2,048 deterministic randomized rational
+  cases, including zero endpoints and row nodes larger than one;
+- `./scripts/verify.sh` passes a 3,588-job Lean build, the expanded public
+  axiom audit, 114 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Lift from three features to arbitrary finite one-pivot Taylor truncations by
+normalizing the pivot feature weights into a finite probability measure.  Each
+matched coordinate becomes a positive common factor times
+`(r^k-E[r^J])(s^k-E[s^J])` for `r,s>1`.  For a prefix or suffix, conditional-
+mean decomposition writes its sum as conditional covariance plus a product of
+two same-sign mean shifts.  Monotonicity makes both terms nonnegative.  This
+probabilistic association identity is the most promising route to the full
+one-pivot grouped theorem before attempting compound orders.
 
 ## Phase CH contract: minimal grouped cancellation witness
 

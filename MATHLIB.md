@@ -566,6 +566,18 @@ would first need a generic hypothesis on adjacent compound coordinates that
 proves all consecutive block sums nonnegative; the fixed rational nodes and
 Taylor degrees here remain project-facing.
 
+Phase CI proves the first nontrivial generic instance of that consecutive-sum
+phenomenon: two adjacent matched coordinates of the three-term exponential
+Taylor kernel factor into ordered gaps and a positive-coefficient polynomial.
+The concrete polynomial identities are too specialized for upstreaming. The
+more reusable abstraction suggested by the proof is a finite weighted
+association lemma: for two increasing sequences, prefix and suffix sums of
+the product of their globally centered values are nonnegative, because each
+is a conditional covariance plus a product of same-sign conditional-mean
+shifts. If formalized independently of Taylor kernels, that result would be a
+credible addition near finite-sum Chebyshev or covariance inequalities; its
+application to bordered feature coordinates remains project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
