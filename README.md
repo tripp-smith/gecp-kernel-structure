@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** verified<br>
 > **Last verification:** Phase CL `./scripts/verify.sh` passed a 3,594-job Lean build with 117 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CL verified locally; pull request pending<br>
+> **Delivery:** Phase CL verified in [PR #92](https://github.com/tripp-smith/gecp-kernel-structure/pull/92); merge pending<br>
 > **Claim level:** Phase CL reduces fresh-order-two real-rootedness to an exact Lorentzian discriminant inequality and constructs its nonnegative spectral factorization; the fermionic inequality remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -107,7 +107,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CI | Three-feature grouped sign theorem | complete | three coordinate and two adjacent-group factorizations; arbitrary ordered-node positivity; all-weight step consequences | 3,588-job Lean build; public axiom audit; 2,198 exact boundary/interior rational cases; 114-test root verification; green CI | merged PR #89 |
 | CJ | Weighted centered-group association | complete | weighted Chebyshev numerator; two-block conditional-mean decomposition; arbitrary-feature one-pivot grouped and step signs | 3,592-job Lean build; public axiom audit; 4,644 exact weighted groups and 6,782 Taylor groups; 115-test root verification; green CI | merged PR #90 |
 | CK | Compound generalized-spectrum reduction | complete | common-factor determinant-pencil factorization; nonnegative generalized-spectrum certificate; exact subset-lattice obstruction and low-order spectral audit | 3,593-job Lean build; public axiom audit; 1,481 exact oriented polynomials; 116-test root verification; green CI | merged PR #91 |
-| CL | Fresh-order-two Lorentzian bridge | verified | exact 2x2 pencil coefficients and discriminant; constructive nonnegative-root factorization; cross-minor obstruction audit | 3,594-job Lean build; public axiom audit; 3,868 exact pencils; 117-test root verification | PR pending |
+| CL | Fresh-order-two Lorentzian bridge | verified | exact 2x2 pencil coefficients and discriminant; constructive nonnegative-root factorization; cross-minor obstruction audit | 3,594-job Lean build; public axiom audit; 3,868 exact pencils; 117-test root verification | PR #92; merge pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

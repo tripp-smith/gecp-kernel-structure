@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CL contract: fresh-order-two Lorentzian bridge
 
-State: verified locally; delivery pending.
+State: verified in PR #92; merge pending.
 
 Phase CK isolates nonnegative generalized spectrum as the promising compound
 invariant. At fresh order two the threshold determinant is quadratic, so this
