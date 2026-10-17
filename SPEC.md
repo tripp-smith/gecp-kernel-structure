@@ -2189,7 +2189,7 @@ This annotation records delivered identifiers without changing the goals above.
   4.2 remain open. The root command passes a 3,580-job Lean build with 109
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #82.
-- Post-v1 research phase CC: verified; delivery review pending.
+- Post-v1 research phase CC: complete; merged as PR #83 with green CI.
   `totallyNonnegative_of_nonnegative_of_noncrossing` proves a reusable
   determinant criterion: entrywise nonnegative kernels with noncrossing
   support are totally nonnegative at every order because all nonidentity
@@ -2201,4 +2201,5 @@ This annotation records delivered identifiers without changing the goals above.
   terms while retaining the negative ordinary layer-major witness. The two
   outer flag-minor signs, normalized tangent envelope, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,581-job Lean build with
-  110 tests and no known dependency vulnerabilities.
+  110 tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #83.

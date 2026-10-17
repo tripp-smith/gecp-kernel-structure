@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CC contract: upper-bidiagonal total nonnegativity
 
-State: verified; delivery review pending.
+State: complete; merged as PR #83 with green CI.
 
 Phase CB exposes the feature-major tangent middle matrix as a nonnegative
 upper-bidiagonal network: every row has its diagonal unit edge and at most one

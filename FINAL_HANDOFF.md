@@ -225,7 +225,7 @@ arithmetic checks 225 crossing pairs and 12,403 nonidentity matching terms in
 addition to the Phase CB minor census. The two outer flag-minor families are
 now the only missing sign inputs to the three-factor expansion. The root
 command passes a 3,581-job Lean build and 110 tests with no known dependency
-vulnerabilities; delivery review is pending.
+vulnerabilities; the change passed CI and merged as PR #83.
 
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
