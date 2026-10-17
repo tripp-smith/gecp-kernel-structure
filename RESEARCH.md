@@ -5092,6 +5092,56 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CH contract: minimal grouped cancellation witness
+
+State: in progress.
+
+Phase CG reduces the analytic problem to signs of tail-count groups.  A search
+for the smallest cancellation mechanism finds it already with one pivot, one
+fresh row and column, and three consecutive positive-Taylor features at
+physical-domain nodes `x=(1/8,1/4)`, `y=(6,22)`.  The individual bordered
+products by degree are `561/64`, `-7/256`, and `801/32`; every contiguous
+prefix and suffix sum is nevertheless positive.  This isolates adjacent-
+degree compensation without the combinatorics of a long prefix.
+
+Frozen public Lean targets:
+
+- define the exact two-node, three-feature Taylor factors and their finite
+  base kernel;
+- compute the three one-pivot bordered Plucker products and formally certify
+  the negative middle coordinate;
+- prove positivity of every contiguous prefix and suffix group at the two
+  nontrivial cutoffs;
+- prove the resulting scalar contiguous-step determinant positive for every
+  nonnegative weight, despite the negative coordinate.
+
+Independent check:
+
+- recompute all factor entries, base-kernel entries, conditioned factors,
+  bordered products, grouped sums, and step evaluations in exact `Fraction`
+  arithmetic;
+- exhaust a deterministic small rational grid for two- and three-feature
+  one-pivot witnesses, confirming that three features are the first observed
+  coordinate-level cancellation in the physical row interval `(0,1]`;
+- retain the Phase CF sparse-projection failures and Phase CG grouped
+  identities as regression guards.
+
+Decision rule:
+
+- if the exact witness formalizes, target a prefix/suffix-sum or adjacent-
+  degree sign-reversing theorem for one-pivot Taylor features before lifting
+  to arbitrary prefixes and fresh order;
+- if either grouped sum is nonpositive, abandon coefficientwise grouped
+  positivity and return to the nine finite evaluations;
+- do not infer the all-orders grouped theorem from this witness alone.
+
+Non-claims:
+
+- this phase does not prove grouped signs for arbitrary nodes, prefixes, or
+  fresh order, nor the infinite-tail passage or normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CG contract: grouped conditioned Plucker bridge
 
 State: complete; merged as PR #87 with green CI.

@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CG — grouped conditioned Plucker bridge<br>
-> **Phase state:** complete<br>
+> **Current phase:** CH — minimal grouped cancellation witness<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase CG `./scripts/verify.sh` passed a 3,586-job Lean build with 112 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase CG merged in [PR #87](https://github.com/tripp-smith/gecp-kernel-structure/pull/87) with green CI<br>
@@ -103,6 +103,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CE | Conditioned tangent cancellation collapse | complete | factorized distinguished-minor identity; global double-flag regrouping; finite positive-Taylor diagonal specialization | 3,584-job Lean build; public axiom audit; 5,000 exact nonnegative-weight cases; 112-test root verification; green CI | merged PR #85 |
 | CF | Sparse diagonal obstruction | complete | sparse feature projection; isolated matched-coordinate determinant; physical step-weight narrowing | 3,585-job Lean build; public axiom audit; 2 exact sparse failures and 90 positive step weights; 112-test root verification; green CI | merged PR #86 |
 | CG | Grouped conditioned Plucker bridge | complete | grouped tail-count coefficient identity; contiguous step-weight bordered sum; grouped-sign implication | 3,586-job Lean build; public axiom audit; exact all-cutoff grouping and 90 step evaluations; 112-test root verification; green CI | merged PR #87 |
+| CH | Minimal grouped cancellation witness | in progress | one-pivot three-feature negative coordinate; positive contiguous groups; adjacent-degree pairing target | pending | pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
