@@ -496,6 +496,17 @@ commutative ring. The upper-tangent sample specialization is also generic,
 but its eventual exponential flag-minor sign certificates are project-facing
 until a reusable confluent-total-positivity abstraction emerges.
 
+Phase CB adds a nonstrict arbitrary-tuple orientation transfer: total
+nonnegativity on ordered tuples determines the tuple-orientation-weighted sign
+of every injective minor. This is a generic companion to the standard strict
+sign-regular statement. It also records a reusable tangent-cell decomposition:
+a diagonal `[[1,W],[0,1]]` matrix becomes a block diagonal family of
+`[[1,w_k],[0,1]]` after interleaving its two layers. The local TN proof and
+unit determinant are generic. An upstream abstraction should likely pair this
+with a closure theorem saying that ordered direct sums of totally nonnegative
+matrices are totally nonnegative; that missing closure is exactly the next
+formal obligation here.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -2752,6 +2752,73 @@ def test_upper_tangent_lift_and_oriented_coefficients_exactly() -> None:
     assert found_negative_ordinary_minor
 
 
+def test_interleaved_tangent_middle_minors_exactly() -> None:
+    def inversion_orientation(values: tuple[int, ...]) -> int:
+        inversions = sum(
+            values[i] > values[j]
+            for i in range(len(values))
+            for j in range(i + 1, len(values))
+        )
+        return -1 if inversions % 2 else 1
+
+    checked_feature_major_minors = 0
+    checked_layer_major_minors = 0
+    found_negative_layer_major_minor = False
+    for feature_count in range(1, 6):
+        weights = tuple(
+            Fraction(feature + 1, feature + 2) for feature in range(feature_count)
+        )
+        order = 2 * feature_count
+        feature_major = [
+            [
+                Fraction(1)
+                if i == j
+                else weights[i // 2]
+                if i % 2 == 0 and j == i + 1
+                else Fraction()
+                for j in range(order)
+            ]
+            for i in range(order)
+        ]
+
+        def interleave(layer_major_index: int, count: int = feature_count) -> int:
+            if layer_major_index < count:
+                return 2 * layer_major_index
+            return 2 * (layer_major_index - count) + 1
+
+        for minor_order in range(order + 1):
+            flags = tuple(itertools.combinations(range(order), minor_order))
+            for rows in flags:
+                for columns in flags:
+                    feature_major_det = fraction_determinant(
+                        [[feature_major[i][j] for j in columns] for i in rows]
+                    )
+                    assert feature_major_det >= 0
+                    checked_feature_major_minors += 1
+
+                    interleaved_rows = tuple(interleave(i) for i in rows)
+                    interleaved_columns = tuple(interleave(j) for j in columns)
+                    layer_major_det = fraction_determinant(
+                        [
+                            [feature_major[i][j] for j in interleaved_columns]
+                            for i in interleaved_rows
+                        ]
+                    )
+                    orientation = inversion_orientation(
+                        interleaved_rows
+                    ) * inversion_orientation(interleaved_columns)
+                    assert orientation * layer_major_det >= 0
+                    found_negative_layer_major_minor |= layer_major_det < 0
+                    checked_layer_major_minors += 1
+
+    expected = sum(
+        math.comb(4 * feature_count, 2 * feature_count) for feature_count in range(1, 6)
+    )
+    assert checked_feature_major_minors == expected
+    assert checked_layer_major_minors == expected
+    assert found_negative_layer_major_minor
+
+
 def test_composite_interpolant_matches_nodes_and_dense_values() -> None:
     approximation = fermionic_separated_approximation(16, order=12)
     t = np.linspace(0, 1, 21)

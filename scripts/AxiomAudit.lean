@@ -28,6 +28,7 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.crossRatioControl_one_of_signCoherent
 #print axioms GECPKernelStructure.Fermionic.pivotCrossProductSignCoherent_iff_borderedMinorSignCoherent
 #print axioms GECPKernelStructure.GECP.oriented_minor_pos_of_strictSignRegularAtOrder
+#print axioms GECPKernelStructure.GECP.oriented_minor_nonneg_of_totallyNonnegativeAtOrder
 #print axioms GECPKernelStructure.GECP.strictSignRegularAtOrder_columnScale
 #print axioms GECPKernelStructure.GECP.strictSignRegularAtOrder_rowScale
 #print axioms GECPKernelStructure.Fermionic.strictSignRegular_borderedMinorSignCoherent
@@ -56,6 +57,11 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.submatrix_upperTangentMatrix_mul_factorization
 #print axioms Matrix.signature_mul_det_submatrix_upperTangentMatrix_eq_sum
 #print axioms Matrix.signature_mul_det_submatrix_upperTangentMatrix_nonneg_of_flag_orientations
+#print axioms Matrix.tangentCell_totallyNonnegative
+#print axioms Matrix.reindex_upperTangent_diagonal_eq_blockDiagonal
+#print axioms Matrix.interleavedTangentMiddle_eq_reindex_upperTangentFeatureMiddle
+#print axioms Matrix.interleavedTangentMiddle_det
+#print axioms Matrix.upperTangentFeatureMiddle_oriented_minor_nonneg
 #print axioms Matrix.detUpdateRowCLM_apply
 #print axioms Matrix.det_updateRow_intervalIntegral
 #print axioms Matrix.det_updateRow_intervalIntegral_nonneg

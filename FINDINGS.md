@@ -1038,6 +1038,17 @@ pivots.
   The root command passes a 3,579-job Lean build, the public axiom audit, and
   108 tests. The change passed CI and merged as PR #81.
 
+- Phase CB makes the middle-factor sign concrete. Feature interleaving turns
+  diagonal `[[1,W],[0,1]]` into independent `[[1,w_k],[0,1]]` cells. Lean
+  proves every cell totally nonnegative, the full determinant equal to one,
+  and the exact tuple-orientation transfer from interleaved TN back to the
+  layer-major minors used in Phase CA. Exhaustive rational arithmetic checks
+  198,626 feature-major minors and 198,626 oriented layer-major minors through
+  five cells; negative unoriented layer-major minors still occur. The single
+  remaining middle lemma is all-orders TN of the sparse upper-bidiagonal
+  direct sum. The root command passes a 3,580-job Lean build, the public axiom
+  audit, and 109 tests. Delivery is pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

@@ -5092,6 +5092,90 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CB contract: interleaved tangent cells
+
+State: verified; delivery pending.
+
+Phase CA separates the tangent determinant into left, middle, and right flag
+minors. For the diagonal feature weights used by the exponential family, the
+middle matrix is a disjoint collection of `2 x 2` upper-unitriangular cells;
+its negative layer-major minors arise only because those cells are not
+contiguous in the layer ordering. Interleaving the two copies of each feature
+should turn the middle problem into ordinary total nonnegativity of a sparse
+upper-bidiagonal matrix, with the lost sign recovered by tuple orientation.
+
+Frozen public Lean targets:
+
+- define the layer/feature equivalence and the local weighted tangent cell;
+- prove that the diagonal-weight upper-tangent middle matrix reindexes to a
+  block diagonal family of those cells in feature-major order;
+- prove every local cell minor is nonnegative and compute the determinant of
+  the complete interleaved middle matrix;
+- add the nonstrict analogue of arbitrary-tuple orientation transfer for a
+  totally nonnegative kernel;
+- derive a middle-factor sign certificate from total nonnegativity of the
+  interleaved cell matrix, with the exact shuffle orientation exposed in the
+  theorem statement.
+
+Independent check:
+
+- exhaustively enumerate all square minors for deterministic diagonal weights
+  and feature counts through five;
+- verify that feature-major minors are nonnegative and layer-major signs agree
+  with the row/column sorting orientations;
+- retain a negative layer-major order-two witness so no ordinary-TN claim can
+  enter through the original ordering.
+
+Decision rule:
+
+- if the interleaved matrix is uniformly TN, make its sparse upper-bidiagonal
+  proof the next exact theorem (or close it in this phase if the Lean proof is
+  short);
+- if feature-major TN fails, minimize the first exact cell-level obstruction
+  before changing representations;
+- do not assume a layer-major minor sign without its explicit orientation.
+
+Non-claims:
+
+- this phase need not prove all-orders TN of the interleaved middle matrix;
+- it does not prove the outer confluent Vandermonde flag signs, the normalized
+  tangent envelope, Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `oriented_minor_nonneg_of_totallyNonnegativeAtOrder` is the nonstrict
+  arbitrary-tuple counterpart of the existing strict-sign transfer theorem;
+- `layerFeatureEquiv` and `featureInterleaveEquiv` make the layer-major to
+  feature-major shuffle explicit;
+- `tangentCell` packages `[[1,w],[0,1]]`, and
+  `tangentCell_totallyNonnegative` proves every ordered minor of one cell is
+  nonnegative for `w >= 0`;
+- `reindex_upperTangent_diagonal_eq_blockDiagonal` proves that a diagonal
+  tangent middle factor is exactly a block diagonal family of those cells;
+- `interleavedTangentMiddle_det` proves the complete feature-major determinant
+  is one;
+- `upperTangentFeatureMiddle_oriented_minor_nonneg` transfers any
+  interleaved-TN proof into the precise tuple-orientation certificate required
+  by Phase CA's middle factor;
+- exact rational arithmetic exhaustively verifies 198,626 feature-major
+  minors and 198,626 corresponding oriented layer-major minors for one through
+  five cells, and retains a negative unoriented layer-major witness;
+- `./scripts/verify.sh` passes a 3,580-job Lean build, the expanded public
+  axiom audit, 109 Python tests, formatting, typing, and the dependency audit.
+
+The experiment supports, but does not replace, the remaining all-orders TN
+theorem for `interleavedTangentMiddle`. Its entry formula is a nonnegative
+upper-bidiagonal matrix with disjoint superdiagonal weights. A proof by the
+Leibniz expansion should show that every nonzero matching is order-preserving,
+so every ordered minor has at most one nonzero permutation term.
+
+Next decision:
+
+Prove all-orders total nonnegativity of a generic nonnegative upper-bidiagonal
+matrix, then specialize it to `interleavedTangentMiddle`. This closes the
+middle orientation hypothesis of Phase CA outright and leaves only the two
+outer confluent/generalized Vandermonde flag-minor families.
+
 ## Phase CA contract: shuffle-aware tangent Cauchy--Binet
 
 State: complete; merged as PR #81 with green CI.
