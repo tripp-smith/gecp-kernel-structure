@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CC — upper-bidiagonal total nonnegativity<br>
-> **Phase state:** complete<br>
+> **Current phase:** CD — factorwise orientation obstruction<br>
+> **Phase state:** contract frozen; implementation in progress<br>
 > **Last verification:** Phase CC `./scripts/verify.sh` passed a 3,581-job Lean build with 110 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CC merged in [PR #83](https://github.com/tripp-smith/gecp-kernel-structure/pull/83) with green CI<br>
-> **Claim level:** the sparse feature-major tangent middle matrix is now totally nonnegative at every order for arbitrary nonnegative weights, so the layer-major middle shuffle certificate is unconditional; the two outer flag signs remain open
+> **Delivery:** Phase CD in progress from synchronized `main`; Phase CC merged in [PR #83](https://github.com/tripp-smith/gecp-kernel-structure/pull/83) with green CI<br>
+> **Claim level:** Phase CD tests whether the Phase CA determinant can actually be proved by termwise factor orientations; an exact three-feature witness indicates that global confluent cancellation, rather than separate outer signs, is required
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
