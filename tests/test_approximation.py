@@ -2084,6 +2084,21 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
     phase_bs_weights = (1, 56, 65, 74, 83, 92, 101, 110, 119, 128)
     checked_step_weights = 0
     for cutoff in range(feature_count + 1):
+        grouped_bordered = [
+            sum(
+                (
+                    product
+                    for features, product in products.items()
+                    if sum(degree >= cutoff for degree in features) == tail_count
+                ),
+                Fraction(),
+            )
+            for tail_count in range(len(fresh_rows) + 1)
+        ]
+        assert all(coefficient >= 0 for coefficient in grouped_bordered)
+        grouped_conditioned = [
+            coefficient / core_det**2 for coefficient in grouped_bordered
+        ]
         for tail_weight in phase_bs_weights:
             step_left = [
                 [
@@ -2097,7 +2112,15 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
                 [conditioned_right[degree][j] for j in fresh_columns]
                 for degree in range(feature_count)
             ]
-            assert fraction_determinant(multiply(step_left, step_right)) > 0
+            step_det = fraction_determinant(multiply(step_left, step_right))
+            assert step_det == sum(
+                (
+                    coefficient * tail_weight**tail_count
+                    for tail_count, coefficient in enumerate(grouped_conditioned)
+                ),
+                Fraction(),
+            )
+            assert step_det > 0
             checked_step_weights += 1
     assert checked_step_weights == 90
 
