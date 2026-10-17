@@ -5092,6 +5092,59 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CK contract: compound generalized-spectrum reduction
+
+State: in progress.
+
+Phase CJ proves the complete one-pivot grouped theorem, but its scalar
+conditional-covariance argument does not extend coordinatewise to feature
+subsets.  The natural subset-lattice route is also too strong: exact Phase BV
+data violate absolute-value `MTP2`.  A different invariant survives.  For a
+fixed threshold, the grouped coefficients form the determinant polynomial of
+the conditioned low/high matrix pair; exact compound samples indicate that
+this polynomial has only nonpositive real zeros.  This is the
+Pólya-frequency/generalized-eigenvalue analogue of scalar association.
+
+Frozen public Lean targets:
+
+- factor a determinant pencil when its low and high matrices admit common
+  left and right factors with diagonal middle coordinates;
+- prove nonnegativity, and a sharp strict-positivity variant, for every
+  nonnegative pencil weight from nonnegative diagonal generalized-spectrum
+  data and the orientation of the common factors;
+- expose the result without an explicit matrix inverse, so a future
+  oscillatory-matrix or generalized-eigenvalue theorem can discharge exactly
+  the remaining simultaneous-factorization premise.
+
+Independent check:
+
+- on the exact Phase BV 56-coordinate witness, evaluate every threshold
+  polynomial, its Newton log-concavity inequalities, and its quadratic or
+  cubic discriminant using `Fraction` arithmetic;
+- count failures of absolute-value `MTP2` on the ordered three-subset lattice;
+- repeat the oriented coefficient, log-concavity, discriminant, and `MTP2`
+  audit on deterministic exact compound Taylor samples through fresh order
+  three, using factorization and determinant solves only, never an explicit
+  inverse.
+
+Decision rule:
+
+- if the oriented threshold polynomials remain nonnegative and real-rooted
+  while `MTP2` fails, next target a sign-regular or oscillatory generalized-
+  eigenvalue theorem for the conditioned low/high pair;
+- if real-rootedness fails, retain only the common-factor certificate and use
+  the minimized exact witness to choose a weaker sector or finite-weight
+  invariant;
+- do not infer all-order compound positivity from the finite audit.
+
+Non-claims:
+
+- this phase does not construct the simultaneous diagonal factorization for
+  arbitrary fermionic prefixes or prove the compound grouped-sign theorem;
+- it does not prove the infinite-tail passage, normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
 ## Phase CJ contract: weighted centered-group association
 
 State: complete; merged as PR #90 with green CI.
