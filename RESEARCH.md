@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CG contract: grouped conditioned Plucker bridge
 
-State: in progress.
+State: verified; pull request pending.
 
 Phase CF narrows the viable diagonal actions to the contiguous two-level
 weights used by the physical tail amplification.  The existing block-feature
@@ -5140,6 +5140,36 @@ Non-claims:
   normalized tangent envelopes;
 - it does not prove the residual half contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `Run.selectedCore_sq_mul_conditionedSignedTerm` gives the generic one-term
+  squared-core identity for arbitrary real feature factors;
+- `Run.selectedCore_sq_mul_conditionedBlockFeatureCoefficient` sums that
+  identity at one fixed tail count and proves that the conditioned polynomial
+  coefficient is exactly the grouped original bordered Plucker pairing;
+- `Run.selectedCore_sq_mul_conditionedStep_det_eq_sum` evaluates the whole
+  contiguous-step determinant as the same bordered products weighted by
+  `lambda` to their tail counts;
+- `Run.conditionedBlockFeatureCoefficient_nonneg_of_grouped` proves that a
+  nonnegative grouped bordered pairing is sufficient for the corresponding
+  conditioned coefficient, using the already certified nonzero selected-core
+  determinant rather than adding an assumption;
+- in the Phase BV witness, every grouped coefficient is nonnegative for all
+  nine cutoffs `0,...,8`, despite the two negative individual coordinates;
+- all 90 cutoff/node determinant evaluations exactly equal the associated
+  grouped coefficient polynomial and remain strictly positive;
+- `./scripts/verify.sh` passes a 3,586-job Lean build, the expanded public
+  axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Prove nonnegativity of the grouped bordered pairing for finite positive-Taylor
+features with a contiguous degree cutoff, then pass it to the infinite tail.
+The most promising route is a discrete variation-diminishing or sign-
+reversing-involution theorem indexed by tail count: it must pair the sparse
+negative coordinates inside each group while preserving the selected/fresh
+cross-inversion orientation.
 
 ## Phase CF contract: sparse diagonal obstruction
 

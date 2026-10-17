@@ -546,6 +546,15 @@ compound coordinate defeats positivity under the full nonnegative diagonal
 cone. The Phase BV witness and the surviving contiguous step-weight family
 are project-facing.
 
+Phase CG composes the generic companion Plucker identities with the existing
+block-feature polynomial. It proves that a fixed block-degree coefficient of
+conditioned rectangular factors, after multiplication by the selected-core
+square, is exactly a grouped sum of original bordered Plucker products; the
+weighted determinant is the corresponding generating function. This is a
+reusable compound-matrix/Schur-complement identity and could be generalized
+from real matrices to a commutative field. Positivity of the contiguous-degree
+groups for exponential features is the project-specific analytic problem.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

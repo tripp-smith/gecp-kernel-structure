@@ -1100,6 +1100,19 @@ pivots.
   3,585-job Lean build and 112 tests.
   The change passed CI and merged as PR #86.
 
+- Phase CG identifies the cancellation unit that survives Phase CF. After
+  multiplying by the selected-core square, each conditioned coefficient of a
+  contiguous step-weight determinant is exactly the sum of original bordered
+  Plucker products having one fixed number of tail indices. The full step
+  determinant weights these groups by the corresponding powers of `lambda`.
+  This statement keeps the two sparse negative coordinates but pairs them
+  inside their tail-count groups. In the exact Phase BV witness every group is
+  nonnegative at every cutoff, and all 90 cutoff/node determinants equal the
+  grouped polynomial evaluation and are positive. The remaining theorem is
+  now the analytic sign of these grouped bordered pairings for arbitrary
+  positive-Taylor prefixes. The root command passes a 3,586-job Lean build and
+  112 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

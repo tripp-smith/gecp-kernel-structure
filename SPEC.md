@@ -2247,3 +2247,17 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,585-job Lean build with 112 tests and no known
   dependency vulnerabilities; the change passed CI and merged as PR #86.
+- Post-v1 research phase CG: verified; pull request pending.
+  `selectedCore_sq_mul_conditionedBlockFeatureCoefficient` identifies every
+  conditioned tail-count coefficient with a grouped sum of original bordered
+  Plucker products, while
+  `selectedCore_sq_mul_conditionedStep_det_eq_sum` evaluates the entire
+  contiguous-step determinant by weighting those same groups.
+  `conditionedBlockFeatureCoefficient_nonneg_of_grouped` exposes the precise
+  grouped sign premise without requiring the false coordinatewise signs. In
+  the exact Phase BV witness all groups are nonnegative at every cutoff and 90
+  direct Phase-BS-node evaluations equal the grouped polynomial values. The
+  finite grouped sign theorem, infinite-tail passage, normalized tangent
+  envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,586-job Lean build with
+  112 tests and no known dependency vulnerabilities.
