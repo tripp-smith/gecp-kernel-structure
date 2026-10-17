@@ -5092,6 +5092,58 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CF contract: sparse diagonal obstruction
+
+State: in progress.
+
+Phase CE's dense exact census suggested that arbitrary nonnegative diagonal
+weights might preserve the distinguished orientation.  Phase BV already
+contains the decisive stress test: two matched conditioned Plucker
+coordinates are negative.  A diagonal projection supported exactly on either
+feature subset isolates that coordinate, so the broad nonnegative diagonal-
+action conjecture is false.  The physical amplification is much narrower: its
+weights are the contiguous two-level step `1,...,1,lambda,...,lambda`.
+
+Frozen public Lean targets:
+
+- define the rectangular inclusion matrix attached to an injective ordered
+  feature tuple and prove its left and right multiplication identities;
+- define the induced sparse feature projection and prove it is entrywise
+  nonnegative with zero off-diagonal entries;
+- prove that inserting this projection between arbitrary feature factors
+  isolates exactly the selected matched Cauchy--Binet coordinate in the final
+  determinant;
+- conclude abstractly that any negative matched coordinate produces a
+  nonnegative diagonal-action counterexample.
+
+Independent check:
+
+- revisit the exact Phase BV witness and identify the negative feature subsets
+  `(0,1,5)` and `(0,2,5)`;
+- verify directly that the two corresponding sparse projections make the
+  conditioned determinant negative;
+- enumerate every contiguous two-level cutoff for representative physical
+  weights, including all nine Phase BS nodes, and retain their positive signs
+  as the narrower next target;
+- record why the Phase CE dense randomized census missed the sparse boundary.
+
+Decision rule:
+
+- retire arbitrary nonnegative diagonal action once the sparse isolation
+  theorem and witness agree;
+- pursue only the contiguous step-weight cone used by positive-series tail
+  amplification, preferably through grouped Plucker sums or a variation-
+  diminishing theorem rather than coordinatewise signs;
+- if a contiguous step-weight counterexample appears, minimize it before
+  proposing any new positivity theorem.
+
+Non-claims:
+
+- this phase does not prove positivity for contiguous step weights or any of
+  the nine normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CE contract: conditioned tangent cancellation collapse
 
 State: complete; merged as PR #85 with green CI.
