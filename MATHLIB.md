@@ -590,6 +590,15 @@ bordered-product specializations remain project-facing. A future compound
 version would likely belong with finite FKG or multivariate total positivity,
 neither of which should be introduced upstream from this application alone.
 
+Phase CK adds a small reusable determinant-pencil lemma: common left/right
+factors and two diagonal middle matrices turn `det(A + λ B)` into the factor
+orientation times a product of scalar affine coordinates. Its nonnegative and
+strict-positive corollaries are generic finite-dimensional linear algebra and
+could plausibly live near matrix determinant lemmas after generalization from
+`ℝ` to an ordered commutative field. The claim that conditioned fermionic
+low/high pairs admit such a factorization is project-specific and is not
+proposed upstream; nor is the finite low-order real-rootedness audit.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

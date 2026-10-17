@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CJ — weighted centered-group association<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase CJ `./scripts/verify.sh` passed a 3,592-job Lean build with 115 tests and no known dependency vulnerabilities on 2026-10-17<br>
+> **Current phase:** CK — compound generalized-spectrum reduction<br>
+> **Phase state:** verified<br>
+> **Last verification:** Phase CK `./scripts/verify.sh` passed a 3,593-job Lean build with 116 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CJ merged in [PR #90](https://github.com/tripp-smith/gecp-kernel-structure/pull/90) with green CI<br>
-> **Claim level:** Phase CJ proves arbitrary finite one-pivot Taylor prefix, suffix, and nonnegative step-weight grouped signs by a reusable weighted conditional-covariance theorem
+> **Delivery:** Phase CK verified in [PR #91](https://github.com/tripp-smith/gecp-kernel-structure/pull/91); merge pending<br>
+> **Claim level:** Phase CK tests and isolates a nonnegative generalized-spectrum certificate for compound contiguous-step determinants; the compound fermionic spectrum theorem remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -106,6 +106,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CH | Minimal grouped cancellation witness | complete | exact three-feature negative coordinate; positive proper prefix/suffix groups; two all-weight step inequalities | 3,587-job Lean build; public axiom audit; exact 6,468-case two-feature and 800-witness three-feature census; 113-test root verification; green CI | merged PR #88 |
 | CI | Three-feature grouped sign theorem | complete | three coordinate and two adjacent-group factorizations; arbitrary ordered-node positivity; all-weight step consequences | 3,588-job Lean build; public axiom audit; 2,198 exact boundary/interior rational cases; 114-test root verification; green CI | merged PR #89 |
 | CJ | Weighted centered-group association | complete | weighted Chebyshev numerator; two-block conditional-mean decomposition; arbitrary-feature one-pivot grouped and step signs | 3,592-job Lean build; public axiom audit; 4,644 exact weighted groups and 6,782 Taylor groups; 115-test root verification; green CI | merged PR #90 |
+| CK | Compound generalized-spectrum reduction | verified | common-factor determinant-pencil factorization; nonnegative generalized-spectrum certificate; exact subset-lattice obstruction and low-order spectral audit | 3,593-job Lean build; public axiom audit; 1,481 exact oriented polynomials; 116-test root verification | PR #91; merge pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
