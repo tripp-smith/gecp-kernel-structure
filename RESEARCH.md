@@ -5092,6 +5092,91 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CI contract: three-feature grouped sign theorem
+
+State: verified; pull request pending.
+
+Phase CH exhibits the smallest observed coordinate cancellation but also shows
+that both neighboring groups stay positive.  Symbolic elimination for general
+ordered nodes reveals the reason: each adjacent two-coordinate sum factors as
+the product of the row gap, the column gap, and a polynomial with positive
+coefficients.  This is a concrete variation-diminishing theorem rather than a
+finite witness.
+
+Frozen public Lean targets:
+
+- define the generic three-feature positive-Taylor kernel and its one-pivot
+  left, right, and matched bordered coordinates;
+- prove closed factorizations of the three individual matched coordinates;
+- prove the adjacent prefix and suffix sums equal the ordered-gap product
+  times their explicit positive-coefficient polynomials;
+- prove both grouped sums strictly positive for arbitrary strictly ordered
+  nonnegative row and column nodes;
+- deduce positivity of both nontrivial contiguous-step determinants for every
+  nonnegative scalar weight.
+
+Independent check:
+
+- compare the symbolic closed forms with direct exact bordered determinants;
+- exhaust a deterministic rational boundary/interior grid, including zero
+  endpoints and nodes beyond the physical row interval;
+- use deterministic randomized exact cases to verify both factorizations and
+  all-weight consequences independently of Lean.
+
+Decision rule:
+
+- if the positive-coefficient factorizations formalize, seek a recurrence or
+  sign-reversing involution that extends consecutive grouped sums to arbitrary
+  feature count and cutoff;
+- if either factorization needs an unstated bound, record the exact domain and
+  test whether the physical `0 < x <= 1`, `0 < y` hypotheses suffice;
+- do not infer arbitrary-prefix, arbitrary-fresh-order, or infinite-tail signs
+  from the one-pivot order-three theorem.
+
+Non-claims:
+
+- this phase does not prove the grouped sign theorem for more than one fresh
+  row/column or more than three features;
+- it does not prove the infinite-tail passage, normalized tangent envelope,
+  residual half contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered result:
+
+- `positiveTaylorThreeProductZero_factor`,
+  `positiveTaylorThreeProductOne_factor`, and
+  `positiveTaylorThreeProductTwo_factor` compute all three generic one-pivot
+  matched bordered coordinates;
+- `positiveTaylorThree_prefix_factor` and
+  `positiveTaylorThree_suffix_factor` factor the two adjacent groups into the
+  ordered row gap, ordered column gap, and explicit polynomials whose
+  coefficients are all positive;
+- `positiveTaylorThree_prefix_pos` and
+  `positiveTaylorThree_suffix_pos` prove both groups strictly positive for
+  arbitrary strictly ordered nonnegative nodes, without the physical
+  restriction `x <= 1`;
+- `positiveTaylorThree_firstStep_pos` and
+  `positiveTaylorThree_secondStep_pos` deduce strict positivity of both
+  nontrivial contiguous-step determinants for every nonnegative scalar
+  weight, with the necessary positive selected-node condition at the first
+  cut when the weight can vanish;
+- exact arithmetic verifies every coordinate and group factorization on 150
+  boundary/interior grid cases and 2,048 deterministic randomized rational
+  cases, including zero endpoints and row nodes larger than one;
+- `./scripts/verify.sh` passes a 3,588-job Lean build, the expanded public
+  axiom audit, 114 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Lift from three features to arbitrary finite one-pivot Taylor truncations by
+normalizing the pivot feature weights into a finite probability measure.  Each
+matched coordinate becomes a positive common factor times
+`(r^k-E[r^J])(s^k-E[s^J])` for `r,s>1`.  For a prefix or suffix, conditional-
+mean decomposition writes its sum as conditional covariance plus a product of
+two same-sign mean shifts.  Monotonicity makes both terms nonnegative.  This
+probabilistic association identity is the most promising route to the full
+one-pivot grouped theorem before attempting compound orders.
+
 ## Phase CH contract: minimal grouped cancellation witness
 
 State: complete; merged as PR #88 with green CI.

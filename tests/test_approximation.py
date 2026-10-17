@@ -3209,6 +3209,112 @@ def test_minimal_grouped_cancellation_witness_exactly() -> None:
     )
 
 
+def test_three_feature_grouped_sign_factorizations_exactly() -> None:
+    def kernel(x: Fraction, y: Fraction) -> Fraction:
+        return 1 + x * y + (x * y) ** 2 / 2
+
+    def products(
+        x0: Fraction, x1: Fraction, y0: Fraction, y1: Fraction
+    ) -> tuple[Fraction, Fraction, Fraction]:
+        core = kernel(x0, y0)
+        left = (
+            core - kernel(x1, y0),
+            core * x1 - x0 * kernel(x1, y0),
+            core * x1**2 / 2 - x0**2 / 2 * kernel(x1, y0),
+        )
+        right = (
+            core - kernel(x0, y1),
+            core * y1 - kernel(x0, y1) * y0,
+            core * y1**2 - kernel(x0, y1) * y0**2,
+        )
+        return tuple(left[degree] * right[degree] for degree in range(3))
+
+    def prefix_factor(
+        x0: Fraction, x1: Fraction, y0: Fraction, y1: Fraction
+    ) -> Fraction:
+        polynomial = (
+            x0**3 * x1 * y0**3 * y1
+            + x0**3 * y0**3
+            + x0**3 * y0**2 * y1
+            + x0**2 * x1 * y0**3
+            + x0**2 * x1 * y0**2 * y1
+            + 4 * x0**2 * y0**2
+            + 4 * x0 * y0
+            + 4
+        )
+        return (x0 - x1) * (y0 - y1) * polynomial / 4
+
+    def suffix_factor(
+        x0: Fraction, x1: Fraction, y0: Fraction, y1: Fraction
+    ) -> Fraction:
+        polynomial = (
+            x0**3 * x1 * y0**3 * y1
+            + 2 * x0**2 * x1 * y0**2 * y1
+            + 4 * x0 * x1 * y0 * y1
+            + 2 * x0 * y0
+            + 2 * x0 * y1
+            + 2 * x1 * y0
+            + 2 * x1 * y1
+            + 4
+        )
+        return (x0 - x1) * (y0 - y1) * polynomial / 4
+
+    def check_case(x0: Fraction, x1: Fraction, y0: Fraction, y1: Fraction) -> None:
+        coordinate_products = products(x0, x1, y0, y1)
+        gap_product = (x0 - x1) * (y0 - y1)
+        assert coordinate_products == (
+            gap_product
+            * x0
+            * y0
+            * (x0 * y0 + x0 * y1 + 2)
+            * (x0 * y0 + x1 * y0 + 2)
+            / 4,
+            gap_product * (x0 * x1 * y0**2 - 2) * (x0**2 * y0 * y1 - 2) / 4,
+            gap_product * (x0 * x1 * y0 + x0 + x1) * (x0 * y0 * y1 + y0 + y1) / 2,
+        )
+        prefix = coordinate_products[0] + coordinate_products[1]
+        suffix = coordinate_products[1] + coordinate_products[2]
+        assert prefix == prefix_factor(x0, x1, y0, y1) > 0
+        assert suffix == suffix_factor(x0, x1, y0, y1) > 0
+        assert coordinate_products[2] > 0
+        for weight in map(Fraction, (0, 1, 7, 56, 128)):
+            first_step = coordinate_products[0] + weight * suffix
+            second_step = prefix + weight * coordinate_products[2]
+            assert second_step > 0
+            if x0 > 0 and y0 > 0:
+                assert coordinate_products[0] > 0
+                assert first_step > 0
+            else:
+                assert coordinate_products[0] == 0
+                assert first_step >= 0
+
+    boundary_rows = tuple(
+        map(Fraction, (0, Fraction(1, 8), Fraction(1, 4), 1, 2, Fraction(7, 2)))
+    )
+    boundary_columns = tuple(map(Fraction, (0, 1, 6, 22, 31)))
+    checked_cases = 0
+    for x0, x1 in itertools.combinations(boundary_rows, 2):
+        for y0, y1 in itertools.combinations(boundary_columns, 2):
+            check_case(x0, x1, y0, y1)
+            checked_cases += 1
+
+    rng = random.Random(0xC1A55E)
+    for _ in range(2048):
+        row_denominator = rng.randrange(1, 25)
+        column_denominator = rng.randrange(1, 25)
+        x0, x1 = sorted(rng.sample(range(0, 4 * row_denominator + 1), 2))
+        y0, y1 = sorted(rng.sample(range(0, 40 * column_denominator + 1), 2))
+        check_case(
+            Fraction(x0, row_denominator),
+            Fraction(x1, row_denominator),
+            Fraction(y0, column_denominator),
+            Fraction(y1, column_denominator),
+        )
+        checked_cases += 1
+
+    assert checked_cases == 2198
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(

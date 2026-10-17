@@ -556,3 +556,14 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.phaseCH_proper_contiguous_groups_pos
 #print axioms Matrix.phaseCH_firstStep_pos
 #print axioms Matrix.phaseCH_secondStep_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductZero_factor
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductOne_factor
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductTwo_factor
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_prefix_factor
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_suffix_factor
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_prefix_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_suffix_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_productZero_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_productTwo_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_firstStep_pos
+#print axioms GECPKernelStructure.Fermionic.positiveTaylorThree_secondStep_pos

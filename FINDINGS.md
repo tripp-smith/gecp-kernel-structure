@@ -1128,6 +1128,20 @@ pivots.
   3,587-job Lean build and 113 tests.
   The change passed CI and merged as PR #88.
 
+- Phase CI turns the Phase CH witness into a full-domain theorem. Each of the
+  three generic one-pivot Taylor coordinates has an exact closed factorization,
+  and both adjacent two-coordinate sums factor as the product of the ordered
+  row gap, ordered column gap, and a polynomial with positive coefficients.
+  Hence both groups are strictly positive for arbitrary ordered nonnegative
+  nodes—even beyond the physical row interval—and both nontrivial step
+  determinants remain positive for every nonnegative scalar weight under the
+  sharp boundary hypotheses. Exact arithmetic verifies 2,198 boundary,
+  interior, super-physical, and randomized rational cases. The structure now
+  suggests a general conditional-covariance proof: normalize the pivot
+  feature weights, center two increasing exponential sequences, and decompose
+  each prefix or suffix into conditional covariance plus same-sign mean
+  shifts. The root command passes a 3,588-job Lean build and 114 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
