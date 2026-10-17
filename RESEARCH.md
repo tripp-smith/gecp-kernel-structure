@@ -5092,6 +5092,60 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CJ contract: weighted centered-group association
+
+State: in progress.
+
+Phase CI's positive-coefficient polynomials are the first instance of a more
+general association principle.  At one pivot, normalize the positive pivot
+feature products into weights `w_k`; the row and column feature ratios become
+two increasing sequences `f_k,g_k`.  Every matched bordered product is a
+positive common scale times
+`w_k (f_k-E f)(g_k-E g)`.  A prefix or suffix sum is nonnegative because its
+conditional covariance is nonnegative and both conditional means shift from
+the global means in the same direction.
+
+Frozen public Lean targets:
+
+- define a finite weighted covariance numerator and prove its nonnegativity
+  for monovary sequences by an exact pairwise-sum identity;
+- prove the algebraic two-block decomposition of a globally centered product
+  sum into a local covariance numerator and the product of two block-mean
+  shifts;
+- prove nonnegativity for a lower block and an upper block when both sequences
+  have the corresponding cross-block order;
+- specialize the result to positive weights and two increasing geometric
+  feature-ratio sequences on arbitrary finite degree sets;
+- expose the resulting arbitrary-feature one-pivot prefix and suffix grouped
+  signs in a form composable with the Phase CG coefficient bridge.
+
+Independent check:
+
+- verify the pairwise covariance identity and two-block decomposition in exact
+  rational arithmetic on exhaustive small weighted sequences;
+- test arbitrary feature counts, cutoffs, positive rational weights, and
+  increasing geometric ratios, including groups containing negative
+  individual centered products;
+- compare the generic centered products with direct one-pivot Taylor bordered
+  determinants for deterministic physical and super-physical node grids.
+
+Decision rule:
+
+- if the weighted association theorem closes arbitrary finite one-pivot
+  groups, next seek its compound/exterior-power analogue for multiple fresh
+  rows and columns;
+- if Taylor bordered products fail to match the centered form, isolate the
+  missing factorial or pivot scaling before weakening the theorem;
+- do not infer the higher compound-order sign or infinite-tail passage from a
+  one-pivot theorem.
+
+Non-claims:
+
+- this phase does not prove grouped signs for more than one fresh row/column;
+- it does not prove the infinite-tail passage, normalized tangent envelope,
+  residual half contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
 ## Phase CI contract: three-feature grouped sign theorem
 
 State: complete; merged as PR #89 with green CI.
