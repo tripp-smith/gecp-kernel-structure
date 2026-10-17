@@ -1176,6 +1176,22 @@ pivots.
   passes a 3,593-job Lean build and 116 tests. The change passed CI and merged
   as PR #91.
 
+- Phase CL makes the fresh-order-two case exact. Lean expands every `2 x 2`
+  determinant pencil into its endpoint determinants and mixed coefficient,
+  identifies the discriminant inequality `4*c0*c2 ≤ c1^2`, and constructively
+  factors every nonnegative Lorentzian quadratic into two affine factors with
+  nonnegative offsets. This yields an all-nonnegative-weight determinant
+  certificate without an inverse. In 500 deterministic exact finite-Taylor
+  runs, all 3,868 oriented threshold pencils have nonnegative coefficients and
+  satisfy the Lorentzian inequality. Only 1,030 satisfy either tempting
+  single row- or column-cross-minor sign; 2,838 failures show that the next
+  proof must retain the full mixed compound sum, as in an
+  Alexandrov--Fenchel or Hodge--Riemann argument. The fermionic Lorentzian
+  inequality itself, higher fresh order, the infinite-tail passage,
+  normalized tangent envelope, order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, and Problem 4.2 remain open. The root command passes a
+  3,594-job Lean build and 117 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

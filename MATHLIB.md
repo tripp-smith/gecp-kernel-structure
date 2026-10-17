@@ -599,6 +599,15 @@ could plausibly live near matrix determinant lemmas after generalization from
 low/high pairs admit such a factorization is project-specific and is not
 proposed upstream; nor is the finite low-order real-rootedness audit.
 
+Phase CL gives a reusable `2 x 2` specialization. The exact pencil expansion,
+discriminant criterion, and constructive factorization of a nonnegative
+quadratic satisfying `4*c0*c2 ≤ c1^2` are plausible general-purpose lemmas
+near real-rooted quadratics or mixed determinants. The implementation is
+currently specialized to real matrix pencils and should be generalized only
+if an upstream use appears. The observed Lorentzian inequality for conditioned
+Taylor feature pencils is project-specific and remains a conjectural analytic
+input rather than a mathlib proposal.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

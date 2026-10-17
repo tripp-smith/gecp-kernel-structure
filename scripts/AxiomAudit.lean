@@ -560,6 +560,11 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.det_add_smul_nonneg_of_common_diagonal
 #print axioms Matrix.det_add_smul_pos_of_common_diagonal_low_pos
 #print axioms Matrix.det_add_smul_pos_of_common_diagonal
+#print axioms Matrix.finTwoPencil_det_expansion
+#print axioms Matrix.finTwoPencilDiscriminant_nonneg_iff
+#print axioms Matrix.nonnegative_quadratic_factorization
+#print axioms Matrix.finTwoPencil_nonnegative_factorization
+#print axioms Matrix.finTwoPencil_det_nonneg_of_lorentzian
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductZero_factor
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductOne_factor
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductTwo_factor

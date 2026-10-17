@@ -287,6 +287,10 @@ Phase CK adds no public Python API. Its exact rational compound-pencil audit
 and Lean generalized-spectrum certificate are research infrastructure, not a
 runtime real-rootedness or convergence certificate.
 
+Phase CL also adds no public Python API. Its exact fresh-order-two discriminant
+audit and formal quadratic factorization narrow a proof obligation; they do
+not expose a runtime spectral or convergence certificate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical
