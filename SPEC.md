@@ -2217,7 +2217,7 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,582-job Lean build with 111 tests and no known
   dependency vulnerabilities; the change passed CI and merged as PR #84.
-- Post-v1 research phase CE: verified; pull request pending.
+- Post-v1 research phase CE: complete; merged as PR #85 with green CI.
   `upperTangentMatrix_factorized_distinguishedMinor_det` collapses every
   distinguished tangent minor of `K=A*B`, `H=A*W*B` to the squared selected-
   core determinant times one determinant of the separately conditioned
@@ -2230,4 +2230,5 @@ This annotation records delivered identifiers without changing the goals above.
   `-4/169`. The nonnegative diagonal-action sign theorem, normalized tangent
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,584-job Lean build with
-  112 tests and no known dependency vulnerabilities.
+  112 tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #85.

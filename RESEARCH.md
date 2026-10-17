@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CE contract: conditioned tangent cancellation collapse
 
-State: verified; pull request pending.
+State: complete; merged as PR #85 with green CI.
 
 Phase CD proves that separate left, middle, and right flag signs cannot explain
 the positive distinguished tangent determinant.  The fixed-run companion API
@@ -5172,6 +5172,7 @@ Delivered result:
   determinant rather than disappearing under a termwise argument;
 - `./scripts/verify.sh` passes a 3,584-job Lean build, the expanded public
   axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #85.
 
 Next decision:
 

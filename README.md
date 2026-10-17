@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CE — conditioned tangent cancellation collapse<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase CE `./scripts/verify.sh` passed a 3,584-job Lean build with 112 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CE implementation is verified locally; pull request pending<br>
+> **Delivery:** Phase CE merged in [PR #85](https://github.com/tripp-smith/gecp-kernel-structure/pull/85) with green CI<br>
 > **Claim level:** Phase CE collapses the complete double-flag tangent expansion to one conditioned feature determinant and isolates nonnegative diagonal action on totally positive flags as the next sign theorem
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -100,7 +100,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CB | Interleaved tangent cells | complete | layer/feature reindexing; local tangent-cell TN; unit full determinant; conditional middle shuffle-orientation transfer | 3,580-job Lean build; public axiom audit; 397,252 exact middle-minor checks; 109-test root verification; green CI | merged PR #82 |
 | CC | Upper-bidiagonal total nonnegativity | complete | noncrossing-support TN criterion; all-orders interleaved-middle TN; unconditional diagonal middle shuffle certificate | 3,581-job Lean build; public axiom audit; 12,403 exact nonidentity matching terms; 110-test root verification; green CI | merged PR #83 |
 | CD | Factorwise orientation obstruction | complete | exact negative double-flag term; impossibility of separate factor orientations; positive complete tangent determinant | 3,582-job Lean build; public axiom audit; exact 2/3-feature census; 111-test root verification; green CI | merged PR #84 |
-| CE | Conditioned tangent cancellation collapse | verified | factorized distinguished-minor identity; global double-flag regrouping; finite positive-Taylor diagonal specialization | 3,584-job Lean build; public axiom audit; 5,000 exact nonnegative-weight cases; 112-test root verification | PR pending |
+| CE | Conditioned tangent cancellation collapse | complete | factorized distinguished-minor identity; global double-flag regrouping; finite positive-Taylor diagonal specialization | 3,584-job Lean build; public axiom audit; 5,000 exact nonnegative-weight cases; 112-test root verification; green CI | merged PR #85 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

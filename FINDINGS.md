@@ -1084,6 +1084,7 @@ pivots.
   `(-2,0)` already gives `-4/169`. This points to a nonnegative diagonal-action
   theorem for totally positive flags, not a monotone-weight or termwise-sign
   theorem. The root command passes a 3,584-job Lean build and 112 tests.
+  The change passed CI and merged as PR #85.
 
 ## Run provenance
 
