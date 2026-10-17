@@ -5092,6 +5092,60 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CE contract: conditioned tangent cancellation collapse
+
+State: in progress.
+
+Phase CD proves that separate left, middle, and right flag signs cannot explain
+the positive distinguished tangent determinant.  The fixed-run companion API
+already contains the correct cancellation-preserving object: when
+`K = A*B` and `H = A*W*B`, two-sided conditioning sends `H` to the single
+product `conditionRows(A) * W * conditionColumns(B)`.  Combining this with
+the squared-core tangent identity regroups the complete double-flag sum before
+any sign estimate is attempted.
+
+Frozen public Lean targets:
+
+- prove that every distinguished tangent minor of a shared factorization
+  `K=A*B`, `H=A*W*B` is `det(selectedCore)^2` times the determinant of the
+  sampled conditioned feature product;
+- combine this identity with ordered triple Cauchy--Binet to identify the
+  entire signed double-flag sum with that single conditioned determinant;
+- specialize the collapse to the positive-series amplified kernel so the nine
+  Phase BS nodes are expressed directly through conditioned low/tail feature
+  weights, without separate flag-orientation hypotheses;
+- publicly export and axiom-audit the new identities.
+
+Independent check:
+
+- exhaustively or deterministically test generalized positive monomial feature
+  systems with independently ordered row and column grids, shuffled selected
+  prefixes, sorted fresh samples, and nondecreasing nonnegative diagonal
+  weights in exact rational arithmetic;
+- minimize and retain an exact counterexample for arbitrary nonnegative but
+  nonmonotone weights, demonstrating that weight order is a material part of
+  the next conjecture;
+- independently compare the double-flag sum, direct tangent determinant, and
+  conditioned-product determinant on the Phase CD witness.
+
+Decision rule:
+
+- if the monotone-weight census stays sign coherent, formulate the next
+  analytic target as preservation of the distinguished orientation under an
+  ordered diagonal flow on two totally positive feature flags;
+- if a monotone counterexample appears, minimize it and replace the target by
+  the narrower step weight `1,...,1,lambda,...,lambda` used by the fermionic
+  amplification;
+- do not return to termwise double-flag positivity or assume the desired
+  determinant sign.
+
+Non-claims:
+
+- this phase does not prove the monotone diagonal-flow positivity theorem or
+  any of the nine normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CD contract: factorwise orientation obstruction
 
 State: complete; merged as PR #84 with green CI.
