@@ -1112,6 +1112,7 @@ pivots.
   now the analytic sign of these grouped bordered pairings for arbitrary
   positive-Taylor prefixes. The root command passes a 3,586-job Lean build and
   112 tests.
+  The change passed CI and merged as PR #87.
 
 ## Run provenance
 

@@ -2247,7 +2247,7 @@ This annotation records delivered identifiers without changing the goals above.
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,585-job Lean build with 112 tests and no known
   dependency vulnerabilities; the change passed CI and merged as PR #86.
-- Post-v1 research phase CG: verified; pull request pending.
+- Post-v1 research phase CG: complete; merged as PR #87 with green CI.
   `selectedCore_sq_mul_conditionedBlockFeatureCoefficient` identifies every
   conditioned tail-count coefficient with a grouped sum of original bordered
   Plucker products, while
@@ -2260,4 +2260,5 @@ This annotation records delivered identifiers without changing the goals above.
   finite grouped sign theorem, infinite-tail passage, normalized tangent
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,586-job Lean build with
-  112 tests and no known dependency vulnerabilities.
+  112 tests and no known dependency vulnerabilities; the change passed CI and
+  merged as PR #87.

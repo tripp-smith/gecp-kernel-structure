@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CG contract: grouped conditioned Plucker bridge
 
-State: verified; pull request pending.
+State: complete; merged as PR #87 with green CI.
 
 Phase CF narrows the viable diagonal actions to the contiguous two-level
 weights used by the physical tail amplification.  The existing block-feature
@@ -5161,6 +5161,7 @@ Delivered result:
   grouped coefficient polynomial and remain strictly positive;
 - `./scripts/verify.sh` passes a 3,586-job Lean build, the expanded public
   axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #87.
 
 Next decision:
 
