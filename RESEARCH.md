@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CK contract: compound generalized-spectrum reduction
 
-State: in progress.
+State: verified locally; delivery pending.
 
 Phase CJ proves the complete one-pivot grouped theorem, but its scalar
 conditional-covariance argument does not extend coordinatewise to feature
@@ -5144,6 +5144,34 @@ Non-claims:
 - it does not prove the infinite-tail passage, normalized tangent envelope,
   order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `det_add_smul_eq_prod_of_common_diagonal` gives a division-free determinant
+  factorization for a matrix pair with common left/right factors and diagonal
+  middle coordinates;
+- `det_add_smul_nonneg_of_common_diagonal` and the two strict variants turn
+  nonnegative generalized-spectrum coordinates and factor orientation into an
+  all-nonnegative-weight determinant sign;
+- the exact Phase BV witness has 372 failures among 3,136 absolute-value
+  `MTP2` comparisons, while all nine threshold coefficient sequences are
+  nonnegative, log-concave, and have nonnegative exact discriminant;
+- 200 deterministic exact compound Taylor cases produce 1,481 oriented
+  threshold polynomials through fresh order three. Every polynomial retains
+  nonnegative coefficients, Newton log-concavity, and nonnegative exact
+  discriminant, although 147 cases violate absolute-value `MTP2`;
+- the audit therefore rejects the subset-lattice FKG route and isolates the
+  missing theorem as nonnegative real generalized spectrum, or an equivalent
+  common diagonal factorization, for the conditioned low/high pair.
+- `./scripts/verify.sh` passes a 3,593-job Lean build, the expanded public
+  axiom audit, 116 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Prove the generalized-spectrum statement first at fresh order two. The exact
+criterion is a nonnegative quadratic discriminant for every cutoff; a
+sign-regular matrix-pencil or oscillatory generalized-eigenvalue argument can
+then be tested before attempting arbitrary compound order.
 
 ## Phase CJ contract: weighted centered-group association
 

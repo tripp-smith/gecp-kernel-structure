@@ -2313,3 +2313,17 @@ This annotation records delivered identifiers without changing the goals above.
   G1, and Problem 4.2 remain open. The root command passes a 3,592-job Lean
   build with 115 tests and no known dependency vulnerabilities; the change
   passed CI and merged as PR #90.
+- Post-v1 research phase CK: verified locally; delivery pending.
+  `det_add_smul_eq_prod_of_common_diagonal` factors a matrix
+  pencil with common left/right factors and diagonal middle coordinates, and
+  its nonnegative and strict variants turn a nonnegative generalized spectrum
+  into an all-nonnegative-weight determinant sign without an inverse. Exact
+  Phase BV data refute absolute-value `MTP2` in 372 of 3,136 subset-lattice
+  comparisons while preserving nonnegative, log-concave, real-rooted
+  threshold polynomials. A deterministic exact audit retains those signatures
+  for 1,481 oriented polynomials from 200 compound Taylor cases through fresh
+  order three, despite `MTP2` failures in 147 cases. The arbitrary-prefix
+  generalized-spectrum theorem, infinite-tail passage, normalized tangent
+  envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,593-job Lean build and
+  116 tests.

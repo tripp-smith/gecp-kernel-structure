@@ -12,6 +12,7 @@ import GECPKernelStructure.Matrix.NoncrossingTotalNonnegative
 import GECPKernelStructure.Matrix.TangentFactorwiseObstruction
 import GECPKernelStructure.Matrix.SparseFeatureProjection
 import GECPKernelStructure.Matrix.MinimalGroupedCancellation
+import GECPKernelStructure.Matrix.NonnegativePencilSpectrum
 import GECPKernelStructure.Matrix.InterleavedTangent
 import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift

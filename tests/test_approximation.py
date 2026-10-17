@@ -2083,8 +2083,9 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
 
     phase_bs_weights = (1, 56, 65, 74, 83, 92, 101, 110, 119, 128)
     checked_step_weights = 0
+    grouped_sequences: list[tuple[Fraction, ...]] = []
     for cutoff in range(feature_count + 1):
-        grouped_bordered = [
+        grouped_bordered = tuple(
             sum(
                 (
                     product
@@ -2094,7 +2095,8 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
                 Fraction(),
             )
             for tail_count in range(len(fresh_rows) + 1)
-        ]
+        )
+        grouped_sequences.append(grouped_bordered)
         assert all(coefficient >= 0 for coefficient in grouped_bordered)
         grouped_conditioned = [
             coefficient / core_det**2 for coefficient in grouped_bordered
@@ -2123,6 +2125,40 @@ def test_graded_plucker_pairing_survives_termwise_sign_obstruction() -> None:
             assert step_det > 0
             checked_step_weights += 1
     assert checked_step_weights == 90
+
+    # Absolute-value MTP2 is genuinely too strong on the ordered subset
+    # lattice, but the threshold generating polynomials satisfy the first
+    # Pólya-frequency signatures: nonnegative coefficients, Newton
+    # log-concavity, and nonnegative exact discriminant.
+    mtp2_failures = 0
+    for first in products:
+        for second in products:
+            meet = tuple(min(i, j) for i, j in zip(first, second, strict=True))
+            join = tuple(max(i, j) for i, j in zip(first, second, strict=True))
+            if abs(products[meet]) * abs(products[join]) < abs(products[first]) * abs(
+                products[second]
+            ):
+                mtp2_failures += 1
+    assert mtp2_failures == 372
+
+    for coefficients in grouped_sequences:
+        assert all(
+            coefficients[index] ** 2
+            >= coefficients[index - 1] * coefficients[index + 1]
+            for index in range(1, len(coefficients) - 1)
+        )
+        constant, linear, quadratic, cubic = coefficients
+        discriminant = (
+            18 * cubic * quadratic * linear * constant
+            - 4 * quadratic**3 * constant
+            + quadratic**2 * linear**2
+            - 4 * cubic * linear**3
+            - 27 * cubic**2 * constant**2
+        )
+        if cubic:
+            assert discriminant >= 0
+        elif quadratic:
+            assert linear**2 - 4 * quadratic * constant >= 0
 
     # Linearize every finite weight as one bordered determinant.  The signed
     # four-cycle also rules out repairing these matrices by a fixed row/column
@@ -3482,6 +3518,199 @@ def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
 
     assert checked_taylor_groups == 6782
     assert negative_coordinates == 218
+
+
+def test_compound_threshold_polynomials_spectral_audit_exactly() -> None:
+    def finite_exp(value: Fraction, terms: int) -> Fraction:
+        return sum(
+            (value**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def row_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def compound_products(
+        rows: tuple[Fraction, ...],
+        columns: tuple[Fraction, ...],
+        feature_count: int,
+        prefix_length: int,
+        fresh_order: int,
+    ) -> tuple[
+        dict[tuple[int, ...], Fraction],
+        tuple[int, ...],
+        tuple[int, ...],
+        tuple[int, ...],
+        tuple[int, ...],
+    ]:
+        size = len(rows)
+        original = [
+            [finite_exp(x * y, feature_count + 5) for y in columns] for x in rows
+        ]
+        left = [
+            [x**degree / math.factorial(degree) for degree in range(feature_count)]
+            for x in rows
+        ]
+        right = [[y**degree for y in columns] for degree in range(feature_count)]
+        residual = [line[:] for line in original]
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(residual[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            residual = row_condition(residual, residual, pivot_row, pivot_column)
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+
+        fresh_rows = tuple(i for i in range(size) if i not in selected_rows)[
+            :fresh_order
+        ]
+        fresh_columns = tuple(j for j in range(size) if j not in selected_columns)[
+            :fresh_order
+        ]
+        augmented_rows = (*selected_rows, *fresh_rows)
+        augmented_columns = (*selected_columns, *fresh_columns)
+        products: dict[tuple[int, ...], Fraction] = {}
+        for features in itertools.combinations(range(feature_count), fresh_order):
+            left_core = [
+                [
+                    original[i][selected_columns[j]]
+                    if j < prefix_length
+                    else left[i][features[j - prefix_length]]
+                    for j in range(prefix_length + fresh_order)
+                ]
+                for i in augmented_rows
+            ]
+            right_core = [
+                [
+                    original[selected_rows[i]][j]
+                    if i < prefix_length
+                    else right[features[i - prefix_length]][j]
+                    for j in augmented_columns
+                ]
+                for i in range(prefix_length + fresh_order)
+            ]
+            products[features] = fraction_determinant(left_core) * fraction_determinant(
+                right_core
+            )
+        return (
+            products,
+            tuple(selected_rows),
+            tuple(selected_columns),
+            fresh_rows,
+            fresh_columns,
+        )
+
+    rng = random.Random(0xC0FFEE)
+    checked_polynomials = 0
+    mtp2_failure_cases = 0
+    for _ in range(200):
+        size = rng.randrange(4, 8)
+        row_denominator = rng.randrange(size + 1, 18)
+        column_denominator = rng.randrange(size + 1, 20)
+        rows = tuple(
+            Fraction(value, row_denominator)
+            for value in sorted(rng.sample(range(1, row_denominator), size))
+        )
+        columns = tuple(
+            Fraction(value, column_denominator)
+            for value in sorted(rng.sample(range(1, column_denominator), size))
+        )
+        prefix_length = rng.randrange(1, min(3, size - 2) + 1)
+        fresh_order = rng.randrange(2, min(3, size - prefix_length) + 1)
+        feature_count = rng.randrange(fresh_order + 1, 10)
+        (
+            products,
+            selected_rows,
+            selected_columns,
+            fresh_rows,
+            fresh_columns,
+        ) = compound_products(rows, columns, feature_count, prefix_length, fresh_order)
+        cross_inversions = sum(
+            selected > fresh for selected in selected_rows for fresh in fresh_rows
+        ) + sum(
+            selected > fresh for selected in selected_columns for fresh in fresh_columns
+        )
+        orientation = -1 if cross_inversions % 2 else 1
+        products = {
+            features: orientation * value for features, value in products.items()
+        }
+
+        keys = tuple(products)
+        if any(
+            abs(products[tuple(min(i, j) for i, j in zip(first, second, strict=True))])
+            * abs(
+                products[tuple(max(i, j) for i, j in zip(first, second, strict=True))]
+            )
+            < abs(products[first]) * abs(products[second])
+            for first in keys
+            for second in keys
+        ):
+            mtp2_failure_cases += 1
+
+        for cutoff in range(feature_count + 1):
+            coefficients = tuple(
+                sum(
+                    (
+                        value
+                        for features, value in products.items()
+                        if sum(degree >= cutoff for degree in features) == tail_count
+                    ),
+                    Fraction(),
+                )
+                for tail_count in range(fresh_order + 1)
+            )
+            assert all(coefficient >= 0 for coefficient in coefficients)
+            assert all(
+                coefficients[index] ** 2
+                >= coefficients[index - 1] * coefficients[index + 1]
+                for index in range(1, len(coefficients) - 1)
+            )
+            if fresh_order == 2:
+                constant, linear, quadratic = coefficients
+                if quadratic:
+                    assert linear**2 - 4 * quadratic * constant >= 0
+            else:
+                constant, linear, quadratic, cubic = coefficients
+                if cubic:
+                    discriminant = (
+                        18 * cubic * quadratic * linear * constant
+                        - 4 * quadratic**3 * constant
+                        + quadratic**2 * linear**2
+                        - 4 * cubic * linear**3
+                        - 27 * cubic**2 * constant**2
+                    )
+                    assert discriminant >= 0
+                elif quadratic:
+                    assert linear**2 - 4 * quadratic * constant >= 0
+            checked_polynomials += 1
+
+    assert checked_polynomials == 1481
+    assert mtp2_failure_cases == 147
 
 
 def test_interleaved_tangent_middle_minors_exactly() -> None:

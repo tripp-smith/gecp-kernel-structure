@@ -556,6 +556,10 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.phaseCH_proper_contiguous_groups_pos
 #print axioms Matrix.phaseCH_firstStep_pos
 #print axioms Matrix.phaseCH_secondStep_pos
+#print axioms Matrix.det_add_smul_eq_prod_of_common_diagonal
+#print axioms Matrix.det_add_smul_nonneg_of_common_diagonal
+#print axioms Matrix.det_add_smul_pos_of_common_diagonal_low_pos
+#print axioms Matrix.det_add_smul_pos_of_common_diagonal
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductZero_factor
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductOne_factor
 #print axioms GECPKernelStructure.Fermionic.positiveTaylorThreeProductTwo_factor

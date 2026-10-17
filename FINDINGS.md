@@ -1159,6 +1159,22 @@ pivots.
   a 3,592-job Lean build and 115 tests.
   The change passed CI and merged as PR #90.
 
+- Phase CK identifies the surviving higher-order invariant more sharply.
+  Absolute-value `MTP2` fails on the Phase BV ordered-subset weights in 372 of
+  3,136 comparisons, so a direct FKG proof is unavailable. Nevertheless all
+  nine exact threshold polynomials are coefficientwise nonnegative,
+  log-concave, and real-rooted by exact quadratic/cubic discriminants. The
+  same signatures hold for 1,481 oriented threshold polynomials from 200
+  deterministic exact compound Taylor cases through fresh order three, even
+  though 147 cases violate `MTP2`. Lean proves a division-free common-factor
+  determinant-pencil formula and nonnegative/strict-positive consequences
+  from nonnegative diagonal generalized-spectrum coordinates. This is a
+  reduction, not the missing compound theorem: simultaneous diagonalization
+  of arbitrary conditioned fermionic low/high pairs, the infinite-tail
+  passage, normalized tangent envelope, order-eighteen contraction, dyadic
+  recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes a 3,593-job Lean build and 116 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
