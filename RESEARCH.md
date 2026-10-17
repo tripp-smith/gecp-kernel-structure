@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CK contract: compound generalized-spectrum reduction
 
-State: verified locally; delivery pending.
+State: verified in PR #91; merge pending.
 
 Phase CJ proves the complete one-pivot grouped theorem, but its scalar
 conditional-covariance argument does not extend coordinatewise to feature

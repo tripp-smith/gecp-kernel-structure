@@ -2313,7 +2313,7 @@ This annotation records delivered identifiers without changing the goals above.
   G1, and Problem 4.2 remain open. The root command passes a 3,592-job Lean
   build with 115 tests and no known dependency vulnerabilities; the change
   passed CI and merged as PR #90.
-- Post-v1 research phase CK: verified locally; delivery pending.
+- Post-v1 research phase CK: verified in PR #91; merge pending.
   `det_add_smul_eq_prod_of_common_diagonal` factors a matrix
   pencil with common left/right factors and diagonal middle coordinates, and
   its nonnegative and strict variants turn a nonnegative generalized spectrum
