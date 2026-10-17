@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CJ contract: weighted centered-group association
 
-State: verified; pull request pending.
+State: complete; merged as PR #90 with green CI.
 
 Phase CI's positive-coefficient polynomials are the first instance of a more
 general association principle.  At one pivot, normalize the positive pivot
@@ -5175,6 +5175,7 @@ Delivered result:
   all group signs survive despite 218 negative individual coordinates;
 - `./scripts/verify.sh` passes a 3,592-job Lean build, the expanded public
   axiom audit, 115 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #90.
 
 Next decision:
 

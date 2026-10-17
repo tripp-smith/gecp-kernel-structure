@@ -1157,6 +1157,7 @@ pivots.
   fresh rows/columns require association on a feature-subset lattice, likely
   via an `MTP2`/FKG or biorthogonal-ensemble argument. The root command passes
   a 3,592-job Lean build and 115 tests.
+  The change passed CI and merged as PR #90.
 
 ## Run provenance
 

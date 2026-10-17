@@ -2296,7 +2296,7 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic recurrence, Conjecture G1, and Problem 4.2 remain open. The root
   command passes a 3,588-job Lean build with 114 tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #89.
-- Post-v1 research phase CJ: verified; pull request pending.
+- Post-v1 research phase CJ: complete; merged as PR #90 with green CI.
   `two_mul_weightedCovarianceNumerator` and
   `weightedMass_mul_weightedCenteredGroup` formalize the weighted Chebyshev
   and conditional-covariance identities suggested by Phase CI.
@@ -2311,4 +2311,5 @@ This annotation records delivered identifiers without changing the goals above.
   coordinates. Higher fresh order, the infinite-tail passage, normalized
   tangent envelope, order-eighteen contraction, dyadic recurrence, Conjecture
   G1, and Problem 4.2 remain open. The root command passes a 3,592-job Lean
-  build with 115 tests and no known dependency vulnerabilities.
+  build with 115 tests and no known dependency vulnerabilities; the change
+  passed CI and merged as PR #90.
