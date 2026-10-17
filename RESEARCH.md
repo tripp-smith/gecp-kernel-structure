@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CD contract: factorwise orientation obstruction
 
-State: verified locally; delivery pending.
+State: complete; merged as PR #84 with green CI.
 
 Phase CC closes the middle matrix's all-orders total nonnegativity, but the
 Phase CA criterion additionally requires the three factor orientations to

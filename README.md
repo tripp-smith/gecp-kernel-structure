@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CD — factorwise orientation obstruction<br>
-> **Phase state:** verified locally; delivery pending<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase CD `./scripts/verify.sh` passed a 3,582-job Lean build with 111 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CD verified locally and pending review; Phase CC merged in [PR #83](https://github.com/tripp-smith/gecp-kernel-structure/pull/83) with green CI<br>
+> **Delivery:** Phase CD merged in [PR #84](https://github.com/tripp-smith/gecp-kernel-structure/pull/84) with green CI<br>
 > **Claim level:** Phase CD formally rules out Phase CA's separate termwise factor orientations on a minimal three-feature witness while proving the complete determinant remains positive; global confluent cancellation is now the required route
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -99,7 +99,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CA | Shuffle-aware tangent Cauchy--Binet | complete | ordered three-factor expansion; modular factor-orientation criterion; upper-tangent sample specialization | 3,579-job Lean build; public axiom audit; 24 exact shuffled triple expansions; 108-test root verification; green CI | merged PR #81 |
 | CB | Interleaved tangent cells | complete | layer/feature reindexing; local tangent-cell TN; unit full determinant; conditional middle shuffle-orientation transfer | 3,580-job Lean build; public axiom audit; 397,252 exact middle-minor checks; 109-test root verification; green CI | merged PR #82 |
 | CC | Upper-bidiagonal total nonnegativity | complete | noncrossing-support TN criterion; all-orders interleaved-middle TN; unconditional diagonal middle shuffle certificate | 3,581-job Lean build; public axiom audit; 12,403 exact nonidentity matching terms; 110-test root verification; green CI | merged PR #83 |
-| CD | Factorwise orientation obstruction | verified | exact negative double-flag term; impossibility of separate factor orientations; positive complete tangent determinant | 3,582-job Lean build; public axiom audit; exact 2/3-feature census; 111-test root verification | pending PR |
+| CD | Factorwise orientation obstruction | complete | exact negative double-flag term; impossibility of separate factor orientations; positive complete tangent determinant | 3,582-job Lean build; public axiom audit; exact 2/3-feature census; 111-test root verification; green CI | merged PR #84 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

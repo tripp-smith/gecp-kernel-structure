@@ -238,6 +238,9 @@ only two positive terms. The proof route must therefore preserve cancellation
 across flags, most plausibly through a global confluent/jet determinant,
 planar-network, or exterior-algebra argument.
 
+The root command passes a 3,582-job Lean build and 111 tests with no known
+dependency vulnerabilities; the change passed CI and merged as PR #84.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the

@@ -2203,7 +2203,7 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,581-job Lean build with
   110 tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #83.
-- Post-v1 research phase CD: verified locally; delivery pending.
+- Post-v1 research phase CD: complete; merged as PR #84 with green CI.
   `phaseCD_negative_triple_term` proves that a positive-monomial,
   positive-diagonal three-feature tangent factorization has an ordered
   Cauchy--Binet summand equal to `-1/192`, and
@@ -2216,4 +2216,4 @@ This annotation records delivered identifiers without changing the goals above.
   establish termwise signs. The normalized tangent envelope, order-eighteen
   contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
   The root command passes a 3,582-job Lean build with 111 tests and no known
-  dependency vulnerabilities.
+  dependency vulnerabilities; the change passed CI and merged as PR #84.

@@ -1070,7 +1070,7 @@ pivots.
   example through a confluent planar network, compound/exterior algebra, or a
   sign-reversing involution; proving the final envelope, Conjecture G1, and
   Problem 4.2 remains open. The root command passes a 3,582-job Lean build and
-  111 tests.
+  111 tests; the change passed CI and merged as PR #84.
 
 ## Run provenance
 
