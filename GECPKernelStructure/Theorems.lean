@@ -13,6 +13,7 @@ import GECPKernelStructure.Matrix.TangentFactorwiseObstruction
 import GECPKernelStructure.Matrix.InterleavedTangent
 import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift
+import GECPKernelStructure.GECP.FactorizedTangentCollapse
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign
@@ -62,6 +63,7 @@ import GECPKernelStructure.Fermionic.FiniteWeightAmplification
 import GECPKernelStructure.Fermionic.TwoSidedFeatureElimination
 import GECPKernelStructure.Fermionic.ConditionedFeaturePlucker
 import GECPKernelStructure.Fermionic.CompanionTangentLift
+import GECPKernelStructure.Fermionic.ConditionedTangentCollapse
 import GECPKernelStructure.Fermionic.OrderKernelTotalNonnegative
 import GECPKernelStructure.Fermionic.TruncatedPowerSign
 import GECPKernelStructure.Matrix.DeterminantObstruction

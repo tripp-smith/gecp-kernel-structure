@@ -5092,6 +5092,96 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CE contract: conditioned tangent cancellation collapse
+
+State: verified; pull request pending.
+
+Phase CD proves that separate left, middle, and right flag signs cannot explain
+the positive distinguished tangent determinant.  The fixed-run companion API
+already contains the correct cancellation-preserving object: when
+`K = A*B` and `H = A*W*B`, two-sided conditioning sends `H` to the single
+product `conditionRows(A) * W * conditionColumns(B)`.  Combining this with
+the squared-core tangent identity regroups the complete double-flag sum before
+any sign estimate is attempted.
+
+Frozen public Lean targets:
+
+- prove that every distinguished tangent minor of a shared factorization
+  `K=A*B`, `H=A*W*B` is `det(selectedCore)^2` times the determinant of the
+  sampled conditioned feature product;
+- combine this identity with ordered triple Cauchy--Binet to identify the
+  entire signed double-flag sum with that single conditioned determinant;
+- specialize the collapse to the positive-series amplified kernel so the nine
+  Phase BS nodes are expressed directly through conditioned low/tail feature
+  weights, without separate flag-orientation hypotheses;
+- publicly export and axiom-audit the new identities.
+
+Independent check:
+
+- exhaustively or deterministically test generalized positive monomial feature
+  systems with independently ordered row and column grids, shuffled selected
+  prefixes, sorted fresh samples, and arbitrary nonnegative diagonal weights
+  in exact rational arithmetic;
+- minimize and retain an exact counterexample once a diagonal weight is
+  allowed to be negative, while guarding against the spurious sign change
+  caused by presenting a fresh tuple out of canonical sorted order;
+- independently compare the double-flag sum, direct tangent determinant, and
+  conditioned-product determinant on the Phase CD witness.
+
+Decision rule:
+
+- if the nonnegative-weight census stays sign coherent, formulate the next
+  analytic target as preservation of the distinguished orientation under a
+  nonnegative diagonal action on two totally positive feature flags;
+- if a nonnegative counterexample appears, minimize it and replace the target
+  by the narrower step weight `1,...,1,lambda,...,lambda` used by the
+  fermionic amplification;
+- do not return to termwise double-flag positivity or assume the desired
+  determinant sign.
+
+Non-claims:
+
+- this phase does not prove the nonnegative diagonal-action positivity theorem or
+  any of the nine normalized tangent envelopes;
+- it does not prove the residual half contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `Run.upperTangentMatrix_factorized_distinguishedMinor_det` proves that the
+  distinguished tangent minor for `K=A*B`, `H=A*W*B` is the squared selected-
+  core determinant times the sampled determinant of
+  `conditionRows(A) * W * conditionColumns(B)`;
+- `Run.signature_mul_conditionedFeature_det_eq_doubleFlagSum` reindexes the
+  complete double border by one common equivalence and proves that the whole
+  ordered double-flag sum equals that single conditioned determinant, with no
+  permutation sign because both determinant axes use the same reindexing;
+- `expTaylor_upperTangent_diagonal_distinguishedMinor_det` specializes the
+  cancellation-preserving identity to finite positive-Taylor monomial flags
+  and arbitrary diagonal degree weights;
+- all three public theorems use only `propext`, `Classical.choice`, and
+  `Quot.sound` in the axiom audit;
+- deterministic exact rational arithmetic checks 5,000 generalized monomial
+  cases with arbitrary nonnegative weights, independently ordered grids,
+  shuffled prefixes, and fresh orders through three: 3,964 are strictly
+  oriented-positive and 1,036 vanish for rank or zero-weight reasons;
+- allowing a negative degree weight immediately fails: weights `(-2,0)` on
+  the two-feature sample give the conditioned scalar `-4/169`;
+- the Phase CD witness independently satisfies the new collapse identity, so
+  its two negative double flags cancel inside the positive conditioned
+  determinant rather than disappearing under a termwise argument;
+- `./scripts/verify.sh` passes a 3,584-job Lean build, the expanded public
+  axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Prove the oriented nonnegativity of the conditioned product determinant for
+two totally positive monomial flags and a nonnegative diagonal action.  The
+right abstraction is a cancellation-preserving compound/exterior statement,
+or equivalently a planar-network theorem for an oblique Schur projection; it
+must conclude the sign of the whole determinant and must not decompose it into
+the false Phase CA termwise sign premises.
+
 ## Phase CD contract: factorwise orientation obstruction
 
 State: complete; merged as PR #84 with green CI.

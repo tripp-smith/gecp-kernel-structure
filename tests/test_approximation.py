@@ -2828,6 +2828,22 @@ def test_tangent_factorwise_orientation_obstruction_exactly() -> None:
 
         complete_det = fraction_determinant(multiply(multiply(left, middle), right))
         assert sum((term for _, _, term in terms), Fraction()) == complete_det
+        base = multiply(left_base, right_base)
+        companion = multiply(
+            [
+                [left_base[i][k] * weights[k] for k in range(feature_count)]
+                for i in range(len(left_base))
+            ],
+            right_base,
+        )
+        core = base[0][0]
+        conditioned = (
+            companion[1][1]
+            - base[1][0] * companion[0][1] / core
+            - companion[1][0] * base[0][1] / core
+            + base[1][0] * companion[0][0] * base[0][1] / core**2
+        )
+        assert complete_det == core**2 * conditioned
         return terms, complete_det
 
     two_feature_terms, two_feature_det = witness(2)
@@ -2849,6 +2865,137 @@ def test_tangent_factorwise_orientation_obstruction_exactly() -> None:
     ) in three_feature_terms
     assert three_feature_det == Fraction(24929, 27648)
     assert three_feature_det > 0
+
+
+def test_conditioned_tangent_nonnegative_weight_boundary_exactly() -> None:
+    def bi_condition(
+        pivot_kernel: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = pivot_kernel[pivot_row][pivot_column]
+        return [
+            [
+                companion[i][j]
+                - pivot_kernel[i][pivot_column] * companion[pivot_row][j] / pivot
+                - companion[i][pivot_column] * pivot_kernel[pivot_row][j] / pivot
+                + pivot_kernel[i][pivot_column]
+                * companion[pivot_row][pivot_column]
+                * pivot_kernel[pivot_row][j]
+                / pivot**2
+                for j in range(len(pivot_kernel[0]))
+            ]
+            for i in range(len(pivot_kernel))
+        ]
+
+    def conditioned_minor(
+        degrees: tuple[int, ...],
+        weights: tuple[Fraction, ...],
+        row_nodes: tuple[Fraction, ...],
+        column_nodes: tuple[Fraction, ...],
+        selected_rows: tuple[int, ...],
+        selected_columns: tuple[int, ...],
+        fresh_rows: tuple[int, ...],
+        fresh_columns: tuple[int, ...],
+    ) -> Fraction:
+        left = [
+            [node**degree / math.factorial(degree) for degree in degrees]
+            for node in row_nodes
+        ]
+        right = [[node**degree for node in column_nodes] for degree in degrees]
+        kernel = [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(degrees))),
+                    Fraction(),
+                )
+                for j in range(len(column_nodes))
+            ]
+            for i in range(len(row_nodes))
+        ]
+        companion = [
+            [
+                sum(
+                    (
+                        left[i][k] * weights[k] * right[k][j]
+                        for k in range(len(degrees))
+                    ),
+                    Fraction(),
+                )
+                for j in range(len(column_nodes))
+            ]
+            for i in range(len(row_nodes))
+        ]
+        for pivot_row, pivot_column in zip(
+            selected_rows, selected_columns, strict=True
+        ):
+            companion = bi_condition(kernel, companion, pivot_row, pivot_column)
+            kernel = bi_condition(kernel, kernel, pivot_row, pivot_column)
+        return fraction_determinant(
+            [[companion[i][j] for j in fresh_columns] for i in fresh_rows]
+        )
+
+    rng = random.Random(0xCE11)
+    positive_cases = 0
+    for _ in range(5000):
+        node_count = rng.randrange(3, 7)
+        feature_count = rng.randrange(2, 8)
+        degrees = tuple(sorted(rng.sample(range(15), feature_count)))
+        row_denominator = rng.randrange(node_count + 1, 18)
+        column_denominator = rng.randrange(node_count + 1, 18)
+        row_nodes = tuple(
+            Fraction(value, row_denominator)
+            for value in sorted(rng.sample(range(1, row_denominator), node_count))
+        )
+        column_nodes = tuple(
+            Fraction(value, column_denominator)
+            for value in sorted(rng.sample(range(1, column_denominator), node_count))
+        )
+        weights = tuple(
+            Fraction(rng.randrange(8), rng.randrange(1, 6))
+            for _ in range(feature_count)
+        )
+        prefix_length = rng.randrange(1, min(3, node_count))
+        selected_rows = tuple(rng.sample(range(node_count), prefix_length))
+        selected_columns = tuple(rng.sample(range(node_count), prefix_length))
+        available_rows = [i for i in range(node_count) if i not in selected_rows]
+        available_columns = [j for j in range(node_count) if j not in selected_columns]
+        fresh_order = rng.randrange(1, min(3, len(available_rows)) + 1)
+        fresh_rows = tuple(sorted(rng.sample(available_rows, fresh_order)))
+        fresh_columns = tuple(sorted(rng.sample(available_columns, fresh_order)))
+        determinant = conditioned_minor(
+            degrees,
+            weights,
+            row_nodes,
+            column_nodes,
+            selected_rows,
+            selected_columns,
+            fresh_rows,
+            fresh_columns,
+        )
+        cross_inversions = sum(
+            selected > fresh for selected in selected_rows for fresh in fresh_rows
+        ) + sum(
+            selected > fresh for selected in selected_columns for fresh in fresh_columns
+        )
+        orientation = -1 if cross_inversions % 2 else 1
+        assert orientation * determinant >= 0
+        positive_cases += orientation * determinant > 0
+
+    assert positive_cases == 3964
+
+    signed_weight_failure = conditioned_minor(
+        (0, 1),
+        (Fraction(-2), Fraction()),
+        (Fraction(1, 3), Fraction(2, 3)),
+        (Fraction(1, 4), Fraction(3, 4)),
+        (0,),
+        (0,),
+        (1,),
+        (1,),
+    )
+    assert signed_weight_failure == Fraction(-4, 169)
 
 
 def test_interleaved_tangent_middle_minors_exactly() -> None:
