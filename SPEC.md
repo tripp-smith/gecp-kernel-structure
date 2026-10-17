@@ -2232,3 +2232,18 @@ This annotation records delivered identifiers without changing the goals above.
   Problem 4.2 remain open. The root command passes a 3,584-job Lean build with
   112 tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #85.
+- Post-v1 research phase CF: verified; pull request pending.
+  `sparseFeatureProjection` packages a one-hot feature inclusion and its
+  transpose as a nonnegative diagonal action.
+  `det_mul_sparseFeatureProjection_mul` proves that inserting this projection
+  isolates exactly one matched Plucker coordinate, and
+  `mul_sparseFeatureProjection_mul_det_neg` converts a negative coordinate
+  into a determinant sign failure. In the exact Phase BV witness the supports
+  `(0,1,5)` and `(0,2,5)` both fail, refuting the broad nonnegative diagonal-
+  action target suggested by Phase CE's dense census. All 90 contiguous
+  cutoff/Phase-BS-weight combinations remain positive in that witness, so the
+  physical step-weight family is the narrowed next target. Its grouped
+  coefficient signs, the normalized tangent envelope, order-eighteen
+  contraction, dyadic recurrence, Conjecture G1, and Problem 4.2 remain open.
+  The root command passes a 3,585-job Lean build with 112 tests and no known
+  dependency vulnerabilities.

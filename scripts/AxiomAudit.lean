@@ -536,3 +536,9 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.phaseCD_no_factorwise_positive_orientation
 #print axioms Matrix.phaseCD_complete_tangent_det
 #print axioms Matrix.phaseCD_complete_tangent_det_pos
+#print axioms Matrix.mul_orderedFeatureInclusion
+#print axioms Matrix.orderedFeatureInclusion_transpose_mul
+#print axioms Matrix.sparseFeatureProjection_nonneg
+#print axioms Matrix.sparseFeatureProjection_offDiagonal_eq_zero
+#print axioms Matrix.det_mul_sparseFeatureProjection_mul
+#print axioms Matrix.mul_sparseFeatureProjection_mul_det_neg

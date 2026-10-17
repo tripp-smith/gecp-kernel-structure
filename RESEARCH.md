@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CF contract: sparse diagonal obstruction
 
-State: in progress.
+State: verified; pull request pending.
 
 Phase CE's dense exact census suggested that arbitrary nonnegative diagonal
 weights might preserve the distinguished orientation.  Phase BV already
@@ -5143,6 +5143,42 @@ Non-claims:
   the nine normalized tangent envelopes;
 - it does not prove the residual half contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `orderedFeatureInclusion` is the one-hot rectangular inclusion attached to
+  a feature tuple; `mul_orderedFeatureInclusion` and its transposed companion
+  identify multiplication with the corresponding matrix submatrices;
+- `sparseFeatureProjection` is the resulting feature-space projection;
+  `sparseFeatureProjection_nonneg` proves every entry nonnegative and
+  `sparseFeatureProjection_offDiagonal_eq_zero` proves all off-diagonal
+  entries vanish;
+- `det_mul_sparseFeatureProjection_mul` proves that inserting the projection
+  isolates exactly the product of the selected left and right minors;
+- `mul_sparseFeatureProjection_mul_det_neg` turns any negative matched
+  Plucker coordinate into a formal sign counterexample for the projected
+  determinant;
+- in the exact Phase BV witness, the feature subsets `(0,1,5)` and `(0,2,5)`
+  are the only negative coordinates among 56, and both corresponding sparse
+  projected determinants are negative;
+- all 90 combinations of the nine Phase BS amplification nodes plus weight
+  one with the nine contiguous feature cutoffs `0,...,8` remain strictly
+  positive in the same witness;
+- the Phase CE randomized census used dense independent weights and therefore
+  almost never sampled an exact sparse support; it was evidence, not a proof,
+  and the sparse projection is the decisive adversarial test;
+- `./scripts/verify.sh` passes a 3,585-job Lean build, the expanded public
+  axiom audit, 112 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Target the contiguous step-weight determinant directly. Its Cauchy--Binet
+expansion groups Plucker coordinates by the number of indices above the
+cutoff, so the plausible invariant is positivity of every grouped tail-count
+coefficient, not positivity of each coordinate. Phase BV's graded pairing
+and the mixed-column coefficient API already provide the algebraic container;
+the missing work is an analytic sign theorem for those grouped conditioned
+coefficients.
 
 ## Phase CE contract: conditioned tangent cancellation collapse
 
@@ -5234,6 +5270,11 @@ right abstraction is a cancellation-preserving compound/exterior statement,
 or equivalently a planar-network theorem for an oblique Schur projection; it
 must conclude the sign of the whole determinant and must not decompose it into
 the false Phase CA termwise sign premises.
+
+Phase CF subsequently refutes this target for arbitrary nonnegative diagonal
+actions by activating the sparse supports omitted by the dense census. Only
+the contiguous two-level step weights used by the physical amplification
+survive as the next sign family.
 
 ## Phase CD contract: factorwise orientation obstruction
 
