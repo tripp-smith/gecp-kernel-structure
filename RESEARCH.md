@@ -5092,6 +5092,55 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CI contract: three-feature grouped sign theorem
+
+State: in progress.
+
+Phase CH exhibits the smallest observed coordinate cancellation but also shows
+that both neighboring groups stay positive.  Symbolic elimination for general
+ordered nodes reveals the reason: each adjacent two-coordinate sum factors as
+the product of the row gap, the column gap, and a polynomial with positive
+coefficients.  This is a concrete variation-diminishing theorem rather than a
+finite witness.
+
+Frozen public Lean targets:
+
+- define the generic three-feature positive-Taylor kernel and its one-pivot
+  left, right, and matched bordered coordinates;
+- prove closed factorizations of the three individual matched coordinates;
+- prove the adjacent prefix and suffix sums equal the ordered-gap product
+  times their explicit positive-coefficient polynomials;
+- prove both grouped sums strictly positive for arbitrary strictly ordered
+  nonnegative row and column nodes;
+- deduce positivity of both nontrivial contiguous-step determinants for every
+  nonnegative scalar weight.
+
+Independent check:
+
+- compare the symbolic closed forms with direct exact bordered determinants;
+- exhaust a deterministic rational boundary/interior grid, including zero
+  endpoints and nodes beyond the physical row interval;
+- use deterministic randomized exact cases to verify both factorizations and
+  all-weight consequences independently of Lean.
+
+Decision rule:
+
+- if the positive-coefficient factorizations formalize, seek a recurrence or
+  sign-reversing involution that extends consecutive grouped sums to arbitrary
+  feature count and cutoff;
+- if either factorization needs an unstated bound, record the exact domain and
+  test whether the physical `0 < x <= 1`, `0 < y` hypotheses suffice;
+- do not infer arbitrary-prefix, arbitrary-fresh-order, or infinite-tail signs
+  from the one-pivot order-three theorem.
+
+Non-claims:
+
+- this phase does not prove the grouped sign theorem for more than one fresh
+  row/column or more than three features;
+- it does not prove the infinite-tail passage, normalized tangent envelope,
+  residual half contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
 ## Phase CH contract: minimal grouped cancellation witness
 
 State: complete; merged as PR #88 with green CI.
