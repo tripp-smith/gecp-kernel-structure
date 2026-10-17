@@ -3315,6 +3315,175 @@ def test_three_feature_grouped_sign_factorizations_exactly() -> None:
     assert checked_cases == 2198
 
 
+def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
+    def mass(indices: tuple[int, ...], weights: tuple[Fraction, ...]) -> Fraction:
+        return sum((weights[k] for k in indices), Fraction())
+
+    def moment(
+        indices: tuple[int, ...],
+        weights: tuple[Fraction, ...],
+        values: tuple[Fraction, ...],
+    ) -> Fraction:
+        return sum((weights[k] * values[k] for k in indices), Fraction())
+
+    def covariance_numerator(
+        indices: tuple[int, ...],
+        weights: tuple[Fraction, ...],
+        first: tuple[Fraction, ...],
+        second: tuple[Fraction, ...],
+    ) -> Fraction:
+        return mass(indices, weights) * sum(
+            (weights[k] * first[k] * second[k] for k in indices), Fraction()
+        ) - moment(indices, weights, first) * moment(indices, weights, second)
+
+    def centered_group(
+        ambient: tuple[int, ...],
+        group: tuple[int, ...],
+        weights: tuple[Fraction, ...],
+        first: tuple[Fraction, ...],
+        second: tuple[Fraction, ...],
+    ) -> Fraction:
+        ambient_mass = mass(ambient, weights)
+        first_moment = moment(ambient, weights, first)
+        second_moment = moment(ambient, weights, second)
+        return sum(
+            (
+                weights[k]
+                * (ambient_mass * first[k] - first_moment)
+                * (ambient_mass * second[k] - second_moment)
+                for k in group
+            ),
+            Fraction(),
+        )
+
+    checked_weighted_groups = 0
+    for feature_count in range(1, 6):
+        ambient = tuple(range(feature_count))
+        for raw_weights in itertools.product((1, 2), repeat=feature_count):
+            weights = tuple(map(Fraction, raw_weights))
+            for row_ratio in map(Fraction, (1, 2, 3)):
+                for column_ratio in map(Fraction, (1, 2, 3)):
+                    first = tuple(row_ratio**k for k in ambient)
+                    second = tuple(column_ratio**k for k in ambient)
+                    total_covariance = covariance_numerator(
+                        ambient, weights, first, second
+                    )
+                    pairwise = sum(
+                        (
+                            weights[i]
+                            * weights[j]
+                            * (first[i] - first[j])
+                            * (second[i] - second[j])
+                            for i in ambient
+                            for j in ambient
+                        ),
+                        Fraction(),
+                    )
+                    assert 2 * total_covariance == pairwise
+                    assert total_covariance >= 0
+                    for cutoff in range(feature_count + 1):
+                        lower = tuple(range(cutoff))
+                        upper = tuple(range(cutoff, feature_count))
+                        for group in (lower, upper):
+                            if not group:
+                                continue
+                            centered = centered_group(
+                                ambient, group, weights, first, second
+                            )
+                            group_mass = mass(group, weights)
+                            local_covariance = covariance_numerator(
+                                group, weights, first, second
+                            )
+                            first_shift = moment(group, weights, first) * mass(
+                                ambient, weights
+                            ) - group_mass * moment(ambient, weights, first)
+                            second_shift = moment(group, weights, second) * mass(
+                                ambient, weights
+                            ) - group_mass * moment(ambient, weights, second)
+                            assert group_mass * centered == (
+                                mass(ambient, weights) ** 2 * local_covariance
+                                + first_shift * second_shift
+                            )
+                            assert centered >= 0
+                            checked_weighted_groups += 1
+
+    assert checked_weighted_groups == 4644
+
+    def taylor_kernel(feature_count: int, x: Fraction, y: Fraction) -> Fraction:
+        return sum(
+            (
+                (x * y) ** degree / math.factorial(degree)
+                for degree in range(feature_count)
+            ),
+            Fraction(),
+        )
+
+    rng = random.Random(0xC0A551A7)
+    checked_taylor_groups = 0
+    negative_coordinates = 0
+    for _ in range(512):
+        feature_count = rng.randrange(1, 13)
+        x_denominator = rng.randrange(2, 20)
+        y_denominator = rng.randrange(1, 12)
+        x0_numerator, x1_numerator = sorted(
+            rng.sample(range(1, 4 * x_denominator + 1), 2)
+        )
+        y0_numerator, y1_numerator = sorted(
+            rng.sample(range(1, 40 * y_denominator + 1), 2)
+        )
+        x0 = Fraction(x0_numerator, x_denominator)
+        x1 = Fraction(x1_numerator, x_denominator)
+        y0 = Fraction(y0_numerator, y_denominator)
+        y1 = Fraction(y1_numerator, y_denominator)
+        degrees = tuple(range(feature_count))
+        weights = tuple(
+            (x0 * y0) ** degree / math.factorial(degree) for degree in degrees
+        )
+        row_ratio = x1 / x0
+        column_ratio = y1 / y0
+        row_values = tuple(row_ratio**degree for degree in degrees)
+        column_values = tuple(column_ratio**degree for degree in degrees)
+        core = taylor_kernel(feature_count, x0, y0)
+        assert mass(degrees, weights) == core
+        assert moment(degrees, weights, row_values) == taylor_kernel(
+            feature_count, x1, y0
+        )
+        assert moment(degrees, weights, column_values) == taylor_kernel(
+            feature_count, x0, y1
+        )
+
+        products = tuple(
+            (
+                core * x1**degree / math.factorial(degree)
+                - x0**degree
+                / math.factorial(degree)
+                * taylor_kernel(feature_count, x1, y0)
+            )
+            * (core * y1**degree - taylor_kernel(feature_count, x0, y1) * y0**degree)
+            for degree in degrees
+        )
+        centered_products = tuple(
+            weights[degree]
+            * (core * row_values[degree] - moment(degrees, weights, row_values))
+            * (core * column_values[degree] - moment(degrees, weights, column_values))
+            for degree in degrees
+        )
+        assert products == centered_products
+        negative_coordinates += sum(product < 0 for product in products)
+        for cutoff in range(feature_count + 1):
+            prefix = sum(products[:cutoff], Fraction())
+            suffix = sum(products[cutoff:], Fraction())
+            if cutoff:
+                assert prefix >= 0
+                checked_taylor_groups += 1
+            if cutoff < feature_count:
+                assert suffix >= 0
+                checked_taylor_groups += 1
+
+    assert checked_taylor_groups == 6782
+    assert negative_coordinates == 218
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(
