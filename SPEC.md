@@ -2327,3 +2327,17 @@ This annotation records delivered identifiers without changing the goals above.
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,593-job Lean build and
   116 tests.
+- Post-v1 research phase CL: verified locally; delivery pending.
+  `finTwoPencil_det_expansion` gives the exact quadratic
+  determinant pencil at fresh order two,
+  `finTwoPencilDiscriminant_nonneg_iff` isolates the Lorentzian inequality
+  `4*c0*c2 ≤ c1^2`, and `nonnegative_quadratic_factorization` constructs its
+  two nonnegative spectral offsets. The matrix specialization yields an
+  all-nonnegative-weight sign certificate without an inverse. Exact arithmetic
+  checks 3,868 oriented threshold pencils from 500 deterministic finite-Taylor
+  runs; all coefficients and discriminants pass, while 2,838 pencils fail both
+  naive single-cross-minor sign criteria. The fermionic Lorentzian inequality,
+  higher fresh order, infinite-tail passage, normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
+  4.2 remain open. The root command passes a 3,594-job Lean build and 117
+  tests.

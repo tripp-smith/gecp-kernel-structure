@@ -3713,6 +3713,186 @@ def test_compound_threshold_polynomials_spectral_audit_exactly() -> None:
     assert mtp2_failure_cases == 147
 
 
+def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
+    def finite_exp(value: Fraction, terms: int) -> Fraction:
+        return sum(
+            (value**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def row_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - matrix[i][pivot_column] * companion[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def column_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot = matrix[pivot_row][pivot_column]
+        assert pivot
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * matrix[pivot_row][j] / pivot
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    rng = random.Random(0xC1D15C)
+    checked_pencils = 0
+    row_cross_signs = 0
+    column_cross_signs = 0
+    either_cross_sign = 0
+    both_cross_signs = 0
+    for _ in range(500):
+        size = rng.randrange(4, 8)
+        row_denominator = rng.randrange(size + 1, 19)
+        rows = tuple(
+            Fraction(value, row_denominator)
+            for value in sorted(rng.sample(range(1, row_denominator), size))
+        )
+        column_denominator = rng.randrange(size + 1, 21)
+        columns = tuple(
+            Fraction(value, column_denominator)
+            for value in sorted(rng.sample(range(1, column_denominator), size))
+        )
+        prefix_length = rng.randrange(1, min(3, size - 2) + 1)
+        feature_count = rng.randrange(3, 11)
+        original = [
+            [finite_exp(x * y, feature_count + 5) for y in columns] for x in rows
+        ]
+        conditioned_left = [
+            [x**degree / math.factorial(degree) for degree in range(feature_count)]
+            for x in rows
+        ]
+        conditioned_right = [
+            [y**degree for y in columns] for degree in range(feature_count)
+        ]
+        pivot_kernel = [line[:] for line in original]
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(pivot_kernel[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            conditioned_left = row_condition(
+                pivot_kernel, conditioned_left, pivot_row, pivot_column
+            )
+            conditioned_right = column_condition(
+                pivot_kernel, conditioned_right, pivot_row, pivot_column
+            )
+            pivot_kernel = row_condition(
+                pivot_kernel, pivot_kernel, pivot_row, pivot_column
+            )
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+
+        fresh_rows = tuple(i for i in range(size) if i not in selected_rows)[:2]
+        fresh_columns = tuple(j for j in range(size) if j not in selected_columns)[:2]
+        cross_inversions = sum(
+            selected > fresh for selected in selected_rows for fresh in fresh_rows
+        ) + sum(
+            selected > fresh for selected in selected_columns for fresh in fresh_columns
+        )
+        orientation = -1 if cross_inversions % 2 else 1
+
+        for cutoff in range(feature_count + 1):
+            low_left = [
+                [conditioned_left[i][degree] for degree in range(cutoff)]
+                for i in fresh_rows
+            ]
+            low_right = [
+                [conditioned_right[degree][j] for j in fresh_columns]
+                for degree in range(cutoff)
+            ]
+            high_left = [
+                [conditioned_left[i][degree] for degree in range(cutoff, feature_count)]
+                for i in fresh_rows
+            ]
+            high_right = [
+                [conditioned_right[degree][j] for j in fresh_columns]
+                for degree in range(cutoff, feature_count)
+            ]
+            zero = [[Fraction(), Fraction()], [Fraction(), Fraction()]]
+            low = multiply(low_left, low_right) if cutoff else zero
+            high = multiply(high_left, high_right) if cutoff < feature_count else zero
+            a, b = low[0]
+            c, d = low[1]
+            e, f = high[0]
+            g, h = high[1]
+            constant = orientation * fraction_determinant(low)
+            mixed = orientation * (a * h + e * d - b * g - f * c)
+            quadratic = orientation * fraction_determinant(high)
+            assert constant >= 0
+            assert mixed >= 0
+            assert quadratic >= 0
+            assert mixed**2 >= 4 * constant * quadratic
+
+            for weight in map(Fraction, (0, 1, 56, 128)):
+                pencil = [
+                    [low[i][j] + weight * high[i][j] for j in range(2)]
+                    for i in range(2)
+                ]
+                assert orientation * fraction_determinant(pencil) == (
+                    constant + mixed * weight + quadratic * weight**2
+                )
+
+            row_product = (a * f - b * e) * (c * h - d * g)
+            column_product = (a * g - c * e) * (b * h - d * f)
+            row_good = row_product <= 0
+            column_good = column_product <= 0
+            row_cross_signs += row_good
+            column_cross_signs += column_good
+            either_cross_sign += row_good or column_good
+            both_cross_signs += row_good and column_good
+            checked_pencils += 1
+
+    assert checked_pencils == 3868
+    assert row_cross_signs == 1020
+    assert column_cross_signs == 1018
+    assert either_cross_sign == 1030
+    assert both_cross_signs == 1008
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CL contract: fresh-order-two Lorentzian bridge
 
-State: in progress.
+State: verified locally; delivery pending.
 
 Phase CK isolates nonnegative generalized spectrum as the promising compound
 invariant. At fresh order two the threshold determinant is quadratic, so this
@@ -5144,6 +5144,35 @@ Non-claims:
 - it does not prove the infinite-tail passage, normalized tangent envelope,
   order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `finTwoPencilMixed` names the mixed coefficient and
+  `finTwoPencil_det_expansion` proves the exact `2 x 2` determinant quadratic;
+- `finTwoPencilDiscriminant` and
+  `finTwoPencilDiscriminant_nonneg_iff` identify real-rootedness with the sharp
+  Lorentzian coefficient inequality;
+- `nonnegative_quadratic_factorization` constructs two nonnegative affine
+  spectral offsets using the exact square root of the discriminant, and
+  `finTwoPencil_nonnegative_factorization` composes that construction with the
+  matrix pencil without an inverse;
+- `finTwoPencil_det_nonneg_of_lorentzian` gives the resulting sign certificate
+  at every nonnegative weight;
+- 500 deterministic exact finite-Taylor runs check 3,868 fresh-order-two
+  threshold pencils. Every oriented coefficient is nonnegative and every
+  discriminant satisfies `4*c0*c2 ≤ c1^2`;
+- only 1,030 pencils satisfy at least one naive row/column cross-minor sign, so
+  2,838 exact cases rule out that simpler proof route while retaining the
+  full Lorentzian inequality.
+- `./scripts/verify.sh` passes a 3,594-job Lean build, the expanded public
+  axiom audit, 117 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Express the three coefficients as mixed compound pairings and prove their
+Lorentzian inequality by a reverse Cauchy--Schwarz/Hodge--Riemann argument.
+The exact target is now scalar and fresh-order-two; no eigenvalue API is
+needed until that mixed-minor inequality is understood.
 
 ## Phase CK contract: compound generalized-spectrum reduction
 
