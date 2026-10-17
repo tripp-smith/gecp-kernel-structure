@@ -1,4 +1,5 @@
 import GECPKernelStructure.GECP.SignRegularity
+import GECPKernelStructure.Matrix.NoncrossingTotalNonnegative
 import GECPKernelStructure.Matrix.UpperTangentCauchyBinet
 import Mathlib.LinearAlgebra.Matrix.Block
 import Mathlib.Logic.Equiv.Prod
@@ -136,6 +137,63 @@ theorem interleavedTangentMiddle_det {b : ℕ} (weight : Fin b → ℝ) :
     Matrix.det_blockDiagonal]
   simp
 
+theorem interleavedTangentMiddle_entry_nonneg {b : ℕ}
+    (weight : Fin b → ℝ) (weight_nonneg : ∀ k, 0 ≤ weight k)
+    (i j : Fin b ×ₗ Fin 2) :
+    0 ≤ interleavedTangentMiddle weight i j := by
+  rw [interleavedTangentMiddle_apply]
+  split_ifs
+  · exact tangentCell_entry_nonneg _ (weight_nonneg _) _ _
+  · exact le_rfl
+
+theorem interleavedTangentMiddle_hasNoncrossingSupport {b : ℕ}
+    (weight : Fin b → ℝ) :
+    HasNoncrossingSupport
+      (fun i j => interleavedTangentMiddle weight i j) := by
+  intro x₁ x₂ y₁ y₂ x_lt y_lt
+  by_cases crossed_left : (ofLex x₂).1 = (ofLex y₁).1
+  · by_cases crossed_right : (ofLex x₁).1 = (ofLex y₂).1
+    · have x_feature_le : (ofLex x₁).1 ≤ (ofLex x₂).1 :=
+        Prod.Lex.monotone_fst_ofLex x_lt.le
+      have y_feature_le : (ofLex y₁).1 ≤ (ofLex y₂).1 :=
+        Prod.Lex.monotone_fst_ofLex y_lt.le
+      have x_feature_eq : (ofLex x₁).1 = (ofLex x₂).1 := by
+        apply le_antisymm x_feature_le
+        calc
+          (ofLex x₂).1 = (ofLex y₁).1 := crossed_left
+          _ ≤ (ofLex y₂).1 := y_feature_le
+          _ = (ofLex x₁).1 := crossed_right.symm
+      have y_feature_eq : (ofLex y₁).1 = (ofLex y₂).1 := by
+        calc
+          (ofLex y₁).1 = (ofLex x₂).1 := crossed_left.symm
+          _ = (ofLex x₁).1 := x_feature_eq.symm
+          _ = (ofLex y₂).1 := crossed_right
+      have x_layer_lt : (ofLex x₁).2 < (ofLex x₂).2 :=
+        (Prod.Lex.lt_iff'.mp x_lt).2 x_feature_eq
+      have y_layer_lt : (ofLex y₁).2 < (ofLex y₂).2 :=
+        (Prod.Lex.lt_iff'.mp y_lt).2 y_feature_eq
+      left
+      change interleavedTangentMiddle weight x₂ y₁ = 0
+      rw [interleavedTangentMiddle_apply, if_pos crossed_left]
+      have x₂_layer_one : (ofLex x₂).2 = 1 := by omega
+      have y₁_layer_zero : (ofLex y₁).2 = 0 := by omega
+      simp [x₂_layer_one, y₁_layer_zero]
+    · right
+      change interleavedTangentMiddle weight x₁ y₂ = 0
+      rw [interleavedTangentMiddle_apply, if_neg crossed_right]
+  · left
+    change interleavedTangentMiddle weight x₂ y₁ = 0
+    rw [interleavedTangentMiddle_apply, if_neg crossed_left]
+
+/-- The feature-major diagonal tangent middle factor is totally nonnegative
+at every order for arbitrary nonnegative feature weights. -/
+theorem interleavedTangentMiddle_totallyNonnegative {b : ℕ}
+    (weight : Fin b → ℝ) (weight_nonneg : ∀ k, 0 ≤ weight k) :
+    TotallyNonnegative (fun i j => interleavedTangentMiddle weight i j) :=
+  totallyNonnegative_of_nonnegative_of_noncrossing
+    (interleavedTangentMiddle_entry_nonneg weight weight_nonneg)
+    (interleavedTangentMiddle_hasNoncrossingSupport weight)
+
 /-- Total nonnegativity in feature-major order supplies exactly the shuffle
 orientation required for every layer-major middle flag minor. -/
 theorem upperTangentFeatureMiddle_oriented_minor_nonneg
@@ -165,5 +223,21 @@ theorem upperTangentFeatureMiddle_oriented_minor_nonneg
     simp [minorMatrix, Matrix.reindex_apply, Function.comp_apply]
   rw [sampled] at oriented
   exact oriented
+
+/-- Nonnegative diagonal weights unconditionally supply the shuffle-oriented
+middle-minor sign required by the upper-tangent Cauchy--Binet factorization. -/
+theorem upperTangentFeatureMiddle_diagonal_oriented_minor_nonneg
+    {a b : ℕ} (weight : Fin b → ℝ)
+    (weight_nonneg : ∀ k, 0 ≤ weight k)
+    (rows columns : Fin a → Fin (b + b))
+    (rows_injective : Function.Injective rows)
+    (columns_injective : Function.Injective columns) :
+    0 ≤ tupleOrientation (featureInterleaveEquiv b ∘ rows) *
+        tupleOrientation (featureInterleaveEquiv b ∘ columns) *
+        ((upperTangentFeatureMiddle (Matrix.diagonal weight)).submatrix
+          rows columns).det :=
+  upperTangentFeatureMiddle_oriented_minor_nonneg weight
+    (interleavedTangentMiddle_totallyNonnegative weight weight_nonneg a)
+    rows columns rows_injective columns_injective
 
 end Matrix

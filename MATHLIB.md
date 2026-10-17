@@ -507,6 +507,15 @@ with a closure theorem saying that ordered direct sums of totally nonnegative
 matrices are totally nonnegative; that missing closure is exactly the next
 formal obligation here.
 
+Phase CC replaces that anticipated direct-sum-specific closure with a more
+general ordered support theorem. A nonnegative kernel whose support has no
+crossing pair is totally nonnegative, because every nonidentity term in an
+ordered minor's Leibniz expansion contains a forbidden crossing and vanishes.
+This criterion is a small algebraic form of the planar-network mechanism
+behind Lindstrom--Gessel--Viennot and is a credible upstream lemma near a
+future total-nonnegative matrix API. The specialization to interleaved
+`2 x 2` tangent cells and its layer-shuffle orientation remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

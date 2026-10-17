@@ -2189,3 +2189,16 @@ This annotation records delivered identifiers without changing the goals above.
   4.2 remain open. The root command passes a 3,580-job Lean build with 109
   tests and no known dependency vulnerabilities; the change passed CI and
   merged as PR #82.
+- Post-v1 research phase CC: verified; delivery review pending.
+  `totallyNonnegative_of_nonnegative_of_noncrossing` proves a reusable
+  determinant criterion: entrywise nonnegative kernels with noncrossing
+  support are totally nonnegative at every order because all nonidentity
+  Leibniz terms vanish. `interleavedTangentMiddle_totallyNonnegative`
+  specializes it to arbitrary nonnegative diagonal tangent weights, and
+  `upperTangentFeatureMiddle_diagonal_oriented_minor_nonneg` removes the
+  conditional middle-factor premise from Phase CA. Exact checks cover mixed
+  zero/positive weights, 225 crossing pairs, and 12,403 nonidentity matching
+  terms while retaining the negative ordinary layer-major witness. The two
+  outer flag-minor signs, normalized tangent envelope, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,581-job Lean build with
+  110 tests and no known dependency vulnerabilities.

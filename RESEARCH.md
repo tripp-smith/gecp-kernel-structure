@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CC contract: upper-bidiagonal total nonnegativity
 
-State: contract frozen; implementation in progress.
+State: verified; delivery review pending.
 
 Phase CB exposes the feature-major tangent middle matrix as a nonnegative
 upper-bidiagonal network: every row has its diagonal unit edge and at most one
@@ -5139,6 +5139,33 @@ Non-claims:
   flag-minor family;
 - it does not prove the normalized tangent envelope, the Phase BS contraction,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `HasNoncrossingSupport` isolates the ordered planar-support condition that
+  forbids two crossed nonzero matrix entries;
+- `totallyNonnegative_of_nonnegative_of_noncrossing` proves that a
+  nonnegative noncrossing kernel is totally nonnegative at every order by
+  showing every nonidentity Leibniz term vanishes;
+- `interleavedTangentMiddle_hasNoncrossingSupport` proves the feature-major
+  tangent cells have that support, including at zero weights;
+- `interleavedTangentMiddle_totallyNonnegative` closes the Phase CB
+  all-orders hypothesis for arbitrary finite feature counts;
+- `upperTangentFeatureMiddle_diagonal_oriented_minor_nonneg` supplies the
+  exact Phase CA middle-factor shuffle orientation directly from
+  nonnegative diagonal weights;
+- exact arithmetic retains all 397,252 Phase CB minor checks with mixed zero
+  and positive weights and separately verifies 225 crossing pairs and 12,403
+  nonidentity matching terms in a three-cell matrix;
+- `./scripts/verify.sh` passes a 3,581-job Lean build, the expanded public
+  axiom audit, 110 Python tests, formatting, typing, and the dependency audit.
+
+Next decision:
+
+Prove the sampled left and right block-diagonal feature-factor signs as
+shuffle-oriented confluent/generalized Vandermonde flag minors. With the
+middle factor now unconditional, those are the only missing sign families in
+the Phase CA three-factor expansion.
 
 ## Phase CB contract: interleaved tangent cells
 

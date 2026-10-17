@@ -215,6 +215,18 @@ all-orders TN closure for this sparse upper-bidiagonal direct sum. The root
 command passes a 3,580-job Lean build and 109 tests with no known dependency
 vulnerabilities; the change passed CI and merged as PR #82.
 
+Post-v1 Phase CC closes that middle-factor obligation. A reusable noncrossing
+support criterion proves total nonnegativity by eliminating every
+nonidentity term in the Leibniz expansion. The feature-major tangent middle
+matrix satisfies the criterion for arbitrary nonnegative weights, including
+zero weights, and therefore supplies the exact layer-major shuffle-oriented
+minor sign required by Phase CA without a remaining hypothesis. Exact
+arithmetic checks 225 crossing pairs and 12,403 nonidentity matching terms in
+addition to the Phase CB minor census. The two outer flag-minor families are
+now the only missing sign inputs to the three-factor expansion. The root
+command passes a 3,581-job Lean build and 110 tests with no known dependency
+vulnerabilities; delivery review is pending.
+
 Post-v1 Phase H restores verification integrity after the local editable
 pytest entry point became stale and the development lock acquired dependency
 audit findings. The root and CI workflows now launch pytest through the
@@ -582,8 +594,9 @@ git status --short
   factorwise orientation-composition interface. It does not prove the three
   exponential flag-minor sign families or the normalized envelope.
 - Phase CB proves the tangent middle factor's exact interleaved cell
-  decomposition and the conditional shuffle-sign transfer. All-orders TN of
-  the interleaved direct sum and both outer flag families remain open.
+  decomposition and the conditional shuffle-sign transfer.
+- Phase CC proves all-orders TN of that interleaved middle matrix and removes
+  the conditional premise. Both outer flag families remain open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -658,11 +671,10 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove all-orders total nonnegativity of the nonnegative upper-bidiagonal
-matrix exposed by Phase CB. A determinant-expansion proof can exploit that
-every nonzero row-to-column matching is order-preserving, leaving at most one
-nonzero permutation term. Then prove the left and right block-diagonal feature
-signs as confluent/generalized Vandermonde flag minors. Ordinary total
+Prove the left and right block-diagonal feature signs as
+confluent/generalized Vandermonde flag minors. Phase CC has discharged the
+middle sign by proving that every nonidentity matching in feature-major order
+vanishes. Ordinary total
 nonnegativity remains false in layer-major order, so the final certificates
 must retain the explicit shuffle orientations. A uniform
 normalized envelope at
