@@ -124,6 +124,51 @@ theorem oriented_minor_pos_of_strictSignRegularAtOrder
   rw [sorted_matrix, det_sorted] at sorted_pos
   simpa [original, minorMatrix, mul_assoc] using sorted_pos
 
+/--
+Total nonnegativity on sorted tuples determines the oriented weak sign of
+every minor whose row and column tuples are injective.
+-/
+theorem oriented_minor_nonneg_of_totallyNonnegativeAtOrder
+    {K : Kernel α β ℝ} {n : ℕ}
+    (nonnegative : TotallyNonnegativeAtOrder K n)
+    (rows : Fin n → α) (columns : Fin n → β)
+    (rows_injective : Function.Injective rows)
+    (columns_injective : Function.Injective columns) :
+    0 ≤ tupleOrientation rows * tupleOrientation columns *
+      (minorMatrix K rows columns).det := by
+  let rowPerm := Tuple.sort rows
+  let columnPerm := Tuple.sort columns
+  have rows_sorted : StrictMono (rows ∘ rowPerm) :=
+    (Tuple.monotone_sort rows).strictMono_of_injective
+      (rows_injective.comp rowPerm.injective)
+  have columns_sorted : StrictMono (columns ∘ columnPerm) :=
+    (Tuple.monotone_sort columns).strictMono_of_injective
+      (columns_injective.comp columnPerm.injective)
+  have sorted_nonneg := nonnegative (rows ∘ rowPerm) (columns ∘ columnPerm)
+    rows_sorted columns_sorted
+  let original : Matrix (Fin n) (Fin n) ℝ :=
+    minorMatrix K rows columns
+  have sorted_matrix :
+      minorMatrix K (rows ∘ rowPerm) (columns ∘ columnPerm) =
+        original.submatrix rowPerm columnPerm := by
+    rfl
+  have det_sorted :
+      (original.submatrix rowPerm columnPerm).det =
+        tupleOrientation rows * tupleOrientation columns * original.det := by
+    calc
+      (original.submatrix rowPerm columnPerm).det =
+          ((original.submatrix rowPerm id).submatrix id columnPerm).det := by
+            rfl
+      _ = tupleOrientation columns * (original.submatrix rowPerm id).det := by
+        rw [Matrix.det_permute']
+        rfl
+      _ = tupleOrientation columns * (tupleOrientation rows * original.det) := by
+        rw [Matrix.det_permute]
+        rfl
+      _ = tupleOrientation rows * tupleOrientation columns * original.det := by ring
+  rw [sorted_matrix, det_sorted] at sorted_nonneg
+  simpa [original, minorMatrix, mul_assoc] using sorted_nonneg
+
 /-- Positive column scaling preserves every prescribed ordered-minor sign. -/
 theorem strictSignRegularAtOrder_columnScale
     {K : Kernel α β ℝ} {n : ℕ} {signature : ℝ}

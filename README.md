@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CB — interleaved tangent cells<br>
-> **Phase state:** in progress<br>
-> **Last verification:** Phase CA `./scripts/verify.sh` passed a 3,579-job Lean build with 108 tests and no known dependency vulnerabilities on 2026-10-13<br>
+> **Phase state:** verified; delivery pending<br>
+> **Last verification:** Phase CB `./scripts/verify.sh` passed a 3,580-job Lean build with 109 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase CB implementation branch; Phase CA merged in [PR #81](https://github.com/tripp-smith/gecp-kernel-structure/pull/81) with green CI<br>
-> **Claim level:** the current target reindexes the diagonal tangent middle factor into contiguous `2 x 2` feature cells and recovers its layer-major sign from tuple orientation; all-orders interleaved TN and the outer flag signs remain open
+> **Claim level:** the diagonal tangent middle factor now reindexes exactly into contiguous totally nonnegative `2 x 2` feature cells, and interleaved TN conditionally supplies the exact layer-major shuffle sign; all-orders TN of their sparse direct sum and the outer flag signs remain open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -97,7 +97,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | BY | Selected-core companion closed form | complete | closed row/column conditioning formulas; commuting projectors; arbitrary-run four-term formula; sampled double-border determinant specialization | 3,574-job Lean build; public axiom audit; 144 exact deterministic randomized closed-form checks; 107-test root verification; green CI | merged PR #79 |
 | BZ | Upper-tangent companion lift | complete | layered-kernel minor representation; feature-space tangent factorization; normalized-envelope-to-half-power theorem; cross-inversion-oriented coefficient evidence | 3,577-job Lean build; public axiom audit; 24 exact tangent factorizations; 360 exact oriented coefficient polynomials; 108-test root verification; green CI | merged PR #80 |
 | CA | Shuffle-aware tangent Cauchy--Binet | complete | ordered three-factor expansion; modular factor-orientation criterion; upper-tangent sample specialization | 3,579-job Lean build; public axiom audit; 24 exact shuffled triple expansions; 108-test root verification; green CI | merged PR #81 |
-| CB | Interleaved tangent cells | in progress | layer/feature reindexing; local tangent-cell signs; middle shuffle-orientation transfer | pending | implementation branch |
+| CB | Interleaved tangent cells | verified | layer/feature reindexing; local tangent-cell TN; unit full determinant; conditional middle shuffle-orientation transfer | 3,580-job Lean build; public axiom audit; 397,252 exact middle-minor checks; 109-test root verification | delivery pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
