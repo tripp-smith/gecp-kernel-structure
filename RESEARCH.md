@@ -5092,6 +5092,92 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CV contract: complete-pivot chirotope obstruction
+
+State: verified; awaiting review.
+
+Phase CU refutes nonvanishing on the full ordered chamber but leaves open the
+paired-subtuple endpoint geometry observed in the conditioned GECP corpus.
+That containment condition is also insufficient, even with the endpoint
+selection pattern produced by two complete pivots. A sharper construction
+uses the exact rational exponential kernel
+
+`K(i,j) = (101/100)^((i+1)(j+21))`, for `i,j : Fin 4`.
+
+It is sampled by open-unit nodes whose products are integer multiples of
+`log(101/100)`. The first complete pivot is `(3,3)`, the next complete pivot of
+its Schur residual is `(0,0)`, and the selected subtuples are therefore the two
+endpoints on both axes. Nevertheless, the crossed exponential-cubic
+determinants for appended degrees `(0,3)` have opposite signs.
+
+Frozen public Lean targets:
+
+- define the real row and column nodes, prove that they are strictly increasing
+  in `(0,1)`, and prove that their exponential kernel equals the exact rational
+  power matrix above;
+- certify `(3,3)` as a complete pivot on the full `Fin 4` domain and `(0,0)` as
+  a complete pivot of the exact first residual;
+- define the two endpoint-selected crossed augmented matrices with appended
+  monomials `1` and `x^3`;
+- reduce both augmented determinants by positive column scaling to rational
+  `4 x 4` matrices and prove that their signs are opposite.
+
+Independent check:
+
+- recompute all sixteen kernel entries, the first Schur residual, and both
+  complete-pivot maxima in exact `Fraction` arithmetic;
+- recompute both crossed augmented determinant signs exactly and verify the
+  negative product;
+- retain the Phase CT randomized corpus to document why its 11,024 successes
+  did not cover this narrow boundary-scale witness.
+
+Decision rule:
+
+- if Lean certifies both complete pivots and the opposite augmented signs,
+  retire arbitrary-run chirotope synchronization, including its
+  paired-subtuple strengthening, as a universal route;
+- if the pivot certificate fails, minimize the discrepancy between the exact
+  residual and the proposed complete-pivot order before changing the witness;
+- do not infer failure of the ultimate determinant envelope: the obstruction
+  targets this sign-based sufficient condition, not every cancellation or
+  absolute-bound proof.
+
+Non-claims:
+
+- this phase does not refute a quantitative cancellation theorem, an
+  absolute-determinant bound, or a bound specialized to later amplification
+  coefficients;
+- it does not prove higher fresh order, the normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered result:
+
+- `phaseCVKernelQ` is the exact rational power kernel, while `phaseCVRows`,
+  `phaseCVColumns`, and `phaseCV_expKernel_eq` realize it as a genuine
+  exponential kernel on strictly increasing open-unit nodes;
+- `phaseCV_firstPivot_complete` certifies the bottom-right pivot `(3,3)`, and
+  `phaseCV_secondPivot_complete` certifies `(0,0)` after its exact Schur
+  update;
+- `phaseCVLeftReduced_det_pos` and `phaseCVRightReduced_det_neg` prove the
+  opposite signs of the rationally reduced endpoint-selected degree-`(0,3)`
+  augmented determinants;
+- `phaseCVLeftAugmented_det_pos`, `phaseCVRightAugmented_det_neg`, and
+  `phaseCV_crossedAugmented_det_mul_neg` lift the obstruction to the actual
+  exponential-monomial determinants through positive column scalings;
+- all public results use only `propext`, `Classical.choice`, and `Quot.sound`,
+  and `./scripts/verify.sh` passes a 3,600-job Lean build and 121 Python tests
+  with no known dependency vulnerabilities.
+
+Next decision:
+
+Retire arbitrary-run common-chirotope synchronization as a universal route.
+The remaining rank-two target must keep cancellation between degree pairs
+inside the aggregate mixed coefficient or discriminant, or prove an absolute
+determinant envelope without coordinatewise signs. The Phase CV exact kernel
+is now the mandatory regression for any such replacement: a candidate must
+survive its negative degree-`(0,3)` coordinate rather than assuming it away.
+
 ## Phase CU contract: ordered-chamber obstruction
 
 State: complete; merged as PR #101 with green CI.
