@@ -1281,6 +1281,7 @@ pivots.
   is therefore a pure sign/cyclic-interval theorem for augmented generalized-
   Vandermonde minors, with no Schur quotients left in the statement. The root
   command passes a 3,596-job Lean build and 119 tests.
+  The change passed CI and merged as PR #98.
 
 ## Run provenance
 

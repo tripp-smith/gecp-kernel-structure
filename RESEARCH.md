@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CR contract: conditioned rank-two Plucker bridge
 
-State: verified; awaiting review and merge.
+State: complete; merged as PR #98 with green CI.
 
 Phase CQ isolates oriented signs of conditioned rank-two matched coordinates
 as the remaining within-block input.  Those coordinates are determinants of

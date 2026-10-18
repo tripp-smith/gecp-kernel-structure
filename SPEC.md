@@ -2422,7 +2422,7 @@ This annotation records delivered identifiers without changing the goals above.
   higher fresh order, normalized tangent envelope, order-eighteen contraction,
   dyadic recurrence, Conjecture G1, and Problem 4.2 remains open. The root
   command passes a 3,595-job Lean build and 119 tests.
-- Post-v1 research phase CR: verified; awaiting review and merge.
+- Post-v1 research phase CR: complete; merged as PR #98 with green CI.
   `selectedCore_sq_mul_conditionedRankTwoMatchedCoordinate` proves the generic
   selected-core-square identity transporting each conditioned rank-two matched
   coordinate to the product of its two original feature-augmented core
