@@ -703,6 +703,14 @@ algebra, but its current API and long name are tailored to this project's
 rank-two determinant bridge; consider upstreaming only if another consumer
 emerges.
 
+Phase CX introduces `ReverseCauchySchwarzOnPositive` only as a local diagnostic
+for a global one-positive-direction quadratic form. The exact counterexample
+and its complete-pivot exponential realization are project-specific. Mathlib
+already has the spectral and quadratic-form infrastructure needed for a more
+abstract signature theorem; this phase deliberately avoids adding such an API
+because the global property is false for the conditioned feature Hessians.
+The surviving prefix-cone inequality is the specialized project target.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
