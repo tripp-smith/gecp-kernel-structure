@@ -2327,7 +2327,7 @@ This annotation records delivered identifiers without changing the goals above.
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,593-job Lean build and
   116 tests.
-- Post-v1 research phase CL: verified in PR #92; merge pending.
+- Post-v1 research phase CL: complete; merged as PR #92 with green CI.
   `finTwoPencil_det_expansion` gives the exact quadratic
   determinant pencil at fresh order two,
   `finTwoPencilDiscriminant_nonneg_iff` isolates the Lorentzian inequality

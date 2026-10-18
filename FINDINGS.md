@@ -1190,7 +1190,8 @@ pivots.
   inequality itself, higher fresh order, the infinite-tail passage,
   normalized tangent envelope, order-eighteen contraction, dyadic recurrence,
   Conjecture G1, and Problem 4.2 remain open. The root command passes a
-  3,594-job Lean build and 117 tests.
+  3,594-job Lean build and 117 tests. The change passed CI and merged as PR
+  #92.
 
 ## Run provenance
 

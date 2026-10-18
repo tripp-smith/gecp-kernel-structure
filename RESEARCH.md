@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CL contract: fresh-order-two Lorentzian bridge
 
-State: verified in PR #92; merge pending.
+State: complete; merged as PR #92 with green CI.
 
 Phase CK isolates nonnegative generalized spectrum as the promising compound
 invariant. At fresh order two the threshold determinant is quadratic, so this
@@ -5166,6 +5166,7 @@ Delivered result:
   full Lorentzian inequality.
 - `./scripts/verify.sh` passes a 3,594-job Lean build, the expanded public
   axiom audit, 117 Python tests, formatting, typing, and the dependency audit.
+  The change passed CI and merged as PR #92.
 
 Next decision:
 
