@@ -4078,6 +4078,83 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert prefix_circular_interval_splits == 2868
 
 
+def test_fin_two_projective_chart_invariance_exactly() -> None:
+    def add(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [[left[i][j] + right[i][j] for j in range(2)] for i in range(2)]
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum((left[i][k] * right[k][j] for k in range(2)), Fraction())
+                for j in range(2)
+            ]
+            for i in range(2)
+        ]
+
+    def mixed(low: list[list[Fraction]], high: list[list[Fraction]]) -> Fraction:
+        return (
+            fraction_determinant(add(low, high))
+            - fraction_determinant(low)
+            - fraction_determinant(high)
+        )
+
+    def discriminant(low: list[list[Fraction]], high: list[list[Fraction]]) -> Fraction:
+        return mixed(low, high) ** 2 - (
+            4 * fraction_determinant(low) * fraction_determinant(high)
+        )
+
+    rng = random.Random(0xC0A11E)
+    checked_invertible_changes = 0
+    negative_scale_changes = 0
+    while checked_invertible_changes < 512:
+        low = [[Fraction(rng.randrange(-6, 7)) for _ in range(2)] for _ in range(2)]
+        high = [[Fraction(rng.randrange(-6, 7)) for _ in range(2)] for _ in range(2)]
+        left_basis = [
+            [Fraction(rng.randrange(-6, 7)) for _ in range(2)] for _ in range(2)
+        ]
+        right_basis = [
+            [Fraction(rng.randrange(-6, 7)) for _ in range(2)] for _ in range(2)
+        ]
+        left_det = fraction_determinant(left_basis)
+        right_det = fraction_determinant(right_basis)
+        if not left_det or not right_det:
+            continue
+        scale = left_det * right_det
+        transformed_low = multiply(multiply(left_basis, low), right_basis)
+        transformed_high = multiply(multiply(left_basis, high), right_basis)
+        assert fraction_determinant(transformed_low) == (
+            scale * fraction_determinant(low)
+        )
+        assert fraction_determinant(transformed_high) == (
+            scale * fraction_determinant(high)
+        )
+        assert mixed(transformed_low, transformed_high) == scale * mixed(low, high)
+        assert discriminant(transformed_low, transformed_high) == (
+            scale**2 * discriminant(low, high)
+        )
+        assert (discriminant(transformed_low, transformed_high) >= 0) == (
+            discriminant(low, high) >= 0
+        )
+        negative_scale_changes += scale < 0
+        checked_invertible_changes += 1
+
+    assert checked_invertible_changes == 512
+    assert negative_scale_changes == 271
+
+    singular_basis = [[Fraction(1), Fraction(2)], [Fraction(2), Fraction(4)]]
+    identity = [[Fraction(1), Fraction()], [Fraction(), Fraction(1)]]
+    low = [[Fraction(1), Fraction()], [Fraction(), Fraction(2)]]
+    high = [[Fraction(3), Fraction()], [Fraction(), Fraction(4)]]
+    transformed_low = multiply(multiply(singular_basis, low), identity)
+    transformed_high = multiply(multiply(singular_basis, high), identity)
+    assert discriminant(low, high) >= 0
+    assert discriminant(transformed_low, transformed_high) == 0
+
+
 def test_interleaved_tangent_middle_minors_exactly() -> None:
     def inversion_orientation(values: tuple[int, ...]) -> int:
         inversions = sum(

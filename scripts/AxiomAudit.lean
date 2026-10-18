@@ -562,6 +562,11 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.det_add_smul_pos_of_common_diagonal
 #print axioms Matrix.finTwoPencil_det_expansion
 #print axioms Matrix.finTwoPencilDiscriminant_nonneg_iff
+#print axioms Matrix.finTwoPencilMixed_eq_det_add_sub
+#print axioms Matrix.finTwoPencilMixed_mul_mul
+#print axioms Matrix.finTwoPencilDiscriminant_mul_mul
+#print axioms Matrix.finTwoPencil_lorentzian_mul_mul
+#print axioms Matrix.finTwoPencil_lorentzian_mul_mul_iff
 #print axioms Matrix.nonnegative_quadratic_factorization
 #print axioms Matrix.finTwoPencil_nonnegative_factorization
 #print axioms Matrix.finTwoPencil_det_nonneg_of_lorentzian
@@ -599,6 +604,7 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.rankTwoBlockMatrix_det
 #print axioms Matrix.finTwoPencilMixed_rankTwoBlockMatrix
 #print axioms Matrix.rankTwoBlockPencil_lorentzian_of_affine
+#print axioms Matrix.rankTwoBlockPencil_lorentzian_of_projective_affine
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_rowRatio
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_columnRatio
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_eq_geometricCenteredProduct

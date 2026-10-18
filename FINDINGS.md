@@ -1226,6 +1226,19 @@ pivots.
   open. The root command passes a 3,595-job Lean build and 117 tests.
   The change passed CI and merged as PR #94.
 
+- Phase CO makes the Phase CN certificate genuinely projective. The mixed
+  coefficient under `M ↦ P*M*Q` scales by `det(P)det(Q)`, exactly like both
+  endpoint determinants, so the discriminant scales by
+  `(det(P)det(Q))^2`. Lean proves Lorentzianity is preserved even through a
+  singular degeneration and is reflected by every invertible basis change.
+  The projective-affine composition theorem now allows each degree cutoff to
+  choose its own point at infinity and transfer the resulting ordered-chart
+  proof back to the original pencil. Exact rational checks cover 512
+  invertible changes, 271 with negative determinant product, and a singular
+  boundary case. The only remaining finite fresh-order-two analytic input is
+  the conditioned Taylor cyclic-prefix theorem and its separating-chart
+  construction. The root command passes a 3,595-job Lean build and 118 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

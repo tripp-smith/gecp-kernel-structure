@@ -5092,6 +5092,66 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CO contract: projective chart invariance
+
+State: verified.
+
+Phase CN proves the Lorentzian inequality in any positive ordered affine
+chart, while its exact audit shows that the useful chart must depend on the
+degree cutoff. Changing the left and right homogeneous bases sends each block
+matrix `M` to `P*M*Q`. Both endpoint determinants and the mixed determinant
+coefficient should scale by `det(P)*det(Q)`, so the discriminant inequality
+scales by its square and is invariant for invertible chart changes.
+
+Frozen public Lean targets:
+
+- recover the mixed `2 x 2` pencil coefficient from determinant evaluation at
+  unit weight;
+- prove exact mixed-coefficient scaling under arbitrary two-sided basis
+  changes;
+- prove forward and reverse Lorentzian transfer, with invertibility required
+  only for the reverse direction;
+- compose the transfer with Phase CN so a positive ordered transformed chart
+  certifies the original block pencil.
+
+Independent check:
+
+- use deterministic exact rational invertible basis changes on the Phase CL
+  rank-two pencils;
+- check endpoint, mixed, and discriminant scaling separately, including
+  negative determinant products;
+- retain a singular transformation as a one-way boundary case.
+
+Decision rule:
+
+- if chart invariance closes, attack the conditioned Taylor cyclic-prefix
+  theorem directly through bordered generalized-Vandermonde signs;
+- if mixed-coefficient scaling requires stronger hypotheses, isolate the
+  minimal matrix identity rather than constraining the projective chart;
+- do not treat basis invariance as existence of a separating chart.
+
+Non-claims:
+
+- this phase does not prove the cyclic-prefix invariant or construct the
+  cutoff-specific chart for conditioned Taylor factors;
+- it does not prove the infinite-tail passage, higher fresh order, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered: `finTwoPencilMixed_eq_det_add_sub` recovers the mixed coefficient
+from the determinant at unit weight. `finTwoPencilMixed_mul_mul` and
+`finTwoPencilDiscriminant_mul_mul` prove exact two-sided basis-change scaling,
+including negative and singular determinant products.
+`finTwoPencil_lorentzian_mul_mul` gives one-way transfer through arbitrary
+changes, while `finTwoPencil_lorentzian_mul_mul_iff` gives equivalence for
+invertible changes. Finally,
+`rankTwoBlockPencil_lorentzian_of_projective_affine` composes this invariance
+with Phase CN: any invertible cutoff-specific chart satisfying the positive
+ordered affine certificate proves the original pencil inequality. Exact
+rational checks cover 512 invertible changes, including 271 negative scale
+products, plus one singular boundary degeneration. The root command passes a
+3,595-job Lean build and 118 tests.
+
 ## Phase CN contract: projective rank-two ratio bridge
 
 State: complete; merged as PR #94 with green CI.
