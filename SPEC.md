@@ -2388,7 +2388,7 @@ This annotation records delivered identifiers without changing the goals above.
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,595-job Lean build and
   118 tests.
-- Post-v1 research phase CP: verified; awaiting review and merge.
+- Post-v1 research phase CP: complete; merged as PR #96 with green CI.
   `finTwoPoleBasis_det` proves that the explicit pole basis
   `[[-c,1],[1,0]]` is invertible with determinant `-1`, and
   `finTwoPoleBasis_mul_rankTwoBlockMatrix_mul` computes its exact two-sided

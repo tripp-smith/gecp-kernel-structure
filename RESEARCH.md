@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CP contract: separating projective pole chart
 
-State: verified; awaiting review and merge.
+State: complete; merged as PR #96 with green CI.
 
 Phase CO permits an arbitrary invertible basis change but leaves a later proof
 to construct the changed affine coordinates. For a homogeneous feature column

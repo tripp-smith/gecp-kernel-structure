@@ -1253,6 +1253,7 @@ pivots.
   conditioned-Taylor cyclic-prefix/separating-pole theorem; CP does not prove
   that analytic invariant. The root command passes a 3,595-job Lean build and
   119 tests.
+  The change passed CI and merged as PR #96.
 
 ## Run provenance
 
