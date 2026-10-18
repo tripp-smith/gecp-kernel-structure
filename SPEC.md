@@ -2467,7 +2467,8 @@ This annotation records delivered identifiers without changing the goals above.
   chirotope synchronization, including the paired-subtuple strengthening,
   without claiming failure of every aggregate or absolute determinant route.
   The root command passes a 3,600-job Lean build and 121 tests.
-- Post-v1 research phase CW: verified; awaiting review. The division-free
+- Post-v1 research phase CW: complete; merged as PR #103 with green CI. The
+  division-free
   theorem
   `four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg`
   proves the fresh-order-two Lorentzian inequality from nonnegative

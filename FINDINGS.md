@@ -1344,6 +1344,7 @@ pivots.
   conditioned pencils with minimum normalized discriminant margin above
   `0.37`. Proving the aggregate mean-shift sign for arbitrary infinite-tail
   fermionic prefixes remains open.
+  The change passed CI and merged as PR #103.
 
 ## Run provenance
 

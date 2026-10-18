@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CW contract: aggregate mean-shift Lorentzian bridge
 
-State: in progress.
+State: complete; merged as PR #103 with green CI.
 
 Phase CV refutes every route that requires the left and right augmented
 coordinates to have a common sign one pair at a time.  The fresh-order-two
