@@ -2341,3 +2341,18 @@ This annotation records delivered identifiers without changing the goals above.
   order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
   4.2 remain open. The root command passes a 3,594-job Lean build and 117
   tests.
+- Post-v1 research phase CM: verified; review pending.
+  `weightedMass_mul_weightedMass_mul_crossIncrement` proves an exact
+  division-free two-block covariance decomposition, and
+  `four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq` turns
+  nonnegative weights, within-block comonotonicity, and cross-block order into
+  the sharp Lorentzian inequality `4*c0*c2 ≤ c1^2`.
+  `geometricCrossIncrement_lorentzian` packages the degree-prefix/suffix
+  ratio-coordinate specialization needed by the next conditioned-factor
+  bridge. Exact arithmetic checks 1,764 weighted splits and 11,024 oriented
+  conditioned two-feature products with no failure. The representation of
+  arbitrary conditioned Taylor rank-two factors in this model, the full
+  fermionic fresh-order-two theorem, higher fresh order, infinite-tail
+  passage, normalized tangent envelope, order-eighteen contraction, dyadic
+  recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
+  passes a 3,594-job Lean build and 117 tests.

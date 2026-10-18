@@ -1193,6 +1193,22 @@ pivots.
   3,594-job Lean build and 117 tests. The change passed CI and merged as PR
   #92.
 
+- Phase CM supplies the missing abstract Lorentzian inequality behind the
+  Phase CL audit. For two ordered blocks, the cross-increment coefficient
+  obeys a division-free law of total covariance: after multiplying by the
+  two block masses it is the sum of two rescaled within-block covariance
+  numerators and a product of same-direction mean shifts. Every term is
+  nonnegative, and the first two terms dominate the geometric mean by one
+  explicit square, proving `4*c0*c2 ≤ c1^2`. Lean proves the generic finite
+  weighted result and a geometric prefix/suffix specialization. Exact
+  arithmetic checks 1,764 weighted splits and all 11,024 oriented
+  two-feature products from the Phase CL conditioned-Taylor runs, with no
+  failure. The remaining bridge is representational: arbitrary conditioned
+  Taylor rank-two factors must be rewritten as positive pair weights times
+  two comonotone ratio differences. Higher fresh order and the infinite-tail
+  passage remain open. The root command passes a 3,594-job Lean build and 117
+  tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

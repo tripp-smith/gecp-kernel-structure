@@ -291,6 +291,11 @@ Phase CL also adds no public Python API. Its exact fresh-order-two discriminant
 audit and formal quadratic factorization narrow a proof obligation; they do
 not expose a runtime spectral or convergence certificate.
 
+Phase CM also adds no public Python API. Its exact weighted-split and
+conditioned-coordinate audits independently check a formal reverse-covariance
+theorem; they do not certify that an arbitrary runtime conditioned factor has
+the required positive ratio-coordinate representation.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical
