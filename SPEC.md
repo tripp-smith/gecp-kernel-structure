@@ -2459,3 +2459,8 @@ This annotation records delivered identifiers without changing the goals above.
   leaves open the narrower paired-subtuple geometry of the actual GECP
   endpoint determinants. The root command passes a 3,598-job Lean build and
   120 tests.
+- Post-v1 research phase CV: in progress. The frozen target is an exact
+  rational exponential-kernel witness whose first two pivots are complete but
+  whose degree-`(0,3)` crossed augmented determinants have opposite signs.
+  This tests the paired-subtuple strengthening without claiming failure of
+  every quantitative determinant-envelope route.
