@@ -655,6 +655,15 @@ live near mixed determinants or a future positive-Grassmannian API after
 generalization beyond `ℝ`. Constructing the required oriented separator for
 conditioned Taylor factors remains project-specific.
 
+Phase CR composes two existing generic determinant facts: a `2 x 2` matched
+coordinate is a product of feature minors, and companion conditioning clears
+against the selected-core determinant. The resulting core-square identity and
+oriented sign equivalence are reusable GECP/Schur-complement lemmas and could
+plausibly be generalized from `ℝ` to an ordered field. Their proof is short and
+project-local, so no new upstream abstraction is justified yet. Establishing
+the signs and cyclic order of the particular augmented Taylor minors remains a
+specialized generalized-Vandermonde problem.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

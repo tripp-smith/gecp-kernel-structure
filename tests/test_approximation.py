@@ -3859,6 +3859,7 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     either_cross_sign = 0
     both_cross_signs = 0
     checked_coordinate_products = 0
+    checked_augmented_coordinate_identities = 0
     negative_coordinate_products = 0
     sign_coherent_direct_chart_cases = 0
     direct_chart_monotone_cases = 0
@@ -3930,6 +3931,11 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
         )
         orientation = -1 if cross_inversions % 2 else 1
         negative_orientation_cases += orientation < 0
+        selected_core = [
+            [original[i][j] for j in selected_columns] for i in selected_rows
+        ]
+        selected_core_det = fraction_determinant(selected_core)
+        assert selected_core_det
         left_zero = tuple(
             conditioned_left[fresh_rows[0]][degree] for degree in range(feature_count)
         )
@@ -3996,6 +4002,33 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
                 - conditioned_right[first][fresh_columns[1]]
                 * conditioned_right[second][fresh_columns[0]]
             )
+            augmented_rows = (*selected_rows, *fresh_rows)
+            augmented_columns = (*selected_columns, *fresh_columns)
+            left_augmented = [
+                [original[row][column] for column in selected_columns]
+                + [
+                    rows[row] ** degree / math.factorial(degree)
+                    for degree in (first, second)
+                ]
+                for row in augmented_rows
+            ]
+            right_augmented = [
+                [original[row][column] for column in augmented_columns]
+                for row in selected_rows
+            ] + [
+                [columns[column] ** degree for column in augmented_columns]
+                for degree in (first, second)
+            ]
+            augmented_product = fraction_determinant(
+                left_augmented
+            ) * fraction_determinant(right_augmented)
+            assert selected_core_det**2 * left_minor * right_minor == (
+                augmented_product
+            )
+            assert (orientation * left_minor * right_minor >= 0) == (
+                orientation * augmented_product >= 0
+            )
+            checked_augmented_coordinate_identities += 1
             negative_coordinate_products += orientation * left_minor * right_minor < 0
             checked_coordinate_products += 1
 
@@ -4187,6 +4220,7 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert either_cross_sign == 1030
     assert both_cross_signs == 1008
     assert checked_coordinate_products == 11024
+    assert checked_augmented_coordinate_identities == 11024
     assert negative_coordinate_products == 0
     assert sign_coherent_direct_chart_cases == 500
     assert direct_chart_monotone_cases == 42

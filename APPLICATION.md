@@ -314,6 +314,10 @@ is formal proof infrastructure. The exact rational search constructs
 certificates only for the deterministic research corpus and is not exposed as
 a runtime separator or arbitrary-data certification routine.
 
+Phase CR also adds no public Python API. Its selected-core-square identity is
+formal proof infrastructure, and the exact augmented-core reconstruction is a
+deterministic regression rather than a runtime sign or separator certificate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

@@ -21,6 +21,7 @@ import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift
 import GECPKernelStructure.GECP.FactorizedTangentCollapse
 import GECPKernelStructure.GECP.ConditionedPluckerGrouping
+import GECPKernelStructure.GECP.ConditionedRankTwo
 import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign
