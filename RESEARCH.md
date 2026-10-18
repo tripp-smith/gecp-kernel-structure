@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CN contract: projective rank-two ratio bridge
 
-State: verified.
+State: complete; merged as PR #94 with green CI.
 
 Phase CM proves the sharp Lorentzian inequality once a rank-two feature pair
 is written in a positive affine chart with two comonotone ratio coordinates.

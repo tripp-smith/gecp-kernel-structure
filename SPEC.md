@@ -2356,7 +2356,7 @@ This annotation records delivered identifiers without changing the goals above.
   passage, normalized tangent envelope, order-eighteen contraction, dyadic
   recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes a 3,594-job Lean build and 117 tests.
-- Post-v1 research phase CN: verified; review pending.
+- Post-v1 research phase CN: complete; merged as PR #94 with green CI.
   `rankTwoMatchedCoordinate_eq_affine` factors matched left/right rank-two
   coordinates through chart weights and ratio increments. The within- and
   cross-block coefficient identities connect this representation to the

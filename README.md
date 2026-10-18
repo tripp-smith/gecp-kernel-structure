@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CN — projective rank-two ratio bridge<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase CN `./scripts/verify.sh` passed a 3,595-job Lean build with 117 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CN verified locally and awaiting review; Phase CM merged in [PR #93](https://github.com/tripp-smith/gecp-kernel-structure/pull/93) with green CI<br>
+> **Delivery:** Phase CN merged in [PR #94](https://github.com/tripp-smith/gecp-kernel-structure/pull/94) with green CI<br>
 > **Claim level:** Phase CN proves the exact chart-to-matrix-pencil Lorentzian bridge and isolates a cyclic-prefix invariant; existence of the cutoff-specific chart for arbitrary conditioned Taylor factors remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -109,7 +109,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CK | Compound generalized-spectrum reduction | complete | common-factor determinant-pencil factorization; nonnegative generalized-spectrum certificate; exact subset-lattice obstruction and low-order spectral audit | 3,593-job Lean build; public axiom audit; 1,481 exact oriented polynomials; 116-test root verification; green CI | merged PR #91 |
 | CL | Fresh-order-two Lorentzian bridge | complete | exact 2x2 pencil coefficients and discriminant; constructive nonnegative-root factorization; cross-minor obstruction audit | 3,594-job Lean build; public axiom audit; 3,868 exact pencils; 117-test root verification; green CI | merged PR #92 |
 | CM | Two-block Lorentzian covariance | complete | division-free cross-increment decomposition; ordered-block nonnegativity; reverse covariance inequality; geometric ratio-coordinate specialization | 3,594-job Lean build; public axiom audit; 1,764 exact weighted splits and 11,024 conditioned coordinate products; 117-test root verification; green CI | merged PR #93 |
-| CN | Projective rank-two ratio bridge | verified | ratio-factorized matched-minor identities; exact block-matrix coefficient bridge; matrix-pencil Lorentzian theorem; cyclic-prefix obstruction audit | 3,595-job Lean build; public axiom audit; 500 exact conditioned cases and 2,868 cutoff intervals; 117-test root verification | review pending |
+| CN | Projective rank-two ratio bridge | complete | ratio-factorized matched-minor identities; exact block-matrix coefficient bridge; matrix-pencil Lorentzian theorem; cyclic-prefix obstruction audit | 3,595-job Lean build; public axiom audit; 500 exact conditioned cases and 2,868 cutoff intervals; 117-test root verification; green CI | merged PR #94 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

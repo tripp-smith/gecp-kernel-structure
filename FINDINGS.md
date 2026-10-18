@@ -1224,6 +1224,7 @@ pivots.
   exact: prove this pivot-depth cyclic order, then choose a cutoff-specific
   point at infinity. Higher fresh order and the infinite-tail passage remain
   open. The root command passes a 3,595-job Lean build and 117 tests.
+  The change passed CI and merged as PR #94.
 
 ## Run provenance
 
