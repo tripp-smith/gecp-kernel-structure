@@ -3372,6 +3372,25 @@ def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
             (weights[k] * first[k] * second[k] for k in indices), Fraction()
         ) - moment(indices, weights, first) * moment(indices, weights, second)
 
+    def cross_increment(
+        lower: tuple[int, ...],
+        upper: tuple[int, ...],
+        weights: tuple[Fraction, ...],
+        first: tuple[Fraction, ...],
+        second: tuple[Fraction, ...],
+    ) -> Fraction:
+        return sum(
+            (
+                weights[i]
+                * weights[j]
+                * (first[j] - first[i])
+                * (second[j] - second[i])
+                for i in lower
+                for j in upper
+            ),
+            Fraction(),
+        )
+
     def centered_group(
         ambient: tuple[int, ...],
         group: tuple[int, ...],
@@ -3393,6 +3412,7 @@ def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
         )
 
     checked_weighted_groups = 0
+    checked_lorentzian_splits = 0
     for feature_count in range(1, 6):
         ambient = tuple(range(feature_count))
         for raw_weights in itertools.product((1, 2), repeat=feature_count):
@@ -3420,6 +3440,34 @@ def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
                     for cutoff in range(feature_count + 1):
                         lower = tuple(range(cutoff))
                         upper = tuple(range(cutoff, feature_count))
+                        if lower and upper:
+                            lower_mass = mass(lower, weights)
+                            upper_mass = mass(upper, weights)
+                            lower_covariance = covariance_numerator(
+                                lower, weights, first, second
+                            )
+                            upper_covariance = covariance_numerator(
+                                upper, weights, first, second
+                            )
+                            mixed_increment = cross_increment(
+                                lower, upper, weights, first, second
+                            )
+                            first_shift = lower_mass * moment(
+                                upper, weights, first
+                            ) - upper_mass * moment(lower, weights, first)
+                            second_shift = lower_mass * moment(
+                                upper, weights, second
+                            ) - upper_mass * moment(lower, weights, second)
+                            assert lower_mass * upper_mass * mixed_increment == (
+                                upper_mass**2 * lower_covariance
+                                + lower_mass**2 * upper_covariance
+                                + first_shift * second_shift
+                            )
+                            assert mixed_increment >= 0
+                            assert mixed_increment**2 >= (
+                                4 * lower_covariance * upper_covariance
+                            )
+                            checked_lorentzian_splits += 1
                         for group in (lower, upper):
                             if not group:
                                 continue
@@ -3444,6 +3492,7 @@ def test_weighted_centered_groups_and_one_pivot_taylor_exactly() -> None:
                             checked_weighted_groups += 1
 
     assert checked_weighted_groups == 4644
+    assert checked_lorentzian_splits == 1764
 
     def taylor_kernel(feature_count: int, x: Fraction, y: Fraction) -> Fraction:
         return sum(
@@ -3774,6 +3823,8 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     column_cross_signs = 0
     either_cross_sign = 0
     both_cross_signs = 0
+    checked_coordinate_products = 0
+    negative_coordinate_products = 0
     for _ in range(500):
         size = rng.randrange(4, 8)
         row_denominator = rng.randrange(size + 1, 19)
@@ -3834,6 +3885,21 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             selected > fresh for selected in selected_columns for fresh in fresh_columns
         )
         orientation = -1 if cross_inversions % 2 else 1
+        for first, second in itertools.combinations(range(feature_count), 2):
+            left_minor = (
+                conditioned_left[fresh_rows[0]][first]
+                * conditioned_left[fresh_rows[1]][second]
+                - conditioned_left[fresh_rows[0]][second]
+                * conditioned_left[fresh_rows[1]][first]
+            )
+            right_minor = (
+                conditioned_right[first][fresh_columns[0]]
+                * conditioned_right[second][fresh_columns[1]]
+                - conditioned_right[first][fresh_columns[1]]
+                * conditioned_right[second][fresh_columns[0]]
+            )
+            negative_coordinate_products += orientation * left_minor * right_minor < 0
+            checked_coordinate_products += 1
 
         for cutoff in range(feature_count + 1):
             low_left = [
@@ -3891,6 +3957,8 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert column_cross_signs == 1018
     assert either_cross_sign == 1030
     assert both_cross_signs == 1008
+    assert checked_coordinate_products == 11024
+    assert negative_coordinate_products == 0
 
 
 def test_interleaved_tangent_middle_minors_exactly() -> None:

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CM contract: two-block Lorentzian covariance
 
-State: in progress.
+State: verified.
 
 Phase CL reduces fresh-order-two real-rootedness to
 `4*c0*c2 ≤ c1^2`. The exact audit reveals an additional structural fact:
@@ -5148,9 +5148,22 @@ Non-claims:
 
 - this phase does not prove the conditioned-factor ratio representation or
   the full fermionic fresh-order-two theorem;
-- it does not prove higher fresh order, the infinite-tail passage, normalized
-  tangent envelope, order-eighteen contraction, dyadic recurrence, Conjecture
-  G1, or Simons Problem 4.2.
+- it does not extend the Lorentzian inequality to fresh order three or pass
+  from finite Taylor features to the infinite positive-series tail;
+- it does not prove the normalized tangent envelope, order-eighteen
+  contraction, dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
+Delivered: `weightedCrossIncrement_eq` expands the mixed block coefficient,
+`weightedMass_mul_weightedMass_mul_crossIncrement` proves the division-free
+two-block law of total covariance, and
+`four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq` derives the
+sharp reverse covariance inequality from ordered nonnegative weights.
+`geometricCrossIncrement_lorentzian` specializes the result to geometric
+ratio coordinates on a degree prefix/suffix split. An exhaustive exact audit
+checks the identity and inequality on 1,764 weighted splits, including
+singleton and zero-covariance boundaries. The conditioned-Taylor audit checks
+11,024 oriented two-feature coordinate products without a negative case.
+The root command passes a 3,594-job Lean build and 117 tests.
 
 ## Phase CL contract: fresh-order-two Lorentzian bridge
 

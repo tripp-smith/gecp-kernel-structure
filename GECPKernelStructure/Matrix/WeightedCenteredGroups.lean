@@ -248,6 +248,180 @@ theorem weightedMoment_mul_mass_sub_mass_mul_moment_nonneg_of_cross_ge
   have increment_nonneg : 0 ≤ f i - f j := sub_nonneg.mpr (cross_ge i hi j hj)
   exact mul_nonneg weights_nonneg increment_nonneg
 
+/-- The weighted sum of products of increments from a lower block to an upper
+block.  This is the mixed coefficient of the rank-two determinant model. -/
+noncomputable def weightedCrossIncrement
+    (lower upper : Finset ι) (w f g : ι → ℝ) : ℝ :=
+  ∑ i ∈ lower, ∑ j ∈ upper,
+    w i * w j * (f j - f i) * (g j - g i)
+
+omit [DecidableEq ι] in
+/-- Expansion of the cross-block increment sum into masses and moments. -/
+theorem weightedCrossIncrement_eq
+    (lower upper : Finset ι) (w f g : ι → ℝ) :
+    weightedCrossIncrement lower upper w f g =
+      weightedMass lower w * (∑ j ∈ upper, w j * f j * g j) +
+        weightedMass upper w * (∑ i ∈ lower, w i * f i * g i) -
+        weightedMoment lower w f * weightedMoment upper w g -
+        weightedMoment upper w f * weightedMoment lower w g := by
+  have upper_diagonal_swap :
+      (∑ i ∈ lower, ∑ j ∈ upper, w i * (w j * f j * g j)) =
+        ∑ j ∈ upper, ∑ i ∈ lower, w i * (w j * f j * g j) := by
+    rw [sum_comm]
+  have lower_upper_cross_swap :
+      (∑ i ∈ lower, ∑ j ∈ upper, w i * f i * (w j * g j)) =
+        ∑ j ∈ upper, ∑ i ∈ lower, w i * f i * (w j * g j) := by
+    rw [sum_comm]
+  unfold weightedCrossIncrement weightedMass weightedMoment
+  calc
+    _ = ∑ i ∈ lower, ∑ j ∈ upper,
+        (w i * (w j * f j * g j) + w j * (w i * f i * g i) -
+          (w i * f i) * (w j * g j) - (w j * f j) * (w i * g i)) := by
+      apply sum_congr rfl
+      intro i hi
+      apply sum_congr rfl
+      intro j hj
+      ring
+    _ = _ := by
+      simp only [sum_sub_distrib, sum_add_distrib, sum_mul, mul_sum]
+      rw [upper_diagonal_swap, lower_upper_cross_swap]
+
+omit [DecidableEq ι] in
+/-- Division-free two-block law of total covariance.  The cross increment is
+the sum of the two rescaled within-block covariances and the product of the
+two block-mean shifts. -/
+theorem weightedMass_mul_weightedMass_mul_crossIncrement
+    (lower upper : Finset ι) (w f g : ι → ℝ) :
+    weightedMass lower w * weightedMass upper w *
+        weightedCrossIncrement lower upper w f g =
+      weightedMass upper w ^ 2 *
+          weightedCovarianceNumerator lower w f g +
+        weightedMass lower w ^ 2 *
+          weightedCovarianceNumerator upper w f g +
+        (weightedMass lower w * weightedMoment upper w f -
+            weightedMass upper w * weightedMoment lower w f) *
+          (weightedMass lower w * weightedMoment upper w g -
+            weightedMass upper w * weightedMoment lower w g) := by
+  rw [weightedCrossIncrement_eq]
+  unfold weightedCovarianceNumerator
+  ring
+
+/-- Ordered blocks have a nonnegative cross-increment sum. -/
+theorem weightedCrossIncrement_nonneg_of_cross_le
+    (lower upper : Finset ι) (w f g : ι → ℝ)
+    (weight_nonneg : ∀ i ∈ lower ∪ upper, 0 ≤ w i)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper, g i ≤ g j) :
+    0 ≤ weightedCrossIncrement lower upper w f g := by
+  unfold weightedCrossIncrement
+  apply sum_nonneg
+  intro i hi
+  apply sum_nonneg
+  intro j hj
+  have wi_nonneg := weight_nonneg i (mem_union_left upper hi)
+  have wj_nonneg := weight_nonneg j (mem_union_right lower hj)
+  exact mul_nonneg
+    (mul_nonneg (mul_nonneg wi_nonneg wj_nonneg)
+      (sub_nonneg.mpr (f_cross i hi j hj)))
+    (sub_nonneg.mpr (g_cross i hi j hj))
+
+/-- The cross-block mean-shift numerator is nonnegative for an ordered lower
+and upper block. -/
+theorem weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
+    (lower upper : Finset ι) (w f : ι → ℝ)
+    (weight_nonneg : ∀ i ∈ lower ∪ upper, 0 ≤ w i)
+    (cross_le : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j) :
+    0 ≤ weightedMass lower w * weightedMoment upper w f -
+      weightedMass upper w * weightedMoment lower w f := by
+  have nonpos :=
+    weightedMoment_mul_mass_sub_mass_mul_moment_nonpos_of_cross_le
+      lower upper w f weight_nonneg cross_le
+  linarith
+
+/-- Sharp two-block reverse covariance inequality.  It is the
+fresh-order-two Lorentzian discriminant inequality for pair weights generated
+by two comonotone ratio sequences. -/
+theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
+    (lower upper : Finset ι) (w f g : ι → ℝ)
+    (lower_mass_pos : 0 < weightedMass lower w)
+    (upper_mass_pos : 0 < weightedMass upper w)
+    (weight_nonneg : ∀ i ∈ lower ∪ upper, 0 ≤ w i)
+    (lower_monovary : MonovaryOn f g lower)
+    (upper_monovary : MonovaryOn f g upper)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper, g i ≤ g j) :
+    4 * weightedCovarianceNumerator lower w f g *
+        weightedCovarianceNumerator upper w f g ≤
+      weightedCrossIncrement lower upper w f g ^ 2 := by
+  let lowerCov := weightedCovarianceNumerator lower w f g
+  let upperCov := weightedCovarianceNumerator upper w f g
+  let cross := weightedCrossIncrement lower upper w f g
+  let lowerMass := weightedMass lower w
+  let upperMass := weightedMass upper w
+  have lower_cov_nonneg : 0 ≤ lowerCov := by
+    apply weightedCovarianceNumerator_nonneg lower w f g
+    · intro i hi
+      exact weight_nonneg i (mem_union_left upper hi)
+    · exact lower_monovary
+  have upper_cov_nonneg : 0 ≤ upperCov := by
+    apply weightedCovarianceNumerator_nonneg upper w f g
+    · intro i hi
+      exact weight_nonneg i (mem_union_right lower hi)
+    · exact upper_monovary
+  have cross_nonneg : 0 ≤ cross :=
+    weightedCrossIncrement_nonneg_of_cross_le lower upper w f g
+      weight_nonneg f_cross g_cross
+  have f_shift_nonneg : 0 ≤
+      lowerMass * weightedMoment upper w f -
+        upperMass * weightedMoment lower w f :=
+    weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
+      lower upper w f weight_nonneg f_cross
+  have g_shift_nonneg : 0 ≤
+      lowerMass * weightedMoment upper w g -
+        upperMass * weightedMoment lower w g :=
+    weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
+      lower upper w g weight_nonneg g_cross
+  have decomposition :=
+    weightedMass_mul_weightedMass_mul_crossIncrement lower upper w f g
+  change lowerMass * upperMass * cross =
+      upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov + _ at decomposition
+  have rhs_nonneg :
+      0 ≤ upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov :=
+    add_nonneg (mul_nonneg (sq_nonneg _) lower_cov_nonneg)
+      (mul_nonneg (sq_nonneg _) upper_cov_nonneg)
+  have scaled_lower_bound :
+      upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov ≤
+        lowerMass * upperMass * cross := by
+    rw [decomposition]
+    exact le_add_of_nonneg_right (mul_nonneg f_shift_nonneg g_shift_nonneg)
+  have scaled_nonneg : 0 ≤ lowerMass * upperMass * cross :=
+    mul_nonneg (mul_nonneg lower_mass_pos.le upper_mass_pos.le) cross_nonneg
+  have squared_lower_bound :
+      (upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov) ^ 2 ≤
+        (lowerMass * upperMass * cross) ^ 2 :=
+    (sq_le_sq₀ rhs_nonneg scaled_nonneg).2 scaled_lower_bound
+  have am_gm :
+      4 * (lowerMass * upperMass) ^ 2 * lowerCov * upperCov ≤
+        (upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov) ^ 2 := by
+    nlinarith [sq_nonneg (upperMass ^ 2 * lowerCov -
+      lowerMass ^ 2 * upperCov)]
+  have mass_product_sq_pos : 0 < (lowerMass * upperMass) ^ 2 :=
+    sq_pos_of_pos (mul_pos lower_mass_pos upper_mass_pos)
+  apply le_of_mul_le_mul_left _ mass_product_sq_pos
+  calc
+    (lowerMass * upperMass) ^ 2 *
+        (4 * weightedCovarianceNumerator lower w f g *
+          weightedCovarianceNumerator upper w f g) =
+      4 * (lowerMass * upperMass) ^ 2 * lowerCov * upperCov := by
+        simp only [lowerCov, upperCov]
+        ring
+    _ ≤ (upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov) ^ 2 := am_gm
+    _ ≤ (lowerMass * upperMass * cross) ^ 2 := squared_lower_bound
+    _ = (lowerMass * upperMass) ^ 2 *
+        weightedCrossIncrement lower upper w f g ^ 2 := by
+      simp only [cross]
+      ring
+
 theorem weightedBlockMeanShift_eq
     (first second : Finset ι) (w f : ι → ℝ)
     (disjoint : Disjoint first second) :
@@ -439,6 +613,57 @@ theorem geometricCenteredProduct_suffix_nonneg
     (degreePrefix_disjoint_degreeSuffix n cutoff) upper_mass_pos
   · intro k hk
     exact (weight_pos k).le
+  · exact row_monotone.monovary column_monotone |>.monovaryOn upper
+  · intro i hi j hj
+    exact row_monotone (cross_index i hi j hj)
+  · intro i hi j hj
+    exact column_monotone (cross_index i hi j hj)
+
+/-- The degree-prefix/suffix split of two geometric ratio coordinates obeys
+the sharp Lorentzian discriminant inequality.  This is the ratio-coordinate
+form consumed by conditioned rank-two feature factorizations. -/
+theorem geometricCrossIncrement_lorentzian
+    {n cutoff : ℕ} (cutoff_pos : 0 < cutoff) (cutoff_lt : cutoff < n)
+    (w : Fin n → ℝ) (weight_pos : ∀ k, 0 < w k)
+    {rowRatio columnRatio : ℝ}
+    (rowRatio_ge_one : 1 ≤ rowRatio)
+    (columnRatio_ge_one : 1 ≤ columnRatio) :
+    4 * weightedCovarianceNumerator (degreePrefix n cutoff) w
+          (fun k ↦ rowRatio ^ k.1) (fun k ↦ columnRatio ^ k.1) *
+        weightedCovarianceNumerator (degreeSuffix n cutoff) w
+          (fun k ↦ rowRatio ^ k.1) (fun k ↦ columnRatio ^ k.1) ≤
+      weightedCrossIncrement (degreePrefix n cutoff) (degreeSuffix n cutoff) w
+          (fun k ↦ rowRatio ^ k.1) (fun k ↦ columnRatio ^ k.1) ^ 2 := by
+  let lower := degreePrefix n cutoff
+  let upper := degreeSuffix n cutoff
+  have n_pos : 0 < n := lt_trans cutoff_pos cutoff_lt
+  have lower_nonempty : lower.Nonempty := by
+    refine ⟨⟨0, n_pos⟩, ?_⟩
+    simp [lower, degreePrefix, cutoff_pos]
+  have upper_nonempty : upper.Nonempty := by
+    refine ⟨⟨cutoff, cutoff_lt⟩, ?_⟩
+    simp [upper, degreeSuffix]
+  have lower_mass_pos : 0 < weightedMass lower w :=
+    weightedMass_pos_of_pos lower w lower_nonempty fun i hi ↦ weight_pos i
+  have upper_mass_pos : 0 < weightedMass upper w :=
+    weightedMass_pos_of_pos upper w upper_nonempty fun i hi ↦ weight_pos i
+  have row_monotone : Monotone (fun k : Fin n ↦ rowRatio ^ k.1) := by
+    intro i j hij
+    exact pow_le_pow_right₀ rowRatio_ge_one (Fin.mk_le_mk.mp hij)
+  have column_monotone : Monotone (fun k : Fin n ↦ columnRatio ^ k.1) := by
+    intro i j hij
+    exact pow_le_pow_right₀ columnRatio_ge_one (Fin.mk_le_mk.mp hij)
+  have cross_index : ∀ i ∈ lower, ∀ j ∈ upper, i ≤ j := by
+    intro i hi j hj
+    simp only [lower, degreePrefix, mem_filter, mem_univ, true_and] at hi
+    simp only [upper, degreeSuffix, mem_filter, mem_univ, true_and] at hj
+    exact Fin.mk_le_mk.mpr (Nat.le_trans (Nat.le_of_lt hi) hj)
+  apply four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
+    lower upper w (fun k ↦ rowRatio ^ k.1) (fun k ↦ columnRatio ^ k.1)
+    lower_mass_pos upper_mass_pos
+  · intro k hk
+    exact (weight_pos k).le
+  · exact row_monotone.monovary column_monotone |>.monovaryOn lower
   · exact row_monotone.monovary column_monotone |>.monovaryOn upper
   · intro i hi j hj
     exact row_monotone (cross_index i hi j hj)

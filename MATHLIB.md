@@ -608,6 +608,16 @@ if an upstream use appears. The observed Lorentzian inequality for conditioned
 Taylor feature pencils is project-specific and remains a conjectural analytic
 input rather than a mathlib proposal.
 
+Phase CM adds a reusable finite weighted reverse-covariance theorem.
+`weightedMass_mul_weightedMass_mul_crossIncrement` is a division-free
+two-population law of total covariance, while
+`four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq` is its sharp
+Lorentzian consequence for two internally comonotone, cross-ordered
+sequences. These are credible upstream candidates near weighted Chebyshev
+inequalities after generalizing the current real specialization to a suitable
+linear ordered commutative ring or field. The geometric degree-split theorem
+and the conditioned-Taylor representation problem remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
