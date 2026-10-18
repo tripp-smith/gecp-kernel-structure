@@ -1240,6 +1240,20 @@ pivots.
   construction. The root command passes a 3,595-job Lean build and 118 tests.
   The change passed CI and merged as PR #95.
 
+- Phase CP constructs the cutoff-specific chart explicitly. The pole basis
+  `[[-c,1],[1,0]]` always has determinant `-1` and sends each homogeneous
+  feature `a_k(1,f_k)` to coordinates
+  `(a_k(f_k-c),a_k)`. Away from a collision, the new affine ratio is exactly
+  `1/(f_k-c)`. Lean proves the two-sided block transformation and composes it
+  with the Phase CO invariance theorem, reducing every original rank-two
+  Lorentzian pencil to positive transformed weights and reciprocal-ratio
+  block order. Exact rational checks exercise three exterior/interior pole
+  pairs, all five nontrivial cutoffs of a six-feature example, and one rejected
+  collision. The remaining finite fresh-order-two input is now only the
+  conditioned-Taylor cyclic-prefix/separating-pole theorem; CP does not prove
+  that analytic invariant. The root command passes a 3,595-job Lean build and
+  119 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

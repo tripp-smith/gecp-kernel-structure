@@ -2388,3 +2388,19 @@ This annotation records delivered identifiers without changing the goals above.
   envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
   Problem 4.2 remain open. The root command passes a 3,595-job Lean build and
   118 tests.
+- Post-v1 research phase CP: verified; awaiting review and merge.
+  `finTwoPoleBasis_det` proves that the explicit pole basis
+  `[[-c,1],[1,0]]` is invertible with determinant `-1`, and
+  `finTwoPoleBasis_mul_rankTwoBlockMatrix_mul` computes its exact two-sided
+  action on a rank-two feature block. `poleChartBase_mul_poleChartRatio`
+  identifies the reciprocal affine coordinate away from pole collisions.
+  `rankTwoBlockPencil_lorentzian_of_poles` composes these identities with the
+  Phase CO projective transfer and the Phase CN ratio certificate. Exact
+  rational checks cover exterior and interior pole choices, all five
+  nontrivial cutoffs of a six-feature example, and a rejected collision. This
+  closes the projective construction conditional on ordered reciprocal ratios;
+  proving the conditioned-Taylor cyclic-prefix/separating-pole invariant,
+  infinite-tail passage, higher fresh order, normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
+  4.2 remains open. The root command passes a 3,595-job Lean build and 119
+  tests.

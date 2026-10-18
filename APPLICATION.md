@@ -304,6 +304,11 @@ Phase CO also adds no public Python API. Its two-sided basis-change and
 discriminant identities justify cutoff-specific formal charts; they do not
 construct a runtime chart or certify conditioned numerical pencils.
 
+Phase CP also adds no public Python API. Its explicit pole basis and
+reciprocal-ratio certificate are formal proof infrastructure. The exact
+rational regression checks the chart identities and collision boundary, but
+does not discover or certify a separating pole for arbitrary runtime data.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

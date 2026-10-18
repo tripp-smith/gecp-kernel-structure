@@ -216,6 +216,69 @@ theorem rankTwoCrossCoefficient_eq_affine
 
 variable [DecidableEq ι]
 
+/-- The homogeneous basis change that places `pole` at infinity and swaps the
+remaining affine coordinate into ratio position. -/
+noncomputable def finTwoPoleBasis (pole : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  ![![-pole, 1], ![1, 0]]
+
+theorem finTwoPoleBasis_det (pole : ℝ) :
+    (finTwoPoleBasis pole).det = -1 := by
+  rw [Matrix.det_fin_two]
+  norm_num [finTwoPoleBasis]
+
+/-- Base coordinate after moving `pole` to projective infinity. -/
+noncomputable def poleChartBase
+    (base ratio : ι → ℝ) (pole : ℝ) (k : ι) : ℝ :=
+  base k * ratio k - pole * base k
+
+/-- Affine ratio in the pole chart. -/
+noncomputable def poleChartRatio
+    (ratio : ι → ℝ) (pole : ℝ) (k : ι) : ℝ :=
+  (ratio k - pole)⁻¹
+
+omit [DecidableEq ι] in
+/-- Exact two-sided action of the two pole bases on a feature block. -/
+theorem finTwoPoleBasis_mul_rankTwoBlockMatrix_mul
+    (s : Finset ι)
+    (leftZero leftOne rightZero rightOne : ι → ℝ)
+    (leftPole rightPole : ℝ) :
+    finTwoPoleBasis leftPole *
+          rankTwoBlockMatrix s leftZero leftOne rightZero rightOne *
+        finTwoPoleBasis rightPole =
+      rankTwoBlockMatrix s
+        (fun k ↦ leftOne k - leftPole * leftZero k) leftZero
+        (fun k ↦ rightOne k - rightPole * rightZero k) rightZero := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [Matrix.mul_apply, Fin.sum_univ_two]
+  all_goals
+    simp [finTwoPoleBasis, rankTwoBlockMatrix]
+    try simp_rw [mul_sub, sub_mul]
+    try simp only [sum_sub_distrib, sum_mul, mul_sum]
+  all_goals ring_nf
+  all_goals
+    simp only [sum_add_distrib, sum_neg_distrib, sum_mul]
+    try ring_nf
+  have product_sum_comm :
+      (∑ k ∈ s,
+        leftPole * leftZero k * rightZero k * rightPole) =
+      ∑ k ∈ s,
+        leftPole * rightPole * leftZero k * rightZero k := by
+    apply sum_congr rfl
+    intro k hk
+    ring
+  rw [product_sum_comm]
+  ring
+
+omit [DecidableEq ι] in
+theorem poleChartBase_mul_poleChartRatio
+    (base ratio : ι → ℝ) (pole : ℝ)
+    (pole_ne : ∀ k, ratio k ≠ pole) (k : ι) :
+    base k = poleChartBase base ratio pole k * poleChartRatio ratio pole k := by
+  unfold poleChartBase poleChartRatio
+  have difference_ne : ratio k - pole ≠ 0 := sub_ne_zero.mpr (pole_ne k)
+  field_simp
+
 /-- A positive ordered affine chart for two rank-two factors gives the sharp
 Lorentzian inequality for every threshold split.  The theorem contains no
 division: a later projective argument only needs to supply the four chart
@@ -347,5 +410,88 @@ theorem rankTwoBlockPencil_lorentzian_of_projective_affine
   exact (finTwoPencil_lorentzian_mul_mul_iff
     leftBasis low high rightBasis left_det_ne right_det_ne).mp
       transformed_lorentzian
+
+/-- Explicit separating-pole certificate for an original affine rank-two
+pencil.  The analytic caller supplies positivity and ordering only after the
+two poles have unwrapped the projective degree blocks. -/
+theorem rankTwoBlockPencil_lorentzian_of_poles
+    (lower upper : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (lower_mass_pos : 0 < weightedMass lower (fun k ↦
+      poleChartBase a f leftPole k * poleChartBase b g rightPole k))
+    (upper_mass_pos : 0 < weightedMass upper (fun k ↦
+      poleChartBase a f leftPole k * poleChartBase b g rightPole k))
+    (weight_nonneg : ∀ k ∈ lower ∪ upper,
+      0 ≤ poleChartBase a f leftPole k * poleChartBase b g rightPole k)
+    (lower_monovary :
+      MonovaryOn (poleChartRatio f leftPole)
+        (poleChartRatio g rightPole) lower)
+    (upper_monovary :
+      MonovaryOn (poleChartRatio f leftPole)
+        (poleChartRatio g rightPole) upper)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio f leftPole i ≤ poleChartRatio f leftPole j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio g rightPole i ≤ poleChartRatio g rightPole j) :
+    4 * (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det *
+        (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det ≤
+      finTwoPencilMixed
+          (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k))
+          (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k)) ^ 2 := by
+  apply rankTwoBlockPencil_lorentzian_of_projective_affine
+    (finTwoPoleBasis leftPole) (finTwoPoleBasis rightPole)
+    (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    lower upper
+    (poleChartBase a f leftPole) a
+    (poleChartBase b g rightPole) b
+    (poleChartRatio f leftPole) (poleChartRatio g rightPole)
+  · rw [finTwoPoleBasis_det]
+    norm_num
+  · rw [finTwoPoleBasis_det]
+    norm_num
+  · have chart := finTwoPoleBasis_mul_rankTwoBlockMatrix_mul lower a
+        (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole
+    have left_base_eq :
+        (fun k ↦ a k * f k - leftPole * a k) =
+          poleChartBase a f leftPole := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix lower
+      (poleChartBase a f leftPole) a (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · have chart := finTwoPoleBasis_mul_rankTwoBlockMatrix_mul upper a
+        (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole
+    have left_base_eq :
+        (fun k ↦ a k * f k - leftPole * a k) =
+          poleChartBase a f leftPole := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix upper
+      (poleChartBase a f leftPole) a (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · exact poleChartBase_mul_poleChartRatio a f leftPole left_pole_ne
+  · exact poleChartBase_mul_poleChartRatio b g rightPole right_pole_ne
+  · exact lower_mass_pos
+  · exact upper_mass_pos
+  · exact weight_nonneg
+  · exact lower_monovary
+  · exact upper_monovary
+  · exact f_cross
+  · exact g_cross
 
 end Matrix

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CP contract: separating projective pole chart
 
-State: in progress.
+State: verified; awaiting review and merge.
 
 Phase CO permits an arbitrary invertible basis change but leaves a later proof
 to construct the changed affine coordinates. For a homogeneous feature column
@@ -5138,6 +5138,25 @@ Non-claims:
 - it does not prove the infinite-tail passage, higher fresh order, normalized
   tangent envelope, order-eighteen contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered Lean identifiers:
+
+- `Matrix.finTwoPoleBasis` and `Matrix.finTwoPoleBasis_det`;
+- `Matrix.finTwoPoleBasis_mul_rankTwoBlockMatrix_mul`;
+- `Matrix.poleChartBase`, `Matrix.poleChartRatio`, and
+  `Matrix.poleChartBase_mul_poleChartRatio`;
+- `Matrix.rankTwoBlockPencil_lorentzian_of_poles`.
+
+Verification:
+
+- the public axiom audit reports only `propext`, `Classical.choice`, and
+  `Quot.sound` for every new theorem;
+- exact rational checks cover pole charts exterior to either side and between
+  ratio values, every one of the five nontrivial cutoffs, exact discriminant
+  preservation, positive transformed weights, reciprocal block order, and a
+  deliberately rejected pole collision;
+- `./scripts/verify.sh` passes a 3,595-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
 
 ## Phase CO contract: projective chart invariance
 
