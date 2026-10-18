@@ -1330,6 +1330,7 @@ pivots.
   pattern, nor complete-pivot coupling yields universal common chirotopes.
   Aggregate cancellation or an absolute determinant bound remains possible.
   The root command passes a 3,600-job Lean build and 121 tests.
+  The change passed CI and merged as PR #102.
 
 ## Run provenance
 

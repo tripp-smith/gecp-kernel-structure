@@ -2459,10 +2459,11 @@ This annotation records delivered identifiers without changing the goals above.
   leaves open the narrower paired-subtuple geometry of the actual GECP
   endpoint determinants. The root command passes a 3,598-job Lean build and
   120 tests.
-- Post-v1 research phase CV: verified; awaiting review. The exact rational
-  exponential kernel `K(i,j)=(101/100)^((i+1)(j+21))` has certified complete
-  pivots `(3,3)` and then `(0,0)`, but its crossed degree-`(0,3)` augmented
-  determinants have opposite signs. This refutes arbitrary-run common-
+- Post-v1 research phase CV: complete; merged as PR #102 with green CI. The
+  exact rational exponential kernel `K(i,j)=(101/100)^((i+1)(j+21))` has
+  certified complete pivots `(3,3)` and then `(0,0)`, but its crossed
+  degree-`(0,3)` augmented determinants have opposite signs. This refutes
+  arbitrary-run common-
   chirotope synchronization, including the paired-subtuple strengthening,
   without claiming failure of every aggregate or absolute determinant route.
   The root command passes a 3,600-job Lean build and 121 tests.

@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CV contract: complete-pivot chirotope obstruction
 
-State: verified; awaiting review.
+State: complete; merged as PR #102 with green CI.
 
 Phase CU refutes nonvanishing on the full ordered chamber but leaves open the
 paired-subtuple endpoint geometry observed in the conditioned GECP corpus.
