@@ -5,6 +5,7 @@ from fractions import Fraction
 
 import mpmath as mp
 import numpy as np
+import pytest
 
 from kernelgecp import (
     DyadicTaylorApproximation,
@@ -4153,6 +4154,148 @@ def test_fin_two_projective_chart_invariance_exactly() -> None:
     transformed_high = multiply(multiply(singular_basis, high), identity)
     assert discriminant(low, high) >= 0
     assert discriminant(transformed_low, transformed_high) == 0
+
+
+def test_rank_two_separating_pole_chart_exactly() -> None:
+    def add(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [[left[i][j] + right[i][j] for j in range(2)] for i in range(2)]
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum((left[i][k] * right[k][j] for k in range(2)), Fraction())
+                for j in range(2)
+            ]
+            for i in range(2)
+        ]
+
+    def block(
+        indices: range,
+        left_zero: tuple[Fraction, ...],
+        left_one: tuple[Fraction, ...],
+        right_zero: tuple[Fraction, ...],
+        right_one: tuple[Fraction, ...],
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum((left_zero[k] * right_zero[k] for k in indices), Fraction()),
+                sum((left_zero[k] * right_one[k] for k in indices), Fraction()),
+            ],
+            [
+                sum((left_one[k] * right_zero[k] for k in indices), Fraction()),
+                sum((left_one[k] * right_one[k] for k in indices), Fraction()),
+            ],
+        ]
+
+    def mixed(low: list[list[Fraction]], high: list[list[Fraction]]) -> Fraction:
+        return (
+            fraction_determinant(add(low, high))
+            - fraction_determinant(low)
+            - fraction_determinant(high)
+        )
+
+    def discriminant(low: list[list[Fraction]], high: list[list[Fraction]]) -> Fraction:
+        return mixed(low, high) ** 2 - (
+            4 * fraction_determinant(low) * fraction_determinant(high)
+        )
+
+    def pole_basis(pole: Fraction) -> list[list[Fraction]]:
+        return [[-pole, Fraction(1)], [Fraction(1), Fraction()]]
+
+    left_base = tuple(map(Fraction, (2, 3, 5, 7, 11, 13)))
+    right_base = tuple(map(Fraction, (17, 19, 23, 29, 31, 37)))
+    left_ratio = tuple(map(Fraction, (-7, -4, -1, 3, 8, 14)))
+    right_ratio = tuple(map(Fraction, (-9, -5, -2, 2, 7, 15)))
+    left_one = tuple(a * f for a, f in zip(left_base, left_ratio, strict=True))
+    right_one = tuple(b * g for b, g in zip(right_base, right_ratio, strict=True))
+    full = range(len(left_base))
+    original = block(full, left_base, left_one, right_base, right_one)
+
+    checked_charts = 0
+    checked_cutoffs = 0
+    for left_pole, right_pole in (
+        (Fraction(-11), Fraction(-13)),
+        (Fraction(18), Fraction(19)),
+        (Fraction(1), Fraction(-1)),
+    ):
+        transformed_left_base = tuple(
+            a * (f - left_pole) for a, f in zip(left_base, left_ratio, strict=True)
+        )
+        transformed_right_base = tuple(
+            b * (g - right_pole) for b, g in zip(right_base, right_ratio, strict=True)
+        )
+        transformed = block(
+            full,
+            transformed_left_base,
+            left_base,
+            transformed_right_base,
+            right_base,
+        )
+        assert (
+            multiply(multiply(pole_basis(left_pole), original), pole_basis(right_pole))
+            == transformed
+        )
+        assert fraction_determinant(pole_basis(left_pole)) == -1
+        assert fraction_determinant(pole_basis(right_pole)) == -1
+        checked_charts += 1
+
+    for cutoff in range(1, len(left_base)):
+        left_pole = (left_ratio[cutoff - 1] + left_ratio[cutoff]) / 2
+        right_pole = (right_ratio[cutoff - 1] + right_ratio[cutoff]) / 2
+        transformed_left_base = tuple(
+            a * (f - left_pole) for a, f in zip(left_base, left_ratio, strict=True)
+        )
+        transformed_right_base = tuple(
+            b * (g - right_pole) for b, g in zip(right_base, right_ratio, strict=True)
+        )
+        transformed_left_ratio = tuple(1 / (f - left_pole) for f in left_ratio)
+        transformed_right_ratio = tuple(1 / (g - right_pole) for g in right_ratio)
+        assert all(
+            transformed_left_base[k] * transformed_left_ratio[k] == left_base[k]
+            for k in full
+        )
+        assert all(
+            transformed_right_base[k] * transformed_right_ratio[k] == right_base[k]
+            for k in full
+        )
+        weights = tuple(
+            transformed_left_base[k] * transformed_right_base[k] for k in full
+        )
+        assert all(weight > 0 for weight in weights)
+        lower = range(cutoff)
+        upper = range(cutoff, len(left_base))
+        for ratios in (transformed_left_ratio, transformed_right_ratio):
+            assert all(ratios[i] >= ratios[i + 1] for i in range(cutoff - 1))
+            assert all(
+                ratios[i] >= ratios[i + 1] for i in range(cutoff, len(left_base) - 1)
+            )
+            assert max(ratios[i] for i in lower) < min(ratios[j] for j in upper)
+
+        original_low = block(lower, left_base, left_one, right_base, right_one)
+        original_high = block(upper, left_base, left_one, right_base, right_one)
+        transformed_low = multiply(
+            multiply(pole_basis(left_pole), original_low), pole_basis(right_pole)
+        )
+        transformed_high = multiply(
+            multiply(pole_basis(left_pole), original_high), pole_basis(right_pole)
+        )
+        assert discriminant(transformed_low, transformed_high) == discriminant(
+            original_low, original_high
+        )
+        assert discriminant(original_low, original_high) >= 0
+        checked_cutoffs += 1
+
+    assert checked_charts == 3
+    assert checked_cutoffs == 5
+
+    collision = left_ratio[2]
+    assert any(ratio == collision for ratio in left_ratio)
+    with pytest.raises(ZeroDivisionError):
+        _ = Fraction(1) / (left_ratio[2] - collision)
 
 
 def test_interleaved_tangent_middle_minors_exactly() -> None:

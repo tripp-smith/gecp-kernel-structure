@@ -636,6 +636,16 @@ matrix determinant pencils after generalization from `ℝ`. The final
 projective-affine chart composition and conditioned Taylor cyclic-order target
 remain project-facing.
 
+Phase CP adds the elementary projective chart that moves a real pole to
+infinity. The determinant and exact two-sided action of
+`[[-c,1],[1,0]]` on sums of rank-one `2 x 2` blocks are reusable small-matrix
+identities, and the factorization
+`a = a(f-c) * (f-c)⁻¹` is a generic affine-chart lemma away from collision.
+They could plausibly be generalized from `ℝ` near projective coordinates or
+mixed determinants if another upstream use appears. The existence of a pole
+separating conditioned Taylor degree blocks is a specialized confluent
+generalized-Vandermonde claim and remains project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -605,6 +605,10 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.finTwoPencilMixed_rankTwoBlockMatrix
 #print axioms Matrix.rankTwoBlockPencil_lorentzian_of_affine
 #print axioms Matrix.rankTwoBlockPencil_lorentzian_of_projective_affine
+#print axioms Matrix.finTwoPoleBasis_det
+#print axioms Matrix.finTwoPoleBasis_mul_rankTwoBlockMatrix_mul
+#print axioms Matrix.poleChartBase_mul_poleChartRatio
+#print axioms Matrix.rankTwoBlockPencil_lorentzian_of_poles
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_rowRatio
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_columnRatio
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_eq_geometricCenteredProduct
