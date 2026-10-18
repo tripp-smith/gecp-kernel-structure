@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CU contract: ordered-chamber obstruction
 
-State: verified; awaiting review.
+State: complete; merged as PR #101 with green CI.
 
 Phase CT isolates nonvanishing of a canonical confluent exponential
 determinant along a straight ordered-node homotopy. The tempting strengthening

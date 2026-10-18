@@ -1318,6 +1318,7 @@ pivots.
   paired-subtuple path: actual endpoints additionally satisfy
   `X_sel ⊂ X_aug` and `Y_sel ⊂ Y_aug`. The root command passes a 3,598-job
   Lean build and 120 tests.
+  The change passed CI and merged as PR #101.
 
 ## Run provenance
 
