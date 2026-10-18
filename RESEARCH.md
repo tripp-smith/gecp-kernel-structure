@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CT contract: homotopy sign lock
 
-State: verified; awaiting review.
+State: complete; merged as PR #100 with green CI.
 
 Phase CS shows that an arbitrary common chirotope schedule is sufficient but
 does not construct it.  After tuple reorientation and positive denominator

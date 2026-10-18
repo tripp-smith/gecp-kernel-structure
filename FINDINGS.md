@@ -1306,6 +1306,7 @@ pivots.
   for all 11,024 augmented pairs. This finite audit is evidence for, not a
   proof of, nonvanishing at every path parameter. The root command passes a
   3,597-job Lean build and 119 tests.
+  The change passed CI and merged as PR #100.
 
 ## Run provenance
 
