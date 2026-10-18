@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CT contract: homotopy sign lock
 
-State: in progress.
+State: verified; awaiting review.
 
 Phase CS shows that an arbitrary common chirotope schedule is sufficient but
 does not construct it.  After tuple reorientation and positive denominator
@@ -5138,6 +5138,25 @@ Non-claims:
 - it does not prove higher fresh order, the normalized tangent envelope,
   order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `Matrix.endpoint_mul_pos_of_continuousOn_of_ne_zero` proves that a
+  continuous real path avoiding zero on the unit interval has endpoint
+  product strictly positive;
+- `Matrix.det_endpoint_mul_pos_of_entrywiseContinuous_of_ne_zero` specializes
+  the sign lock to entrywise-continuous square-matrix paths with nonvanishing
+  determinant;
+- exact canonical normalization and midpoint evaluation succeed for all
+  11,024 left/right augmented determinant pairs, preserving the Phase CS
+  fixed-schedule obstruction;
+- `./scripts/verify.sh` passes a 3,597-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
+
+The next target is precisely the missing analytic premise: nonvanishing of the
+canonical confluent exponential determinant throughout the ordered positive
+unit chamber, or a rigorously delimited obstruction if that statement is
+false.
 
 ## Phase CS contract: common chirotope schedule
 
