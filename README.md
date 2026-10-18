@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CS — common chirotope schedule<br>
-> **Phase state:** complete<br>
+> **Current phase:** CT — homotopy sign lock<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase CR `./scripts/verify.sh` passed a 3,596-job Lean build with 119 tests and no known dependency vulnerabilities on 2026-10-18<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CS merged in [PR #99](https://github.com/tripp-smith/gecp-kernel-structure/pull/99) with green CI<br>
-> **Claim level:** Phase CS proves cancellation of an arbitrary shared nonzero chirotope schedule; the exact audit refutes a fixed depth-only raw schedule but confirms left/right schedule agreement for all 11,024 augmented pairs
+> **Delivery:** Phase CS merged in [PR #99](https://github.com/tripp-smith/gecp-kernel-structure/pull/99) with green CI; Phase CT contract frozen<br>
+> **Claim level:** Phase CT reduces left/right chirotope synchronization to nonvanishing of one continuous determinant path between the two canonical augmented configurations
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -115,6 +115,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CQ | Matched-minor separator reduction | complete | oriented/scaled pole bases; projective matched-coordinate invariance; positive-chart comonotonicity; separator theorem | 3,595-job Lean build; public axiom audit; exact separators for all 2,868 cutoffs; 119-test root verification; green CI | merged PR #97 |
 | CR | Conditioned rank-two Plucker bridge | complete | selected-core-square matched-coordinate identity; oriented sign equivalence | 3,596-job Lean build; public axiom audit; 11,024 exact arbitrary-pivot augmented-core identities; 119-test root verification; green CI | merged PR #98 |
 | CS | Common chirotope schedule | complete | common-schedule cancellation; conditioned oriented-sign composition; fixed-schedule obstruction | 3,596-job Lean build; public axiom audit; 11,024 exact aligned schedules; 119-test root verification; green CI | merged PR #99 |
+| CT | Homotopy sign lock | in progress | nonvanishing continuous-path endpoint sign theorem; determinant specialization | pending | contract frozen |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
