@@ -618,6 +618,16 @@ inequalities after generalizing the current real specialization to a suitable
 linear ordered commutative ring or field. The geometric degree-split theorem
 and the conditioned-Taylor representation problem remain project-facing.
 
+Phase CN packages the rank-two algebra around that theorem.
+`rankTwoBlockMatrix_det` is scalar-row Cauchy--Binet for a `2 x 2` sum of
+rank-one terms, and `finTwoPencilMixed_rankTwoBlockMatrix` identifies the
+mixed coefficient across a partition. The affine-ratio corollaries provide a
+division-free certificate that such a pencil is Lorentzian. These elementary
+lemmas could plausibly be generalized beyond `ℝ` and upstreamed near finite
+matrix determinants or mixed discriminants. The cyclic order of conditioned
+Taylor degrees and its cutoff-specific chart construction are specialized
+variation-diminishing claims and remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

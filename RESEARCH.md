@@ -5092,6 +5092,77 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CN contract: projective rank-two ratio bridge
+
+State: verified.
+
+Phase CM proves the sharp Lorentzian inequality once a rank-two feature pair
+is written in a positive affine chart with two comonotone ratio coordinates.
+The naive choice of the first fresh row and column as denominators is not
+degree-monotone: only 42 of 500 exact conditioned-Taylor cases are monotone in
+that chart, and the two aggregate block shifts have opposite signs in 276 of
+2,868 nontrivial threshold splits. That global affine-chart target is false.
+
+The projective invariant is substantially cleaner. In all 500 cases the left
+and right feature ratios have the same cyclic order, and every one of the
+2,868 degree prefixes is a circular interval in both orders. The dominant
+orders are the pivot-depth patterns
+`p,p-1,...,0,p+1,...,n-1`, up to cyclic rotation and reversal. Thus each
+cutoff can plausibly choose its own projective point at infinity, unwrap the
+prefix/suffix interval into two ordered affine blocks, and invoke Phase CM.
+
+Frozen public Lean targets:
+
+- define the matched rank-two pair coordinate associated with left/right
+  affine ratio factorizations;
+- prove its exact product-of-weights/product-of-ratio-increments identity;
+- identify the within-block sum with `weightedCovarianceNumerator` and the
+  cross-block sum with `weightedCrossIncrement`;
+- combine the identities with Phase CM to expose a reusable
+  ratio-factorized threshold Lorentzian theorem;
+- keep the hypotheses certificate-oriented so a later projective chart can
+  instantiate them without division inside the final theorem.
+
+Independent check:
+
+- count the direct-chart monotonicity and mean-shift failures rather than
+  silently choosing a favorable sample;
+- verify common cyclic order and prefix circular-interval separation for all
+  deterministic Phase CL cases and all nontrivial cutoffs;
+- retain exact rational arithmetic and boundary feature counts.
+
+Decision rule:
+
+- if the algebraic ratio bridge closes, next prove the pivot-depth cyclic
+  order for conditioned Taylor feature factors using generalized
+  Vandermonde signs or variation diminution;
+- if a prefix fails to be a circular interval, replace the two-block chart by
+  a multi-interval Lorentzian decomposition before attempting specialization;
+- do not claim the finite audit as a proof of the projective-order theorem.
+
+Non-claims:
+
+- this phase does not prove existence of the chart for arbitrary conditioned
+  Taylor or infinite positive-series factors;
+- it does not prove higher fresh order, the normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered: `rankTwoMatchedCoordinate_eq_affine` proves the exact chart
+factorization of each matched Plucker product.
+`affineRankTwoWithinCoefficient_eq_weightedCovarianceNumerator` and
+`affineRankTwoCrossCoefficient_eq_weightedCrossIncrement` identify the three
+threshold coefficients with the Phase CM objects. `rankTwoBlockMatrix_det`
+and `finTwoPencilMixed_rankTwoBlockMatrix` connect those scalar coefficients
+to the original `2 x 2` block matrices, and
+`rankTwoBlockPencil_lorentzian_of_affine` exposes the final division-free
+certificate consumed by Phase CL. The exact audit confirms sign-coherent
+direct-chart weights in all 500 cases but degree monotonicity in only 42 and
+opposite mean shifts in 276 of 2,868 splits. In contrast, all 500 left/right
+configurations have the same unoriented cyclic order and every one of the
+2,868 prefixes is a circular interval. The root command passes a 3,595-job
+Lean build and 117 tests.
+
 ## Phase CM contract: two-block Lorentzian covariance
 
 State: complete; merged as PR #93 with green CI.

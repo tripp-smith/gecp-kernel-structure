@@ -3817,6 +3817,26 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             for i in range(len(left))
         ]
 
+    def is_cyclic_interval(order: tuple[int, ...], members: set[int]) -> bool:
+        membership = tuple(index in members for index in order)
+        transitions = sum(
+            membership[index] != membership[(index + 1) % len(order)]
+            for index in range(len(order))
+        )
+        return transitions <= 2
+
+    def same_unoriented_cyclic_order(
+        first: tuple[int, ...], second: tuple[int, ...]
+    ) -> bool:
+        size = len(first)
+        return any(
+            all(first[(shift + index) % size] == second[index] for index in range(size))
+            or all(
+                first[(shift - index) % size] == second[index] for index in range(size)
+            )
+            for shift in range(size)
+        )
+
     rng = random.Random(0xC1D15C)
     checked_pencils = 0
     row_cross_signs = 0
@@ -3825,6 +3845,11 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     both_cross_signs = 0
     checked_coordinate_products = 0
     negative_coordinate_products = 0
+    sign_coherent_direct_chart_cases = 0
+    direct_chart_monotone_cases = 0
+    opposite_mean_shift_splits = 0
+    common_cyclic_order_cases = 0
+    prefix_circular_interval_splits = 0
     for _ in range(500):
         size = rng.randrange(4, 8)
         row_denominator = rng.randrange(size + 1, 19)
@@ -3885,6 +3910,59 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             selected > fresh for selected in selected_columns for fresh in fresh_columns
         )
         orientation = -1 if cross_inversions % 2 else 1
+        left_zero = tuple(
+            conditioned_left[fresh_rows[0]][degree] for degree in range(feature_count)
+        )
+        left_one = tuple(
+            conditioned_left[fresh_rows[1]][degree] for degree in range(feature_count)
+        )
+        right_zero = tuple(
+            conditioned_right[degree][fresh_columns[0]]
+            for degree in range(feature_count)
+        )
+        right_one = tuple(
+            conditioned_right[degree][fresh_columns[1]]
+            for degree in range(feature_count)
+        )
+        assert all(value for value in left_zero)
+        assert all(value for value in right_zero)
+        chart_weights = tuple(
+            left_zero[degree] * right_zero[degree] for degree in range(feature_count)
+        )
+        if all(weight > 0 for weight in chart_weights) or all(
+            weight < 0 for weight in chart_weights
+        ):
+            sign_coherent_direct_chart_cases += 1
+        left_ratios = tuple(
+            left_one[degree] / left_zero[degree] for degree in range(feature_count)
+        )
+        right_ratios = tuple(
+            right_one[degree] / right_zero[degree] for degree in range(feature_count)
+        )
+        left_increasing = all(
+            left_ratios[degree] <= left_ratios[degree + 1]
+            for degree in range(feature_count - 1)
+        )
+        left_decreasing = all(
+            left_ratios[degree] >= left_ratios[degree + 1]
+            for degree in range(feature_count - 1)
+        )
+        right_increasing = all(
+            right_ratios[degree] <= right_ratios[degree + 1]
+            for degree in range(feature_count - 1)
+        )
+        right_decreasing = all(
+            right_ratios[degree] >= right_ratios[degree + 1]
+            for degree in range(feature_count - 1)
+        )
+        direct_chart_monotone_cases += (left_increasing and right_increasing) or (
+            left_decreasing and right_decreasing
+        )
+        left_order = tuple(sorted(range(feature_count), key=left_ratios.__getitem__))
+        right_order = tuple(sorted(range(feature_count), key=right_ratios.__getitem__))
+        common_cyclic_order_cases += same_unoriented_cyclic_order(
+            left_order, right_order
+        )
         for first, second in itertools.combinations(range(feature_count), 2):
             left_minor = (
                 conditioned_left[fresh_rows[0]][first]
@@ -3902,6 +3980,40 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             checked_coordinate_products += 1
 
         for cutoff in range(feature_count + 1):
+            if 0 < cutoff < feature_count:
+                lower_degrees = set(range(cutoff))
+                assert is_cyclic_interval(left_order, lower_degrees)
+                assert is_cyclic_interval(right_order, lower_degrees)
+                prefix_circular_interval_splits += 1
+                lower_mass = sum(chart_weights[:cutoff], Fraction())
+                upper_mass = sum(chart_weights[cutoff:], Fraction())
+                left_shift = lower_mass * sum(
+                    (
+                        chart_weights[degree] * left_ratios[degree]
+                        for degree in range(cutoff, feature_count)
+                    ),
+                    Fraction(),
+                ) - upper_mass * sum(
+                    (
+                        chart_weights[degree] * left_ratios[degree]
+                        for degree in range(cutoff)
+                    ),
+                    Fraction(),
+                )
+                right_shift = lower_mass * sum(
+                    (
+                        chart_weights[degree] * right_ratios[degree]
+                        for degree in range(cutoff, feature_count)
+                    ),
+                    Fraction(),
+                ) - upper_mass * sum(
+                    (
+                        chart_weights[degree] * right_ratios[degree]
+                        for degree in range(cutoff)
+                    ),
+                    Fraction(),
+                )
+                opposite_mean_shift_splits += left_shift * right_shift < 0
             low_left = [
                 [conditioned_left[i][degree] for degree in range(cutoff)]
                 for i in fresh_rows
@@ -3959,6 +4071,11 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert both_cross_signs == 1008
     assert checked_coordinate_products == 11024
     assert negative_coordinate_products == 0
+    assert sign_coherent_direct_chart_cases == 500
+    assert direct_chart_monotone_cases == 42
+    assert opposite_mean_shift_splits == 276
+    assert common_cyclic_order_cases == 500
+    assert prefix_circular_interval_splits == 2868
 
 
 def test_interleaved_tangent_middle_minors_exactly() -> None:

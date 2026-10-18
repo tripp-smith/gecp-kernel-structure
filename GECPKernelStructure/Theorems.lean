@@ -15,6 +15,7 @@ import GECPKernelStructure.Matrix.MinimalGroupedCancellation
 import GECPKernelStructure.Matrix.NonnegativePencilSpectrum
 import GECPKernelStructure.Matrix.FinTwoPencil
 import GECPKernelStructure.Matrix.WeightedCenteredGroups
+import GECPKernelStructure.Matrix.RankTwoRatio
 import GECPKernelStructure.Matrix.InterleavedTangent
 import GECPKernelStructure.GECP.CompanionClosedForm
 import GECPKernelStructure.GECP.CompanionTangentLift

@@ -296,6 +296,10 @@ conditioned-coordinate audits independently check a formal reverse-covariance
 theorem; they do not certify that an arbitrary runtime conditioned factor has
 the required positive ratio-coordinate representation.
 
+Phase CN also adds no public Python API. Its rank-two chart certificate is a
+formal matrix-pencil interface, while the exact cyclic-order audit selects
+the next theorem; neither is exposed as a runtime spectral certificate.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

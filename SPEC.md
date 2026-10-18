@@ -2356,3 +2356,20 @@ This annotation records delivered identifiers without changing the goals above.
   passage, normalized tangent envelope, order-eighteen contraction, dyadic
   recurrence, Conjecture G1, and Problem 4.2 remain open. The root command
   passes a 3,594-job Lean build and 117 tests.
+- Post-v1 research phase CN: verified; review pending.
+  `rankTwoMatchedCoordinate_eq_affine` factors matched left/right rank-two
+  coordinates through chart weights and ratio increments. The within- and
+  cross-block coefficient identities connect this representation to the
+  Phase CM covariance theorem, while `rankTwoBlockMatrix_det` and
+  `finTwoPencilMixed_rankTwoBlockMatrix` identify those coefficients with the
+  original `2 x 2` determinant pencil.
+  `rankTwoBlockPencil_lorentzian_of_affine` is the resulting division-free
+  Phase CL certificate. The direct chart is not globally degree-monotone in
+  458 of 500 exact cases and has opposite mean shifts in 276 of 2,868 splits.
+  Nevertheless all 500 left/right configurations share an unoriented cyclic
+  order and all 2,868 degree prefixes are circular intervals. Proving that
+  projective-order invariant for arbitrary conditioned Taylor factors, then
+  passing to the infinite tail and higher fresh order, remains open, as do
+  the normalized tangent envelope, order-eighteen contraction, dyadic
+  recurrence, Conjecture G1, and Problem 4.2. The root command passes a
+  3,595-job Lean build and 117 tests.
