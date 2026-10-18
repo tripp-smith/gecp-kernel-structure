@@ -5092,6 +5092,55 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CS contract: common chirotope schedule
+
+State: in progress.
+
+Phase CR turns the conditioned matched coordinate into a product of original
+augmented determinants.  The positive-Grassmannian interpretation suggests a
+stronger factorization of their signs.  Taylor monomials are confluent boundary
+columns of the exponential kernel, and the exact pivot-depth order predicts a
+common pair schedule: for increasing degrees `i < j`, the schedule is negative
+exactly when `j` is at most the pivot depth and positive otherwise.  The left
+and right augmented determinants have this same schedule; their independent
+tuple-reorientation signs multiply to the global orientation already consumed
+by Phase CQ.  Squaring cancels the common schedule.
+
+Frozen public Lean targets:
+
+- prove an abstract common-schedule cancellation lemma for two scalar Plucker
+  coordinates with independent reorientations;
+- compose it with the Phase CR selected-core-square equivalence to derive the
+  conditioned oriented matched-coordinate sign from separate augmented-minor
+  sign certificates;
+- keep the schedule scalar explicit, nonzero, and independent of the two
+  factors so the next confluent-Vandermonde theorem can instantiate it.
+
+Independent check:
+
+- compute tuple orientations of the selected-plus-fresh row and column lists;
+- verify strict positivity of each separately reoriented left and right
+  augmented determinant under the predicted pivot-depth pair schedule for all
+  11,024 feature pairs in the 500 deterministic arbitrary-pivot cases;
+- retain the existing core-square, cyclic-order, separator, and Lorentzian
+  checks.
+
+Decision rule:
+
+- if the common schedule is universal in the exact audit, make the next phase
+  the analytic confluent exponential/generalized-Vandermonde sign theorem;
+- if either side needs a different schedule, record the precise discrepancy
+  and do not hide it inside a product-level orientation;
+- do not infer the analytic sign theorem from the finite audit.
+
+Non-claims:
+
+- this phase does not prove the augmented Taylor determinant sign schedule,
+  cyclic-prefix separator existence, or infinite-tail passage;
+- it does not prove higher fresh order, the normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
 ## Phase CR contract: conditioned rank-two Plucker bridge
 
 State: complete; merged as PR #98 with green CI.

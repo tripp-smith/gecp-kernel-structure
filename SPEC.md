@@ -2433,3 +2433,8 @@ This annotation records delivered identifiers without changing the goals above.
   500 arbitrary-pivot cases. This is a representation bridge, not the still-
   open augmented Taylor minor-sign or cyclic-separator theorem. The root
   command passes a 3,596-job Lean build and 119 tests.
+- Post-v1 research phase CS: in progress. The frozen target is an abstract
+  common-chirotope-schedule cancellation theorem, composed through the Phase CR
+  core-square bridge, plus an exact audit of the predicted pivot-depth schedule
+  on the two augmented Taylor determinants separately. This does not assert the
+  still-open analytic confluent generalized-Vandermonde sign theorem.
