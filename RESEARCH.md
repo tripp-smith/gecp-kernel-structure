@@ -5092,6 +5092,56 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CW contract: aggregate mean-shift Lorentzian bridge
+
+State: in progress.
+
+Phase CV refutes every route that requires the left and right augmented
+coordinates to have a common sign one pair at a time.  The fresh-order-two
+target is only the aggregate quadratic discriminant, however.  In the affine
+rank-two chart, the two within-block determinants are weighted covariance
+numerators and the mixed coefficient is a cross increment.  The exact law of
+total covariance already splits that cross increment into the two rescaled
+within-block covariances plus one product of block-mean shifts.  Thus
+pointwise cross-block ordering is stronger than the final inequality needs.
+
+Frozen public Lean targets:
+
+- prove the sharp reverse-covariance inequality from positive block masses,
+  nonnegative within-block covariance numerators, and nonnegativity of the
+  single product of the two aggregate block-mean shifts;
+- lift that criterion to affine rank-two coefficients and then to the
+  `Fin 2` determinant-pencil discriminant, without division or an inverse;
+- keep the existing pointwise-order theorem as a corollary-compatible route,
+  while exposing the new aggregate premise as the preferred interface after
+  Phase CV.
+
+Independent check:
+
+- condition monomial feature factors through the two exact complete pivots of
+  the Phase CV rational exponential kernel and check every cutoff for feature
+  truncations four through ten;
+- rerun a broader deterministic exact-arithmetic corpus with deeper prefixes,
+  retaining coefficient signs, discriminants, and the smallest normalized
+  discriminant margin.
+
+Decision rule:
+
+- if the Phase CV aggregate pencil has a negative discriminant, minimize and
+  formalize that obstruction instead of adding a false bridge;
+- if it survives, prove the aggregate theorem first and make the remaining
+  fermionic obligation exactly the block-mean-shift product, not a collection
+  of coordinatewise signs;
+- do not infer the infinite-tail sign or the order-eighteen companion envelope
+  from finite truncations alone.
+
+Non-claims:
+
+- this phase does not prove the aggregate mean-shift sign for every fermionic
+  prefix or cutoff;
+- it does not prove the nine amplified companion envelopes, order-eighteen
+  contraction, dyadic recurrence, Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CV contract: complete-pivot chirotope obstruction
 
 State: complete; merged as PR #102 with green CI.
