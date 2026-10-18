@@ -5092,6 +5092,52 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CR contract: conditioned rank-two Plucker bridge
+
+State: in progress.
+
+Phase CQ isolates oriented signs of conditioned rank-two matched coordinates
+as the remaining within-block input.  Those coordinates are determinants of
+the two conditioned `2 x 2` feature factors, so the companion Plucker
+identities should clear every conditioning denominator at once: multiplication
+by the square of the selected-core determinant turns one matched coordinate
+into the product of the corresponding original left and right feature-
+augmented core determinants.  The square is strictly positive for every
+successful run, making oriented sign transport an equivalence.
+
+Frozen public Lean targets:
+
+- prove the exact selected-core-square identity for arbitrary kernels, runs,
+  feature factors, two fresh rows/columns, and two feature indices;
+- derive unoriented and scalar-oriented nonnegativity equivalences without
+  assuming either target sign;
+- expose the bridge from a dedicated GECP module and the public theorem
+  surface so the conditioned-Taylor specialization can use it directly.
+
+Independent check:
+
+- reconstruct both original augmented feature cores in exact rational
+  arithmetic for every feature pair in the 500 deterministic arbitrary-pivot
+  conditioned-Taylor cases;
+- verify the identity against the already audited conditioned minors, including
+  all 11,024 matched coordinates and both pivot-depth orientations.
+
+Decision rule:
+
+- if the generic identity closes, make the next phase a pure augmented-
+  generalized-Vandermonde sign/cyclic-interval theorem;
+- if feature-index ordering introduces an unexpected determinant sign, record
+  it explicitly rather than absorbing it into a sample-dependent orientation;
+- do not infer the augmented-minor sign theorem from the finite audit.
+
+Non-claims:
+
+- this phase does not prove the augmented Taylor minor signs, cyclic-prefix
+  order, or separator existence;
+- it does not prove the infinite-tail passage, higher fresh order, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CQ contract: matched-minor separator reduction
 
 State: complete; merged as PR #97 with green CI.

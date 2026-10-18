@@ -2422,3 +2422,9 @@ This annotation records delivered identifiers without changing the goals above.
   higher fresh order, normalized tangent envelope, order-eighteen contraction,
   dyadic recurrence, Conjecture G1, and Problem 4.2 remains open. The root
   command passes a 3,595-job Lean build and 119 tests.
+- Post-v1 research phase CR: in progress. The frozen target is the generic
+  selected-core-square identity transporting each conditioned rank-two matched
+  coordinate to the product of its two original feature-augmented core
+  determinants, together with oriented sign equivalence and an exact audit of
+  all 11,024 arbitrary-pivot coordinates. This is a representation bridge,
+  not the still-open augmented Taylor minor-sign or cyclic-separator theorem.
