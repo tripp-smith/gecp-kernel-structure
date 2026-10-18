@@ -1270,6 +1270,18 @@ pivots.
   a 3,595-job Lean build and 119 tests.
   The change passed CI and merged as PR #97.
 
+- Phase CR clears the conditioning denominators from the remaining rank-two
+  sign problem. For an arbitrary successful run, the selected-core determinant
+  squared times a conditioned matched coordinate is exactly the product of
+  the corresponding original left and right feature-augmented core
+  determinants. Since the core square is strictly positive, multiplying by
+  any orientation scalar preserves a two-way nonnegativity equivalence. Exact
+  rational reconstruction verifies the identity for all 11,024 feature pairs
+  in the 500 arbitrary-pivot conditioned-Taylor cases. The next analytic target
+  is therefore a pure sign/cyclic-interval theorem for augmented generalized-
+  Vandermonde minors, with no Schur quotients left in the statement. The root
+  command passes a 3,596-job Lean build and 119 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

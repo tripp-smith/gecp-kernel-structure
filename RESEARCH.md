@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CR contract: conditioned rank-two Plucker bridge
 
-State: in progress.
+State: verified; awaiting review and merge.
 
 Phase CQ isolates oriented signs of conditioned rank-two matched coordinates
 as the remaining within-block input.  Those coordinates are determinants of
@@ -5137,6 +5137,23 @@ Non-claims:
 - it does not prove the infinite-tail passage, higher fresh order, normalized
   tangent envelope, order-eighteen contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered Lean identifiers:
+
+- `Run.selectedCore_sq_mul_conditionedRankTwoMatchedCoordinate`;
+- `Run.selectedCore_sq_mul_orientedConditionedRankTwoMatchedCoordinate`;
+- `Run.orientedConditionedRankTwoMatchedCoordinate_nonneg_iff`;
+- `Run.conditionedRankTwoMatchedCoordinate_nonneg_iff`.
+
+Verification:
+
+- the public axiom audit reports only `propext`, `Classical.choice`, and
+  `Quot.sound` for every new theorem;
+- exact rational reconstruction verifies both original augmented cores, the
+  core-square identity, and oriented sign equivalence for all 11,024 feature
+  pairs in the 500 arbitrary-pivot conditioned-Taylor cases;
+- `./scripts/verify.sh` passes a 3,596-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
 
 ## Phase CQ contract: matched-minor separator reduction
 
