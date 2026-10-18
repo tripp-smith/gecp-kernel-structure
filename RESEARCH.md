@@ -5092,6 +5092,72 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CS contract: common chirotope schedule
+
+State: verified; awaiting review and merge.
+
+Phase CR turns the conditioned matched coordinate into a product of original
+augmented determinants. The initial contract conjectured that their common raw
+sign schedule depended only on pivot depth and the two degrees. The exact audit
+refutes that stronger claim: already at depth one, pairs `(0,1)` and `(0,2)`
+need opposite schedules from the proposed rule. The robust positive-
+Grassmannian invariant is that, after removing the independent row/column tuple
+orientations, the left and right augmented determinants have the same nonzero
+sign. That common sign may depend on the run and pair. Its square still cancels,
+while the two tuple orientations multiply to the global Phase CQ orientation.
+
+Frozen public Lean targets:
+
+- prove an abstract common-schedule cancellation lemma for two scalar Plucker
+  coordinates with independent reorientations;
+- compose it with the Phase CR selected-core-square equivalence to derive the
+  conditioned oriented matched-coordinate sign from separate augmented-minor
+  sign certificates;
+- keep the schedule scalar explicit, nonzero, and independent of the two
+  factors so the next confluent-Vandermonde theorem can instantiate it.
+
+Independent check:
+
+- compute tuple orientations of the selected-plus-fresh row and column lists;
+- verify that both separately reoriented augmented determinants are nonzero and
+  have the same sign for all 11,024 feature pairs in the 500 deterministic
+  arbitrary-pivot cases, with both schedule signs occurring;
+- retain the failed fixed pivot-depth rule as an explicit obstruction;
+- retain the existing core-square, cyclic-order, separator, and Lorentzian
+  checks.
+
+Decision rule:
+
+- if a common schedule exists throughout the exact audit, make the next phase
+  the analytic left/right chirotope-synchronization theorem via compound total
+  positivity or positive-Grassmannian duality;
+- if either side needs a different schedule, record the precise discrepancy
+  and do not hide it inside a product-level orientation;
+- do not infer the analytic sign theorem from the finite audit.
+
+Non-claims:
+
+- this phase does not prove the augmented Taylor determinant sign schedule,
+  cyclic-prefix separator existence, or infinite-tail passage;
+- it does not prove higher fresh order, the normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered Lean identifiers:
+
+- `Run.mul_nonneg_of_common_sign_schedule`;
+- `Run.orientedConditionedRankTwoMatchedCoordinate_nonneg_of_common_sign_schedule`.
+
+Verification:
+
+- the public axiom audit reports only `propext`, `Classical.choice`, and
+  `Quot.sound` for both new theorems;
+- exact rational reconstruction confirms a shared nonzero left/right schedule
+  for all 11,024 augmented pairs, observes both schedule signs, and finds
+  counterexamples to the proposed fixed depth-only schedule;
+- `./scripts/verify.sh` passes a 3,596-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
+
 ## Phase CR contract: conditioned rank-two Plucker bridge
 
 State: complete; merged as PR #98 with green CI.

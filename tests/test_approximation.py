@@ -3838,6 +3838,14 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             for shift in range(size)
         )
 
+    def tuple_orientation(values: tuple[int, ...]) -> int:
+        inversions = sum(
+            values[first] > values[second]
+            for first in range(len(values))
+            for second in range(first + 1, len(values))
+        )
+        return -1 if inversions % 2 else 1
+
     def pole_candidates(values: tuple[Fraction, ...]) -> tuple[Fraction, ...]:
         ordered = tuple(sorted(values))
         assert all(
@@ -3860,6 +3868,10 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     both_cross_signs = 0
     checked_coordinate_products = 0
     checked_augmented_coordinate_identities = 0
+    checked_common_chirotope_schedules = 0
+    positive_common_chirotope_schedules = 0
+    negative_common_chirotope_schedules = 0
+    fixed_pivot_depth_schedule_failures = 0
     negative_coordinate_products = 0
     sign_coherent_direct_chart_cases = 0
     direct_chart_monotone_cases = 0
@@ -4019,15 +4031,37 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
                 [columns[column] ** degree for column in augmented_columns]
                 for degree in (first, second)
             ]
-            augmented_product = fraction_determinant(
-                left_augmented
-            ) * fraction_determinant(right_augmented)
+            left_augmented_det = fraction_determinant(left_augmented)
+            right_augmented_det = fraction_determinant(right_augmented)
+            augmented_product = left_augmented_det * right_augmented_det
             assert selected_core_det**2 * left_minor * right_minor == (
                 augmented_product
             )
             assert (orientation * left_minor * right_minor >= 0) == (
                 orientation * augmented_product >= 0
             )
+            left_reorientation = tuple_orientation(augmented_rows) * (
+                tuple_orientation(tuple(selected_columns))
+            )
+            right_reorientation = tuple_orientation(tuple(selected_rows)) * (
+                tuple_orientation(augmented_columns)
+            )
+            reoriented_left = left_reorientation * left_augmented_det
+            reoriented_right = right_reorientation * right_augmented_det
+            assert reoriented_left
+            assert reoriented_right
+            assert (reoriented_left > 0) == (reoriented_right > 0)
+            common_schedule = 1 if reoriented_left > 0 else -1
+            positive_common_chirotope_schedules += common_schedule > 0
+            negative_common_chirotope_schedules += common_schedule < 0
+            fixed_pivot_depth_schedule = -1 if second <= prefix_length else 1
+            fixed_pivot_depth_schedule_failures += (
+                common_schedule != fixed_pivot_depth_schedule
+            )
+            assert left_reorientation * common_schedule * left_augmented_det > 0
+            assert right_reorientation * common_schedule * right_augmented_det > 0
+            assert left_reorientation * right_reorientation == orientation
+            checked_common_chirotope_schedules += 1
             checked_augmented_coordinate_identities += 1
             negative_coordinate_products += orientation * left_minor * right_minor < 0
             checked_coordinate_products += 1
@@ -4221,6 +4255,10 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert both_cross_signs == 1008
     assert checked_coordinate_products == 11024
     assert checked_augmented_coordinate_identities == 11024
+    assert checked_common_chirotope_schedules == 11024
+    assert positive_common_chirotope_schedules > 0
+    assert negative_common_chirotope_schedules > 0
+    assert fixed_pivot_depth_schedule_failures > 0
     assert negative_coordinate_products == 0
     assert sign_coherent_direct_chart_cases == 500
     assert direct_chart_monotone_cases == 42

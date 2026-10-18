@@ -1283,6 +1283,18 @@ pivots.
   command passes a 3,596-job Lean build and 119 tests.
   The change passed CI and merged as PR #98.
 
+- Phase CS identifies what does and does not survive before the augmented-
+  determinant product is formed. A generic Lean lemma proves that two scalar
+  Plucker coordinates with independent reorientations and a shared nonzero
+  sign schedule yield the desired oriented product sign; composing it with
+  Phase CR gives the conditioned matched-coordinate theorem. The exact audit
+  confirms shared nonzero schedules for all 11,024 augmented pairs and sees
+  both schedule signs. It also refutes the tempting stronger rule that the raw
+  schedule is determined only by pivot depth and the degree pair. Thus the next
+  theorem must establish left/right oriented-matroid synchronization, not a
+  false universal confluent sign formula. The root command passes a 3,596-job
+  Lean build and 119 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

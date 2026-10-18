@@ -664,6 +664,13 @@ project-local, so no new upstream abstraction is justified yet. Establishing
 the signs and cyclic order of the particular augmented Taylor minors remains a
 specialized generalized-Vandermonde problem.
 
+Phase CS adds the elementary scalar fact that a shared nonzero sign schedule
+cancels from a product after two independent reorientations. The lemma could be
+generalized beyond `ℝ`, but it is too small to motivate an upstream API by
+itself. The substantive remaining claim—synchronization of the left and right
+augmented Taylor chirotopes—is project-specific and is not currently available
+as a mathlib oriented-matroid or positive-Grassmannian theorem.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
