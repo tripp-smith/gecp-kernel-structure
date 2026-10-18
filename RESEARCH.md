@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CM contract: two-block Lorentzian covariance
 
-State: verified.
+State: complete; merged as PR #93 with green CI.
 
 Phase CL reduces fresh-order-two real-rootedness to
 `4*c0*c2 ≤ c1^2`. The exact audit reveals an additional structural fact:

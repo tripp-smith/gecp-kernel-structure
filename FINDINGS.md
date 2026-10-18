@@ -1207,7 +1207,7 @@ pivots.
   Taylor rank-two factors must be rewritten as positive pair weights times
   two comonotone ratio differences. Higher fresh order and the infinite-tail
   passage remain open. The root command passes a 3,594-job Lean build and 117
-  tests.
+  tests. The change passed CI and merged as PR #93.
 
 ## Run provenance
 

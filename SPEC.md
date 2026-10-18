@@ -2341,7 +2341,7 @@ This annotation records delivered identifiers without changing the goals above.
   order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
   4.2 remain open. The root command passes a 3,594-job Lean build and 117
   tests.
-- Post-v1 research phase CM: verified; review pending.
+- Post-v1 research phase CM: complete; merged as PR #93 with green CI.
   `weightedMass_mul_weightedMass_mul_crossIncrement` proves an exact
   division-free two-block covariance decomposition, and
   `four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq` turns
