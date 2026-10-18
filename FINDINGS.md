@@ -1238,6 +1238,7 @@ pivots.
   boundary case. The only remaining finite fresh-order-two analytic input is
   the conditioned Taylor cyclic-prefix theorem and its separating-chart
   construction. The root command passes a 3,595-job Lean build and 118 tests.
+  The change passed CI and merged as PR #95.
 
 ## Run provenance
 

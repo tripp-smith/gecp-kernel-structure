@@ -2373,7 +2373,7 @@ This annotation records delivered identifiers without changing the goals above.
   the normalized tangent envelope, order-eighteen contraction, dyadic
   recurrence, Conjecture G1, and Problem 4.2. The root command passes a
   3,595-job Lean build and 117 tests.
-- Post-v1 research phase CO: verified; review pending.
+- Post-v1 research phase CO: complete; merged as PR #95 with green CI.
   `finTwoPencilMixed_mul_mul` proves that a two-sided basis change scales the
   mixed coefficient by `det(P)det(Q)`, and
   `finTwoPencilDiscriminant_mul_mul` shows that the full discriminant scales

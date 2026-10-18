@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CO contract: projective chart invariance
 
-State: verified.
+State: complete; merged as PR #95 with green CI.
 
 Phase CN proves the Lorentzian inequality in any positive ordered affine
 chart, while its exact audit shows that the useful chart must depend on the

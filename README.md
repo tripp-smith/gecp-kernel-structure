@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** CO — projective chart invariance<br>
-> **Phase state:** verified<br>
+> **Phase state:** complete<br>
 > **Last verification:** Phase CO `./scripts/verify.sh` passed a 3,595-job Lean build with 118 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CO verified locally and awaiting review; Phase CN merged in [PR #94](https://github.com/tripp-smith/gecp-kernel-structure/pull/94) with green CI<br>
+> **Delivery:** Phase CO merged in [PR #95](https://github.com/tripp-smith/gecp-kernel-structure/pull/95) with green CI<br>
 > **Claim level:** Phase CO proves projective chart invariance and transfer of the rank-two Lorentzian certificate; the conditioned Taylor cyclic-order theorem remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -110,7 +110,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CL | Fresh-order-two Lorentzian bridge | complete | exact 2x2 pencil coefficients and discriminant; constructive nonnegative-root factorization; cross-minor obstruction audit | 3,594-job Lean build; public axiom audit; 3,868 exact pencils; 117-test root verification; green CI | merged PR #92 |
 | CM | Two-block Lorentzian covariance | complete | division-free cross-increment decomposition; ordered-block nonnegativity; reverse covariance inequality; geometric ratio-coordinate specialization | 3,594-job Lean build; public axiom audit; 1,764 exact weighted splits and 11,024 conditioned coordinate products; 117-test root verification; green CI | merged PR #93 |
 | CN | Projective rank-two ratio bridge | complete | ratio-factorized matched-minor identities; exact block-matrix coefficient bridge; matrix-pencil Lorentzian theorem; cyclic-prefix obstruction audit | 3,595-job Lean build; public axiom audit; 500 exact conditioned cases and 2,868 cutoff intervals; 117-test root verification; green CI | merged PR #94 |
-| CO | Projective chart invariance | verified | two-sided basis-change coefficient scaling; discriminant invariance; chart-transfer certificate | 3,595-job Lean build; public axiom audit; 512 exact invertible and one singular chart changes; 118-test root verification | review pending |
+| CO | Projective chart invariance | complete | two-sided basis-change coefficient scaling; discriminant invariance; chart-transfer certificate | 3,595-job Lean build; public axiom audit; 512 exact invertible and one singular chart changes; 118-test root verification; green CI | merged PR #95 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
