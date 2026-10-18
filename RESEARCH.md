@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CV contract: complete-pivot chirotope obstruction
 
-State: in progress.
+State: verified; awaiting review.
 
 Phase CU refutes nonvanishing on the full ordered chamber but leaves open the
 paired-subtuple endpoint geometry observed in the conditioned GECP corpus.
@@ -5150,6 +5150,33 @@ Non-claims:
 - it does not prove higher fresh order, the normalized tangent envelope,
   order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered result:
+
+- `phaseCVKernelQ` is the exact rational power kernel, while `phaseCVRows`,
+  `phaseCVColumns`, and `phaseCV_expKernel_eq` realize it as a genuine
+  exponential kernel on strictly increasing open-unit nodes;
+- `phaseCV_firstPivot_complete` certifies the bottom-right pivot `(3,3)`, and
+  `phaseCV_secondPivot_complete` certifies `(0,0)` after its exact Schur
+  update;
+- `phaseCVLeftReduced_det_pos` and `phaseCVRightReduced_det_neg` prove the
+  opposite signs of the rationally reduced endpoint-selected degree-`(0,3)`
+  augmented determinants;
+- `phaseCVLeftAugmented_det_pos`, `phaseCVRightAugmented_det_neg`, and
+  `phaseCV_crossedAugmented_det_mul_neg` lift the obstruction to the actual
+  exponential-monomial determinants through positive column scalings;
+- all public results use only `propext`, `Classical.choice`, and `Quot.sound`,
+  and `./scripts/verify.sh` passes a 3,600-job Lean build and 121 Python tests
+  with no known dependency vulnerabilities.
+
+Next decision:
+
+Retire arbitrary-run common-chirotope synchronization as a universal route.
+The remaining rank-two target must keep cancellation between degree pairs
+inside the aggregate mixed coefficient or discriminant, or prove an absolute
+determinant envelope without coordinatewise signs. The Phase CV exact kernel
+is now the mandatory regression for any such replacement: a candidate must
+survive its negative degree-`(0,3)` coordinate rather than assuming it away.
 
 ## Phase CU contract: ordered-chamber obstruction
 

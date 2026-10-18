@@ -3791,6 +3791,46 @@ def test_ordered_chamber_nonvanishing_obstruction_exactly() -> None:
         assert all(left < right for left, right in itertools.pairwise(rows))
 
 
+def test_complete_pivot_chirotope_obstruction_exactly() -> None:
+    base = Fraction(101, 100)
+    kernel = [[base ** ((i + 1) * (j + 21)) for j in range(4)] for i in range(4)]
+    first = max((abs(kernel[i][j]), -i, -j, i, j) for i in range(4) for j in range(4))
+    assert first[3:] == (3, 3)
+    pivot = kernel[3][3]
+    residual = [
+        [kernel[i][j] - kernel[i][3] * kernel[3][j] / pivot for j in range(4)]
+        for i in range(4)
+    ]
+    second = max(
+        (abs(residual[i][j]), -i, -j, i, j) for i in range(4) for j in range(4)
+    )
+    assert second[3:] == (0, 0)
+
+    left_reduced = [
+        [
+            base ** ((i + 1) * 21),
+            base ** ((i + 1) * 24),
+            Fraction(1),
+            Fraction((i + 1) ** 3),
+        ]
+        for i in range(4)
+    ]
+    right_reduced = [
+        [
+            base ** (i + 21),
+            base ** (4 * (i + 21)),
+            Fraction(1),
+            Fraction((i + 21) ** 3),
+        ]
+        for i in range(4)
+    ]
+    left_det = fraction_determinant(left_reduced)
+    right_det = fraction_determinant(right_reduced)
+    assert left_det > 0
+    assert right_det < 0
+    assert left_det * right_det < 0
+
+
 def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     def finite_exp(value: Fraction, terms: int) -> Fraction:
         return sum(

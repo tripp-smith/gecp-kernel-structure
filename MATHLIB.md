@@ -687,6 +687,13 @@ exponential-cubic counterexample and its paired-subtuple refinement are
 project-specific; the internal four-by-four expansion exists only to keep the
 exact certificate kernel-checked and is not proposed as a new abstraction.
 
+Phase CV exposes the missing explicit `4 x 4` determinant expansion as
+`Matrix.det_fin_four_expansion`. Although it parallels mathlib's existing
+`det_fin_two` and `det_fin_three`, the project uses it only to kernel-check two
+large rational signs; upstreaming a formula of this size would need broader
+demand. The complete-pivot exponential witness and crossed chirotope
+obstruction are project-specific and should remain local.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

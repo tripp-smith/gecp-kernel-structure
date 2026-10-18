@@ -633,6 +633,7 @@ import GECPKernelStructure.Theorems
 #print axioms Matrix.endpoint_mul_pos_of_continuousOn_of_ne_zero
 #print axioms Matrix.det_endpoint_mul_pos_of_entrywiseContinuous_of_ne_zero
 #print axioms Matrix.exists_eq_zero_of_continuousOn_of_mul_neg
+#print axioms Matrix.det_fin_four_expansion
 #print axioms GECPKernelStructure.Fermionic.phaseCURows_strictMono
 #print axioms GECPKernelStructure.Fermionic.phaseCUColumns_strictMono
 #print axioms GECPKernelStructure.Fermionic.phaseCUColumns_mem_openUnit
@@ -641,6 +642,16 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.expCubicAugmented_phaseCURows_one_det_pos
 #print axioms GECPKernelStructure.Fermionic.expCubicAugmented_phaseCURows_five_det_neg
 #print axioms GECPKernelStructure.Fermionic.phaseCUMatrixPath_exists_det_eq_zero
+#print axioms GECPKernelStructure.Fermionic.phaseCVRows_strictMono
+#print axioms GECPKernelStructure.Fermionic.phaseCVColumns_strictMono
+#print axioms GECPKernelStructure.Fermionic.phaseCV_expKernel_eq
+#print axioms GECPKernelStructure.Fermionic.phaseCV_firstPivot_complete
+#print axioms GECPKernelStructure.Fermionic.phaseCV_secondPivot_complete
+#print axioms GECPKernelStructure.Fermionic.phaseCVLeftReduced_det_pos
+#print axioms GECPKernelStructure.Fermionic.phaseCVRightReduced_det_neg
+#print axioms GECPKernelStructure.Fermionic.phaseCVLeftAugmented_det_pos
+#print axioms GECPKernelStructure.Fermionic.phaseCVRightAugmented_det_neg
+#print axioms GECPKernelStructure.Fermionic.phaseCV_crossedAugmented_det_mul_neg
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_rowRatio
 #print axioms GECPKernelStructure.Fermionic.weightedMoment_onePivotTaylorWeight_columnRatio
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_eq_geometricCenteredProduct

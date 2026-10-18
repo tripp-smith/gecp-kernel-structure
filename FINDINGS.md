@@ -1320,6 +1320,17 @@ pivots.
   Lean build and 120 tests.
   The change passed CI and merged as PR #101.
 
+- Phase CV shows that complete-pivot coupling does not repair the chirotope
+  claim. The exact kernel `K(i,j)=(101/100)^((i+1)(j+21))` is a genuine
+  exponential kernel on increasing nodes in `(0,1)`. Lean certifies `(3,3)`
+  as its first complete pivot and `(0,0)` as the second complete pivot of the
+  Schur residual. Those selections are the two endpoints on both axes, yet
+  the crossed degree-`(0,3)` augmented determinants have opposite signs.
+  Thus neither ordered-chamber homotopy, paired-subtuple containment, endpoint
+  pattern, nor complete-pivot coupling yields universal common chirotopes.
+  Aggregate cancellation or an absolute determinant bound remains possible.
+  The root command passes a 3,600-job Lean build and 121 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

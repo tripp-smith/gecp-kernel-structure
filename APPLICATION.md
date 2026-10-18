@@ -332,6 +332,11 @@ reconstructs the two rational endpoint determinants and ordered path samples;
 the delivered result is a formal obstruction to an overbroad proof strategy,
 not a runtime singularity detector or certificate for user-supplied nodes.
 
+Phase CV also adds no public Python API. Its deterministic exact regression
+certifies one research counterexample—kernel entries, Schur residual, two
+complete pivots, and crossed determinant signs. It is not exposed as a
+runtime pivot or chirotope diagnostic.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical
