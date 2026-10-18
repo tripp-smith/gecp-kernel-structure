@@ -88,6 +88,7 @@ import GECPKernelStructure.Fermionic.SignRegularity
 import GECPKernelStructure.Fermionic.ExponentialTotalPositivity
 import GECPKernelStructure.Fermionic.OrderedChamberObstruction
 import GECPKernelStructure.Fermionic.CompletePivotChirotopeObstruction
+import GECPKernelStructure.Fermionic.PrefixConeHodgeObstruction
 import GECPKernelStructure.Fermionic.ThreeFeatureGroupedSign
 import GECPKernelStructure.Fermionic.OnePivotGroupedSign
 import GECPKernelStructure.Fermionic.CompleteRun

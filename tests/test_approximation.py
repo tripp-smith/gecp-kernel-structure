@@ -4768,6 +4768,65 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert negative_chart_scale_splits > 0
 
 
+def test_prefix_cone_survives_global_hodge_obstruction_exactly() -> None:
+    base = Fraction(21, 20)
+    kernel = [[base ** ((i + 1) * (j + 1)) for j in range(4)] for i in range(4)]
+    left = [
+        [Fraction((i + 1) ** degree, math.factorial(degree)) for degree in range(4)]
+        for i in range(4)
+    ]
+    right = [[Fraction((j + 1) ** degree) for j in range(4)] for degree in range(4)]
+
+    pivot = kernel[3][3]
+    assert pivot == max(map(abs, itertools.chain.from_iterable(kernel)))
+    conditioned_left = [
+        [
+            left[i][degree] - kernel[i][3] * left[3][degree] / pivot
+            for degree in range(4)
+        ]
+        for i in range(4)
+    ]
+    conditioned_right = [
+        [right[degree][j] - right[degree][3] * kernel[3][j] / pivot for j in range(4)]
+        for degree in range(4)
+    ]
+    hessian = [[Fraction() for _ in range(4)] for _ in range(4)]
+    for first, second in itertools.combinations(range(4), 2):
+        left_minor = (
+            conditioned_left[0][first] * conditioned_left[1][second]
+            - conditioned_left[0][second] * conditioned_left[1][first]
+        )
+        right_minor = (
+            conditioned_right[first][1] * conditioned_right[second][2]
+            - conditioned_right[first][2] * conditioned_right[second][1]
+        )
+        hessian[first][second] = hessian[second][first] = left_minor * right_minor
+
+    def bilinear(
+        first: tuple[int, int, int, int], second: tuple[int, int, int, int]
+    ) -> Fraction:
+        return sum(
+            (first[i] * hessian[i][j] * second[j] for i in range(4) for j in range(4)),
+            Fraction(),
+        )
+
+    positive = (10, 177, 686, 706)
+    second_positive = (999, -38, -6, 0)
+    positive_norm = bilinear(positive, positive)
+    second_norm = bilinear(second_positive, second_positive)
+    pairing = bilinear(positive, second_positive)
+    assert positive_norm > 0
+    assert second_norm > 0
+    assert pairing**2 < positive_norm * second_norm
+
+    for cutoff in range(1, 4):
+        lower = tuple(int(degree < cutoff) for degree in range(4))
+        upper = tuple(int(degree >= cutoff) for degree in range(4))
+        assert bilinear(lower, upper) ** 2 >= (
+            bilinear(lower, lower) * bilinear(upper, upper)
+        )
+
+
 def test_fin_two_projective_chart_invariance_exactly() -> None:
     def add(
         left: list[list[Fraction]], right: list[list[Fraction]]

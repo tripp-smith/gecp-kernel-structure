@@ -1346,6 +1346,20 @@ pivots.
   fermionic prefixes remains open.
   The change passed CI and merged as PR #103.
 
+- Phase CX rules out a tempting global Hodge--Riemann completion while
+  preserving exactly the cone used by degree cutoffs. The rational kernel
+  `K(i,j)=(21/20)^((i+1)(j+1))` is an exponential kernel on nodes strictly
+  inside the physical open unit square, and `(3,3)` is its first complete
+  pivot. After conditioning the first four normalized Taylor features, the
+  matched-coordinate Hessian has an explicit two-dimensional positive-
+  definite restriction: the vectors `(10,177,686,706)` and
+  `(999,-38,-6,0)` violate reverse Cauchy--Schwarz. Nevertheless, each of the
+  three nontrivial prefix/suffix indicator planes satisfies the sharp reverse
+  Cauchy--Schwarz inequality. Thus global stability or a one-positive-
+  eigenvalue theorem cannot be the missing invariant; the next proof must use
+  the one-sign-change/prefix cone, plausibly through variation diminishing or
+  interlacing of cumulative mixed determinants.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
