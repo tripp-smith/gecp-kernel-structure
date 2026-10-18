@@ -671,6 +671,14 @@ itself. The substantive remaining claim—synchronization of the left and right
 augmented Taylor chirotopes—is project-specific and is not currently available
 as a mathlib oriented-matroid or positive-Grassmannian theorem.
 
+Phase CT adds a small reusable endpoint sign-lock lemma for continuous real
+paths and its determinant specialization. The scalar statement plausibly
+belongs near the intermediate value theorem, while the determinant wrapper is
+a convenient composition lemma near matrix topology. Both are currently
+project-local because their proofs are short and the substantive missing
+theorem—nonvanishing of a confluent exponential-polynomial determinant on an
+ordered chamber—is specialized and has no directly matching mathlib API.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

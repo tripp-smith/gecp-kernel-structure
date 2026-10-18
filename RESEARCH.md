@@ -5092,6 +5092,72 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CT contract: homotopy sign lock
+
+State: verified; awaiting review.
+
+Phase CS shows that an arbitrary common chirotope schedule is sufficient but
+does not construct it.  After tuple reorientation and positive denominator
+scaling, the left augmented determinant is a canonical confluent exponential
+determinant `D(X_aug,Y_sel;i,j)`, while the transpose of the right determinant
+is `D(Y_aug,X_sel;i,j)`.  Componentwise convex interpolation simultaneously
+moves `X_aug` to `Y_aug` and `Y_sel` to `X_sel`; strict tuple order and the
+positive unit chamber are convex.  Thus continuity plus nonvanishing along
+this single path locks the two endpoint signs without an explicit formula.
+
+Frozen public Lean targets:
+
+- prove that a real continuous function nonzero on `[0,1]` has endpoint
+  product strictly positive;
+- specialize the result to entrywise-continuous square-matrix paths whose
+  determinants never vanish;
+- keep nonvanishing as an explicit analytic hypothesis, not a disguised sign
+  assumption, so a later confluent-Chebyshev theorem can discharge it.
+
+Independent check:
+
+- put both exact augmented determinants into the canonical sorted/scaled form;
+- evaluate the componentwise rational midpoint of the row/column node tuples
+  for every one of the 11,024 feature pairs;
+- verify endpoint normalization, midpoint nonvanishing, and endpoint sign
+  agreement while retaining the fixed-schedule obstruction.
+
+Decision rule:
+
+- if the homotopy interface and midpoint audit close, make the next phase only
+  the ordered-unit-chamber nonvanishing theorem for the canonical confluent
+  exponential determinant;
+- if midpoint zeros occur, abandon the straight-line path and search within
+  the same ordered chamber before weakening the invariant;
+- do not infer all-path nonvanishing from finitely many samples.
+
+Non-claims:
+
+- this phase does not prove homotopy nonvanishing, the arbitrary-run
+  chirotope theorem, separator existence, or the infinite-tail passage;
+- it does not prove higher fresh order, the normalized tangent envelope,
+  order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2.
+
+Delivered result:
+
+- `Matrix.endpoint_mul_pos_of_continuousOn_of_ne_zero` proves that a
+  continuous real path avoiding zero on the unit interval has endpoint
+  product strictly positive;
+- `Matrix.det_endpoint_mul_pos_of_entrywiseContinuous_of_ne_zero` specializes
+  the sign lock to entrywise-continuous square-matrix paths with nonvanishing
+  determinant;
+- exact canonical normalization and midpoint evaluation succeed for all
+  11,024 left/right augmented determinant pairs, preserving the Phase CS
+  fixed-schedule obstruction;
+- `./scripts/verify.sh` passes a 3,597-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
+
+The next target is precisely the missing analytic premise: nonvanishing of the
+canonical confluent exponential determinant throughout the ordered positive
+unit chamber, or a rigorously delimited obstruction if that statement is
+false.
+
 ## Phase CS contract: common chirotope schedule
 
 State: complete; merged as PR #99 with green CI.

@@ -3869,6 +3869,7 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     checked_coordinate_products = 0
     checked_augmented_coordinate_identities = 0
     checked_common_chirotope_schedules = 0
+    checked_homotopy_midpoints = 0
     positive_common_chirotope_schedules = 0
     negative_common_chirotope_schedules = 0
     fixed_pivot_depth_schedule_failures = 0
@@ -4061,6 +4062,63 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             assert left_reorientation * common_schedule * left_augmented_det > 0
             assert right_reorientation * common_schedule * right_augmented_det > 0
             assert left_reorientation * right_reorientation == orientation
+            left_augmented_nodes = tuple(
+                rows[index] for index in sorted(augmented_rows)
+            )
+            right_augmented_nodes = tuple(
+                columns[index] for index in sorted(augmented_columns)
+            )
+            left_selected_nodes = tuple(
+                columns[index] for index in sorted(selected_columns)
+            )
+            right_selected_nodes = tuple(rows[index] for index in sorted(selected_rows))
+
+            def canonical_augmented_det(
+                augmented_nodes: tuple[Fraction, ...],
+                selected_nodes: tuple[Fraction, ...],
+                expansion_terms: int = feature_count + 5,
+                first_degree: int = first,
+                second_degree: int = second,
+            ) -> Fraction:
+                return fraction_determinant(
+                    [
+                        [
+                            finite_exp(node * selected, expansion_terms)
+                            for selected in selected_nodes
+                        ]
+                        + [node**first_degree, node**second_degree]
+                        for node in augmented_nodes
+                    ]
+                )
+
+            left_endpoint = canonical_augmented_det(
+                left_augmented_nodes, left_selected_nodes
+            )
+            right_endpoint = canonical_augmented_det(
+                right_augmented_nodes, right_selected_nodes
+            )
+            assert left_endpoint == (
+                reoriented_left * math.factorial(first) * math.factorial(second)
+            )
+            assert right_endpoint == reoriented_right
+            midpoint_augmented_nodes = tuple(
+                (left + right) / 2
+                for left, right in zip(
+                    left_augmented_nodes, right_augmented_nodes, strict=True
+                )
+            )
+            midpoint_selected_nodes = tuple(
+                (left + right) / 2
+                for left, right in zip(
+                    left_selected_nodes, right_selected_nodes, strict=True
+                )
+            )
+            midpoint_det = canonical_augmented_det(
+                midpoint_augmented_nodes, midpoint_selected_nodes
+            )
+            assert midpoint_det
+            assert (left_endpoint > 0) == (midpoint_det > 0) == (right_endpoint > 0)
+            checked_homotopy_midpoints += 1
             checked_common_chirotope_schedules += 1
             checked_augmented_coordinate_identities += 1
             negative_coordinate_products += orientation * left_minor * right_minor < 0
@@ -4256,6 +4314,7 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert checked_coordinate_products == 11024
     assert checked_augmented_coordinate_identities == 11024
     assert checked_common_chirotope_schedules == 11024
+    assert checked_homotopy_midpoints == 11024
     assert positive_common_chirotope_schedules > 0
     assert negative_common_chirotope_schedules > 0
     assert fixed_pivot_depth_schedule_failures > 0

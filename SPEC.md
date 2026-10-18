@@ -2443,3 +2443,11 @@ This annotation records delivered identifiers without changing the goals above.
   fixed by pivot depth and the degree pair. Proving arbitrary-run chirotope
   synchronization remains open. The root command passes a 3,596-job Lean build
   and 119 tests.
+- Post-v1 research phase CT: verified; awaiting review. The delivered generic
+  nonvanishing continuous-path endpoint sign theorem and its determinant
+  specialization lock endpoint signs whenever the path determinant stays
+  nonzero. Exact canonical normalization and midpoint checks pass for all
+  11,024 augmented determinant pairs. This isolates but does not prove
+  nonvanishing of the confluent exponential determinant throughout the
+  ordered positive unit chamber. The root command passes a 3,597-job Lean
+  build and 119 tests.

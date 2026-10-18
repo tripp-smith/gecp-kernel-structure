@@ -1296,6 +1296,17 @@ pivots.
   Lean build and 119 tests.
   The change passed CI and merged as PR #99.
 
+- Phase CT converts the remaining left/right sign comparison into a single
+  topological obstruction. A continuous scalar path that never vanishes has
+  same-sign endpoints, and the determinant specialization derives continuity
+  from entrywise continuity. After positive denominator and factorial
+  normalization, the two conditioned Taylor determinants become endpoints of
+  one canonical confluent exponential determinant path. Exact arithmetic
+  verifies both endpoint identities, midpoint nonvanishing, and common sign
+  for all 11,024 augmented pairs. This finite audit is evidence for, not a
+  proof of, nonvanishing at every path parameter. The root command passes a
+  3,597-job Lean build and 119 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
