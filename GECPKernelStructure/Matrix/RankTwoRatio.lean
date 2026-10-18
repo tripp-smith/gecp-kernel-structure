@@ -650,6 +650,85 @@ theorem affineRankTwoCoefficients_lorentzian
     lower upper (fun k ↦ a k * b k) f g lower_mass_pos upper_mass_pos
     weight_nonneg lower_monovary upper_monovary f_cross g_cross
 
+omit [DecidableEq ι] in
+/-- Aggregate version of the affine rank-two Lorentzian criterion.  The two
+within-block covariances and one product of block-mean shifts replace all
+pointwise cross-block order assumptions. -/
+theorem affineRankTwoCoefficients_lorentzian_of_meanShiftProduct_nonneg
+    (lower upper : Finset ι) (a f b g : ι → ℝ)
+    (lower_mass_pos : 0 < weightedMass lower (fun k ↦ a k * b k))
+    (upper_mass_pos : 0 < weightedMass upper (fun k ↦ a k * b k))
+    (lower_cov_nonneg :
+      0 ≤ weightedCovarianceNumerator lower (fun k ↦ a k * b k) f g)
+    (upper_cov_nonneg :
+      0 ≤ weightedCovarianceNumerator upper (fun k ↦ a k * b k) f g)
+    (mean_shift_product_nonneg : 0 ≤
+      (weightedMass lower (fun k ↦ a k * b k) *
+          weightedMoment upper (fun k ↦ a k * b k) f -
+        weightedMass upper (fun k ↦ a k * b k) *
+          weightedMoment lower (fun k ↦ a k * b k) f) *
+      (weightedMass lower (fun k ↦ a k * b k) *
+          weightedMoment upper (fun k ↦ a k * b k) g -
+        weightedMass upper (fun k ↦ a k * b k) *
+          weightedMoment lower (fun k ↦ a k * b k) g)) :
+    4 * affineRankTwoWithinCoefficient lower a f b g *
+        affineRankTwoWithinCoefficient upper a f b g ≤
+      affineRankTwoCrossCoefficient lower upper a f b g ^ 2 := by
+  rw [affineRankTwoWithinCoefficient_eq_weightedCovarianceNumerator,
+    affineRankTwoWithinCoefficient_eq_weightedCovarianceNumerator,
+    affineRankTwoCrossCoefficient_eq_weightedCrossIncrement]
+  exact
+    four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg
+      lower upper (fun k ↦ a k * b k) f g lower_mass_pos upper_mass_pos
+      lower_cov_nonneg upper_cov_nonneg mean_shift_product_nonneg
+
+omit [DecidableEq ι] in
+/-- Matrix-pencil form of the aggregate mean-shift certificate.  This is the
+fresh-order-two interface that remains applicable when individual matched
+coordinates have mixed signs. -/
+theorem rankTwoBlockPencil_lorentzian_of_affine_meanShift
+    (lower upper : Finset ι)
+    (leftZero leftOne rightZero rightOne f g : ι → ℝ)
+    (left_factor : ∀ k, leftOne k = leftZero k * f k)
+    (right_factor : ∀ k, rightOne k = rightZero k * g k)
+    (lower_mass_pos :
+      0 < weightedMass lower (fun k ↦ leftZero k * rightZero k))
+    (upper_mass_pos :
+      0 < weightedMass upper (fun k ↦ leftZero k * rightZero k))
+    (lower_cov_nonneg : 0 ≤ weightedCovarianceNumerator lower
+      (fun k ↦ leftZero k * rightZero k) f g)
+    (upper_cov_nonneg : 0 ≤ weightedCovarianceNumerator upper
+      (fun k ↦ leftZero k * rightZero k) f g)
+    (mean_shift_product_nonneg : 0 ≤
+      (weightedMass lower (fun k ↦ leftZero k * rightZero k) *
+          weightedMoment upper (fun k ↦ leftZero k * rightZero k) f -
+        weightedMass upper (fun k ↦ leftZero k * rightZero k) *
+          weightedMoment lower (fun k ↦ leftZero k * rightZero k) f) *
+      (weightedMass lower (fun k ↦ leftZero k * rightZero k) *
+          weightedMoment upper (fun k ↦ leftZero k * rightZero k) g -
+        weightedMass upper (fun k ↦ leftZero k * rightZero k) *
+          weightedMoment lower (fun k ↦ leftZero k * rightZero k) g)) :
+    4 * (rankTwoBlockMatrix lower
+          leftZero leftOne rightZero rightOne).det *
+        (rankTwoBlockMatrix upper
+          leftZero leftOne rightZero rightOne).det ≤
+      finTwoPencilMixed
+          (rankTwoBlockMatrix lower
+            leftZero leftOne rightZero rightOne)
+          (rankTwoBlockMatrix upper
+            leftZero leftOne rightZero rightOne) ^ 2 := by
+  rw [rankTwoBlockMatrix_det, rankTwoBlockMatrix_det,
+    finTwoPencilMixed_rankTwoBlockMatrix,
+    rankTwoWithinCoefficient_eq_affine _ _ _ _ _ _ _
+      left_factor right_factor,
+    rankTwoWithinCoefficient_eq_affine _ _ _ _ _ _ _
+      left_factor right_factor,
+    rankTwoCrossCoefficient_eq_affine _ _ _ _ _ _ _ _
+      left_factor right_factor]
+  exact affineRankTwoCoefficients_lorentzian_of_meanShiftProduct_nonneg
+    lower upper leftZero f rightZero g lower_mass_pos upper_mass_pos
+    lower_cov_nonneg upper_cov_nonneg mean_shift_product_nonneg
+
 /-- Certificate-oriented form for arbitrary left/right scalar rows.  A
 projective chart supplies only the two factorization equalities and the
 positivity/order hypotheses; the resulting coefficient inequality is stated

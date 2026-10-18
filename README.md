@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CV — complete-pivot chirotope obstruction<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase CV `./scripts/verify.sh` passed a 3,600-job Lean build with 121 tests and no known dependency vulnerabilities on 2026-10-18<br>
+> **Current phase:** CW — aggregate mean-shift Lorentzian bridge<br>
+> **Phase state:** verified; awaiting review<br>
+> **Last verification:** Phase CW `./scripts/verify.sh` passed a 3,600-job Lean build with 122 tests and no known dependency vulnerabilities on 2026-10-18<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CV merged in [PR #102](https://github.com/tripp-smith/gecp-kernel-structure/pull/102) with green CI<br>
-> **Claim level:** Phase CV tests the remaining paired-subtuple sign claim on an exact exponential kernel whose first two pivots are complete
+> **Delivery:** Phase CV merged in [PR #102](https://github.com/tripp-smith/gecp-kernel-structure/pull/102) with green CI; Phase CW implementation verified locally<br>
+> **Claim level:** Phase CW replaces failed coordinatewise signs by a single aggregate block-mean-shift condition for fresh-order-two pencils
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -118,6 +118,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CT | Homotopy sign lock | complete | nonvanishing continuous-path endpoint sign theorem; determinant specialization | 3,597-job Lean build; public axiom audit; 11,024 exact canonical midpoint checks; 119-test root verification; green CI | merged PR #100 |
 | CU | Ordered-chamber obstruction | complete | exact exponential-cubic sign-changing chamber witness; forced-zero path | 3,598-job Lean build; public axiom audit; exact rational determinant reconstruction; 120-test root verification; green CI | merged PR #101 |
 | CV | Complete-pivot chirotope obstruction | complete | exact rational exponential kernel; two certified complete pivots; opposite crossed augmented signs | 3,600-job Lean build; public axiom audit; exact kernel, residual, pivot, and determinant reconstruction; 121-test root verification; green CI | merged PR #102 |
+| CW | Aggregate mean-shift Lorentzian bridge | verified | covariance-plus-mean-shift discriminant criterion; Phase CV aggregate survival | 3,600-job Lean build; public axiom audit; 42 exact witness pencils and 16,424 extended conditioned pencils; 122-test root verification | awaiting review |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

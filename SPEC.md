@@ -2467,3 +2467,13 @@ This annotation records delivered identifiers without changing the goals above.
   chirotope synchronization, including the paired-subtuple strengthening,
   without claiming failure of every aggregate or absolute determinant route.
   The root command passes a 3,600-job Lean build and 121 tests.
+- Post-v1 research phase CW: verified; awaiting review. The division-free
+  theorem
+  `four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg`
+  proves the fresh-order-two Lorentzian inequality from nonnegative
+  within-block covariances and one aggregate product of block-mean shifts.
+  `rankTwoBlockPencil_lorentzian_of_affine_meanShift` lifts it to the matrix
+  pencil. Exact validation covers 42 Phase CV witness pencils and 16,424
+  broader conditioned pencils, without claiming the infinite-tail mean-shift
+  sign or the final companion envelope. The root command passes a 3,600-job
+  Lean build and 122 tests.

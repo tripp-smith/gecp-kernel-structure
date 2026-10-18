@@ -1332,6 +1332,19 @@ pivots.
   The root command passes a 3,600-job Lean build and 121 tests.
   The change passed CI and merged as PR #102.
 
+- Phase CW removes coordinatewise chirotope signs from the
+  fresh-order-two critical path. The exact law of total covariance shows that
+  positive block masses, nonnegative within-block covariance numerators, and
+  one nonnegative product of aggregate block-mean shifts imply the sharp
+  Lorentzian discriminant inequality. The affine rank-two and matrix-pencil
+  lifts require neither division nor an inverse. The Phase CV witness retains
+  its negative degree-`(0,3)` coordinate, yet all 42 of its tested aggregate
+  pencils remain Lorentzian; 40 use the new certificate and two have a
+  rank-one endpoint. A broader deterministic exact corpus verifies 16,424
+  conditioned pencils with minimum normalized discriminant margin above
+  `0.37`. Proving the aggregate mean-shift sign for arbitrary infinite-tail
+  fermionic prefixes remains open.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

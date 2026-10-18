@@ -694,6 +694,15 @@ large rational signs; upstreaming a formula of this size would need broader
 demand. The complete-pivot exponential witness and crossed chirotope
 obstruction are project-specific and should remain local.
 
+Phase CW adds the finite weighted reverse-covariance theorem
+`four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg`.
+A search of mathlib's algebra, analysis, and probability trees found no
+corresponding division-free result combining two within-block covariance
+numerators with a block-mean-shift product. The statement is reusable finite
+algebra, but its current API and long name are tailored to this project's
+rank-two determinant bridge; consider upstreaming only if another consumer
+emerges.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
