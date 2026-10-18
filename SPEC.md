@@ -2404,3 +2404,21 @@ This annotation records delivered identifiers without changing the goals above.
   order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
   4.2 remains open. The root command passes a 3,595-job Lean build and 119
   tests.
+- Post-v1 research phase CQ: verified; awaiting review and merge.
+  `finTwoScaledOrientedPoleBasis_det` and
+  `finTwoScaledOrientedPoleBasis_mul_rankTwoBlockMatrix_mul` separate the two
+  chart choices needed by the conditioned pencils: projective orientation and
+  common base-coordinate sign. The matched coordinate scales by
+  `scale²*orientation`, and
+  `scaledOrientedPoleChartRatio_monovaryOn_of_matched_nonneg` derives
+  reciprocal comonotonicity from positive transformed weights and oriented
+  projective minor signs.
+  `rankTwoBlockPencil_lorentzian_of_scaled_oriented_poles` composes the result
+  through the Phase CO basis invariance. Exact rational gap search constructs
+  a valid certificate on the first candidate pair for all 2,868 nontrivial
+  Phase CN cutoffs, including cases needing negative orientation and negative
+  raw chart scale. Proving the corresponding arbitrary-pivot conditioned-
+  Taylor minor signs and separator existence, then the infinite-tail passage,
+  higher fresh order, normalized tangent envelope, order-eighteen contraction,
+  dyadic recurrence, Conjecture G1, and Problem 4.2 remains open. The root
+  command passes a 3,595-job Lean build and 119 tests.

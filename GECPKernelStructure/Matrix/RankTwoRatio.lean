@@ -221,10 +221,35 @@ remaining affine coordinate into ratio position. -/
 noncomputable def finTwoPoleBasis (pole : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
   ![![-pole, 1], ![1, 0]]
 
+/-- A pole basis with an independent orientation on the reciprocal
+coordinate.  The case `orientation = 1` is `finTwoPoleBasis`. -/
+noncomputable def finTwoOrientedPoleBasis
+    (pole orientation : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  ![![-pole, 1], ![orientation, 0]]
+
+/-- Scaling both coordinates changes the affine base sign without changing
+the oriented reciprocal ratio. -/
+noncomputable def finTwoScaledOrientedPoleBasis
+    (pole orientation scale : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  scale • finTwoOrientedPoleBasis pole orientation
+
 theorem finTwoPoleBasis_det (pole : ℝ) :
     (finTwoPoleBasis pole).det = -1 := by
   rw [Matrix.det_fin_two]
   norm_num [finTwoPoleBasis]
+
+theorem finTwoOrientedPoleBasis_det (pole orientation : ℝ) :
+    (finTwoOrientedPoleBasis pole orientation).det = -orientation := by
+  rw [Matrix.det_fin_two]
+  norm_num [finTwoOrientedPoleBasis]
+
+theorem finTwoScaledOrientedPoleBasis_det
+    (pole orientation scale : ℝ) :
+    (finTwoScaledOrientedPoleBasis pole orientation scale).det =
+      -(scale ^ 2 * orientation) := by
+  rw [finTwoScaledOrientedPoleBasis, Matrix.det_smul,
+    finTwoOrientedPoleBasis_det]
+  norm_num
 
 /-- Base coordinate after moving `pole` to projective infinity. -/
 noncomputable def poleChartBase
@@ -235,6 +260,16 @@ noncomputable def poleChartBase
 noncomputable def poleChartRatio
     (ratio : ι → ℝ) (pole : ℝ) (k : ι) : ℝ :=
   (ratio k - pole)⁻¹
+
+/-- Reciprocal pole-chart ratio with a chosen projective orientation. -/
+noncomputable def orientedPoleChartRatio
+    (ratio : ι → ℝ) (pole orientation : ℝ) (k : ι) : ℝ :=
+  orientation * (ratio k - pole)⁻¹
+
+/-- Base coordinate in a pole chart after a common nonzero chart scaling. -/
+noncomputable def scaledPoleChartBase
+    (base ratio : ι → ℝ) (pole scale : ℝ) (k : ι) : ℝ :=
+  scale * poleChartBase base ratio pole k
 
 omit [DecidableEq ι] in
 /-- Exact two-sided action of the two pole bases on a feature block. -/
@@ -271,6 +306,107 @@ theorem finTwoPoleBasis_mul_rankTwoBlockMatrix_mul
   ring
 
 omit [DecidableEq ι] in
+/-- Exact two-sided feature-block action when the left pole chart also chooses
+an orientation for its reciprocal coordinate. -/
+theorem finTwoOrientedPoleBasis_mul_rankTwoBlockMatrix_mul
+    (s : Finset ι)
+    (leftZero leftOne rightZero rightOne : ι → ℝ)
+    (leftPole rightPole orientation : ℝ) :
+    finTwoOrientedPoleBasis leftPole orientation *
+          rankTwoBlockMatrix s leftZero leftOne rightZero rightOne *
+        finTwoPoleBasis rightPole =
+      rankTwoBlockMatrix s
+        (fun k ↦ leftOne k - leftPole * leftZero k)
+        (fun k ↦ orientation * leftZero k)
+        (fun k ↦ rightOne k - rightPole * rightZero k) rightZero := by
+  let orient : Matrix (Fin 2) (Fin 2) ℝ :=
+    ![![1, 0], ![0, orientation]]
+  have basis_eq :
+      finTwoOrientedPoleBasis leftPole orientation =
+        orient * finTwoPoleBasis leftPole := by
+    ext i j
+    fin_cases i <;> fin_cases j
+    all_goals rw [Matrix.mul_apply]
+    all_goals norm_num [orient, finTwoOrientedPoleBasis, finTwoPoleBasis,
+      Fin.sum_univ_two]
+  rw [basis_eq]
+  calc
+    (orient * finTwoPoleBasis leftPole) *
+          rankTwoBlockMatrix s leftZero leftOne rightZero rightOne *
+        finTwoPoleBasis rightPole =
+        orient * (finTwoPoleBasis leftPole *
+          rankTwoBlockMatrix s leftZero leftOne rightZero rightOne *
+            finTwoPoleBasis rightPole) := by
+      simp only [Matrix.mul_assoc]
+    _ = orient * rankTwoBlockMatrix s
+        (fun k ↦ leftOne k - leftPole * leftZero k) leftZero
+        (fun k ↦ rightOne k - rightPole * rightZero k) rightZero := by
+      rw [finTwoPoleBasis_mul_rankTwoBlockMatrix_mul]
+    _ = _ := by
+      ext i j
+      fin_cases i <;> fin_cases j
+      all_goals rw [Matrix.mul_apply]
+      all_goals simp [orient, rankTwoBlockMatrix, Fin.sum_univ_two, mul_sum]
+      all_goals
+        apply sum_congr rfl
+        intro k hk
+        ring
+
+omit [DecidableEq ι] in
+/-- The scaled oriented pole basis multiplies both transformed left scalar
+rows by the common chart scale. -/
+theorem finTwoScaledOrientedPoleBasis_mul_rankTwoBlockMatrix_mul
+    (s : Finset ι)
+    (leftZero leftOne rightZero rightOne : ι → ℝ)
+    (leftPole rightPole orientation scale : ℝ) :
+    finTwoScaledOrientedPoleBasis leftPole orientation scale *
+          rankTwoBlockMatrix s leftZero leftOne rightZero rightOne *
+        finTwoPoleBasis rightPole =
+      rankTwoBlockMatrix s
+        (fun k ↦ scale * (leftOne k - leftPole * leftZero k))
+        (fun k ↦ scale * orientation * leftZero k)
+        (fun k ↦ rightOne k - rightPole * rightZero k) rightZero := by
+  rw [finTwoScaledOrientedPoleBasis, Matrix.smul_mul,
+    Matrix.smul_mul,
+    finTwoOrientedPoleBasis_mul_rankTwoBlockMatrix_mul]
+  ext i j
+  fin_cases i <;> fin_cases j
+  all_goals rw [Matrix.smul_apply]
+  all_goals simp [rankTwoBlockMatrix, mul_sum]
+  all_goals
+    apply sum_congr rfl
+    intro k hk
+    ring
+
+omit [DecidableEq ι] in
+theorem poleChartBase_mul_orientedPoleChartRatio
+    (base ratio : ι → ℝ) (pole orientation : ℝ)
+    (pole_ne : ∀ k, ratio k ≠ pole) (k : ι) :
+    orientation * base k =
+      poleChartBase base ratio pole k *
+        orientedPoleChartRatio ratio pole orientation k := by
+  unfold poleChartBase orientedPoleChartRatio
+  have difference_ne : ratio k - pole ≠ 0 := sub_ne_zero.mpr (pole_ne k)
+  field_simp
+
+omit [DecidableEq ι] in
+theorem scaledPoleChartBase_mul_orientedPoleChartRatio
+    (base ratio : ι → ℝ) (pole orientation scale : ℝ)
+    (pole_ne : ∀ k, ratio k ≠ pole) (k : ι) :
+    scale * orientation * base k =
+      scaledPoleChartBase base ratio pole scale k *
+        orientedPoleChartRatio ratio pole orientation k := by
+  unfold scaledPoleChartBase
+  calc
+    scale * orientation * base k =
+        scale * (orientation * base k) := by ring
+    _ = scale * (poleChartBase base ratio pole k *
+        orientedPoleChartRatio ratio pole orientation k) := by
+      rw [poleChartBase_mul_orientedPoleChartRatio
+        base ratio pole orientation pole_ne]
+    _ = _ := by ring
+
+omit [DecidableEq ι] in
 theorem poleChartBase_mul_poleChartRatio
     (base ratio : ι → ℝ) (pole : ℝ)
     (pole_ne : ∀ k, ratio k ≠ pole) (k : ι) :
@@ -278,6 +414,218 @@ theorem poleChartBase_mul_poleChartRatio
   unfold poleChartBase poleChartRatio
   have difference_ne : ratio k - pole ≠ 0 := sub_ne_zero.mpr (pole_ne k)
   field_simp
+
+omit [DecidableEq ι] in
+/-- A matched rank-two coordinate is unchanged by independent pole charts on
+the two homogeneous factors.  Each pole basis has determinant `-1`, so the
+two orientation changes cancel. -/
+theorem affineRankTwoMatchedCoordinate_poleChart
+    (a f b g : ι → ℝ) (leftPole rightPole : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole) (i j : ι) :
+    affineRankTwoMatchedCoordinate
+        (poleChartBase a f leftPole) (poleChartRatio f leftPole)
+        (poleChartBase b g rightPole) (poleChartRatio g rightPole) i j =
+      affineRankTwoMatchedCoordinate a f b g i j := by
+  rw [affineRankTwoMatchedCoordinate_eq,
+    affineRankTwoMatchedCoordinate_eq]
+  unfold poleChartBase poleChartRatio
+  have left_i_ne : f i - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne i)
+  have left_j_ne : f j - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne j)
+  have right_i_ne : g i - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne i)
+  have right_j_ne : g j - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne j)
+  field_simp
+  ring
+
+omit [DecidableEq ι] in
+/-- An oriented left pole chart scales every matched coordinate by its
+orientation.  This is the determinant product of the two basis changes. -/
+theorem affineRankTwoMatchedCoordinate_orientedPoleChart
+    (a f b g : ι → ℝ) (leftPole rightPole orientation : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole) (i j : ι) :
+    affineRankTwoMatchedCoordinate
+        (poleChartBase a f leftPole)
+        (orientedPoleChartRatio f leftPole orientation)
+        (poleChartBase b g rightPole) (poleChartRatio g rightPole) i j =
+      orientation * affineRankTwoMatchedCoordinate a f b g i j := by
+  rw [affineRankTwoMatchedCoordinate_eq,
+    affineRankTwoMatchedCoordinate_eq]
+  unfold poleChartBase orientedPoleChartRatio poleChartRatio
+  have left_i_ne : f i - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne i)
+  have left_j_ne : f j - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne j)
+  have right_i_ne : g i - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne i)
+  have right_j_ne : g j - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne j)
+  field_simp
+  ring
+
+omit [DecidableEq ι] in
+/-- A common chart scale contributes its square to every matched coordinate
+and therefore does not change the projective orientation sign. -/
+theorem affineRankTwoMatchedCoordinate_scaledOrientedPoleChart
+    (a f b g : ι → ℝ) (leftPole rightPole orientation scale : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole) (i j : ι) :
+    affineRankTwoMatchedCoordinate
+        (scaledPoleChartBase a f leftPole scale)
+        (orientedPoleChartRatio f leftPole orientation)
+        (poleChartBase b g rightPole) (poleChartRatio g rightPole) i j =
+      scale ^ 2 * orientation *
+        affineRankTwoMatchedCoordinate a f b g i j := by
+  rw [affineRankTwoMatchedCoordinate_eq,
+    affineRankTwoMatchedCoordinate_eq]
+  unfold scaledPoleChartBase poleChartBase orientedPoleChartRatio poleChartRatio
+  have left_i_ne : f i - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne i)
+  have left_j_ne : f j - leftPole ≠ 0 :=
+    sub_ne_zero.mpr (left_pole_ne j)
+  have right_i_ne : g i - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne i)
+  have right_j_ne : g j - rightPole ≠ 0 :=
+    sub_ne_zero.mpr (right_pole_ne j)
+  field_simp
+  ring
+
+omit [DecidableEq ι] in
+/-- Positive singleton weights in a pole chart turn nonnegative projective
+matched coordinates into comonotonicity of the two reciprocal ratios. -/
+theorem poleChartRatio_monovaryOn_of_matched_nonneg
+    (s : Finset ι) (a f b g : ι → ℝ) (leftPole rightPole : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (weight_pos : ∀ k ∈ s,
+      0 < poleChartBase a f leftPole k * poleChartBase b g rightPole k)
+    (matched_nonneg : ∀ i ∈ s, ∀ j ∈ s,
+      0 ≤ affineRankTwoMatchedCoordinate a f b g i j) :
+    MonovaryOn (poleChartRatio f leftPole)
+      (poleChartRatio g rightPole) s := by
+  intro i hi j hj right_lt
+  have coordinate_nonneg := matched_nonneg i hi j hj
+  rw [← affineRankTwoMatchedCoordinate_poleChart a f b g
+    leftPole rightPole left_pole_ne right_pole_ne i j,
+    affineRankTwoMatchedCoordinate_eq] at coordinate_nonneg
+  have weights_pos :
+      0 < (poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+        (poleChartBase a f leftPole j * poleChartBase b g rightPole j) :=
+    mul_pos (weight_pos i hi) (weight_pos j hj)
+  have right_difference_pos :
+      0 < poleChartRatio g rightPole j - poleChartRatio g rightPole i :=
+    sub_pos.mpr right_lt
+  have coefficient_pos :
+      0 < (poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+          (poleChartBase a f leftPole j * poleChartBase b g rightPole j) *
+        (poleChartRatio g rightPole j - poleChartRatio g rightPole i) :=
+    mul_pos weights_pos right_difference_pos
+  have reordered :
+      0 ≤ ((poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+            (poleChartBase a f leftPole j * poleChartBase b g rightPole j) *
+          (poleChartRatio g rightPole j - poleChartRatio g rightPole i)) *
+        (poleChartRatio f leftPole j - poleChartRatio f leftPole i) := by
+    convert coordinate_nonneg using 1
+    all_goals ring
+  exact sub_nonneg.mp (nonneg_of_mul_nonneg_right reordered coefficient_pos)
+
+omit [DecidableEq ι] in
+/-- Oriented version of the projective matched-minor criterion. -/
+theorem orientedPoleChartRatio_monovaryOn_of_matched_nonneg
+    (s : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole orientation : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (weight_pos : ∀ k ∈ s,
+      0 < poleChartBase a f leftPole k * poleChartBase b g rightPole k)
+    (matched_nonneg : ∀ i ∈ s, ∀ j ∈ s,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j) :
+    MonovaryOn (orientedPoleChartRatio f leftPole orientation)
+      (poleChartRatio g rightPole) s := by
+  intro i hi j hj right_lt
+  have coordinate_nonneg := matched_nonneg i hi j hj
+  rw [← affineRankTwoMatchedCoordinate_orientedPoleChart a f b g
+    leftPole rightPole orientation left_pole_ne right_pole_ne i j,
+    affineRankTwoMatchedCoordinate_eq] at coordinate_nonneg
+  have weights_pos :
+      0 < (poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+        (poleChartBase a f leftPole j * poleChartBase b g rightPole j) :=
+    mul_pos (weight_pos i hi) (weight_pos j hj)
+  have right_difference_pos :
+      0 < poleChartRatio g rightPole j - poleChartRatio g rightPole i :=
+    sub_pos.mpr right_lt
+  have coefficient_pos :
+      0 < (poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+          (poleChartBase a f leftPole j * poleChartBase b g rightPole j) *
+        (poleChartRatio g rightPole j - poleChartRatio g rightPole i) :=
+    mul_pos weights_pos right_difference_pos
+  have reordered :
+      0 ≤ ((poleChartBase a f leftPole i * poleChartBase b g rightPole i) *
+            (poleChartBase a f leftPole j * poleChartBase b g rightPole j) *
+          (poleChartRatio g rightPole j - poleChartRatio g rightPole i)) *
+        (orientedPoleChartRatio f leftPole orientation j -
+          orientedPoleChartRatio f leftPole orientation i) := by
+    convert coordinate_nonneg using 1
+    all_goals ring
+  exact sub_nonneg.mp (nonneg_of_mul_nonneg_right reordered coefficient_pos)
+
+omit [DecidableEq ι] in
+/-- Projective matched-minor criterion with an independent common chart scale
+used to choose the sign of every transformed singleton weight. -/
+theorem scaledOrientedPoleChartRatio_monovaryOn_of_matched_nonneg
+    (s : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole orientation scale : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (weight_pos : ∀ k ∈ s,
+      0 < scaledPoleChartBase a f leftPole scale k *
+        poleChartBase b g rightPole k)
+    (matched_nonneg : ∀ i ∈ s, ∀ j ∈ s,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j) :
+    MonovaryOn (orientedPoleChartRatio f leftPole orientation)
+      (poleChartRatio g rightPole) s := by
+  intro i hi j hj right_lt
+  have coordinate_nonneg :
+      0 ≤ affineRankTwoMatchedCoordinate
+        (scaledPoleChartBase a f leftPole scale)
+        (orientedPoleChartRatio f leftPole orientation)
+        (poleChartBase b g rightPole) (poleChartRatio g rightPole) i j := by
+    rw [affineRankTwoMatchedCoordinate_scaledOrientedPoleChart a f b g
+      leftPole rightPole orientation scale left_pole_ne right_pole_ne]
+    simpa only [mul_assoc] using
+      mul_nonneg (sq_nonneg scale) (matched_nonneg i hi j hj)
+  rw [affineRankTwoMatchedCoordinate_eq] at coordinate_nonneg
+  have weights_pos :
+      0 < (scaledPoleChartBase a f leftPole scale i *
+            poleChartBase b g rightPole i) *
+        (scaledPoleChartBase a f leftPole scale j *
+            poleChartBase b g rightPole j) :=
+    mul_pos (weight_pos i hi) (weight_pos j hj)
+  have right_difference_pos :
+      0 < poleChartRatio g rightPole j - poleChartRatio g rightPole i :=
+    sub_pos.mpr right_lt
+  have coefficient_pos :
+      0 < (scaledPoleChartBase a f leftPole scale i *
+            poleChartBase b g rightPole i) *
+          (scaledPoleChartBase a f leftPole scale j *
+            poleChartBase b g rightPole j) *
+        (poleChartRatio g rightPole j - poleChartRatio g rightPole i) :=
+    mul_pos weights_pos right_difference_pos
+  have reordered :
+      0 ≤ ((scaledPoleChartBase a f leftPole scale i *
+              poleChartBase b g rightPole i) *
+            (scaledPoleChartBase a f leftPole scale j *
+              poleChartBase b g rightPole j) *
+          (poleChartRatio g rightPole j - poleChartRatio g rightPole i)) *
+        (orientedPoleChartRatio f leftPole orientation j -
+          orientedPoleChartRatio f leftPole orientation i) := by
+    convert coordinate_nonneg using 1
+    all_goals ring
+  exact sub_nonneg.mp (nonneg_of_mul_nonneg_right reordered coefficient_pos)
 
 /-- A positive ordered affine chart for two rank-two factors gives the sharp
 Lorentzian inequality for every threshold split.  The theorem contains no
@@ -491,6 +839,273 @@ theorem rankTwoBlockPencil_lorentzian_of_poles
   · exact weight_nonneg
   · exact lower_monovary
   · exact upper_monovary
+  · exact f_cross
+  · exact g_cross
+
+/-- Matched-minor form of the separating-pole certificate.  Positive pole-
+chart singleton weights convert projective matched-coordinate signs into the
+two within-block comonotonicity hypotheses, while nonempty blocks give the
+positive masses.  Only cross ordering remains chart-specific. -/
+theorem rankTwoBlockPencil_lorentzian_of_poles_of_matched_nonneg
+    (lower upper : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole : ℝ)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (lower_nonempty : lower.Nonempty) (upper_nonempty : upper.Nonempty)
+    (weight_pos : ∀ k ∈ lower ∪ upper,
+      0 < poleChartBase a f leftPole k * poleChartBase b g rightPole k)
+    (lower_matched_nonneg : ∀ i ∈ lower, ∀ j ∈ lower,
+      0 ≤ affineRankTwoMatchedCoordinate a f b g i j)
+    (upper_matched_nonneg : ∀ i ∈ upper, ∀ j ∈ upper,
+      0 ≤ affineRankTwoMatchedCoordinate a f b g i j)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio f leftPole i ≤ poleChartRatio f leftPole j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio g rightPole i ≤ poleChartRatio g rightPole j) :
+    4 * (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det *
+        (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det ≤
+      finTwoPencilMixed
+          (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k))
+          (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k)) ^ 2 := by
+  apply rankTwoBlockPencil_lorentzian_of_poles lower upper a f b g
+    leftPole rightPole left_pole_ne right_pole_ne
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_nonempty
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_nonempty
+  · intro k hk
+    exact (weight_pos k hk).le
+  · apply poleChartRatio_monovaryOn_of_matched_nonneg lower a f b g
+      leftPole rightPole left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_matched_nonneg
+  · apply poleChartRatio_monovaryOn_of_matched_nonneg upper a f b g
+      leftPole rightPole left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_matched_nonneg
+  · exact f_cross
+  · exact g_cross
+
+/-- Orientation-complete matched-minor separator theorem.  The nonzero scalar
+`orientation` reverses the left projective circle when needed; Phase CO then
+transfers the Lorentzian inequality through the resulting determinant scale. -/
+theorem rankTwoBlockPencil_lorentzian_of_oriented_poles_of_matched_nonneg
+    (lower upper : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole orientation : ℝ)
+    (orientation_ne : orientation ≠ 0)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (lower_nonempty : lower.Nonempty) (upper_nonempty : upper.Nonempty)
+    (weight_pos : ∀ k ∈ lower ∪ upper,
+      0 < poleChartBase a f leftPole k * poleChartBase b g rightPole k)
+    (lower_matched_nonneg : ∀ i ∈ lower, ∀ j ∈ lower,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j)
+    (upper_matched_nonneg : ∀ i ∈ upper, ∀ j ∈ upper,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      orientedPoleChartRatio f leftPole orientation i ≤
+        orientedPoleChartRatio f leftPole orientation j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio g rightPole i ≤ poleChartRatio g rightPole j) :
+    4 * (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det *
+        (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det ≤
+      finTwoPencilMixed
+          (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k))
+          (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k)) ^ 2 := by
+  apply rankTwoBlockPencil_lorentzian_of_projective_affine
+    (finTwoOrientedPoleBasis leftPole orientation)
+    (finTwoPoleBasis rightPole)
+    (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    lower upper
+    (poleChartBase a f leftPole) (fun k ↦ orientation * a k)
+    (poleChartBase b g rightPole) b
+    (orientedPoleChartRatio f leftPole orientation)
+    (poleChartRatio g rightPole)
+  · rw [finTwoOrientedPoleBasis_det]
+    exact neg_ne_zero.mpr orientation_ne
+  · rw [finTwoPoleBasis_det]
+    norm_num
+  · have chart := finTwoOrientedPoleBasis_mul_rankTwoBlockMatrix_mul lower a
+        (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole orientation
+    have left_base_eq :
+        (fun k ↦ a k * f k - leftPole * a k) =
+          poleChartBase a f leftPole := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix lower
+      (poleChartBase a f leftPole) (fun k ↦ orientation * a k)
+      (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · have chart := finTwoOrientedPoleBasis_mul_rankTwoBlockMatrix_mul upper a
+        (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole orientation
+    have left_base_eq :
+        (fun k ↦ a k * f k - leftPole * a k) =
+          poleChartBase a f leftPole := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix upper
+      (poleChartBase a f leftPole) (fun k ↦ orientation * a k)
+      (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · exact poleChartBase_mul_orientedPoleChartRatio a f leftPole orientation
+      left_pole_ne
+  · exact poleChartBase_mul_poleChartRatio b g rightPole right_pole_ne
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_nonempty
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_nonempty
+  · intro k hk
+    exact (weight_pos k hk).le
+  · apply orientedPoleChartRatio_monovaryOn_of_matched_nonneg lower a f b g
+      leftPole rightPole orientation left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_matched_nonneg
+  · apply orientedPoleChartRatio_monovaryOn_of_matched_nonneg upper a f b g
+      leftPole rightPole orientation left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_matched_nonneg
+  · exact f_cross
+  · exact g_cross
+
+/-- Fully oriented and scaled separator theorem.  `orientation` chooses the
+cyclic direction, while `scale` independently chooses the common sign of the
+transformed left coordinates and hence of the singleton weights. -/
+theorem rankTwoBlockPencil_lorentzian_of_scaled_oriented_poles
+    (lower upper : Finset ι) (a f b g : ι → ℝ)
+    (leftPole rightPole orientation scale : ℝ)
+    (orientation_ne : orientation ≠ 0) (scale_ne : scale ≠ 0)
+    (left_pole_ne : ∀ k, f k ≠ leftPole)
+    (right_pole_ne : ∀ k, g k ≠ rightPole)
+    (lower_nonempty : lower.Nonempty) (upper_nonempty : upper.Nonempty)
+    (weight_pos : ∀ k ∈ lower ∪ upper,
+      0 < scaledPoleChartBase a f leftPole scale k *
+        poleChartBase b g rightPole k)
+    (lower_matched_nonneg : ∀ i ∈ lower, ∀ j ∈ lower,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j)
+    (upper_matched_nonneg : ∀ i ∈ upper, ∀ j ∈ upper,
+      0 ≤ orientation * affineRankTwoMatchedCoordinate a f b g i j)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      orientedPoleChartRatio f leftPole orientation i ≤
+        orientedPoleChartRatio f leftPole orientation j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper,
+      poleChartRatio g rightPole i ≤ poleChartRatio g rightPole j) :
+    4 * (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det *
+        (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+          b (fun k ↦ b k * g k)).det ≤
+      finTwoPencilMixed
+          (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k))
+          (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+            b (fun k ↦ b k * g k)) ^ 2 := by
+  apply rankTwoBlockPencil_lorentzian_of_projective_affine
+    (finTwoScaledOrientedPoleBasis leftPole orientation scale)
+    (finTwoPoleBasis rightPole)
+    (rankTwoBlockMatrix lower a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    (rankTwoBlockMatrix upper a (fun k ↦ a k * f k)
+      b (fun k ↦ b k * g k))
+    lower upper
+    (scaledPoleChartBase a f leftPole scale)
+    (fun k ↦ scale * orientation * a k)
+    (poleChartBase b g rightPole) b
+    (orientedPoleChartRatio f leftPole orientation)
+    (poleChartRatio g rightPole)
+  · rw [finTwoScaledOrientedPoleBasis_det]
+    exact neg_ne_zero.mpr
+      (mul_ne_zero (pow_ne_zero 2 scale_ne) orientation_ne)
+  · rw [finTwoPoleBasis_det]
+    norm_num
+  · have chart := finTwoScaledOrientedPoleBasis_mul_rankTwoBlockMatrix_mul
+        lower a (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole orientation scale
+    have left_base_eq :
+        (fun k ↦ scale * (a k * f k - leftPole * a k)) =
+          scaledPoleChartBase a f leftPole scale := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix lower
+      (scaledPoleChartBase a f leftPole scale)
+      (fun k ↦ scale * orientation * a k)
+      (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · have chart := finTwoScaledOrientedPoleBasis_mul_rankTwoBlockMatrix_mul
+        upper a (fun k ↦ a k * f k) b (fun k ↦ b k * g k)
+        leftPole rightPole orientation scale
+    have left_base_eq :
+        (fun k ↦ scale * (a k * f k - leftPole * a k)) =
+          scaledPoleChartBase a f leftPole scale := by rfl
+    have right_base_eq :
+        (fun k ↦ b k * g k - rightPole * b k) =
+          poleChartBase b g rightPole := by rfl
+    change _ = rankTwoBlockMatrix upper
+      (scaledPoleChartBase a f leftPole scale)
+      (fun k ↦ scale * orientation * a k)
+      (poleChartBase b g rightPole) b
+    rw [← left_base_eq, ← right_base_eq]
+    exact chart
+  · exact scaledPoleChartBase_mul_orientedPoleChartRatio a f leftPole
+      orientation scale left_pole_ne
+  · exact poleChartBase_mul_poleChartRatio b g rightPole right_pole_ne
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_nonempty
+  · unfold weightedMass
+    apply sum_pos
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_nonempty
+  · intro k hk
+    exact (weight_pos k hk).le
+  · apply scaledOrientedPoleChartRatio_monovaryOn_of_matched_nonneg
+      lower a f b g leftPole rightPole orientation scale
+      left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_left upper hk)
+    · exact lower_matched_nonneg
+  · apply scaledOrientedPoleChartRatio_monovaryOn_of_matched_nonneg
+      upper a f b g leftPole rightPole orientation scale
+      left_pole_ne right_pole_ne
+    · intro k hk
+      exact weight_pos k (mem_union_right lower hk)
+    · exact upper_matched_nonneg
   · exact f_cross
   · exact g_cross
 
