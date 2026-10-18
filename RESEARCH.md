@@ -5092,6 +5092,66 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CM contract: two-block Lorentzian covariance
+
+State: in progress.
+
+Phase CL reduces fresh-order-two real-rootedness to
+`4*c0*c2 ≤ c1^2`. The exact audit reveals an additional structural fact:
+every oriented two-feature coordinate product is nonnegative. A rank-two
+factor with a nonzero reference coordinate writes each Plucker coordinate as
+a positive pair weight times a difference of ratios. Thus the three pencil
+coefficients become the within-lower, cross-block, and within-upper weighted
+increment sums of two comonotone sequences.
+
+The relevant reverse covariance inequality has a division-free proof. If
+`mL,mU` are the two block masses, `c0,c2` their covariance numerators, and
+`c1` the cross-block increment sum, then
+
+`mL*mU*c1 = mU^2*c0 + mL^2*c2 + rowShift*columnShift`.
+
+Ordered blocks make the final product nonnegative. The first two terms then
+imply `4*c0*c2 ≤ c1^2` because their AM--GM remainder is one square.
+
+Frozen public Lean targets:
+
+- define the weighted cross-block increment sum for two finite index blocks;
+- prove its exact division-free two-block covariance decomposition;
+- prove nonnegativity of the two within-block covariance numerators and both
+  mean-shift factors from nonnegative weights and internal/cross-block order;
+- derive the sharp reverse covariance inequality
+  `4*covLower*covUpper ≤ crossIncrement^2` for positive block masses;
+- expose a ratio-coordinate corollary ready to consume rank-two conditioned
+  feature factors.
+
+Independent check:
+
+- exhaust small positive integer weights and two independently comonotone
+  rational sequences, checking the decomposition and sharp inequality;
+- extend the Phase CL audit to count oriented individual two-feature products,
+  distinguishing the true fresh-order-two coordinate sign from the false
+  higher-order coordinatewise claim;
+- retain boundary cases with singleton blocks, repeated sequence values, and
+  zero within-block covariance.
+
+Decision rule:
+
+- if the reverse covariance theorem closes, next prove that arbitrary
+  conditioned Taylor rank-two feature factors admit its positive-weight,
+  comonotone ratio representation;
+- if individual fresh-order-two coordinate products can be negative, weaken
+  the bridge to grouped ratio intervals before attempting the fermionic
+  specialization;
+- do not extrapolate the rank-two result to higher compound order.
+
+Non-claims:
+
+- this phase does not prove the conditioned-factor ratio representation or
+  the full fermionic fresh-order-two theorem;
+- it does not prove higher fresh order, the infinite-tail passage, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence, Conjecture
+  G1, or Simons Problem 4.2.
+
 ## Phase CL contract: fresh-order-two Lorentzian bridge
 
 State: complete; merged as PR #92 with green CI.

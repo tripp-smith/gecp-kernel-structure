@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CL — fresh-order-two Lorentzian bridge<br>
-> **Phase state:** complete<br>
+> **Current phase:** CM — two-block Lorentzian covariance<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase CL `./scripts/verify.sh` passed a 3,594-job Lean build with 117 tests and no known dependency vulnerabilities on 2026-10-17<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CL merged in [PR #92](https://github.com/tripp-smith/gecp-kernel-structure/pull/92) with green CI<br>
-> **Claim level:** Phase CL reduces fresh-order-two real-rootedness to an exact Lorentzian discriminant inequality and constructs its nonnegative spectral factorization; the fermionic inequality remains open
+> **Delivery:** Phase CM implementation in progress; Phase CL merged in [PR #92](https://github.com/tripp-smith/gecp-kernel-structure/pull/92) with green CI<br>
+> **Claim level:** Phase CM proves the weighted two-block reverse covariance inequality underlying fresh-order-two Lorentzian pencils; the conditioned-factor representation remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -108,6 +108,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CJ | Weighted centered-group association | complete | weighted Chebyshev numerator; two-block conditional-mean decomposition; arbitrary-feature one-pivot grouped and step signs | 3,592-job Lean build; public axiom audit; 4,644 exact weighted groups and 6,782 Taylor groups; 115-test root verification; green CI | merged PR #90 |
 | CK | Compound generalized-spectrum reduction | complete | common-factor determinant-pencil factorization; nonnegative generalized-spectrum certificate; exact subset-lattice obstruction and low-order spectral audit | 3,593-job Lean build; public axiom audit; 1,481 exact oriented polynomials; 116-test root verification; green CI | merged PR #91 |
 | CL | Fresh-order-two Lorentzian bridge | complete | exact 2x2 pencil coefficients and discriminant; constructive nonnegative-root factorization; cross-minor obstruction audit | 3,594-job Lean build; public axiom audit; 3,868 exact pencils; 117-test root verification; green CI | merged PR #92 |
+| CM | Two-block Lorentzian covariance | in progress | division-free cross-increment decomposition; ordered-block nonnegativity; reverse covariance/Lorentzian inequality | focused checks pending | pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
