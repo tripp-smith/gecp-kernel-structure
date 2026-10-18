@@ -2478,7 +2478,7 @@ This annotation records delivered identifiers without changing the goals above.
   broader conditioned pencils, without claiming the infinite-tail mean-shift
   sign or the final companion envelope. The root command passes a 3,600-job
   Lean build and 122 tests.
-- Post-v1 research phase CX: verified; delivery pending. The exact exponential
+- Post-v1 research phase CX: complete; merged as PR #104 with green CI. The exact exponential
   kernel `K(i,j)=(21/20)^((i+1)(j+1))` is realized on open-unit nodes and has
   certified first complete pivot `(3,3)`. Its four-degree normalized
   conditioned matched-coordinate Hessian has an explicit positive-definite

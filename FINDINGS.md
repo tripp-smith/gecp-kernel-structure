@@ -1359,6 +1359,7 @@ pivots.
   eigenvalue theorem cannot be the missing invariant; the next proof must use
   the one-sign-change/prefix cone, plausibly through variation diminishing or
   interlacing of cumulative mixed determinants.
+  The change passed CI and merged as PR #104.
 
 ## Run provenance
 
