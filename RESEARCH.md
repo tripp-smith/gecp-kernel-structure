@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CQ contract: matched-minor separator reduction
 
-State: verified; awaiting review and merge.
+State: complete; merged as PR #97 with green CI.
 
 Phase CP still asks an analytic caller to restate within-block comonotonicity,
 positive masses, and reciprocal cross order in a chosen pole chart. The exact

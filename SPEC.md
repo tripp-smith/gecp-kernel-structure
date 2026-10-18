@@ -2404,7 +2404,7 @@ This annotation records delivered identifiers without changing the goals above.
   order-eighteen contraction, dyadic recurrence, Conjecture G1, and Problem
   4.2 remains open. The root command passes a 3,595-job Lean build and 119
   tests.
-- Post-v1 research phase CQ: verified; awaiting review and merge.
+- Post-v1 research phase CQ: complete; merged as PR #97 with green CI.
   `finTwoScaledOrientedPoleBasis_det` and
   `finTwoScaledOrientedPoleBasis_mul_rankTwoBlockMatrix_mul` separate the two
   chart choices needed by the conditioned pencils: projective orientation and

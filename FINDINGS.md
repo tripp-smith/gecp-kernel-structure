@@ -1268,6 +1268,7 @@ pivots.
   negative raw chart scales occur, so neither parameter is redundant. This
   does not prove the arbitrary-pivot Taylor invariant. The root command passes
   a 3,595-job Lean build and 119 tests.
+  The change passed CI and merged as PR #97.
 
 ## Run provenance
 
