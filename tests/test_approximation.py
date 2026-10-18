@@ -3763,6 +3763,34 @@ def test_compound_threshold_polynomials_spectral_audit_exactly() -> None:
     assert mtp2_failure_cases == 147
 
 
+def test_ordered_chamber_nonvanishing_obstruction_exactly() -> None:
+    first_ratio = Fraction(12, 11)
+    second_ratio = Fraction(11, 10)
+
+    def reduced(c: int) -> list[list[Fraction]]:
+        return [
+            [
+                first_ratio**index,
+                second_ratio**index,
+                Fraction(1),
+                Fraction(c + index, 9) ** 3,
+            ]
+            for index in range(4)
+        ]
+
+    first_det = fraction_determinant(reduced(1))
+    last_det = fraction_determinant(reduced(5))
+    assert first_det == Fraction(83, 194059800)
+    assert last_det == Fraction(-1, 194059800)
+    assert first_det * last_det < 0
+
+    for numerator in range(9):
+        parameter = Fraction(numerator, 8)
+        rows = tuple((1 + 4 * parameter + index) / 9 for index in range(4))
+        assert all(0 < row < 1 for row in rows)
+        assert all(left < right for left, right in itertools.pairwise(rows))
+
+
 def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     def finite_exp(value: Fraction, terms: int) -> Fraction:
         return sum(

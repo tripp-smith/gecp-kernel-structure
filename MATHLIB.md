@@ -679,6 +679,14 @@ project-local because their proofs are short and the substantive missing
 theorem—nonvanishing of a confluent exponential-polynomial determinant on an
 ordered chamber—is specialized and has no directly matching mathlib API.
 
+Phase CU adds the converse intermediate-value wrapper: a continuous real path
+with negative endpoint product has a zero on the unit interval. This is a
+small convenience lemma near the existing intermediate value theorem and is
+the only plausible upstream candidate. The logarithmically rationalized
+exponential-cubic counterexample and its paired-subtuple refinement are
+project-specific; the internal four-by-four expansion exists only to keep the
+exact certificate kernel-checked and is not proposed as a new abstraction.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

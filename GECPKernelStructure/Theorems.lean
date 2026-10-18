@@ -85,6 +85,7 @@ import GECPKernelStructure.Fermionic.TotalPositivity
 import GECPKernelStructure.Fermionic.GECPBounds
 import GECPKernelStructure.Fermionic.SignRegularity
 import GECPKernelStructure.Fermionic.ExponentialTotalPositivity
+import GECPKernelStructure.Fermionic.OrderedChamberObstruction
 import GECPKernelStructure.Fermionic.ThreeFeatureGroupedSign
 import GECPKernelStructure.Fermionic.OnePivotGroupedSign
 import GECPKernelStructure.Fermionic.CompleteRun
