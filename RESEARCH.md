@@ -5092,6 +5092,84 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CQ contract: matched-minor separator reduction
+
+State: verified; awaiting review and merge.
+
+Phase CP still asks an analytic caller to restate within-block comonotonicity,
+positive masses, and reciprocal cross order in a chosen pole chart. The exact
+Phase CN data indicate that the first two are not independent hypotheses.
+Matched rank-two coordinates are projective invariants: after the two pole
+bases, each coordinate is the transformed singleton-weight product times the
+two reciprocal increments. The audit also reveals two independent signs. An
+orientation reverses one reciprocal projective circle, while a common chart
+scale flips all singleton weights without changing ratios. Thus strict
+positivity of the scaled transformed weights turns oriented nonnegative
+matched minors directly into `MonovaryOn`; nonempty blocks then supply
+positive masses. This is the rank-two positive-Grassmannian/Gale-projection
+invariant behind the observed cyclic order.
+
+Frozen public Lean targets:
+
+- prove exact determinant scaling of `affineRankTwoMatchedCoordinate` under
+  independently oriented and scaled pole charts;
+- derive `MonovaryOn` for the reciprocal ratios from positive transformed
+  singleton weights and nonnegative original matched coordinates;
+- package a pole-to-Lorentzian theorem whose remaining geometric hypotheses
+  are only noncollision, nonzero orientation/scale, positive transformed
+  weights, nonempty blocks, oriented within-block matched-coordinate signs,
+  and reciprocal cross order;
+- keep all hypotheses pointwise and finite so the conditioned-Taylor proof can
+  discharge them with generalized-Vandermonde signs.
+
+Independent check:
+
+- for every one of the 2,868 nontrivial Phase CN degree cutoffs, construct
+  exact rational left/right poles from gaps in the observed projective orders;
+- verify noncollision, strictly positive transformed weights, reciprocal cross
+  order, within-block matched-coordinate signs, and the original Lorentzian
+  discriminant;
+- record the number of candidate gap pairs tried and retain a deliberate pole
+  collision as a rejected boundary.
+
+Decision rule:
+
+- if the reduction and constructive audit close, make the next phase solely
+  the arbitrary-pivot conditioned-Taylor matched-minor/separator theorem;
+- if common cyclic order does not suffice to align positive transformed
+  weights, strengthen the analytic target to an oriented cyclic order rather
+  than adding sample-specific sign choices;
+- do not infer the arbitrary-pivot theorem from the finite construction.
+
+Non-claims:
+
+- this phase does not prove projective matched-minor signs or separator
+  existence for arbitrary conditioned Taylor factors;
+- it does not prove the infinite-tail passage, higher fresh order, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
+Delivered Lean identifiers:
+
+- `Matrix.finTwoOrientedPoleBasis`,
+  `Matrix.finTwoScaledOrientedPoleBasis`, and their determinant/block-action
+  theorems;
+- `Matrix.affineRankTwoMatchedCoordinate_scaledOrientedPoleChart`;
+- `Matrix.scaledOrientedPoleChartRatio_monovaryOn_of_matched_nonneg`;
+- `Matrix.rankTwoBlockPencil_lorentzian_of_scaled_oriented_poles`.
+
+Verification:
+
+- the public axiom audit reports only `propext`, `Classical.choice`, and
+  `Quot.sound` for every new theorem;
+- exact rational gap search constructs an oriented and scaled pole pair on
+  the first eligible candidate for all 2,868 nontrivial Phase CN cutoffs,
+  verifies positive weights, both reciprocal cross orders, matched-coordinate
+  invariance, and the Lorentzian discriminant, and retains the collision
+  boundary; negative orientations and negative raw chart scales both occur;
+- `./scripts/verify.sh` passes a 3,595-job Lean build and 119 Python tests with
+  no known dependency vulnerabilities.
+
 ## Phase CP contract: separating projective pole chart
 
 State: complete; merged as PR #96 with green CI.

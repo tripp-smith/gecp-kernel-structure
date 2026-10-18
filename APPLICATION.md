@@ -309,6 +309,11 @@ reciprocal-ratio certificate are formal proof infrastructure. The exact
 rational regression checks the chart identities and collision boundary, but
 does not discover or certify a separating pole for arbitrary runtime data.
 
+Phase CQ also adds no public Python API. Its oriented/scaled separator theorem
+is formal proof infrastructure. The exact rational search constructs
+certificates only for the deterministic research corpus and is not exposed as
+a runtime separator or arbitrary-data certification routine.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

@@ -1255,6 +1255,20 @@ pivots.
   119 tests.
   The change passed CI and merged as PR #96.
 
+- Phase CQ separates the genuinely projective data from chart bookkeeping.
+  An oriented pole basis uses the ratio `σ/(f-c)`; an independent common scale
+  flips all transformed singleton weights without changing that ratio. Lean
+  proves the exact determinant and block actions, shows that the matched
+  coordinate scales by `scale²*σ`, and derives reciprocal `MonovaryOn`
+  automatically from positive transformed weights and oriented nonnegative
+  matched minors. The final theorem leaves only cross-ordering separators and
+  projective minor signs to the conditioned-Taylor argument. Exact rational
+  gap search constructs the full certificate on the first candidate pair for
+  all 2,868 nontrivial Phase CN cutoffs; both negative orientations and
+  negative raw chart scales occur, so neither parameter is redundant. This
+  does not prove the arbitrary-pivot Taylor invariant. The root command passes
+  a 3,595-job Lean build and 119 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

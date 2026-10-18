@@ -646,6 +646,15 @@ mixed determinants if another upstream use appears. The existence of a pole
 separating conditioned Taylor degree blocks is a specialized confluent
 generalized-Vandermonde claim and remains project-facing.
 
+Phase CQ packages the same construction in oriented-matroid form. Scaling one
+pole basis and reversing its reciprocal coordinate gives exact determinant,
+rank-one-block, and matched-Plucker scaling laws. The implication from
+positive chart weights plus oriented matched-coordinate signs to
+`MonovaryOn` is a small reusable rank-two projective lemma; it could plausibly
+live near mixed determinants or a future positive-Grassmannian API after
+generalization beyond `ℝ`. Constructing the required oriented separator for
+conditioned Taylor factors remains project-specific.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CP — separating projective pole chart<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase CP `./scripts/verify.sh` passed a 3,595-job Lean build with 119 tests and no known dependency vulnerabilities on 2026-10-18<br>
+> **Current phase:** CQ — matched-minor separator reduction<br>
+> **Phase state:** verified; awaiting review and merge<br>
+> **Last verification:** Phase CQ `./scripts/verify.sh` passed a 3,595-job Lean build with 119 tests and no known dependency vulnerabilities on 2026-10-18<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CP merged in [PR #96](https://github.com/tripp-smith/gecp-kernel-structure/pull/96) with green CI<br>
-> **Claim level:** Phase CP constructs the affine ratio certificate from explicit separating projective poles; proving such poles exist for conditioned Taylor factors remains open
+> **Delivery:** Phase CQ implementation ready for review; Phase CP merged in [PR #96](https://github.com/tripp-smith/gecp-kernel-structure/pull/96) with green CI<br>
+> **Claim level:** Phase CQ reduces the pole certificate to projective matched-minor signs plus an explicit cross-ordering separator; proving those signs and separators for arbitrary conditioned Taylor factors remains open
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -112,6 +112,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CN | Projective rank-two ratio bridge | complete | ratio-factorized matched-minor identities; exact block-matrix coefficient bridge; matrix-pencil Lorentzian theorem; cyclic-prefix obstruction audit | 3,595-job Lean build; public axiom audit; 500 exact conditioned cases and 2,868 cutoff intervals; 117-test root verification; green CI | merged PR #94 |
 | CO | Projective chart invariance | complete | two-sided basis-change coefficient scaling; discriminant invariance; chart-transfer certificate | 3,595-job Lean build; public axiom audit; 512 exact invertible and one singular chart changes; 118-test root verification; green CI | merged PR #95 |
 | CP | Separating projective pole chart | complete | explicit pole basis; transformed block identity; reciprocal pole-to-Lorentzian certificate | 3,595-job Lean build; public axiom audit; 3 exterior/interior charts, all 5 cutoffs, and one rejected collision; 119-test root verification; green CI | merged PR #96 |
+| CQ | Matched-minor separator reduction | verified | oriented/scaled pole bases; projective matched-coordinate invariance; positive-chart comonotonicity; separator theorem | 3,595-job Lean build; public axiom audit; exact separators for all 2,868 cutoffs; 119-test root verification | awaiting review |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

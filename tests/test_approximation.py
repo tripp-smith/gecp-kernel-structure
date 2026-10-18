@@ -3838,6 +3838,20 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             for shift in range(size)
         )
 
+    def pole_candidates(values: tuple[Fraction, ...]) -> tuple[Fraction, ...]:
+        ordered = tuple(sorted(values))
+        assert all(
+            ordered[index] < ordered[index + 1] for index in range(len(ordered) - 1)
+        )
+        return (
+            ordered[0] - 1,
+            *(
+                left + (right - left) / 2
+                for left, right in zip(ordered[:-1], ordered[1:], strict=True)
+            ),
+            ordered[-1] + 1,
+        )
+
     rng = random.Random(0xC1D15C)
     checked_pencils = 0
     row_cross_signs = 0
@@ -3851,6 +3865,10 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     opposite_mean_shift_splits = 0
     common_cyclic_order_cases = 0
     prefix_circular_interval_splits = 0
+    constructed_separator_splits = 0
+    separator_candidate_pairs = 0
+    negative_orientation_cases = 0
+    negative_chart_scale_splits = 0
     for _ in range(500):
         size = rng.randrange(4, 8)
         row_denominator = rng.randrange(size + 1, 19)
@@ -3911,6 +3929,7 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
             selected > fresh for selected in selected_columns for fresh in fresh_columns
         )
         orientation = -1 if cross_inversions % 2 else 1
+        negative_orientation_cases += orientation < 0
         left_zero = tuple(
             conditioned_left[fresh_rows[0]][degree] for degree in range(feature_count)
         )
@@ -3986,6 +4005,103 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
                 assert is_cyclic_interval(left_order, lower_degrees)
                 assert is_cyclic_interval(right_order, lower_degrees)
                 prefix_circular_interval_splits += 1
+                lower = range(cutoff)
+                upper = range(cutoff, feature_count)
+                left_poles = tuple(
+                    pole
+                    for pole in pole_candidates(left_ratios)
+                    if all(
+                        orientation / (left_ratios[i] - pole)
+                        <= orientation / (left_ratios[j] - pole)
+                        for i in lower
+                        for j in upper
+                    )
+                )
+                right_poles = tuple(
+                    pole
+                    for pole in pole_candidates(right_ratios)
+                    if all(
+                        1 / (right_ratios[i] - pole) <= 1 / (right_ratios[j] - pole)
+                        for i in lower
+                        for j in upper
+                    )
+                )
+                assert left_poles
+                assert right_poles
+                separator = None
+                for left_pole in left_poles:
+                    for right_pole in right_poles:
+                        separator_candidate_pairs += 1
+                        transformed_weights = tuple(
+                            (left_one[degree] - left_pole * left_zero[degree])
+                            * (right_one[degree] - right_pole * right_zero[degree])
+                            for degree in range(feature_count)
+                        )
+                        chart_scale = (
+                            1
+                            if all(weight > 0 for weight in transformed_weights)
+                            else -1
+                            if all(weight < 0 for weight in transformed_weights)
+                            else 0
+                        )
+                        if chart_scale:
+                            separator = (
+                                left_pole,
+                                right_pole,
+                                chart_scale,
+                                tuple(
+                                    chart_scale * weight
+                                    for weight in transformed_weights
+                                ),
+                            )
+                            break
+                    if separator is not None:
+                        break
+                assert separator is not None, (
+                    cutoff,
+                    orientation,
+                    left_ratios,
+                    right_ratios,
+                    left_poles,
+                    right_poles,
+                )
+                left_pole, right_pole, chart_scale, transformed_weights = separator
+                negative_chart_scale_splits += chart_scale < 0
+                transformed_left_ratios = tuple(
+                    orientation / (ratio - left_pole) for ratio in left_ratios
+                )
+                transformed_right_ratios = tuple(
+                    1 / (ratio - right_pole) for ratio in right_ratios
+                )
+                for block in (lower, upper):
+                    for first in block:
+                        for second in block:
+                            left_minor = (
+                                left_zero[first] * left_one[second]
+                                - left_zero[second] * left_one[first]
+                            )
+                            right_minor = (
+                                right_zero[first] * right_one[second]
+                                - right_zero[second] * right_one[first]
+                            )
+                            oriented_coordinate = (
+                                chart_scale**2 * orientation * left_minor * right_minor
+                            )
+                            assert oriented_coordinate >= 0
+                            assert (
+                                transformed_weights[first]
+                                * transformed_weights[second]
+                                * (
+                                    transformed_left_ratios[second]
+                                    - transformed_left_ratios[first]
+                                )
+                                * (
+                                    transformed_right_ratios[second]
+                                    - transformed_right_ratios[first]
+                                )
+                                == oriented_coordinate
+                            )
+                constructed_separator_splits += 1
                 lower_mass = sum(chart_weights[:cutoff], Fraction())
                 upper_mass = sum(chart_weights[cutoff:], Fraction())
                 left_shift = lower_mass * sum(
@@ -4077,6 +4193,10 @@ def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     assert opposite_mean_shift_splits == 276
     assert common_cyclic_order_cases == 500
     assert prefix_circular_interval_splits == 2868
+    assert constructed_separator_splits == 2868
+    assert separator_candidate_pairs == 2868
+    assert negative_orientation_cases > 0
+    assert negative_chart_scale_splits > 0
 
 
 def test_fin_two_projective_chart_invariance_exactly() -> None:
