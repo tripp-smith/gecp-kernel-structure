@@ -36,6 +36,20 @@ theorem endpoint_mul_pos_of_continuousOn_of_ne_zero
     simpa [uIcc_of_le (by norm_num : (0 : ℝ) ≤ 1)] using t_mem
   exact nonzero t t_mem_unit path_zero
 
+/-- Opposite strict endpoint signs force a zero on a continuous real path
+through the unit interval. -/
+theorem exists_eq_zero_of_continuousOn_of_mul_neg
+    (f : ℝ → ℝ) (continuous : ContinuousOn f (Icc 0 1))
+    (opposite : f 0 * f 1 < 0) :
+    ∃ t ∈ Icc (0 : ℝ) 1, f t = 0 := by
+  by_contra no_zero
+  have nonzero : ∀ t ∈ Icc (0 : ℝ) 1, f t ≠ 0 := by
+    intro t t_mem path_zero
+    exact no_zero ⟨t, t_mem, path_zero⟩
+  have locked := endpoint_mul_pos_of_continuousOn_of_ne_zero f continuous
+    nonzero
+  exact (not_lt_of_ge opposite.le) locked
+
 /-- Entrywise continuity and determinant nonvanishing lock the endpoint signs
 of a square-matrix path. -/
 theorem det_endpoint_mul_pos_of_entrywiseContinuous_of_ne_zero

@@ -2451,8 +2451,11 @@ This annotation records delivered identifiers without changing the goals above.
   nonvanishing of the confluent exponential determinant throughout the
   ordered positive unit chamber. The root command passes a 3,597-job Lean
   build and 119 tests.
-- Post-v1 research phase CU: in progress. The frozen target is an exact
-  exponential-cubic counterexample to universal ordered-unit-chamber
-  nonvanishing, together with a forced-zero continuous path. The obstruction
-  deliberately leaves open the narrower paired-subtuple geometry of the
-  actual GECP endpoint determinants.
+- Post-v1 research phase CU: verified; awaiting review. The exact
+  exponential-cubic endpoint determinants reduce, after positive column
+  scaling, to `83/194059800` and `-1/194059800`. Lean proves that the straight
+  path remains in the ordered open unit chamber and contains a determinant
+  zero, refuting universal chamber nonvanishing. The obstruction deliberately
+  leaves open the narrower paired-subtuple geometry of the actual GECP
+  endpoint determinants. The root command passes a 3,598-job Lean build and
+  120 tests.

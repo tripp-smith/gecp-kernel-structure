@@ -1308,6 +1308,17 @@ pivots.
   3,597-job Lean build and 119 tests.
   The change passed CI and merged as PR #100.
 
+- Phase CU rules out the overbroad ordered-chamber completion of the Phase CT
+  homotopy. With row tuples `(1,2,3,4)/9` and `(5,6,7,8)/9`, logarithmic
+  column nodes `9 log(12/11) < 9 log(11/10)` in `(0,1)`, and appended columns
+  `1,x^3`, positive exponential scaling reduces the endpoint determinants to
+  the exact rationals `83/194059800` and `-1/194059800`. Lean proves the
+  straight interpolation remains strictly ordered in the open unit chamber,
+  so continuity forces a singular member. This does not refute the physical
+  paired-subtuple path: actual endpoints additionally satisfy
+  `X_sel ⊂ X_aug` and `Y_sel ⊂ Y_aug`. The root command passes a 3,598-job
+  Lean build and 120 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

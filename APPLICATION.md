@@ -327,6 +327,11 @@ topological infrastructure, and the exact midpoint sweep is a deterministic
 research regression. It does not certify determinant nonvanishing along an
 arbitrary runtime path or expose a numerical homotopy checker.
 
+Phase CU also adds no public Python API. Its exact regression independently
+reconstructs the two rational endpoint determinants and ordered path samples;
+the delivered result is a formal obstruction to an overbroad proof strategy,
+not a runtime singularity detector or certificate for user-supplied nodes.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

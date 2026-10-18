@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CU contract: ordered-chamber obstruction
 
-State: in progress.
+State: verified; awaiting review.
 
 Phase CT isolates nonvanishing of a canonical confluent exponential
 determinant along a straight ordered-node homotopy. The tempting strengthening
@@ -5145,6 +5145,33 @@ Non-claims:
   existence, the infinite-tail passage, higher fresh order, the normalized
   tangent envelope, order-eighteen contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered result:
+
+- `expCubicAugmented` defines the four-row determinant with two exponential
+  columns and appended monomials `1` and `x^3`;
+- `phaseCURows_strictMono`, `phaseCUColumns_strictMono`, and the open-unit
+  membership theorems certify that both endpoint configurations and the whole
+  row path stay inside the proposed ordered chamber;
+- `phaseCUReduced_one_det` and `phaseCUReduced_five_det` prove the exact
+  rational reduced determinants `83/194059800` and `-1/194059800`;
+- `expCubicAugmented_phaseCURows_one_det_pos` and its negative endpoint
+  counterpart lift those signs through positive exponential column scaling;
+- `Matrix.exists_eq_zero_of_continuousOn_of_mul_neg` supplies the generic
+  opposite-sign intermediate-value interface, and
+  `phaseCUMatrixPath_exists_det_eq_zero` proves that the explicit straight
+  ordered-chamber path contains a singular determinant;
+- all public results use only `propext`, `Classical.choice`, and `Quot.sound`,
+  and `./scripts/verify.sh` passes a 3,598-job Lean build and 120 Python tests
+  with no known dependency vulnerabilities.
+
+Next decision:
+
+Replace the false full-chamber target with the endpoint-coupled statement
+actually produced by GECP: `X_sel` is a subtuple of `X_aug`, `Y_sel` is a
+subtuple of `Y_aug`, and the two determinants cross these pairs as
+`D(X_aug,Y_sel)` and `D(Y_aug,X_sel)`. The Phase CU witness does not satisfy
+those constraints, while all 11,024 Phase CT pairs do.
 
 ## Phase CT contract: homotopy sign lock
 
