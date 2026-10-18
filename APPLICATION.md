@@ -337,6 +337,11 @@ certifies one research counterexample—kernel entries, Schur residual, two
 complete pivots, and crossed determinant signs. It is not exposed as a
 runtime pivot or chirotope diagnostic.
 
+Phase CW also adds no public Python API. Its exact regressions test a formal
+aggregate determinant-pencil criterion on conditioned research fixtures; they
+do not provide a runtime Lorentzian or convergence certificate for arbitrary
+user data.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

@@ -338,18 +338,23 @@ theorem weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
       lower upper w f weight_nonneg cross_le
   linarith
 
-/-- Sharp two-block reverse covariance inequality.  It is the
-fresh-order-two Lorentzian discriminant inequality for pair weights generated
-by two comonotone ratio sequences. -/
-theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
+omit [DecidableEq ι] in
+/-- The sharp two-block reverse covariance inequality needs only the aggregate
+product of the two block-mean shifts.  In particular, it does not require
+every cross-block pair of coordinates to have the same orientation. -/
+theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg
     (lower upper : Finset ι) (w f g : ι → ℝ)
     (lower_mass_pos : 0 < weightedMass lower w)
     (upper_mass_pos : 0 < weightedMass upper w)
-    (weight_nonneg : ∀ i ∈ lower ∪ upper, 0 ≤ w i)
-    (lower_monovary : MonovaryOn f g lower)
-    (upper_monovary : MonovaryOn f g upper)
-    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j)
-    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper, g i ≤ g j) :
+    (lower_cov_nonneg :
+      0 ≤ weightedCovarianceNumerator lower w f g)
+    (upper_cov_nonneg :
+      0 ≤ weightedCovarianceNumerator upper w f g)
+    (mean_shift_product_nonneg : 0 ≤
+      (weightedMass lower w * weightedMoment upper w f -
+          weightedMass upper w * weightedMoment lower w f) *
+        (weightedMass lower w * weightedMoment upper w g -
+          weightedMass upper w * weightedMoment lower w g)) :
     4 * weightedCovarianceNumerator lower w f g *
         weightedCovarianceNumerator upper w f g ≤
       weightedCrossIncrement lower upper w f g ^ 2 := by
@@ -358,34 +363,11 @@ theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
   let cross := weightedCrossIncrement lower upper w f g
   let lowerMass := weightedMass lower w
   let upperMass := weightedMass upper w
-  have lower_cov_nonneg : 0 ≤ lowerCov := by
-    apply weightedCovarianceNumerator_nonneg lower w f g
-    · intro i hi
-      exact weight_nonneg i (mem_union_left upper hi)
-    · exact lower_monovary
-  have upper_cov_nonneg : 0 ≤ upperCov := by
-    apply weightedCovarianceNumerator_nonneg upper w f g
-    · intro i hi
-      exact weight_nonneg i (mem_union_right lower hi)
-    · exact upper_monovary
-  have cross_nonneg : 0 ≤ cross :=
-    weightedCrossIncrement_nonneg_of_cross_le lower upper w f g
-      weight_nonneg f_cross g_cross
-  have f_shift_nonneg : 0 ≤
-      lowerMass * weightedMoment upper w f -
-        upperMass * weightedMoment lower w f :=
-    weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
-      lower upper w f weight_nonneg f_cross
-  have g_shift_nonneg : 0 ≤
-      lowerMass * weightedMoment upper w g -
-        upperMass * weightedMoment lower w g :=
-    weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
-      lower upper w g weight_nonneg g_cross
   have decomposition :=
     weightedMass_mul_weightedMass_mul_crossIncrement lower upper w f g
   change lowerMass * upperMass * cross =
       upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov + _ at decomposition
-  have rhs_nonneg :
+  have covariance_terms_nonneg :
       0 ≤ upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov :=
     add_nonneg (mul_nonneg (sq_nonneg _) lower_cov_nonneg)
       (mul_nonneg (sq_nonneg _) upper_cov_nonneg)
@@ -393,13 +375,14 @@ theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
       upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov ≤
         lowerMass * upperMass * cross := by
     rw [decomposition]
-    exact le_add_of_nonneg_right (mul_nonneg f_shift_nonneg g_shift_nonneg)
-  have scaled_nonneg : 0 ≤ lowerMass * upperMass * cross :=
-    mul_nonneg (mul_nonneg lower_mass_pos.le upper_mass_pos.le) cross_nonneg
+    exact le_add_of_nonneg_right mean_shift_product_nonneg
+  have scaled_cross_nonneg : 0 ≤ lowerMass * upperMass * cross := by
+    rw [decomposition]
+    exact add_nonneg covariance_terms_nonneg mean_shift_product_nonneg
   have squared_lower_bound :
       (upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov) ^ 2 ≤
         (lowerMass * upperMass * cross) ^ 2 :=
-    (sq_le_sq₀ rhs_nonneg scaled_nonneg).2 scaled_lower_bound
+    (sq_le_sq₀ covariance_terms_nonneg scaled_cross_nonneg).2 scaled_lower_bound
   have am_gm :
       4 * (lowerMass * upperMass) ^ 2 * lowerCov * upperCov ≤
         (upperMass ^ 2 * lowerCov + lowerMass ^ 2 * upperCov) ^ 2 := by
@@ -421,6 +404,38 @@ theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
         weightedCrossIncrement lower upper w f g ^ 2 := by
       simp only [cross]
       ring
+
+/-- Sharp two-block reverse covariance inequality.  It is the
+fresh-order-two Lorentzian discriminant inequality for pair weights generated
+by two comonotone ratio sequences. -/
+theorem four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq
+    (lower upper : Finset ι) (w f g : ι → ℝ)
+    (lower_mass_pos : 0 < weightedMass lower w)
+    (upper_mass_pos : 0 < weightedMass upper w)
+    (weight_nonneg : ∀ i ∈ lower ∪ upper, 0 ≤ w i)
+    (lower_monovary : MonovaryOn f g lower)
+    (upper_monovary : MonovaryOn f g upper)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper, g i ≤ g j) :
+    4 * weightedCovarianceNumerator lower w f g *
+        weightedCovarianceNumerator upper w f g ≤
+      weightedCrossIncrement lower upper w f g ^ 2 := by
+  apply
+    four_mul_weightedCovarianceNumerator_mul_le_crossIncrement_sq_of_meanShiftProduct_nonneg
+      lower upper w f g lower_mass_pos upper_mass_pos
+  · apply weightedCovarianceNumerator_nonneg lower w f g
+    · intro i hi
+      exact weight_nonneg i (mem_union_left upper hi)
+    · exact lower_monovary
+  · apply weightedCovarianceNumerator_nonneg upper w f g
+    · intro i hi
+      exact weight_nonneg i (mem_union_right lower hi)
+    · exact upper_monovary
+  · apply mul_nonneg
+    · exact weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
+        lower upper w f weight_nonneg f_cross
+    · exact weightedMass_mul_moment_sub_mass_mul_moment_nonneg_of_cross_le
+        lower upper w g weight_nonneg g_cross
 
 theorem weightedBlockMeanShift_eq
     (first second : Finset ι) (w f : ι → ℝ)

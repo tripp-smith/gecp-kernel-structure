@@ -3830,6 +3830,376 @@ def test_complete_pivot_chirotope_obstruction_exactly() -> None:
     assert right_det < 0
     assert left_det * right_det < 0
 
+    def row_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot_value = matrix[pivot_row][pivot_column]
+        assert pivot_value
+        return [
+            [
+                companion[i][j]
+                - matrix[i][pivot_column] * companion[pivot_row][j] / pivot_value
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def column_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot_value = matrix[pivot_row][pivot_column]
+        assert pivot_value
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * matrix[pivot_row][j] / pivot_value
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def multiply(
+        left: list[list[Fraction]], right: list[list[Fraction]]
+    ) -> list[list[Fraction]]:
+        return [
+            [
+                sum(
+                    (left[i][k] * right[k][j] for k in range(len(right))),
+                    Fraction(),
+                )
+                for j in range(len(right[0]))
+            ]
+            for i in range(len(left))
+        ]
+
+    def weighted_mass(indices: range, weights: tuple[Fraction, ...]) -> Fraction:
+        return sum((weights[index] for index in indices), Fraction())
+
+    def weighted_moment(
+        indices: range,
+        weights: tuple[Fraction, ...],
+        values: tuple[Fraction, ...],
+    ) -> Fraction:
+        return sum((weights[index] * values[index] for index in indices), Fraction())
+
+    def weighted_covariance(
+        indices: range,
+        weights: tuple[Fraction, ...],
+        first: tuple[Fraction, ...],
+        second: tuple[Fraction, ...],
+    ) -> Fraction:
+        return weighted_mass(indices, weights) * sum(
+            (weights[index] * first[index] * second[index] for index in indices),
+            Fraction(),
+        ) - weighted_moment(indices, weights, first) * weighted_moment(
+            indices, weights, second
+        )
+
+    checked_pencils = 0
+    mean_shift_certificates = 0
+    rank_one_endpoints = 0
+    for feature_count in range(4, 11):
+        conditioned_left = [
+            [
+                Fraction((i + 1) ** degree, math.factorial(degree))
+                for degree in range(feature_count)
+            ]
+            for i in range(4)
+        ]
+        conditioned_right = [
+            [Fraction((j + 21) ** degree) for j in range(4)]
+            for degree in range(feature_count)
+        ]
+        conditioned_kernel = [row[:] for row in kernel]
+        for pivot_row, pivot_column in ((3, 3), (0, 0)):
+            conditioned_left = row_condition(
+                conditioned_kernel,
+                conditioned_left,
+                pivot_row,
+                pivot_column,
+            )
+            conditioned_right = column_condition(
+                conditioned_kernel,
+                conditioned_right,
+                pivot_row,
+                pivot_column,
+            )
+            conditioned_kernel = row_condition(
+                conditioned_kernel,
+                conditioned_kernel,
+                pivot_row,
+                pivot_column,
+            )
+
+        left_zero = tuple(conditioned_left[1])
+        left_one = tuple(conditioned_left[2])
+        right_zero = tuple(
+            conditioned_right[degree][1] for degree in range(feature_count)
+        )
+        right_one = tuple(
+            conditioned_right[degree][2] for degree in range(feature_count)
+        )
+        assert all(value for value in (*left_zero, *right_zero))
+        weights = tuple(
+            left_zero[degree] * right_zero[degree] for degree in range(feature_count)
+        )
+        left_ratios = tuple(
+            left_one[degree] / left_zero[degree] for degree in range(feature_count)
+        )
+        right_ratios = tuple(
+            right_one[degree] / right_zero[degree] for degree in range(feature_count)
+        )
+
+        for cutoff in range(1, feature_count):
+            lower = range(cutoff)
+            upper = range(cutoff, feature_count)
+            low = multiply(
+                [[conditioned_left[i][degree] for degree in lower] for i in (1, 2)],
+                [[conditioned_right[degree][j] for j in (1, 2)] for degree in lower],
+            )
+            high = multiply(
+                [[conditioned_left[i][degree] for degree in upper] for i in (1, 2)],
+                [[conditioned_right[degree][j] for j in (1, 2)] for degree in upper],
+            )
+            low_det = fraction_determinant(low)
+            high_det = fraction_determinant(high)
+            mixed = (
+                fraction_determinant(
+                    [[low[i][j] + high[i][j] for j in range(2)] for i in range(2)]
+                )
+                - low_det
+                - high_det
+            )
+            assert low_det >= 0
+            assert high_det >= 0
+            assert mixed >= 0
+            assert mixed**2 >= 4 * low_det * high_det
+
+            lower_mass = weighted_mass(lower, weights)
+            upper_mass = weighted_mass(upper, weights)
+            lower_covariance = weighted_covariance(
+                lower, weights, left_ratios, right_ratios
+            )
+            upper_covariance = weighted_covariance(
+                upper, weights, left_ratios, right_ratios
+            )
+            left_shift = lower_mass * weighted_moment(
+                upper, weights, left_ratios
+            ) - upper_mass * weighted_moment(lower, weights, left_ratios)
+            right_shift = lower_mass * weighted_moment(
+                upper, weights, right_ratios
+            ) - upper_mass * weighted_moment(lower, weights, right_ratios)
+            assert lower_mass > 0
+            assert upper_mass > 0
+            assert lower_covariance == low_det
+            assert upper_covariance == high_det
+            if left_shift * right_shift >= 0:
+                mean_shift_certificates += 1
+            else:
+                assert feature_count == 4 and cutoff in (1, 3)
+                assert low_det == 0 or high_det == 0
+                rank_one_endpoints += 1
+            checked_pencils += 1
+
+    assert checked_pencils == 42
+    assert mean_shift_certificates == 40
+    assert rank_one_endpoints == 2
+
+
+def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
+    def finite_exp(value: Fraction, terms: int) -> Fraction:
+        return sum(
+            (value**degree / math.factorial(degree) for degree in range(terms)),
+            Fraction(),
+        )
+
+    def row_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot_value = matrix[pivot_row][pivot_column]
+        assert pivot_value
+        return [
+            [
+                companion[i][j]
+                - matrix[i][pivot_column] * companion[pivot_row][j] / pivot_value
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    def column_condition(
+        matrix: list[list[Fraction]],
+        companion: list[list[Fraction]],
+        pivot_row: int,
+        pivot_column: int,
+    ) -> list[list[Fraction]]:
+        pivot_value = matrix[pivot_row][pivot_column]
+        assert pivot_value
+        return [
+            [
+                companion[i][j]
+                - companion[i][pivot_column] * matrix[pivot_row][j] / pivot_value
+                for j in range(len(companion[0]))
+            ]
+            for i in range(len(companion))
+        ]
+
+    rng = random.Random(0xC0DEC0DE)
+    checked_pencils = 0
+    smallest_margin: Fraction | None = None
+    smallest_metadata: (
+        tuple[
+            int,
+            int,
+            int,
+            int,
+            int,
+            tuple[int, ...],
+            tuple[int, ...],
+        ]
+        | None
+    ) = None
+
+    for case in range(2500):
+        size = rng.randrange(4, 9)
+        feature_count = rng.randrange(3, 13)
+        prefix_length = rng.randrange(1, size - 1)
+        row_denominator = rng.randrange(size + 1, 25)
+        column_denominator = rng.randrange(size + 1, 27)
+        rows = tuple(
+            Fraction(value, row_denominator)
+            for value in sorted(rng.sample(range(1, row_denominator), size))
+        )
+        columns = tuple(
+            Fraction(value, column_denominator)
+            for value in sorted(rng.sample(range(1, column_denominator), size))
+        )
+        kernel = [[finite_exp(x * y, feature_count + 5) for y in columns] for x in rows]
+        conditioned_left = [
+            [x**degree / math.factorial(degree) for degree in range(feature_count)]
+            for x in rows
+        ]
+        conditioned_right = [
+            [y**degree for y in columns] for degree in range(feature_count)
+        ]
+        selected_rows: list[int] = []
+        selected_columns: list[int] = []
+        for _ in range(prefix_length):
+            _, _, _, pivot_row, pivot_column = max(
+                (
+                    abs(kernel[i][j]),
+                    -i,
+                    -j,
+                    i,
+                    j,
+                )
+                for i in range(size)
+                for j in range(size)
+                if i not in selected_rows and j not in selected_columns
+            )
+            conditioned_left = row_condition(
+                kernel, conditioned_left, pivot_row, pivot_column
+            )
+            conditioned_right = column_condition(
+                kernel, conditioned_right, pivot_row, pivot_column
+            )
+            kernel = row_condition(kernel, kernel, pivot_row, pivot_column)
+            selected_rows.append(pivot_row)
+            selected_columns.append(pivot_column)
+
+        fresh_rows = tuple(i for i in range(size) if i not in selected_rows)[:2]
+        fresh_columns = tuple(j for j in range(size) if j not in selected_columns)[:2]
+        cross_inversions = sum(
+            selected > fresh for selected in selected_rows for fresh in fresh_rows
+        ) + sum(
+            selected > fresh for selected in selected_columns for fresh in fresh_columns
+        )
+        orientation = -1 if cross_inversions % 2 else 1
+
+        def feature_block(
+            degrees: range,
+            left: list[list[Fraction]],
+            right: list[list[Fraction]],
+            block_rows: tuple[int, ...],
+            block_columns: tuple[int, ...],
+        ) -> list[list[Fraction]]:
+            return [
+                [
+                    sum(
+                        (left[i][degree] * right[degree][j] for degree in degrees),
+                        Fraction(),
+                    )
+                    for j in block_columns
+                ]
+                for i in block_rows
+            ]
+
+        for cutoff in range(1, feature_count):
+            low = feature_block(
+                range(cutoff),
+                conditioned_left,
+                conditioned_right,
+                fresh_rows,
+                fresh_columns,
+            )
+            high = feature_block(
+                range(cutoff, feature_count),
+                conditioned_left,
+                conditioned_right,
+                fresh_rows,
+                fresh_columns,
+            )
+            constant = orientation * fraction_determinant(low)
+            quadratic = orientation * fraction_determinant(high)
+            mixed = orientation * (
+                fraction_determinant(
+                    [[low[i][j] + high[i][j] for j in range(2)] for i in range(2)]
+                )
+                - fraction_determinant(low)
+                - fraction_determinant(high)
+            )
+            discriminant = mixed**2 - 4 * constant * quadratic
+            assert constant >= 0
+            assert mixed >= 0
+            assert quadratic >= 0
+            assert discriminant >= 0
+            scale = abs(mixed**2) + abs(4 * constant * quadratic)
+            normalized_margin = discriminant / scale if scale else Fraction()
+            if smallest_margin is None or normalized_margin < smallest_margin:
+                smallest_margin = normalized_margin
+                smallest_metadata = (
+                    case,
+                    size,
+                    prefix_length,
+                    feature_count,
+                    cutoff,
+                    tuple(selected_rows),
+                    tuple(selected_columns),
+                )
+            checked_pencils += 1
+
+    assert checked_pencils == 16424
+    assert smallest_margin is not None
+    assert Fraction(37, 100) < smallest_margin < Fraction(38, 100)
+    assert smallest_metadata == (
+        1932,
+        8,
+        6,
+        9,
+        7,
+        (7, 0, 4, 5, 1, 2),
+        (7, 0, 3, 5, 1, 4),
+    )
+
 
 def test_fresh_order_two_lorentzian_discriminants_exactly() -> None:
     def finite_exp(value: Fraction, terms: int) -> Fraction:
