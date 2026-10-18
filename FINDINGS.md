@@ -1294,6 +1294,7 @@ pivots.
   theorem must establish left/right oriented-matroid synchronization, not a
   false universal confluent sign formula. The root command passes a 3,596-job
   Lean build and 119 tests.
+  The change passed CI and merged as PR #99.
 
 ## Run provenance
 

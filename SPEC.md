@@ -2433,7 +2433,7 @@ This annotation records delivered identifiers without changing the goals above.
   500 arbitrary-pivot cases. This is a representation bridge, not the still-
   open augmented Taylor minor-sign or cyclic-separator theorem. The root
   command passes a 3,596-job Lean build and 119 tests.
-- Post-v1 research phase CS: verified; awaiting review and merge.
+- Post-v1 research phase CS: complete; merged as PR #99 with green CI.
   `mul_nonneg_of_common_sign_schedule` proves that a shared nonzero schedule
   cancels after two independent reorientations, and
   `orientedConditionedRankTwoMatchedCoordinate_nonneg_of_common_sign_schedule`

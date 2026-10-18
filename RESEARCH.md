@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CS contract: common chirotope schedule
 
-State: verified; awaiting review and merge.
+State: complete; merged as PR #99 with green CI.
 
 Phase CR turns the conditioned matched coordinate into a product of original
 augmented determinants. The initial contract conjectured that their common raw
