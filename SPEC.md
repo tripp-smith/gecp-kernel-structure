@@ -2373,3 +2373,18 @@ This annotation records delivered identifiers without changing the goals above.
   the normalized tangent envelope, order-eighteen contraction, dyadic
   recurrence, Conjecture G1, and Problem 4.2. The root command passes a
   3,595-job Lean build and 117 tests.
+- Post-v1 research phase CO: verified; review pending.
+  `finTwoPencilMixed_mul_mul` proves that a two-sided basis change scales the
+  mixed coefficient by `det(P)det(Q)`, and
+  `finTwoPencilDiscriminant_mul_mul` shows that the full discriminant scales
+  by its square. Lorentzianity transfers through arbitrary changes and is
+  equivalent under invertible ones.
+  `rankTwoBlockPencil_lorentzian_of_projective_affine` composes this with the
+  Phase CN chart certificate, allowing a different invertible affine chart
+  for every cutoff. Exact arithmetic checks 512 invertible rational changes,
+  including 271 negative scale products, plus a singular degeneration. The
+  cyclic-prefix and separating-chart theorem for arbitrary conditioned Taylor
+  factors, infinite-tail passage, higher fresh order, normalized tangent
+  envelope, order-eighteen contraction, dyadic recurrence, Conjecture G1, and
+  Problem 4.2 remain open. The root command passes a 3,595-job Lean build and
+  118 tests.

@@ -34,6 +34,74 @@ theorem finTwoPencilDiscriminant_nonneg_iff
   unfold finTwoPencilDiscriminant
   exact sub_nonneg
 
+/-- The mixed coefficient can be recovered from the determinant at unit
+pencil weight. -/
+theorem finTwoPencilMixed_eq_det_add_sub
+    (low high : Matrix (Fin 2) (Fin 2) ℝ) :
+    finTwoPencilMixed low high = (low + high).det - low.det - high.det := by
+  have expansion := finTwoPencil_det_expansion low high 1
+  norm_num at expansion
+  linarith
+
+/-- Two-sided changes of homogeneous basis scale the mixed determinant
+coefficient by the product of the two basis determinants. -/
+theorem finTwoPencilMixed_mul_mul
+    (left low high right : Matrix (Fin 2) (Fin 2) ℝ) :
+    finTwoPencilMixed (left * low * right) (left * high * right) =
+      left.det * right.det * finTwoPencilMixed low high := by
+  rw [finTwoPencilMixed_eq_det_add_sub,
+    finTwoPencilMixed_eq_det_add_sub]
+  have add_eq :
+      left * low * right + left * high * right =
+        left * (low + high) * right := by
+    rw [Matrix.mul_add, Matrix.add_mul]
+  rw [add_eq]
+  simp only [Matrix.det_mul]
+  ring
+
+/-- The discriminant scales by the square of the two-sided projective basis
+factor. -/
+theorem finTwoPencilDiscriminant_mul_mul
+    (left low high right : Matrix (Fin 2) (Fin 2) ℝ) :
+    finTwoPencilDiscriminant (left * low * right) (left * high * right) =
+      (left.det * right.det) ^ 2 * finTwoPencilDiscriminant low high := by
+  unfold finTwoPencilDiscriminant
+  rw [finTwoPencilMixed_mul_mul]
+  simp only [Matrix.det_mul]
+  ring
+
+/-- Lorentzianity is preserved by every two-sided basis change, including a
+singular degeneration. -/
+theorem finTwoPencil_lorentzian_mul_mul
+    (left low high right : Matrix (Fin 2) (Fin 2) ℝ)
+    (lorentzian :
+      4 * low.det * high.det ≤ finTwoPencilMixed low high ^ 2) :
+    4 * (left * low * right).det * (left * high * right).det ≤
+      finTwoPencilMixed (left * low * right) (left * high * right) ^ 2 := by
+  rw [← finTwoPencilDiscriminant_nonneg_iff] at lorentzian ⊢
+  rw [finTwoPencilDiscriminant_mul_mul]
+  exact mul_nonneg (sq_nonneg _) lorentzian
+
+/-- Invertible two-sided basis changes preserve and reflect the Lorentzian
+discriminant inequality. -/
+theorem finTwoPencil_lorentzian_mul_mul_iff
+    (left low high right : Matrix (Fin 2) (Fin 2) ℝ)
+    (left_det_ne : left.det ≠ 0) (right_det_ne : right.det ≠ 0) :
+    4 * (left * low * right).det * (left * high * right).det ≤
+        finTwoPencilMixed (left * low * right) (left * high * right) ^ 2 ↔
+      4 * low.det * high.det ≤ finTwoPencilMixed low high ^ 2 := by
+  rw [← finTwoPencilDiscriminant_nonneg_iff,
+    ← finTwoPencilDiscriminant_nonneg_iff,
+    finTwoPencilDiscriminant_mul_mul]
+  have scale_sq_pos : 0 < (left.det * right.det) ^ 2 :=
+    sq_pos_of_ne_zero (mul_ne_zero left_det_ne right_det_ne)
+  constructor
+  · intro scaled_nonneg
+    exact nonneg_of_mul_nonneg_left
+      (by simpa [mul_comm] using scaled_nonneg) scale_sq_pos
+  · intro original_nonneg
+    exact mul_nonneg scale_sq_pos.le original_nonneg
+
 /-- A nonnegative quadratic coefficient sequence satisfying its sharp
 Lorentzian discriminant inequality factors into two affine terms with
 nonnegative offsets.  This is the scalar generalized-spectrum certificate. -/

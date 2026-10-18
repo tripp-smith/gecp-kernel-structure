@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CO contract: projective chart invariance
 
-State: in progress.
+State: verified.
 
 Phase CN proves the Lorentzian inequality in any positive ordered affine
 chart, while its exact audit shows that the useful chart must depend on the
@@ -5137,6 +5137,20 @@ Non-claims:
 - it does not prove the infinite-tail passage, higher fresh order, normalized
   tangent envelope, order-eighteen contraction, dyadic recurrence,
   Conjecture G1, or Simons Problem 4.2.
+
+Delivered: `finTwoPencilMixed_eq_det_add_sub` recovers the mixed coefficient
+from the determinant at unit weight. `finTwoPencilMixed_mul_mul` and
+`finTwoPencilDiscriminant_mul_mul` prove exact two-sided basis-change scaling,
+including negative and singular determinant products.
+`finTwoPencil_lorentzian_mul_mul` gives one-way transfer through arbitrary
+changes, while `finTwoPencil_lorentzian_mul_mul_iff` gives equivalence for
+invertible changes. Finally,
+`rankTwoBlockPencil_lorentzian_of_projective_affine` composes this invariance
+with Phase CN: any invertible cutoff-specific chart satisfying the positive
+ordered affine certificate proves the original pencil inequality. Exact
+rational checks cover 512 invertible changes, including 271 negative scale
+products, plus one singular boundary degeneration. The root command passes a
+3,595-job Lean build and 118 tests.
 
 ## Phase CN contract: projective rank-two ratio bridge
 

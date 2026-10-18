@@ -307,4 +307,45 @@ theorem rankTwoBlockPencil_lorentzian_of_affine
     lower_mass_pos upper_mass_pos weight_nonneg lower_monovary upper_monovary
     f_cross g_cross
 
+/-- A cutoff-specific projective chart may be used to certify the original
+rank-two pencil.  Invertibility transfers the chart inequality back through
+the two-sided basis change. -/
+theorem rankTwoBlockPencil_lorentzian_of_projective_affine
+    (leftBasis rightBasis low high : Matrix (Fin 2) (Fin 2) ℝ)
+    (lower upper : Finset ι)
+    (leftZero leftOne rightZero rightOne f g : ι → ℝ)
+    (left_det_ne : leftBasis.det ≠ 0)
+    (right_det_ne : rightBasis.det ≠ 0)
+    (low_chart : leftBasis * low * rightBasis =
+      rankTwoBlockMatrix lower leftZero leftOne rightZero rightOne)
+    (high_chart : leftBasis * high * rightBasis =
+      rankTwoBlockMatrix upper leftZero leftOne rightZero rightOne)
+    (left_factor : ∀ k, leftOne k = leftZero k * f k)
+    (right_factor : ∀ k, rightOne k = rightZero k * g k)
+    (lower_mass_pos :
+      0 < weightedMass lower (fun k ↦ leftZero k * rightZero k))
+    (upper_mass_pos :
+      0 < weightedMass upper (fun k ↦ leftZero k * rightZero k))
+    (weight_nonneg :
+      ∀ k ∈ lower ∪ upper, 0 ≤ leftZero k * rightZero k)
+    (lower_monovary : MonovaryOn f g lower)
+    (upper_monovary : MonovaryOn f g upper)
+    (f_cross : ∀ i ∈ lower, ∀ j ∈ upper, f i ≤ f j)
+    (g_cross : ∀ i ∈ lower, ∀ j ∈ upper, g i ≤ g j) :
+    4 * low.det * high.det ≤ finTwoPencilMixed low high ^ 2 := by
+  have chart_lorentzian := rankTwoBlockPencil_lorentzian_of_affine
+    lower upper leftZero leftOne rightZero rightOne f g
+    left_factor right_factor lower_mass_pos upper_mass_pos weight_nonneg
+    lower_monovary upper_monovary f_cross g_cross
+  have transformed_lorentzian :
+      4 * (leftBasis * low * rightBasis).det *
+          (leftBasis * high * rightBasis).det ≤
+        finTwoPencilMixed (leftBasis * low * rightBasis)
+          (leftBasis * high * rightBasis) ^ 2 := by
+    rw [low_chart, high_chart]
+    exact chart_lorentzian
+  exact (finTwoPencil_lorentzian_mul_mul_iff
+    leftBasis low high rightBasis left_det_ne right_det_ne).mp
+      transformed_lorentzian
+
 end Matrix

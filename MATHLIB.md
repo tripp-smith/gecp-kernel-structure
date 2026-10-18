@@ -628,6 +628,14 @@ matrix determinants or mixed discriminants. The cyclic order of conditioned
 Taylor degrees and its cutoff-specific chart construction are specialized
 variation-diminishing claims and remain project-facing.
 
+Phase CO proves generic `2 x 2` mixed-discriminant covariance under
+two-sided matrix multiplication. Recovering the mixed coefficient from
+`det(A+B)`, proving its `det(P)det(Q)` scaling, and deriving discriminant
+invariance are reusable linear-algebra facts that could plausibly live near
+matrix determinant pencils after generalization from `ℝ`. The final
+projective-affine chart composition and conditioned Taylor cyclic-order target
+remain project-facing.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
