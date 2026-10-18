@@ -318,6 +318,10 @@ Phase CR also adds no public Python API. Its selected-core-square identity is
 formal proof infrastructure, and the exact augmented-core reconstruction is a
 deterministic regression rather than a runtime sign or separator certificate.
 
+Phase CS also adds no public Python API. Its common-schedule theorem is formal
+proof infrastructure, while the exact sign audit records both an invariant and
+a failed stronger conjecture; it does not certify arbitrary runtime factors.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

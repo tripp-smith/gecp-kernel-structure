@@ -2433,8 +2433,13 @@ This annotation records delivered identifiers without changing the goals above.
   500 arbitrary-pivot cases. This is a representation bridge, not the still-
   open augmented Taylor minor-sign or cyclic-separator theorem. The root
   command passes a 3,596-job Lean build and 119 tests.
-- Post-v1 research phase CS: in progress. The frozen target is an abstract
-  common-chirotope-schedule cancellation theorem, composed through the Phase CR
-  core-square bridge, plus an exact audit of the predicted pivot-depth schedule
-  on the two augmented Taylor determinants separately. This does not assert the
-  still-open analytic confluent generalized-Vandermonde sign theorem.
+- Post-v1 research phase CS: verified; awaiting review and merge.
+  `mul_nonneg_of_common_sign_schedule` proves that a shared nonzero schedule
+  cancels after two independent reorientations, and
+  `orientedConditionedRankTwoMatchedCoordinate_nonneg_of_common_sign_schedule`
+  composes the fact through the Phase CR bridge. Exact reconstruction confirms
+  shared nonzero schedules for all 11,024 left/right augmented pairs, with both
+  signs occurring, but refutes the stronger conjecture that the raw schedule is
+  fixed by pivot depth and the degree pair. Proving arbitrary-run chirotope
+  synchronization remains open. The root command passes a 3,596-job Lean build
+  and 119 tests.
