@@ -5092,6 +5092,53 @@ Verification:
 - `./scripts/verify.sh` passes with 102 Python tests and no known dependency
   vulnerabilities; the change passed CI and merged as PR #70.
 
+## Phase CP contract: separating projective pole chart
+
+State: in progress.
+
+Phase CO permits an arbitrary invertible basis change but leaves a later proof
+to construct the changed affine coordinates. For a homogeneous feature column
+`a_k * (1,f_k)`, a pole `c` uses the basis
+`[[-c,1],[1,0]]`, producing base `a_k*(f_k-c)` and ratio
+`1/(f_k-c)`. The analogous right change at pole `d` gives weight
+`a_k*b_k*(f_k-c)*(g_k-d)`. This is exactly the chart obtained by placing the
+projective point at infinity between the two cyclic degree blocks.
+
+Frozen public Lean targets:
+
+- define the explicit invertible `2 x 2` pole basis and compute its
+  determinant;
+- prove the exact two-sided pole transformation of a rank-two block matrix;
+- prove the transformed affine factorization using only nonvanishing of the
+  two pole differences;
+- combine the construction with Phases CM--CO to prove the original pencil
+  Lorentzian from positivity and block order of the reciprocal pole ratios.
+
+Independent check:
+
+- use exact rational feature factors, poles on both sides and between ratio
+  clusters, and all nontrivial degree cutoffs;
+- check the block-matrix transformation, transformed weights, reciprocal
+  ratios, and discriminant equality directly;
+- retain a pole colliding with one projective point as the rejected boundary.
+
+Decision rule:
+
+- if the pole construction closes, the next contract is solely the
+  conditioned Taylor cyclic-prefix/separating-pole theorem via confluent
+  generalized Vandermonde signs;
+- if the explicit chart changes orientation, retain the exact determinant
+  sign and use Phase CO rather than adding ad hoc reorientation assumptions;
+- do not claim a pole exists merely from the finite audit.
+
+Non-claims:
+
+- this phase does not prove cyclic-prefix order or separating-pole existence
+  for arbitrary conditioned Taylor factors;
+- it does not prove the infinite-tail passage, higher fresh order, normalized
+  tangent envelope, order-eighteen contraction, dyadic recurrence,
+  Conjecture G1, or Simons Problem 4.2.
+
 ## Phase CO contract: projective chart invariance
 
 State: complete; merged as PR #95 with green CI.
