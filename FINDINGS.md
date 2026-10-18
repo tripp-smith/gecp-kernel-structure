@@ -1209,6 +1209,22 @@ pivots.
   passage remain open. The root command passes a 3,594-job Lean build and 117
   tests. The change passed CI and merged as PR #93.
 
+- Phase CN turns the Phase CM inequality into a direct rank-two matrix-pencil
+  interface. Affine chart factorizations rewrite each matched Plucker product
+  as a positive pair weight times two ratio increments; the within-block and
+  cross-block sums are exactly the weighted covariance and cross increment,
+  while scalar-row Cauchy--Binet identifies them with the endpoint
+  determinants and mixed coefficient of the original `2 x 2` pencil. Lean
+  therefore proves the Lorentzian discriminant from a division-free chart
+  certificate. The obvious global chart is genuinely insufficient: among
+  500 exact conditioned-Taylor cases, only 42 are degree-monotone and 276 of
+  2,868 nontrivial splits have opposite aggregate mean shifts. Projectively,
+  however, every left/right pair has the same cyclic order and every degree
+  prefix is a circular interval in all 2,868 splits. The next target is now
+  exact: prove this pivot-depth cyclic order, then choose a cutoff-specific
+  point at infinity. Higher fresh order and the infinite-tail passage remain
+  open. The root command passes a 3,595-job Lean build and 117 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

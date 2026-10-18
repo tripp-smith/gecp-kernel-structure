@@ -5094,7 +5094,7 @@ Verification:
 
 ## Phase CN contract: projective rank-two ratio bridge
 
-State: in progress.
+State: verified.
 
 Phase CM proves the sharp Lorentzian inequality once a rank-two feature pair
 is written in a positive affine chart with two comonotone ratio coordinates.
@@ -5147,6 +5147,21 @@ Non-claims:
 - it does not prove higher fresh order, the normalized tangent envelope,
   order-eighteen contraction, dyadic recurrence, Conjecture G1, or Simons
   Problem 4.2.
+
+Delivered: `rankTwoMatchedCoordinate_eq_affine` proves the exact chart
+factorization of each matched Plucker product.
+`affineRankTwoWithinCoefficient_eq_weightedCovarianceNumerator` and
+`affineRankTwoCrossCoefficient_eq_weightedCrossIncrement` identify the three
+threshold coefficients with the Phase CM objects. `rankTwoBlockMatrix_det`
+and `finTwoPencilMixed_rankTwoBlockMatrix` connect those scalar coefficients
+to the original `2 x 2` block matrices, and
+`rankTwoBlockPencil_lorentzian_of_affine` exposes the final division-free
+certificate consumed by Phase CL. The exact audit confirms sign-coherent
+direct-chart weights in all 500 cases but degree monotonicity in only 42 and
+opposite mean shifts in 276 of 2,868 splits. In contrast, all 500 left/right
+configurations have the same unoriented cyclic order and every one of the
+2,868 prefixes is a circular interval. The root command passes a 3,595-job
+Lean build and 117 tests.
 
 ## Phase CM contract: two-block Lorentzian covariance
 
