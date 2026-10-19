@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase DB `./scripts/verify.sh` passed a 3,608-job Lean build with 133 tests and no known dependency vulnerabilities on 2026-10-19; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DB locally checked; PR pending<br>
+> **Delivery:** Phase DB locally checked; [draft PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108), CI pending<br>
 > **Claim level:** Phase DB refutes neighboring canonical-node coverage on a coherent finite Taylor complete-pivot prefix; the cutoff Lorentzian inequality and Problem 4.2 remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -123,7 +123,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CY | Adjacent-cutoff discriminant bridge | complete | cutoff-transfer identity; shared canonical node; projected-cross factorization and matrix discriminant theorem | 3,602-job Lean build; public axiom audit; 13,924 exact transfer identities and 9,170 interior signs; 123-test root verification; green CI | merged PR #105 |
 | CZ | Interior transfer-node obstruction | complete | four-node finite-Taylor obstruction; alternate neighboring certificates; reproducible all-fresh-pair audit | 3,603-job Lean build; public axiom audit; 54,845 exact transfers and 47,496 covered cutoffs; 80/160-digit exponential regression; 126-test root verification; green CI | merged PR #106 |
 | DA | One-pivot exponential Chebyshev sign | complete | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; green CI | merged PR #107 |
-| DB | Adaptive transfer coverage obstruction | in progress | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; CI pending | PR pending |
+| DB | Adaptive transfer coverage obstruction | in progress | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; CI pending | draft PR #108 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

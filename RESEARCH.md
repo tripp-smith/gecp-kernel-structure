@@ -8240,4 +8240,4 @@ Lean build, the expanded public axiom audit with only `propext`,
 134.61 seconds, and the dependency audit with no known vulnerabilities.
 The local package is skipped by pip-audit because it is not a PyPI dependency.
 The certificate generator's `--check` command independently reproduces every
-committed integer table. CI and PR delivery are pending.
+committed integer table. Draft PR #108 is open; CI is pending.

@@ -2542,4 +2542,4 @@ This annotation records delivered identifiers without changing the goals above.
   complete-pivot claim, higher-order companion envelope, dyadic recurrence,
   G1, or Problem 4.2.
   Local root verification passes a 3,608-job Lean build and 133 tests with
-  only the accepted public theorem axioms. CI and PR delivery are pending.
+  only the accepted public theorem axioms. Draft PR #108 is open; CI is pending.

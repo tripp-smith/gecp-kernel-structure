@@ -432,7 +432,7 @@ attached to these research counters.
 | CY — adjacent-cutoff discriminant bridge | complete; green CI | merged [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105); 3,602 Lean jobs and 123 tests |
 | CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
-| DB — adaptive transfer coverage obstruction | in progress; locally checked | coherent seven-pivot counterexample; 3,608 Lean jobs and 133 tests; CI and PR pending |
+| DB — adaptive transfer coverage obstruction | in progress; locally checked | [draft PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
