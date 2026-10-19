@@ -1380,6 +1380,29 @@ pivots.
   Local root verification passes a 3,602-job Lean build and 123 tests.
   The change passed CI and merged as PR #105.
 
+- Phase CZ refutes the universal interior sign proposed after Phase CY. The
+  exact nine-term Taylor kernel on rows `(17,18,19,20)/21` and columns
+  `(15,16,17,19)/20` has complete pivots `(3,3)` followed by `(0,0)`.
+  All nine features reconstruct the pivot kernel. After those two pivots,
+  moving degree three gives a strictly positive canonical-node numerator even
+  though all four neighboring endpoint determinants and both transfer sums
+  are positive. Both cutoff discriminants remain positive. Moving degrees
+  two and four instead supplies negative-node certificates for the affected
+  cutoffs. This is a strict interior failure with full-rank blocks, rather
+  than the boundary exception seen in Phase CY.
+  The bounded exact audit checks every remaining fresh row/column pair in 100
+  deterministic finite-Taylor cases: 54,845 transfers, four failed fixed
+  nodes, and coverage of all 47,496 interior cutoffs by one of their two
+  neighboring nodes. A 500-case run observes 339,950 transfers, six failed
+  nodes, and coverage of all 292,076 cutoffs. These finite observations leave
+  adaptive coverage open for arbitrary runs and the infinite tail.
+  An independent actual-exponential regression at 80 and 160 decimal digits
+  agrees on the positive normalized degree-three numerator
+  `0.00010354916980416281785667342918876537`, with negative neighboring nodes.
+  This is numerical evidence only; all complete-pivot claims in this phase
+  concern the specified finite node sets.
+  Root verification passes a 3,603-job Lean build and 126 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
