@@ -1557,6 +1557,36 @@ only the accepted public theorem axioms and finding no known dependency
 vulnerabilities.
 Push and PR CI pass; the change merged as PR #111 on 2026-10-19.
 
+## Phase DF — backward witnesses and the global finite rate
+
+Lean proves `fermionicKernel_gecp_error_le_localPanelBlock`: on
+`[0,1] x [-2^s,2^s]`, every exact successful complete-pivot sequence starting
+from the actual kernel has error at most `2^(-q)` after
+`32*(s+1)*(33+4*q)` pivots. The same guarantee holds at every later rank by
+`fermionicKernel_gecp_error_le_of_localPanelBlock`. The extra logarithmic
+startup overhead of Phase X is absent. Boundary times, signed frequencies,
+and arbitrary choices among complete ties are included.
+
+The mechanism is a backwards minor witness, not positivity of separate
+conditioned features. `GECP.markedPivotProduct_le_initialMinor` constructs an
+actual initial minor dominating any marked pivot product. Unmarked steps
+use a matched-rank row deletion that keeps the local columns and physical
+row domain; marked steps gain the actual pivot factor. Selecting exactly
+`n=16*(33+4*q)` marks allows DE's fixed-order budget to rule out `n` large
+pivots in a panel. A proved signed partition has `2*(s+1)` panels, completing
+the count. The generic pivot-count theorem assumes an initial budget, but
+the actual fermionic rate discharges it with DE; no residual envelope or
+convergence conclusion is assumed.
+
+Independent tests check 64 exact mark sets, 135 independently enumerated
+initial budgets, signed boundaries, 780 count identities, and three actual
+exponential determinants at independent 160/320-digit precision. This is
+finite evidence, not a runtime continuous-domain certificate. Root verification
+passes 3,619 Lean jobs, accepted public axioms, 155 tests, and no known
+dependency vulnerabilities; CI is pending. The real-cutoff/accuracy corollaries and full G1 /
+Problem 4.2 completion audit remain open. In particular, dyadic-domain
+completeness cannot simply be assumed for a trace on a smaller rectangle.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

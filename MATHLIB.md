@@ -801,6 +801,18 @@ specific determinant corollaries are project APIs, not proposed upstream
 abstractions. In particular there is no new spectral, positive-companion, or
 infinite-tail sign assumption hidden in the local budget.
 
+Phase DF reuses `Tuple.sort`, `Fin.succAbove`, determinant permutation
+invariance, `Finset.exists_subset_card_eq`, and
+`Fintype.exists_le_card_fiber_of_mul_le_card` from mathlib rather than defining
+new sorting or pigeonhole abstractions. The reusable mathematical addition
+is the local witness transport / marked-pivot initial-minor principle for a
+real strictly totally positive kernel under successful scalar Schur steps.
+Its current API is coupled to the project's `Run`, freshness, and sign-gauge
+interfaces; upstreaming it requires those interfaces first. The finite signed
+panel predicates and fermionic quantitative rate are project-specific.
+No external oscillation, Lorentzian, or conditioned-feature sign theorem is
+assumed by this proof.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

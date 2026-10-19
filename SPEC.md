@@ -2601,3 +2601,20 @@ This annotation records delivered identifiers without changing the goals above.
   prefixes, panel-pivot counting, the global rate, G1, or Problem 4.2.
   Local root verification passes a 3,615-job Lean build and 151 tests with
   only the accepted public axioms and no known dependency vulnerabilities.
+
+- Phase DF status annotation (2026-10-19): root verification passes 3,619
+  Lean jobs, accepted public axioms, and 155 tests, with no known dependency
+  vulnerabilities; CI/delivery pending. `GECP.markedPivotProduct_le_initialMinor`
+  constructs actual initial-kernel minors dominating selected pivot products;
+  `panel_pivot_count_lt_of_initialBudget` combines exactly the budget order
+  of marks with a fixed-order initial envelope. `fermionicPanelDomain_cover`,
+  `fermionicPanelDomain_unique`, and `fermionicPanel_count` prove the signed
+  finite partition. `fermionicKernel_gecp_error_le_localPanelBlock` proves
+  error at most `2^(-q)` after `32*(s+1)*(33+4*q)` exact complete pivots on
+  `[0,1] x [-2^s,2^s]`; `fermionicKernel_gecp_error_le_of_localPanelBlock`
+  extends the guarantee to every later rank. The actual rate assumes only
+  initialization, exact successful updates, realized prefixes, and complete
+  maxima, not a residual determinant/convergence certificate. Independent
+  finite exact and high-precision checks supplement the proof. This closes
+  the dyadic finite global rate, not yet the arbitrary-real-cutoff/accuracy
+  corollaries or the final full-SPEC / G1 / Problem 4.2 completion audit.
