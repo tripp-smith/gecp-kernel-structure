@@ -1404,6 +1404,27 @@ pivots.
   Root verification passes a 3,603-job Lean build and 126 tests.
   The change passed CI and merged as PR #106.
 
+- Phase DA proves an analytic one-pivot augmented-minor sign theorem for the
+  actual exponential. For `0<a≤1`, `0≤x<y<z≤1`, and natural `i<j`,
+  `det[exp(a*t),t^i,t^j]` is negative precisely when `i=0,j≥2` and positive
+  otherwise. `expMonomialMinor_signed_pos` makes that schedule explicit;
+  `expMonomialMinor_matched_mul_pos` proves that independent ordered triples,
+  even at independent rates in `(0,1]`, have a strictly positive product for
+  the same degree pair. The proof normalizes rows and uses a monotone ratio
+  of derivatives through Cauchy's mean value theorem. Boundary nodes zero
+  and one are included. This is a proved infinite-family base case, not a
+  claim of sign synchronization for arbitrary prefixes; Phase CV still
+  rules out that latter claim.
+  Independent 80/160-decimal regressions check 324 determinants; a separate
+  100-decimal check covers 66 paired products. An exact depth-ten
+  coherent conditioned-Taylor fixture has a bad
+  degree-ten node, refuting the proposed `depth+1` localization shortcut in
+  that setting. The deeper 400-case exploratory audit covers 5,964 cutoffs
+  among 6,364 transfers, with sixteen positive nodes and ten outside the
+  proposed exceptional degree. Adaptive coverage remains a conjecture.
+  Local root verification passes a 3,605-job Lean build and 129 tests; the
+  new public results use only the accepted Lean foundations.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

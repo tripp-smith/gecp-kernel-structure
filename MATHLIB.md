@@ -730,6 +730,21 @@ relevant prospective theorem is adaptive neighboring-node coverage; the
 universal fixed-node projected-cross sign is false even at a strict interior
 cutoff.
 
+Phase DA reuses `exists_ratio_hasDerivAt_eq_ratio_slope`,
+`strictMonoOn_of_deriv_pos`, and `strictAnti_of_deriv_neg` from mathlib's
+calculus mean-value API, together with the existing exponential and power
+derivatives and `Matrix.det_fin_three`. Searches of the analysis and matrix
+trees found no matching three-node derivative-ratio determinant-sign lemma.
+`Matrix.threePointCross_pos_of_derivativeRatio` is a credible small upstream
+candidate: it combines two applications of Cauchy's mean value theorem into
+a generalized Vandermonde sign, with nonzero denominator derivatives and an
+explicit positive increment product. The exponential/monomial degree
+schedule is a specialized application and should remain project-local.
+Wronskian/complete-Chebyshev connections, such as
+[Karp, Wronskians, total positivity, and real Schubert calculus](https://arxiv.org/abs/2110.02301),
+motivate this formulation; no external oscillation theorem is assumed or
+imported into the Lean proof.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -8009,3 +8009,107 @@ known vulnerabilities. The local package is skipped by pip-audit because it
 is not a PyPI dependency. The committed 500-case audit command independently
 reproduces 339,950 transfers, six failed fixed nodes, and coverage of 292,076
 interior cutoffs. Both push and PR CI passed; the change merged as PR #106.
+
+## Phase DA contract: one-pivot exponential Chebyshev sign
+
+State: in progress on `codex/phase-da-one-pivot-chebyshev-sign`.
+
+The proposed localization of bad transfer nodes at `pivot_depth + 1` fails
+in deeper exact tests. At depth ten, a twelve-node Taylor case has a positive
+degree-ten numerator; neighboring nodes still cover its cutoffs. The expanded
+400-case exploratory audit through depth eighteen checks 6,364 transfers and
+covers 5,964 interior cutoffs, with sixteen positive nodes, ten outside the
+proposed exceptional degree. These observations do not prove adaptive
+coverage. The explicit depth-ten configuration will be retained as a bounded
+exact regression.
+
+The analytic base case uses the actual exponential rather than a Taylor
+truncation. For `0 < a ≤ 1`, `0 ≤ x < y < z ≤ 1`, and natural degrees `i < j`,
+the determinant with columns `exp(a*t)`, `t^i`, `t^j` has a sign depending only
+on the degree pair: negative for `i=0` and `j≥2`, positive otherwise. Thus two
+independent ordered augmented triples have a positive matched product at one
+pivot, uniformly over every pair of degrees. The claim is false as a generic
+multi-pivot sign rule, as Phase CV already demonstrates.
+
+Named Lean targets:
+
+- `Matrix.threePointCross_pos_of_derivativeRatio`: Cauchy mean-value transfer
+  from strictly increasing derivative ratio to a three-point cross sign;
+- `expMonomialMinor_pos_of_pos_degrees`: the positive-degree case;
+- `expMonomialMinor_neg_of_zero_left`: the zero-degree/high-degree case;
+- `expMonomialMinor_zero_one_pos`: the remaining degree `(0,1)` case;
+- `expMonomialMinor_signed_pos` and `expMonomialMinor_matched_mul_pos`: unified
+  degree schedule and matched-product sign for two independent unit triples.
+
+Method: divide each sampled row by its positive exponential factor and apply
+Cauchy's mean value theorem on the two adjacent intervals. For positive
+degrees the derivative ratio is
+`t^(j-i)*(j-a*t)/(i-a*t)`. Its derivative has the positive factor
+`i*j-(i+j-1)*a*t+(a*t)^2` on the open unit interval. The zero-degree cases have
+explicit derivative ratios of opposite monotonicity.
+
+Independent checks: high-precision actual-exponential determinants over
+boundary and interior unit triples, all degree-pair sign branches, and exact
+rational reconstruction of the failed localization example.
+
+Scope: this closes an analytic one-pivot augmented-minor base case. It does
+not establish arbitrary-prefix adaptive coverage, the higher-order companion
+envelope, dyadic recurrence, G1, or Simons Problem 4.2. No percentage for the
+remaining research effort is inferred from completing this base case.
+
+Delivered proof: `OnePivotChebyshevSign.lean` establishes all six named targets
+using the actual exponential, with no Taylor-tail limit assumption. The two
+matched minors may even use independent rates in `(0,1]`. The normalized
+derivative bracket is strictly positive because, with `i=m+1`, `j=m+n+2`,
+and `s=a*t`, it equals
+`1 + m*(m+n+1) + (2*m+n)*(1-s) + (1-s)^2`.
+The zero-left/high-right branch is strictly negative; omitting it would give
+an incorrect all-positive Chebyshev assertion. The boundary nodes `0` and `1`
+are allowed: the derivatives need their strict sign only on the open interval.
+
+Independent regressions in `tests/test_one_pivot_chebyshev.py` compare 324
+raw exponential determinants and their row-normalized form at both 80 and
+160 decimal digits, agreeing to 35 significant digits. Another 66 pairs use
+independent rates and independent node triples. These are numerical checks,
+not formal certificates or an infinite-family proof.
+
+The exact localization witness uses rows
+`(3,4,7,12,13,14,18,20,22,25,27,31)/34`, columns
+`(1,2,3,6,11,14,16,19,21,26,28,31)/33`, 23 pivot-kernel Taylor terms,
+and 18 retained features. Its depth-ten complete-pivot rows are
+`(11,0,6,9,2,3,10,1,8,5)` and columns `(11,0,7,4,9,3,10,2,6,8)`.
+The remaining pairs are `(4,7)` and `(1,5)`. Its positive degree-ten node
+has normalized numerator between `0.0024` and `0.0025`; degrees nine and
+eleven are negative and all nontrivial cutoff discriminants remain positive.
+This exact-rational regression is not a new Lean-certified obstruction.
+The 18 features do not reconstruct the 23-term pivot kernel, so this witness
+was independently retested with all 23 features retained. The same selected
+pivots and positive degree-ten numerator persist, now normalized to
+approximately `0.0024093902186396532`. The committed regression uses this
+coherent 23-term variant and checks exact fresh-block reconstruction, positive
+endpoint determinants, positive discriminants, and adjacent-node coverage.
+It therefore rejects degree localization even for a coherent finite Taylor
+kernel. It is still an exact-rational regression, not a Lean theorem or an
+infinite-tail claim.
+
+The exploratory 400-case sample uses seed `0xDA10CA7E`, depth `2+case%17`,
+size `depth+2`, `depth+8` retained features, and five additional pivot-kernel
+terms. Every third case clusters nodes near one: each denominator is chosen
+by `randrange(4*size,8*size)`, and nodes are a sorted `sample` of size `size`
+from the final `2*size` positive numerators below that denominator. Other
+cases use `randrange(size+1,4*size)` and sample the full positive numerator
+range. Row then column denominators are drawn before row then column samples.
+Only the explicit coherent witness, not this broader exploratory generator,
+is installed as a bounded test.
+
+Decision: retain the analytic one-pivot sign theorem as a base case, but do
+not induct on a universal degree sign or a fixed exceptional degree. The next
+critical lemma is still arbitrary-prefix cumulative neighboring-node coverage
+(or a valid oscillation representation implying it). Neither the numerical
+coverage observations nor this three-node theorem proves that lemma.
+
+Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,605-job
+Lean build, the public axiom audit using only `propext`, `Classical.choice`,
+and `Quot.sound`, Ruff, formatting, mypy, 129 tests in 133.56 seconds, and the
+dependency audit with no known vulnerabilities. The local package is skipped
+by pip-audit because it is not a PyPI dependency. CI and delivery are pending.
