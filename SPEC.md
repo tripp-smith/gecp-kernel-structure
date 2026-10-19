@@ -2488,3 +2488,16 @@ This annotation records delivered identifiers without changing the goals above.
   infinite-tail target to a prefix-cone variation-diminishing/interlacing
   theorem rather than global polynomial stability. The root command passes a
   3,601-job Lean build and 123 tests.
+- Post-v1 research phase CY: in progress. The delivered
+  `quadraticTransferNodeNumerator_invariant` identifies a shared negative-node
+  value for adjacent degree cutoffs, and
+  `quadraticTransferNodeNumerator_outerFeature_eq` factors its numerator into
+  two cumulative projected cross determinants.
+  `finTwoPencil_transfer_lorentzian_of_projectedCross` proves both adjacent
+  matrix discriminant inequalities under explicit endpoint, transfer, and
+  projected-cross sign hypotheses. Exact finite-Taylor checks cover 13,924
+  transfers and 9,170 strict interior signs, with rank-one boundary failures
+  retained. The arbitrary-run analytic sign, infinite-tail passage,
+  higher-fresh-order envelope, dyadic recurrence, G1, and Problem 4.2 remain
+  open.
+  Local root verification passes a 3,602-job Lean build and 123 tests.

@@ -711,6 +711,17 @@ abstract signature theorem; this phase deliberately avoids adding such an API
 because the global property is false for the conditioned feature Hessians.
 The surviving prefix-cone inequality is the specialized project target.
 
+Phase CY uses mathlib's `Matrix.det_fin_two` and elementary ordered-ring
+algebra. Searching the matrix determinant and quadratic-form libraries found
+no existing adjacent rank-one cutoff-transfer or projected-cross
+factorization matching this interface. The formula
+`quadraticTransferNodeNumerator_outerFeature_eq` is a reusable small-matrix
+identity; its scalar discriminant corollary is an elementary negative-value
+criterion for a quadratic. Generalization to an ordered field and a second
+independent consumer would be appropriate before proposing upstream APIs.
+The conditioned-Taylor projected-cross sign is project-specific and remains
+unproved.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
