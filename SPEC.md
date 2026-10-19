@@ -2565,7 +2565,8 @@ This annotation records delivered identifiers without changing the goals above.
   The root gate passes a 3,610-job Lean build, accepted axiom audit, and
   140 tests with no known dependency vulnerabilities.
 
-- Phase DD status annotation (2026-10-19):
+- Phase DD status annotation (2026-10-19): verified and merged as PR #110
+  with green push and PR CI.
   `GECP.Run.gaugedFinalResidual_strictSignRegular` proves that one
   magnitude-preserving row/column sign gauge makes every ordered fresh minor
   positive through any successful real-coordinate positive-minor kernel run.

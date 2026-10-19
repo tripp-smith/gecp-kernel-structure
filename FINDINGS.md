@@ -1442,8 +1442,9 @@ significant digits; they are numerical evidence, not a formal infinite-tail
 obstruction. A separate exact weighted outer-prefix regression also loses
 positive transfer sums while preserving its local positive discriminant.
 All complete-pivot claims here concern the specified finite node sets, not
-maximization over the full continuous domain. The next theorem must control
-the cumulative pencil directly or use the sign-free companion envelope.
+maximization over the full continuous domain. At DB delivery the proposed
+next routes were a direct cumulative-pencil bound or a sign-free companion
+envelope; DD later establishes a different local-minor route.
 Local root verification passes a 3,608-job Lean build and 133 tests, using
 only the accepted public theorem axioms.
 The change passed push and PR CI and merged as PR #108.
@@ -1519,6 +1520,7 @@ The initial variable-degree local determinant budget, its iteration/pivot
 counting, a cutoff-uniform G1 bound, and Problem 4.2 remain open.
 Local root verification passes a 3,614-job Lean build and 146 tests, with
 only the accepted public theorem axioms and no known dependency vulnerabilities.
+Push and PR CI pass; the change merged as PR #110 on 2026-10-19.
 
 ## Run provenance
 

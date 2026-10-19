@@ -8379,7 +8379,8 @@ one-step bridge and evidence, not the unproved original envelope or G1.
 
 ## Phase DD contract: a common all-orders residual sign gauge
 
-State: in progress on `codex/phase-dd-common-residual-sign-gauge`.
+State: verified; merged as PR #110 with green CI. The common all-orders gauge
+and actual arbitrary-prefix next-step bound below are proved; G1 remains open.
 
 For a real-coordinate kernel `K` with `StrictSignRegular K (fun _ => 1)`
 and any successful exact `Run K`, define
@@ -8465,4 +8466,6 @@ local budget nor its iteration/counting is claimed proved in DD.
 
 Local verification: `./scripts/verify.sh` passes a 3,614-job Lean build,
 accepted public theorem axioms, Ruff, formatting, mypy, 146 tests in 133.88
-seconds, and no known dependency vulnerabilities. CI and delivery are pending.
+seconds, and no known dependency vulnerabilities. The final branch-head
+repeat passes all 146 tests in 135.55 seconds. Push and PR CI both pass;
+PR #110 merged on 2026-10-19.

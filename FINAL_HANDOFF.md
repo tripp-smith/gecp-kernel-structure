@@ -410,7 +410,7 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 12:24 UTC exposed 15,648,762 aggregate goal tokens and 78,205
+2026-10-19 at 12:31 UTC exposed 15,693,730 aggregate goal tokens and 78,573
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DD-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -454,7 +454,7 @@ attached to these research counters.
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
 | DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
-| DD — common all-orders residual sign gauge | in progress | common gauge, absolute-minor preservation, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests; CI pending |
+| DD — common all-orders residual sign gauge | verified; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -800,7 +800,9 @@ normalized companion envelope. Phase DB refutes neighboring canonical-node
 coverage even on a coherent unit-square Taylor prefix. The earlier default
 coverage audit remains correct for its fixed finite corpus, not for all runs.
 Phase DA's analytic one-pivot sign theorem remains valid, but neither a fixed
-exceptional degree nor arbitrary-prefix common signs can support induction.
+exceptional degree nor arbitrary-prefix common signs of the conditioned
+exponential/monomial feature minors can support that induction. DD's common
+gauge concerns the actual residual kernel, not those separate feature minors.
 Discrete multiple-orthogonal-polynomial interlacing is related work, not an
 applicable black box without a representation and its hypotheses. A proof
 may need continuous-domain complete-pivot inequalities, which these finite-
