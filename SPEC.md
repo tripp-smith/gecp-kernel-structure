@@ -2516,7 +2516,7 @@ This annotation records delivered identifiers without changing the goals above.
   `phaseCZ_alternate_transferNodes_neg`, and
   `phaseCZ_neighbor_discriminants_pos` are re-exported and axiom-audited.
   Root verification passes a 3,603-job Lean build and 126 tests.
-- Post-v1 research phase DA: in progress. The analytic one-pivot base case
+- Post-v1 research phase DA: verified; merged as PR #107 with green CI. The analytic one-pivot base case
   is delivered by `expMonomialMinor_pos_of_pos_degrees`,
   `expMonomialMinor_zero_one_pos`, `expMonomialMinor_neg_of_zero_left`,
   `expMonomialMinor_signed_pos`, and `expMonomialMinor_matched_mul_pos`.
@@ -2526,4 +2526,4 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic recurrence, G1, or Problem 4.2. A separate exact conditioned-Taylor
   regression rejects localization of bad nodes at `pivot_depth+1`.
   Local root verification passes a 3,605-job Lean build and 129 tests, with
-  only the accepted public theorem axioms. Draft PR #107 is open; CI is pending.
+  only the accepted public theorem axioms. Push and PR CI both pass.

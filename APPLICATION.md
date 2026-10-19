@@ -372,5 +372,5 @@ The implementation agent's exposed model family and mode, goal-accounting
 time and token snapshot, and the assumptions behind the API-equivalent cost
 estimate are documented in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). They describe
-the v1 implementation run, not package runtime requirements or benchmark
+the historical v1 implementation and active research runs, not package runtime requirements or benchmark
 performance.

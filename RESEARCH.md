@@ -8012,7 +8012,7 @@ interior cutoffs. Both push and PR CI passed; the change merged as PR #106.
 
 ## Phase DA contract: one-pivot exponential Chebyshev sign
 
-State: in progress on `codex/phase-da-one-pivot-chebyshev-sign`.
+State: verified; merged as PR #107 with green push and PR CI.
 
 The proposed localization of bad transfer nodes at `pivot_depth + 1` fails
 in deeper exact tests. At depth ten, a twelve-node Taylor case has a positive
@@ -8110,7 +8110,7 @@ coverage observations nor this three-node theorem proves that lemma.
 
 Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,605-job
 Lean build, the public axiom audit using only `propext`, `Classical.choice`,
-and `Quot.sound`, Ruff, formatting, mypy, 129 tests in 133.56 seconds, and the
+and `Quot.sound`, Ruff, formatting, mypy, 129 tests in 132.74 seconds, and the
 dependency audit with no known vulnerabilities. The local package is skipped
-by pip-audit because it is not a PyPI dependency. Draft PR #107 records the
-delivery; CI is pending.
+by pip-audit because it is not a PyPI dependency. Push and PR CI both pass on
+the final branch head; PR #107 merged on 2026-10-19.

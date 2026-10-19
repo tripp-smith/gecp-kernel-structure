@@ -1424,6 +1424,7 @@ pivots.
   proposed exceptional degree. Adaptive coverage remains a conjecture.
   Local root verification passes a 3,605-job Lean build and 129 tests; the
   new public results use only the accepted Lean foundations.
+  The change passed push and PR CI and merged as PR #107.
 
 ## Run provenance
 
