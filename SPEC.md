@@ -2585,7 +2585,8 @@ This annotation records delivered identifiers without changing the goals above.
   Local root verification passes a 3,614-job Lean build and 146 tests, with
   only the accepted public axioms and no known dependency vulnerabilities.
 
-- Phase DE status annotation (2026-10-19): `positivePanelTerms_error` and
+- Phase DE status annotation (2026-10-19): verified; merged as PR #111 with
+  green push and PR CI. `positivePanelTerms_error` and
   `fermionicPanelTerms_error` give `8p` separated terms with actual-kernel
   error `2^(-p)` on each signed central/dyadic panel, independently of its
   scale. `fermionicKernel_panel_sample_det_le_two_pow` supplies the initial

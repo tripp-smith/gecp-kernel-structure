@@ -1555,6 +1555,7 @@ partition/count assembly, G1, and Problem 4.2 remain open.
 Local root verification passes a 3,615-job Lean build and 151 tests, using
 only the accepted public theorem axioms and finding no known dependency
 vulnerabilities.
+Push and PR CI pass; the change merged as PR #111 on 2026-10-19.
 
 ## Run provenance
 

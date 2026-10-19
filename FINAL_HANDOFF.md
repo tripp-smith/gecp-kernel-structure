@@ -418,7 +418,7 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 12:47 UTC exposed 15,791,216 aggregate goal tokens and 79,569
+2026-10-19 at 12:56 UTC exposed 15,834,281 aggregate goal tokens and 80,088
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DE-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -463,7 +463,7 @@ attached to these research counters.
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
 | DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
 | DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
-| DE — cutoff-uniform local panel determinant budget | in progress | actual-kernel local order `16(33+4q)` at accuracy `2^(-q)`; 3,615 Lean jobs and 151 tests; CI pending |
+| DE — cutoff-uniform local panel determinant budget | verified; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

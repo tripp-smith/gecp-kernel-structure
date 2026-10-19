@@ -8497,7 +8497,8 @@ theorem alone does not establish it.
 
 ## Phase DE contract: a cutoff-uniform local panel determinant budget
 
-State: in progress on `codex/phase-de-local-panel-determinant-budget`.
+State: verified; merged as PR #111 with green CI. The initial local budget is
+proved; its iteration/counting and G1 remain open.
 
 Prove an initial determinant envelope on each signed dyadic or central
 frequency panel, independent of its scale. The positive central panel is
@@ -8572,4 +8573,17 @@ unproved until this construction and partition/count bookkeeping are complete.
 
 Local verification: `./scripts/verify.sh` passes a 3,615-job Lean build,
 accepted public theorem axioms, Ruff, formatting, mypy, 151 tests in 139.28
-seconds, and no known dependency vulnerabilities. CI and delivery are pending.
+seconds, and no known dependency vulnerabilities. The final branch-head repeat
+passes all 151 tests in 139.20 seconds. Push and PR CI both pass;
+PR #111 merged on 2026-10-19.
+
+Refinement for the next witness proof: if a panel has at least the target
+number `n` of above-threshold pivots, select **exactly `n` marked positions**.
+Gain a pivot factor only at those positions; use the nonincreasing matched-
+minor bound at every other step, including unmarked pivots inside the panel.
+This keeps the initial witness order exactly equal to DE's budget order,
+rather than incorrectly applying that fixed-order theorem to a larger count.
+For freshness, a nonzero matrix minor has no identically zero sampled row or
+column. Nonzero residual entries cannot lie on previously selected coordinates
+by interpolation, so they can certify the fresh-subtype inputs needed by DD.
+These are proposed proof steps, not a substitute for the missing iteration.
