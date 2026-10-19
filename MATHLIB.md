@@ -745,6 +745,21 @@ Wronskian/complete-Chebyshev connections, such as
 motivate this formulation; no external oscillation theorem is assumed or
 imported into the Lean proof.
 
+Phase DB uses exact fraction-free Schur elimination and finite integer
+certificates. Mathlib searches found matrix discriminant infrastructure and
+polynomial Wronskians, but no matching conditioned cutoff-pencil or canonical-
+node coverage theorem. The local fraction-free update identity is small
+field algebra, not a new analytic abstraction. The certificate uses Lean's
+`decide +kernel` for closed integer/rational statements, with no native
+evaluation axiom. The generated tables are project-specific, independently
+reproducible data and not proposed as upstream APIs.
+Multiple-orthogonal-polynomial recurrence positivity and discrete Charlier
+zero separation are plausible research context, not available black boxes:
+neither a suitable recurrence nor the required orthogonality representation
+has been verified for the conditioned feature pencils. See
+[Haneczok and Van Assche](https://arxiv.org/abs/1108.3917) and
+[Ndayiragije and Van Assche](https://arxiv.org/abs/1108.3918).
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
