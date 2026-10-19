@@ -319,6 +319,18 @@ nonnegative endpoints then imply both neighboring matrix discriminants. The
 finite-Taylor corpus verifies 13,924 identities and 9,170 strict interior
 signs. The analytic sign for arbitrary conditioned blocks remains open.
 
+Post-v1 Phase CZ refutes that universal interior fixed-node sign for finite
+Taylor kernels. A four-node, nine-term kernel has two certified complete
+pivots, a positive degree-three canonical numerator, and positive adjacent
+discriminants. The neighboring degree-two and degree-four nodes provide
+alternate certificates. The exact 100-case audit retains four failed fixed
+nodes while covering all 47,496 interior cutoffs. A proof of adaptive coverage
+or a different spectral representation is now the next target.
+The sampled actual-exponential calculation agrees at 80 and 160 decimal
+digits, but is numerical evidence rather than an infinite-tail proof. The
+formal pivot claims are on the four-node sample, not the whole continuous
+domain.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -354,9 +366,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 06:08 UTC exposed 13,935,394 aggregate goal tokens and 67,340
+2026-10-19 at 06:32 UTC exposed 14,095,202 aggregate goal tokens and 68,787
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase CY-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase CZ-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime declares Codex
 based on GPT-6; it exposes no exact serving snapshot or reasoning-effort
 setting. Collaboration remains Default mode with one primary agent and
@@ -393,6 +405,7 @@ attached to these research counters.
 | BP — translated unit-band amplification | complete; green CI | merged [PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) |
 | CX — prefix-cone Hodge obstruction | complete; green CI | merged [PR #104](https://github.com/tripp-smith/gecp-kernel-structure/pull/104) |
 | CY — adjacent-cutoff discriminant bridge | complete; green CI | merged [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105); 3,602 Lean jobs and 123 tests |
+| CZ — interior transfer-node obstruction | locally verified; CI pending | exact finite-Taylor witness and adaptive-coverage audit; 3,603 Lean jobs and 126 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -569,7 +582,7 @@ git status --short
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
-- Ruff, formatting, strict mypy, and all 123 pytest cases pass.
+- Ruff, formatting, strict mypy, and all 126 pytest cases pass.
 - `pip-audit` reports no known vulnerabilities; the local editable project is
   correctly skipped because it is not a PyPI dependency.
 - The canonical 21-case census is byte-reproducible with SHA-256
@@ -647,7 +660,9 @@ git status --short
   degree-prefix cone; a global Lorentzian-polynomial argument is unavailable.
 - Phase CY reduces the adjacent-cutoff sign to cumulative projected cross
   determinants. Their sign agreement is verified on 9,170 finite interior
-  samples but has no arbitrary-prefix or infinite-tail proof yet.
+  samples. Phase CZ gives an exact strict-interior finite-Taylor failure, so
+  the universal fixed-node premise cannot complete this route. Adaptive
+  neighboring-node coverage and the infinite-tail statement remain open.
 - All-orders exponential and fermionic minor signs, and selected-residual
   nonexpansiveness, do not imply a strict contraction factor below one.
 - Full exponential determinant positivity is currently stated for
@@ -722,14 +737,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the cumulative projected-cross sign used by
-`finTwoPencil_transfer_lorentzian_of_projectedCross` for arbitrary interior
-conditioned Taylor blocks. The two crosses compare the lower and upper blocks
-after projection perpendicular to the moved feature's right and left
-vectors. A variation-diminishing argument for those projected sums would
-establish the canonical negative-node certificate and both adjacent cutoff
-discriminants. Rank-one boundary cutoffs need separate treatment because the
-stronger shared-node sign can fail there. After the infinite-tail passage, the
-remaining program is the higher-fresh-order normalized companion envelope,
-order-eighteen contraction, dyadic recurrence, Conjecture G1, and Simons
-Problem 4.2.
+Prove adaptive neighboring-node coverage: for each strict interior cutoff,
+at least one of its two adjacent transfer nodes has a nonpositive canonical
+numerator and positive transfer sums. Phase CZ rules out requiring every node
+to work. The all-fresh-pair audit retains failed nodes explicitly and has
+coverage on every tested cutoff. A biorthogonal or oscillation representation
+of the whole pencil is another candidate, but requires a verified connection
+to the conditioned Taylor factors before applying a spectral theorem. After
+the infinite-tail passage, the remaining program is the higher-fresh-order
+normalized companion envelope, order-eighteen contraction, dyadic recurrence,
+Conjecture G1, and Simons Problem 4.2.

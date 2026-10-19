@@ -722,6 +722,14 @@ independent consumer would be appropriate before proposing upstream APIs.
 The conditioned-Taylor projected-cross sign is project-specific and remains
 unproved.
 
+Phase CZ adds a project-specific finite-Taylor counterexample. The complete
+pivots, feature reconstruction, canonical-node signs, and discriminants are
+kernel-checked by finite rational normalization using existing determinant
+and companion-update APIs. No new upstream abstraction is proposed. The
+relevant prospective theorem is adaptive neighboring-node coverage; the
+universal fixed-node projected-cross sign is false even at a strict interior
+cutoff.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

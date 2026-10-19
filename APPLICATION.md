@@ -342,6 +342,20 @@ aggregate determinant-pencil criterion on conditioned research fixtures; they
 do not provide a runtime Lorentzian or convergence certificate for arbitrary
 user data.
 
+Phase CZ adds a standalone exact research audit, without changing the stable
+`kernelgecp` API:
+
+```bash
+uv run python experiments/transfer_nodes.py --cases 100
+```
+
+The JSON records the revision, seed, exact-rational arithmetic, pivot tie
+policy, stopping status, and every failed fixed-node certificate. The default
+audit checks all fresh row/column pairs in 100 deterministic Taylor cases;
+`--cases 500` reproduces the broader research run. Its neighboring-node
+coverage result certifies only the finite samples, not arbitrary GECP runs
+or the infinite Taylor tail.
+
 The synthetic-application JSON excludes timestamps, records the implementation
 Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical

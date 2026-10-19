@@ -2501,3 +2501,18 @@ This annotation records delivered identifiers without changing the goals above.
   higher-fresh-order envelope, dyadic recurrence, G1, and Problem 4.2 remain
   open.
   Local root verification passes a 3,602-job Lean build and 123 tests.
+- Post-v1 research phase CZ: in progress. The four-node nine-term Taylor
+  witness has certified endpoint complete pivots and a strictly positive
+  canonical transfer-node numerator for moving degree three. Both adjacent
+  pencils retain positive endpoint determinants and positive discriminants.
+  The degree-two and degree-four nodes supply negative alternate
+  certificates. This refutes the universal strict-interior sign premise
+  without refuting adaptive coverage or the full exponential target.
+  `experiments/transfer_nodes.py` provides deterministic exact audits over all
+  remaining fresh pairs, recording fixed-node failures and finite adaptive
+  coverage. The bounded 100-case audit checks 54,845 transfers and covers
+  47,496 interior cutoffs with four failed fixed nodes.
+  `phaseCZ_interior_transferNode_pos`,
+  `phaseCZ_alternate_transferNodes_neg`, and
+  `phaseCZ_neighbor_discriminants_pos` are re-exported and axiom-audited.
+  Root verification passes a 3,603-job Lean build and 126 tests.

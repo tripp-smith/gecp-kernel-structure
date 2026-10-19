@@ -7935,3 +7935,77 @@ build, the public axiom audit (only `propext`, `Classical.choice`, and
 dependency audit with no known vulnerabilities. The local package is skipped
 by pip-audit because it is not a PyPI dependency. Both push and PR CI passed;
 the change merged as PR #105.
+
+## Phase CZ contract: interior transfer-node obstruction
+
+State: in progress on `codex/phase-cz-interior-node-obstruction`.
+
+The proposed universal interior sign after Phase CY is false even for a
+complete-pivot prefix of a physical-unit-domain finite Taylor kernel. This
+phase freezes the minimized exact obstruction before further analytic work.
+
+Named Lean targets in `Fermionic.InteriorTransferNodeObstruction`:
+
+- `phaseCZ_firstPivot_complete` and `phaseCZ_secondPivot_complete` certify
+  the two endpoint pivots of the nine-term Taylor kernel on row numerators
+  `(17,18,19,20)/21` and column numerators `(15,16,17,19)/20`;
+- `phaseCZ_interior_transferNode_pos` proves that the canonical numerator
+  for moving degree three is strictly positive, with both adjacent block
+  determinants positive;
+- `phaseCZ_alternate_transferNodes_neg` proves that degrees two and four
+  supply negative canonical numerators, so alternate adjacent certificates
+  remain available;
+- `phaseCZ_neighbor_discriminants_pos` verifies that the failed certificate
+  does not imply failure of the two target discriminants.
+
+Independent evidence:
+
+- reconstruct the kernel, selected pivots, two conditioned feature factors,
+  coefficient transfers, failed interior node, and alternate certificates
+  using exact rational arithmetic;
+- extend sampling beyond the earlier first-fresh-pair, size-at-most-eight
+  corpus, retaining failed signs explicitly;
+- a 500-case exploratory audit over every remaining fresh pair observed
+  339,950 transfers, six positive canonical numerators, and neighboring-node
+  coverage for all 292,076 nontrivial interior cutoffs. A reproducible bounded
+  regression will accompany the minimized witness.
+
+Decision: stop pursuing a universal fixed-node projected sign. Test and then
+prove a weaker adaptive coverage principle, or a biorthogonal/oscillation
+representation of the determinant pencil. Related primary literature:
+[Bertola, Gekhtman, Szmigielski, Cauchy Biorthogonal Polynomials](https://arxiv.org/abs/0904.2602).
+Its general total-positive-kernel zero theorem and Cauchy-specific interlacing
+are useful context; neither is applied as a theorem about these conditioned
+Taylor pencils without a verified representation.
+
+Non-claims: this finite obstruction does not refute the full exponential
+infinite-tail inequality, the adaptive coverage conjecture, or Simons Problem
+4.2. Numerical tail stabilization is evidence only. Adjacent-node coverage on
+a finite corpus does not prove it for arbitrary complete-pivot runs.
+Complete pivoting here means maximization on the specified finite node sets;
+no continuous-domain pivot-maximization claim is made.
+
+Delivered evidence:
+
+- `phaseCZLeftQ_mul_rightQ` proves that all retained features reconstruct the
+  pivot kernel, and `phaseCZTransferQ_cast` connects the rational normalization
+  to the real-valued Phase CY certificate. The exact obstruction, positive
+  endpoints, alternate signs, and surviving discriminants all compile with
+  only the accepted Lean axioms.
+- The committed default audit covers 54,845 transfers and 47,496 interior
+  cutoffs, retaining four failed fixed nodes. Its seed is `0xC212C0DE` and it
+  tests every remaining row/column pair in 100 configurations.
+- A separate 80/160-decimal regression uses the actual exponential kernel and
+  obtains the tail block by subtracting the low features from its two-pivot
+  residual. The normalized degree-three numerator agrees to 35 significant
+  digits at `0.00010354916980416281785667342918876537`, while the neighboring
+  nodes remain negative. This is numerical evidence about the infinite tail,
+  not a formal extension of the finite obstruction.
+
+Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,603-job Lean
+build, the public axiom audit with only the accepted foundations, Ruff,
+formatting, mypy, 126 tests in 132.87 seconds, and the dependency audit with no
+known vulnerabilities. The local package is skipped by pip-audit because it
+is not a PyPI dependency. The committed 500-case audit command independently
+reproduces 339,950 transfers, six failed fixed nodes, and coverage of 292,076
+interior cutoffs. CI and delivery remain pending.
