@@ -1378,6 +1378,7 @@ pivots.
   blocks. Adjacent-root ordering, the infinite-tail sign, and the final
   determinant envelope remain open.
   Local root verification passes a 3,602-job Lean build and 123 tests.
+  The change passed CI and merged as PR #105.
 
 ## Run provenance
 

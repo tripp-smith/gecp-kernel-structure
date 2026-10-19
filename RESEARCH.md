@@ -7853,7 +7853,7 @@ Verification:
 
 ## Phase CY contract: adjacent-transfer interlacing bridge
 
-State: in progress on `codex/phase-cy-adjacent-transfer-interlacing`.
+State: complete; merged as [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105) with green CI.
 
 Phase CY targets the one-sign-change prefix cone isolated by Phase CX. Write a
 prefix/suffix determinant pencil as `A + B*t + C*t^2`. Moving one rank-one
@@ -7933,4 +7933,5 @@ Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,602-job Lean
 build, the public axiom audit (only `propext`, `Classical.choice`, and
 `Quot.sound`), Ruff, formatting, mypy, 123 tests in 101.16 seconds, and the
 dependency audit with no known vulnerabilities. The local package is skipped
-by pip-audit because it is not a PyPI dependency. CI and delivery are pending.
+by pip-audit because it is not a PyPI dependency. Both push and PR CI passed;
+the change merged as PR #105.

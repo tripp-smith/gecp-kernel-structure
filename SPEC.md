@@ -2488,7 +2488,7 @@ This annotation records delivered identifiers without changing the goals above.
   infinite-tail target to a prefix-cone variation-diminishing/interlacing
   theorem rather than global polynomial stability. The root command passes a
   3,601-job Lean build and 123 tests.
-- Post-v1 research phase CY: in progress. The delivered
+- Post-v1 research phase CY: complete; merged as PR #105 with green CI. The delivered
   `quadraticTransferNodeNumerator_invariant` identifies a shared negative-node
   value for adjacent degree cutoffs, and
   `quadraticTransferNodeNumerator_outerFeature_eq` factors its numerator into
