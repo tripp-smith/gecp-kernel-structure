@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DD — common all-orders residual sign gauge<br>
-> **Phase state:** verified; merged<br>
-> **Last verification:** Phase DD `./scripts/verify.sh` passed a 3,614-job Lean build with 146 tests and no known dependency vulnerabilities on 2026-10-19; push and PR CI passed<br>
+> **Current phase:** DE — cutoff-uniform local panel determinant budget<br>
+> **Phase state:** in progress<br>
+> **Last verification:** Phase DE `./scripts/verify.sh` passed a 3,615-job Lean build with 151 tests and no known dependency vulnerabilities on 2026-10-19; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DD merged in [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) with green CI<br>
-> **Claim level:** Phase DD proves a single magnitude-preserving sign gauge at all minor orders and an actual next-residual minor bound through arbitrary prefixes; the quantitative rate and Problem 4.2 remain open<br>
+> **Delivery:** Phase DE draft [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); final CI pending<br>
+> **Claim level:** Phase DE proves an initial local determinant budget independent of panel scale; iteration/pivot counting, G1, and Problem 4.2 remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -125,7 +125,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DA | One-pivot exponential Chebyshev sign | complete | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; green CI | merged PR #107 |
 | DB | Adaptive transfer coverage obstruction | complete | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; green CI | merged PR #108 |
 | DC | All-orders local-minor contraction bridge | complete | singleton Fischer inequality; arbitrary-pivot matched-rank bound; actual fermionic specialization; original companion target open | 3,610-job Lean build; accepted axioms; 2,520 exact one-step checks; 1,376 prefix/gauge checks; 140-test root verification; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) |
-| DD | Common all-orders residual sign gauge | verified | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
+| DD | Common all-orders residual sign gauge | complete | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
+| DE | Cutoff-uniform local panel determinant budget | in progress | rank-`8p` panel approximation; `fermionicKernel_panel_minor_det_le_dyadicBudget` at order `16(33+4q)`; both signs and central panels | 3,615-job Lean build; accepted axioms; 151 tests; exact feature/exponent checks; independent precision evidence; CI pending | draft [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

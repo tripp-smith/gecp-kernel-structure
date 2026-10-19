@@ -1516,11 +1516,45 @@ at `t=i/5`, `y=5*j*log(2)`, including zero/one times and both frequency signs.
 Nineteen residual minors agree with these exact values at independent
 160/320-digit precision runs, to 45 significant digits. These decimal checks
 are evidence only; the all-real structural claims are proved in Lean.
-The initial variable-degree local determinant budget, its iteration/pivot
+At DD delivery the initial variable-degree local determinant budget, its iteration/pivot
 counting, a cutoff-uniform G1 bound, and Problem 4.2 remain open.
 Local root verification passes a 3,614-job Lean build and 146 tests, with
 only the accepted public theorem axioms and no known dependency vulnerabilities.
 Push and PR CI pass; the change merged as PR #110 on 2026-10-19.
+
+Phase DE proves the scale-free **initial** local determinant budget. Each
+positive central/dyadic panel has an approximation using `8p` separated
+terms and uniform error `2^(-p)` on physical times. Negative panels follow by
+the existing fermionic reflection; zero is assigned to the positive central
+panel. The identity with one active branch of `dyadicSeparatedTerms` reuses
+the actual-exponential error theorem rather than introducing a new remainder
+estimate. The number of features does not grow with the panel index.
+
+For any order `n>=8p`, `fermionicKernel_panel_sample_det_le_two_pow` proves
+`abs(det K_n) <= 2^n * n! * 2^(-p*(n-8p)) * 2^(8p)` for arbitrary sample rows
+in `[0,1]` and columns in that one signed panel. The generic determinant
+bound retains its factorial; it now depends only on local minor order, not
+the global cutoff scale. Odd-order exponent cancellation and the explicit
+choice `m=16+2q` prove
+`fermionicKernel_panel_minor_det_le_dyadicBudget`: at `n=16*(33+4q)`, every
+such minor is bounded by `(2^(-q))^n`, uniformly over all panel indices and
+both signs. Tuples need not be sorted or injective. This is a theorem for
+the actual kernel, not for its Taylor approximant.
+
+Independent checks cover 345 exact masked-feature identities with rational
+column weights, 435 actual-exponential approximation samples at 160/320
+decimal digits, and twelve small-order actual determinant samples at 320/640
+digits. Canonical quantities in the precision comparisons are decimal strings
+with 45 significant digits. Exact integer tests check 65 exponent identities,
+1,001 scalar accuracy conditions, and seventeen full factorial-budget
+inequalities. A finite boundary-membership regression checks both frequency
+signs and zero without claiming the universal partition theorem. Large
+target-order floating-point determinants are not used to certify the theorem.
+Backward transport of nonzero minors, the panel-local pivot count, the global
+partition/count assembly, G1, and Problem 4.2 remain open.
+Local root verification passes a 3,615-job Lean build and 151 tests, using
+only the accepted public theorem axioms and finding no known dependency
+vulnerabilities.
 
 ## Run provenance
 

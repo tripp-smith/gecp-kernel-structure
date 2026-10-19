@@ -8379,7 +8379,7 @@ one-step bridge and evidence, not the unproved original envelope or G1.
 
 ## Phase DD contract: a common all-orders residual sign gauge
 
-State: verified; merged as PR #110 with green CI. The common all-orders gauge
+State: complete; merged as PR #110 with green CI. The common all-orders gauge
 and actual arbitrary-prefix next-step bound below are proved; G1 remains open.
 
 For a real-coordinate kernel `K` with `StrictSignRegular K (fun _ => 1)`
@@ -8494,3 +8494,82 @@ removing the earlier `Nat.clog 2 (s+1)` overhead. The panel approximation,
 backwards minor construction, partition bookkeeping, and final arithmetic
 must all be proved before making that claim. The earlier global odd-block
 theorem alone does not establish it.
+
+## Phase DE contract: a cutoff-uniform local panel determinant budget
+
+State: in progress on `codex/phase-de-local-panel-determinant-budget`.
+
+Prove an initial determinant envelope on each signed dyadic or central
+frequency panel, independent of its scale. The positive central panel is
+`[0,1]`; positive panel `j+1` is `(2^j,2^(j+1)]`. Negative panels are their
+frequency reflections, with zero assigned only to the positive central panel.
+For every `p>0`, build exactly `8*p` separated terms with uniform error
+`2^(-p)` on each panel and all times in `[0,1]`, reusing the existing masked
+Taylor construction and denominator/reflection lemmas.
+
+Named target `fermionicKernel_panel_sample_det_le_two_pow`: for a sample of
+order `n>=8*p` whose columns lie in one panel and whose rows lie in `[0,1]`,
+prove `abs(det K_n) <= 2^n * n! * 2^(-p*(n-8*p)) * 2^(8*p)`.
+Then `fermionicKernel_panel_minor_det_le_dyadicBudget` must prove the explicit
+scale-free budget `abs(det K_n) <= (2^(-q))^n` at
+`n=16*(33+4*q)`, for every natural accuracy order `q` and every signed panel.
+The determinant bound must concern the actual fermionic exponential, not a
+Taylor surrogate or a hypothesis asserting the desired determinant estimate.
+All sample tuples, including repeated or unsorted tuples, are permitted.
+
+Planned source: `Fermionic/LocalPanelBudget.lean`. Independent checks will
+verify the exact masked-feature factorization and integer exponent arithmetic,
+exercise panel/time-cutoff boundaries and both frequency signs, and compare
+actual-exponential approximation/determinant evaluations at independent
+precisions. Large target-order floating-point determinants are not required
+and must not be substituted for the all-orders proof. Search existing mathlib
+and repository bounds before introducing a new analytic abstraction.
+
+Non-claims: this is an **initial** budget. Its backward transport through
+arbitrary prefixes, the count of band-local pivots, the full signed-panel
+partition count, G1, and Problem 4.2 remain separate obligations. Do not
+claim the proposed global `32*(s+1)*(33+4*q)` count until they are proved.
+
+Delivered proof: `positivePanelTerms` selects the central Taylor list or the
+single row-masked dyadic branch, then absorbs the fermionic denominator.
+`eval_positivePanelTerms_eq_dyadic` identifies its value with the already
+certified dyadic construction on the stated panel. Reflection handles negative
+frequencies without changing the `8p` feature count. The approximant entries
+are bounded by two from kernel bound one plus approximation error at most one.
+The existing generic determinant estimate therefore applies with effective
+rank `8p`. Its factorial is retained, bounded by `n^n` for the odd-block
+specialization, and absorbed by the explicit accuracy choice. No companion
+positivity, ordering, or injectivity premise is introduced.
+
+The frozen determinant target is proved as
+`fermionicKernel_panel_minor_det_le_dyadicBudget`, at the exact local order
+`16*(33+4*q)` for every signed panel and every natural `q`. The scalar
+accuracy step reuses `oddBlock_scale_accuracy 0 q`; its scale is zero only
+in an arithmetic lemma, **not** a restriction on the physical panel index.
+
+Independent checks: 345 exact feature-product identities; 435 actual-kernel
+approximation errors compared at 160/320 digits; twelve small-order actual
+determinants at 320/640 digits; 65 odd-exponent identities; 1,001 scalar
+accuracy conditions; seventeen factorial-budget inequalities; and finite
+signed-panel boundary membership checks. Precision comparisons use decimal
+strings with 45 significant digits. The exact feature test uses rational
+column weights only to isolate finite algebra; the actual denominator and
+exponential are separately checked. These observations do not replace the
+all-orders theorem or certify a continuous-domain runtime computation.
+
+Next precise proof obligation: backwards construction of nonzero local minor
+witnesses along an actual complete-pivot sequence. At a pivot inside a chosen
+panel, prepend its row and column and use the exact Schur determinant identity
+to gain its pivot factor. At an intervening pivot outside the panel, use DD's
+matched-rank bound without changing the number of local columns. A nonzero
+residual minor gives a nonzero augmented original-kernel minor by the selected-
+core factorization; this can certify the needed freshness/injectivity instead
+of transporting an entire run through successive signed subtypes. All
+replacement rows must remain in the physical time domain. After that proof,
+partition `[-2^s,2^s]` into the `2*(s+1)` signed central/dyadic panels and count
+pivots above `2^(-q)`. The proposed `32*(s+1)*(33+4*q)` global count remains
+unproved until this construction and partition/count bookkeeping are complete.
+
+Local verification: `./scripts/verify.sh` passes a 3,615-job Lean build,
+accepted public theorem axioms, Ruff, formatting, mypy, 151 tests in 139.28
+seconds, and no known dependency vulnerabilities. CI and delivery are pending.

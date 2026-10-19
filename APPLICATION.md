@@ -414,6 +414,20 @@ The new Lean theorem is an all-real structural result, but the package does
 not expose a runtime sign-gauge or convergence certificate. The dyadic budget,
 its iteration, and the final convergence bound are still research tasks.
 
+Phase DE changes no public Python API or release. Its focused independent
+checks are:
+
+```bash
+uv run python -m pytest tests/test_local_panel_budget.py
+```
+
+They separate exact finite-feature/exponent arithmetic from actual-exponential
+precision checks. Zero or non-finite sampled determinants are rejected as
+uncertified; agreement at two precisions is not interval certification. The
+large target-order local budget is proved in Lean, not inferred from a dense
+floating-point determinant. No runtime arbitrary-prefix convergence or panel
+certificate is exposed; pivot-witness iteration and counting remain open.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

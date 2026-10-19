@@ -375,6 +375,14 @@ frequencies, and boundary times without reselecting pivots. The initial local
 quantitative budget and its iteration/pivot count remain open; this does not
 solve G1 or Problem 4.2.
 
+Post-v1 Phase DE proves the initial scale-free local panel budget. A signed
+central/dyadic panel needs `8p` separated terms for error `2^(-p)`, independent
+of its scale. Generic rank-sensitive determinant decay then gives
+`abs(det K_n) <= (2^(-q))^n` at `n=16*(33+4q)` on every panel. The theorem
+concerns the actual kernel on closed physical time, with unordered/repeated
+samples permitted. Backwards minor-witness iteration and global panel-pivot
+counting remain open; this is not yet G1 or Problem 4.2.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -410,9 +418,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 12:31 UTC exposed 15,693,730 aggregate goal tokens and 78,573
+2026-10-19 at 12:47 UTC exposed 15,791,216 aggregate goal tokens and 79,569
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DD-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DE-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -454,7 +462,8 @@ attached to these research counters.
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
 | DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
-| DD — common all-orders residual sign gauge | verified; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
+| DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
+| DE — cutoff-uniform local panel determinant budget | in progress | actual-kernel local order `16(33+4q)` at accuracy `2^(-q)`; 3,615 Lean jobs and 151 tests; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -786,13 +795,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The common all-orders gauge and actual next-residual bound are proved in DD.
-The most promising next step is an initial variable-degree local dyadic
-determinant budget, using the existing generic rank-approximation determinant
-bound before introducing new companion-coefficient machinery. Its factorial
-would depend on local order, not cutoff scale. Then prove exact iteration and
-a count of band-local pivots above a threshold. These quantitative obligations
-remain open; the structural result alone is not cutoff-uniform G1.
+The common all-orders gauge and actual next-residual bound are proved in DD;
+the initial scale-free local budget is proved in DE. The next target is
+backwards transport of nonzero minor witnesses through an actual complete-
+pivot sequence, preserving local column membership at outside-panel steps
+and gaining pivot factors at inside-panel steps. Then prove the signed-panel
+partition and pivot count. These obligations remain open; the proposed global
+count `32*(s+1)*(33+4*q)` is not yet a theorem, and G1 is not closed.
 
 Alternative: prove the cumulative cutoff Lorentzian inequality through a verified
 oscillation/biorthogonal representation, or return to the sign-free nine-weight

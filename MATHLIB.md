@@ -790,6 +790,17 @@ project-specific. No Cauchy determinant, spectral oscillation theorem, or
 external sign theorem is assumed; the new proofs use existing determinant,
 sorting, finite-product, and ordered-field algebra.
 
+Phase DE introduces no new general analytic abstraction. Searches of existing
+Taylor/determinant interfaces lead to reuse of the project
+`eval_dyadicSeparatedTerms_succ`, `expFamily_separatedApprox_error`, and
+`Matrix.abs_det_le_two_pow_mul_of_factors_approx`, together with mathlib's
+`Nat.factorial_le_pow` and power monotonicity. The existing natural-number
+odd-block accuracy lemma at scale zero supplies the cutoff-independent scalar
+choice. The signed panel predicates, masked term constructors, and kernel-
+specific determinant corollaries are project APIs, not proposed upstream
+abstractions. In particular there is no new spectral, positive-companion, or
+infinite-tail sign assumption hidden in the local budget.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
