@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase DA `./scripts/verify.sh` passed a 3,605-job Lean build with 129 tests and no known dependency vulnerabilities on 2026-10-19; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DA locally checked; PR pending<br>
+> **Delivery:** Phase DA locally checked; [draft PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107), CI pending<br>
 > **Claim level:** uniform analytic three-node exponential/monomial sign and matched-product positivity for the one-pivot base case; arbitrary-prefix coverage and Problem 4.2 remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -122,7 +122,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CX | Prefix-cone Hodge obstruction | complete | exact complete-pivot exponential witness; two-dimensional positive plane; all contiguous prefix planes Lorentzian | 3,601-job Lean build; public axiom audit; exact rational reconstruction; 123-test root verification; green CI | merged PR #104 |
 | CY | Adjacent-cutoff discriminant bridge | complete | cutoff-transfer identity; shared canonical node; projected-cross factorization and matrix discriminant theorem | 3,602-job Lean build; public axiom audit; 13,924 exact transfer identities and 9,170 interior signs; 123-test root verification; green CI | merged PR #105 |
 | CZ | Interior transfer-node obstruction | complete | four-node finite-Taylor obstruction; alternate neighboring certificates; reproducible all-fresh-pair audit | 3,603-job Lean build; public axiom audit; 54,845 exact transfers and 47,496 covered cutoffs; 80/160-digit exponential regression; 126-test root verification; green CI | merged PR #106 |
-| DA | One-pivot exponential Chebyshev sign | in progress | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; CI pending | PR pending |
+| DA | One-pivot exponential Chebyshev sign | in progress | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; CI pending | draft PR #107 |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

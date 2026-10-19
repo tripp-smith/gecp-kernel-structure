@@ -8112,4 +8112,5 @@ Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,605-job
 Lean build, the public axiom audit using only `propext`, `Classical.choice`,
 and `Quot.sound`, Ruff, formatting, mypy, 129 tests in 133.56 seconds, and the
 dependency audit with no known vulnerabilities. The local package is skipped
-by pip-audit because it is not a PyPI dependency. CI and delivery are pending.
+by pip-audit because it is not a PyPI dependency. Draft PR #107 records the
+delivery; CI is pending.
