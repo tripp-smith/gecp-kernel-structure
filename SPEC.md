@@ -2546,7 +2546,8 @@ This annotation records delivered identifiers without changing the goals above.
   only the accepted public theorem axioms. Push and PR CI both pass.
 
 - Phase DC status annotation (2026-10-19): an explicitly weaker all-orders
-  one-step bridge is proved, not the original arbitrary-prefix companion
+  one-step bridge is verified and merged as PR #109 with green CI, not the
+  original arbitrary-prefix companion
   target. `Matrix.det_le_diagonal_mul_principalComplement_of_strictlyTotallyPositive`
   proves nonsymmetric singleton Fischer;
   `Matrix.abs_det_pivotSchur_le_matchedComplement_of_columnMax` bounds the
@@ -2561,3 +2562,5 @@ This annotation records delivered identifiers without changing the goals above.
   envelope. Common all-orders residual sign-gauge transport, initial dyadic
   local budgets, arbitrary-prefix contraction, G1, and Problem 4.2 remain
   open; no original mathematical objective is replaced by this bridge.
+  The root gate passes a 3,610-job Lean build, accepted axiom audit, and
+  140 tests with no known dependency vulnerabilities.

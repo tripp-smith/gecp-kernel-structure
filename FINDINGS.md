@@ -1478,6 +1478,9 @@ quantity is stored as a decimal string, not an underflowed machine zero.
 These are finite-grid, non-interval-certified numerical observations. The
 continuous/arbitrary-prefix companion envelope, residual gauge closure,
 initial dyadic local budget, G1, and Problem 4.2 remain open.
+The root gate passes a 3,610-job Lean build and 140 tests with only the accepted
+public axioms and no known dependency vulnerabilities. Push and PR CI pass;
+the change merged as PR #109 on 2026-10-19.
 
 ## Run provenance
 

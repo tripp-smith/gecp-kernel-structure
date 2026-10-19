@@ -8245,7 +8245,8 @@ PR #108 merged on 2026-10-19.
 
 ## Phase DC contract: direct sign-free companion envelope
 
-State: in progress on `codex/phase-dc-sign-free-companion-envelope`.
+State: verified as the explicitly weaker all-orders one-step bridge below;
+merged as PR #109 with green CI. The original companion envelope remains open.
 
 Return to the quantitative premise consumed by the Phase BS/BZ norming
 theorems. For the fixed original positive-series fermionic run and each of
@@ -8369,3 +8370,9 @@ that bound. The global gauge theorem must cover signed frequencies and the
 closed time interval, not only `PositiveArgument` samples used by DC's
 convenient concrete specialization. Finally an exact count of band-local
 pivots above a threshold is needed; a same-column bound is not itself G1.
+
+Verification: `./scripts/verify.sh` passes a 3,610-job Lean build, accepted
+public theorem axioms, Ruff, formatting, mypy, 140 tests in 135.08 seconds,
+and no known dependency vulnerabilities. Push and PR CI both pass on the
+final branch head. PR #109 merged on 2026-10-19. This verifies the delivered
+one-step bridge and evidence, not the unproved original envelope or G1.

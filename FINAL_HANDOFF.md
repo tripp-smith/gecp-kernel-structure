@@ -401,7 +401,7 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 11:50 UTC exposed 15,415,983 aggregate goal tokens and 76,149
+2026-10-19 at 12:01 UTC exposed 15,479,882 aggregate goal tokens and 76,806
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DC-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -444,7 +444,7 @@ attached to these research counters.
 | CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
-| DC — all-orders local-minor contraction bridge | in progress | formal one-step bridge delivered; original companion target open; root verification in progress |
+| DC — all-orders local-minor contraction bridge | verified; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
