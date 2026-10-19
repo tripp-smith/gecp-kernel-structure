@@ -331,6 +331,18 @@ digits, but is numerical evidence rather than an infinite-tail proof. The
 formal pivot claims are on the four-node sample, not the whole continuous
 domain.
 
+Post-v1 Phase DA proves an analytic base case. For `0<a≤1` and
+`0≤x<y<z≤1`, the actual-exponential determinant
+`det[exp(a*t),t^i,t^j]` has a node-independent sign for every natural `i<j`:
+negative for `(0,j)` with `j≥2`, positive otherwise. Independent ordered
+triples, even at different positive unit-band rates, therefore have a positive
+matched product. The proof uses row normalization, explicit derivative
+ratios, and Cauchy's mean value theorem; zero and one boundary nodes are
+included. This does not extend the sign rule past one pivot. A separate exact
+depth-ten conditioned-feature regression rejects the proposed `depth+1`
+localization of failed transfer nodes. Arbitrary-prefix cumulative coverage,
+the higher-fresh-order envelope, and the final dyadic rate remain open.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -366,13 +378,14 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 06:32 UTC exposed 14,095,202 aggregate goal tokens and 68,787
+2026-10-19 at 07:07 UTC exposed 14,739,370 aggregate goal tokens and 70,922
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase CZ-only usage, and do not provide input/cache/reasoning/
-output categories or account billing. The current runtime declares Codex
-based on GPT-6; it exposes no exact serving snapshot or reasoning-effort
-setting. Collaboration remains Default mode with one primary agent and
-unrestricted local filesystem/network access. No new pricing estimate is
+goal, are not Phase DA-only usage, and do not provide input/cache/reasoning/
+output categories or account billing. The current runtime instruction
+identifies Codex based on GPT-5; an earlier research snapshot identified the
+GPT-6 family. Neither exposes a verifiable exact serving snapshot or
+reasoning-effort setting. Collaboration remains Default mode with one primary
+agent and unrestricted local filesystem/network access. No new pricing estimate is
 attached to these research counters.
 
 ## Phase status
@@ -406,6 +419,7 @@ attached to these research counters.
 | CX — prefix-cone Hodge obstruction | complete; green CI | merged [PR #104](https://github.com/tripp-smith/gecp-kernel-structure/pull/104) |
 | CY — adjacent-cutoff discriminant bridge | complete; green CI | merged [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105); 3,602 Lean jobs and 123 tests |
 | CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
+| DA — one-pivot exponential Chebyshev sign | in progress; locally checked | [draft PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -741,7 +755,11 @@ Prove adaptive neighboring-node coverage: for each strict interior cutoff,
 at least one of its two adjacent transfer nodes has a nonpositive canonical
 numerator and positive transfer sums. Phase CZ rules out requiring every node
 to work. The all-fresh-pair audit retains failed nodes explicitly and has
-coverage on every tested cutoff. A biorthogonal or oscillation representation
+coverage on every tested cutoff. Phase DA supplies an actual-exponential
+one-pivot Chebyshev sign base case, but a deeper exact fixture rejects
+localization of bad nodes to `pivot_depth+1` for conditioned feature pencils.
+Do not try to induct on that shortcut or on the false arbitrary-prefix
+common-sign claim. A biorthogonal or oscillation representation
 of the whole pencil is another candidate, but requires a verified connection
 to the conditioned Taylor factors before applying a spectral theorem. After
 the infinite-tail passage, the remaining program is the higher-fresh-order

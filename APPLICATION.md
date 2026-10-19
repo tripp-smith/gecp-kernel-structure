@@ -361,6 +361,11 @@ Git commit and configuration hash, and is byte-identical across repeated runs.
 The PNG is a human-facing summary and is not used as the source of numerical
 truth.
 
+Phase DA changes no public Python API. Its actual-exponential decimal
+regressions independently check a formal one-pivot sign theorem; the separate
+exact depth-ten fixture rejects a research localization hypothesis. Neither
+is a runtime convergence or arbitrary-prefix sign certificate.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
