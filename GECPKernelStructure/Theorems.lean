@@ -32,6 +32,7 @@ import GECPKernelStructure.Matrix.VandermondeBorder
 import GECPKernelStructure.GECP.ResidualTotalPositivity
 import GECPKernelStructure.GECP.FrequencyReflection
 import GECPKernelStructure.Fermionic.CommonResidualGauge
+import GECPKernelStructure.Fermionic.LocalPanelBudget
 import GECPKernelStructure.GECP.TotalNonnegativeIntegral
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction

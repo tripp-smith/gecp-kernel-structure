@@ -2584,3 +2584,19 @@ This annotation records delivered identifiers without changing the goals above.
   determinant budget, iterated budget/pivot counting, G1, or Problem 4.2.
   Local root verification passes a 3,614-job Lean build and 146 tests, with
   only the accepted public axioms and no known dependency vulnerabilities.
+
+- Phase DE status annotation (2026-10-19): `positivePanelTerms_error` and
+  `fermionicPanelTerms_error` give `8p` separated terms with actual-kernel
+  error `2^(-p)` on each signed central/dyadic panel, independently of its
+  scale. `fermionicKernel_panel_sample_det_le_two_pow` supplies the initial
+  rank-sensitive determinant estimate, and
+  `fermionicKernel_panel_minor_det_le_dyadicBudget` proves the explicit local
+  envelope `(2^(-q))^n` at `n=16*(33+4q)` for all natural panel/accuracy
+  indices. Physical time endpoints, both frequency signs, repeated tuples,
+  and arbitrary sample order are included. Exact feature/exponent arithmetic
+  and independent actual-exponential precision checks supplement the formal
+  proof; no target-order numerical determinant is treated as certification.
+  This closes the initial local budget, not its backward transport through
+  prefixes, panel-pivot counting, the global rate, G1, or Problem 4.2.
+  Local root verification passes a 3,615-job Lean build and 151 tests with
+  only the accepted public axioms and no known dependency vulnerabilities.

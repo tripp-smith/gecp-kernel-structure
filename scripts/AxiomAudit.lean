@@ -1,5 +1,16 @@
 import GECPKernelStructure.Theorems
 
+#print axioms GECPKernelStructure.Fermionic.positivePanelTerms_length
+#print axioms GECPKernelStructure.Fermionic.positivePanelDomain_bounds
+#print axioms GECPKernelStructure.Fermionic.eval_positivePanelTerms_eq_dyadic
+#print axioms GECPKernelStructure.Fermionic.positivePanelTerms_error
+#print axioms GECPKernelStructure.Fermionic.fermionicPanelTerms_length
+#print axioms GECPKernelStructure.Fermionic.fermionicPanelTerms_error
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_panel_sample_det_le_two_pow
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_panel_minor_det_le_oddBudget
+#print axioms GECPKernelStructure.Fermionic.panel_oddBudget_factor_le_accuracy
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_panel_minor_det_le_dyadicBudget
+
 #print axioms Matrix.det_vandermonde_cast
 #print axioms Matrix.det_vandermonde_cons
 #print axioms Matrix.det_vandermonde_append
