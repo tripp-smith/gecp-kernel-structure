@@ -1402,6 +1402,7 @@ pivots.
   This is numerical evidence only; all complete-pivot claims in this phase
   concern the specified finite node sets.
   Root verification passes a 3,603-job Lean build and 126 tests.
+  The change passed CI and merged as PR #106.
 
 ## Run provenance
 

@@ -7938,7 +7938,7 @@ the change merged as PR #105.
 
 ## Phase CZ contract: interior transfer-node obstruction
 
-State: in progress on `codex/phase-cz-interior-node-obstruction`.
+State: complete; merged as [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106) with green CI.
 
 The proposed universal interior sign after Phase CY is false even for a
 complete-pivot prefix of a physical-unit-domain finite Taylor kernel. This
@@ -8008,4 +8008,4 @@ formatting, mypy, 126 tests in 132.87 seconds, and the dependency audit with no
 known vulnerabilities. The local package is skipped by pip-audit because it
 is not a PyPI dependency. The committed 500-case audit command independently
 reproduces 339,950 transfers, six failed fixed nodes, and coverage of 292,076
-interior cutoffs. CI and delivery remain pending.
+interior cutoffs. Both push and PR CI passed; the change merged as PR #106.

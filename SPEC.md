@@ -2501,7 +2501,7 @@ This annotation records delivered identifiers without changing the goals above.
   higher-fresh-order envelope, dyadic recurrence, G1, and Problem 4.2 remain
   open.
   Local root verification passes a 3,602-job Lean build and 123 tests.
-- Post-v1 research phase CZ: in progress. The four-node nine-term Taylor
+- Post-v1 research phase CZ: complete; merged as PR #106 with green CI. The four-node nine-term Taylor
   witness has certified endpoint complete pivots and a strictly positive
   canonical transfer-node numerator for moving degree three. Both adjacent
   pencils retain positive endpoint determinants and positive discriminants.

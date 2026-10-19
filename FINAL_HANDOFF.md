@@ -405,7 +405,7 @@ attached to these research counters.
 | BP — translated unit-band amplification | complete; green CI | merged [PR #70](https://github.com/tripp-smith/gecp-kernel-structure/pull/70) |
 | CX — prefix-cone Hodge obstruction | complete; green CI | merged [PR #104](https://github.com/tripp-smith/gecp-kernel-structure/pull/104) |
 | CY — adjacent-cutoff discriminant bridge | complete; green CI | merged [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105); 3,602 Lean jobs and 123 tests |
-| CZ — interior transfer-node obstruction | locally verified; CI pending | exact finite-Taylor witness and adaptive-coverage audit; 3,603 Lean jobs and 126 tests |
+| CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
