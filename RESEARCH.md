@@ -8117,7 +8117,7 @@ the final branch head; PR #107 merged on 2026-10-19. Phase DA is complete.
 
 ## Phase DB contract: adaptive transfer coverage decision
 
-State: in progress on `codex/phase-db-adaptive-transfer-coverage`.
+State: verified; merged as PR #108 with green push and PR CI.
 
 Attack the remaining fresh-order-two invariant directly. Let a finite positive
 Taylor kernel on independently ordered open-unit row and column nodes use all
@@ -8237,7 +8237,8 @@ higher-fresh-order bound, dyadic recurrence, G1, and Problem 4.2 remain open.
 Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,608-job
 Lean build, the expanded public axiom audit with only `propext`,
 `Classical.choice`, and `Quot.sound`, Ruff, formatting, mypy, 133 tests in
-134.61 seconds, and the dependency audit with no known vulnerabilities.
+133.09 seconds, and the dependency audit with no known vulnerabilities.
 The local package is skipped by pip-audit because it is not a PyPI dependency.
 The certificate generator's `--check` command independently reproduces every
-committed integer table. Draft PR #108 is open; CI is pending.
+committed integer table. Push and PR CI both pass on the final branch head;
+PR #108 merged on 2026-10-19.

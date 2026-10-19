@@ -1446,6 +1446,7 @@ maximization over the full continuous domain. The next theorem must control
 the cumulative pencil directly or use the sign-free companion envelope.
 Local root verification passes a 3,608-job Lean build and 133 tests, using
 only the accepted public theorem axioms.
+The change passed push and PR CI and merged as PR #108.
 
 ## Run provenance
 
