@@ -428,6 +428,24 @@ large target-order local budget is proved in Lean, not inferred from a dense
 floating-point determinant. No runtime arbitrary-prefix convergence or panel
 certificate is exposed; pivot-witness iteration and counting remain open.
 
+Phase DF adds formal rate theorems but no public Python API or new release.
+Its focused checks are:
+
+```bash
+uv run python -m pytest tests/test_local_panel_rate.py
+```
+
+Exact rational arithmetic independently constructs backwards witnesses through
+all subsets of a six-step complete trace, including ignored in-panel pivots,
+outside-panel pivots, and matched-rank row changes. Initial local budgets are
+enumerated separately, not inferred from residual behavior. Three actual
+exponential witness determinants are compared at 160/320 digits; zero or
+nonfinite values are rejected, and precision agreement is not an interval
+certificate. The all-orders finite dyadic convergence theorem is in Lean.
+This does not certify an approximate numerical pivot as a continuous complete
+maximum or expose a runtime convergence certificate. General real-cutoff
+and accuracy corollaries still need formalization.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

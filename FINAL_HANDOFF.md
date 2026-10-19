@@ -383,6 +383,15 @@ concerns the actual kernel on closed physical time, with unordered/repeated
 samples permitted. Backwards minor-witness iteration and global panel-pivot
 counting remain open; this is not yet G1 or Problem 4.2.
 
+Post-v1 Phase DF proves backwards marked-pivot witnesses and the global finite
+rate. On `[0,1] x [-2^s,2^s]`, the actual fermionic residual is bounded by
+`2^(-q)` after `32*(s+1)*(33+4*q)` exact complete pivots and at every later
+rank. All structural and local-budget premises are discharged by DD/DE;
+remaining assumptions describe initialization and a successful exact realized
+complete-pivot sequence. Independent finite exact/high-precision checks
+supplement, but do not prove, this universal result. The real-parameter
+corollaries and full completion audit remain open.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -418,9 +427,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 12:56 UTC exposed 15,834,281 aggregate goal tokens and 80,088
+2026-10-19 at 23:25 UTC exposed 16,427,614 aggregate goal tokens and 81,530
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DE-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DF-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -463,7 +472,8 @@ attached to these research counters.
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
 | DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
 | DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
-| DE — cutoff-uniform local panel determinant budget | verified; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
+| DE — cutoff-uniform local panel determinant budget | complete; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
+| DF — backwards witnesses and global finite rate | in progress | actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests pass; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -795,26 +805,18 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The common all-orders gauge and actual next-residual bound are proved in DD;
-the initial scale-free local budget is proved in DE. The next target is
-backwards transport of nonzero minor witnesses through an actual complete-
-pivot sequence, preserving local column membership at outside-panel steps
-and gaining pivot factors at inside-panel steps. Then prove the signed-panel
-partition and pivot count. These obligations remain open; the proposed global
-count `32*(s+1)*(33+4*q)` is not yet a theorem, and G1 is not closed.
+DF closes the backwards-witness, signed-partition, and panel-count obligations.
+The explicit dyadic rate is now a theorem. Next generalize the pivot rectangle
+to an arbitrary real cutoff bounded by `2^s`, retaining completeness only on
+that actual rectangle; padding the domain of a given pivot trace is invalid.
+Then derive explicit real-accuracy/logarithmic corollaries, audit the small-
+cutoff and large-tolerance quantifiers, and compare every assumption and
+deliverable with G1 and the full SPEC. Audit finite-prefix/termination and
+cross-approximation interfaces as part of that final decision. The research
+goal is not yet complete and no reliable overall mathematical percentage is
+claimed.
 
-Alternative: prove the cumulative cutoff Lorentzian inequality through a verified
-oscillation/biorthogonal representation, or return to the sign-free nine-weight
-normalized companion envelope. Phase DB refutes neighboring canonical-node
-coverage even on a coherent unit-square Taylor prefix. The earlier default
-coverage audit remains correct for its fixed finite corpus, not for all runs.
-Phase DA's analytic one-pivot sign theorem remains valid, but neither a fixed
-exceptional degree nor arbitrary-prefix common signs of the conditioned
-exponential/monomial feature minors can support that induction. DD's common
-gauge concerns the actual residual kernel, not those separate feature minors.
-Discrete multiple-orthogonal-polynomial interlacing is related work, not an
-applicable black box without a representation and its hypotheses. A proof
-may need continuous-domain complete-pivot inequalities, which these finite-
-grid counterexamples do not satisfy as a stated premise. After the infinite-
-tail passage, the higher-fresh-order envelope, order-eighteen contraction,
-dyadic recurrence, G1, and Simons Problem 4.2 remain open.
+Earlier companion/conditioned-feature routes remain recorded as alternative
+research, including their exact obstructions. They are not additional
+prerequisites for this different local-minor proof route and do not negate its
+proved dyadic rate. No literature-priority claim is made.

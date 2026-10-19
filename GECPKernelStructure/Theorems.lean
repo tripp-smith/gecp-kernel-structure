@@ -1,4 +1,6 @@
 import GECPKernelStructure.CrossApproximation
+import GECPKernelStructure.GECP.LocalMinorWitness
+import GECPKernelStructure.Fermionic.LocalPanelRate
 import GECPKernelStructure.Matrix.CauchyBinet
 import GECPKernelStructure.Matrix.TripleCauchyBinet
 import GECPKernelStructure.Matrix.BlockFeatureCauchyBinet

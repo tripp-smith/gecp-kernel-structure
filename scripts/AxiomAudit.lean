@@ -1,5 +1,28 @@
 import GECPKernelStructure.Theorems
 
+#print axioms GECPKernelStructure.GECP.Run.freshRow_of_finalResidual_ne_zero
+#print axioms GECPKernelStructure.GECP.Run.freshColumn_of_finalResidual_ne_zero
+#print axioms GECPKernelStructure.GECP.Run.freshRows_of_minor_ne_zero
+#print axioms GECPKernelStructure.GECP.Run.freshColumns_of_minor_ne_zero
+#print axioms GECPKernelStructure.GECP.minor_cons_det_eq_pivot_mul_update
+#print axioms GECPKernelStructure.GECP.exists_minor_witness_before_step
+#print axioms GECPKernelStructure.GECP.markedCount_succ
+#print axioms GECPKernelStructure.GECP.markedPivotProduct_succ
+#print axioms GECPKernelStructure.GECP.markedPivotProduct_pos
+#print axioms GECPKernelStructure.GECP.exists_marked_minor_witness
+#print axioms GECPKernelStructure.GECP.markedPivotProduct_le_initialMinor
+#print axioms GECPKernelStructure.GECP.markedCount_of_finset
+#print axioms GECPKernelStructure.GECP.markedPivotProduct_of_finset
+#print axioms GECPKernelStructure.GECP.panel_pivot_count_lt_of_initialBudget
+#print axioms GECPKernelStructure.Fermionic.positivePanelDomain_cover
+#print axioms GECPKernelStructure.Fermionic.positivePanelDomain_unique
+#print axioms GECPKernelStructure.Fermionic.fermionicPanelDomain_cover
+#print axioms GECPKernelStructure.Fermionic.fermionicPanelDomain_unique
+#print axioms GECPKernelStructure.Fermionic.fermionicPanel_count
+#print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_gecp_error_le_localPanelBlock
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_gecp_error_le_localPanelBlock
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_gecp_error_le_of_localPanelBlock
+
 #print axioms GECPKernelStructure.Fermionic.positivePanelTerms_length
 #print axioms GECPKernelStructure.Fermionic.positivePanelDomain_bounds
 #print axioms GECPKernelStructure.Fermionic.eval_positivePanelTerms_eq_dyadic

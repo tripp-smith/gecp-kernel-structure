@@ -8497,7 +8497,7 @@ theorem alone does not establish it.
 
 ## Phase DE contract: a cutoff-uniform local panel determinant budget
 
-State: verified; merged as PR #111 with green CI. The initial local budget is
+State: complete; merged as PR #111 with green CI. The initial local budget is
 proved; its iteration/counting and G1 remain open.
 
 Prove an initial determinant envelope on each signed dyadic or central
@@ -8587,3 +8587,92 @@ For freshness, a nonzero matrix minor has no identically zero sampled row or
 column. Nonzero residual entries cannot lie on previously selected coordinates
 by interpolation, so they can certify the fresh-subtype inputs needed by DD.
 These are proposed proof steps, not a substitute for the missing iteration.
+
+## Phase DF contract: backward minor witnesses and the global local-panel rate
+
+State: in progress on `codex/phase-df-local-pivot-count-rate`.
+
+Prove backwards transport of a nonzero local minor through an actual scalar
+Schur step. For a marked pivot whose column lies in the chosen panel, prepend
+the pivot row/column and gain its absolute pivot factor. For every unmarked
+pivot, preserve the local minor order using the matched-rank bound, even when
+that pivot also lies in the panel. Replacement rows must remain in the original
+physical row domain; replacement columns must remain in the chosen panel.
+Freshness must be derived from nonzero minors and exact interpolation rather
+than assumed as an independent invariant for the entire sequence.
+
+Named generic target: `GECP.markedPivotProduct_le_initialMinor`, constructing
+an actual original-kernel sample on exactly the marked-column count whose
+absolute determinant dominates the marked pivot product. All previous pivots
+are actual original-kernel complete pivots, not pivots of an amplified kernel.
+Combine this with DE's initial local budget to bound the number of pivots above
+`2^(-q)` in any panel. Prove the signed panel cover/finite count rather than
+relying on the finite boundary regression.
+
+Main finite target: `fermionicKernel_gecp_error_le_localPanelBlock`, with
+`N=32*(s+1)*(33+4*q)`, proving `abs(R_N(t,omega)) <= 2^(-q)` on
+`[0,1] x [-2^s,2^s]` for every realized exact complete-pivot sequence starting
+from the actual fermionic kernel. The only algorithm hypotheses are its
+initial kernel, nonzero successful pivots, exact updates, realized finite
+prefixes, and domain-complete maxima. No residual determinant budget,
+companion bound, or convergence conclusion may be added as an assumption.
+Frequency-reflection transport must link the positive-minor presentation
+to the original sequence without reselecting pivots.
+
+Planned sources: `GECP/LocalMinorWitness.lean` and
+`Fermionic/LocalPanelRate.lean`. Independently check backwards witness
+construction and exact marked products on rational samples, unmarked pivots
+inside and outside a panel, sorted-rank changes, empty witness/mark sets,
+signed partition boundaries, and any finite closed-form count arithmetic.
+Numerical checks can supplement, but cannot replace, the universal theorem.
+
+Non-claims until proved: the proposed global count is not already implied by
+DD or DE alone. A real-logarithmic/asymptotic corollary and a final full-SPEC
+completion audit remain separate from the natural-number finite theorem.
+If a genuine mathematical obstruction appears, preserve it explicitly rather
+than weakening the intended rate silently or marking the full goal complete.
+
+### DF outcome
+
+The named finite target is proved, together with
+`fermionicKernel_gecp_error_le_of_localPanelBlock` for every later rank.
+The bound is `N=32*(s+1)*(33+4*q)`, on the actual original kernel and closed
+physical rectangle. It removes the earlier `Nat.clog` startup overhead.
+No determinant envelope, companion certificate, or convergence conclusion is
+assumed in these fermionic rate theorems. They assume an exact successful
+complete-pivot sequence, realized finite prefixes, and initialization.
+
+`exists_minor_witness_before_step` sorts the augmented samples in DD's common
+gauge and deletes the row at the pivot column's sorted rank, not necessarily
+the pivot row. `exists_marked_minor_witness` iterates this construction
+backwards. Marked pivots prepend their actual row/column; unmarked pivots
+preserve order, even if in the same panel. The empty witness has determinant
+one. Nonzero minors prove their own freshness using interpolation.
+`panel_pivot_count_lt_of_initialBudget` selects exactly the budget order of
+marked positions, avoiding any unsupported extrapolation to larger minors.
+Its generic initial-budget premise is discharged by DE in the actual rate.
+
+`fermionicPanelDomain_cover`, `fermionicPanelDomain_unique`, and
+`fermionicPanel_count` prove the signed finite partition, assigning zero only
+to the positive central panel. Pigeonhole counting over `2*(s+1)` panels and
+pivot antitonicity give the global bound. Frequency reflection transports
+the original chosen pivots; it does not choose a new sequence or tie policy.
+
+Independent evidence: all 64 mark sets on a six-pivot exact rational sample
+of the actual positive presentation; both inside/outside unmarked steps and
+non-pivot matched-rank row deletion; 135 separately enumerated initial-minor
+budgets; three actual-exponential witness determinants at 160/320 digits,
+compared as 45-significant-digit decimal strings; signed boundary partition
+checks through scale 11 and 780 exact count identities. Zero/nonfinite
+determinants are rejected. Finite-grid evidence is not a continuous-domain
+runtime certificate, and no enormous target-order numerical determinant is
+used to justify the theorem. Root verification passes a 3,619-job Lean build,
+the accepted public axioms, Ruff/formatting/mypy, all 155 tests in 139.22
+seconds, and no known dependency vulnerabilities. CI is pending.
+
+Next: generalize the rectangle hypothesis to an arbitrary real cutoff bounded
+by `2^s` (a sequence complete on a smaller rectangle is not necessarily
+complete on the larger dyadic rectangle). Then derive explicit real-cutoff,
+real-accuracy/logarithmic corollaries and audit their quantifiers against G1
+and the full SPEC. The dyadic theorem alone must not be advertised as already
+proving a theorem for all real cutoffs by padding the pivot domain.
