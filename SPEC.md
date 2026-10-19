@@ -2516,7 +2516,7 @@ This annotation records delivered identifiers without changing the goals above.
   `phaseCZ_alternate_transferNodes_neg`, and
   `phaseCZ_neighbor_discriminants_pos` are re-exported and axiom-audited.
   Root verification passes a 3,603-job Lean build and 126 tests.
-- Post-v1 research phase DA: verified; merged as PR #107 with green CI. The analytic one-pivot base case
+- Post-v1 research phase DA: complete; merged as PR #107 with green CI. The analytic one-pivot base case
   is delivered by `expMonomialMinor_pos_of_pos_degrees`,
   `expMonomialMinor_zero_one_pos`, `expMonomialMinor_neg_of_zero_left`,
   `expMonomialMinor_signed_pos`, and `expMonomialMinor_matched_mul_pos`.
@@ -2527,3 +2527,19 @@ This annotation records delivered identifiers without changing the goals above.
   regression rejects localization of bad nodes at `pivot_depth+1`.
   Local root verification passes a 3,605-job Lean build and 129 tests, with
   only the accepted public theorem axioms. Push and PR CI both pass.
+- Post-v1 research phase DB: in progress. `phaseDB_not_adaptive_coverage`
+  refutes neighboring canonical-node coverage on a coherent thirteen-term
+  Taylor kernel after seven finite-grid complete pivots. Both adjacent
+  numerators and all transfer sums are positive; the middle pencil retains a
+  positive discriminant. `phaseDB_coherent_Taylor_kernel`,
+  `phaseDB_residual_recurrence`, `phaseDB_complete_pivots`,
+  `phaseDB_conditioned_features_reconstruct`,
+  `phaseDB_actual_endpoints_and_transfers_pos`, and
+  `phaseDB_actual_cutoff_discriminant_pos` expose the checked construction.
+  The integer data is independently reproducible by
+  `scripts/generate_coverage_certificate.py --check`. This does not refute
+  the full exponential Lorentzian inequality or prove any continuous-domain
+  complete-pivot claim, higher-order companion envelope, dyadic recurrence,
+  G1, or Problem 4.2.
+  Local root verification passes a 3,608-job Lean build and 133 tests with
+  only the accepted public theorem axioms. Draft PR #108 is open; CI is pending.

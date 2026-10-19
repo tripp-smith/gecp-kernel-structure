@@ -1426,6 +1426,27 @@ pivots.
   new public results use only the accepted Lean foundations.
   The change passed push and PR CI and merged as PR #107.
 
+Phase DB refutes the neighboring canonical-node coverage conjecture suggested
+after Phase CZ. A coherent 13-term Taylor kernel on nine open-unit rows and
+nine open-unit columns has seven certified complete pivots, after which
+degrees seven and eight both have positive canonical numerators at the same
+interior cutoff. The left and right transfer sums are all positive, the three
+neighboring pencils have positive coefficients, and the middle discriminant
+is positive. `phaseDB_not_adaptive_coverage` therefore rules out that proof
+mechanism without refuting the surviving Lorentzian inequality.
+The generated integer certificate checks every pivot update and maximum,
+Taylor reconstruction, both feature projectors, and transfer of the signs
+back from normalized integers to the actual conditioned factors. Independent
+160/320-decimal actual-exponential checks agree on both failed signs to 45
+significant digits; they are numerical evidence, not a formal infinite-tail
+obstruction. A separate exact weighted outer-prefix regression also loses
+positive transfer sums while preserving its local positive discriminant.
+All complete-pivot claims here concern the specified finite node sets, not
+maximization over the full continuous domain. The next theorem must control
+the cumulative pencil directly or use the sign-free companion envelope.
+Local root verification passes a 3,608-job Lean build and 133 tests, using
+only the accepted public theorem axioms.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

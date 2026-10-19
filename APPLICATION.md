@@ -366,6 +366,21 @@ regressions independently check a formal one-pivot sign theorem; the separate
 exact depth-ten fixture rejects a research localization hypothesis. Neither
 is a runtime convergence or arbitrary-prefix sign certificate.
 
+Phase DB adds a research certificate generator without changing `kernelgecp`:
+
+```bash
+uv run python scripts/generate_coverage_certificate.py --check
+```
+
+The command checks byte-for-byte regeneration of the committed Lean integer
+data and reports exact arithmetic, pivot/tie policy, conditioning scope,
+revision, and stopping metadata. Without `--check` it emits the Lean source
+to stdout; it does not write or overwrite a file. Lean independently checks
+the arithmetic and its connection to the actual conditioned Taylor factors.
+This is a fixed counterexample certificate, not a runtime convergence or
+arbitrary-input sign certificate. The actual-exponential 160/320-decimal
+regressions remain numerical evidence only.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
