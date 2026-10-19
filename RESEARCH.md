@@ -8469,3 +8469,28 @@ accepted public theorem axioms, Ruff, formatting, mypy, 146 tests in 133.88
 seconds, and no known dependency vulnerabilities. The final branch-head
 repeat passes all 146 tests in 135.55 seconds. Push and PR CI both pass;
 PR #110 merged on 2026-10-19.
+
+Sharper next-target discovery at DD closure: the existing
+`eval_dyadicSeparatedTerms_succ` already isolates **one rank-`8p` panel** on
+`2^j < omega <= 2^(j+1)`. It is `taylorSeparatedTerms (8*p)` masked only by
+`t*2^j <= p`; dividing the right factors by the fermionic denominator preserves
+that rank. The existing `expFamily_separatedApprox_error` supplies error
+`2^(-p)` on that panel, while the lower-frequency branch vanishes there.
+Thus neither a new scaled Taylor remainder nor a variable-rank positive
+companion theorem appears necessary for the initial local budget. Central
+and negative-frequency panels can reuse the existing base and reflection.
+
+Proposed explicit quantitative assembly, **not yet a Lean theorem**: put
+`p=2*m+1`, local minor order `n=16*p`, and reuse the generic determinant bound
+with rank `8*p`. The same odd-exponent cancellation as
+`fermionicKernel_gecp_error_le_oddBlock` would give a local determinant budget
+`(2*n*2^(-m))^n`, now without a factor `s+1` in `n`. Choosing `m=16+2*q`
+suggests a budget at most `2^(-q*n)` with `n=16*(33+4*q)`.
+There are `2*(s+1)` disjoint signed dyadic/central panels. If the new
+same-column bound can be iterated backwards through intervening global
+pivots, at most `n-1` pivots per panel can exceed `2^(-q)`. This suggests
+the explicit target `32*(s+1)*(33+4*q)` global pivots for error `2^(-q)`,
+removing the earlier `Nat.clog 2 (s+1)` overhead. The panel approximation,
+backwards minor construction, partition bookkeeping, and final arithmetic
+must all be proved before making that claim. The earlier global odd-block
+theorem alone does not establish it.
