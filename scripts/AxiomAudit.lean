@@ -1,5 +1,34 @@
 import GECPKernelStructure.Theorems
 
+#print axioms Matrix.det_vandermonde_cast
+#print axioms Matrix.det_vandermonde_cons
+#print axioms Matrix.det_vandermonde_append
+#print axioms GECPKernelStructure.GECP.tupleOrientation_mul_vandermonde_pos
+#print axioms GECPKernelStructure.GECP.minor_mul_vandermonde_pos_of_strictTotalPositive
+#print axioms GECPKernelStructure.GECP.Run.augmentedRow_comp_selectedBorderEquiv
+#print axioms GECPKernelStructure.GECP.Run.augmentedColumn_comp_selectedBorderEquiv
+#print axioms GECPKernelStructure.GECP.Run.augmentedRow_comp_augmentedFinEquiv
+#print axioms GECPKernelStructure.GECP.Run.augmentedColumn_comp_augmentedFinEquiv
+#print axioms GECPKernelStructure.GECP.Run.appended_minor_det
+#print axioms GECPKernelStructure.GECP.Run.selectedRow_ne_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.selectedColumn_ne_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.rowPolynomialWeight_ne_zero_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.columnPolynomialWeight_ne_zero_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.augmentedRow_injective_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.augmentedColumn_injective_of_fresh
+#print axioms GECPKernelStructure.GECP.Run.polynomialGaugedFinalResidual_minor_pos
+#print axioms GECPKernelStructure.GECP.Run.gaugedFinalResidual_strictSignRegular
+#print axioms GECPKernelStructure.GECP.Run.gaugedFinalResidual_minor_det
+#print axioms GECPKernelStructure.GECP.Run.abs_gaugedFinalResidual
+#print axioms GECPKernelStructure.GECP.Run.abs_gaugedFinalResidual_minor_det
+#print axioms GECPKernelStructure.GECP.Run.finalResidual_localMinor_schur_le
+#print axioms GECPKernelStructure.GECP.Run.finalResidual_negateColumns
+#print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_eq
+#print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_strictSignRegular
+#print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_gaugedFinalResidual_strictSignRegular
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_reflectedRun_gaugedFinalResidual_strictSignRegular
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_reflectedRun_finalResidual
+
 #print axioms Matrix.StrictlyTotallyPositive.submatrix
 #print axioms Matrix.StrictlyTotallyPositive.reverse
 #print axioms Matrix.det_eq_northwest_pivot_mul_schur

@@ -8245,7 +8245,7 @@ PR #108 merged on 2026-10-19.
 
 ## Phase DC contract: direct sign-free companion envelope
 
-State: verified as the explicitly weaker all-orders one-step bridge below;
+State: complete as the explicitly weaker all-orders one-step bridge below;
 merged as PR #109 with green CI. The original companion envelope remains open.
 
 Return to the quantitative premise consumed by the Phase BS/BZ norming
@@ -8376,3 +8376,93 @@ public theorem axioms, Ruff, formatting, mypy, 140 tests in 135.08 seconds,
 and no known dependency vulnerabilities. Push and PR CI both pass on the
 final branch head. PR #109 merged on 2026-10-19. This verifies the delivered
 one-step bridge and evidence, not the unproved original envelope or G1.
+
+## Phase DD contract: a common all-orders residual sign gauge
+
+State: in progress on `codex/phase-dd-common-residual-sign-gauge`.
+
+For a real-coordinate kernel `K` with `StrictSignRegular K (fun _ => 1)`
+and any successful exact `Run K`, define
+`P_run(x) = prod_i (x - selectedRow_i)` and the analogous column polynomial
+`Q_run(y)`. On fresh coordinates, prove that the single kernel
+`sign(P_run(x)) * finalResidual(x,y) * sign(Q_run(y))` is strictly totally
+positive at **every** order, and preserves the absolute determinant of every
+finite minor. Do not assume minor positivity of the gauged residual. Successful
+pivots need not be complete, and selected nodes need not lie in a local band.
+The concrete specialization must cover the actual reflected fermionic kernel
+on all real coordinates, including time endpoints and signed frequencies.
+
+Named targets: `GECP.Run.gaugedFinalResidual_strictSignRegular`, its absolute-
+minor preservation theorem, and a real-coordinate reflected-fermionic
+specialization. Planned sources are a reusable Vandermonde block factorization
+and `GECP/ResidualTotalPositivity.lean`; independent rational regressions will
+exercise complete and deliberately non-complete prefixes, all minor orders,
+empty prefixes/minors, boundary time nodes, and signed frequency labels.
+
+Proof route selected before implementation: the sign of any injective kernel
+minor is the product of the signs of the two Vandermonde determinants.
+Factor each augmented Vandermonde into the selected determinant, the fresh
+determinant, and the selected/fresh cross differences. The exact multi-bordered
+Schur identity then cancels the selected determinants and leaves the two
+polynomial weights above. Normalize by their nonzero absolute values on fresh
+coordinates. This uses one gauge for all orders, unlike Phase AL's independent
+compound-order gauges. Search mathlib before adding product/indexing helpers.
+
+Non-claims: this phase does not prove the initial variable-degree dyadic
+determinant budget, the count of band-local pivots above a threshold, the
+companion envelope, G1, or Problem 4.2. It discharges a structural premise of
+the Phase DC route without replacing the full convergence objective.
+
+Planned immediate application, before its implementation: combine the proved
+common gauge with Phase DC and diagonal-scaling covariance of a scalar Schur
+update. `GECP.Run.finalResidual_localMinor_schur_le` should give the actual
+residual's matched-rank same-column bound after an arbitrary successful
+prefix, assuming absolute column maximality for the next pivot. This must be
+a bound for the actual next residual, not merely for an auxiliary signed
+kernel. Iteration to an initial band budget and pivot counting remain separate.
+
+Delivered proof path: `Matrix.det_vandermonde_append` factors the block
+determinant over any commutative ring, without injectivity or sign premises.
+Injective real tuples have Vandermonde determinant signs equal to their sorting
+orientations. Multiplying an original-kernel minor by both Vandermonde
+determinants therefore gives a positive number. Apply this to the selected
+core and augmented core; the exact selected-core/residual identity cancels the
+selected factors. The remaining raw weights are exactly `P_run` and `Q_run`.
+Freshness makes them nonzero, so their absolute values provide a positive
+normalization to one fixed sign gauge. Absolute minors are preserved even for
+unordered or repeated fresh samples. This proves the frozen all-orders target,
+not an additional assumption asserting it.
+
+Diagonal-scaling covariance of a scalar Schur update then transfers Phase DC
+back to the actual residual. `Run.finalResidual_localMinor_schur_le` requires
+only the next absolute-column maximum on the sampled augmented rows. No
+complete-pivot, localization, or positivity assumption is added for earlier
+pivots. `Run.negateColumns` transports every original fermionic run exactly,
+and `finalResidual_negateColumns` verifies the inverse reflection; this is not
+a new run selected from a companion kernel or a new canonical tie policy.
+
+Independent checks: 25 exact block identities; 3,825 exact gauge minors over
+three pivot policies and all prefix depths on the six-by-six signed/boundary
+fixture; 350 exact Schur-covariance/matched-rank bounds; repeated-coordinate
+zero minors; exact original-run reflection; and 19 actual-exponential residual
+minors at both 160 and 320 decimal digits with 45-significant-digit agreement.
+Numerical values use factorization-based determinants and do not certify an
+arbitrary-input or continuous-domain runtime result.
+
+Next quantitative decision: first try the **existing generic rank-approximation
+determinant estimate locally**. Its factorial depends on the fixed local minor
+order, not on the dyadic cutoff scale. A variable-degree local Taylor error
+`2^(-r)` with rank `r`, followed by the same-column contraction and a band-local
+pivot count, may give a linear-in-accuracy-order count per band. This avoids
+generalizing positive mixed-coefficient amplification unless the generic bound
+actually fails. The existing global bound already has an extra `log(s+1)`
+overhead; rederiving that bound is not the missing cutoff-uniform G1 result.
+For the local approximation, either prove the positive-series term comparison
+recorded under DC, or split each dyadic band into a constant number of narrower
+bands and reuse the existing Lagrange remainder/`pow / factorial <= exp`
+estimates. Both retain the original logarithmic cutoff target. Neither the
+local budget nor its iteration/counting is claimed proved in DD.
+
+Local verification: `./scripts/verify.sh` passes a 3,614-job Lean build,
+accepted public theorem axioms, Ruff, formatting, mypy, 146 tests in 133.88
+seconds, and no known dependency vulnerabilities. CI and delivery are pending.
