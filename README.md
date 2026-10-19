@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase DF `./scripts/verify.sh` passed a 3,619-job Lean build with 155 tests and no known dependency vulnerabilities on 2026-10-19; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DE merged in [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) with green CI<br>
+> **Delivery:** Phase DF draft [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); CI pending<br>
 > **Claim level:** Phase DF proves the finite dyadic-cutoff rate `N=32(s+1)(33+4q)` with error at most `2^(-q)`; real-cutoff/accuracy corollaries and the full Problem 4.2 completion audit remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -127,7 +127,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DC | All-orders local-minor contraction bridge | complete | singleton Fischer inequality; arbitrary-pivot matched-rank bound; actual fermionic specialization; original companion target open | 3,610-job Lean build; accepted axioms; 2,520 exact one-step checks; 1,376 prefix/gauge checks; 140-test root verification; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) |
 | DD | Common all-orders residual sign gauge | complete | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
 | DE | Cutoff-uniform local panel determinant budget | complete | rank-`8p` panel approximation; `fermionicKernel_panel_minor_det_le_dyadicBudget` at order `16(33+4q)`; both signs and central panels | 3,615-job Lean build; accepted axioms; 151 tests; exact feature/exponent checks; independent precision evidence; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) |
-| DF | Backward witnesses and global panel-pivot rate | in progress | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; CI pending | pending |
+| DF | Backward witnesses and global panel-pivot rate | in progress | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; CI pending | draft [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
