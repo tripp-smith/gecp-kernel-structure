@@ -381,6 +381,24 @@ This is a fixed counterexample certificate, not a runtime convergence or
 arbitrary-input sign certificate. The actual-exponential 160/320-decimal
 regressions remain numerical evidence only.
 
+Phase DC changes no public Python API. Its reproducible research-only stress
+audit is:
+
+```bash
+uv run python experiments/companion_envelope.py
+uv run python experiments/companion_envelope.py --depth 64 --cutoff 256
+```
+
+The default run checks nine configurations at 320 and 640 decimal digits.
+Pivots come from the original kernel; the two-sided conditioned companion
+uses both transported feature factors. JSON records the revision/dirty state,
+precision, pivot/tie diagnostics, stop reason, and decimal-string determinant
+ratios. Precision disagreement is explicitly uncertified and exits nonzero;
+zero pivots or determinants are rejected rather than interpreted as success.
+No condition number is estimated; precision agreement is not an interval or
+continuous-domain certificate. The exact finite local-minor regression is
+separate from this numerical audit and from the new Lean theorem.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

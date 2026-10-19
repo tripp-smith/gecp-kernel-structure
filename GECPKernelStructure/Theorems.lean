@@ -93,6 +93,8 @@ import GECPKernelStructure.Fermionic.InteriorTransferNodeObstruction
 import GECPKernelStructure.Fermionic.OnePivotChebyshevSign
 import GECPKernelStructure.Fermionic.AdaptiveCoverageObstruction
 import GECPKernelStructure.Matrix.ThreePointChebyshev
+import GECPKernelStructure.Matrix.TotalPositiveFischer
+import GECPKernelStructure.Fermionic.LocalMinorContraction
 import GECPKernelStructure.Matrix.QuadraticTransfer
 import GECPKernelStructure.Fermionic.ThreeFeatureGroupedSign
 import GECPKernelStructure.Fermionic.OnePivotGroupedSign

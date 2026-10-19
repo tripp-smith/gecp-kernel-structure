@@ -1448,6 +1448,37 @@ Local root verification passes a 3,608-job Lean build and 133 tests, using
 only the accepted public theorem axioms.
 The change passed push and PR CI and merged as PR #108.
 
+Phase DC proves a new all-orders one-step bridge, rather than DC's original
+arbitrary-prefix companion envelope. For a strictly totally positive ordered
+`(n+1)`-sample, a column-maximal pivot at ranks `(p,q)` satisfies
+`abs(det(Schur[p,q])) ≤ det(A[delete q,delete q])`.
+The old row set changes but the local columns do not. In particular the
+replacement old row set may contain the pivot row; deleting `(p,q)` on both
+sides would be a different claim. The proof establishes singleton
+Hadamard--Fischer without symmetry, factors the arbitrary-pivot determinant
+using independent row/column permutations, and applies column maximality.
+`positiveSeriesFermionicKernel_localMinor_schur_le` applies this result to the
+actual exponential/fermionic kernel on positive arguments with no unit-band
+restriction. Every minor order, including zero, is covered.
+
+Independent exact rational checks cover 2,520 column-maximal sample steps
+through fresh order four. A separate 1,376-check finite complete-prefix audit
+finds contraction of the same-column maximum over old row tuples and positive
+minors after a single cumulative row/column sign gauge. The latter is evidence
+for the next theorem, not a Lean proof of arbitrary-prefix closure. Phase AL's
+independent compound-order gauges are not silently promoted to that property.
+
+The direct companion audit uses the actual exponential, both conditioned
+feature factors, original-kernel pivots, eighteen fresh local columns, and all
+nine weights `56,65,...,128`. Nine configurations through depth 64 and cutoff
+256 agree at 320/640 decimal digits on pivots and 45-significant-digit
+determinant ratios. No sampled envelope fails. At depth 64/cutoff 256, the
+largest normalized determinant is approximately `1.0326550577e-1234`; this
+quantity is stored as a decimal string, not an underflowed machine zero.
+These are finite-grid, non-interval-certified numerical observations. The
+continuous/arbitrary-prefix companion envelope, residual gauge closure,
+initial dyadic local budget, G1, and Problem 4.2 remain open.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

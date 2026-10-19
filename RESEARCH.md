@@ -8117,7 +8117,7 @@ the final branch head; PR #107 merged on 2026-10-19. Phase DA is complete.
 
 ## Phase DB contract: adaptive transfer coverage decision
 
-State: verified; merged as PR #108 with green push and PR CI.
+State: complete; merged as PR #108 with green push and PR CI.
 
 Attack the remaining fresh-order-two invariant directly. Let a finite positive
 Taylor kernel on independently ordered open-unit row and column nodes use all
@@ -8242,3 +8242,130 @@ The local package is skipped by pip-audit because it is not a PyPI dependency.
 The certificate generator's `--check` command independently reproduces every
 committed integer table. Push and PR CI both pass on the final branch head;
 PR #108 merged on 2026-10-19.
+
+## Phase DC contract: direct sign-free companion envelope
+
+State: in progress on `codex/phase-dc-sign-free-companion-envelope`.
+
+Return to the quantitative premise consumed by the Phase BS/BZ norming
+theorems. For the fixed original positive-series fermionic run and each of
+the nine weights `56,65,...,128`, seek the bound
+`abs(det(sample(conditionBoth(H_lambda)))) ≤ 2^18` on an eighteen-row,
+eighteen-column fresh local unit-band sample. Previously selected nodes may
+lie outside that band. Pivot choices must come from the original kernel,
+never from the amplified companion. The one-sided Phase BS variant is a
+separate interface and must not be silently identified with the two-sided
+operator.
+
+First stress-test the actual exponential and denominator weights, not just
+short Taylor surrogates, at deeper cross-scale prefixes. Use independent
+precision runs and factorization-based determinants; singular or unstable
+numerical output is uncertified. Test interpolation-projector/entry bounds
+as possible sufficient ingredients, but a scalar or rank-two result alone
+cannot close this contract. A different explicit constant fresh order is
+acceptable only if it still yields the SPEC's cutoff-uniform contraction
+mechanism, not as a substitute for that mechanism.
+
+Provisional output: a genuine quantitative theorem discharging a companion
+envelope, or a certified counterexample to its stated scope. No wrapper
+whose assumptions merely assert the desired envelope will count as progress
+on the phase's theorem. If a promising sufficient estimate fails, retain
+its witness and distinguish it from failure of the determinant target.
+
+Non-claims: finite-grid complete maxima do not certify continuous-domain
+maxima; numerical checks do not prove an arbitrary-prefix or infinite-tail
+bound. Do not claim the dyadic recurrence, G1, or Problem 4.2 until the actual
+quantitative hypotheses and their domains have been proved.
+
+Promising alternative identified before implementation: a principal singleton
+Hadamard--Fischer inequality for a strictly totally positive matrix gives
+`det A ≤ A[i,i] * det A[delete i,delete i]`. For a scalar Schur step and a
+fixed local column tuple, choose the row having the same sorted rank as the
+pivot column in the augmented sample. Its pivot-column entry is at most the
+chosen complete pivot. This suggests contraction of the maximum local
+minor of every fixed order, rather than a companion estimate. If valid and
+transported through the residual's sign gauge, it would preserve an initial
+local analytic determinant budget without charging the prefix length.
+This is a route toward the original convergence goal, not a change of that
+goal. The precise sampling/order/gauge obligations must all be proved.
+
+The first exact tests cover 1,000 diagonally scaled geometric TP matrices
+and 400 positive Jacobi-product TP matrices, fresh orders two and three,
+and all local column tuples avoiding the pivot. None violates contraction.
+These finite tests select the next proof, but are not its proof.
+The classical matrix inequality is discussed in
+[Skandera and Soskin, Barrett--Johnson inequalities](https://arxiv.org/abs/2209.06466).
+No external theorem will be imported as an axiom. The next named target is
+`Matrix.det_le_diagonal_mul_principalComplement_of_strictlyTotallyPositive`,
+followed by the local-minor contraction theorem if its full hypotheses hold.
+
+DC proof decision: the direct companion envelope is not discharged by the
+stress tests. Deliver an explicitly weaker, all-orders one-step bridge rather
+than claim that envelope. The frozen finite statement is: for an ordered
+`(n+1)`-sample of a strictly totally positive kernel and a column-maximal
+pivot at sorted ranks `(p,q)`, the absolute determinant of the complementary
+`n`-sample of its scalar Schur residual is at most the original minor deleting
+row `q` and column `q`. The local columns therefore stay fixed; the old row
+tuple can include the pivot row. Public outputs are
+`Matrix.abs_det_pivotSchur_le_matchedComplement_of_columnMax`,
+`GECP.localMinor_schur_le_of_strictTotalPositive`, and the actual positive-
+series fermionic specialization. This is all orders, not a scalar/rank-two
+surrogate, but it still loses arbitrary-prefix scope. The next precise lemma
+is preservation of all-orders strict total positivity by the actual residual's
+single magnitude-preserving row/column sign gauge. Independent compound-order
+gauges from Phase AL do not establish that premise. Until that transport and
+the initial dyadic determinant budget are proved, no cutoff-uniform residual
+contraction or completion of DC's original quantitative target is claimed.
+
+Delivered proof: singleton Fischer follows by northwest-Schur induction at
+positive indices, then simultaneous reversal for index zero. The arbitrary
+Schur determinant identity uses `cycleRange.symm` to move each pivot index to
+zero; independent row/column permutations preserve its absolute determinant.
+Fischer at index `q` and `A[q,q] ≤ A[p,q]` yield the matched complement bound.
+The kernel theorem and actual positive-series fermionic specialization build
+strict total positivity from ordered kernel samples, not from the desired
+determinant conclusion. The separate budget corollary transports an **old**
+same-column envelope into the new minor and is not a wrapper assuming a new
+residual envelope.
+
+Independent checks: 2,520 exact one-step cases through fresh order four, plus
+1,376 exact complete-prefix local-minor/gauge cases. The latter support a
+precise next contract: on coordinates fresh for a positive-series run, multiply
+its residual by `prod_j sign(u-u_j) * prod_j sign(y-y_j)` and prove strict
+total positivity at every order on the inherited coordinate order. Each
+factor has magnitude one on fresh nodes. Arbitrary selected nodes may lie
+outside the local band. A possible proof factors the orientation of a bordered
+tuple using its Vandermonde cross differences; this is a research direction,
+not an established lemma. Once available, apply the one-step theorem backwards
+through the prefix to preserve every fixed-column maximum-minor budget.
+Then prove an initial scaled dyadic-band budget and compose the existing
+pigeonhole/continuation inequalities. Those are distinct remaining obligations.
+
+Direct companion evidence: the nine configurations `(depth,cutoff)` are
+`(0,1)`, `(2,16)`, `(8,16)`, `(16,16)`, `(32,16)`, `(8,256)`, `(16,256)`,
+`(32,256)`, `(64,256)`. Both 320- and 640-digit runs select identical pivots
+and reproduce all 45-significant-digit normalized order-eighteen determinant
+ratios for all nine weights. No sampled ratio exceeds one. At depth 64 the
+largest ratio is `1.0326550577e-1234`, the largest companion entry is about
+`5.987823e-41`, and the minimum relative pivot gap is about `1.79556e-108`.
+Pivots are never recomputed from an amplified kernel. Determinants use
+factorizations, not explicit inverses. Zeros are rejected as uncertified;
+conditioning is not estimated and decimal agreement is not interval proof.
+
+Candidate initial dyadic budget (not yet formalized): on `omega in [A,2*A]`,
+`A>0`, write the original kernel as
+`exp(-2*A*t) * exp(t*(2*A-omega)) / (1+exp(-omega))` and reverse the frequency
+order. For every Taylor degree `k>=r`,
+`(t*(2*A-omega))^k <= 2^(-r) * (2*A*t)^k`. Positive term comparison therefore
+suggests a damped degree-`r` tail bounded by `2^(-r)`, independently of `A`.
+Amplifying that tail by `2^r` would keep the initial kernel inside envelope
+two. A generalized rank-`r` amplification theorem would then give the initial
+local determinant budget `2^n / (2^r)^(n-r)` for `n>=r`. This avoids a
+Poisson-tail asymptotic estimate or subdivision into smaller subbands. A
+fixed rank-eight budget alone does not give the desired arbitrary-accuracy
+rate: the degree must vary with accuracy, and the mixed-coefficient and
+rank-amplification interfaces must be generalized or located before claiming
+that bound. The global gauge theorem must cover signed frequencies and the
+closed time interval, not only `PositiveArgument` samples used by DC's
+convenient concrete specialization. Finally an exact count of band-local
+pivots above a threshold is needed; a same-column bound is not itself G1.
