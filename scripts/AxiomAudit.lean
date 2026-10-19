@@ -1,5 +1,15 @@
 import GECPKernelStructure.Theorems
 
+#print axioms Matrix.StrictlyTotallyPositive.submatrix
+#print axioms Matrix.StrictlyTotallyPositive.reverse
+#print axioms Matrix.det_eq_northwest_pivot_mul_schur
+#print axioms Matrix.det_le_diagonal_mul_principalComplement_of_strictlyTotallyPositive
+#print axioms Matrix.abs_det_eq_abs_pivot_mul_pivotSchur
+#print axioms Matrix.abs_det_pivotSchur_le_matchedComplement_of_columnMax
+#print axioms GECPKernelStructure.GECP.localMinor_schur_le_of_strictTotalPositive
+#print axioms GECPKernelStructure.GECP.localMinor_schur_le_budget_of_strictTotalPositive
+#print axioms GECPKernelStructure.Fermionic.positiveSeriesFermionicKernel_localMinor_schur_le
+
 #print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_rows
 #print axioms GECPKernelStructure.GECP.Run.gecp_interpolates_selected_cols
 #print axioms GECPKernelStructure.GECP.Run.selectedCore_step_det

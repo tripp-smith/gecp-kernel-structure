@@ -355,6 +355,17 @@ not refute the Lorentzian inequality or a continuous-domain complete-pivot
 theorem. Actual-exponential 160/320-decimal calculations agree on the two
 failed signs to 45 significant digits, but are numerical evidence only.
 
+Post-v1 Phase DC proves an explicitly weaker but all-orders local-minor
+contraction bridge. A column-maximal scalar Schur step in a strictly totally
+positive ordered sample is bounded by an old minor on the same fresh columns,
+with a different row tuple chosen by the pivot column's sorted rank. The
+nonsymmetric singleton Fischer inequality, arbitrary-pivot absolute determinant
+factorization, generic kernel bridge, and actual positive-series fermionic
+specialization are kernel-checked. The original arbitrary-prefix companion
+target is still open. Exact prefix/gauge tests and 320/640-digit depth-64
+companion stress evidence are not promoted to formal closure. No new public
+Python API or release is introduced.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -390,9 +401,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 11:21 UTC exposed 15,137,492 aggregate goal tokens and 74,415
+2026-10-19 at 11:50 UTC exposed 15,415,983 aggregate goal tokens and 76,149
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DB-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DC-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -432,7 +443,8 @@ attached to these research counters.
 | CY — adjacent-cutoff discriminant bridge | complete; green CI | merged [PR #105](https://github.com/tripp-smith/gecp-kernel-structure/pull/105); 3,602 Lean jobs and 123 tests |
 | CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
-| DB — adaptive transfer coverage obstruction | verified; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
+| DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
+| DC — all-orders local-minor contraction bridge | in progress | formal one-step bridge delivered; original companion target open; root verification in progress |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -764,7 +776,14 @@ only after the root command passes.
 
 ## Recommended next research step
 
-Prove the cumulative cutoff Lorentzian inequality directly through a verified
+The most promising next target is a common all-orders sign gauge for actual
+positive-series residuals on fresh coordinates. Phase DC's local-minor Fischer
+bridge can then be iterated without a prefix-length charge. Prove the initial
+scaled dyadic local determinant budget separately before claiming a
+cutoff-uniform contraction or the final rate. This route may bypass the
+companion pencil, but its transport and quantitative premises remain open.
+
+Alternative: prove the cumulative cutoff Lorentzian inequality through a verified
 oscillation/biorthogonal representation, or return to the sign-free nine-weight
 normalized companion envelope. Phase DB refutes neighboring canonical-node
 coverage even on a coherent unit-square Taylor prefix. The earlier default

@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DB — adaptive transfer coverage decision<br>
-> **Phase state:** verified; merged<br>
+> **Current phase:** DC — all-orders local-minor contraction bridge<br>
+> **Phase state:** in progress<br>
 > **Last verification:** Phase DB `./scripts/verify.sh` passed a 3,608-job Lean build with 133 tests and no known dependency vulnerabilities on 2026-10-19; push and PR CI passed<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DB merged in [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108) with green CI<br>
-> **Claim level:** Phase DB refutes neighboring canonical-node coverage on a coherent finite Taylor complete-pivot prefix; the cutoff Lorentzian inequality and Problem 4.2 remain open<br>
+> **Delivery:** Phase DC draft [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); final verification pending<br>
+> **Claim level:** Phase DC proves a one-step local-minor bound at every order; arbitrary-prefix sign-gauge transport and the original quantitative envelope remain open, as does Problem 4.2<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -123,7 +123,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CY | Adjacent-cutoff discriminant bridge | complete | cutoff-transfer identity; shared canonical node; projected-cross factorization and matrix discriminant theorem | 3,602-job Lean build; public axiom audit; 13,924 exact transfer identities and 9,170 interior signs; 123-test root verification; green CI | merged PR #105 |
 | CZ | Interior transfer-node obstruction | complete | four-node finite-Taylor obstruction; alternate neighboring certificates; reproducible all-fresh-pair audit | 3,603-job Lean build; public axiom audit; 54,845 exact transfers and 47,496 covered cutoffs; 80/160-digit exponential regression; 126-test root verification; green CI | merged PR #106 |
 | DA | One-pivot exponential Chebyshev sign | complete | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; green CI | merged PR #107 |
-| DB | Adaptive transfer coverage obstruction | verified | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; green CI | merged PR #108 |
+| DB | Adaptive transfer coverage obstruction | complete | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; green CI | merged PR #108 |
+| DC | All-orders local-minor contraction bridge | in progress | singleton Fischer inequality; arbitrary-pivot matched-rank bound; actual fermionic specialization; reproducible deep companion stress audit | focused Lean build; 2,520 exact one-step checks; 1,376 prefix/gauge checks; root verification in progress | draft [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -760,6 +760,21 @@ has been verified for the conditioned feature pencils. See
 [Haneczok and Van Assche](https://arxiv.org/abs/1108.3917) and
 [Ndayiragije and Van Assche](https://arxiv.org/abs/1108.3918).
 
+Phase DC searches the matrix determinant and analysis trees for Fischer,
+Koteljanskii, total positivity, and Hadamard bounds. No matching nonsymmetric
+total-positive principal-complement theorem is present. The matrix Hadamard
+product/PSD Schur-product results have different hypotheses and conclusions.
+`Matrix.det_le_diagonal_mul_principalComplement_of_strictlyTotallyPositive`
+is a credible upstream candidate once mathlib has a total-positivity API. Its
+proof uses scalar northwest Schur induction and simultaneous reversal, not
+an external theorem or a symmetry assumption. The arbitrary-pivot absolute
+factorization reuses `Fin.cycleRange_symm_zero`, `Fin.cycleRange_symm_succ`,
+and `Matrix.abs_det_submatrix_equiv_equiv`; the matched-rank local-minor bound
+is the reusable elimination application. The fermionic wrapper stays local.
+The classical Fischer connection is documented in
+[Skandera and Soskin](https://arxiv.org/abs/2209.06466); it motivates the route
+but supplies no axiom to the formalization.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
