@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase DD `./scripts/verify.sh` passed a 3,614-job Lean build with 146 tests and no known dependency vulnerabilities on 2026-10-19; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DC merged in [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) with green CI<br>
+> **Delivery:** Phase DD draft [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); final CI pending<br>
 > **Claim level:** Phase DD proves a single magnitude-preserving sign gauge at all minor orders and an actual next-residual minor bound through arbitrary prefixes; the quantitative rate and Problem 4.2 remain open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -125,7 +125,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DA | One-pivot exponential Chebyshev sign | complete | `expMonomialMinor_signed_pos`; independent-triple matched-product positivity; coherent depth-ten localization counterexample | 3,605-job Lean build; public axiom audit; 324 sign checks at 80/160 digits; 66 matched products; 129-test root verification; green CI | merged PR #107 |
 | DB | Adaptive transfer coverage obstruction | complete | seven-pivot coherent 13-term witness; `phaseDB_not_adaptive_coverage`; surviving strict discriminant; reproducible integer certificate | 3,608-job Lean build; accepted axioms; 133-test root verification; 160/320-digit exponential evidence; green CI | merged PR #108 |
 | DC | All-orders local-minor contraction bridge | complete | singleton Fischer inequality; arbitrary-pivot matched-rank bound; actual fermionic specialization; original companion target open | 3,610-job Lean build; accepted axioms; 2,520 exact one-step checks; 1,376 prefix/gauge checks; 140-test root verification; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) |
-| DD | Common all-orders residual sign gauge | in progress | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; CI pending | pending |
+| DD | Common all-orders residual sign gauge | in progress | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; CI pending | draft [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
