@@ -28,6 +28,10 @@ import GECPKernelStructure.Matrix.DeterminantIntegral
 import GECPKernelStructure.Matrix.AndreiefIntegral
 import GECPKernelStructure.Matrix.OrderedSampleSign
 import GECPKernelStructure.Matrix.TotalPositiveHadamard
+import GECPKernelStructure.Matrix.VandermondeBorder
+import GECPKernelStructure.GECP.ResidualTotalPositivity
+import GECPKernelStructure.GECP.FrequencyReflection
+import GECPKernelStructure.Fermionic.CommonResidualGauge
 import GECPKernelStructure.GECP.TotalNonnegativeIntegral
 import GECPKernelStructure.PositiveDefinite.PivotedCholesky
 import GECPKernelStructure.PositiveDefinite.PowerFunction

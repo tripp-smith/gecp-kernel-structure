@@ -1475,12 +1475,50 @@ nine weights `56,65,...,128`. Nine configurations through depth 64 and cutoff
 determinant ratios. No sampled envelope fails. At depth 64/cutoff 256, the
 largest normalized determinant is approximately `1.0326550577e-1234`; this
 quantity is stored as a decimal string, not an underflowed machine zero.
-These are finite-grid, non-interval-certified numerical observations. The
+These are finite-grid, non-interval-certified numerical observations. At DC delivery the
 continuous/arbitrary-prefix companion envelope, residual gauge closure,
 initial dyadic local budget, G1, and Problem 4.2 remain open.
 The root gate passes a 3,610-job Lean build and 140 tests with only the accepted
 public axioms and no known dependency vulnerabilities. Push and PR CI pass;
 the change merged as PR #109 on 2026-10-19.
+
+Phase DD proves the common gauge that Phase DC was missing. For any real
+kernel with positive ordered minors and any successful exact prefix, let
+`P(x)=prod_i(x-selectedRow_i)` and `Q(y)=prod_i(y-selectedColumn_i)`. Then
+`sign(P(x))*R(x,y)*sign(Q(y))` has strictly positive ordered minors at every
+order on the fresh coordinate sets. The same two weights are used at every
+order. `Run.gaugedFinalResidual_strictSignRegular` proves this directly from
+the multi-bordered determinant identity and the selected/fresh factorization
+of Vandermonde determinants; it does not infer it from Phase AL's separate
+compound gauges. The entry and absolute-minor preservation theorems include
+unordered/repeated samples and empty minors where applicable.
+
+`Run.finalResidual_localMinor_schur_le` now applies the Fischer bridge to the
+**actual next residual** after an arbitrary successful prefix. Only the next
+pivot must be absolute-column-maximal on the augmented sample. Previous
+pivots need not be complete or local, and the matched old row can differ from
+the newly pivot-deleted row. This is not yet the iterated initial-budget or
+band-pivot counting theorem.
+
+The specialization covers `exp(t*y)/(1+exp(y))` on all real coordinates.
+`Run.negateColumns` transports any run of the original fermionic kernel
+without reselecting pivots, and its final residual is exactly the original
+residual at the inverse frequency reflection. Thus neither signed frequencies
+nor time endpoints are excluded. No canonical tie-policy equivalence is
+claimed: the chosen pivot sequence is transported.
+
+Independent regressions check 25 Vandermonde block identities, including
+unsorted/repeated nodes; 3,825 exact fresh minors along complete, smallest-
+pivot, and interior-pivot prefixes; and 350 exact next-residual matched-rank
+bounds. The matrix entries are exact values of the actual fermionic family
+at `t=i/5`, `y=5*j*log(2)`, including zero/one times and both frequency signs.
+Nineteen residual minors agree with these exact values at independent
+160/320-digit precision runs, to 45 significant digits. These decimal checks
+are evidence only; the all-real structural claims are proved in Lean.
+The initial variable-degree local determinant budget, its iteration/pivot
+counting, a cutoff-uniform G1 bound, and Problem 4.2 remain open.
+Local root verification passes a 3,614-job Lean build and 146 tests, with
+only the accepted public theorem axioms and no known dependency vulnerabilities.
 
 ## Run provenance
 

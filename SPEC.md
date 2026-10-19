@@ -2564,3 +2564,22 @@ This annotation records delivered identifiers without changing the goals above.
   open; no original mathematical objective is replaced by this bridge.
   The root gate passes a 3,610-job Lean build, accepted axiom audit, and
   140 tests with no known dependency vulnerabilities.
+
+- Phase DD status annotation (2026-10-19):
+  `GECP.Run.gaugedFinalResidual_strictSignRegular` proves that one
+  magnitude-preserving row/column sign gauge makes every ordered fresh minor
+  positive through any successful real-coordinate positive-minor kernel run.
+  `abs_gaugedFinalResidual_minor_det` preserves every absolute minor;
+  `finalResidual_localMinor_schur_le` discharges the arbitrary-prefix structural
+  premise of the Phase DC matched-rank bound for the actual next residual.
+  `Matrix.det_vandermonde_append` provides the underlying exact block identity
+  over any commutative ring. `Run.negateColumns`,
+  `fermionicKernel_reflectedRun_gaugedFinalResidual_strictSignRegular`, and
+  `fermionicKernel_reflectedRun_finalResidual` transport original fermionic
+  runs without reselecting pivots; signed frequencies and boundary times are
+  included. Exact regressions check 3,825 common-gauge minors and 350 actual
+  next-step bounds, with separate 160/320-digit actual-exponential evidence.
+  This closes the common all-orders gauge claim, not the initial local dyadic
+  determinant budget, iterated budget/pivot counting, G1, or Problem 4.2.
+  Local root verification passes a 3,614-job Lean build and 146 tests, with
+  only the accepted public axioms and no known dependency vulnerabilities.

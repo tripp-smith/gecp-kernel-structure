@@ -366,6 +366,15 @@ target is still open. Exact prefix/gauge tests and 320/640-digit depth-64
 companion stress evidence are not promoted to formal closure. No new public
 Python API or release is introduced.
 
+Post-v1 Phase DD proves a common magnitude-one row/column gauge for every
+minor order of an actual residual after an arbitrary successful positive-minor
+kernel prefix. It preserves absolute minors, and a Schur-scaling argument
+applies Phase DC's matched-rank bound to the actual next residual. A verified
+frequency-reflection transport covers original fermionic runs, signed
+frequencies, and boundary times without reselecting pivots. The initial local
+quantitative budget and its iteration/pivot count remain open; this does not
+solve G1 or Problem 4.2.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -401,9 +410,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 12:01 UTC exposed 15,479,882 aggregate goal tokens and 76,806
+2026-10-19 at 12:24 UTC exposed 15,648,762 aggregate goal tokens and 78,205
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DC-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DD-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -444,7 +453,8 @@ attached to these research counters.
 | CZ — interior transfer-node obstruction | complete; green CI | merged [PR #106](https://github.com/tripp-smith/gecp-kernel-structure/pull/106); 3,603 Lean jobs and 126 tests |
 | DA — one-pivot exponential Chebyshev sign | complete; green CI | merged [PR #107](https://github.com/tripp-smith/gecp-kernel-structure/pull/107); 3,605 Lean jobs and 129 tests |
 | DB — adaptive transfer coverage obstruction | complete; green CI | merged [PR #108](https://github.com/tripp-smith/gecp-kernel-structure/pull/108); 3,608 Lean jobs and 133 tests |
-| DC — all-orders local-minor contraction bridge | verified; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
+| DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
+| DD — common all-orders residual sign gauge | in progress | common gauge, absolute-minor preservation, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -776,12 +786,13 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The most promising next target is a common all-orders sign gauge for actual
-positive-series residuals on fresh coordinates. Phase DC's local-minor Fischer
-bridge can then be iterated without a prefix-length charge. Prove the initial
-scaled dyadic local determinant budget separately before claiming a
-cutoff-uniform contraction or the final rate. This route may bypass the
-companion pencil, but its transport and quantitative premises remain open.
+The common all-orders gauge and actual next-residual bound are proved in DD.
+The most promising next step is an initial variable-degree local dyadic
+determinant budget, using the existing generic rank-approximation determinant
+bound before introducing new companion-coefficient machinery. Its factorial
+would depend on local order, not cutoff scale. Then prove exact iteration and
+a count of band-local pivots above a threshold. These quantitative obligations
+remain open; the structural result alone is not cutoff-uniform G1.
 
 Alternative: prove the cumulative cutoff Lorentzian inequality through a verified
 oscillation/biorthogonal representation, or return to the sign-free nine-weight

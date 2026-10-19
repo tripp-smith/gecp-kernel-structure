@@ -775,6 +775,21 @@ The classical Fischer connection is documented in
 [Skandera and Soskin](https://arxiv.org/abs/2209.06466); it motivates the route
 but supplies no axiom to the formalization.
 
+Phase DD finds `Matrix.vandermonde_cons` and the full product formula
+`Matrix.det_vandermonde`, but no determinant-level selected/fresh block
+factorization. `Matrix.det_vandermonde_cons` and
+`Matrix.det_vandermonde_append` are credible upstream candidates over an
+arbitrary commutative ring: no ordering, distinctness, or nonzero hypotheses
+are needed. The proof uses existing Fin product/cast and append APIs.
+`tupleOrientation_mul_vandermonde_pos` and
+`minor_mul_vandermonde_pos_of_strictTotalPositive` are reusable real
+orientation bridges once a total-positivity API exists. The common residual
+gauge is a substantive consequence of that bridge plus exact bordered Schur
+factorization. Run-index equivalences and frequency-reflection transport are
+project-specific. No Cauchy determinant, spectral oscillation theorem, or
+external sign theorem is assumed; the new proofs use existing determinant,
+sorting, finite-product, and ordered-field algebra.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

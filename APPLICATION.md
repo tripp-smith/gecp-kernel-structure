@@ -399,6 +399,21 @@ No condition number is estimated; precision agreement is not an interval or
 continuous-domain certificate. The exact finite local-minor regression is
 separate from this numerical audit and from the new Lean theorem.
 
+Phase DD changes no public Python API or package release. Its independent
+regressions can be run with:
+
+```bash
+uv run python -m pytest tests/test_common_residual_gauge.py
+```
+
+The exact tests include all fresh minor orders, non-complete prefixes,
+boundary times, signed frequency labels, repeated samples, and transport of
+the original chosen pivots under frequency reflection. Separate 160/320-digit
+checks compare actual exponential evaluations to exact rational values.
+The new Lean theorem is an all-real structural result, but the package does
+not expose a runtime sign-gauge or convergence certificate. The dyadic budget,
+its iteration, and the final convergence bound are still research tasks.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
