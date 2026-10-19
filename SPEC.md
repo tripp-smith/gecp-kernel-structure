@@ -2604,7 +2604,8 @@ This annotation records delivered identifiers without changing the goals above.
 
 - Phase DF status annotation (2026-10-19): root verification passes 3,619
   Lean jobs, accepted public axioms, and 155 tests, with no known dependency
-  vulnerabilities; CI/delivery pending. `GECP.markedPivotProduct_le_initialMinor`
+  vulnerabilities; verified and merged as PR #112 with green push and PR CI.
+  `GECP.markedPivotProduct_le_initialMinor`
   constructs actual initial-kernel minors dominating selected pivot products;
   `panel_pivot_count_lt_of_initialBudget` combines exactly the budget order
   of marks with a fixed-order initial envelope. `fermionicPanelDomain_cover`,

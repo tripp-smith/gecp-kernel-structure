@@ -1583,7 +1583,8 @@ initial budgets, signed boundaries, 780 count identities, and three actual
 exponential determinants at independent 160/320-digit precision. This is
 finite evidence, not a runtime continuous-domain certificate. Root verification
 passes 3,619 Lean jobs, accepted public axioms, 155 tests, and no known
-dependency vulnerabilities; CI is pending. The real-cutoff/accuracy corollaries and full G1 /
+dependency vulnerabilities. Push and PR CI pass; the change merged as PR #112
+on 2026-10-19. The real-cutoff/accuracy corollaries and full G1 /
 Problem 4.2 completion audit remain open. In particular, dyadic-domain
 completeness cannot simply be assumed for a trace on a smaller rectangle.
 

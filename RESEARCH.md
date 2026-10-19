@@ -8590,7 +8590,8 @@ These are proposed proof steps, not a substitute for the missing iteration.
 
 ## Phase DF contract: backward minor witnesses and the global local-panel rate
 
-State: in progress on `codex/phase-df-local-pivot-count-rate`.
+State: verified; merged as PR #112 from `codex/phase-df-local-pivot-count-rate`
+on 2026-10-19 with green push and PR CI.
 
 Prove backwards transport of a nonzero local minor through an actual scalar
 Schur step. For a marked pivot whose column lies in the chosen panel, prepend
@@ -8668,7 +8669,9 @@ determinants are rejected. Finite-grid evidence is not a continuous-domain
 runtime certificate, and no enormous target-order numerical determinant is
 used to justify the theorem. Root verification passes a 3,619-job Lean build,
 the accepted public axioms, Ruff/formatting/mypy, all 155 tests in 139.22
-seconds, and no known dependency vulnerabilities. CI is pending.
+seconds, and no known dependency vulnerabilities. The final branch-head repeat
+passes all 155 tests in 139.98 seconds. Push and PR CI pass; PR #112 merged
+on 2026-10-19.
 
 Next: generalize the rectangle hypothesis to an arbitrary real cutoff bounded
 by `2^s` (a sequence complete on a smaller rectangle is not necessarily
