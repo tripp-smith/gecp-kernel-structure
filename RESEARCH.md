@@ -7850,3 +7850,87 @@ Verification:
   fixed-cardinality physical-column sums, and ordered feature grouping;
 - `./scripts/verify.sh` passes with 95 Python tests and no known dependency
   vulnerabilities.
+
+## Phase CY contract: adjacent-transfer interlacing bridge
+
+State: in progress on `codex/phase-cy-adjacent-transfer-interlacing`.
+
+Phase CY targets the one-sign-change prefix cone isolated by Phase CX. Write a
+prefix/suffix determinant pencil as `A + B*t + C*t^2`. Moving one rank-one
+Taylor feature from the suffix to the prefix changes its coefficients to
+`A+l`, `B-l+r`, and `C-r`, where `l` and `r` are the feature's matched sums
+against the lower and remaining upper blocks.
+
+Frozen public Lean targets:
+
+- `quadraticTransfer_eq` proves the exact polynomial update
+  `P_next(t) = P(t) + (1-t)*(l+r*t)`;
+- `quadraticTransferNodeNumerator_invariant` proves that the division-free
+  scaled value `A*r^2 - B*l*r + C*l^2` is shared by both adjacent cutoffs;
+- `quadratic_discriminant_nonneg_of_transferNode` proves one Lorentzian
+  discriminant from positive transfer sums, nonnegative endpoints, and a
+  nonpositive canonical transfer-node numerator;
+- `quadraticTransfer_discriminants_nonneg_of_transferNode` proves both adjacent
+  cutoff discriminants from the same certificate.
+
+Structural refinement after the scalar proof audit:
+
+- `quadraticTransferNodeNumerator_outerFeature_eq` factors the canonical
+  numerator as the negative product of projected row and column cross
+  determinants of the lower and remaining upper blocks;
+- `finTwoPencil_transfer_lorentzian_of_projectedCross` derives both adjacent
+  inequalities from aggregate projected-cross sign agreement and explicit
+  endpoint/transfer hypotheses. This reduces the next analytic problem to
+  cumulative projections, without assumptions about individual coordinates.
+
+The phase name refers to an interlacing route. The delivered theorems prove
+the discriminant inequalities; an ordering theorem for adjacent roots is not
+asserted.
+
+Independent exact check:
+
+- extend the deterministic conditioned-Taylor corpus to reconstruct `l` and
+  `r` from consecutive cutoff coefficients, verify the transfer identities,
+  and audit the canonical numerator on every interior transition;
+- retain the Phase CV rank-one boundary as an explicit exception rather than
+  weakening or hiding the certificate.
+
+Dependencies:
+
+- Phase CL's quadratic discriminant interface;
+- Phase CW's aggregate fresh-order-two Lorentzian bridge;
+- Phase CX's proof that only the prefix cone, not the full feature space, can
+  support the target reverse Cauchy--Schwarz law.
+
+Non-claims:
+
+- the phase does not prove the canonical transfer-node sign for arbitrary
+  complete-pivot prefixes or the infinite Taylor tail;
+- the exact corpus remains evidence, not a theorem;
+- no higher-fresh-order envelope, dyadic recurrence, Conjecture G1, or Simons
+  Problem 4.2 conclusion is claimed.
+
+Focused evidence and revised decision:
+
+- The 2,500-case deterministic finite-Taylor corpus checks 13,924 adjacent
+  transfer identities and positive transfer sums. All 9,170 transitions with
+  `2 ≤ moved_degree < feature_count - 2` have negative canonical numerator.
+  The projected-cross factorization is checked exactly on every transition,
+  with the same cross-inversion orientation as the determinant coefficients.
+  This corpus uses sizes four through eight, three through twelve retained
+  features, five additional Taylor terms in the pivot kernel, and the first
+  two available rows and columns after each selected complete-pivot prefix.
+  It does not exhaust all remaining row/column pairs or infinite expansions.
+- A universal transfer-node sign already fails next to rank-one boundary
+  blocks. The Phase CV witness has 35 transitions; its sole positive numerator
+  occurs at feature count four, moved degree one, where the old lower
+  determinant vanishes. Its 21 strict interior transitions pass.
+- The next decision is to prove projected-cross sign agreement for arbitrary
+  interior conditioned Taylor blocks, then pass to the infinite tail. Neither
+  the finite corpus nor the generic bridge establishes that analytic sign.
+
+Local verification on 2026-10-19: `./scripts/verify.sh` passes a 3,602-job Lean
+build, the public axiom audit (only `propext`, `Classical.choice`, and
+`Quot.sound`), Ruff, formatting, mypy, 123 tests in 101.16 seconds, and the
+dependency audit with no known vulnerabilities. The local package is skipped
+by pip-audit because it is not a PyPI dependency. CI and delivery are pending.

@@ -3904,6 +3904,9 @@ def test_complete_pivot_chirotope_obstruction_exactly() -> None:
     checked_pencils = 0
     mean_shift_certificates = 0
     rank_one_endpoints = 0
+    checked_adjacent_transfers = 0
+    checked_strict_interior_transfers = 0
+    rank_one_boundary_transfer_failures = 0
     for feature_count in range(4, 11):
         conditioned_left = [
             [
@@ -3956,6 +3959,7 @@ def test_complete_pivot_chirotope_obstruction_exactly() -> None:
             right_one[degree] / right_zero[degree] for degree in range(feature_count)
         )
 
+        previous_coefficients: tuple[Fraction, Fraction, Fraction] | None = None
         for cutoff in range(1, feature_count):
             lower = range(cutoff)
             upper = range(cutoff, feature_count)
@@ -3980,6 +3984,32 @@ def test_complete_pivot_chirotope_obstruction_exactly() -> None:
             assert high_det >= 0
             assert mixed >= 0
             assert mixed**2 >= 4 * low_det * high_det
+
+            if previous_coefficients is not None:
+                moved_degree = cutoff - 1
+                previous_low_det, previous_mixed, previous_high_det = (
+                    previous_coefficients
+                )
+                left_transfer = low_det - previous_low_det
+                right_transfer = previous_high_det - high_det
+                assert mixed == previous_mixed - left_transfer + right_transfer
+                assert left_transfer > 0
+                assert right_transfer > 0
+                transfer_node_numerator = (
+                    previous_low_det * right_transfer**2
+                    - previous_mixed * left_transfer * right_transfer
+                    + previous_high_det * left_transfer**2
+                )
+                if 2 <= moved_degree < feature_count - 2:
+                    assert transfer_node_numerator < 0
+                    checked_strict_interior_transfers += 1
+                elif transfer_node_numerator > 0:
+                    assert feature_count == 4
+                    assert moved_degree == 1
+                    assert previous_low_det == 0
+                    rank_one_boundary_transfer_failures += 1
+                checked_adjacent_transfers += 1
+            previous_coefficients = (low_det, mixed, high_det)
 
             lower_mass = weighted_mass(lower, weights)
             upper_mass = weighted_mass(upper, weights)
@@ -4010,6 +4040,9 @@ def test_complete_pivot_chirotope_obstruction_exactly() -> None:
     assert checked_pencils == 42
     assert mean_shift_certificates == 40
     assert rank_one_endpoints == 2
+    assert checked_adjacent_transfers == 35
+    assert checked_strict_interior_transfers == 21
+    assert rank_one_boundary_transfer_failures == 1
 
 
 def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
@@ -4055,6 +4088,9 @@ def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
 
     rng = random.Random(0xC0DEC0DE)
     checked_pencils = 0
+    checked_transfers = 0
+    checked_interior_transfers = 0
+    boundary_transfer_failures = 0
     smallest_margin: Fraction | None = None
     smallest_metadata: (
         tuple[
@@ -4143,6 +4179,17 @@ def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
                 for i in block_rows
             ]
 
+        def mixed_coefficient(
+            first: list[list[Fraction]], second: list[list[Fraction]]
+        ) -> Fraction:
+            return (
+                first[0][0] * second[1][1]
+                + second[0][0] * first[1][1]
+                - first[0][1] * second[1][0]
+                - second[0][1] * first[1][0]
+            )
+
+        previous_coefficients: tuple[Fraction, Fraction, Fraction] | None = None
         for cutoff in range(1, feature_count):
             low = feature_block(
                 range(cutoff),
@@ -4160,13 +4207,7 @@ def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
             )
             constant = orientation * fraction_determinant(low)
             quadratic = orientation * fraction_determinant(high)
-            mixed = orientation * (
-                fraction_determinant(
-                    [[low[i][j] + high[i][j] for j in range(2)] for i in range(2)]
-                )
-                - fraction_determinant(low)
-                - fraction_determinant(high)
-            )
+            mixed = orientation * mixed_coefficient(low, high)
             discriminant = mixed**2 - 4 * constant * quadratic
             assert constant >= 0
             assert mixed >= 0
@@ -4185,9 +4226,96 @@ def test_extended_conditioned_lorentzian_corpus_exactly() -> None:
                     tuple(selected_rows),
                     tuple(selected_columns),
                 )
+            if previous_coefficients is not None:
+                moved_degree = cutoff - 1
+                previous_low = feature_block(
+                    range(moved_degree),
+                    conditioned_left,
+                    conditioned_right,
+                    fresh_rows,
+                    fresh_columns,
+                )
+                moved_feature = feature_block(
+                    range(moved_degree, cutoff),
+                    conditioned_left,
+                    conditioned_right,
+                    fresh_rows,
+                    fresh_columns,
+                )
+                left_transfer = orientation * mixed_coefficient(
+                    previous_low, moved_feature
+                )
+                right_transfer = orientation * mixed_coefficient(moved_feature, high)
+                previous_constant, previous_mixed, previous_quadratic = (
+                    previous_coefficients
+                )
+                assert constant == previous_constant + left_transfer
+                assert quadratic == previous_quadratic - right_transfer
+                assert mixed == previous_mixed - left_transfer + right_transfer
+                assert left_transfer > 0
+                assert right_transfer > 0
+                checked_transfers += 1
+                transfer_node_numerator = (
+                    previous_constant * right_transfer**2
+                    - previous_mixed * left_transfer * right_transfer
+                    + previous_quadratic * left_transfer**2
+                )
+                moved_left = tuple(
+                    conditioned_left[row][moved_degree] for row in fresh_rows
+                )
+                moved_right = tuple(
+                    conditioned_right[moved_degree][column] for column in fresh_columns
+                )
+                projected_lower_column = tuple(
+                    previous_low[i][1] * moved_right[0]
+                    - previous_low[i][0] * moved_right[1]
+                    for i in range(2)
+                )
+                projected_upper_column = tuple(
+                    high[i][1] * moved_right[0] - high[i][0] * moved_right[1]
+                    for i in range(2)
+                )
+                projected_lower_row = tuple(
+                    previous_low[1][j] * moved_left[0]
+                    - previous_low[0][j] * moved_left[1]
+                    for j in range(2)
+                )
+                projected_upper_row = tuple(
+                    high[1][j] * moved_left[0] - high[0][j] * moved_left[1]
+                    for j in range(2)
+                )
+                column_cross = (
+                    projected_lower_column[0] * projected_upper_column[1]
+                    - projected_upper_column[0] * projected_lower_column[1]
+                )
+                row_cross = (
+                    projected_lower_row[0] * projected_upper_row[1]
+                    - projected_upper_row[0] * projected_lower_row[1]
+                )
+                assert transfer_node_numerator == (
+                    -orientation * column_cross * row_cross
+                )
+                if 2 <= moved_degree < feature_count - 2:
+                    assert transfer_node_numerator < 0, (
+                        case,
+                        size,
+                        prefix_length,
+                        feature_count,
+                        moved_degree,
+                        tuple(selected_rows),
+                        tuple(selected_columns),
+                    )
+                    checked_interior_transfers += 1
+                elif transfer_node_numerator > 0:
+                    assert previous_constant == 0 or quadratic == 0
+                    boundary_transfer_failures += 1
+            previous_coefficients = (constant, mixed, quadratic)
             checked_pencils += 1
 
     assert checked_pencils == 16424
+    assert checked_transfers == 13924
+    assert checked_interior_transfers == 9170
+    assert boundary_transfer_failures > 0
     assert smallest_margin is not None
     assert Fraction(37, 100) < smallest_margin < Fraction(38, 100)
     assert smallest_metadata == (

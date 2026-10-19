@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** CX — prefix-cone Hodge obstruction<br>
-> **Phase state:** complete<br>
-> **Last verification:** Phase CX `./scripts/verify.sh` passed a 3,601-job Lean build with 123 tests and no known dependency vulnerabilities on 2026-10-18<br>
+> **Current phase:** CY — adjacent-cutoff discriminant bridge<br>
+> **Phase state:** in progress<br>
+> **Last verification:** Phase CY `./scripts/verify.sh` passed a 3,602-job Lean build with 123 tests and no known dependency vulnerabilities on 2026-10-19<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase CX merged in [PR #104](https://github.com/tripp-smith/gecp-kernel-structure/pull/104) with green CI<br>
-> **Claim level:** Phase CX proves that global Hodge--Riemann signature is too strong and isolates contiguous prefix-cone interlacing as the surviving fresh-order-two target
+> **Delivery:** Phase CX merged in [PR #104](https://github.com/tripp-smith/gecp-kernel-structure/pull/104) with green CI; Phase CY delivery pending<br>
+> **Claim level:** Phase CY factors a shared negative-node certificate into aggregate projected cross determinants and derives both adjacent cutoff discriminants<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -120,6 +120,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | CV | Complete-pivot chirotope obstruction | complete | exact rational exponential kernel; two certified complete pivots; opposite crossed augmented signs | 3,600-job Lean build; public axiom audit; exact kernel, residual, pivot, and determinant reconstruction; 121-test root verification; green CI | merged PR #102 |
 | CW | Aggregate mean-shift Lorentzian bridge | complete | covariance-plus-mean-shift discriminant criterion; Phase CV aggregate survival | 3,600-job Lean build; public axiom audit; 42 exact witness pencils and 16,424 extended conditioned pencils; 122-test root verification; green CI | merged PR #103 |
 | CX | Prefix-cone Hodge obstruction | complete | exact complete-pivot exponential witness; two-dimensional positive plane; all contiguous prefix planes Lorentzian | 3,601-job Lean build; public axiom audit; exact rational reconstruction; 123-test root verification; green CI | merged PR #104 |
+| CY | Adjacent-cutoff discriminant bridge | in progress | cutoff-transfer identity; shared canonical node; projected-cross factorization and matrix discriminant theorem | 3,602-job Lean build; public axiom audit; 13,924 exact transfer identities and 9,170 interior signs; 123-test root verification | delivery pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

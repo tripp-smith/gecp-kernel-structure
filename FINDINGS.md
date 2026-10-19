@@ -1361,6 +1361,24 @@ pivots.
   interlacing of cumulative mixed determinants.
   The change passed CI and merged as PR #104.
 
+- Phase CY proves a local mechanism for neighboring degree cutoffs. Moving a
+  rank-one feature changes `A+B*t+C*t^2` by `(1-t)*(l+r*t)`, so the two
+  pencils share the value at `t=-l/r`. Clearing the denominator gives the
+  invariant `T=A*r^2-B*l*r+C*l^2`. With positive transfer sums and nonnegative
+  endpoint determinants, `T≤0` implies both adjacent discriminants are
+  nonnegative. More specifically, Lean proves
+  `T=-projected_column_cross*projected_row_cross` for an outer-product moved
+  feature, and derives the two matrix inequalities from that aggregate sign.
+  The exact corpus checks the identity, including the determinant orientation,
+  on 13,924 transfers. All 9,170 strict interior transitions have `T<0`;
+  positive numerators occur next to rank-one endpoints. The Phase CV witness
+  has one such exception among 35 transitions and passes all 21 strict
+  interior transitions. The next missing theorem is sign agreement of the
+  cumulative projected crosses for arbitrary interior conditioned Taylor
+  blocks. Adjacent-root ordering, the infinite-tail sign, and the final
+  determinant envelope remain open.
+  Local root verification passes a 3,602-job Lean build and 123 tests.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
