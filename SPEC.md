@@ -2694,3 +2694,16 @@ This annotation records delivered identifiers without changing the goals above.
   claimed. Root verification passes 3,630 Lean jobs, 857 enforced axiom reports,
   180 tests and no known dependency vulnerabilities; green push and PR CI;
   merged as PR #116. The original mathematical goals above are unchanged.
+
+- **Phase DK status (2026-10-20):** `completeRun_diagonal_of_posDef`
+  derives diagonal necessity for every successful exact complete pivot on an
+  arbitrary domain from strict SPD of the original kernel. Fresh strictness
+  is propagated through injective rectangular Schur congruence, not assumed.
+  `posDef_completeRun_iff_pivotedCholesky` proves equivalence with independently
+  defined recursive diagonal maximization on actual residual updates.
+  Residual PSD/diagonal domination, fresh strictness, compact continuous
+  maximum existence and original-kernel fill control are exported. This
+  closes R08's staged baseline scope; full published asymptotic rates, weak-
+  PSD diagonal necessity, unique ties and numerical exactness are not claimed.
+  The original goals above are unchanged; numerical metadata/census and
+  Phase-II comparisons remain required work.
