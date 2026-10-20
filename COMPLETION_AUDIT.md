@@ -1,9 +1,12 @@
 # Original SPEC completion audit
 
-Audit date: 2026-10-20. Entry state: merged DH, `82dd80b7be7d6f65546112412c0623dd6093694f`.
-DI additions are included below, verified by the full root gate (3,627 Lean
+Audit date: 2026-10-20. DI entry state: merged DH, `82dd80b7be7d6f65546112412c0623dd6093694f`.
+DI additions were verified by the full root gate (3,627 Lean
 jobs, 838 enforced axiom reports, 177 tests, no known dependency vulnerabilities)
 and green push/PR CI, and merged as [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115).
+DJ adds the original-kernel fill-distance proof and arbitrary-domain PSD
+geometry; its focused Lean and exact rational checks pass. Full-phase gates
+and delivery are recorded in README and RESEARCH.
 
 ## Decision
 
@@ -11,10 +14,10 @@ and green push/PR CI, and merged as [PR #115](https://github.com/tripp-smith/gec
 proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
-This audit has 40 concrete requirement groups: **33 supported and 7 incomplete**
-after DI verification. This is about **80% checklist coverage**, not a weighted
+This audit has 40 concrete requirement groups: **34 supported and 6 incomplete**
+after DJ's proof of R09. This is **85% checklist coverage**, not a weighted
 estimate of remaining effort or a probability that an open theorem is true.
-The incomplete groups are R08, R09, R24, R25, R26, R27 and R31. Root/CI success
+The incomplete groups are R08, R24, R25, R26, R27 and R31. Root/CI success
 cannot turn those missing scopes into achieved results.
 
 “Supported” below means the named source was inspected at the relevant scope,
@@ -34,8 +37,8 @@ rewritten.
 | R05 | Actual original-core determinant equals pivot product; nonsingularity (§8,27A,22) | Supported | `GECP/Determinant.lean`: `gecp_core_det_eq_prod_pivots`, `gecp_core_nonsingular`; no supplied LDU/factorization premise; exact two-pivot instance and rational determinant checks. |
 | R06 | Finite PSD Schur preservation and diagonal domination (§9) | Supported | `PositiveDefinite/ResidualPSD.lean` constructs `Pᴴ M P`, proves the square bound and equivalence of diagonal/all-entry bounds; no residual PSD premise is substituted for preservation. |
 | R07 | Canonical finite diagonal-preferring GECP/Cholesky trace equivalence (§9,27B) | Supported | `PositiveDefinite/PivotedCholesky.lean`: both trace conversions and `gecp_eq_pivotedCholesky_of_posDef`; `test_cholesky.py` covers Gaussian PSD examples and diagonal ties. This does not itself close R08. |
-| R08 | Continuous-domain SPD baseline at the original kernel scope (§3A,9,27B) | Incomplete | Current PSD matrices are finite-indexed and the GECP trace definition is diagonal-preferring. A continuous arbitrary-domain kernel theorem, including the stated diagonal-pivot reduction for strict SPD kernels, is not supplied by those finite trace definitions. |
-| R09 | Fill-distance error derived from Lipschitz **original kernel**, not assumed residual regularity (§10) | Incomplete | `FillDistance.lean` assumes `LipschitzWith L diagonal`. It is a valid conditional interpolation lemma, but does not derive a rank-independent residual bound from original-kernel Lipschitz/SPD hypotheses. `PowerFunction.lean` is only a re-export/comment. |
+| R08 | Continuous-domain SPD baseline at the original kernel scope (§3A,9,27B) | Incomplete | DJ lifts PSD residual/order preservation and diagonal complete-maximum existence to arbitrary compact continuous kernel domains. It does not yet prove that every successful complete pivot for a strictly SPD kernel is diagonal, nor transport that necessity through all fresh residuals. Finite canonical trace equivalence alone does not close this remaining scope. |
+| R09 | Fill-distance error derived from Lipschitz **original kernel**, not assumed residual regularity (§10) | Supported | DJ's `diagonalRun_error_le_original_fillDistance` derives `abs R(x,y) <= 2*L*h` for every actual finite diagonal run from original-kernel coordinatewise Lipschitz regularity, finite-sample PSD, and the selected-node cover. `K-R` PSD and the original-energy bound are proved, not supplied as premises. The old conditional `FillDistance.lean` remains valid but is no longer the sole interface. Exact rational prefix/repeated-sample checks and an infinite-domain Lean feature-kernel instance exercise the new theorem. |
 | R10 | Fermionic reflection (§4.2,27C,22) | Supported | `Symmetry.lean`: `fermionicKernel_reflection`; float64/mp tests include signs and boundaries. |
 | R11 | Centered representation and positive column weight (§4.1,27C,22) | Supported | `Centering.lean`: `fermionicKernel_centered`; denominator positivity and stable kernel evaluation. |
 | R12 | Continuity, derivatives and physical bounds (§4,27C) | Supported | `Derivatives.lean`: joint continuity, exact coordinate derivatives, time/frequency bounds; `test_kernels.py` compares float64 and arbitrary precision, including extreme cutoffs. |
@@ -74,14 +77,14 @@ rewritten.
 | --- | --- |
 | 1 | R01, R16, R17: main rate and application error, with honest parameter range. |
 | 2 | Context and prior-work attribution, R37; not a new proof of every published convergence theorem. |
-| 3 | Track A has R08/R09 gaps; Track B's exact-rate outcome is R16/R17. |
+| 3 | Track A has the remaining strict-SPD reduction gap R08; R09 is proved. Track B's exact-rate outcome is R16/R17. |
 | 4.1–4.3 | R10–R14: identities, weights, exponential signs and actual-prefix structure. |
 | 5 | R15: D1's real quantifiers and explicit constant. |
 | 6 | Candidate construction, not a mandate to implement both Taylor and Chebyshev. The allowed Taylor route is used. |
 | 7 | R02 and numerical modes R20/R21: finite successful updates, complete maximum existence, zero stop. |
 | 8 | R01, R03–R05: interpolation, cross, core determinant and nonsingularity. |
-| 9 | R06/R07 supported finite scope; R08 continuous-kernel scope not yet achieved. |
-| 10 | R09: original-kernel Lipschitz implication missing. Published full asymptotic rates are not required for this staged baseline. |
+| 9 | R06/R07 supported finite scope; DJ adds arbitrary-domain PSD geometry, but R08 strict-SPD reduction remains incomplete. |
+| 10 | R09: original-kernel Lipschitz fill control proved by DJ. Published full asymptotic rates are not claimed by this staged baseline. |
 | 11 | R16/R17: intended large-cutoff rate proved, literal arbitrarily-small-cutoff reading refuted. |
 | 12 | A proposed approximation-to-greedy route. The successful local-minor/panel mechanism fulfills the structural objective; a separate general best-rank comparison is not claimed. |
 | 13 | Research questions, not six independently promised positive answers. Actual all-orders signs/gauge are proved; pivot-location hypotheses and counterexamples remain explicitly distinguished. |
@@ -152,17 +155,18 @@ The baseline convergence literature is prior work. In particular,
 [Sungwoo Jeong and Alex Townsend, *Convergence of Pivoted Cholesky Algorithm
 for Lipschitz Kernels*](https://arxiv.org/abs/2509.13582) proves original-kernel
 Lipschitz fill-distance control and corresponding complete-pivot convergence
-results. The local conditional residual-Lipschitz lemma is not presented as a
-formal reproduction of that full result. P-greedy/pivoted-Cholesky theory is
+results. DJ formalizes original-kernel fill-distance control, not that paper's
+full asymptotic rates. P-greedy/pivoted-Cholesky theory is
 the control baseline, not this repository's claimed invention.
 
 ## Next exact targets, in priority order
 
-1. **Continuous PSD/SPD baseline (R08/R09).** Define positivity by arbitrary
-   finite sampled Gram matrices. Prove finite diagonal residual PSD/order
-   preservation on an arbitrary domain, continuous diagonal-complete reduction
-   (with tie scope explicit), and a fill-distance bound from original-kernel
-   Lipschitz assumptions. Do not assume the residual diagonal is Lipschitz.
+1. **Strict-SPD complete-pivot necessity (R08).** DJ provides arbitrary-domain
+   finite-sample PSD, residual/order preservation, compact diagonal-complete
+   maximum availability, and original-kernel fill control (R09). Still prove
+   that every successful complete pivot is diagonal for strict SPD on fresh
+   nodes, and propagate that strictness through residual prefixes. Weak PSD
+   permits off-diagonal ties; do not infer necessity from availability.
 2. **Census and metadata (R24–R27).** Add complete result status metadata,
    extend the seven-cutoff census through `1e-12`, serialize all specified
    histories/geometry, and produce normalized residual-curve evidence. Retain

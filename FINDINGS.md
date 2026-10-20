@@ -1694,6 +1694,40 @@ jobs, 838 enforced axiom reports, 177 tests and no known dependency
 vulnerabilities. Push and PR CI pass; PR #115 merged on 2026-10-20. The seven
 gaps remain required work.
 
+## Phase DJ: original-kernel geometry
+
+**Proved:** `KernelPosSemidef` tests mathlib PSD on every finite sample,
+including repeats, with no finite ambient-domain assumption. Every actual
+successful diagonal run preserves PSD of both `R` and `K-R` through
+`diagonalRun_residual_and_removed_posSemidef`. The latter invariant is not
+assumed: each update removes a positive rank-one kernel. It yields
+`diagonalRun_power_le_original_energy` at every selected node `s`:
+`R(x,x) <= K(x,x)-2*K(x,s)+K(s,s)`.
+
+`diagonalRun_error_le_original_fillDistance` then proves
+`abs R(x,y) <= 2*L*h` from coordinatewise Lipschitz regularity of the original
+kernel and a selected-node cover of radius `h`. There is no residual-Lipschitz
+premise, no maximality assumption, and no rank-dependent constant.
+`diagonalRun_exists_diagonal_completePivot` proves availability of a diagonal
+complete maximum on every nonempty compact continuous kernel domain, including
+the zero-maximum stopping case. `linearFeatureRun_residual` computes `x*y`
+after the actual pivot at zero of `K(x,y)=1+x*y` on the infinite real domain.
+
+**Exact independent evidence:** two arbitrary diagonal orders, six prefixes
+each, 510 selected-node energy comparisons, all principal minors of repeated
+five-node samples of residual/removed kernels, interpolation, exact rank-five
+termination, and original-kernel Lipschitz/fill inequalities. A constant
+rank-one PSD kernel permits nonzero off-diagonal complete ties. A two-node
+triangular-kernel example gives `R(1/4,1/4)=7/16>1/4`, so the factor two in
+the generic `2*L*h` theorem cannot simply be dropped to one.
+
+**Not claimed:** every weak-PSD maximizer is diagonal (the tie example refutes
+that); strict-SPD fresh-residual necessity (R08 still incomplete); published
+asymptotic P-greedy rates or literature priority. DJ closes R09, so the
+40-group audit has 34 supported and six incomplete groups: 85% checklist
+coverage, not a weighted effort estimate. Full verification/delivery evidence
+is maintained in README and RESEARCH.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

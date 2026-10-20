@@ -847,6 +847,27 @@ baseline gap; it does not relabel the existing conditional residual theorem
 as that missing result. Axiom-output parsing is verification infrastructure,
 not a mathematical upstream contribution. See [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
 
+## DJ: arbitrary-domain kernel geometry
+
+Search before implementation found matrix positivity rather than a general
+kernel Schur-run/fill-distance abstraction. Reused
+`Matrix.PosSemidef.submatrix`, `posDef_gecp_residual_posSemidefinite` (the local
+finite congruence proof), `Matrix.posSemidef_vecMulVec_self_star`,
+`Matrix.PosSemidef.smul`/`.add`, and `.dotProduct_mulVec_nonneg`.
+The finite matrix rank-one/congruence APIs need finite indices; the ambient
+kernel type need not be finite. `KernelPosSemidef` is therefore a thin
+all-finite-samples adapter to mathlib positivity, not a replacement theory.
+Repeated samples are explicitly permitted. `KernelPosSemidef.of_matrix`
+also bridges mathlib's ambient matrix predicate when available.
+
+Potential reusable candidates: lifting a scalar diagonal Schur update via
+`Fin.cons` and `Fin.succ`, positivity of the removed kernel, and the
+original-energy comparison after an actual finite run. Compact diagonal
+maximizer availability uses `IsCompact.exists_isMaxOn`; metric control uses
+`LipschitzWith.dist_le_mul`. The original-kernel bound is prior mathematical
+work, not a new convergence-rate discovery. Strict-SPD necessity still needs
+a separate fresh-domain proof; no such result is inferred from weak PSD.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

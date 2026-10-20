@@ -438,6 +438,18 @@ packaging checks. A temporary local source archive containing copies of two
 untracked notes was removed; rebuilt archives exclude them and their originals
 are unchanged. An isolated wheel smoke passes; nothing was published.
 
+Post-v1 Phase DJ closes R09 with original-kernel, not residual, regularity:
+`diagonalRun_error_le_original_fillDistance` proves `abs R(x,y) <= 2*L*h`
+for actual finite diagonal runs on arbitrary metric domains. Residual and
+removed-kernel PSD, original-energy comparison, arbitrary-domain continuity,
+and compact diagonal complete-maximizer availability are derived. An actual
+infinite-domain linear-feature run and exact rational repeated-sample/prefix
+checks exercise these results. Strict-SPD necessity for every successful
+complete pivot remains open in R08. The updated audit has 34/40 supported
+groups (85% checklist coverage, not weighted effort) and six incomplete groups.
+Verification and delivery are recorded in README/RESEARCH; no new numerical
+behavior or release is claimed.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -473,9 +485,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 08:48 UTC exposed 16,984,485 aggregate goal tokens and 87,186
+2026-10-20 at 08:58 UTC exposed 17,076,265 aggregate goal tokens and 87,782
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DI-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DJ-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -483,7 +495,7 @@ reasoning-effort setting. Collaboration remains Default mode with one primary
 agent and unrestricted local filesystem/network access. No new pricing estimate is
 attached to these research counters.
 The goal tracker reports `active` at this snapshot, superseding its earlier
-DG `blocked` report. The DI audit now records seven incomplete original-SPEC
+DG `blocked` report. The DJ audit now records six incomplete original-SPEC
 requirement groups. The proved central exact-GECP rate does not close those gaps.
 
 ## Phase status
@@ -526,6 +538,7 @@ requirement groups. The proved central exact-GECP rate does not close those gaps
 | DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
 | DH — finite-run and physical-error closure | complete; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
 | DI — original-SPEC audit and bounded closures | verified; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); 40 groups / seven incomplete; real D1, compact maxima, exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests and wheel smoke |
+| DJ — original-kernel fill-distance control | in progress; local gate passes | arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -857,15 +870,16 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds seven
+The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds six
 incomplete requirement groups despite the proved central exact-GECP rate.
-Next prove the continuous PSD/SPD baseline and a fill-distance estimate from
-original-kernel Lipschitz assumptions, without assuming residual regularity.
+DJ proves original-kernel Lipschitz fill control and arbitrary-domain PSD
+geometry. Next prove strict-SPD complete-pivot diagonal necessity through
+fresh residual prefixes.
 Then complete numerical metadata/census depth/diagnostics/normalized curves
 and the listed sparse-method comparisons. Re-audit all forty groups before
 claiming the full goal complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The roughly 80% figure is checklist coverage, not weighted effort
+theorems. The 85% figure is checklist coverage, not weighted effort
 or a theorem-success probability.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative

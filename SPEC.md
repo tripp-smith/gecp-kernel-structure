@@ -2680,3 +2680,15 @@ This annotation records delivered identifiers without changing the goals above.
   residual Lipschitz bound), full result metadata, `1e-12` census depth and
   geometry/normalized plots, and listed Phase-II method comparisons. These
   gaps are recorded rather than removed from the mathematical goals above.
+
+- **Phase DJ status (2026-10-20):**
+  `KernelPosSemidef` lifts finite sampled Gram positivity to arbitrary kernel
+  domains (including repeated samples). An actual finite diagonal run derives
+  PSD of the residual and removed kernel, original-energy comparison, and
+  `diagonalRun_error_le_original_fillDistance`: `abs R(x,y) <= 2*L*h` from
+  original-kernel coordinatewise Lipschitz regularity and selected-node cover,
+  without assuming residual regularity. Compact continuous domains admit a
+  diagonal complete maximum. This closes audit R09; strict-SPD necessity for
+  every complete pivot through fresh residuals remains open in R08. No weak-
+  PSD tie necessity, asymptotic P-greedy rate, or new numerical certificate is
+  claimed. The original mathematical goals above are unchanged.
