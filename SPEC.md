@@ -2622,7 +2622,8 @@ This annotation records delivered identifiers without changing the goals above.
 
 - Phase DG status annotation (2026-10-20): root verification passes 3,622
   Lean jobs, the permitted public axioms, 159 tests, and no known dependency
-  vulnerabilities; CI/delivery pending. The actual-domain
+  vulnerabilities; verified and merged as PR #113 with green push and PR CI.
+  The actual-domain
   `fermionicKernel_gecp_error_le_realCutoffBlock` retains the finite DF count
   for any `Lambda<=2^s` without padding the complete-pivot domain.
   `fermionicKernel_gecp_error_le_logarithmic` proves the G1-shaped bound for

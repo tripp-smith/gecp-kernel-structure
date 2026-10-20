@@ -442,8 +442,8 @@ credit, or internal compute cost. They exclude cache discounts, long-context
 premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
-The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 07:25 UTC exposed 16,573,413 aggregate goal tokens and 82,785
+The post-v1 research goal remains incomplete. A runtime snapshot on
+2026-10-20 at 07:34 UTC exposed 16,606,400 aggregate goal tokens and 83,216
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DG-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -452,6 +452,10 @@ GPT-6 family. Neither exposes a verifiable exact serving snapshot or
 reasoning-effort setting. Collaboration remains Default mode with one primary
 agent and unrestricted local filesystem/network access. No new pricing estimate is
 attached to these research counters.
+The goal tracker reported `blocked` at this snapshot; no reason is exposed by
+that tool. This is not a claim that DG's mathematics or verification is blocked:
+its checks pass and PR #113 is merged. The finite-run and full-SPEC audit
+remain outstanding.
 
 ## Phase status
 
@@ -490,7 +494,7 @@ attached to these research counters.
 | DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
 | DE — cutoff-uniform local panel determinant budget | complete; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
 | DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
-| DG — actual real-cutoff rate and parameter boundary | in progress | explicit logarithmic constants and real tolerance; actual first-pivot obstruction to literal small-cutoff G1; 3,622 Lean jobs and 159 tests pass; CI pending |
+| DG — actual real-cutoff rate and parameter boundary | verified; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

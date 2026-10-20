@@ -1621,8 +1621,9 @@ choices, and 160/320-digit comparisons of 212 envelope values, 28 tolerance
 ceilings, and nine actual first-pivot witnesses. Zero/nonfinite witness values
 are rejected; numerical evidence is not a continuous-domain certificate.
 Root verification passes 3,622 Lean jobs, the permitted public axioms, all
-159 tests, and no known dependency vulnerabilities. CI/delivery and the
-separate full-SPEC completion audit are pending.
+159 tests, and no known dependency vulnerabilities. Push and PR CI pass;
+PR #113 merged on 2026-10-20 after retrying one toolchain-download TLS failure.
+The separate full-SPEC completion audit remains pending.
 
 ## Run provenance
 

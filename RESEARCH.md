@@ -8682,7 +8682,8 @@ proving a theorem for all real cutoffs by padding the pivot domain.
 
 ## Phase DG contract: actual real cutoffs and explicit logarithmic rates
 
-State: in progress on `codex/phase-dg-real-cutoff-rate`.
+State: verified; merged as PR #113 from `codex/phase-dg-real-cutoff-rate`
+on 2026-10-20 with green push and PR CI.
 
 Generalize DF's count argument to complete pivots on the **actual** rectangle
 `[0,1] x [-Lambda,Lambda]`, using `Lambda <= 2^s` only to label its columns.
@@ -8757,7 +8758,10 @@ Zero/nonfinite witness residuals are rejected. The observed finite first-pivot
 grid checks are not substituted for Lean's continuous complete-pivot proof.
 Root verification passes a 3,622-job Lean build, the permitted public axioms,
 Ruff/formatting/mypy, all 159 tests in 139.51 seconds, and no known dependency
-vulnerabilities. CI and delivery are pending.
+vulnerabilities. The final branch-head repeat passes all 159 tests in 136.89
+seconds. Push and PR CI pass; PR #113 merged on 2026-10-20. One PR Lean
+job failed while downloading the toolchain with a TLS error before compilation;
+retrying the failed check passed, without source or gate changes.
 
 Next decision: audit the full SPEC and the theorem's finite-prefix,
 termination, and cross-approximation interfaces before declaring completion.

@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DG — real-cutoff logarithmic rate and parameter audit<br>
-> **Phase state:** in progress<br>
-> **Last verification:** Phase DG `./scripts/verify.sh` passes a 3,622-job Lean build with 159 tests and no known dependency vulnerabilities; CI pending<br>
+> **Phase state:** verified; merged<br>
+> **Last verification:** Phase DG `./scripts/verify.sh` passes a 3,622-job Lean build with 159 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-20<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DG draft [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); CI pending<br>
+> **Delivery:** Phase DG merged in [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) with green CI<br>
 > **Claim level:** DG proves the actual real-cutoff exponential rate with explicit constants for `Λ≥1`, an all-positive-cutoff `log(2+Λ)` rate, and an obstruction to literal G1 uniformly down to zero; full completion audit remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -128,7 +128,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DD | Common all-orders residual sign gauge | complete | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
 | DE | Cutoff-uniform local panel determinant budget | complete | rank-`8p` panel approximation; `fermionicKernel_panel_minor_det_le_dyadicBudget` at order `16(33+4q)`; both signs and central panels | 3,615-job Lean build; accepted axioms; 151 tests; exact feature/exponent checks; independent precision evidence; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) |
 | DF | Backward witnesses and global panel-pivot rate | complete | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
-| DG | Real-cutoff logarithmic rate and parameter audit | in progress | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; CI pending | draft [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
+| DG | Real-cutoff logarithmic rate and parameter audit | verified | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
