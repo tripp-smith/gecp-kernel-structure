@@ -1,7 +1,9 @@
 # Original SPEC completion audit
 
 Audit date: 2026-10-20. Entry state: merged DH, `82dd80b7be7d6f65546112412c0623dd6093694f`.
-DI additions are included below and require DI's root/CI/delivery gate.
+DI additions are included below, verified by the full root gate (3,627 Lean
+jobs, 838 enforced axiom reports, 177 tests, no known dependency vulnerabilities)
+and green push/PR CI, and merged as [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115).
 
 ## Decision
 
@@ -64,7 +66,7 @@ rewritten.
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, FINAL_HANDOFF and this ledger distinguish proofs, observations, hypotheses and non-claims. Historical bounded phase labels do not override incomplete scopes in this audit. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | Entry DH has merged PR #114, matching main/origin and successful exact-head CI. DI must pass the same full gate and merged/pushed-head checks before its own verified handoff; evidence is recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
+| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI merged PR #115 after its full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
 
 ## Original section and outcome coverage
 

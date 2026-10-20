@@ -2674,7 +2674,8 @@ This annotation records delivered identifiers without changing the goals above.
   report coverage and failing Lean exit status. Packaging excludes local
   duplicate notes and has an isolated wheel smoke check. Root verification
   passes 3,627 Lean jobs, 838 enforced axiom reports, 177 tests, and no known
-  dependency vulnerabilities; CI/delivery pending. Required work includes the continuous SPD/original-
+  dependency vulnerabilities; verified and merged as PR #115 with green push
+  and PR CI. Required work includes the continuous SPD/original-
   kernel Lipschitz baseline (not just finite canonical traces or an assumed
   residual Lipschitz bound), full result metadata, `1e-12` census depth and
   geometry/normalized plots, and listed Phase-II method comparisons. These

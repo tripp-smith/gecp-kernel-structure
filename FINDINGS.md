@@ -1691,7 +1691,8 @@ Known continuous pivoted-Cholesky/P-greedy convergence is prior work, including
 The repository's conditional residual-Lipschitz lemma is not claimed to
 formalize that full published result. Root verification passes 3,627 Lean
 jobs, 838 enforced axiom reports, 177 tests and no known dependency
-vulnerabilities. CI/delivery are pending; the seven gaps remain required work.
+vulnerabilities. Push and PR CI pass; PR #115 merged on 2026-10-20. The seven
+gaps remain required work.
 
 ## Run provenance
 

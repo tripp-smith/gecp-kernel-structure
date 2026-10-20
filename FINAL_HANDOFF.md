@@ -473,7 +473,7 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 08:40 UTC exposed 16,951,326 aggregate goal tokens and 86,721
+2026-10-20 at 08:48 UTC exposed 16,984,485 aggregate goal tokens and 87,186
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DI-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -525,7 +525,7 @@ requirement groups. The proved central exact-GECP rate does not close those gaps
 | DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
 | DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
 | DH — finite-run and physical-error closure | complete; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
-| DI — original-SPEC audit and bounded closures | in progress | 40-group audit, seven incomplete; real D1 / compact maxima / exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests, isolated wheel smoke pass; CI pending |
+| DI — original-SPEC audit and bounded closures | verified; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); 40 groups / seven incomplete; real D1, compact maxima, exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests and wheel smoke |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

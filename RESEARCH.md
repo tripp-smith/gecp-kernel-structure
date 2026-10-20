@@ -8870,7 +8870,8 @@ physical-error bridges are no longer missing mathematical premises.
 
 ## Phase DI contract: original-SPEC completion audit
 
-State: in progress on `codex/phase-di-spec-completion-audit`.
+State: verified; merged as PR #115 from `codex/phase-di-spec-completion-audit`
+on 2026-10-20 with green push and PR CI.
 
 Audit the original mathematical specification (sections 1–30, before the
 historical status annotations), not just the recently delivered rate. Write
@@ -8976,7 +8977,9 @@ no archive was published. New tests cover parser failure modes, D1 parameter
 arithmetic at independent precision, note exclusions and audit accounting.
 Final-source root verification passes 3,627 Lean jobs, all 838 declared axiom
 reports under the enforced allow-list, Ruff/format/mypy, all 177 tests in
-135.57 seconds, and no known dependency vulnerabilities. CI/delivery are pending.
+135.57 seconds, and no known dependency vulnerabilities. The final branch-head
+repeat passes all 177 tests in 135.75 seconds. Push and PR CI pass; PR #115
+merged on 2026-10-20. The seven original-SPEC gaps remain incomplete.
 
 Next highest-priority exact proof: an arbitrary-domain PSD/SPD kernel baseline
 and fill-distance control from **original** kernel regularity, not a residual-
