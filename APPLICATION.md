@@ -514,6 +514,26 @@ SPD diagonal-necessity remains the separate R08 target. Numerical APIs and
 metadata are unchanged in DJ; R24 remains incomplete. Focused independent
 checks: `uv run python -m pytest tests/test_kernel_geometry.py`.
 
+## Strict-SPD exact complete runs (DK)
+
+`PositiveDefinite.posDef_completeRun_iff_pivotedCholesky` now works with the
+actual dependent `GECP.Run` on arbitrary domains, not just finite canonical
+trace definitions. From original-kernel `Matrix.PosDef K`, every nonzero exact
+complete pivot is derived to be diagonal. The independent `DiagonalMaxRun`
+rule then describes exactly the same successful finite runs. Diagonal ties
+are allowed; a deterministic implementation can refine them without changing
+this set-valued theorem. Weak PSD still permits off-diagonal maximizing ties.
+
+`posDef_completeRun_error_le_original_fillDistance` supplies the original-kernel
+`2*L*h` bound without requiring a separate diagonal-run proof. On a nonempty
+compact continuous domain, `posDef_completeRun_exists_diagonal_completePivot`
+provides an actual next complete maximum, possibly zero (stop). Domain subsets
+can be represented by the ambient subtype. No automatic positivity, exact
+maximality, Lipschitz constant, fill-distance or rounding certificate is added
+to floating-point results. Numerical metadata remains an open R24 requirement;
+Python APIs are unchanged. Focused checks:
+`uv run python -m pytest tests/test_strict_kernel.py`.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

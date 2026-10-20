@@ -1730,6 +1730,40 @@ is maintained in README and RESEARCH: 3,630 Lean jobs, 857 enforced axiom
 reports, 180 tests and no known dependency vulnerabilities; green push and
 PR CI, merged PR #116 on 2026-10-20.
 
+## Phase DK: strict SPD through actual complete runs
+
+**Proved:** `posDef_diagonalSchur_fresh` expresses the fresh Schur matrix as
+`Eᴴ*M*E` with a rectangular elimination map whose lower block is the identity.
+Its `mulVec` is injective, so mathlib transports strict positive definiteness.
+`StrictKernelOn.residualUpdate` lifts this to every injective fresh sample.
+Strict two-point determinant positivity rules out an off-diagonal nonzero
+complete maximum. Previously selected rows are zero, so successful later
+pivots must be fresh; neither fact is assumed as a residual invariant.
+
+`completeRun_diagonal_of_posDef` therefore proves diagonal necessity for every
+actual finite exact complete run of an SPD kernel on any ambient type, with
+no finite-type or diagonal tie-preference assumption. Mathlib's
+`Matrix.PosDef K` is the original-kernel strict finite-support quadratic-form
+condition. `posDef_completeRun_iff_pivotedCholesky` equates those runs with an
+independently defined recursive diagonal-maximization rule. Residual PSD,
+strictness on fresh samples, squared diagonal domination, compact continuous
+complete-maximum existence and original-kernel `2*L*h` fill control follow.
+The fill corollary no longer takes diagonality as a supplied premise.
+
+**Independent exact evidence:** all complete-pivot branches and prefixes of a
+five-node rational feature-Gram sample and a three-node identity sample;
+every fresh principal minor, strict two-point inequalities, rectangular
+congruence, interpolation and exact stopping. All six identity-kernel tie
+orders are retained. Lean additionally certifies the existing two-pivot real
+kernel as an injective Gram factor and applies the general equivalence to it.
+
+**Not claimed:** weak PSD forces diagonal necessity (a signed rank-one
+off-diagonal tie refutes that), diagonal maximizers are unique, approximate
+floating-point pivots satisfy exact maximality, or the full published
+asymptotic P-greedy rates have been formalized. R08 is now supported at its
+original staged scope. The audit has 35 supported and five incomplete groups,
+87.5% checklist coverage rather than weighted remaining effort.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

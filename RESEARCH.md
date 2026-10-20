@@ -9061,3 +9061,82 @@ the rectangular elimination map with an identity fresh-node block is a
 credible route. Combined with strict two-point determinant positivity, it
 should rule out off-diagonal successful complete pivots. This is a next proof
 contract, not a delivered theorem or an assumed invariant in DJ.
+
+## Phase DK — strict-SPD complete-pivot reduction
+
+Frozen contract: close audit R08 / SPEC sections 3A and 9 on arbitrary
+ambient kernel types, using the actual dependent `GECP.Run`, not just a
+diagonal-preferring finite trace definition. Add
+`PositiveDefinite/StrictKernel.lean` and
+`PositiveDefinite/ContinuousCholesky.lean`. `StrictKernelOn` requires strict
+positivity of every injective finite sample in a domain. Begin from mathlib's
+`Matrix.PosDef K` on the arbitrary ambient type; derive finite-sample PSD and
+strictness, never assume diagonal pivots or residual strictness as inputs to
+the public complete-run theorem.
+
+Prove the finite rectangular elimination-map congruence with an identity
+fresh-node block and injective `mulVec`. Use it to preserve strict sample
+positivity away from a successful diagonal pivot. For a PSD kernel, strict
+two-point determinants and a nonzero complete maximum force equality of the
+row and column pivot. Previously selected nodes have zero residual rows;
+derive freshness, propagate the strict invariant, and prove
+`completeRun_diagonal_of_posDef` for every finite exact complete run on the
+whole domain (a compact physical domain may be the ambient subtype).
+
+Define `DiagonalMaxRun` independently by equality of pivot coordinates and
+diagonal maximality at every actual residual update. Prove
+`posDef_completeRun_iff_pivotedCholesky`, plus residual PSD/diagonal domination,
+compact diagonal-maximizer availability and the original-kernel fill bound
+for actual SPD complete runs without a supplied `DiagonalRun` premise.
+Continuity/compactness is needed for maximum existence, not finite algebra.
+
+Independent exact rational checks: feature-Gram SPD kernels, every actual
+complete-pivot branch including diagonal ties, every prefix/fresh principal
+minor, strict two-point inequalities, elimination-map congruence/injectivity,
+interpolation and exact stopping. Retain the weak-PSD off-diagonal tie
+counterexample. Export and axiom-audit public results, run the full root gate,
+update the original-SPEC audit only for the scope actually proved, and ship
+one phase via draft PR / green CI / merge / pushed-main verification.
+
+Mathlib search identified `Matrix.PosDef.submatrix`, `.det_pos`,
+`.conjTranspose_mul_mul_same` with injective `mulVec`, and the existing local
+finite PSD congruence. Its Schur block interface directly exposes semidefinite
+preservation, so strictness needs the injective rectangular map. Non-claims:
+diagonal necessity for weak PSD, a unique diagonal maximizer, numerical
+approximate-pivot guarantees, or published asymptotic P-greedy rates. The five
+non-baseline audit gaps remain required work.
+
+### DK outcome and next decision
+
+The frozen statement is proved. `posDef_diagonalSchur_fresh` constructs the
+rectangular map with a lower identity block, proves its `mulVec` injective,
+and transports strict positivity by mathlib congruence. `StrictKernelOn`
+propagates this over every injective fresh sample. Strict two-point
+determinants and zero previously selected rows then give
+`completeRun_diagonal_of_posDef` on actual finite exact complete runs, with
+no diagonal preference or supplied residual strictness. The independent
+`DiagonalMaxRun` recursion gives
+`posDef_completeRun_iff_pivotedCholesky`; reverse conversion needs only PSD.
+
+Public corollaries supply residual PSD, strict fresh samples, squared diagonal
+domination, compact continuous complete-maximum existence and original-kernel
+fill control without a provided diagonal-run proof. The concrete existing
+two-pivot real kernel is proved strictly SPD by an injective Gram factor and
+the general equivalence applies to that actual run. Exact rational tests
+independently traverse every complete branch of feature-Gram and identity
+fixtures, every prefix/fresh principal minor and strict two-point inequality,
+the rectangular congruence, interpolation and full stopping. All six identity
+tie orders survive; a signed rank-one weak-PSD tie refutes stronger necessity.
+
+The full root gate passes 3,633 Lean jobs, all 876 axiom reports with only
+permitted dependencies, Ruff/format/mypy, 183 tests in 136.77 seconds and no
+known dependency vulnerabilities. CI and exact merged/pushed-head gates are
+required before phase closure. R08's staged baseline is supported, bringing
+the audit to 35/40 (87.5% checklist coverage, not weighted effort).
+
+The remaining original-SPEC obligations are computational: R24 metadata
+outside GECP, R25 census through `1e-12`, R26 complete serialized diagnostics,
+R27 normalized residual curves, and R31 listed sparse comparisons. Next
+freeze a complete result-metadata contract and then the canonical census
+record/plot contract. Do not relabel uncertified numerical quantities as
+proofs, or infer exact complete-pivot theorems for approximate maxima.

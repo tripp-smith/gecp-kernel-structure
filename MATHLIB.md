@@ -868,6 +868,26 @@ maximizer availability uses `IsCompact.exists_isMaxOn`; metric control uses
 work, not a new convergence-rate discovery. Strict-SPD necessity still needs
 a separate fresh-domain proof; no such result is inferred from weak PSD.
 
+## DK: strict fresh Schur preservation
+
+The decisive upstream API is
+`Matrix.PosDef.conjTranspose_mul_mul_same`, which requires injective `mulVec`
+and preserves strict positivity under a rectangular congruence. The elimination
+map's lower identity block proves this injectivity directly, including the
+empty fresh-block case. Reused `Fin.cons_injective_of_injective`,
+`Matrix.PosDef.submatrix`, `.det_pos`, and the generic finite-support
+`Matrix.PosDef` predicate on arbitrary ambient types. The existing block-Schur
+interface directly exposed semidefinite preservation, not the strict fresh-
+coordinate result needed here.
+
+`posDef_diagonalSchur_fresh` is a credible reusable matrix lemma; its proof
+does not need completeness or kernel topology. `StrictKernelOn` is a thin
+finite-sample adapter, while actual-run diagonal necessity and recursive
+Cholesky equivalence are application-level consequences. No new positivity
+theory, asymptotic theorem, literature priority or upstream PR is claimed.
+The concrete two-pivot check uses a Gram factor rather than inferring SPD
+merely from entry positivity.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
