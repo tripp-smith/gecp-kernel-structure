@@ -9046,8 +9046,12 @@ PSD off-diagonal tie and factor-one failure examples prevent stronger claims.
 
 The full root command passes 3,630 Lean jobs, all 857 axiom reports with only
 permitted dependencies, Ruff/format/mypy, 180 tests in 138.60 seconds, and no
-known dependency vulnerabilities. CI and merged/pushed-head verification are
-still required before phase closure. R09 is supported; R08 remains incomplete,
+known dependency vulnerabilities. The exact branch-head root repeat passes
+180 tests in 138.11 seconds; both push and PR CI pass at
+`3d7313f5884c803788a80995b0035c33a61d8b48`. PR #116 merged on 2026-10-20
+at 09:09 UTC as `e21510cf677277b634d8ca90eb62083c0097ebce`. Closure is pushed
+to main and exact merged/pushed-head gates are repeated before final handoff.
+R09 is supported; R08 remains incomplete,
 so the audit is 34/40 (85% checklist coverage), not full completion.
 
 Next exact claim: strict positivity on arbitrary injective fresh samples must

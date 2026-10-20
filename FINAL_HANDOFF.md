@@ -447,8 +447,9 @@ infinite-domain linear-feature run and exact rational repeated-sample/prefix
 checks exercise these results. Strict-SPD necessity for every successful
 complete pivot remains open in R08. The updated audit has 34/40 supported
 groups (85% checklist coverage, not weighted effort) and six incomplete groups.
-Verification and delivery are recorded in README/RESEARCH; no new numerical
-behavior or release is claimed.
+Verification passes 3,630 Lean jobs, 857 enforced axiom reports, 180 tests and
+no known dependency vulnerabilities; push and PR CI pass, and PR #116 is
+merged. No new numerical behavior or release is claimed.
 
 ## Implementation run metadata
 
@@ -485,7 +486,7 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 08:58 UTC exposed 17,076,265 aggregate goal tokens and 87,782
+2026-10-20 at 09:09 UTC exposed 17,129,713 aggregate goal tokens and 88,453
 goal-accounting seconds. These cumulative counters cover the active research
 goal, are not Phase DJ-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
@@ -538,7 +539,7 @@ requirement groups. The proved central exact-GECP rate does not close those gaps
 | DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
 | DH — finite-run and physical-error closure | complete; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
 | DI — original-SPEC audit and bounded closures | verified; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); 40 groups / seven incomplete; real D1, compact maxima, exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests and wheel smoke |
-| DJ — original-kernel fill-distance control | in progress; local gate passes | draft [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests; CI pending |
+| DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

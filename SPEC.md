@@ -2691,4 +2691,6 @@ This annotation records delivered identifiers without changing the goals above.
   diagonal complete maximum. This closes audit R09; strict-SPD necessity for
   every complete pivot through fresh residuals remains open in R08. No weak-
   PSD tie necessity, asymptotic P-greedy rate, or new numerical certificate is
-  claimed. The original mathematical goals above are unchanged.
+  claimed. Root verification passes 3,630 Lean jobs, 857 enforced axiom reports,
+  180 tests and no known dependency vulnerabilities; green push and PR CI;
+  merged as PR #116. The original mathematical goals above are unchanged.

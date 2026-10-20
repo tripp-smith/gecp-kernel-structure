@@ -1726,7 +1726,9 @@ that); strict-SPD fresh-residual necessity (R08 still incomplete); published
 asymptotic P-greedy rates or literature priority. DJ closes R09, so the
 40-group audit has 34 supported and six incomplete groups: 85% checklist
 coverage, not a weighted effort estimate. Full verification/delivery evidence
-is maintained in README and RESEARCH.
+is maintained in README and RESEARCH: 3,630 Lean jobs, 857 enforced axiom
+reports, 180 tests and no known dependency vulnerabilities; green push and
+PR CI, merged PR #116 on 2026-10-20.
 
 ## Run provenance
 

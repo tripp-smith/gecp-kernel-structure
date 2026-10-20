@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DJ — original-kernel fill-distance control<br>
-> **Phase state:** in progress; DI complete and merged<br>
-> **Last verification:** Phase DJ `./scripts/verify.sh` passes a 3,630-job Lean build, enforced 857-declaration axiom audit, 180 tests and no known dependency vulnerabilities; CI pending on 2026-10-20<br>
+> **Phase state:** verified; merged<br>
+> **Last verification:** Phase DJ `./scripts/verify.sh` passes a 3,630-job Lean build, enforced 857-declaration axiom audit, 180 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-20<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DJ draft [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); CI pending<br>
+> **Delivery:** Phase DJ merged in [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) with green CI<br>
 > **Claim level:** Main exact-GECP rate proved; DJ proves original-kernel fill-distance control; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 34/40 supported groups (85% checklist coverage) and six incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -135,7 +135,7 @@ is authoritative for the remaining goal.
 | DG | Real-cutoff logarithmic rate and parameter audit | complete | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
 | DH | Finite-run and physical-error closure | complete | finite-prefix witnesses; `fermionicKernel_finiteRun_error_le_exp`; exact stop / tolerance; selected-core cross identity; actual Green-error bound | 3,625 Lean jobs; accepted axioms; 163 tests; exact / independent-precision evidence; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) |
 | DI | Original-SPEC completion audit | complete | 40-group audit; real D1; compact maxima; exact grid certificates; enforced axiom gate; clean packaging | 3,627 Lean jobs; 838 audited declarations; 177 tests; isolated wheel smoke; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115) |
-| DJ | Original-kernel fill-distance control | in progress | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; CI pending | draft [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
+| DJ | Original-kernel fill-distance control | verified | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
