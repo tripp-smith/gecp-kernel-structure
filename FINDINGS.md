@@ -1625,6 +1625,46 @@ Root verification passes 3,622 Lean jobs, the permitted public axioms, all
 PR #113 merged on 2026-10-20 after retrying one toolchain-download TLS failure.
 The separate full-SPEC completion audit remains pending.
 
+## Phase DH — finite GECP runs and physical cross error
+
+The rate no longer assumes an infinite successful sequence.
+`fermionicKernel_finiteRun_error_le_exp` takes only a finite actual
+`Run fermionicKernel` complete on its physical rectangle, `Lambda>=1`, and
+physical query coordinates. Its successful count is `run.rows.length`; the
+bound is `1024*exp(-((log 2)^2/256)*count/log(1+Lambda))`. No residual
+sequence, independently realized prefixes, later nonzero pivot, or future
+completeness is assumed. The dyadic block, all-positive-cutoff `log(2+Lambda)`,
+and real-tolerance corollaries retain DG's explicit counts/constants.
+
+Finite prefix extraction and bounded-index backwards witnesses provide the
+proof. The last successful update controls the final residual, even when no
+further successful step is available. A zero-valued actual complete maximum
+on the final residual certifies exact domain termination. This is not a
+floating-point-zero or certification-budget heuristic, and it never divides
+by a zero pivot.
+
+`Run.finalResidual_eq_sub_crossApproximation` identifies iterative error with
+the original selected-core cross. The new Green theorem bounds the actual
+difference of the original and approximated integrals. Integrability of both
+terms is derived from continuity, `rho` integrability, and the bounds; it is
+not an additional application premise. Signed densities and any measure
+supported almost everywhere on the cutoff interval are allowed.
+The interval-integral corollary discharges the support premise with the
+restricted physical measure.
+
+Independent exact checks cover all 127 prefix/mark witnesses (642 backwards
+steps), 504 selected-cross entries, 84 signed Green-sum identities, and two
+rank-deficient exact stops. Another 258 actual-exponential determinant/cross
+values agree at 160/320 digits as 45-significant-digit strings. All numerical
+Green sums are also recomputed directly at both precisions (42 per precision),
+against iterative residual sums and exact references. All numerical
+crosses use solves; nonfinite/zero core determinants are rejected. Finite-grid
+evidence is not a continuous pivot certificate. Root verification passes 3,625
+Lean jobs, the permitted public axioms, 163 tests, and no known dependency
+vulnerabilities. CI/delivery and the separate full-SPEC audit are pending.
+Approximate-pivot robustness and sharper
+constants are not claimed.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

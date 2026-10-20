@@ -408,6 +408,22 @@ preserved, with this boundary recorded as an annotation. The large-cutoff
 theorem remains valid. Full completion is still subject to the separate
 finite-prefix/termination, cross-approximation, and specification audit.
 
+Post-v1 Phase DH closes the finite-run and physical-error interfaces. The
+same explicit logarithmic rate now takes an actual finite complete
+`Run fermionicKernel`, with no residual-sequence, future-success, next-pivot,
+or infinite-continuation premise. Finite backwards witnesses and the last
+successful update supply the bound. Exact stopping is a zero-valued complete
+maximum, not a zero-pivot update or a floating-point heuristic.
+
+The selected-core `Run.crossApproximation` is proved to have error exactly
+equal to the iterative final residual. The Green consequence bounds the actual
+difference of weighted kernel integrals and derives both integrability facts.
+Its interval form uses the measure restricted to `[-Lambda,Lambda]`, so no
+separate support premise is needed. Numerical checks use solves and compare
+exact finite algebra with independent actual-exponential precision. Approximate
+pivot robustness, runtime continuous-domain certification and full-SPEC
+completion are not claimed by this phase.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -443,19 +459,18 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 07:34 UTC exposed 16,606,400 aggregate goal tokens and 83,216
+2026-10-20 at 07:59 UTC exposed 16,717,158 aggregate goal tokens and 84,244
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DG-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DH-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
 reasoning-effort setting. Collaboration remains Default mode with one primary
 agent and unrestricted local filesystem/network access. No new pricing estimate is
 attached to these research counters.
-The goal tracker reported `blocked` at this snapshot; no reason is exposed by
-that tool. This is not a claim that DG's mathematics or verification is blocked:
-its checks pass and PR #113 is merged. The finite-run and full-SPEC audit
-remain outstanding.
+The goal tracker reports `active` at this snapshot, superseding its earlier
+DG `blocked` report. DH's finite-run and physical-error interfaces are proved;
+phase verification/delivery and the separate full-SPEC audit remain outstanding.
 
 ## Phase status
 
@@ -494,7 +509,8 @@ remain outstanding.
 | DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
 | DE — cutoff-uniform local panel determinant budget | complete; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
 | DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
-| DG — actual real-cutoff rate and parameter boundary | verified; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
+| DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
+| DH — finite-run and physical-error closure | in progress | no future-pivot premise; exact-stop and selected-cross identities; actual Green-integral difference; 3,625 Lean jobs and 163 tests pass; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -826,16 +842,17 @@ only after the root command passes.
 
 ## Recommended next research step
 
-DG closes the actual real-cutoff and accuracy corollaries, with explicit
-universal constants. It also proves that the literal all-positive-cutoff G1
-parameter range is impossible, while proving the `Lambda>=1` rate. Next
-audit the full SPEC requirement by requirement. In particular inspect the
-current all-natural-index successful-sequence assumptions against finite
-complete runs and exact termination, and connect the residual statement
-to the selected-core cross approximation and Green-function transfer.
-Do not label a missing finite-run interface or unverified deliverable complete
-merely because the scalar rate is proved. The research goal remains open;
-no reliable overall mathematical percentage is claimed before this audit.
+DH closes the finite-run, exact-termination, selected-cross and actual
+Green-integral interfaces. DG's large-cutoff logarithmic rate and rigorous
+small-cutoff obstruction are retained. The next step is a full requirement-by-
+requirement audit of the original SPEC, using the actual theorem assumptions,
+public exports/axioms, Python APIs, artifacts, tests, documentation and release
+evidence. In particular distinguish required deliverables from suggested
+architecture/research routes, and inspect the conditional approximate-pivot
+language rather than claiming numerical robustness from an exact theorem.
+Any missing required item must be implemented or explicitly resolved before
+the goal can be complete. No reliable overall mathematical percentage is
+claimed before that audit.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

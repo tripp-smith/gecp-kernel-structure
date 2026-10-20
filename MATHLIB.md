@@ -824,6 +824,19 @@ The integer-block-to-exponential lemma has hardcoded project constants and is
 not presented as an upstream candidate. No new spectral or sign theorem is
 assumed in the real-parameter conversion.
 
+Phase DH reuses the existing project `Run`, `CompleteOn`, selected-core Schur
+formula, and mathlib's finite product, determinant and integral APIs. In
+particular `Integrable.mono'`, `Continuous.aestronglyMeasurable`,
+`integral_sub`, `ae_restrict_mem`, and the existing uniform integral transfer supply both
+integrability and the actual Green-integral difference. No new integration
+principle is introduced. `Run.take` and its bounded pivot/witness APIs are
+specific to this dependent run encoding. `continuous_finalResidual` is a
+simple finite Schur-continuity closure, not a new analytic abstraction.
+The cross approximation is algebraic selected-core notation; numerical
+implementations and independent checks still use solves. No future-pivot
+existence, compact-maximizer choice, or infinite-sequence axiom is used in
+the finite-run rate.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

@@ -462,6 +462,23 @@ precision approximate pivots, expose a runtime rate certificate, or change
 stopping/conditioning/tie metadata. Its small-cutoff obstruction explicitly
 separates the `Lambda>=1` theorem from literal all-positive-cutoff G1 wording.
 
+Phase DH changes no public Python API. Focused independent checks are:
+
+```bash
+uv run python -m pytest tests/test_finite_run_closure.py
+```
+
+Each prefix test receives only its stored finite pivots and states; no later
+pivot is supplied to justify that prefix's error. Exact selected-core solves
+match iterative residuals and signed Green sums. Rank-zero/rank-one examples
+stop at an exact complete zero without a zero-pivot update. Actual exponential
+crosses and nonzero core determinants are independently compared at 160/320
+digits; no explicit numerical inverse is formed. Precision agreement does
+not constitute interval or continuous-domain certification. The new Lean
+finite-run and exact-stop results do not turn floating-point zeros, approximate
+pivots, or certification-budget exhaustion into exact mathematical hypotheses.
+Stopping, conditioning, precision, tie, and certification metadata are unchanged.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

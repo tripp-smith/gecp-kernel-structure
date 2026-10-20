@@ -2,6 +2,9 @@ import GECPKernelStructure.CrossApproximation
 import GECPKernelStructure.GECP.LocalMinorWitness
 import GECPKernelStructure.Fermionic.LocalPanelRate
 import GECPKernelStructure.Fermionic.RealCutoffRate
+import GECPKernelStructure.GECP.FiniteLocalMinorWitness
+import GECPKernelStructure.GECP.RunCrossApproximation
+import GECPKernelStructure.Fermionic.FiniteRunRate
 import GECPKernelStructure.Matrix.CauchyBinet
 import GECPKernelStructure.Matrix.TripleCauchyBinet
 import GECPKernelStructure.Matrix.BlockFeatureCauchyBinet
