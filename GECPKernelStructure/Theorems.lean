@@ -115,6 +115,7 @@ import GECPKernelStructure.Fermionic.CompleteRun
 import GECPKernelStructure.Fermionic.GeometricMean
 import GECPKernelStructure.Fermionic.TwoCorner
 import GECPKernelStructure.MathlibReady
+import GECPKernelStructure.PositiveDefinite.KernelGeometryChecks
 
 /-!
 Public theorem re-exports are added here only after their milestone contract is

@@ -8986,3 +8986,74 @@ and fill-distance control from **original** kernel regularity, not a residual-
 Lipschitz premise. Preserve v1's valid finite canonical/conditional results
 and add the missing stronger scope as a new phase. Numerical census/metadata
 and Phase-II comparisons then need separate implementations and re-audit.
+
+## Phase DJ — original-kernel fill-distance control
+
+Frozen contract (SPEC sections 9–10, audit R09 and the PSD portion of R08):
+add `PositiveDefinite/KernelGeometry.lean` and
+`PositiveDefinite/KernelFillDistance.lean`. Define kernel positivity by all
+finite sampled Gram matrices using mathlib's `Matrix.PosSemidef`; samples may
+repeat. For any arbitrary-domain successful `GECP.Run` whose pivots are
+diagonal, derive positivity of both the final residual and the removed
+kernel `K-R`. No completeness or residual-regularity premise is required.
+Derive the squared power-function bound
+`R(x,x) <= K(x,x)-2*K(x,s)+K(s,s)` at every selected node `s`.
+For a metric domain, original-kernel coordinatewise `LipschitzWith L` and a
+selected-node cover of radius `h`, prove all residual entries are at most
+`2*L*h` in absolute value. This must not assume a Lipschitz residual diagonal.
+
+Also lift PSD diagonal/complete bound equivalence to arbitrary domains and
+derive existence of a diagonal complete maximum for continuous residuals on
+nonempty compact spaces. Generalize finite-run continuity without restricting
+the ambient type to the real line. Preserve the old finite and conditional
+interfaces. Public results are re-exported and axiom-audited.
+
+Independent checks: exact rational feature-Gram kernels on repeated samples,
+every prefix of positive diagonal updates, PSD/order quadratic forms,
+power-function energy inequalities, and the original-kernel fill bound.
+Include a rank-one weak-PSD off-diagonal tie counterexample so diagonal
+availability is not confused with necessity of every maximizing pivot.
+
+Mathlib search found `Matrix.PosSemidef.submatrix`,
+`conjTranspose_mul_mul_same`, `posSemidef_vecMulVec_self_star`, scalar
+positivity and compact extreme-value theorems. No existing general kernel
+Schur-run/fill-distance theorem was found. Reuse matrix positivity, not a new
+quadratic-form theory. Non-claims: arbitrary off-diagonal complete-pivot
+necessity for weak PSD, strict-SPD fresh-domain reduction (R08 remains open
+until that is proved), asymptotic P-greedy rates, practical approximate-pivot
+rates, or completion of the seven-gap audit by annotation alone.
+
+### DJ outcome and next decision
+
+The frozen theorem is proved: `diagonalRun_residual_and_removed_posSemidef`,
+`diagonalRun_power_le_original_energy`,
+`diagonalRun_error_le_original_fillDistance`,
+`continuous_finalResidual_kernel`, and
+`diagonalRun_exists_diagonal_completePivot` cover arbitrary ambient domains
+at their stated metric/topological scopes. Finite matrix positivity is lifted
+through a sample enlarged by the pivot; the removed update is a positive
+rank-one Gram matrix. Summing those updates derives `K-R` PSD without a
+provided Loewner-order premise. A two-point quadratic form yields the energy
+comparison, then two original-kernel coordinate Lipschitz bounds give `2*L*h`.
+No residual regularity, asymptotic rate, or completeness premise is smuggled in.
+
+`KernelGeometryChecks.lean` realizes the hypotheses for `1+x*y` on the real
+line and computes the actual one-step remainder `x*y`. Exact independent
+tests check two arbitrary diagonal orders, all six prefixes, repeated samples,
+all principal minors of the sampled residual and removed matrices, 510 energy
+comparisons, fill bounds, interpolation and exact rank-five stopping. The weak
+PSD off-diagonal tie and factor-one failure examples prevent stronger claims.
+
+The full root command passes 3,630 Lean jobs, all 857 axiom reports with only
+permitted dependencies, Ruff/format/mypy, 180 tests in 138.60 seconds, and no
+known dependency vulnerabilities. CI and merged/pushed-head verification are
+still required before phase closure. R09 is supported; R08 remains incomplete,
+so the audit is 34/40 (85% checklist coverage), not full completion.
+
+Next exact claim: strict positivity on arbitrary injective fresh samples must
+survive a diagonal update. Mathlib's
+`Matrix.PosDef.conjTranspose_mul_mul_same` accepts an injective `mulVec` map;
+the rectangular elimination map with an identity fresh-node block is a
+credible route. Combined with strict two-point determinant positivity, it
+should rule out off-diagonal successful complete pivots. This is a next proof
+contract, not a delivered theorem or an assumed invariant in DJ.

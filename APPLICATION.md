@@ -495,6 +495,25 @@ it also propagates Lean failure. New focused checks are:
 uv run python -m pytest tests/test_axiom_output.py tests/test_real_separated_approx.py tests/test_docs.py
 ```
 
+## Original-kernel fill-distance theorem (DJ)
+
+For a PSD kernel on any metric domain, the Lean interface
+`PositiveDefinite.diagonalRun_error_le_original_fillDistance` accepts an actual
+finite successful diagonal `GECP.Run`, original-kernel coordinatewise
+`LipschitzWith L`, and a selected-node radius-`h` cover. It proves the absolute
+residual bound `2*L*h` everywhere. It does not require a Lipschitz residual,
+nor does it require each diagonal pivot to be maximal. Positivity of `R` and
+`K-R` is derived from the run. Continuous kernels on nonempty compact domains
+have a diagonal complete maximum; a zero maximum is termination.
+
+This is a formal exact-arithmetic interface, not an automatic certificate for
+floating-point Cholesky or a derivation of unrecorded numerical Lipschitz
+constants/fill distances. It does not apply to the nonsymmetric fermionic
+kernel by calling it PSD. Weak PSD allows off-diagonal maximizing ties; strict
+SPD diagonal-necessity remains the separate R08 target. Numerical APIs and
+metadata are unchanged in DJ; R24 remains incomplete. Focused independent
+checks: `uv run python -m pytest tests/test_kernel_geometry.py`.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
