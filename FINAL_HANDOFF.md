@@ -392,6 +392,22 @@ complete-pivot sequence. Independent finite exact/high-precision checks
 supplement, but do not prove, this universal result. The real-parameter
 corollaries and full completion audit remain open.
 
+Post-v1 Phase DG proves the actual real-cutoff logarithmic rate. For
+`Lambda>=1`, the bound is
+`abs(R_k) <= 1024*exp(-((log 2)^2/256)*k/log(1+Lambda))`.
+For all positive cutoffs the same constants work with `log(2+Lambda)`;
+the real-tolerance theorem gives an explicit ceiling rank. Initialization
+and exact updates supply realized prefixes without a duplicate premise.
+The current public interface describes an exact successful complete-pivot
+sequence on all natural indices; it is not an approximate-pivot certificate.
+
+DG also proves a parameter obstruction: literal G1 with `log(1+Lambda)`
+cannot hold uniformly down to zero. For any `C,c>0`, the actual first complete
+pivot at `Lambda=min(1,c^2/(16*C))` violates that bound. The SPEC conjecture is
+preserved, with this boundary recorded as an annotation. The large-cutoff
+theorem remains valid. Full completion is still subject to the separate
+finite-prefix/termination, cross-approximation, and specification audit.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -427,9 +443,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The active post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-19 at 23:30 UTC exposed 16,449,317 aggregate goal tokens and 81,850
+2026-10-20 at 07:25 UTC exposed 16,573,413 aggregate goal tokens and 82,785
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DF-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DG-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -473,7 +489,8 @@ attached to these research counters.
 | DC — all-orders local-minor contraction bridge | complete; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109); 3,610 Lean jobs and 140 tests; original companion target open |
 | DD — common all-orders residual sign gauge | complete; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110); common gauge, actual Schur bound, original-run reflection; 3,614 Lean jobs and 146 tests |
 | DE — cutoff-uniform local panel determinant budget | complete; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
-| DF — backwards witnesses and global finite rate | verified; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
+| DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
+| DG — actual real-cutoff rate and parameter boundary | in progress | explicit logarithmic constants and real tolerance; actual first-pivot obstruction to literal small-cutoff G1; 3,622 Lean jobs and 159 tests pass; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -805,16 +822,16 @@ only after the root command passes.
 
 ## Recommended next research step
 
-DF closes the backwards-witness, signed-partition, and panel-count obligations.
-The explicit dyadic rate is now a theorem. Next generalize the pivot rectangle
-to an arbitrary real cutoff bounded by `2^s`, retaining completeness only on
-that actual rectangle; padding the domain of a given pivot trace is invalid.
-Then derive explicit real-accuracy/logarithmic corollaries, audit the small-
-cutoff and large-tolerance quantifiers, and compare every assumption and
-deliverable with G1 and the full SPEC. Audit finite-prefix/termination and
-cross-approximation interfaces as part of that final decision. The research
-goal is not yet complete and no reliable overall mathematical percentage is
-claimed.
+DG closes the actual real-cutoff and accuracy corollaries, with explicit
+universal constants. It also proves that the literal all-positive-cutoff G1
+parameter range is impossible, while proving the `Lambda>=1` rate. Next
+audit the full SPEC requirement by requirement. In particular inspect the
+current all-natural-index successful-sequence assumptions against finite
+complete runs and exact termination, and connect the residual statement
+to the selected-core cross approximation and Green-function transfer.
+Do not label a missing finite-run interface or unverified deliverable complete
+merely because the scalar rate is proved. The research goal remains open;
+no reliable overall mathematical percentage is claimed before this audit.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

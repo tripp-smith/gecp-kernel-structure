@@ -1588,6 +1588,42 @@ on 2026-10-19. The real-cutoff/accuracy corollaries and full G1 /
 Problem 4.2 completion audit remain open. In particular, dyadic-domain
 completeness cannot simply be assumed for a trace on a smaller rectangle.
 
+## Phase DG — actual real cutoffs and the G1 parameter boundary
+
+`fermionicKernel_gecp_error_le_logarithmic` proves the actual original-kernel
+bound, for every `Lambda>=1` and natural rank `k`,
+
+`abs(R_k(t,omega)) <= 1024 * exp(-((log 2)^2/256)*k/log(1+Lambda))`.
+
+The complete maxima are on the actual cutoff rectangle, not a larger dyadic
+domain. Initialization and exact successful updates construct the finite runs;
+there is no independent realized-prefix, determinant-envelope, or convergence
+assumption. The current interface assumes an exact successful complete-pivot
+sequence for all natural indices. Both signs, physical endpoints, and choices
+among complete ties are included. Constants are explicit, not sharp.
+
+`fermionicKernel_gecp_error_le_allCutoff_logarithmic` replaces the denominator
+by `log(2+Lambda)` for every positive cutoff. The real-tolerance corollary gives
+the explicit ceiling rank
+`ceil(256/(log 2)^2 * log(2+Lambda) * log(1024/epsilon))`, with natural ceiling
+truncated at zero, for any positive tolerance.
+
+The literal all-positive-cutoff interpretation of G1 is **refuted**, not
+silently repaired. For every `C,c>0`, the formal obstruction chooses
+`Lambda=min(1,c^2/(16*C))` and proves that the actual first complete pivot
+`(0,Lambda)` leaves residual at `(1,-Lambda)` strictly larger than
+`C*exp(-c/log(1+Lambda))`. The first-pivot residual is at least `Lambda/2`,
+whereas that proposed bound is at most `Lambda/4`. This does not contradict
+the proved `Lambda>=1` theorem or the intended large-cutoff scaling.
+
+Independent evidence includes 6,400 exact count cases, 53 exact cutoff-cover
+choices, and 160/320-digit comparisons of 212 envelope values, 28 tolerance
+ceilings, and nine actual first-pivot witnesses. Zero/nonfinite witness values
+are rejected; numerical evidence is not a continuous-domain certificate.
+Root verification passes 3,622 Lean jobs, the permitted public axioms, all
+159 tests, and no known dependency vulnerabilities. CI/delivery and the
+separate full-SPEC completion audit are pending.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

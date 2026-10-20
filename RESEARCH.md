@@ -8679,3 +8679,88 @@ complete on the larger dyadic rectangle). Then derive explicit real-cutoff,
 real-accuracy/logarithmic corollaries and audit their quantifiers against G1
 and the full SPEC. The dyadic theorem alone must not be advertised as already
 proving a theorem for all real cutoffs by padding the pivot domain.
+
+## Phase DG contract: actual real cutoffs and explicit logarithmic rates
+
+State: in progress on `codex/phase-dg-real-cutoff-rate`.
+
+Generalize DF's count argument to complete pivots on the **actual** rectangle
+`[0,1] x [-Lambda,Lambda]`, using `Lambda <= 2^s` only to label its columns.
+Do not assume completeness on a larger rectangle. Derive realized prefixes
+from initialization and successful exact updates using the existing
+`Run.ofResidualSequenceFrom` API instead of requiring duplicate run evidence.
+Named output: `fermionicKernel_gecp_error_le_realCutoffBlock`, with exactly
+the same explicit count `32*(s+1)*(33+4*q)` and all-later-rank guarantee.
+
+Source: `Fermionic/RealCutoffRate.lean`. Derive an explicit exponential
+corollary at every natural rank, first with denominator `s+1`, then with
+`log(1+Lambda)` for `Lambda >= 1`. Proposed safe constants are `C=1024` and
+`c=(log 2)^2/256`. For all positive cutoffs, prove a `log(2+Lambda)` version
+rather than silently treating `log(1+Lambda)` as bounded below. Give a
+real-tolerance rank choice with explicit ceilings/additive constants.
+
+Audit the literal small-cutoff wording of G1: the already proved first
+complete pivot `(0,Lambda)` leaves reflected-corner residual
+`1-exp(-Lambda)`. Determine rigorously whether universal constants in the
+literal `log(1+Lambda)` denominator can cover arbitrarily small positive
+cutoffs. Preserve SPEC's mathematical goals; record any obstruction as a
+status annotation, not a rewritten conjecture.
+
+Independent checks: exact rank/floor arithmetic, cutoff and accuracy boundary
+choices, direct actual-kernel first-pivot values and logarithmic envelope
+comparisons at independent precisions. Floating-point checks are evidence,
+not a proof or a runtime complete-pivot certificate. Non-claims: sharp
+constants, approximate-pivot robustness, automatic numerical certification,
+literature priority, or full SPEC completion before the separate audit.
+
+### DG outcome
+
+All frozen mathematical targets compile. The real-cutoff block theorem keeps
+maxima on `[-Lambda,Lambda]` and uses the dyadic cover only for column labels.
+`GECP.realized_of_initial_updates` constructs each finite prefix from the
+existing exact recurrence, eliminating the duplicate realization assumption.
+The public rate assumptions are initialization, nonzero successful pivots,
+exact updates, and complete maxima on the actual physical rectangle. They
+still describe a sequence at all natural indices; finite-only run and exact-
+termination interfaces belong in the final assumption audit.
+
+`localPanelBlocks_le_exponential` sets `j=k/(128*(s+1))` and
+`q=max(0,j-9)`. For `j>=9` the named block is at most `k`; for smaller ranks
+the initial bound one suffices. In both cases `k/(128*(s+1)) < q+10`, yielding
+the universal prefactor `2^10=1024`. The ceil-logarithmic cover satisfies
+`(s+1)*log 2 <= 2*log(1+Lambda)` when `Lambda>=1`, by
+`4*Lambda <= (1+Lambda)^2`. Thus
+`fermionicKernel_gecp_error_le_logarithmic` proves
+`abs(R_k) <= 1024*exp(-((log 2)^2/256)*k/log(1+Lambda))`.
+For every positive cutoff, `fermionicKernel_gecp_error_le_allCutoff_logarithmic`
+has denominator `log(2+Lambda)` and the same constants.
+`fermionicKernel_gecp_error_le_realTolerance` uses the explicit natural
+ceiling of `256/(log 2)^2 * log(2+Lambda) * log(1024/epsilon)`; every
+positive tolerance is admitted, including a zero ceiling for large ones.
+
+The literal all-positive-cutoff interpretation of G1 is false. For any
+proposed `C,c>0`, choose `Lambda=min(1,c^2/(16*C))`. The actual first complete
+pivot `(0,Lambda)` has reflected-corner residual `1-exp(-Lambda)`. Elementary
+exponential/logarithm inequalities prove
+`C*exp(-c/log(1+Lambda)) <= Lambda/4 < Lambda/2 <= 1-exp(-Lambda)`.
+`fermionicKernel_smallCutoff_logarithmic_obstruction` includes the continuous
+complete-pivot certificate, not just the scalar comparison. This is a named
+obstruction to a parameter range, not a rewrite of SPEC or a refutation of
+the large-cutoff near-optimal rate. No external asymptotic theorem is needed.
+
+Independent checks: 6,400 exact integer rank/floor cases, 53 rational cutoff
+covers (including both sides of dyadic boundaries), 212 logarithmic-envelope
+values, 28 real-tolerance/ceiling cases including tolerances 1024 and 2048,
+and nine actual-kernel small-cutoff witnesses. Analytic values are independently
+evaluated at 160/320 digits and compared as 45-significant-digit strings.
+Zero/nonfinite witness residuals are rejected. The observed finite first-pivot
+grid checks are not substituted for Lean's continuous complete-pivot proof.
+Root verification passes a 3,622-job Lean build, the permitted public axioms,
+Ruff/formatting/mypy, all 159 tests in 139.51 seconds, and no known dependency
+vulnerabilities. CI and delivery are pending.
+
+Next decision: audit the full SPEC and the theorem's finite-prefix,
+termination, and cross-approximation interfaces before declaring completion.
+The main large-cutoff rate and small-cutoff obstruction are no longer open
+research hypotheses. Earlier companion sign obstructions are not additional
+requirements for this successful, different local-minor route.
