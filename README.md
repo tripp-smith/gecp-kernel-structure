@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress<br>
 > **Last verification:** Phase DI `./scripts/verify.sh` passes a 3,627-job Lean build, enforced 838-declaration axiom audit, 177 tests and no known dependency vulnerabilities; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DH merged in [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) with green CI<br>
+> **Delivery:** Phase DI draft [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); CI pending<br>
 > **Claim level:** Main exact-GECP rate proved; DI's [full-SPEC audit](COMPLETION_AUDIT.md) records 33/40 supported requirement groups (about 80% checklist coverage) and seven incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -130,7 +130,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DF | Backward witnesses and global panel-pivot rate | complete | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
 | DG | Real-cutoff logarithmic rate and parameter audit | complete | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
 | DH | Finite-run and physical-error closure | complete | finite-prefix witnesses; `fermionicKernel_finiteRun_error_le_exp`; exact stop / tolerance; selected-core cross identity; actual Green-error bound | 3,625 Lean jobs; accepted axioms; 163 tests; exact / independent-precision evidence; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) |
-| DI | Original-SPEC completion audit | in progress | 40-group audit; real D1; compact maxima; exact grid certificates; enforced axiom gate; clean packaging | 3,627 Lean jobs; 838 audited declarations; 177 tests; isolated wheel smoke; CI pending | pending |
+| DI | Original-SPEC completion audit | in progress | 40-group audit; real D1; compact maxima; exact grid certificates; enforced axiom gate; clean packaging | 3,627 Lean jobs; 838 audited declarations; 177 tests; isolated wheel smoke; CI pending | draft [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
