@@ -1,5 +1,11 @@
 import GECPKernelStructure.Theorems
 
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_separatedApprox_real
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_exists_completePivot
+#print axioms GECPKernelStructure.GECP.exactTwoPivotRealRun_complete
+#print axioms GECPKernelStructure.GECP.exactTwoByTwoRealKernel_minors_pos
+#print axioms GECPKernelStructure.GECP.exactTwoPivotRealRun_pivots
+
 #print axioms GECPKernelStructure.GECP.Run.take_zero
 #print axioms GECPKernelStructure.GECP.Run.residualAt_zero
 #print axioms GECPKernelStructure.GECP.Run.take_eq_self

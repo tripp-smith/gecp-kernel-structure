@@ -4,4 +4,5 @@ set -euo pipefail
 task_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$task_dir"
 
-lake env lean scripts/AxiomAudit.lean
+lake env lean scripts/AxiomAudit.lean |
+  python3 scripts/check_axiom_output.py scripts/AxiomAudit.lean

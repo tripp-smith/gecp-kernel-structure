@@ -18,9 +18,9 @@ jobs:
           build: true
           use-mathlib-cache: true
       - run: scripts/check_axioms.sh
-      - name: Reject proof placeholders
+      - name: Reject proof placeholders and custom axioms
         run: |
-          if rg -n '\bsorry\b|\badmit\b' --glob '*.lean' --glob '!.lake/**'; then
+          if rg -n '\bsorry\b|\badmit\b|\bnative_decide\b|^\s*(private\s+|protected\s+)?axiom\s' --glob '*.lean' --glob '!.lake/**'; then
             exit 1
           fi
 

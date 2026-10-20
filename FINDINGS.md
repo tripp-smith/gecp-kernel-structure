@@ -1665,6 +1665,34 @@ vulnerabilities. Push and PR CI pass; PR #114 merged on 2026-10-20. The
 separate full-SPEC audit remains pending. Approximate-pivot robustness and
 sharper constants are not claimed.
 
+## Phase DI — original-scope audit and bounded closures
+
+The [completion audit](COMPLETION_AUDIT.md) records 33 supported and seven
+incomplete requirement groups. The main finite exact-GECP rate remains proved;
+the full original SPEC is **not complete**. Finite PSD canonical traces do not
+by themselves prove the continuous SPD baseline, and a Lipschitz residual-
+diagonal premise does not establish regularity from the original kernel.
+The required census depth/geometry/normalized curves, result metadata outside
+GECP, and listed sparse-method comparisons also remain incomplete.
+
+DI closes D1's real quantifiers with an actual separated witness of length
+`<=128*log(1+Lambda)*log(128/epsilon)` for `Lambda>=1`, `0<epsilon<1`.
+It also derives compact complete-maximum existence for each finite residual,
+and certifies a concrete exact two-pivot grid and its minor/pivot signs.
+These are proved corollaries, not status-only aliases.
+
+The axiom gate now fails closed on disallowed/missing/malformed reports and
+preserves a failed Lean process exit. Clean packaging excludes the local
+duplicate note files; a rebuilt wheel passes isolated import/GECP smoke.
+No artifact was published and original note files were not changed.
+
+Known continuous pivoted-Cholesky/P-greedy convergence is prior work, including
+[Jeong and Townsend's Lipschitz-kernel result](https://arxiv.org/abs/2509.13582).
+The repository's conditional residual-Lipschitz lemma is not claimed to
+formalize that full published result. Root verification passes 3,627 Lean
+jobs, 838 enforced axiom reports, 177 tests and no known dependency
+vulnerabilities. CI/delivery are pending; the seven gaps remain required work.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

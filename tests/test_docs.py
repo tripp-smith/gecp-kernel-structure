@@ -1,3 +1,5 @@
+import re
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
@@ -9,6 +11,7 @@ PROJECT_DOCS = (
     "README.md",
     "RESEARCH.md",
     "SPEC.md",
+    "COMPLETION_AUDIT.md",
 )
 
 
@@ -38,8 +41,29 @@ def test_documentation_links_exist() -> None:
         "MATHLIB.md",
         "RESEARCH.md",
         "SPEC.md",
+        "COMPLETION_AUDIT.md",
     ):
         assert (ROOT / name).is_file(), name
+
+
+def test_distributions_exclude_local_working_notes() -> None:
+    config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    excluded = config["tool"]["hatch"]["build"]["exclude"]
+    assert "/FINDINGS 2.md" in excluded
+    assert "/MATHLIB 2.md" in excluded
+    assert "/autonomous-implementation.md" in excluded
+
+
+def test_completion_audit_accounts_for_every_requirement_group() -> None:
+    text = (ROOT / "COMPLETION_AUDIT.md").read_text(encoding="utf-8")
+    rows = re.findall(
+        r"^\| (R\d{2}) \|.*? \| (Supported|Incomplete) \|", text, re.MULTILINE
+    )
+    assert {name for name, _ in rows} == {f"R{i:02d}" for i in range(1, 41)}
+    summary = re.search(r"\*\*(\d+) supported and (\d+) incomplete\*\*", text)
+    assert summary is not None
+    assert sum(status == "Supported" for _, status in rows) == int(summary[1])
+    assert sum(status == "Incomplete" for _, status in rows) == int(summary[2])
 
 
 def test_research_blockers_are_consistent() -> None:

@@ -8867,3 +8867,119 @@ Next: requirement-by-requirement completion audit against the original SPEC,
 including the optional/conditional approximate-pivot language and the precise
 large-cutoff versus literal-small-cutoff claim boundary. The finite-run and
 physical-error bridges are no longer missing mathematical premises.
+
+## Phase DI contract: original-SPEC completion audit
+
+State: in progress on `codex/phase-di-spec-completion-audit`.
+
+Audit the original mathematical specification (sections 1–30, before the
+historical status annotations), not just the recently delivered rate. Write
+`COMPLETION_AUDIT.md` mapping every requirement, numbered success criterion,
+named public API/artifact, verification gate and non-claim to authoritative
+current evidence. Distinguish required outcomes from explicitly suggested
+research routes or optional comparisons. Inspect theorem assumptions, not
+just identifiers or successful builds. A conditional restatement of the
+desired conclusion does not close a requirement.
+
+Recheck all public Python exports and result metadata, exact/high-precision
+and failure/certification paths, committed census/application artifacts,
+documentation and implementation-run provenance, full root verification,
+and branch/PR/main delivery. Add small interface or explicit-quantifier
+corollaries only when they genuinely close an identified requirement and
+their proof obligation is frozen before implementation. Preserve SPEC's
+goals and the proved small-cutoff G1 obstruction; append status only.
+
+If any required item is missing, circular, weaker than the required scope,
+or supported only by indirect evidence, record it as not achieved and freeze
+the next exact implementation/proof target. Do not label the full goal
+complete simply because its principal rate is now proved. If the audit
+proves every required item, synchronize final handoff and claim levels and
+complete the goal only after merged/pushed exact-head verification.
+Non-claims: literature priority, arbitrary approximate-pivot near-optimality
+without a theorem, and billing/model details not exposed by the runtime.
+
+### DI bounded closure contracts
+
+The initial audit finds that D1 is currently stated only with natural dyadic
+parameters. Add `fermionicKernel_separatedApprox_real` in
+`Fermionic/RealSeparatedApprox.lean`: for every `Lambda>=1` and `0<epsilon<1`,
+construct a separated list with uniform error at most `epsilon` and length
+at most `128*log(1+Lambda)*log(128/epsilon)`. Reuse the actual dyadic Taylor
+construction, DG's proved logarithmic cover, and natural ceiling accuracy.
+No GECP or approximation conclusion may be added as a premise.
+
+The audit also finds that `scripts/check_axioms.sh` prints dependencies but
+does not itself fail on unexpected axioms. Add an output parser with an exact
+allow-list (`propext`, `Classical.choice`, `Quot.sound`), expected-declaration
+coverage checks, and fail-closed malformed/empty-output handling. Test positive,
+custom-axiom, native-reduction-axiom, missing-declaration, and malformed cases.
+Reject custom axiom declarations/proof escapes in root/CI source guards too.
+This strengthens a gate; it must not hide any currently disallowed dependency.
+
+The baseline currently covers finite PSD diagonal-preferring traces and a
+conditional residual-Lipschitz bound, not the original-kernel continuous
+baseline of sections 9–10. The census has no `1e-12` cases or normalized
+residual-curve plot. Record these as required incomplete targets for subsequent
+bounded phases; do not rewrite their requirements or call the goal complete.
+
+Section 15's existing exact two-pivot run certifies its pivot product but not
+the complete-pivot inequalities for that concrete grid. Add an explicit
+real-valued cast of the same rational `2x2` kernel, a two-step `CompleteOn`
+certificate, its entry/determinant positivity, and the exact nonincreasing
+pivot list `[2,1/2]` in `SmallInstanceChecks.lean`. These close a finite
+certificate interface, not a new general pivot-order conjecture.
+
+The clean-build audit finds local duplicate working notes included by the
+default source distribution. Exclude the exact untracked note filenames from
+Hatch builds without reading, editing, staging or deleting their originals;
+inspect rebuilt source/wheel member lists and smoke-test the wheel. The first
+temporary source archive is removed, not published. Add a regression on these
+known local-note exclusions.
+
+Close section 7's compact-maximizer interface with
+`fermionicKernel_finiteRun_exists_completePivot` in
+`Fermionic/CompletePivotExistence.lean`: every finite successful residual has
+a complete maximum on the closed physical rectangle for `Lambda>=0`.
+Derive continuity from the finite run and apply mathlib's compact extreme-value
+theorem; the chosen maximum is permitted to be zero (exact termination).
+
+### DI outcome
+
+`COMPLETION_AUDIT.md` inspects all original sections 1–30 and 40 concrete
+requirement groups, including named interfaces/artifacts, gates and parameter
+boundaries. After the bounded DI closures, 33 groups are supported and seven
+are incomplete: R08/R09 (continuous SPD / original-kernel Lipschitz baseline),
+R24 (metadata outside GECP), R25–R27 (tolerance/diagnostic/normalized census
+scope), and R31 (listed missing sparse comparisons). About 80% is a checklist-
+coverage estimate, not a weighted mathematical completion percentage. The
+goal must remain active.
+
+`fermionicKernel_separatedApprox_real` proves D1's exact real quantifiers and
+rank bound `128*log(1+Lambda)*log(128/epsilon)` with an actual existing Taylor
+list. Compact maximum existence is derived for every finite residual from
+its proved continuity and mathlib's extreme-value theorem, permitting zero
+termination. Exact `2x2` small-grid completeness, entry/determinant positivity
+and pivot list `[2,1/2]` close the concrete Lean certificate surface.
+
+The axiom gate now validates every declared report and the exact allowed
+axiom set, rejecting custom/native-reduction axioms and empty/malformed/missing
+reports. A shell integration test confirms that Lean's failing exit status
+is not hidden even when its reports parse successfully. Root/CI source guards
+also reject local custom axiom declarations and native proof escapes.
+
+The first local source archive included untracked duplicate notes, so that
+temporary archive was removed and exact filename exclusions were added.
+Rebuilt source/wheel member lists contain neither notes nor local caches;
+the isolated Python 3.12 wheel smoke imports all 42 exports and completes a
+two-pivot GECP example outside the checkout. Original notes are unchanged;
+no archive was published. New tests cover parser failure modes, D1 parameter
+arithmetic at independent precision, note exclusions and audit accounting.
+Final-source root verification passes 3,627 Lean jobs, all 838 declared axiom
+reports under the enforced allow-list, Ruff/format/mypy, all 177 tests in
+135.57 seconds, and no known dependency vulnerabilities. CI/delivery are pending.
+
+Next highest-priority exact proof: an arbitrary-domain PSD/SPD kernel baseline
+and fill-distance control from **original** kernel regularity, not a residual-
+Lipschitz premise. Preserve v1's valid finite canonical/conditional results
+and add the missing stronger scope as a new phase. Numerical census/metadata
+and Phase-II comparisons then need separate implementations and re-audit.

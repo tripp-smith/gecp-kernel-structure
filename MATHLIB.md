@@ -837,6 +837,16 @@ implementations and independent checks still use solves. No future-pivot
 existence, compact-maximizer choice, or infinite-sequence axiom is used in
 the finite-run rate.
 
+Phase DI reuses `Nat.le_ceil`, `Nat.ceil_lt_add_one`, elementary logarithm
+bounds, and the existing dyadic witness to expose the actual real-parameter
+D1 theorem. `IsCompact.exists_isMaxOn` closes complete-maximum existence from
+finite-run continuity without introducing a new extremum abstraction. The
+explicit constants and small-grid certificates are project-specific.
+The completion audit identifies an original-kernel Lipschitz/continuous PSD
+baseline gap; it does not relabel the existing conditional residual theorem
+as that missing result. Axiom-output parsing is verification infrastructure,
+not a mathematical upstream contribution. See [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

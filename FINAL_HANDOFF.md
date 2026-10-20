@@ -424,6 +424,20 @@ exact finite algebra with independent actual-exponential precision. Approximate
 pivot robustness, runtime continuous-domain certification and full-SPEC
 completion are not claimed by this phase.
 
+Post-v1 Phase DI audits the original specification rather than relying on
+historical bounded-phase labels. [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md)
+records 33 supported and seven incomplete requirement groups (about 80%
+checklist coverage, not weighted effort). The full goal is not complete.
+The gaps are continuous SPD/original-kernel Lipschitz baseline, result metadata
+outside GECP, census tolerance/diagnostic/normalized-curve scope, and listed
+Phase-II sparse comparisons.
+
+DI supplies the real-parameter D1 corollary, compact complete-maximum existence,
+exact small-grid certificates, fail-closed axiom-report enforcement and clean
+packaging checks. A temporary local source archive containing copies of two
+untracked notes was removed; rebuilt archives exclude them and their originals
+are unchanged. An isolated wheel smoke passes; nothing was published.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -459,9 +473,9 @@ premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
 The post-v1 research goal remains incomplete. A runtime snapshot on
-2026-10-20 at 08:12 UTC exposed 16,764,387 aggregate goal tokens and 85,048
+2026-10-20 at 08:40 UTC exposed 16,951,326 aggregate goal tokens and 86,721
 goal-accounting seconds. These cumulative counters cover the active research
-goal, are not Phase DH-only usage, and do not provide input/cache/reasoning/
+goal, are not Phase DI-only usage, and do not provide input/cache/reasoning/
 output categories or account billing. The current runtime instruction
 identifies Codex based on GPT-5; an earlier research snapshot identified the
 GPT-6 family. Neither exposes a verifiable exact serving snapshot or
@@ -469,8 +483,8 @@ reasoning-effort setting. Collaboration remains Default mode with one primary
 agent and unrestricted local filesystem/network access. No new pricing estimate is
 attached to these research counters.
 The goal tracker reports `active` at this snapshot, superseding its earlier
-DG `blocked` report. DH's finite-run and physical-error interfaces are proved,
-verified and merged as PR #114; the separate full-SPEC audit remains outstanding.
+DG `blocked` report. The DI audit now records seven incomplete original-SPEC
+requirement groups. The proved central exact-GECP rate does not close those gaps.
 
 ## Phase status
 
@@ -510,7 +524,8 @@ verified and merged as PR #114; the separate full-SPEC audit remains outstanding
 | DE — cutoff-uniform local panel determinant budget | complete; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111); actual-kernel local order `16(33+4q)`; 3,615 Lean jobs and 151 tests |
 | DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
 | DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
-| DH — finite-run and physical-error closure | verified; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
+| DH — finite-run and physical-error closure | complete; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
+| DI — original-SPEC audit and bounded closures | in progress | 40-group audit, seven incomplete; real D1 / compact maxima / exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests, isolated wheel smoke pass; CI pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -842,17 +857,16 @@ only after the root command passes.
 
 ## Recommended next research step
 
-DH closes the finite-run, exact-termination, selected-cross and actual
-Green-integral interfaces. DG's large-cutoff logarithmic rate and rigorous
-small-cutoff obstruction are retained. The next step is a full requirement-by-
-requirement audit of the original SPEC, using the actual theorem assumptions,
-public exports/axioms, Python APIs, artifacts, tests, documentation and release
-evidence. In particular distinguish required deliverables from suggested
-architecture/research routes, and inspect the conditional approximate-pivot
-language rather than claiming numerical robustness from an exact theorem.
-Any missing required item must be implemented or explicitly resolved before
-the goal can be complete. No reliable overall mathematical percentage is
-claimed before that audit.
+The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds seven
+incomplete requirement groups despite the proved central exact-GECP rate.
+Next prove the continuous PSD/SPD baseline and a fill-distance estimate from
+original-kernel Lipschitz assumptions, without assuming residual regularity.
+Then complete numerical metadata/census depth/diagnostics/normalized curves
+and the listed sparse-method comparisons. Re-audit all forty groups before
+claiming the full goal complete. Approximate-pivot rate extensions remain
+explicitly qualified research, not an inferred consequence of exact-pivot
+theorems. The roughly 80% figure is checklist coverage, not weighted effort
+or a theorem-success probability.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

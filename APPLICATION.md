@@ -479,6 +479,22 @@ finite-run and exact-stop results do not turn floating-point zeros, approximate
 pivots, or certification-budget exhaustion into exact mathematical hypotheses.
 Stopping, conditioning, precision, tie, and certification metadata are unchanged.
 
+Phase DI's [audit](COMPLETION_AUDIT.md) finds that the canonical census still
+stops at `1e-10`, lacks the full requested geometry/normalized curves, and that
+the non-GECP result types need fuller status metadata. Listed AAA/vector-
+fitting/Prony comparisons are not yet implemented. These are incomplete
+requirements, not behavior silently supplied by the new exact theorem.
+
+The public numerical API is unchanged in DI. Packaging excludes the two local
+duplicate working-note files; wheel/sdist were rebuilt and the wheel was
+smoke-tested in isolation outside the checkout. No release was published.
+The axiom checker now enforces permitted dependencies and declaration coverage;
+it also propagates Lean failure. New focused checks are:
+
+```bash
+uv run python -m pytest tests/test_axiom_output.py tests/test_real_separated_approx.py tests/test_docs.py
+```
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
