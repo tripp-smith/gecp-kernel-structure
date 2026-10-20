@@ -26,7 +26,11 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
-exclude = ["/autonomous-implementation.md"]
+exclude = [
+  "/autonomous-implementation.md",
+  "/FINDINGS 2.md",
+  "/MATHLIB 2.md",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["kernelgecp"]

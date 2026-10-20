@@ -2662,3 +2662,20 @@ This annotation records delivered identifiers without changing the goals above.
   This closes the future-success, termination and physical-error interface
   gap, not the separate full-SPEC audit, approximate-pivot robustness, sharp
   constants, or the literal small-cutoff G1 obstruction already proved in DG.
+
+- Phase DI status annotation (2026-10-20): original sections 1–30 are audited
+  in `COMPLETION_AUDIT.md`, with 33 supported and seven incomplete requirement
+  groups after the bounded closures. The full original goal is not complete.
+  `fermionicKernel_separatedApprox_real` supplies D1's real cutoff/tolerance
+  quantifiers with explicit rank `128*log(1+Lambda)*log(128/epsilon)`.
+  `fermionicKernel_finiteRun_exists_completePivot` derives a compact maximum
+  for every finite residual; concrete exact small-grid completeness/minor/
+  pivot certificates are exported. Axiom gates now enforce the allowed set,
+  report coverage and failing Lean exit status. Packaging excludes local
+  duplicate notes and has an isolated wheel smoke check. Root verification
+  passes 3,627 Lean jobs, 838 enforced axiom reports, 177 tests, and no known
+  dependency vulnerabilities; CI/delivery pending. Required work includes the continuous SPD/original-
+  kernel Lipschitz baseline (not just finite canonical traces or an assumed
+  residual Lipschitz bound), full result metadata, `1e-12` census depth and
+  geometry/normalized plots, and listed Phase-II method comparisons. These
+  gaps are recorded rather than removed from the mathematical goals above.

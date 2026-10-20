@@ -1,5 +1,6 @@
 import GECPKernelStructure.GECP.Determinant
 import GECPKernelStructure.Matrix.LowRankDeterminant
+import GECPKernelStructure.Fermionic.CompleteRun
 import Mathlib.Data.Rat.Cast.Order
 
 namespace GECPKernelStructure
@@ -71,6 +72,39 @@ example (i j : Fin 2) :
 example : abs ((1 / 2 : ℚ)) ^ 2 ≤ abs exactTwoPivotRun.finSelectedCore.det := by
   rw [gecp_core_det_eq_prod_pivots]
   norm_num [exactTwoPivotRun, Run.pivots, residualUpdate, exactTwoByTwoKernel]
+
+/-- Real cast of the exact rational regression, for complete-pivot certificates. -/
+def exactTwoByTwoRealKernel : Kernel (Fin 2) (Fin 2) ℝ :=
+  fun i j ↦ (exactTwoByTwoKernel i j : ℝ)
+
+noncomputable def exactTwoPivotRealRun : Run exactTwoByTwoRealKernel :=
+  .step 0 0 (by norm_num [exactTwoByTwoRealKernel, exactTwoByTwoKernel]) <|
+    .step 1 1 (by norm_num [residualUpdate, exactTwoByTwoRealKernel, exactTwoByTwoKernel]) <|
+      .nil _
+
+/-- Both pivots really are complete on the whole finite candidate grid. -/
+theorem exactTwoPivotRealRun_complete :
+    exactTwoPivotRealRun.CompleteOn (fun _ ↦ True) (fun _ ↦ True) := by
+  refine ⟨⟨trivial, trivial, ?_⟩, ⟨⟨trivial, trivial, ?_⟩, trivial⟩⟩
+  · intro i j _ _
+    fin_cases i <;> fin_cases j <;> norm_num [exactTwoByTwoRealKernel, exactTwoByTwoKernel]
+  · intro i j _ _
+    fin_cases i <;> fin_cases j <;>
+      norm_num [residualUpdate, exactTwoByTwoRealKernel, exactTwoByTwoKernel]
+
+/-- Every nonempty ordered minor of this `2x2` sample is positive. -/
+theorem exactTwoByTwoRealKernel_minors_pos :
+    (∀ i j, 0 < exactTwoByTwoRealKernel i j) ∧
+      0 < Matrix.det (exactTwoByTwoRealKernel : Matrix (Fin 2) (Fin 2) ℝ) := by
+  constructor
+  · intro i j
+    fin_cases i <;> fin_cases j <;> norm_num [exactTwoByTwoRealKernel, exactTwoByTwoKernel]
+  · rw [Matrix.det_fin_two (exactTwoByTwoRealKernel : Matrix (Fin 2) (Fin 2) ℝ)]
+    norm_num [exactTwoByTwoRealKernel, exactTwoByTwoKernel]
+
+theorem exactTwoPivotRealRun_pivots : exactTwoPivotRealRun.pivots = [2, 1 / 2] := by
+  norm_num [exactTwoPivotRealRun, Run.pivots, residualUpdate,
+    exactTwoByTwoRealKernel, exactTwoByTwoKernel]
 
 end GECP
 

@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DH — finite-run, exact-termination, and cross-error closure<br>
-> **Phase state:** verified; merged<br>
-> **Last verification:** Phase DH `./scripts/verify.sh` passes a 3,625-job Lean build with 163 tests and no known dependency vulnerabilities on 2026-10-20; push and PR CI passed<br>
+> **Current phase:** DI — original-SPEC completion audit<br>
+> **Phase state:** in progress<br>
+> **Last verification:** Phase DI `./scripts/verify.sh` passes a 3,627-job Lean build, enforced 838-declaration axiom audit, 177 tests and no known dependency vulnerabilities; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DH merged in [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) with green CI<br>
-> **Claim level:** DH proves the explicit logarithmic bound for any finite exact complete run, with no future pivots, plus exact-termination, selected-cross, and actual Green-integral error interfaces; full completion audit remains open<br>
+> **Delivery:** Phase DI draft [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); CI pending<br>
+> **Claim level:** Main exact-GECP rate proved; DI's [full-SPEC audit](COMPLETION_AUDIT.md) records 33/40 supported requirement groups (about 80% checklist coverage) and seven incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -129,7 +129,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DE | Cutoff-uniform local panel determinant budget | complete | rank-`8p` panel approximation; `fermionicKernel_panel_minor_det_le_dyadicBudget` at order `16(33+4q)`; both signs and central panels | 3,615-job Lean build; accepted axioms; 151 tests; exact feature/exponent checks; independent precision evidence; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) |
 | DF | Backward witnesses and global panel-pivot rate | complete | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
 | DG | Real-cutoff logarithmic rate and parameter audit | complete | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
-| DH | Finite-run and physical-error closure | verified | finite-prefix witnesses; `fermionicKernel_finiteRun_error_le_exp`; exact stop / tolerance; selected-core cross identity; actual Green-error bound | 3,625 Lean jobs; accepted axioms; 163 tests; exact / independent-precision evidence; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) |
+| DH | Finite-run and physical-error closure | complete | finite-prefix witnesses; `fermionicKernel_finiteRun_error_le_exp`; exact stop / tolerance; selected-core cross identity; actual Green-error bound | 3,625 Lean jobs; accepted axioms; 163 tests; exact / independent-precision evidence; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) |
+| DI | Original-SPEC completion audit | in progress | 40-group audit; real D1; compact maxima; exact grid certificates; enforced axiom gate; clean packaging | 3,627 Lean jobs; 838 audited declarations; 177 tests; isolated wheel smoke; CI pending | draft [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -282,11 +283,17 @@ Documentation uses four distinct labels: **proved**, **observed**,
 for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
 G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
-SPEC's goals are not rewritten. A full Simons Problem 4.2 completion claim
-still requires the separate specification/assumption audit. DH closes the
+SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
+DI's audit identifies seven required groups still incomplete. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.
+
+DI's audit is now recorded in [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
+It finds required work still outstanding in the continuous SPD/original-kernel
+Lipschitz baseline, full numerical metadata, the `1e-12` census/diagnostics/
+normalized curves, and listed Phase-II sparse-method comparisons. Earlier
+bounded phase labels are not a substitute for those missing scopes.
 
 ## Delivered evidence
 

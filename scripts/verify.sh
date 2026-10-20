@@ -7,8 +7,8 @@ cd "$task_dir"
 lake build
 scripts/check_axioms.sh
 
-if rg -n '\bsorry\b|\badmit\b' --glob '*.lean' --glob '!.lake/**'; then
-  echo "Lean placeholder found" >&2
+if rg -n '\bsorry\b|\badmit\b|\bnative_decide\b|^\s*(private\s+|protected\s+)?axiom\s' --glob '*.lean' --glob '!.lake/**'; then
+  echo "Lean placeholder, proof escape, or custom axiom declaration found" >&2
   exit 1
 fi
 
