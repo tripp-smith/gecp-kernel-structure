@@ -9130,8 +9130,12 @@ tie orders survive; a signed rank-one weak-PSD tie refutes stronger necessity.
 
 The full root gate passes 3,633 Lean jobs, all 876 axiom reports with only
 permitted dependencies, Ruff/format/mypy, 183 tests in 136.77 seconds and no
-known dependency vulnerabilities. CI and exact merged/pushed-head gates are
-required before phase closure. R08's staged baseline is supported, bringing
+known dependency vulnerabilities. The exact branch-head repeat passes 183
+tests in 136.15 seconds; push and PR CI pass at
+`c5c367400b02555a3c9ffdf33028770823e7d707`. PR #117 merged on 2026-10-20
+at 09:29 UTC as `39226a2dbe2ee0760afd287a03adc745715c655c`. Closure is pushed
+to main, and exact merged/pushed-head gates are repeated before final handoff.
+R08's staged baseline is supported, bringing
 the audit to 35/40 (87.5% checklist coverage, not weighted effort).
 
 The remaining original-SPEC obligations are computational: R24 metadata

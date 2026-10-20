@@ -2706,4 +2706,6 @@ This annotation records delivered identifiers without changing the goals above.
   closes R08's staged baseline scope; full published asymptotic rates, weak-
   PSD diagonal necessity, unique ties and numerical exactness are not claimed.
   The original goals above are unchanged; numerical metadata/census and
-  Phase-II comparisons remain required work.
+  Phase-II comparisons remain required work. Root verification passes 3,633
+  Lean jobs, 876 enforced axiom reports, 183 tests and no known dependency
+  vulnerabilities; green push and PR CI; merged as PR #117.

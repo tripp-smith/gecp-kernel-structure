@@ -1763,6 +1763,9 @@ floating-point pivots satisfy exact maximality, or the full published
 asymptotic P-greedy rates have been formalized. R08 is now supported at its
 original staged scope. The audit has 35 supported and five incomplete groups,
 87.5% checklist coverage rather than weighted remaining effort.
+Full verification passes 3,633 Lean jobs, 876 enforced axiom reports, 183 tests
+and no known dependency vulnerabilities. Push and PR CI pass; merged as
+PR #117 on 2026-10-20. The five computational gaps remain required work.
 
 ## Run provenance
 
