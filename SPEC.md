@@ -2644,7 +2644,7 @@ This annotation records delivered identifiers without changing the goals above.
 
 - Phase DH status annotation (2026-10-20): root verification passes 3,625
   Lean jobs, the permitted public axioms, 163 tests, and no known dependency
-  vulnerabilities; CI and delivery pending.
+  vulnerabilities; verified and merged as PR #114 with green push and PR CI.
   `fermionicKernel_finiteRun_error_le_exp` proves the explicit large-cutoff
   logarithmic rate directly for any finite actual `Run fermionicKernel`
   satisfying recursive `CompleteOn` on its rectangle. No successful or

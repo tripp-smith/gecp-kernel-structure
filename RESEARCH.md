@@ -8771,7 +8771,8 @@ requirements for this successful, different local-minor route.
 
 ## Phase DH contract: finite runs, exact termination, and physical error
 
-State: in progress on `codex/phase-dh-finite-run-closure`.
+State: verified; merged as PR #114 from `codex/phase-dh-finite-run-closure`
+on 2026-10-20 with green push and PR CI.
 
 Close the future-success assumption in DG. State the rate directly for an
 arbitrary finite `Run fermionicKernel` with the existing recursive
@@ -8858,7 +8859,9 @@ certify continuous complete pivots. Root verification passes a 3,625-job Lean
 build, the permitted public axioms, Ruff/formatting/mypy, 163 tests in 138.64
 seconds, and no known dependency vulnerabilities. The final-source repeat,
 including the interval Green corollary, passes all 163 tests in 137.40 seconds.
-CI and delivery are pending.
+The final branch-head gate including direct independent-precision Green sums
+passes all 163 tests in 139.12 seconds. Push and PR CI pass; PR #114 merged
+on 2026-10-20.
 
 Next: requirement-by-requirement completion audit against the original SPEC,
 including the optional/conditional approximate-pivot language and the precise

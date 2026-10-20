@@ -1661,9 +1661,9 @@ against iterative residual sums and exact references. All numerical
 crosses use solves; nonfinite/zero core determinants are rejected. Finite-grid
 evidence is not a continuous pivot certificate. Root verification passes 3,625
 Lean jobs, the permitted public axioms, 163 tests, and no known dependency
-vulnerabilities. CI/delivery and the separate full-SPEC audit are pending.
-Approximate-pivot robustness and sharper
-constants are not claimed.
+vulnerabilities. Push and PR CI pass; PR #114 merged on 2026-10-20. The
+separate full-SPEC audit remains pending. Approximate-pivot robustness and
+sharper constants are not claimed.
 
 ## Run provenance
 
