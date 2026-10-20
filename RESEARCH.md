@@ -8850,6 +8850,8 @@ exact positive-presentation trace, with 642 backwards steps; 504 exact cross
 entries and 84 signed Green-sum identities across both kernel presentations;
 rank-zero and rank-one exact-stop cases; and 258 determinant/cross values
 compared as 45-significant-digit strings at independent 160/320-digit precision.
+At each precision, 42 actual Green-integral differences are also recomputed
+directly and compared with both the iterative residual sum and exact reference.
 The selected cores are solved, never explicitly inverted. Numerical zero or
 nonfinite core determinants are rejected. Finite-grid observations do not
 certify continuous complete pivots. Root verification passes a 3,625-job Lean

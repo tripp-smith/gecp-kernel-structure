@@ -161,6 +161,8 @@ def test_actual_exponential_finite_crosses_at_two_precisions() -> None:
     exact = _sample(-1)
     _, pivots = _trace(exact)
     records = []
+    green_checks = 0
+    rho = [Fraction((-1) ** j * (j + 1), 7) for j in range(6)]
     for digits in (160, 320):
         values = []
         with mp.workdps(digits):
@@ -172,6 +174,7 @@ def test_actual_exponential_finite_crosses_at_two_precisions() -> None:
                 ]
                 for i in range(6)
             ]
+            weights = [mp.mpf(v.numerator) / v.denominator for v in rho]
             tolerance = mp.mpf(10) ** (-digits + 25)
             for length in range(7):
                 prefix = pivots[:length]
@@ -180,6 +183,7 @@ def test_actual_exponential_finite_crosses_at_two_precisions() -> None:
                     residual = _step(residual, p, q)
                 rows, columns = [p for p, _, _ in prefix], [q for _, q, _ in prefix]
                 reference = _cross(exact, prefix)
+                cross_matrix = [[mp.mpf(0) for _ in range(6)] for _ in range(6)]
                 if length:
                     core = mp.matrix([[matrix[p][q] for q in columns] for p in rows])
                     determinant = abs(mp.det(core))
@@ -212,6 +216,40 @@ def test_actual_exponential_finite_crosses_at_two_precisions() -> None:
                             abs_eps=tolerance,
                         )
                         values.append(mp.nstr(cross, 45))
+                        cross_matrix[x][y] = cross
+                for x in range(6):
+                    original_green = mp.fsum(
+                        weights[y] * matrix[x][y] for y in range(6)
+                    )
+                    approximate_green = mp.fsum(
+                        weights[y] * cross_matrix[x][y] for y in range(6)
+                    )
+                    residual_green = mp.fsum(
+                        weights[y] * residual[x][y] for y in range(6)
+                    )
+                    exact_error = sum(
+                        (rho[y] * (exact[x][y] - reference[x][y]) for y in range(6)),
+                        Fraction(),
+                    )
+                    target_error = (
+                        mp.mpf(exact_error.numerator) / exact_error.denominator
+                    )
+                    observed_error = original_green - approximate_green
+                    assert mp.isfinite(observed_error)
+                    assert mp.almosteq(
+                        observed_error,
+                        target_error,
+                        rel_eps=tolerance,
+                        abs_eps=tolerance,
+                    )
+                    assert mp.almosteq(
+                        observed_error,
+                        residual_green,
+                        rel_eps=tolerance,
+                        abs_eps=tolerance,
+                    )
+                    green_checks += 1
         records.append(values)
     assert len(records[0]) == 258
     assert records[0] == records[1]
+    assert green_checks == 84

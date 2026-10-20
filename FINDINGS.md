@@ -1656,6 +1656,8 @@ Independent exact checks cover all 127 prefix/mark witnesses (642 backwards
 steps), 504 selected-cross entries, 84 signed Green-sum identities, and two
 rank-deficient exact stops. Another 258 actual-exponential determinant/cross
 values agree at 160/320 digits as 45-significant-digit strings. All numerical
+Green sums are also recomputed directly at both precisions (42 per precision),
+against iterative residual sums and exact references. All numerical
 crosses use solves; nonfinite/zero core determinants are rejected. Finite-grid
 evidence is not a continuous pivot certificate. Root verification passes 3,625
 Lean jobs, the permitted public axioms, 163 tests, and no known dependency
