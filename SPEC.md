@@ -2619,3 +2619,24 @@ This annotation records delivered identifiers without changing the goals above.
   finite exact and high-precision checks supplement the proof. This closes
   the dyadic finite global rate, not yet the arbitrary-real-cutoff/accuracy
   corollaries or the final full-SPEC / G1 / Problem 4.2 completion audit.
+
+- Phase DG status annotation (2026-10-20): root verification passes 3,622
+  Lean jobs, the permitted public axioms, 159 tests, and no known dependency
+  vulnerabilities; CI/delivery pending. The actual-domain
+  `fermionicKernel_gecp_error_le_realCutoffBlock` retains the finite DF count
+  for any `Lambda<=2^s` without padding the complete-pivot domain.
+  `fermionicKernel_gecp_error_le_logarithmic` proves the G1-shaped bound for
+  `Lambda>=1` with universal `C=1024` and `c=(log 2)^2/256`.
+  `fermionicKernel_gecp_error_le_allCutoff_logarithmic` proves a
+  `log(2+Lambda)` version for all positive cutoffs, and
+  `fermionicKernel_gecp_error_le_realTolerance` gives an explicit ceiling rank
+  for every positive requested tolerance. The separate realized-run premise
+  is derived from initialization and exact successful updates.
+  `fermionicKernel_smallCutoff_logarithmic_obstruction` proves that literal
+  G1 cannot hold uniformly for all `Lambda>0`: for any proposed `C,c>0`,
+  `Lambda=min(1,c^2/(16*C))` and the actual first complete pivot contradict
+  that bound at rank one. This annotation preserves the original conjecture
+  and records its parameter boundary rather than rewriting its goals.
+  The final audit must distinguish the proved large-cutoff theorem, this
+  rigorous small-cutoff obstruction, and the remaining finite-prefix,
+  termination, cross-approximation, and full-SPEC completion obligations.

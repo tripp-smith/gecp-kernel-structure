@@ -813,6 +813,17 @@ panel predicates and fermionic quantitative rate are project-specific.
 No external oscillation, Lorentzian, or conditioned-feature sign theorem is
 assumed by this proof.
 
+Phase DG reuses mathlib's `Nat.le_ceil`, `Nat.ceil_lt_add_one`,
+`Nat.lt_mul_div_succ`, `Real.exp_nat_mul`, `Real.log_pow`,
+`Real.log_le_sub_one_of_pos`, `Real.add_one_le_exp`, and
+`Real.quadratic_le_exp_of_nonneg`. These supply the exact rounding, logarithmic
+cover, and elementary small-cutoff obstruction without a new asymptotic
+abstraction. `GECP.realized_of_initial_updates` packages the project's
+existing `Run.ofResidualSequenceFrom` and transport API; it is project-specific.
+The integer-block-to-exponential lemma has hardcoded project constants and is
+not presented as an upstream candidate. No new spectral or sign theorem is
+assumed in the real-parameter conversion.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

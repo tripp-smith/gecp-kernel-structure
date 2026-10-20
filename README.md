@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DF — backwards minor witnesses and local pivot counts<br>
-> **Phase state:** verified; merged<br>
-> **Last verification:** Phase DF `./scripts/verify.sh` passed a 3,619-job Lean build with 155 tests and no known dependency vulnerabilities on 2026-10-19; push and PR CI passed<br>
+> **Current phase:** DG — real-cutoff logarithmic rate and parameter audit<br>
+> **Phase state:** in progress<br>
+> **Last verification:** Phase DG `./scripts/verify.sh` passes a 3,622-job Lean build with 159 tests and no known dependency vulnerabilities; CI pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DF merged in [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) with green CI<br>
-> **Claim level:** Phase DF proves the finite dyadic-cutoff rate `N=32(s+1)(33+4q)` with error at most `2^(-q)`; real-cutoff/accuracy corollaries and the full Problem 4.2 completion audit remain open<br>
+> **Delivery:** Phase DG draft [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); CI pending<br>
+> **Claim level:** DG proves the actual real-cutoff exponential rate with explicit constants for `Λ≥1`, an all-positive-cutoff `log(2+Λ)` rate, and an obstruction to literal G1 uniformly down to zero; full completion audit remains open<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -127,7 +127,8 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 | DC | All-orders local-minor contraction bridge | complete | singleton Fischer inequality; arbitrary-pivot matched-rank bound; actual fermionic specialization; original companion target open | 3,610-job Lean build; accepted axioms; 2,520 exact one-step checks; 1,376 prefix/gauge checks; 140-test root verification; green CI | merged [PR #109](https://github.com/tripp-smith/gecp-kernel-structure/pull/109) |
 | DD | Common all-orders residual sign gauge | complete | `Run.gaugedFinalResidual_strictSignRegular`; absolute-minor preservation; arbitrary-prefix actual Schur bound; original-run frequency transport | 3,614-job Lean build; accepted axioms; 146 tests; 3,825 exact gauge checks; 350 exact next-step checks; 160/320-digit evidence; green CI | merged [PR #110](https://github.com/tripp-smith/gecp-kernel-structure/pull/110) |
 | DE | Cutoff-uniform local panel determinant budget | complete | rank-`8p` panel approximation; `fermionicKernel_panel_minor_det_le_dyadicBudget` at order `16(33+4q)`; both signs and central panels | 3,615-job Lean build; accepted axioms; 151 tests; exact feature/exponent checks; independent precision evidence; green CI | merged [PR #111](https://github.com/tripp-smith/gecp-kernel-structure/pull/111) |
-| DF | Backward witnesses and global panel-pivot rate | verified | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
+| DF | Backward witnesses and global panel-pivot rate | complete | `markedPivotProduct_le_initialMinor`; fixed-order panel pivot count; `fermionicKernel_gecp_error_le_localPanelBlock`; every-later-rank corollary | 3,619 Lean jobs; accepted axioms; 155 tests; exact/high-precision evidence; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112) |
+| DG | Real-cutoff logarithmic rate and parameter audit | in progress | actual-domain block rate; `fermionicKernel_gecp_error_le_logarithmic`; all-cutoff/tolerance corollaries; `fermionicKernel_smallCutoff_logarithmic_obstruction` | 3,622 Lean jobs; accepted axioms; 159 tests; exact/high-precision evidence; CI pending | draft [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -215,8 +216,8 @@ downstream experiments.
 | Explicit low-rank scale | The theorem-matched dyadic evaluator reproduces the formal rank `16p(s+1)` and error bound `2⁻ᵖ`, including band boundaries and cutoff `10⁶`; the separate Chebyshev interpolant demonstrates a practical representation | Low-rank existence is proved, but neither evaluator proves that GECP attains that rank |
 | Trustworthy continuous pivoting | Synthetic objectives with known maxima and fermionic residuals receive lower/upper certificates; deliberately exhausted budgets remain `certified=False` | A certificate proves only the stated pivot gap under its analytic or interval enclosure, not a global GECP convergence rate |
 | Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
-| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; varying `q` gives exact pivot-order changes, the minimized `2 × 2` obstruction is regression-tested, and selected-cross sign coherence and permutation orientations are checked exactly | Lean proves all-orders sign regularity, complete-run nonexpansiveness, and the explicit dyadic-cutoff/accuracy rate; real-parameter corollaries and the full completion audit remain open |
-| Fermionic block contraction | Closed-form high-precision evaluation independently checks that the first residual is maximized at `(1,-Λ)` and that the two-corner residual is below one half of the initial pivot for `Λ=1/8,1/2,1` | DF proves error `2^(-q)` after `32(s+1)(33+4q)` pivots for the dyadic cutoff `Λ=2^s`, without the earlier startup logarithm; arbitrary real-cutoff and G1 corollaries remain open |
+| Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; marked-pivot witnesses and parameter boundaries are checked independently | DG proves a G1-shaped rate for `Λ≥1` and a counterexample to the literal all-positive-cutoff interpretation; no mathematical goal is silently rewritten |
+| Fermionic block contraction | Exact integer rank checks and independent actual-exponential first-pivot observations supplement the proof | For every actual real cutoff `Λ≤2^s`, DF's count remains `32(s+1)(33+4q)`; logarithmic constants are `C=1024`, `c=(log 2)^2/256`; full specification audit remains open |
 | Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense blind scan | These demonstrate useful forward compression and effective sparse representation, not uniqueness or general robustness of analytic continuation |
 
 Together these layers cover every project objective with at least one
@@ -276,10 +277,13 @@ rate claim.
 ## Claim discipline
 
 Documentation uses four distinct labels: **proved**, **observed**,
-**conjectured**, and **not claimed**. DF proves the explicit finite continuous
-rate for dyadic cutoffs; arbitrary real-parameter corollaries and a full
-Simons Problem 4.2 completion claim remain pending. Numerical evidence never
-substitutes for a Lean theorem or a separately certified analytic argument.
+**conjectured**, and **not claimed**. DG proves the explicit logarithmic rate
+for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
+G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
+cutoffs; a formal first-complete-pivot obstruction records that boundary.
+SPEC's goals are not rewritten. A full Simons Problem 4.2 completion claim
+still requires the separate specification/assumption audit. Numerical evidence
+never substitutes for a Lean theorem or a certified analytic argument.
 
 ## Delivered evidence
 

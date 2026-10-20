@@ -446,6 +446,22 @@ This does not certify an approximate numerical pivot as a continuous complete
 maximum or expose a runtime convergence certificate. General real-cutoff
 and accuracy corollaries still need formalization.
 
+Phase DG adds no Python API or package release. Focused checks are:
+
+```bash
+uv run python -m pytest tests/test_real_cutoff_rate.py
+```
+
+Cutoff covers and block ranks use exact rational/integer arithmetic, including
+dyadic boundaries. Envelope, real-tolerance, and actual first-pivot witness
+values are compared at 160/320 digits as decimal strings. Witness residuals
+must be positive and finite. The finite grid observation that a first corner
+is maximal is not a runtime continuous-domain certificate; the corresponding
+continuous statement is proved in Lean. The new rate does not certify finite-
+precision approximate pivots, expose a runtime rate certificate, or change
+stopping/conditioning/tie metadata. Its small-cutoff obstruction explicitly
+separates the `Lambda>=1` theorem from literal all-positive-cutoff G1 wording.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting
