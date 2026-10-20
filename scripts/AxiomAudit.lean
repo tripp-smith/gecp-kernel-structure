@@ -1,5 +1,42 @@
 import GECPKernelStructure.Theorems
 
+#print axioms GECPKernelStructure.GECP.Run.take_zero
+#print axioms GECPKernelStructure.GECP.Run.residualAt_zero
+#print axioms GECPKernelStructure.GECP.Run.take_eq_self
+#print axioms GECPKernelStructure.GECP.Run.residualAt_length
+#print axioms GECPKernelStructure.GECP.Run.length_rows_take
+#print axioms GECPKernelStructure.GECP.Run.completeOn_take
+#print axioms GECPKernelStructure.GECP.Run.pivotAt_ne
+#print axioms GECPKernelStructure.GECP.Run.residualAt_succ
+#print axioms GECPKernelStructure.GECP.Run.completePivotAt
+#print axioms GECPKernelStructure.GECP.Run.abs_residualAt_succ_le_pivot
+#print axioms GECPKernelStructure.GECP.Run.abs_residualAt_add_succ_le_pivot
+#print axioms GECPKernelStructure.GECP.Run.finalResidual_abs_le_pivot
+#print axioms GECPKernelStructure.GECP.Run.finalResidual_abs_le_initialBound
+#print axioms GECPKernelStructure.GECP.Run.markedPivotProduct_pos
+#print axioms GECPKernelStructure.GECP.Run.exists_marked_minor_witness
+#print axioms GECPKernelStructure.GECP.Run.panel_pivot_count_lt_of_initialBudget
+#print axioms GECPKernelStructure.GECP.residual_eq_zero_of_complete_zero
+#print axioms GECPKernelStructure.GECP.Run.finalResidual_eq_sub_crossApproximation
+#print axioms GECPKernelStructure.GECP.Run.kernel_sub_crossApproximation_eq_finalResidual
+#print axioms GECPKernelStructure.GECP.Run.crossApproximation_eq_sub_finalResidual
+#print axioms GECPKernelStructure.GECP.Run.crossApproximation_eq_kernel_of_complete_zero
+#print axioms GECPKernelStructure.GECP.Run.continuous_finalResidual
+#print axioms GECPKernelStructure.GECP.Run.continuous_crossApproximation
+#print axioms GECPKernelStructure.GECP.Run.greenError_le_uniformCrossError
+#print axioms GECPKernelStructure.GECP.Run.length_rows_negateColumns
+#print axioms GECPKernelStructure.GECP.Run.completeOn_negateColumns
+#print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_finiteRun_error_le_localPanelBlock
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_localPanelBlock
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_coverExponential
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_exp
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_allCutoff_exp
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_of_stoppedOrBudget
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_error_le_realTolerance
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_cross_error_le_exp
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_greenError_le_exp
+#print axioms GECPKernelStructure.Fermionic.fermionicKernel_finiteRun_greenError_le_exp_interval
+
 #print axioms GECPKernelStructure.GECP.realized_of_initial_updates
 #print axioms GECPKernelStructure.Fermionic.frequencyReflectedFermionicKernel_gecp_error_le_realCutoffBlock
 #print axioms GECPKernelStructure.Fermionic.fermionicKernel_gecp_error_le_realCutoffBlock

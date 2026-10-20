@@ -2641,3 +2641,24 @@ This annotation records delivered identifiers without changing the goals above.
   The final audit must distinguish the proved large-cutoff theorem, this
   rigorous small-cutoff obstruction, and the remaining finite-prefix,
   termination, cross-approximation, and full-SPEC completion obligations.
+
+- Phase DH status annotation (2026-10-20): root verification passes 3,625
+  Lean jobs, the permitted public axioms, 163 tests, and no known dependency
+  vulnerabilities; CI and delivery pending.
+  `fermionicKernel_finiteRun_error_le_exp` proves the explicit large-cutoff
+  logarithmic rate directly for any finite actual `Run fermionicKernel`
+  satisfying recursive `CompleteOn` on its rectangle. No successful or
+  complete pivot after the stored run is required. Finite dyadic-block,
+  all-positive-cutoff and real-tolerance versions retain DG's constants.
+  `residual_eq_zero_of_complete_zero` and the stopped-or-budget corollary
+  include exact termination without a zero-pivot update.
+  `Run.finalResidual_eq_sub_crossApproximation` identifies the residual with
+  the original selected-core cross error, and
+  `fermionicKernel_finiteRun_greenError_le_exp` bounds the actual difference
+  of weighted Green integrals, deriving integrability from continuity and
+  the uniform bounds. Its `_interval` corollary discharges the support premise
+  on the physical interval. Independent checks cover finite prefixes, exact stops,
+  selected-core solves, signed Green sums and independent precision.
+  This closes the future-success, termination and physical-error interface
+  gap, not the separate full-SPEC audit, approximate-pivot robustness, sharp
+  constants, or the literal small-cutoff G1 obstruction already proved in DG.

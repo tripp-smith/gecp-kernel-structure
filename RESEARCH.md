@@ -8768,3 +8768,97 @@ termination, and cross-approximation interfaces before declaring completion.
 The main large-cutoff rate and small-cutoff obstruction are no longer open
 research hypotheses. Earlier companion sign obstructions are not additional
 requirements for this successful, different local-minor route.
+
+## Phase DH contract: finite runs, exact termination, and physical error
+
+State: in progress on `codex/phase-dh-finite-run-closure`.
+
+Close the future-success assumption in DG. State the rate directly for an
+arbitrary finite `Run fermionicKernel` with the existing recursive
+`Run.CompleteOn` predicate on its actual physical rectangle. Its rank is its
+stored successful pivot count. No independent residual sequence, realized
+prefix evidence, extra complete pivot after the final residual, or successful
+continuation beyond that rank may be assumed.
+
+Build exact finite prefix extraction/indexed pivot interfaces, reusing the
+existing `Run` and `CompleteOn` definitions. Transport DF's backwards marked
+minor construction only over indices inside the stored run. Derive the final
+residual bound from the last successful update and finite pivot inequalities,
+not from a hypothetical next nonzero complete pivot. Use the same initial
+panel budget and counts. Named targets in `Fermionic/FiniteRunRate.lean`:
+`fermionicKernel_finiteRun_error_le_localPanelBlock` and
+`fermionicKernel_finiteRun_error_le_exp`, with DG's explicit constants and
+the same real-cutoff parameter range; also an all-positive-cutoff version.
+
+Add the selected-core cross approximation as a named finite-run object and
+prove `finalResidual = kernel - crossApproximation` from the existing closed
+selected-core Schur identities, not a new inverse axiom. Formal matrix
+inverse notation is algebraic only; numerical checks remain solve-based.
+An actual complete pivot with zero value on the final residual certifies
+exact termination on the physical domain, without attempting a zero-pivot
+update. Export the corresponding exact cross reconstruction and the
+logarithmic Green-error consequence through the existing integral transfer.
+Planned sources: `GECP/FiniteLocalMinorWitness.lean`,
+`GECP/RunCrossApproximation.lean`, and `Fermionic/FiniteRunRate.lean`.
+
+Independent checks: every prefix and mark set of small exact rational traces,
+empty/one-step/final successful prefixes, a rank-deficient exact-zero stop,
+and solve-based selected-cross versus iterative residual/Green sums at
+independent precision. Tests must not smuggle in pivots after the target rank.
+No approximate-pivot robustness, interval-certified runtime convergence,
+sharp constants, literature priority, or full-SPEC completion is claimed by
+this phase. A requirement-by-requirement final audit remains separate.
+
+### DH outcome
+
+The finite interface is proved in the three named sources. `Run.take` stores
+only a prefix, `length_rows_take` gives its truncated successful count, and
+`completeOn_take` inherits completeness. `residualAt_succ`, `pivotAt_ne`, and
+`completePivotAt` apply only below the stored length. At and beyond that
+length, prefix extraction returns the same final run; no additional successful
+pivot is asserted. The finite backwards witness and panel count retain all
+domain, fixed-order, freshness, and marked-column invariants of DF.
+
+`finalResidual_abs_le_pivot` derives the bound from the last successful update
+and finite pivot comparisons, rather than an extra complete maximum after the
+run. `fermionicKernel_finiteRun_error_le_localPanelBlock` consequently uses
+only an actual `Run fermionicKernel`, its recursive `CompleteOn` predicate,
+the dyadic cover and stored count. `fermionicKernel_finiteRun_error_le_exp`
+has the same `C=1024`, `c=(log 2)^2/256`, `Lambda>=1` range as DG, at every
+finite successful length including zero. An all-positive-cutoff version uses
+`log(2+Lambda)`; the explicit real-tolerance ceiling is unchanged.
+
+`Run.crossApproximation` is the selected-core algebraic cross and
+`finalResidual_eq_sub_crossApproximation` proves exact equality to iterative
+error using the existing closed Schur formula. No new inverse identity is
+assumed. A zero-valued complete pivot on a final residual proves exact domain
+reconstruction without attempting a zero-pivot update; the stopped-or-budget
+corollary includes this early-stop case explicitly. A floating-point zero or
+an exhausted certification budget is not such a proof.
+
+`continuous_finalResidual` and `continuous_crossApproximation` derive finite
+continuity. `greenError_le_uniformCrossError` then proves integrability of both
+weighted kernels from `rho` integrability, the kernel bound and uniform error,
+and bounds the actual **difference of their integrals**. The fermionic
+`fermionicKernel_finiteRun_greenError_le_exp` specializes the explicit rate
+for any measure supported almost everywhere on the cutoff interval.
+The `_interval` corollary specializes to the restricted physical interval
+measure and discharges its support property automatically.
+
+Independent evidence: 127 witnesses across every prefix/mark set of a six-step
+exact positive-presentation trace, with 642 backwards steps; 504 exact cross
+entries and 84 signed Green-sum identities across both kernel presentations;
+rank-zero and rank-one exact-stop cases; and 258 determinant/cross values
+compared as 45-significant-digit strings at independent 160/320-digit precision.
+The selected cores are solved, never explicitly inverted. Numerical zero or
+nonfinite core determinants are rejected. Finite-grid observations do not
+certify continuous complete pivots. Root verification passes a 3,625-job Lean
+build, the permitted public axioms, Ruff/formatting/mypy, 163 tests in 138.64
+seconds, and no known dependency vulnerabilities. The final-source repeat,
+including the interval Green corollary, passes all 163 tests in 137.40 seconds.
+CI and delivery are pending.
+
+Next: requirement-by-requirement completion audit against the original SPEC,
+including the optional/conditional approximate-pivot language and the precise
+large-cutoff versus literal-small-cutoff claim boundary. The finite-run and
+physical-error bridges are no longer missing mathematical premises.
