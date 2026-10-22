@@ -543,6 +543,8 @@ typed `NumericalMetadata`, `ConditioningDiagnostic`, and
 infinity. Empty/unavailable estimates use explicit statuses and null values,
 not fabricated condition numbers. Legacy manually constructed result records
 default to `not_recorded` metadata.
+Metadata snapshots include convergence and stop reason too, so application
+summaries do not lose an underlying algorithm's distinct stopping condition.
 
 | Path | Actual arithmetic / scope |
 | --- | --- |

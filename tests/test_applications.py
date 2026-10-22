@@ -86,6 +86,8 @@ def test_application_suite_verifies_transfer_recovery_and_psd_control() -> None:
     assert all(item.metadata.precision_bits == 80 for item in suite.green_compression)
     assert all(item.metadata.precision_bits == 53 for item in suite.sparse_recovery)
     assert landmarks.cholesky_metadata.certification_status == "not_certified"
+    assert landmarks.cholesky_metadata.converged is landmarks.cholesky_converged
+    assert landmarks.gecp_metadata.converged is landmarks.gecp_converged
     assert landmarks.gecp_metadata.precision_bits == 53
 
 

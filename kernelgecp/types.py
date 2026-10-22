@@ -137,6 +137,8 @@ class NumericalMetadata:
     tie_counts: list[int] = field(default_factory=list)
     certification_status: str = "not_certified"
     certification_scope: str = "no_analytic_or_rounding_certificate"
+    converged: bool | None = None
+    stop_reason: str = "not_recorded"
     convergence_scope: str = "not_recorded"
     configuration: dict[str, Any] = field(default_factory=dict)
     refinement: RefinementDiagnostic = field(default_factory=RefinementDiagnostic)
@@ -241,6 +243,8 @@ class GECPResult:
             convergence_scope="continuous_interval_bound"
             if adaptive
             else "sampled_grid",
+            converged=self.converged,
+            stop_reason=self.stop_reason,
             configuration=dict(self.config),
         )
 

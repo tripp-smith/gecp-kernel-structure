@@ -24,6 +24,8 @@ def test_cholesky_reports_actual_precision_and_independent_core_conditioning() -
         matrix, config=GECPConfig(precision_bits=128, max_rank=3, tol=1e-12)
     )
     metadata = result.metadata
+    assert metadata.converged is result.converged
+    assert metadata.stop_reason == result.stop_reason
     assert result.converged
     assert metadata.arithmetic == "float64"
     assert metadata.precision_bits == 53
@@ -469,6 +471,8 @@ def test_metadata_serialization_is_finite_deterministic_and_input_sensitive() ->
     repeated = sparse_representation(t, np.sin(t), **options)
     changed = sparse_representation(t, np.cos(t), **options)
     encoded = first.metadata.canonical_json()
+    assert first.metadata.converged is first.converged
+    assert first.metadata.stop_reason == first.stop_reason
     assert encoded == repeated.metadata.canonical_json()
     assert encoded == json.dumps(
         first.metadata.as_dict(), sort_keys=True, separators=(",", ":"), allow_nan=False

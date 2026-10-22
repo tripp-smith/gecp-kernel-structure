@@ -218,6 +218,8 @@ def sparse_representation(
             tie_counts=tie_counts,
             certification_scope="training_samples_only_no_continuous_or_support_certificate",
             convergence_scope="training_samples_relative_infinity_error",
+            converged=converged,
+            stop_reason=stop_reason,
             configuration={
                 "cutoff": cutoff,
                 "tolerance": tolerance,

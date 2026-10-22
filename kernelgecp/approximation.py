@@ -80,6 +80,7 @@ class DyadicTaylorApproximation:
             tie_policy="not_applicable_fixed_construction",
             certification_scope="formal_exact_construction_bound_not_rounding_certificate",
             convergence_scope="not_applicable_fixed_parameter_construction",
+            stop_reason="not_applicable_fixed_construction",
             configuration={
                 "cutoff": self.cutoff,
                 "accuracy_bits": self.accuracy_bits,
@@ -194,6 +195,7 @@ class SeparatedApproximation:
             tie_policy="not_applicable_fixed_construction",
             certification_scope="fixed_order_interpolant_no_uniform_error_certificate",
             convergence_scope="not_applicable_fixed_order_interpolation",
+            stop_reason="not_applicable_fixed_construction",
             configuration={
                 "cutoff": self.kernel.cutoff,
                 "rank": self.rank,

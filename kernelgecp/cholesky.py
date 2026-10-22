@@ -127,6 +127,8 @@ def pivoted_cholesky(
             tie_counts=tie_counts,
             certification_scope="sampled_matrix_no_psd_or_rounding_certificate",
             convergence_scope="original_sampled_matrix_reconstruction_infinity_error",
+            converged=converged,
+            stop_reason=stop_reason,
             configuration={
                 "requested_config": config.normalized(),
                 "actual_pivot": "diagonal_grid",
