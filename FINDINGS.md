@@ -1874,8 +1874,15 @@ data-ranked strided-Hankel Prony/ESPRIT. The shared-observation comparison
 retains every tested budget, including complex/out-of-band pole rejection and
 failed fits; no generating order or exact rational truth enters an adapter.
 Primary dictionaries are fixed independently of off-grid truth. The
-known-library control is separately prior-informed. Measured results and
-R31 completion remain pending the frozen canonical repeat and full gates.
+known-library control is separately prior-informed. The frozen 192-fit JSON
+and reviewed PNG repeat bytes from clean `e98dd62`; every measured error is
+independently reconstructed. At `1e-8`, the clean four-atom case needs four
+tested atoms for AAA/VF/Prony/NLS versus universal rank 12. VF/Prony/NLS also
+pass with four on the noisy case and six on each fixed-quadrature continuous
+density reference. AAA fails the other three physical fits; those failures
+and nonphysical poles remain explicit. No method is supplied the true order.
+These are smallest tested supports, not optimality/uniqueness or continuous
+error claims. R31 completion remains pending full gates and merge.
 
 ## Run provenance
 

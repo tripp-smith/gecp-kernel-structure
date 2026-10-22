@@ -6,9 +6,9 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DN — fair six-method spectral comparisons<br>
 > **Phase state:** in progress; DM complete<br>
-> **Last verification:** Phase DM branch `4f99db923e89773e1d248eecde872f2350e0d853` passes `./scripts/verify.sh`: 3,633 Lean jobs, 876 enforced axiom reports, 430 tests (139.64 seconds), clean formatting/mypy/dependency audit; push and PR CI passed on 2026-10-22. Exact merged/pushed closure-head gates will be repeated before handoff<br>
+> **Last verification:** DM main `8fb6b03` passes the full root gate (430 tests, 3,633 Lean jobs, 876 axiom reports) and exact-head CI. DN's canonical 192 fits and plot repeat bytes; full phase root/CI gates are pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) on 2026-10-22; full primary repeat, three-cutoff resolution runs and combined numerical checks pass<br>
+> **Delivery:** DN on `codex/phase-dn-spectral-comparisons`, PR pending; prior DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119)<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DM supports census requirements R25–R27; the [full-SPEC audit](COMPLETION_AUDIT.md) records 39/40 supported groups (97.5% checklist coverage, not weighted effort). R31 comparisons and the final forty-group audit remain; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -139,7 +139,7 @@ is authoritative for the remaining goal.
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
-| DN | Fair six-method spectral comparisons (R31) | in progress | shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP benchmark; explicit rational and exponential bridges | contract frozen; implementation and verification pending | branch `codex/phase-dn-spectral-comparisons` |
+| DN | Fair six-method spectral comparisons (R31) | in progress | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated canonical JSON/PNG; independent reconstruction of every reported error; full gates pending | branch `codex/phase-dn-spectral-comparisons` |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

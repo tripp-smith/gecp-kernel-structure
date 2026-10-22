@@ -9478,3 +9478,43 @@ or pole-acceptance threshold chosen to improve measured outcomes. Preliminary
 dirty-run artifacts are not canonical evidence. Absolute held-out pass
 thresholds, genuine relative errors, native convergence and returned-model
 training convergence remain distinct.
+
+### DN canonical observations and independent checks
+
+The final clean numerical-generator revision is
+`e98dd62fa829fa3de6e5dfc4b8dfdade5aabbc20`; configuration SHA-256 is
+`665e158dd17b5722ecd1e34b2d549cbe0dcd413613dd7f5d9c33a3af54cdeeb7`.
+Two full executions take 6.10 and 6.23 observed wall seconds and produce the
+same 192-fit JSON bytes, SHA-256
+`d07c84f3518eef7999c6f84916093a2dd888d53367036db49dc702ff52b4b7c4`.
+The reviewed 1680-by-1120 PNG also repeats bytes, SHA-256
+`0368a73f27aa4b15ed9c313cb73a7326157d706b6aea22ca5c798cd75fe834d2`.
+Python 3.12.12, NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1 are recorded.
+All fits use 513 shared training samples and 1024 disjoint noiseless validation
+coordinates; universal node generation alone uses 128-bit arithmetic.
+
+At cutoff eight, universal sampled kernel ranks are 11 and 12 at tolerances
+`1e-6` and `1e-8`. The smallest tested passing supports at `1e-8` are:
+
+| Fixture | GECP nodes | AAA | Vector fitting | Prony | NLS | Greedy |
+| --- | --- | --- | --- | --- | --- | --- |
+| Clean off-grid four atoms | 12 | 4 | 4 | 4 | 4 | 12 |
+| Noisy near-Fermi four atoms | 12 | none | 4 | 4 | 4 | 12 |
+| Hubbard-like density reference | 12 | none | 6 | 6 | 6 | 12 |
+| Gapped density reference | 12 | none | 6 | 6 | 6 | 12 |
+
+These are tested-budget comparisons, not global optima or an across-problem
+ranking. Continuous-density references use the explicit normalized 2001-node
+trapezoid; errors are against that reference, not the exact density integral.
+AAA's nonphysical-pole rejections and failed physical fits are retained, not
+repaired by another algorithm. Noise reaches `3.15e-8` in time and about
+`8.08e-10` in the transformed data; even tiny transform errors do not guarantee
+stable pole recovery. On noiseless cases the transform discrepancy against
+evaluation-only spectral truth is below `5.41e-13`. Neither diagnostic is a
+certified continuous error bound.
+
+Independent tests reconstruct every returned model with a direct kernel
+formula and recompute all 192 training/held-out errors, support minima and
+pass flags. Source/lock/config/revision hashes are pinned. Prefix metadata
+reports the actual universal prefix's kernel error, not convergence of its
+full parent trajectory. The full root/CI gates and merge remain pending.
