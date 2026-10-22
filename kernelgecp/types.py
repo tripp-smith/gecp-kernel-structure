@@ -283,6 +283,21 @@ class SparseResult:
 
 
 @dataclass(frozen=True, slots=True)
+class PivotGeometry:
+    """Physical distances and nearest selected reflected node, not a symmetry proof."""
+
+    t_boundary_distances: tuple[str, str]
+    omega_boundary_distances: tuple[str, str]
+    dyadic_scale: int
+    dyadic_panel: str
+    reflection_t: str
+    reflection_omega: str
+    reflection_nearest_index: int
+    reflection_distance: str
+    reflection_matched: bool
+
+
+@dataclass(frozen=True, slots=True)
 class CensusRecord:
     """Schema-stable canonical record for one census run."""
 
@@ -302,3 +317,18 @@ class CensusRecord:
     tie_counts: list[int]
     converged: bool
     stop_reason: str
+    residual_history: list[str] = field(default_factory=list)
+    core_det_history: list[str] = field(default_factory=list)
+    pivot_magnitudes: list[str] = field(default_factory=list)
+    pivot_geometry: list[PivotGeometry] = field(default_factory=list)
+    grid_shape: tuple[int, int] = (0, 0)
+    grid_coordinate_precision_bits: int | None = 53
+    grid_generation: str = "float64_composite_chebyshev_lobatto_dyadic_endpoint_panels"
+    reflection_match_tolerance: str = "1e-12"
+    reflection_distance_metric: str = "max(abs(dt),abs(domega)/cutoff)"
+    dyadic_boundary_convention: str = (
+        "central_abs_omega_le_1; scale_s:2^(s-1)<abs_omega<=2^s"
+    )
+    git_dirty: bool = False
+    environment: dict[str, str] = field(default_factory=dict)
+    metadata: NumericalMetadata = field(default_factory=NumericalMetadata)

@@ -9231,3 +9231,41 @@ census record contract: seven cutoffs through `1e-12`, all residual/core/
 geometry histories and normalized `k/log(1+Lambda)` curves at deterministic
 revision/config/precision. Sparse-method comparisons then remain independent
 deliverables before a final original-SPEC audit can claim completion.
+
+## Phase DM — complete census diagnostics and normalized curves
+
+Frozen contract (SPEC sections 14/26, audit R25–R27): extend the seven-cutoff
+canonical 128-bit grid census to `1e-6,1e-8,1e-10,1e-12` (28 records).
+Add schema-2 `CensusRecord` output with full residual history (including the
+terminal value), signed original-core determinant history, smallest singular
+values, signed pivots and pivot magnitudes, per-pivot distances to all four
+physical boundaries, explicit signed dyadic panels, reflected coordinates,
+nearest selected reflection partner/distance and a stated matching tolerance.
+Derive prefix metadata/settings from the actual strict trajectory without
+claiming a prefix's convergence merely from a failed/uncertified certificate.
+All high-precision quantities remain canonical decimal strings.
+
+Record code revision, dirty state, effective configuration hash, grid sizes,
+runtime/dependency versions and lock digest. Canonical config requires clean
+tracked code before generation; exploratory dirty runs are labeled, not
+silently attributed to a commit. Preserve legacy schema-1 JSONL/PNG artifacts
+and hashes; write newly named schema-2 artifacts. Validate finite controls,
+history alignment, exact-zero/budget/failure paths, deterministic ordering,
+atomic output and byte-identical repeated small configurations. A second
+full canonical run must match bytes at the same revision/configuration.
+
+Extend `plot_census.py` with normalized residual curves using
+`k/log(1+Lambda)`, one deepest trajectory per cutoff, accurately labeled as
+sampled-grid numerical evidence. Keep rank-versus-cutoff plotting, disclose
+numerical zero treatment and inspect rendered output. Independent exact
+geometry/prefix tests and higher-precision sampled-core determinant/singular-
+value checks supplement existing Lean identities. Add a denser-grid check at
+representative cutoffs spanning `1…1e6`; record its limited scope rather than
+claiming continuous certification or grid independence.
+
+Numerical runtime may be substantial: resume/wait on confirmed live handles,
+never restart merely after an observation timeout. No new Lean result or
+near-optimal theorem for approximate numerical pivots is claimed. The remaining
+Phase-II sparse comparisons (R31) and final original-SPEC audit stay required.
+Use the phase skill for verification/delivery; the Lean research loop is not
+needed because this phase introduces no open formal claim.

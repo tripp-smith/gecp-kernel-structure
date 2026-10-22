@@ -255,7 +255,17 @@ def analyze_census_record(
     pivots = _decimal_sequence(record.get("pivots"), field="pivots")
     if not pivots or pivots[0] == 0:
         raise ValueError("record must contain a nonzero first pivot")
-    history = [*pivots, residual]
+    # Schema 1 retained only selected near-maximal pivots; schema 2 stores
+    # the actual sampled maxima, which need not be identical at a near tie.
+    history = (
+        _decimal_sequence(record.get("residual_history"), field="residual_history")
+        if record.get("schema_version") == 2
+        else [*pivots, residual]
+    )
+    if len(history) != len(pivots) + 1 or history[-1] != residual:
+        raise ValueError(
+            "residual history must align with pivots and terminal residual"
+        )
     if any(value == 0 for value in history[:-1]):
         raise ValueError("preterminal residual history must be nonzero")
 

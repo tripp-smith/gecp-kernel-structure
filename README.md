@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DL — complete numerical result metadata<br>
-> **Phase state:** verified; merged<br>
+> **Current phase:** DM — complete census diagnostics and normalized curves<br>
+> **Phase state:** in progress; DL complete and merged<br>
 > **Last verification:** Phase DL `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 232 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-22<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase DL merged in [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) with green CI<br>
