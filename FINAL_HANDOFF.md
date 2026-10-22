@@ -501,7 +501,11 @@ in 2004.01 wall seconds. This is a representative two-resolution study, not
 an all-cutoff resolution sweep or grid-independent-pivot claim. The combined
 report passes all 30 selected-core comparisons at 192 bits, SHA-256
 `b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
-Final root/CI and merged-head gates are still pending. None of these
+The full local root gate passes 3,633 Lean jobs, 876 axiom reports, 430 tests
+in 139.13 seconds and the clean dependency audit. Source/wheel inspection and
+an isolated installed-wheel smoke pass. Fresh exact-head CI and merged-head
+closure remain pending after an inconsistent GitHub finalization summary;
+the numerical artifacts and all test results are unchanged. None of these
 observations is a continuous certificate or new Lean
 rate theorem; R31 comparisons and the final full-SPEC audit remain required.
 
@@ -555,8 +559,8 @@ attached to these research counters.
 That historical snapshot was not an `active` or `complete` tracker report.
 The DL audit records four incomplete original-SPEC requirement groups.
 
-The DM continuation's current runtime snapshot (2026-10-22, 15:44 UTC) instead
-reports tracker status `active`, 17,909,239 aggregate goal tokens and 91,222
+The DM continuation's current runtime snapshot (2026-10-22, 16:27 UTC) instead
+reports tracker status `active`, 18,534,934 aggregate goal tokens and 93,799
 goal-accounting seconds. These are cumulative, not DM-only counters, and do
 not expose token categories or billing. Default mode, unrestricted local
 filesystem/network execution and approval policy `never` remain exposed.
@@ -611,7 +615,7 @@ are pending. The original-SPEC goal is not complete.
 | DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
-| DM — complete census diagnostics and normalized curves | in progress | schema-2 interface and focused checks implemented; full repeated census and final gates pending |
+| DM — complete census diagnostics and normalized curves | in progress | full repeated census, resolution ladder, combined checks, local 430-test root gate and package smoke pass; fresh exact-head CI/merge closure pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

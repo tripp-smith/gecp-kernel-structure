@@ -9370,3 +9370,20 @@ Denser-grid residual maxima are larger in all three cases and the common
 selected-node prefix lengths are `3,0,0`: equal ranks do not mean equal paths.
 All five committed-artifact audit tests pass. The final root/CI and merged-head
 gates remain pending; R31 and the final full-SPEC audit remain next.
+
+### DM full local gate and CI finalization recovery
+
+The full root command at `91f9b4a62c9440546d8b363da200f0c88f9bab39`
+passes 3,633 Lean jobs, all 876 permitted-axiom reports, Ruff/format (69 files),
+mypy (14 sources), 430 tests in 139.13 seconds, and the clean dependency audit.
+Final source/wheel archives include every new numerical artifact and exclude
+local notes/caches. An isolated installed-wheel smoke outside the checkout
+loads all 45 exports and exercises MP128 census diagnostics and non-integer
+physical endpoints. No package is published.
+
+PR CI run `39814069068` passes on that exact head. Push CI run `39814062885`
+has all successful job steps, including Python's `Complete job` at 16:29:58 UTC,
+but its job/run summary remains in progress. GitHub rejects cancellation as
+already completed and rejects a targeted rerun. No test or audit is waived,
+and no numerical process is restarted. Commit this actual verification and
+provenance record to obtain fresh exact-head CI before merging PR #119.

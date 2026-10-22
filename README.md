@@ -6,7 +6,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DM — complete census diagnostics and normalized curves<br>
 > **Phase state:** in progress; DL complete and merged<br>
-> **Last verification:** Phase DL `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 232 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-22<br>
+> **Last verification:** Phase DM local `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 430 tests and no known dependency vulnerabilities; exact-head CI and merge closure pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase DM draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); full primary repeat, three-cutoff resolution runs and combined numerical checks pass; final gates pending; DL merged in PR #118<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DL completes numerical result metadata; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 36/40 supported groups (90% checklist coverage) and four incomplete groups; full completion is not claimed<br>

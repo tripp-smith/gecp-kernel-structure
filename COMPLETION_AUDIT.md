@@ -18,8 +18,9 @@ verified by the full root gate (3,633 Lean jobs, 876 enforced axiom reports,
 and merged as [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118).
 DM's numerical artifacts are now present in draft PR #119: the byte-repeated
 28-case schema-2 census, actual representative order-32 runs, normalized
-plots, and 30 passing 192-bit core checks. Final root/CI and merged-head gates
-are pending. The ledger below retains the last shipped 36/40 baseline until
+plots, and 30 passing 192-bit core checks. The full 430-test local root gate
+passes; fresh exact-head CI and merged-head gates are pending. The ledger
+below retains the last shipped 36/40 baseline until
 that phase closes; presence of new files alone does not close the gate.
 
 ## Decision
