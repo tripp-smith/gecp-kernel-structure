@@ -9288,3 +9288,14 @@ full-denser-grid maximum, continuous certificate, or proof of grid independence.
 Independent 192-bit core determinant, signed pivot-product and singular-value
 checks use fixed acceptance thresholds; disagreements must be preserved and
 reported rather than fixed by adapting thresholds after seeing the data.
+
+Independent review requires the resolution component to include actual GECP
+trajectories, not just held-out selected crosses. Add clean-revision
+`experiments/census_resolution.toml`: order 32, 128 bits, tolerance `1e-12`,
+cutoffs `1,1000,1000000`. Compare these three actual denser runs with the
+canonical order-24 trajectories, including ranks, residuals, pivot-path/tie
+changes and unchanged controls. This is a representative two-resolution
+ladder, not an exhaustive all-cutoff sweep, residual-adaptive grid refinement,
+grid independence or a continuous certificate. The existing interval-adaptive
+mode remains separately tested. Retain held-out samples as complementary
+evidence, not a replacement for the actual denser runs.

@@ -23,6 +23,7 @@ experiments/data/*
 !experiments/data/gecp_census_v2.png
 !experiments/data/gecp_census_normalized.png
 !experiments/data/gecp_census_checks.json
+!experiments/data/gecp_census_resolution.jsonl
 !experiments/data/exact_surrogates.json
 !experiments/data/synthetic_applications.json
 !experiments/data/synthetic_applications.png
