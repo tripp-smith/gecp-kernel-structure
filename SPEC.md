@@ -2731,6 +2731,8 @@ This annotation records delivered identifiers without changing the goals above.
   configuration now requests four tolerances through `1e-12`, and normalized
   residual plotting plus independent higher-precision selected-core/held-out
   checks are implemented. The full repeated 28-case primary artifact and both
-  plots are present; the actual denser-grid artifact, combined checks and final
-  verification are still required. No original objective above is rewritten
+  plots are present; three actual order-32 GECP cases also converge and match
+  the corresponding order-24 ranks, with different paths. Thirty independent
+  192-bit core checks pass, with an explicit non-certification scope. Final
+  root/CI and merge verification are still required. No original objective above is rewritten
   or yet reclassified by this in-progress annotation.

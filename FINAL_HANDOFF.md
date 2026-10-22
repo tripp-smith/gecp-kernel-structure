@@ -493,8 +493,16 @@ are `9,17,37,63,91,119,146` across the seven cutoffs. Both new plots have been
 rendered, inspected and byte-repeated. The legacy artifacts and all 21 shared
 pivot/rank traces are preserved. Preliminary 192-bit primary-core checks and
 panel-spanning held-out samples pass their stated numerical checks. Actual
-denser GECP runs, the combined report and final merged-head gates are still
-pending. None of these observations is a continuous certificate or new Lean
+order-32 GECP at cutoffs `1,1000,1000000` also converges with ranks `9,63,146`,
+matching the corresponding order-24 ranks. The denser dataset is generated
+from clean `ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`,
+in 2004.01 wall seconds. This is a representative two-resolution study, not
+an all-cutoff resolution sweep or grid-independent-pivot claim. The combined
+report passes all 30 selected-core comparisons at 192 bits, SHA-256
+`b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
+Final root/CI and merged-head gates are still pending. None of these
+observations is a continuous certificate or new Lean
 rate theorem; R31 comparisons and the final full-SPEC audit remain required.
 
 ## Implementation run metadata
@@ -557,7 +565,7 @@ effort remain unavailable. DM uses one primary agent and three temporary
 subagents for plotting/validation tests, independent review/geometry tests,
 and independent numerical checking. No serving-version attribution or new
 API-equivalent price calculation is inferred. The repeated primary numerical
-artifact is present; denser-grid evidence, combined checks and final gates
+artifact, denser-grid evidence and combined checks are present; final gates
 are pending. The original-SPEC goal is not complete.
 
 ## Phase status

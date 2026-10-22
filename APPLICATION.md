@@ -248,8 +248,36 @@ are all below `9e-27`. At cutoffs `1,1000,1000000`, the stored selected crosses
 are also evaluated on `36,3960,15120` held-out point pairs, with maximum errors
 approximately `6.31e-14,6.33e-13,8.61e-13`. These are pointwise numerical
 checks, not outward-rounded bounds, all-grid maxima or continuous guarantees.
-The representative denser GECP runs and final root/CI verification are still
-pending; this primary result alone does not close the phase or R25–R27.
+The representative denser GECP runs have also completed. Combined
+higher-precision checks pass; final root/CI verification remains pending.
+These numerical results alone do not close the phase or R25–R27.
+
+### DM representative resolution results
+
+The separate order-32 artifact has three clean, converged `1e-12` records:
+
+| Cutoff | Grid shape | Order-24 / order-32 rank | Order-32 sampled residual |
+| --- | --- | --- | --- |
+| 1 | 63 × 63 | 9 / 9 | `1.78383e-13` |
+| 1,000 | 621 × 683 | 63 / 63 | `9.59729e-13` |
+| 1,000,000 | 1,279 × 1,303 | 146 / 146 | `9.71664e-13` |
+
+[`gecp_census_resolution.jsonl`](experiments/data/gecp_census_resolution.jsonl)
+records clean generator revision `ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`,
+configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+and artifact SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+Matching ranks are representative numerical observations, not evidence of
+unchanged pivot paths, exhaustive resolution convergence or grid independence.
+Actual common selected prefixes have lengths `3,0,0`; all three order-32
+sampled terminal residuals are larger than their order-24 counterparts.
+The [combined report](experiments/data/gecp_census_checks.json) preserves both
+generation revisions/source hashes and passes 30 selected-core checks at 192
+bits (21 primary and 9 resolution). All stored-determinant, signed-pivot-product
+and singular-value relative differences are below `9e-27`. This comparison
+does not confuse held-out evaluation of a fixed cross with rerunning denser
+GECP, or equate point arithmetic with interval certification.
 
 For the open GECP-rate question, `analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while
@@ -567,8 +595,8 @@ Stopping, conditioning, precision, tie, and certification metadata are unchanged
 At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
 at `1e-10`, lacked the full requested geometry/normalized curves, and the
 non-GECP result types needed fuller status metadata. DL supplies result
-metadata; DM's primary results above extend census depth and diagnostics,
-with the resolution study and final verification still pending. Listed
+metadata; DM's primary and resolution results above extend census depth and
+diagnostics; combined checks pass and final verification remains pending. Listed
 AAA/vector-fitting/Prony comparisons remain unimplemented requirements,
 not behavior silently supplied by the new exact theorem.
 

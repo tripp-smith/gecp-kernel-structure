@@ -16,6 +16,11 @@ DL adds complete numerical result metadata and related failure-path repairs,
 verified by the full root gate (3,633 Lean jobs, 876 enforced axiom reports,
 232 tests, clean dependency audit), green push/PR CI, an isolated wheel smoke,
 and merged as [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118).
+DM's numerical artifacts are now present in draft PR #119: the byte-repeated
+28-case schema-2 census, actual representative order-32 runs, normalized
+plots, and 30 passing 192-bit core checks. Final root/CI and merged-head gates
+are pending. The ledger below retains the last shipped 36/40 baseline until
+that phase closes; presence of new files alone does not close the gate.
 
 ## Decision
 
@@ -63,9 +68,9 @@ rewritten.
 | R22 | float64, arbitrary precision and exact surrogates (§15,24) | Supported | 53-bit matrix paths, `mpmath` bit settings and decimal-string `HighPrecisionData`, rational `Fraction` surrogates; sub-float64 pivot regression and independent precision checks. |
 | R23 | Cross evaluation by solves, not explicit numerical inversion (agent rules) | Supported | `gecp.py`, `applications.py`, exact/MP cross regressions use linear solves. Source scan finds no numerical inverse calls. Formal inverse notation in selected-core identities is algebraic, not a numerical implementation. |
 | R24 | Full result metadata: convergence, stopping, conditioning, precision, ties, certification (agent rules) | Supported | DL exports typed `NumericalMetadata`, `ConditioningDiagnostic`, `RefinementDiagnostic`: actual/requested precision, scoped conditioning estimates/status/history, tie policy/counts/tolerance, certification and error scopes/settings. Cholesky and sparse results carry them; GECP exposes a view over its existing evidence; fixed constructions expose non-iterative/not-applicable statuses. Schema-2 synthetic summaries preserve metadata. Final convergence is checked against the returned reconstruction/training error; candidate exhaustion, optimizer budget/failure/rejection, empty/rank-zero, nonfinite input, rank-deficient and diagnostic-failure paths are tested. JSON rejects nonfinite values; old schema-1 artifacts are preserved. No floating-point result is relabeled a proof or continuous certificate. |
-| R25 | Seven-cutoff census through at least `1e-12` (§14,26,30) | Incomplete | Config and committed data have seven cutoffs `1…1e6`, 128 bits, but only `1e-6,1e-8,1e-10` (21 records), not `1e-12`. |
-| R26 | All specified census diagnostics (§14) | Incomplete | Stored nodes, pivots, terminal residual, smallest singular values and ties are present. Full residual/determinant histories, boundary distances, dyadic labels and reflection-partner diagnostics are not all serialized as requested. Some can be reconstructed, but reconstruction is not the requested audited record. |
-| R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Incomplete | `plot_census.py` and the committed PNG show rank versus cutoff at requested tolerances, not the specified normalized residual curves. |
+| R25 | Seven-cutoff census through at least `1e-12` (§14,26,30) | Incomplete | DM's `gecp_census_v2.jsonl` contains all 28 clean-generation, converged MP128 cases and two full runs match bytes. Separate actual order-32 cases at `1,1000,1000000` converge with ranks `9,63,146`; this is representative resolution evidence, not a continuous certificate or all-cutoff resolution sweep. Final root/CI and merge gates still required. |
+| R26 | All specified census diagnostics (§14) | Incomplete | Schema-2 `CensusRecord` serializes complete sampled residual and signed original-core determinant histories, singular values, signed pivots/magnitudes, all four physical boundary distances, dyadic panels, reflected coordinates and nearest selected partners/distances/tolerance. MP strings, 53-bit coordinate versus 128-bit elimination precision, per-prefix metadata and clean revision/config/lock/runtime provenance are explicit. Thirty independent 192-bit core checks pass; final phase gates still required. |
+| R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Incomplete | `gecp_census_normalized.png` contains seven deepest compatible trajectories, rank zero included. Both new PNGs are rendered, inspected and byte-repeated; numerical-zero omission is explicit and no zeros occur here. No universal fitted law is inferred; final phase gates still required. |
 | R28 | Deterministic machine-readable experiment dataset (§26) | Supported | `census.py` records config hash/revision and canonical JSONL; `test_census.py` byte-repeats a fixed configuration. The committed 21-case data/hash is valid historical evidence, not evidence for the absent R25 cases. |
 | R29 | Particular Green functions use fewer spectral atoms with explicit error (§19,27F) | Supported | Committed synthetic suite at cutoff 8: clean four-atom library recovery has held-out error `3.33e-16`, versus the same kernel's universal GECP rank 12 at `1e-8`; noisy case and two-delta tests are separately qualified. No sparse uniqueness or optimality claim. |
 | R30 | Sparse exponential/spectral interface, OMP and nonlinear least squares (§19,20) | Supported | `SparseResult` frequencies/weights represent sums of `K(·,ω)`; `sparse.py` implements OMP and bounded nonlinear refinement; synthetic fixtures/tests expose training and held-out errors. |
@@ -97,7 +102,7 @@ rewritten.
 | 11 | R16/R17: intended large-cutoff rate proved, literal arbitrarily-small-cutoff reading refuted. |
 | 12 | A proposed approximation-to-greedy route. The successful local-minor/panel mechanism fulfills the structural objective; a separate general best-rank comparison is not claimed. |
 | 13 | Research questions, not six independently promised positive answers. Actual all-orders signs/gauge are proved; pivot-location hypotheses and counterexamples remain explicitly distinguished. |
-| 14 | R25–R27: precision/cutoff range partly present but required tolerance/diagnostic/plot scopes remain incomplete. |
+| 14 | R25–R27: DM numerical tolerance/diagnostic/plot and representative resolution artifacts are present; final phase gates pending. Interval-adaptive GECP remains separately supported/tested. |
 | 15 | R18/R22: exact small certificates and rational/high-precision evidence. |
 | 16 | R19/R21: cover theorem and adaptive certified maximizer with failure metadata. |
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
@@ -109,7 +114,7 @@ rewritten.
 | 23 | R32 plus the actual documented result spelling. |
 | 24 | R22/R24/R33: precision and ties are exposed; DL adds explicit actual/requested precision and full metadata outside GECP. Cholesky/sparse remain float64 only, honestly labeled. |
 | 25 | R34/R35: source gates and numerical tests, including tested failure paths. |
-| 26 | R28 supported reproducibility; R25/R26 retain missing data scope. |
+| 26 | R28 supported reproducibility; DM adds full requested data scope with final phase gates pending. |
 | 27 A–F | A: R03–R05; B: R06–R09; C: R10–R14; D: R15; E: R16/R17; F: R29. |
 | 28 | R17/R37/R38: no unqualified “solved Problem 4.2”, no “optimal” theorem naming, no literature-priority claim. |
 | 29 | R38 and this explicit gap ledger. |
@@ -140,8 +145,17 @@ Required maintained files exist: AGENTS, README, SPEC, FINDINGS, RESEARCH,
 APPLICATION, MATHLIB, FINAL_HANDOFF, the Lean public re-export/audit files,
 Python package/tests, pinned toolchain/locks, CI, census TOML/JSONL/PNG, exact
 surrogate JSON, and synthetic application TOML/JSON/PNG. The canonical census
-is historical 21-case evidence at revision `efe9b0041cf5c05b7ce665fcebc4b41450fd40ce`,
+includes historical 21-case evidence at revision `efe9b0041cf5c05b7ce665fcebc4b41450fd40ce`,
 SHA-256 `a0a0a58271000ddd1efcf8514d3ae404eac359a900c7ba4ebc5c92336bf38179`.
+DM's 28-case schema-2 census is generated from clean
+`c0e8c5093134f369b93781c413750b7f1de46036`, SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`;
+all 21 shared legacy pivot/rank traces remain identical. Denser data uses clean
+`ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+The independent report binds both datasets, its checker/grid sources and lock;
+all 30 selected-core comparisons pass fixed thresholds. Matching resolution
+ranks do not imply matching pivot paths: common selected prefixes are `3,0,0`.
 The synthetic suite records four atoms versus universal rank 12 and its
 documented historical revision/hash; no artifact is relabeled as a fresh run.
 
@@ -174,12 +188,15 @@ DJ/DK close the staged continuous baseline (R08/R09), not the full published
 asymptotic P-greedy theory. The remaining required targets are:
 
 1. **Census completion (R25–R27).** DL closes result metadata (R24).
-   Extend the seven-cutoff census through `1e-12`, serialize all specified
-   histories/geometry, and produce normalized residual-curve evidence. Retain
-   precision/tie/certification limitations and deterministic revision/config.
+   DM artifacts now implement the requested depth/diagnostics/plots and actual
+   representative denser runs; finish final root/CI/merge gates before closing
+   this target. Retain precision/tie/certification limitations.
 2. **Phase-II comparisons (R31).** Implement and compare the listed missing
    sparse methods on specified fixtures, with held-out errors, failure states,
    conditioning and reproducibility; do not infer sparse optimality.
+   The historical noisy dictionary includes its generating frequencies and
+   is not support-blind; new comparisons require independent candidate sets
+   and shared observations/held-out errors across methods.
 3. Repeat this audit after those implementations, then run merged/pushed-head
    gates before deciding whether the full goal is achieved.
 

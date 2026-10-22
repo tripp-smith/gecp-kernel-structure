@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress; DL complete and merged<br>
 > **Last verification:** Phase DL `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 232 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-22<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DM draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); full primary census repeat passes, resolution ladder and final gates pending; DL merged in PR #118<br>
+> **Delivery:** Phase DM draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); full primary repeat, three-cutoff resolution runs and combined numerical checks pass; final gates pending; DL merged in PR #118<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DL completes numerical result metadata; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 36/40 supported groups (90% checklist coverage) and four incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -138,7 +138,7 @@ is authoritative for the remaining goal.
 | DJ | Original-kernel fill-distance control | complete | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | verified | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
-| DM | Complete census diagnostics and normalized curves | in progress | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary census byte repeat; 192-bit checks of 21 selected cores and representative held-out crosses; denser trajectories and final gates pending | draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
+| DM | Complete census diagnostics and normalized curves | in progress | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three completed order-32 GECP runs; final gates pending | draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -318,8 +318,9 @@ seven cutoffs from 1 to `1e6`. Two full executions at the same clean generator
 revision produce identical JSONL bytes; all 21 overlapping historical
 cutoff/tolerance prefixes retain exactly the same pivots and ranks. The new
 schema records every residual/core prefix and boundary, signed dyadic-panel
-and nearest-reflection diagnostic. The separate denser-trajectory study and
-final root/CI gates are still pending, so R25–R27 are not yet marked closed.
+and nearest-reflection diagnostic. The separate denser-trajectory study has
+completed and combined numerical checks pass; final root/CI gates remain
+pending, so R25–R27 are not yet marked closed.
 
 At `1e-12`, the observed ranks are:
 
@@ -333,6 +334,27 @@ exponential law. All plotted residuals are positive; numerical zeros, if
 present in another dataset, are explicitly omitted from the logarithmic axis.
 
 ![Sampled finite-grid GECP residuals against k/log(1+cutoff), not continuous certificates](experiments/data/gecp_census_normalized.png)
+
+### Representative resolution ladder
+
+Three independent order-32 GECP trajectories also converge at `1e-12`:
+
+| Cutoff | Order-32 grid shape | Order-24 / order-32 rank | Order-32 sampled residual |
+| --- | --- | --- | --- |
+| 1 | 63 × 63 | 9 / 9 | `1.78383e-13` |
+| 1,000 | 621 × 683 | 63 / 63 | `9.59729e-13` |
+| 1,000,000 | 1,279 × 1,303 | 146 / 146 | `9.71664e-13` |
+
+The [resolution artifact](experiments/data/gecp_census_resolution.jsonl) was
+generated from clean revision `ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`,
+SHA-256 `7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+The selected paths differ: their common prefixes have lengths `3,0,0`, and
+all three order-32 terminal sampled residuals exceed their order-24 counterparts.
+Both generation revisions/source hashes are retained in the
+[combined check report](experiments/data/gecp_census_checks.json), which passes
+all 30 higher-precision core checks (21 primary and 9 resolution). Equal ranks
+do not imply grid independence, residual-adaptive refinement or continuous
+certification. Final root/CI gates remain pending.
 
 ## Delivered evidence
 

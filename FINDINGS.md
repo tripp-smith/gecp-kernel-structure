@@ -1838,10 +1838,27 @@ values are below `9e-27`. Representative stored crosses at cutoffs
 128 bits, but grid coordinates originate in float64; both scopes are recorded.
 These checks use point arithmetic and factored solves, not interval bounds.
 
-The representative denser GECP trajectories and final root/CI gates remain
-pending. R25–R27 therefore remain open until the full phase evidence is
-verified. No continuous-error certificate, exact-reflection theorem, grid
-independence, optimal tie behavior or new approximate-pivot rate is claimed.
+**Representative resolution observations:** all three independently rerun
+order-32 trajectories converge at `1e-12`. At cutoffs `1,1000,1000000`, their
+ranks are `9,63,146`, equal to the order-24 ranks; their sampled terminal
+residuals are approximately `1.78383e-13,9.59729e-13,9.71664e-13`. Grid shapes
+are `63×63,621×683,1279×1303`. These records have clean generation revision
+`ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+and artifact SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+The paths differ: exact decimal selected-node common prefixes have lengths
+`3,0,0`, and all three order-32 terminal sampled residuals are larger. Both
+generation revisions/source hashes remain in the combined report. Equal ranks
+do not establish grid independence; only three cutoffs and two grid orders
+were compared.
+
+The combined report passes all 30 selected-core checks at 192 bits, including
+nine resolution cores. Relative determinant, signed-pivot-product and
+singular-value differences remain below `9e-27`. Final root/CI gates remain
+pending; R25–R27 stay open until the full phase evidence is verified. No
+continuous-error certificate, exact-reflection theorem, grid independence,
+optimal tie behavior or new approximate-pivot rate is claimed.
 
 ## Run provenance
 

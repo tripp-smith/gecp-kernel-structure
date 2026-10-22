@@ -9347,6 +9347,26 @@ values. Fixed acceptance thresholds remain `1e-18`, `1e-18`, and `1e-15`.
 At representative cutoffs `1,1000,1000000`, the held-out Cartesian samples
 contain `36,3960,15120` points; maximum observed errors are approximately
 `6.31e-14,6.33e-13,8.61e-13`, respectively. These are point-arithmetic
-observations, not full denser-grid maxima or continuous bounds. The actual
-order-32 dataset, combined check report, final root gate and final-head CI
-remain pending.
+observations, not full denser-grid maxima or continuous bounds.
+
+The actual order-32 GECP ladder also converges at all three representative
+cutoffs, with ranks `9,63,146`, matching order 24 in these cases. Grid shapes
+are `63*63`, `621*683`, `1279*1303`; residual maxima are approximately
+`1.784e-13,9.597e-13,9.717e-13`. Equal ranks are an observation, not a
+grid-independent-path theorem. The denser dataset is generated from clean
+`ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`,
+in 2004.01 wall seconds. Core GECP, kernel, census and type source files are
+identical between the two generation revisions; the intervening grid endpoint
+repair preserves every canonical integer-cutoff grid byte. The combined
+`gecp_census_checks.json` passes all 30 selected-core comparisons at 192 bits,
+with the same discrepancy maxima as the primary checks above. Primary-core
+and held-out results exactly repeat the preliminary computation. The combined
+report SHA-256 is
+`b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
+Denser-grid residual maxima are larger in all three cases and the common
+selected-node prefix lengths are `3,0,0`: equal ranks do not mean equal paths.
+All five committed-artifact audit tests pass. The final root/CI and merged-head
+gates remain pending; R31 and the final full-SPEC audit remain next.
