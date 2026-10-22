@@ -3,6 +3,7 @@
 import copy
 import hashlib
 import json
+from decimal import Decimal
 from pathlib import Path
 
 import mpmath as mp
@@ -13,10 +14,12 @@ from experiments.check_census import (
     check_census,
     check_held_out_cross,
     check_selected_cores,
+    compare_resolution_records,
     panel_samples,
     strictest_records,
 )
 from kernelgecp.grids import composite_chebyshev_grids
+from kernelgecp.types import GECPConfig
 
 
 def _record(rank: int = 2) -> dict:
@@ -147,6 +150,16 @@ def test_full_report_is_byte_reproducible_and_binds_input(tmp_path: Path) -> Non
     assert first["status"] == "passed_numerical_core_checks"
     assert first["unavailable_representative_cutoffs"] == ["1000", "1000000"]
     assert first["certification_status"] == "not_certified"
+    root = Path(__file__).parents[1]
+    assert (
+        first["imported_grid_source_sha256"]
+        == hashlib.sha256((root / "kernelgecp/grids.py").read_bytes()).hexdigest()
+    )
+    assert (
+        first["environment"]["uv_lock_sha256"]
+        == hashlib.sha256((root / "uv.lock").read_bytes()).hexdigest()
+    )
+    assert first["environment"]["mpmath_backend"] == str(mp.libmp.BACKEND)
 
 
 def test_compatible_prefixes_select_strictest_case() -> None:
@@ -209,3 +222,152 @@ def test_held_out_requires_recorded_source_grid_order() -> None:
     record["metadata"] = {"configuration": {}}
     with pytest.raises(ValueError, match="source grid_order"):
         check_held_out_cross(record)
+
+
+@pytest.mark.parametrize(
+    ("where", "name", "value"),
+    [
+        ("record", "algorithm", "adaptive"),
+        ("metadata", "algorithm", "gecp_interval_adaptive"),
+        ("metadata", "convergence_scope", "continuous_interval_bound"),
+        ("configuration", "pivot", "adaptive"),
+    ],
+)
+def test_held_out_rejects_explicit_adaptive_or_nonsampled_labels(
+    where: str, name: str, value: str
+) -> None:
+    record = _record()
+    target = (
+        record
+        if where == "record"
+        else record["metadata"]
+        if where == "metadata"
+        else record["metadata"]["configuration"]
+    )
+    target[name] = value
+    with pytest.raises(ValueError, match="sampled grid GECP"):
+        check_held_out_cross(record, denser_order=8)
+
+
+def _resolution_record(order: int, rank: int = 2) -> dict:
+    record = _record(rank)
+    configuration = GECPConfig(
+        tol=1e-12, max_rank=12, pivot="grid", precision_bits=128, grid_order=order
+    ).normalized()
+    record.update(
+        algorithm="grid",
+        git_commit="f" * 40,
+        git_dirty=False,
+        config_hash=f"synthetic-config-grid-{order}",
+        grid_shape=[len(axis) for axis in composite_chebyshev_grids(1, order)],
+        grid_coordinate_precision_bits=53,
+        grid_generation="float64_composite_chebyshev_lobatto_dyadic_endpoint_panels",
+        tie_counts=[1] * rank,
+        converged=Decimal(record["residual"]) <= Decimal(record["tolerance"]),
+        stop_reason="tolerance" if rank == 2 else "max_rank",
+        environment={"fixture": "synthetic_not_a_recorded_run"},
+        metadata={
+            "algorithm": "gecp_grid",
+            "convergence_scope": "sampled_grid",
+            "certification_scope": "sampled_grid_only_no_continuous_certificate",
+            "configuration": {
+                **configuration,
+                "source_trajectory_tolerance": "1e-12",
+                "prefix_extraction": True,
+            },
+        },
+    )
+    return record
+
+
+def test_resolution_comparison_records_nonmonotone_rank_and_per_run_scope() -> None:
+    source, denser = _resolution_record(4), _resolution_record(8, rank=1)
+    denser["git_commit"] = "e" * 40
+    report = compare_resolution_records([source], [denser])[0]
+    assert report["rank_difference_resolution_minus_source"] == -1
+    assert report["residual_comparison"] == "resolution_larger"
+    assert report["common_selected_prefix_length"] == 1
+    assert report["controls_compatible_except_grid_order"]
+    assert report["source"]["converged"]
+    assert not report["resolution"]["converged"]
+    assert report["source"]["max_tie_count"] == 1
+    assert report["source"]["grid_shape"] != report["resolution"]["grid_shape"]
+    assert (
+        report["source"]["provenance"]["git_commit"]
+        != report["resolution"]["provenance"]["git_commit"]
+    )
+    assert report["source"]["provenance"]["revision_grid_source_sha256"] is None
+    assert report["source_grid_implementation_hashes_equal"] is None
+    assert report["certification_status"] == "not_certified"
+    assert "monotone_rank_under_grid_refinement" in report["not_claimed"]
+
+
+def test_resolution_input_is_hashed_and_cores_checked_independently(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.jsonl"
+    resolution = tmp_path / "resolution.jsonl"
+    source.write_text(json.dumps(_resolution_record(4)) + "\n", encoding="utf-8")
+    resolution.write_text(json.dumps(_resolution_record(8)) + "\n", encoding="utf-8")
+    report = check_census(source, denser_order=8, resolution_input_path=resolution)
+    ladder = report["resolution_ladder"]
+    assert ladder["input_sha256"] == hashlib.sha256(resolution.read_bytes()).hexdigest()
+    assert ladder["strictest_trajectory_count"] == 1
+    assert (
+        ladder["comparisons"][0]["source"]["provenance"]["input_sha256"]
+        == report["input_sha256"]
+    )
+    assert (
+        ladder["comparisons"][0]["resolution"]["provenance"]["input_sha256"]
+        == ladder["input_sha256"]
+    )
+    assert ladder["comparisons"][0]["common_selected_prefix_length"] == 2
+    assert ladder["selected_core_checks"][0]["status"] == "passed"
+    assert report["status"] == "passed_numerical_core_checks"
+    broken = _resolution_record(8)
+    broken["core_det_history"][-1] = "-0.1"
+    resolution.write_text(json.dumps(broken) + "\n", encoding="utf-8")
+    assert (
+        check_census(source, denser_order=8, resolution_input_path=resolution)["status"]
+        == "numerical_core_disagreement"
+    )
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("max_rank", 99, "controls differ"),
+        ("source_trajectory_tolerance", "1e-10", "controls differ"),
+        ("precision_bits", 256, "128-bit"),
+        ("grid_order", 4, "must exceed"),
+        ("pivot", "adaptive", "sampled grid GECP"),
+        ("tol", 1e-10, "effective tolerance"),
+    ],
+)
+def test_resolution_comparison_rejects_changed_controls(
+    field: str, value, message: str
+) -> None:
+    source, denser = _resolution_record(4), _resolution_record(8)
+    denser["metadata"]["configuration"][field] = value
+    with pytest.raises(ValueError, match=message):
+        compare_resolution_records([source], [denser])
+
+
+def test_resolution_comparison_rejects_missing_source_controls_shape_or_ties() -> None:
+    source, denser = _resolution_record(4), _resolution_record(8)
+    missing = copy.deepcopy(denser)
+    missing["cutoff"] = "4"
+    with pytest.raises(ValueError, match="no canonical source counterpart"):
+        compare_resolution_records([source], [missing])
+    missing = copy.deepcopy(denser)
+    del missing["metadata"]["configuration"]["tie_rtol"]
+    with pytest.raises(ValueError, match="all effective GECP controls"):
+        compare_resolution_records([source], [missing])
+    missing = copy.deepcopy(denser)
+    missing["grid_shape"] = [1, 1]
+    with pytest.raises(ValueError, match="grid_shape"):
+        compare_resolution_records([source], [missing])
+    missing = copy.deepcopy(denser)
+    missing["tie_counts"] = []
+    with pytest.raises(ValueError, match="tie_counts"):
+        compare_resolution_records([source], [missing])

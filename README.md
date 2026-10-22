@@ -227,11 +227,12 @@ downstream experiments.
 | Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
 | Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; marked-pivot witnesses and parameter boundaries are checked independently | DH gives the G1-shaped rate for every finite complete run at `Λ≥1`, without future-success assumptions; DG refutes the literal all-positive-cutoff interpretation |
 | Fermionic block contraction | Exact integer rank checks and independent actual-exponential observations supplement the proof | Every finite run on the actual cutoff `Λ≤2^s` has error `2^(-q)` once its stored count reaches `32(s+1)(33+4q)`; exact zero-complete stops may finish earlier; logarithmic constants remain `C=1024`, `c=(log 2)^2/256` |
-| Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense blind scan | These demonstrate useful forward compression and effective sparse representation, not uniqueness or general robustness of analytic continuation |
+| Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense support-augmented dictionary | These demonstrate useful forward compression and effective sparse representation, not blind support recovery, uniqueness or general robustness of analytic continuation |
 
-Together these layers cover every project objective with at least one
-executable witness, an independent numerical or exact check, and a tested
-failure path. They also preserve the central claim boundary: the package
+Together these layers provide executable witnesses, independent numerical
+or exact checks, and tested failure paths for the implemented objectives.
+The full-SPEC audit separately tracks requirements still missing. They also
+preserve the central claim boundary: the package
 thoroughly demonstrates the algebra, numerical behavior, low-rank existence,
 structural obstruction, and application transfer, but it does not manufacture
 a fermionic GECP rate from the empirical census.
@@ -245,7 +246,7 @@ the [DLR construction](https://arxiv.org/abs/2107.13094). The narrow central
 peak plus broad sidebands is a stylized version of the quasiparticle/spectral-
 weight structure emphasized in
 [DMFT studies of correlated materials](https://arxiv.org/abs/cond-mat/0403123),
-and the noisy blind scan reflects the ill-conditioned continuation setting
+and the noisy dense-dictionary scan reflects the ill-conditioned continuation setting
 encountered with imaginary-time data, as discussed in
 [parametric analytic continuation](https://arxiv.org/abs/1906.03396). These
 fixtures are scientific analogues, not simulated outputs of those papers or
@@ -265,7 +266,7 @@ and the canonical record is
 | Hubbard-like three-peak density | A 128-bit GECP run selects 12 pivots for tolerance `10⁻⁸`; on 2,001 held-out frequency nodes the kernel error is `5.40×10⁻⁹`, while the Green-function error is `4.16×10⁻¹⁰` | One universal basis compresses the frequency discretization by 166.75× and the observed Green error is only 7.70% of the rigorous discrete `L¹` transfer bound |
 | Gapped two-band density | The same 12-pivot basis gives Green error `2.91×10⁻¹⁰` below the same `5.40×10⁻⁹` transfer bound | The basis is kernel-universal rather than tuned to one density; qualitatively different metallic-like and insulating-like spectra use the same selected nodes |
 | Known transition library | Four unequal quasiparticle/satellite lines are recovered with four atoms and `3.33×10⁻¹⁶` held-out error | When physics supplies a finite candidate transition set, sparse recovery produces a directly interpretable effective Lehmann representation |
-| Noisy blind frequency scan | From deterministic `10⁻⁸`-scale time-domain noise and 1,604 candidates, eight effective atoms reach `8.56×10⁻⁹` noiseless held-out error | The package can compress a noisy Green function without claiming that the eight atoms uniquely identify the four generating lines |
+| Historical noisy dense-dictionary scan | From deterministic `10⁻⁸`-scale time-domain noise and 1,604 candidates (including explicitly added generating frequencies), eight effective atoms reach `8.56×10⁻⁹` noiseless held-out error | Compact function representation, not a support-blind recovery benchmark or unique identification of the four generating lines |
 | Clustered spatial covariance | GECP and pivoted Cholesky choose the same 31 landmarks from 72 sites; the solve-based cross has maximum error `7.78×10⁻⁷` and relative Frobenius error `1.14×10⁻⁷` | The PSD theorem becomes a practical landmark/sensor-selection control application, with matching pivot paths and positive-semidefinite residual diagnostics |
 
 The JSON record is byte-identical across repeated executions for implementation

@@ -280,8 +280,9 @@
   spectra rather than density-specific basis fitting.
 - A four-entry known transition library recovers a synthetic
   quasiparticle/satellite spectrum with four atoms and
-  `3.3306690738754696e-16` held-out error. A separate dense blind scan of 1,604
-  candidates with deterministic `1e-8`-scale input noise uses eight effective
+  `3.3306690738754696e-16` held-out error. A separate dense scan of 1,604
+  candidates (including explicitly added generating frequencies, so not
+  support-blind) with deterministic `1e-8`-scale input noise uses eight effective
   atoms and reaches `8.559113029438237e-9` error against the noiseless held-out
   Green function.
 - On a 72-site clustered Gaussian covariance, complete-pivot GECP and

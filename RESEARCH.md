@@ -9299,3 +9299,24 @@ ladder, not an exhaustive all-cutoff sweep, residual-adaptive grid refinement,
 grid independence or a continuous certificate. The existing interval-adaptive
 mode remains separately tested. Retain held-out samples as complementary
 evidence, not a replacement for the actual denser runs.
+
+Next-target review also found that the historical synthetic fixture named
+`dense_blind_scan` unions its dense candidate dictionary with the generating
+frequencies. Preserve that historical artifact and measured function errors,
+but correct the prose: it is support-augmented, not support-blind. R31's new
+comparisons must separate known libraries from independent fixed dictionaries
+and off-grid truth; no blind-recovery claim follows from the old fixture.
+
+Promising next-phase bridges (to test independently, not new formal claims):
+uniform samples have exponential nodes `z_j=exp(-h*omega_j)` and amplitudes
+`a_j=g_j/(1+exp(-omega_j))`, so a Hankel/pencil Prony fit can yield candidate
+frequencies followed by a solve in the original kernel design. At fermionic
+Matsubara `z=i*pi*(2n+1)`, direct integration gives
+`-integral_0^1 exp(z*t)*G(t) dt = sum_j g_j/(z-omega_j)` for finite atoms.
+AAA or true vector-fitting pole relocation should use that rational bridge,
+not mistake poles of a rational interpolant in time for spectral frequencies.
+All six SPEC methods should share training observations/noise and held-out
+time-domain errors; transform error, invalid poles, optimizer budgets and raw
+versus refined outcomes remain visible. Native-frequency-data cohorts must be
+separate from same-time-input comparisons. No global sparse optimality or
+unique support recovery is inferred from the smallest tested passing fit.

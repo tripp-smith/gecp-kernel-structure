@@ -784,8 +784,10 @@ git status --short
   Green errors `4.16e-10` and `2.91e-10` for the Hubbard-like and gapped
   densities, below the common `5.40e-9` discrete transfer bound.
 - The known-transition fixture is recovered with four atoms to `3.33e-16`
-  held-out error. The noisy blind scan uses eight effective atoms and reaches
-  `8.56e-9` held-out function error without claiming atom identification.
+  held-out error. The historical noisy support-augmented scan uses eight
+  effective atoms and reaches `8.56e-9` held-out function error. Its dictionary
+  includes the generating frequencies, so it is not a blind benchmark or
+  evidence for atom identification.
 - GECP and pivoted Cholesky agree on 31 of 72 covariance landmarks; the
   selected cross has maximum error `7.78e-7` and relative Frobenius error
   `1.14e-7`.

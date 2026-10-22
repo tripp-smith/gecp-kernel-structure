@@ -3,6 +3,7 @@
 These are higher-precision numerical checks, not interval certificates. The
 held-out check evaluates the *stored* selected cross on representative interior
 points of every order-32 dyadic/endpoint panel; it does not rerun denser GECP.
+An optional resolution dataset compares separately completed full-grid GECP runs.
 """
 
 from __future__ import annotations
@@ -12,14 +13,18 @@ import hashlib
 import json
 import math
 import platform
+import re
+import subprocess
 from collections.abc import Mapping, Sequence
 from decimal import Decimal, InvalidOperation
+from functools import cache
 from importlib.metadata import version
 from pathlib import Path
 from typing import Any
 
 import mpmath as mp
 
+from kernelgecp import grids as imported_grids
 from kernelgecp.grids import chebyshev_lobatto, composite_chebyshev_grids
 
 CORE_TOLERANCE = "1e-18"
@@ -32,6 +37,79 @@ HISTORIES = (
     "core_det_history",
     "core_sigma_min",
 )
+GECP_CONTROLS = {
+    "tol",
+    "max_rank",
+    "pivot",
+    "precision_bits",
+    "grid_order",
+    "certificate_abs_tol",
+    "certificate_rel_tol",
+    "max_cells",
+    "tie_rtol",
+}
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _source_configuration(record: Mapping[str, Any]) -> Mapping[str, Any]:
+    metadata = record.get("metadata")
+    if not isinstance(metadata, dict) or not isinstance(
+        metadata.get("configuration"), dict
+    ):
+        raise ValueError("checks require source configuration metadata")
+    return metadata["configuration"]
+
+
+def _validate_sampled_grid(
+    record: Mapping[str, Any], *, require_explicit: bool = False
+) -> None:
+    """Reject contradictory labels without requiring optional fixture metadata."""
+    metadata = record.get("metadata", {})
+    if not isinstance(metadata, dict):
+        metadata = {}
+    configuration = metadata.get("configuration", {})
+    if not isinstance(configuration, dict):
+        configuration = {}
+    labels = (
+        (record.get("algorithm"), "grid"),
+        (metadata.get("algorithm"), "gecp_grid"),
+        (configuration.get("pivot"), "grid"),
+        (metadata.get("convergence_scope"), "sampled_grid"),
+    )
+    if any(value is not None and value != expected for value, expected in labels):
+        raise ValueError("finite-grid checks require sampled grid GECP, not adaptive")
+    if require_explicit and not any(value is not None for value, _ in labels[:3]):
+        raise ValueError("resolution comparison requires explicit grid algorithm")
+
+
+@cache
+def _revision_grid_sha256(revision: str) -> str | None:
+    if re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+        return None
+    completed = subprocess.run(
+        ["git", "show", f"{revision}:kernelgecp/grids.py"],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        return None
+    return hashlib.sha256(completed.stdout).hexdigest()
+
+
+def _record_provenance(record: Mapping[str, Any]) -> dict[str, Any]:
+    revision = record.get("git_commit")
+    grid_hash = _revision_grid_sha256(revision) if isinstance(revision, str) else None
+    return {
+        "git_commit": revision,
+        "git_dirty": record.get("git_dirty"),
+        "config_hash": record.get("config_hash"),
+        "revision_grid_source_sha256": grid_hash,
+        "revision_grid_source_status": "recorded_revision_blob"
+        if grid_hash is not None
+        else "unavailable_recorded_revision_blob",
+        "recorded_environment": record.get("environment"),
+    }
 
 
 def _decimal(value: Any, name: str) -> Decimal:
@@ -314,15 +392,11 @@ def check_held_out_cross(
 ) -> dict[str, Any]:
     """Evaluate the final stored selected cross on a panel-spanning held-out set."""
     _validate_record(record)
+    _validate_sampled_grid(record)
     _integer(precision_bits, "check precision_bits", 54)
     if precision_bits <= record["precision_bits"]:
         raise ValueError("check precision must exceed source precision")
-    metadata = record.get("metadata")
-    if not isinstance(metadata, dict) or not isinstance(
-        metadata.get("configuration"), dict
-    ):
-        raise ValueError("held-out checks require source configuration metadata")
-    configuration = metadata["configuration"]
+    configuration = _source_configuration(record)
     source_order = _integer(configuration.get("grid_order"), "source grid_order", 2)
     times, frequencies, sampling = panel_samples(
         float(record["cutoff"]), source_order, denser_order
@@ -387,15 +461,7 @@ def check_held_out_cross(
         }
 
 
-def check_census(
-    input_path: Path,
-    *,
-    precision_bits: int = 192,
-    denser_order: int = 32,
-    representative_cutoffs: Sequence[str] = REPRESENTATIVE_CUTOFFS,
-) -> dict[str, Any]:
-    """Return deterministic independent diagnostics, including any disagreement."""
-    data = input_path.read_bytes()
+def _read_records(data: bytes) -> list[Mapping[str, Any]]:
     records = []
     for line in data.decode("utf-8").splitlines():
         if line.strip():
@@ -403,7 +469,182 @@ def check_census(
             if not isinstance(record, dict):
                 raise ValueError("census rows must be JSON objects")
             records.append(record)
+    return records
+
+
+def _resolution_case(record: Mapping[str, Any]) -> dict[str, Any]:
+    configuration = _source_configuration(record)
+    order = _integer(configuration.get("grid_order"), "source grid_order", 2)
+    shape = record.get("grid_shape")
+    expected_shape = [
+        len(axis) for axis in composite_chebyshev_grids(float(record["cutoff"]), order)
+    ]
+    if shape != expected_shape:
+        raise ValueError("recorded grid_shape disagrees with effective grid controls")
+    ties = record.get("tie_counts")
+    if (
+        not isinstance(ties, list)
+        or len(ties) != record["rank"]
+        or any(type(value) is not int or value < 1 for value in ties)
+    ):
+        raise ValueError("resolution comparison requires aligned positive tie_counts")
+    if type(record.get("converged")) is not bool or not isinstance(
+        record.get("stop_reason"), str
+    ):
+        raise ValueError("resolution comparison requires recorded convergence and stop")
+    metadata = record["metadata"]
+    return {
+        "provenance": _record_provenance(record),
+        "effective_configuration": dict(configuration),
+        "grid_order": order,
+        "grid_shape": shape,
+        "grid_coordinate_precision_bits": record.get("grid_coordinate_precision_bits"),
+        "grid_generation": record.get("grid_generation"),
+        "rank": record["rank"],
+        "residual": record["residual"],
+        "tolerance": record["tolerance"],
+        "precision_bits": record["precision_bits"],
+        "max_tie_count": max(ties) if ties else None,
+        "converged": record["converged"],
+        "stop_reason": record["stop_reason"],
+        "recorded_convergence_scope": metadata.get("convergence_scope"),
+        "recorded_certification_scope": metadata.get("certification_scope"),
+        "comparison_sampling_scope": "each_run_full_finite_training_grid_only",
+    }
+
+
+def compare_resolution_records(
+    source_trajectories: Sequence[Mapping[str, Any]],
+    resolution_trajectories: Sequence[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Compare actual GECP runs at changed resolution, without rank monotonicity."""
+    source = {Decimal(record["cutoff"]): record for record in source_trajectories}
+    comparisons = []
+    for denser in resolution_trajectories:
+        _validate_record(denser)
+        cutoff = Decimal(denser["cutoff"])
+        if cutoff not in source:
+            raise ValueError("resolution case has no canonical source counterpart")
+        original = source[cutoff]
+        _validate_record(original)
+        for record in (original, denser):
+            _validate_sampled_grid(record, require_explicit=True)
+            configuration = _source_configuration(record)
+            if not GECP_CONTROLS.issubset(configuration):
+                raise ValueError(
+                    "resolution comparison requires all effective GECP controls"
+                )
+            if (
+                record["precision_bits"] != 128
+                or configuration["precision_bits"] != 128
+            ):
+                raise ValueError("resolution comparison requires 128-bit source runs")
+            if Decimal(str(configuration["tol"])) != Decimal(record["tolerance"]):
+                raise ValueError(
+                    "effective tolerance disagrees with recorded tolerance"
+                )
+        original_configuration = dict(_source_configuration(original))
+        denser_configuration = dict(_source_configuration(denser))
+        original_order = _integer(
+            original_configuration.pop("grid_order"), "source grid_order", 2
+        )
+        denser_order = _integer(
+            denser_configuration.pop("grid_order"), "resolution grid_order", 2
+        )
+        if denser_order <= original_order:
+            raise ValueError("resolution grid_order must exceed source grid_order")
+        if (
+            Decimal(original["tolerance"]) != Decimal(denser["tolerance"])
+            or original_configuration != denser_configuration
+        ):
+            raise ValueError("effective GECP controls differ beyond grid_order")
+        original_case, denser_case = (
+            _resolution_case(record) for record in (original, denser)
+        )
+        common_prefix = 0
+        for t, w, other_t, other_w in zip(
+            original["t_nodes"],
+            original["omega_nodes"],
+            denser["t_nodes"],
+            denser["omega_nodes"],
+            strict=False,
+        ):
+            if (Decimal(t), Decimal(w)) != (Decimal(other_t), Decimal(other_w)):
+                break
+            common_prefix += 1
+        original_grid_hash = original_case["provenance"]["revision_grid_source_sha256"]
+        denser_grid_hash = denser_case["provenance"]["revision_grid_source_sha256"]
+        comparisons.append(
+            {
+                "cutoff": original["cutoff"],
+                "source": original_case,
+                "resolution": denser_case,
+                "controls_compatible_except_grid_order": True,
+                "source_grid_implementation_hashes_equal": (
+                    original_grid_hash == denser_grid_hash
+                    if original_grid_hash is not None and denser_grid_hash is not None
+                    else None
+                ),
+                "rank_difference_resolution_minus_source": denser["rank"]
+                - original["rank"],
+                "residual_comparison": (
+                    "resolution_smaller"
+                    if Decimal(denser["residual"]) < Decimal(original["residual"])
+                    else "equal"
+                    if Decimal(denser["residual"]) == Decimal(original["residual"])
+                    else "resolution_larger"
+                ),
+                "common_selected_prefix_length": common_prefix,
+                "common_prefix_definition": "exact_decimal_node_pairs_in_pivot_order",
+                "status": "observed_resolution_comparison",
+                "certification_status": "not_certified",
+                "scope": "separate_full_finite_grid_GECP_runs",
+                "not_claimed": [
+                    "monotone_rank_under_grid_refinement",
+                    "nested_grids",
+                    "continuous_residual_bound",
+                    "grid_independent_pivot_trajectory",
+                ],
+            }
+        )
+    return comparisons
+
+
+def check_census(
+    input_path: Path,
+    *,
+    precision_bits: int = 192,
+    denser_order: int = 32,
+    representative_cutoffs: Sequence[str] = REPRESENTATIVE_CUTOFFS,
+    resolution_input_path: Path | None = None,
+) -> dict[str, Any]:
+    """Return deterministic independent diagnostics, including any disagreement."""
+    data = input_path.read_bytes()
+    records = _read_records(data)
     trajectories = strictest_records(records)
+    resolution = None
+    resolution_trajectories = []
+    if resolution_input_path is not None:
+        resolution_data = resolution_input_path.read_bytes()
+        resolution_records = _read_records(resolution_data)
+        resolution_trajectories = strictest_records(resolution_records)
+        resolution = {
+            "input_sha256": hashlib.sha256(resolution_data).hexdigest(),
+            "source_record_count": len(resolution_records),
+            "strictest_trajectory_count": len(resolution_trajectories),
+            "comparisons": compare_resolution_records(
+                trajectories, resolution_trajectories
+            ),
+            "scope": "actual_GECP_resolution_ladder_not_held_out_cross_re_evaluation",
+            "certification_status": "not_certified",
+        }
+        for comparison in resolution["comparisons"]:
+            comparison["source"]["provenance"]["input_sha256"] = hashlib.sha256(
+                data
+            ).hexdigest()
+            comparison["resolution"]["provenance"]["input_sha256"] = resolution[
+                "input_sha256"
+            ]
     representatives = {
         _decimal(value, "representative cutoff") for value in representative_cutoffs
     }
@@ -417,16 +658,34 @@ def check_census(
         for record in trajectories
         if Decimal(record["cutoff"]) in representatives
     ]
+    resolution_core_checks = [
+        check_selected_cores(record, precision_bits)
+        for record in resolution_trajectories
+    ]
+    if resolution is not None:
+        resolution["selected_core_checks"] = resolution_core_checks
+        resolution["status"] = (
+            "passed_numerical_core_checks"
+            if all(case["status"] != "disagreement" for case in resolution_core_checks)
+            else "numerical_core_disagreement"
+        )
     return {
         "schema_version": 1,
         "input_sha256": hashlib.sha256(data).hexdigest(),
         "checker_source_sha256": hashlib.sha256(
             Path(__file__).read_bytes()
         ).hexdigest(),
+        "imported_grid_source_sha256": hashlib.sha256(
+            Path(imported_grids.__file__).read_bytes()
+        ).hexdigest(),
         "environment": {
             "python": platform.python_version(),
             "mpmath": version("mpmath"),
             "numpy": version("numpy"),
+            "mpmath_backend": str(mp.libmp.BACKEND),
+            "uv_lock_sha256": hashlib.sha256(
+                (PROJECT_ROOT / "uv.lock").read_bytes()
+            ).hexdigest(),
         },
         "precision_bits": precision_bits,
         "source_record_count": len(records),
@@ -448,13 +707,17 @@ def check_census(
         ),
         "selected_core_checks": core_checks,
         "held_out_cross_checks": held_out,
+        "resolution_ladder": resolution,
         "unavailable_representative_cutoffs": [
             str(value)
             for value in sorted(representatives)
             if value not in {Decimal(record["cutoff"]) for record in trajectories}
         ],
         "status": "passed_numerical_core_checks"
-        if all(case["status"] != "disagreement" for case in core_checks)
+        if all(
+            case["status"] != "disagreement"
+            for case in (*core_checks, *resolution_core_checks)
+        )
         else "numerical_core_disagreement",
         "certification_status": "not_certified",
         "scope": "independent_point_arithmetic_and_held_out_selected_cross_evidence",
@@ -467,9 +730,13 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--precision-bits", type=int, default=192)
     parser.add_argument("--denser-order", type=int, default=32)
+    parser.add_argument("--resolution-input", type=Path)
     args = parser.parse_args()
     report = check_census(
-        args.input, precision_bits=args.precision_bits, denser_order=args.denser_order
+        args.input,
+        precision_bits=args.precision_bits,
+        denser_order=args.denser_order,
+        resolution_input_path=args.resolution_input,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.output.with_suffix(args.output.suffix + ".tmp")

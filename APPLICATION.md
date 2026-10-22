@@ -130,11 +130,13 @@ respectively, below the common `5.40e-9` transfer bound.
 
 The sparse results deliberately name their candidate strategy. The clean
 quasiparticle/satellite fixture uses a four-entry known transition library and
-recovers it to `3.33e-16` held-out error. The noisy fixture performs a blind
-scan over 1,604 frequencies; its eight effective atoms reproduce the
+recovers it to `3.33e-16` held-out error. The historical noisy fixture scans
+1,604 frequencies, including the four generating frequencies explicitly
+added to its dense dictionary; it is not support-blind. Its eight effective atoms reproduce the
 underlying noiseless Green function to `8.56e-9`. The latter is a compact
 function representation, not evidence that the four generating frequencies
-were uniquely recovered.
+were uniquely recovered. New method comparisons must use a fixed dictionary
+independent of the generating support, with known-library cases separate.
 
 The PSD fixture generates 72 clustered synthetic sensor locations and a
 smooth Gaussian covariance. Complete-pivot GECP and diagonal-pivoted Cholesky
@@ -156,8 +158,12 @@ uv run python -m kernelgecp.census \
 uv run python experiments/plot_census.py \
   experiments/data/gecp_census_v2.jsonl \
   experiments/data/gecp_census_normalized.png --mode normalized
+uv run python -m kernelgecp.census \
+  --config experiments/census_resolution.toml \
+  --output experiments/data/gecp_census_resolution.jsonl
 uv run python experiments/check_census.py \
   --input experiments/data/gecp_census_v2.jsonl \
+  --resolution-input experiments/data/gecp_census_resolution.jsonl \
   --output experiments/data/gecp_census_checks.json
 uv run python experiments/exact_surrogates.py
 uv run python experiments/synthetic_applications.py \
@@ -202,6 +208,15 @@ higher precision and evaluates fixed selected crosses on denser held-out
 panel samples using a factored solve. This is a resolution-sensitivity check,
 not a denser GECP trajectory, a continuous supremum certificate, or proof of
 grid independence.
+
+The separate resolution configuration does run GECP again at order 32 for
+cutoffs `1,1000,1000000`, at the same 128-bit precision and `1e-12` tolerance.
+The report compares those actual trajectories with order 24, preserving ranks,
+residuals, selected-path/tie changes and both generation revisions. A sampled
+rank need not decrease when the grid becomes denser. This representative
+two-resolution ladder is not residual-adaptive grid refinement or an
+exhaustive all-cutoff resolution study. The adaptive interval GECP API and
+its success/budget-failure tests remain separate evidence.
 
 For the open GECP-rate question, `analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while
