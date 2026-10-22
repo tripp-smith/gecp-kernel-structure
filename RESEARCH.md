@@ -9231,3 +9231,159 @@ census record contract: seven cutoffs through `1e-12`, all residual/core/
 geometry histories and normalized `k/log(1+Lambda)` curves at deterministic
 revision/config/precision. Sparse-method comparisons then remain independent
 deliverables before a final original-SPEC audit can claim completion.
+
+## Phase DM — complete census diagnostics and normalized curves
+
+Frozen contract (SPEC sections 14/26, audit R25–R27): extend the seven-cutoff
+canonical 128-bit grid census to `1e-6,1e-8,1e-10,1e-12` (28 records).
+Add schema-2 `CensusRecord` output with full residual history (including the
+terminal value), signed original-core determinant history, smallest singular
+values, signed pivots and pivot magnitudes, per-pivot distances to all four
+physical boundaries, explicit signed dyadic panels, reflected coordinates,
+nearest selected reflection partner/distance and a stated matching tolerance.
+Derive prefix metadata/settings from the actual strict trajectory without
+claiming a prefix's convergence merely from a failed/uncertified certificate.
+All high-precision quantities remain canonical decimal strings.
+
+Record code revision, dirty state, effective configuration hash, grid sizes,
+runtime/dependency versions and lock digest. Canonical config requires clean
+tracked code before generation; exploratory dirty runs are labeled, not
+silently attributed to a commit. Preserve legacy schema-1 JSONL/PNG artifacts
+and hashes; write newly named schema-2 artifacts. Validate finite controls,
+history alignment, exact-zero/budget/failure paths, deterministic ordering,
+atomic output and byte-identical repeated small configurations. A second
+full canonical run must match bytes at the same revision/configuration.
+
+Extend `plot_census.py` with normalized residual curves using
+`k/log(1+Lambda)`, one deepest trajectory per cutoff, accurately labeled as
+sampled-grid numerical evidence. Keep rank-versus-cutoff plotting, disclose
+numerical zero treatment and inspect rendered output. Independent exact
+geometry/prefix tests and higher-precision sampled-core determinant/singular-
+value checks supplement existing Lean identities. Add a denser-grid check at
+representative cutoffs spanning `1…1e6`; record its limited scope rather than
+claiming continuous certification or grid independence.
+
+Numerical runtime may be substantial: resume/wait on confirmed live handles,
+never restart merely after an observation timeout. No new Lean result or
+near-optimal theorem for approximate numerical pivots is claimed. The remaining
+Phase-II sparse comparisons (R31) and final original-SPEC audit stay required.
+Use the phase skill for verification/delivery; the Lean research loop is not
+needed because this phase introduces no open formal claim.
+
+### DM implementation checks
+
+The immutable numerical-generator/configuration snapshot is
+`c0e8c5093134f369b93781c413750b7f1de46036`. Two complete canonical runs were
+started from its clean tracked tree. Subsequent review repaired non-integer
+outer frequency endpoints without changing any canonical integer-cutoff grid
+byte, rejected adaptive/unsuccessful inputs in finite-grid plots, and rejected
+negative schema-2 residual maxima in block analysis. These scope repairs do
+not relabel the dataset's actual generation revision as a later commit.
+
+The complementary held-out check is a fixed-selected-cross sample:
+up to three source-disjoint order-32 interior coordinates in every endpoint/
+dyadic panel per axis, Cartesian product, evaluated at 192 bits using one LU
+factorization and batched triangular solves. It is not a denser GECP rerun,
+full-denser-grid maximum, continuous certificate, or proof of grid independence.
+Independent 192-bit core determinant, signed pivot-product and singular-value
+checks use fixed acceptance thresholds; disagreements must be preserved and
+reported rather than fixed by adapting thresholds after seeing the data.
+
+Independent review requires the resolution component to include actual GECP
+trajectories, not just held-out selected crosses. Add clean-revision
+`experiments/census_resolution.toml`: order 32, 128 bits, tolerance `1e-12`,
+cutoffs `1,1000,1000000`. Compare these three actual denser runs with the
+canonical order-24 trajectories, including ranks, residuals, pivot-path/tie
+changes and unchanged controls. This is a representative two-resolution
+ladder, not an exhaustive all-cutoff sweep, residual-adaptive grid refinement,
+grid independence or a continuous certificate. The existing interval-adaptive
+mode remains separately tested. Retain held-out samples as complementary
+evidence, not a replacement for the actual denser runs.
+
+Next-target review also found that the historical synthetic fixture named
+`dense_blind_scan` unions its dense candidate dictionary with the generating
+frequencies. Preserve that historical artifact and measured function errors,
+but correct the prose: it is support-augmented, not support-blind. R31's new
+comparisons must separate known libraries from independent fixed dictionaries
+and off-grid truth; no blind-recovery claim follows from the old fixture.
+
+Promising next-phase bridges (to test independently, not new formal claims):
+uniform samples have exponential nodes `z_j=exp(-h*omega_j)` and amplitudes
+`a_j=g_j/(1+exp(-omega_j))`, so a Hankel/pencil Prony fit can yield candidate
+frequencies followed by a solve in the original kernel design. At fermionic
+Matsubara `z=i*pi*(2n+1)`, direct integration gives
+`-integral_0^1 exp(z*t)*G(t) dt = sum_j g_j/(z-omega_j)` for finite atoms.
+AAA or true vector-fitting pole relocation should use that rational bridge,
+not mistake poles of a rational interpolant in time for spectral frequencies.
+All six SPEC methods should share training observations/noise and held-out
+time-domain errors; transform error, invalid poles, optimizer budgets and raw
+versus refined outcomes remain visible. Native-frequency-data cohorts must be
+separate from same-time-input comparisons. No global sparse optimality or
+unique support recovery is inferred from the smallest tested passing fit.
+
+### DM numerical results (final gates pending)
+
+The 28-record canonical schema-2 JSONL is generated from clean
+`c0e8c5093134f369b93781c413750b7f1de46036`, configuration hash
+`c0ac1bbaa7ddb39a2bb4a1c306985386f89f4103ff75cb4e21f99257e1e9f31b`,
+with SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`.
+Both full runs match byte for byte; observed wall times were 1496.40 and
+1508.07 seconds while running concurrently. All cases converge on their
+sampled grids. For cutoffs `1,10,100,1000,10000,100000,1000000`, strictest
+`1e-12` ranks are `9,17,37,63,91,119,146`. All 21 shared legacy tolerance
+cases retain the exact previous signed pivot strings and ranks; the legacy
+JSONL/PNG hashes are unchanged.
+
+The rank and normalized plots render correctly and repeat byte-identically.
+No numerical zero samples occur. Large-cutoff normalized trajectories lie on
+a similar scale, but do not coincide; the cutoff-one curve is visibly
+different. No common fitted law or new rate is inferred from that picture.
+
+The preliminary 192-bit primary-core analysis passes all 21 selected-core
+checks: maximum relative discrepancies are below `4.45e-27` for determinants,
+`6.33e-27` for signed pivot products, and `8.70e-27` for smallest singular
+values. Fixed acceptance thresholds remain `1e-18`, `1e-18`, and `1e-15`.
+At representative cutoffs `1,1000,1000000`, the held-out Cartesian samples
+contain `36,3960,15120` points; maximum observed errors are approximately
+`6.31e-14,6.33e-13,8.61e-13`, respectively. These are point-arithmetic
+observations, not full denser-grid maxima or continuous bounds.
+
+The actual order-32 GECP ladder also converges at all three representative
+cutoffs, with ranks `9,63,146`, matching order 24 in these cases. Grid shapes
+are `63*63`, `621*683`, `1279*1303`; residual maxima are approximately
+`1.784e-13,9.597e-13,9.717e-13`. Equal ranks are an observation, not a
+grid-independent-path theorem. The denser dataset is generated from clean
+`ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`,
+in 2004.01 wall seconds. Core GECP, kernel, census and type source files are
+identical between the two generation revisions; the intervening grid endpoint
+repair preserves every canonical integer-cutoff grid byte. The combined
+`gecp_census_checks.json` passes all 30 selected-core comparisons at 192 bits,
+with the same discrepancy maxima as the primary checks above. Primary-core
+and held-out results exactly repeat the preliminary computation. The combined
+report SHA-256 is
+`b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
+Denser-grid residual maxima are larger in all three cases and the common
+selected-node prefix lengths are `3,0,0`: equal ranks do not mean equal paths.
+All five committed-artifact audit tests pass. The final root/CI and merged-head
+gates remain pending; R31 and the final full-SPEC audit remain next.
+
+### DM full local gate and CI finalization recovery
+
+The full root command at `91f9b4a62c9440546d8b363da200f0c88f9bab39`
+passes 3,633 Lean jobs, all 876 permitted-axiom reports, Ruff/format (69 files),
+mypy (14 sources), 430 tests in 139.13 seconds, and the clean dependency audit.
+Final source/wheel archives include every new numerical artifact and exclude
+local notes/caches. An isolated installed-wheel smoke outside the checkout
+loads all 45 exports and exercises MP128 census diagnostics and non-integer
+physical endpoints. No package is published.
+
+PR CI run `39814069068` passes on that exact head. Push CI run `39814062885`
+has all successful job steps, including Python's `Complete job` at 16:29:58 UTC,
+but its job/run summary remains in progress. GitHub rejects cancellation as
+already completed and rejects a targeted rerun. No test or audit is waived,
+and no numerical process is restarted. Commit this actual verification and
+provenance record to obtain fresh exact-head CI before merging PR #119.

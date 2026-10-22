@@ -483,6 +483,32 @@ pass 3,633 Lean jobs, 876 enforced axiom reports, 232 tests and a clean
 dependency audit after targeted certifi/pillow lock updates. PNG and isolated
 wheel smoke checks and push/PR CI pass; merged as PR #118.
 
+Post-v1 Phase DM is in progress in draft PR #119. The full schema-2 census
+contains 28 converged sampled-grid cases through `1e-12`, with complete
+residual/core and geometry histories. Two full runs from clean generator
+`c0e8c5093134f369b93781c413750b7f1de46036` match bytes, SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`;
+observed concurrent wall times are 1496.40 and 1508.07 seconds. Strictest ranks
+are `9,17,37,63,91,119,146` across the seven cutoffs. Both new plots have been
+rendered, inspected and byte-repeated. The legacy artifacts and all 21 shared
+pivot/rank traces are preserved. Preliminary 192-bit primary-core checks and
+panel-spanning held-out samples pass their stated numerical checks. Actual
+order-32 GECP at cutoffs `1,1000,1000000` also converges with ranks `9,63,146`,
+matching the corresponding order-24 ranks. The denser dataset is generated
+from clean `ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`,
+in 2004.01 wall seconds. This is a representative two-resolution study, not
+an all-cutoff resolution sweep or grid-independent-pivot claim. The combined
+report passes all 30 selected-core comparisons at 192 bits, SHA-256
+`b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
+The full local root gate passes 3,633 Lean jobs, 876 axiom reports, 430 tests
+in 139.13 seconds and the clean dependency audit. Source/wheel inspection and
+an isolated installed-wheel smoke pass. Fresh exact-head CI and merged-head
+closure remain pending after an inconsistent GitHub finalization summary;
+the numerical artifacts and all test results are unchanged. None of these
+observations is a continuous certificate or new Lean
+rate theorem; R31 comparisons and the final full-SPEC audit remain required.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -517,7 +543,7 @@ credit, or internal compute cost. They exclude cache discounts, long-context
 premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
-The post-v1 research goal remains incomplete. A runtime snapshot on
+The post-v1 research goal remains incomplete. A historical runtime snapshot on
 2026-10-22 at 09:38 UTC returned 17,290,841 aggregate goal tokens and 90,256
 goal-accounting seconds with tracker status `usageLimited`. These cumulative
 counters are not Phase DL-only usage, have not advanced between the observed
@@ -530,9 +556,21 @@ agent and unrestricted local filesystem/network access. DL used two temporary
 subagents for metadata tests and read-only review; exact serving versions are
 not exposed. No new pricing estimate is
 attached to these research counters.
-The latest user request continues the objective, but this snapshot is not an
-`active` or `complete` tracker report. The DL audit records four incomplete original-SPEC
-requirement groups. The proved central exact-GECP rate does not close those gaps.
+That historical snapshot was not an `active` or `complete` tracker report.
+The DL audit records four incomplete original-SPEC requirement groups.
+
+The DM continuation's current runtime snapshot (2026-10-22, 16:27 UTC) instead
+reports tracker status `active`, 18,534,934 aggregate goal tokens and 93,799
+goal-accounting seconds. These are cumulative, not DM-only counters, and do
+not expose token categories or billing. Default mode, unrestricted local
+filesystem/network execution and approval policy `never` remain exposed.
+The declared family is Codex based on GPT-5; exact model/version and reasoning
+effort remain unavailable. DM uses one primary agent and three temporary
+subagents for plotting/validation tests, independent review/geometry tests,
+and independent numerical checking. No serving-version attribution or new
+API-equivalent price calculation is inferred. The repeated primary numerical
+artifact, denser-grid evidence and combined checks are present; final gates
+are pending. The original-SPEC goal is not complete.
 
 ## Phase status
 
@@ -577,6 +615,7 @@ requirement groups. The proved central exact-GECP rate does not close those gaps
 | DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
+| DM — complete census diagnostics and normalized curves | in progress | full repeated census, resolution ladder, combined checks, local 430-test root gate and package smoke pass; fresh exact-head CI/merge closure pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -772,8 +811,10 @@ git status --short
   Green errors `4.16e-10` and `2.91e-10` for the Hubbard-like and gapped
   densities, below the common `5.40e-9` discrete transfer bound.
 - The known-transition fixture is recovered with four atoms to `3.33e-16`
-  held-out error. The noisy blind scan uses eight effective atoms and reaches
-  `8.56e-9` held-out function error without claiming atom identification.
+  held-out error. The historical noisy support-augmented scan uses eight
+  effective atoms and reaches `8.56e-9` held-out function error. Its dictionary
+  includes the generating frequencies, so it is not a blind benchmark or
+  evidence for atom identification.
 - GECP and pivoted Cholesky agree on 31 of 72 covariance landmarks; the
   selected cross has maximum error `7.78e-7` and relative Frobenius error
   `1.14e-7`.

@@ -130,11 +130,13 @@ respectively, below the common `5.40e-9` transfer bound.
 
 The sparse results deliberately name their candidate strategy. The clean
 quasiparticle/satellite fixture uses a four-entry known transition library and
-recovers it to `3.33e-16` held-out error. The noisy fixture performs a blind
-scan over 1,604 frequencies; its eight effective atoms reproduce the
+recovers it to `3.33e-16` held-out error. The historical noisy fixture scans
+1,604 frequencies, including the four generating frequencies explicitly
+added to its dense dictionary; it is not support-blind. Its eight effective atoms reproduce the
 underlying noiseless Green function to `8.56e-9`. The latter is a compact
 function representation, not evidence that the four generating frequencies
-were uniquely recovered.
+were uniquely recovered. New method comparisons must use a fixed dictionary
+independent of the generating support, with known-library cases separate.
 
 The PSD fixture generates 72 clustered synthetic sensor locations and a
 smooth Gaussian covariance. Complete-pivot GECP and diagonal-pivoted Cholesky
@@ -152,7 +154,20 @@ claims.
 ```bash
 uv run python -m kernelgecp.census \
   --config experiments/census.toml \
-  --output experiments/data/gecp_census.jsonl
+  --output experiments/data/gecp_census_v2.jsonl
+uv run python experiments/plot_census.py \
+  experiments/data/gecp_census_v2.jsonl \
+  experiments/data/gecp_census_normalized.png --mode normalized
+uv run python experiments/plot_census.py \
+  experiments/data/gecp_census_v2.jsonl \
+  experiments/data/gecp_census_v2.png
+uv run python -m kernelgecp.census \
+  --config experiments/census_resolution.toml \
+  --output experiments/data/gecp_census_resolution.jsonl
+uv run python -m experiments.check_census \
+  --input experiments/data/gecp_census_v2.jsonl \
+  --resolution-input experiments/data/gecp_census_resolution.jsonl \
+  --output experiments/data/gecp_census_checks.json
 uv run python experiments/exact_surrogates.py
 uv run python experiments/synthetic_applications.py \
   --config experiments/synthetic_applications.toml \
@@ -162,9 +177,107 @@ uv run python experiments/synthetic_applications.py \
 
 Runtime algorithms require no network access. The canonical census evaluates
 endpoint-refined grids at 128-bit precision and records decimal strings. Its
-three tolerance records per cutoff are exact prefixes of one strict trajectory;
-the checked dataset is byte-reproducible. Adaptive interval certification is a
+four tolerance records per cutoff are prefixes of one strict trajectory down
+to `1e-12`. The canonical config requires a clean tracked revision before
+generation; exploratory configurations may opt out and record their dirty
+state. The historical schema-1 `gecp_census.jsonl` and PNG are preserved;
+new schema-2 output uses separate names. Adaptive interval certification is a
 separate, more expensive continuous-domain mode.
+
+Schema 2 includes the actual sampled residual maxima (rank + 1 values), signed
+original-core determinants, singular values, signed pivots and magnitudes,
+boundary distances, dyadic scales/panels, and reflection diagnostics at every
+prefix. Each tolerance record recomputes its nearest selected reflection
+partners, including fixed-point self-partners, rather than slicing partner
+indices from a later prefix. Distances use
+`max(abs(dt), abs(domega)/cutoff)`; a match within the recorded tolerance is
+numerical proximity, not an exact symmetry theorem. The central panel has
+`abs(omega) <= 1`; scale `s > 0` means
+`2^(s-1) < abs(omega) <= 2^s`, with sign recorded separately.
+
+Elimination is 128-bit but the composite Chebyshev grid coordinates originate
+in float64 (53 bits); both precisions are exposed. Revision, dirty state,
+configuration hash, grid shape, Python/dependency versions, mpmath backend
+and lock digest describe provenance. No timestamps or runtime-dependent order
+are included in byte-reproducible JSONL. Prefix metadata distinguishes the
+requested tolerance from the source trajectory's strict tolerance. An
+uncertified adaptive terminal upper bound cannot establish convergence.
+
+Normalized plotting uses the deepest compatible trajectory once per cutoff
+and every `k/log(1+cutoff)` residual value, including rank zero. Exact numerical
+zeros are omitted from the log display and disclosed, not replaced with a
+positive floor. Both plotting modes reject explicitly non-grid algorithms,
+non-sampled convergence scopes and unsuccessful records, rather than labeling
+an adaptive upper bound or a budget-limited rank as converged grid evidence.
+Legacy records with absent optional metadata remain accepted. The independent
+check script recomputes selected cores at
+higher precision and evaluates fixed selected crosses on denser held-out
+panel samples using a factored solve. This is a resolution-sensitivity check,
+not a denser GECP trajectory, a continuous supremum certificate, or proof of
+grid independence.
+
+The separate resolution configuration does run GECP again at order 32 for
+cutoffs `1,1000,1000000`, at the same 128-bit precision and `1e-12` tolerance.
+The report compares those actual trajectories with order 24, preserving ranks,
+residuals, selected-path/tie changes and both generation revisions. A sampled
+rank need not decrease when the grid becomes denser. This representative
+two-resolution ladder is not residual-adaptive grid refinement or an
+exhaustive all-cutoff resolution study. The adaptive interval GECP API and
+its success/budget-failure tests remain separate evidence.
+
+### DM primary numerical results (phase in progress)
+
+The schema-2 primary artifact
+[`gecp_census_v2.jsonl`](experiments/data/gecp_census_v2.jsonl) contains 28
+converged records at seven cutoffs and tolerances `1e-6,1e-8,1e-10,1e-12`.
+Two complete runs from clean generator revision
+`c0e8c5093134f369b93781c413750b7f1de46036`, with configuration SHA-256
+`c0ac1bbaa7ddb39a2bb4a1c306985386f89f4103ff75cb4e21f99257e1e9f31b`,
+produce identical JSONL bytes with SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`.
+The `1e-12` ranks are `9,17,37,63,91,119,146` in increasing cutoff order.
+All 21 prefixes shared with the preserved legacy artifact have exactly the
+same pivots and ranks. The newly rendered rank and normalized-residual plots
+show sampled behavior; the normalized curves do not collapse exactly onto
+one exponential curve, and this artifact has no numerical zero residuals.
+
+Independent 192-bit point arithmetic recomputes rank-one, middle and terminal
+selected cores for each strictest trajectory (21 cores). Relative differences
+in stored determinants, signed pivot products and smallest singular values
+are all below `9e-27`. At cutoffs `1,1000,1000000`, the stored selected crosses
+are also evaluated on `36,3960,15120` held-out point pairs, with maximum errors
+approximately `6.31e-14,6.33e-13,8.61e-13`. These are pointwise numerical
+checks, not outward-rounded bounds, all-grid maxima or continuous guarantees.
+The representative denser GECP runs have also completed. Combined
+higher-precision checks pass; final root/CI verification remains pending.
+These numerical results alone do not close the phase or R25–R27.
+
+### DM representative resolution results
+
+The separate order-32 artifact has three clean, converged `1e-12` records:
+
+| Cutoff | Grid shape | Order-24 / order-32 rank | Order-32 sampled residual |
+| --- | --- | --- | --- |
+| 1 | 63 × 63 | 9 / 9 | `1.78383e-13` |
+| 1,000 | 621 × 683 | 63 / 63 | `9.59729e-13` |
+| 1,000,000 | 1,279 × 1,303 | 146 / 146 | `9.71664e-13` |
+
+[`gecp_census_resolution.jsonl`](experiments/data/gecp_census_resolution.jsonl)
+records clean generator revision `ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`,
+configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+and artifact SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+Matching ranks are representative numerical observations, not evidence of
+unchanged pivot paths, exhaustive resolution convergence or grid independence.
+Actual common selected prefixes have lengths `3,0,0`; all three order-32
+sampled terminal residuals are larger than their order-24 counterparts.
+The [combined report](experiments/data/gecp_census_checks.json) preserves both
+generation revisions/source hashes and passes 30 selected-core checks at 192
+bits (21 primary and 9 resolution). All stored-determinant, signed-pivot-product
+and singular-value relative differences are below `9e-27`. This comparison
+does not confuse held-out evaluation of a fixed cross with rerunning denser
+GECP, or equate point arithmetic with interval certification.
 
 For the open GECP-rate question, `analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while
@@ -479,11 +592,13 @@ finite-run and exact-stop results do not turn floating-point zeros, approximate
 pivots, or certification-budget exhaustion into exact mathematical hypotheses.
 Stopping, conditioning, precision, tie, and certification metadata are unchanged.
 
-Phase DI's [audit](COMPLETION_AUDIT.md) finds that the canonical census still
-stops at `1e-10`, lacks the full requested geometry/normalized curves, and that
-the non-GECP result types need fuller status metadata. Listed AAA/vector-
-fitting/Prony comparisons are not yet implemented. These are incomplete
-requirements, not behavior silently supplied by the new exact theorem.
+At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
+at `1e-10`, lacked the full requested geometry/normalized curves, and the
+non-GECP result types needed fuller status metadata. DL supplies result
+metadata; DM's primary and resolution results above extend census depth and
+diagnostics; combined checks pass and final verification remains pending. Listed
+AAA/vector-fitting/Prony comparisons remain unimplemented requirements,
+not behavior silently supplied by the new exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
 duplicate working-note files; wheel/sdist were rebuilt and the wheel was

@@ -265,9 +265,10 @@
   negatives between about `1e-89` and `1e-131` occurred only on rows or
   columns that are algebraically zero after selection and are treated as
   cancellation evidence, not a proof of nonnegativity.
-- The endpoint-resolved 128-bit finite-grid fermionic census converged in all
-  21 cases. At tolerance `1e-10`, sampled ranks grow from 8 at cutoff 1 to 124
-  at cutoff `1e6`. Two complete executions produced byte-identical JSONL.
+- The historical endpoint-resolved 128-bit finite-grid fermionic census
+  converged in all 21 cases. At tolerance `1e-10`, sampled ranks grow from 8
+  at cutoff 1 to 124 at cutoff `1e6`. Two complete executions produced
+  byte-identical JSONL.
 - The fixed two-delta fixture is recovered below `1e-8` using two atoms.
 - One 128-bit, 12-pivot fermionic GECP basis at cutoff 8 compresses the
   2,001-node validation frequency grid by a factor of 166.75. For the
@@ -280,8 +281,9 @@
   spectra rather than density-specific basis fitting.
 - A four-entry known transition library recovers a synthetic
   quasiparticle/satellite spectrum with four atoms and
-  `3.3306690738754696e-16` held-out error. A separate dense blind scan of 1,604
-  candidates with deterministic `1e-8`-scale input noise uses eight effective
+  `3.3306690738754696e-16` held-out error. A separate dense scan of 1,604
+  candidates (including explicitly added generating frequencies, so not
+  support-blind) with deterministic `1e-8`-scale input noise uses eight effective
   atoms and reaches `8.559113029438237e-9` error against the noiseless held-out
   Green function.
 - On a 72-site clustered Gaussian covariance, complete-pivot GECP and
@@ -1797,6 +1799,66 @@ The full gate passes 3,633 Lean jobs, 876 enforced axiom reports, 232 tests
 and the clean dependency audit after targeted certifi/pillow lock updates.
 PNG and isolated wheel smoke checks pass; push and PR CI pass; PR #118 merged
 on 2026-10-22. No artifact was published.
+
+## Phase DM: full census evidence (in progress)
+
+**Implemented numerical interface, not a new theorem:** schema-2 records add
+complete sampled residual/core histories and physical boundary, signed dyadic
+panel and nearest-reflection diagnostics. Prefix metadata uses the requested
+tolerance while retaining the source trajectory's strict tolerance. Failed
+adaptive certificates cannot imply convergence. Normalized plotting rejects
+explicit adaptive/non-sampled or unsuccessful runs instead of mislabeling them.
+
+Independent exact Fraction geometry checks and manually specified prefix,
+zero-rank, budget, malformed-history and failure cases pass. Review corrected
+floating-point frequency endpoints that could overshoot non-integer physical
+cutoffs; byte-level regressions preserve all seven canonical integer grids.
+Schema-2 block analysis uses actual sampled maxima, not near-maximal pivots,
+and rejects negative residuals rather than silently taking their magnitude.
+
+**Primary observations:** all 28 schema-2 cases converge at the seven cutoffs
+`1,10,100,1000,10000,100000,1000000` and four tolerances down to `1e-12`.
+The strictest-tolerance ranks are respectively `9,17,37,63,91,119,146`.
+Two full runs from clean tracked generator revision
+`c0e8c5093134f369b93781c413750b7f1de46036`, configuration hash
+`c0ac1bbaa7ddb39a2bb4a1c306985386f89f4103ff75cb4e21f99257e1e9f31b`,
+are byte-identical. The JSONL SHA-256 is
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`.
+All 21 overlapping historical prefixes preserve pivots and ranks exactly;
+legacy files are unchanged. The new rank and normalized-residual plots have
+been rendered and inspected. Normalized decay curves have related scales,
+not an exact common exponential law; this dataset has no zero residuals.
+
+**Independent numerical checks:** 192-bit selected-core recomputation at
+rank one, a middle prefix and the terminal prefix checks 21 cores. Relative
+differences in determinants, signed pivot products and smallest singular
+values are below `9e-27`. Representative stored crosses at cutoffs
+`1,1000,1000000` have held-out maximum errors approximately
+`6.31e-14,6.33e-13,8.61e-13` on `36,3960,15120` point pairs. Elimination uses
+128 bits, but grid coordinates originate in float64; both scopes are recorded.
+These checks use point arithmetic and factored solves, not interval bounds.
+
+**Representative resolution observations:** all three independently rerun
+order-32 trajectories converge at `1e-12`. At cutoffs `1,1000,1000000`, their
+ranks are `9,63,146`, equal to the order-24 ranks; their sampled terminal
+residuals are approximately `1.78383e-13,9.59729e-13,9.71664e-13`. Grid shapes
+are `63×63,621×683,1279×1303`. These records have clean generation revision
+`ccd5c8c9ad07ee4548d77c5e03d3ccefa50eef61`, configuration hash
+`bf49e21ce208a1336bfc83d3e2ec955adf627e64e8056c8be9986d855ee2d3be`,
+and artifact SHA-256
+`7251cbb528179cc5cbfa6eb5635b8fa280e087d1e04db1348b56a9065026d588`.
+The paths differ: exact decimal selected-node common prefixes have lengths
+`3,0,0`, and all three order-32 terminal sampled residuals are larger. Both
+generation revisions/source hashes remain in the combined report. Equal ranks
+do not establish grid independence; only three cutoffs and two grid orders
+were compared.
+
+The combined report passes all 30 selected-core checks at 192 bits, including
+nine resolution cores. Relative determinant, signed-pivot-product and
+singular-value differences remain below `9e-27`. Final root/CI gates remain
+pending; R25–R27 stay open until the full phase evidence is verified. No
+continuous-error certificate, exact-reflection theorem, grid independence,
+optimal tie behavior or new approximate-pivot rate is claimed.
 
 ## Run provenance
 
