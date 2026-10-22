@@ -12,6 +12,9 @@ DK adds the strict-SPD complete-run reduction and independently defined
 Cholesky equivalence, verified by the full root gate (3,633 Lean jobs,
 876 enforced axiom reports, 183 tests, no known dependency vulnerabilities),
 green push/PR CI, and merged as [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117).
+DL adds complete numerical result metadata and related failure-path repairs;
+focused tests pass. Full-phase gates and delivery are maintained in README
+and RESEARCH.
 
 ## Decision
 
@@ -19,10 +22,10 @@ green push/PR CI, and merged as [PR #117](https://github.com/tripp-smith/gecp-ke
 proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
-This audit has 40 concrete requirement groups: **35 supported and 5 incomplete**
-after DK's proof of R08. This is **87.5% checklist coverage**, not a weighted
+This audit has 40 concrete requirement groups: **36 supported and 4 incomplete**
+after DL's delivery of R24. This is **90% checklist coverage**, not a weighted
 estimate of remaining effort or a probability that an open theorem is true.
-The incomplete groups are R24, R25, R26, R27 and R31. Root/CI success
+The incomplete groups are R25, R26, R27 and R31. Root/CI success
 cannot turn those missing scopes into achieved results.
 
 “Supported” below means the named source was inspected at the relevant scope,
@@ -58,7 +61,7 @@ rewritten.
 | R21 | Adaptive maximizer success and budget-failure paths (§16,24) | Supported | `certified.py` has conditional analytic-Lipschitz and outward interval modes; tests check known maxima, fermionic certificates, and `certified=False` on exhausted budgets. |
 | R22 | float64, arbitrary precision and exact surrogates (§15,24) | Supported | 53-bit matrix paths, `mpmath` bit settings and decimal-string `HighPrecisionData`, rational `Fraction` surrogates; sub-float64 pivot regression and independent precision checks. |
 | R23 | Cross evaluation by solves, not explicit numerical inversion (agent rules) | Supported | `gecp.py`, `applications.py`, exact/MP cross regressions use linear solves. Source scan finds no numerical inverse calls. Formal inverse notation in selected-core identities is algebraic, not a numerical implementation. |
-| R24 | Full result metadata: convergence, stopping, conditioning, precision, ties, certification (agent rules) | Incomplete | `GECPResult` covers these through histories/settings/certificates. `CholeskyResult` and `SparseResult` do not expose the full metadata surface or explicit not-estimated/not-applicable statuses. They must not be silently counted as equivalent. |
+| R24 | Full result metadata: convergence, stopping, conditioning, precision, ties, certification (agent rules) | Supported | DL exports typed `NumericalMetadata`, `ConditioningDiagnostic`, `RefinementDiagnostic`: actual/requested precision, scoped conditioning estimates/status/history, tie policy/counts/tolerance, certification and error scopes/settings. Cholesky and sparse results carry them; GECP exposes a view over its existing evidence; fixed constructions expose non-iterative/not-applicable statuses. Schema-2 synthetic summaries preserve metadata. Final convergence is checked against the returned reconstruction/training error; candidate exhaustion, optimizer budget/failure/rejection, empty/rank-zero, nonfinite input, rank-deficient and diagnostic-failure paths are tested. JSON rejects nonfinite values; old schema-1 artifacts are preserved. No floating-point result is relabeled a proof or continuous certificate. |
 | R25 | Seven-cutoff census through at least `1e-12` (§14,26,30) | Incomplete | Config and committed data have seven cutoffs `1…1e6`, 128 bits, but only `1e-6,1e-8,1e-10` (21 records), not `1e-12`. |
 | R26 | All specified census diagnostics (§14) | Incomplete | Stored nodes, pivots, terminal residual, smallest singular values and ties are present. Full residual/determinant histories, boundary distances, dyadic labels and reflection-partner diagnostics are not all serialized as requested. Some can be reconstructed, but reconstruction is not the requested audited record. |
 | R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Incomplete | `plot_census.py` and the committed PNG show rank versus cutoff at requested tolerances, not the specified normalized residual curves. |
@@ -66,7 +69,7 @@ rewritten.
 | R29 | Particular Green functions use fewer spectral atoms with explicit error (§19,27F) | Supported | Committed synthetic suite at cutoff 8: clean four-atom library recovery has held-out error `3.33e-16`, versus the same kernel's universal GECP rank 12 at `1e-8`; noisy case and two-delta tests are separately qualified. No sparse uniqueness or optimality claim. |
 | R30 | Sparse exponential/spectral interface, OMP and nonlinear least squares (§19,20) | Supported | `SparseResult` frequencies/weights represent sums of `K(·,ω)`; `sparse.py` implements OMP and bounded nonlinear refinement; synthetic fixtures/tests expose training and held-out errors. |
 | R31 | Listed Phase-II method comparisons (§20) | Incomplete | OMP/nonlinear least squares and universal GECP are implemented. AAA-derived, vector-fitting and Prony-type comparisons are not. A formal AAA implementation is explicitly outside initial scope, but that does not supply the listed numerical comparisons. |
-| R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 42 `__all__` exports load. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
+| R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 45 `__all__` exports load after DL's three metadata exports. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
 | R33 | Deterministic ties and visible failures (§24) | Supported | Lexicographic tie policy, near-tie counts, `max_rank`, numerical-breakdown and certificate-budget tests. Approximation/conditioning limitations are explicit. |
 | R34 | Enumerated numerical coverage (§25) | Supported | Kernel reflection/centered checks, interpolation, pivot product, direct/iterative cross, PSD/Cholesky controls, PSD preservation/diagonal maxima, float/mp comparison, rank scaling and exact exponential tests all have named tests in `tests/`. |
 | R35 | Trusted Lean/root/CI gate (§25, agent rules) | Supported | DI enforces the exact axiom allow-list and expected report coverage, rejects empty/malformed/custom/native-reduction reports, preserves Lean's failing exit status, and rejects source placeholders/custom axioms. `lake build`, Ruff/format/mypy/pytest/pip-audit remain root gates. |
@@ -103,7 +106,7 @@ rewritten.
 | 21 | Suggested layout: actual modules implement the roles; filenames are not treated as theorem evidence. |
 | 22 | See named-interface mapping below; aliases are not substituted for missing mathematics. |
 | 23 | R32 plus the actual documented result spelling. |
-| 24 | R22/R24/R33: precision and ties work; metadata scope remains incomplete outside GECP. |
+| 24 | R22/R24/R33: precision and ties are exposed; DL adds explicit actual/requested precision and full metadata outside GECP. Cholesky/sparse remain float64 only, honestly labeled. |
 | 25 | R34/R35: source gates and numerical tests, including tested failure paths. |
 | 26 | R28 supported reproducibility; R25/R26 retain missing data scope. |
 | 27 A–F | A: R03–R05; B: R06–R09; C: R10–R14; D: R15; E: R16/R17; F: R29. |
@@ -169,8 +172,8 @@ the control baseline, not this repository's claimed invention.
 DJ/DK close the staged continuous baseline (R08/R09), not the full published
 asymptotic P-greedy theory. The remaining required targets are:
 
-1. **Census and metadata (R24–R27).** Add complete result status metadata,
-   extend the seven-cutoff census through `1e-12`, serialize all specified
+1. **Census completion (R25–R27).** DL closes result metadata (R24).
+   Extend the seven-cutoff census through `1e-12`, serialize all specified
    histories/geometry, and produce normalized residual-curve evidence. Retain
    precision/tie/certification limitations and deterministic revision/config.
 2. **Phase-II comparisons (R31).** Implement and compare the listed missing

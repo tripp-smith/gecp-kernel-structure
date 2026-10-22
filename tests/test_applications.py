@@ -55,7 +55,7 @@ def test_spectral_fixtures_are_physical_and_integrate() -> None:
 
 def test_application_suite_verifies_transfer_recovery_and_psd_control() -> None:
     suite = run_synthetic_application_suite(quick_config(), git_commit="test")
-    assert suite.schema_version == 1
+    assert suite.schema_version == 2
     assert len(suite.config_hash) == 64
     assert all(record.gecp_converged for record in suite.green_compression)
     assert all(record.transfer_verified for record in suite.green_compression)
@@ -83,6 +83,10 @@ def test_application_suite_verifies_transfer_recovery_and_psd_control() -> None:
     second = suite.canonical_json()
     assert first == second
     assert json.loads(first)["git_commit"] == "test"
+    assert all(item.metadata.precision_bits == 80 for item in suite.green_compression)
+    assert all(item.metadata.precision_bits == 53 for item in suite.sparse_recovery)
+    assert landmarks.cholesky_metadata.certification_status == "not_certified"
+    assert landmarks.gecp_metadata.precision_bits == 53
 
 
 def test_application_config_rejects_underresolved_inputs() -> None:

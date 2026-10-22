@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DK — strict-SPD complete-pivot reduction<br>
-> **Phase state:** verified; merged<br>
-> **Last verification:** Phase DK `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 183 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-20<br>
+> **Current phase:** DL — complete numerical result metadata<br>
+> **Phase state:** in progress; DK complete and merged<br>
+> **Last verification:** Phase DL `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 232 tests and no known dependency vulnerabilities; CI pending on 2026-10-22<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase DK merged in [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) with green CI<br>
-> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 35/40 supported groups (87.5% checklist coverage) and five incomplete groups; full completion is not claimed<br>
+> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DL completes numerical result metadata; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 36/40 supported groups (90% checklist coverage) and four incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -136,7 +136,8 @@ is authoritative for the remaining goal.
 | DH | Finite-run and physical-error closure | complete | finite-prefix witnesses; `fermionicKernel_finiteRun_error_le_exp`; exact stop / tolerance; selected-core cross identity; actual Green-error bound | 3,625 Lean jobs; accepted axioms; 163 tests; exact / independent-precision evidence; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114) |
 | DI | Original-SPEC completion audit | complete | 40-group audit; real D1; compact maxima; exact grid certificates; enforced axiom gate; clean packaging | 3,627 Lean jobs; 838 audited declarations; 177 tests; isolated wheel smoke; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115) |
 | DJ | Original-kernel fill-distance control | complete | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
-| DK | Strict-SPD complete-pivot reduction | verified | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
+| DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
+| DL | Complete numerical result metadata | in progress | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; CI pending | phase branch |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -290,7 +291,7 @@ for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
 G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
-The updated audit identifies five required groups still incomplete. DH closes the
+The updated audit identifies four required groups still incomplete. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.
@@ -298,9 +299,17 @@ never substitutes for a Lean theorem or a certified analytic argument.
 DI's audit is now recorded in [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
 DJ/DK prove original-kernel Lipschitz fill-distance control, arbitrary-domain
 PSD geometry and strict-SPD complete-pivot reduction. Required work remains in
-full numerical metadata, the `1e-12` census/diagnostics/
+the `1e-12` census/diagnostics/
 normalized curves, and listed Phase-II sparse-method comparisons. Earlier
 bounded phase labels are not a substitute for those missing scopes.
+
+DL adds typed result metadata for GECP, Cholesky and sparse recovery, and
+explicit fixed-construction scopes for approximation objects. Actual float64
+precision is not confused with a shared config's higher request. Conditioning
+and optimizer failures, rank-zero/non-applicable cases and uncertified outputs
+are labeled. Cholesky and sparse convergence describe the returned sampled
+approximation. See [APPLICATION.md](APPLICATION.md) for the schema-2 summary
+interface; historical schema-1 committed artifacts remain unchanged.
 
 ## Delivered evidence
 

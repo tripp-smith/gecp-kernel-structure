@@ -9144,3 +9144,85 @@ R27 normalized residual curves, and R31 listed sparse comparisons. Next
 freeze a complete result-metadata contract and then the canonical census
 record/plot contract. Do not relabel uncertified numerical quantities as
 proofs, or infer exact complete-pivot theorems for approximate maxima.
+
+## Phase DL — complete numerical result metadata
+
+Frozen contract: close audit R24 / numerical agent rules and SPEC sections
+23–25. Add typed, JSON-safe `NumericalMetadata`, `ConditioningDiagnostic` and
+`RefinementDiagnostic` records in `types.py`, shared diagnostics helpers in
+`diagnostics.py`, complete metadata for every `CholeskyResult` and
+`SparseResult`, and a metadata view over the already recorded GECP evidence.
+Expose actual arithmetic/precision separately from requested precision,
+conditioning method/status/history, deterministic tie policy/counts/tolerance,
+certification status/scope, convergence/error scope and effective settings.
+Use null plus an explicit status for unavailable/non-applicable quantities,
+never fake finite condition numbers, certification, or high precision.
+
+Cholesky measures original selected-core conditioning and reports float64
+execution even when its shared config requests more. Sparse recovery measures
+selected/final-design conditioning and separately reports nonlinear optimizer
+termination, budget, acceptance and Jacobian conditioning. Keep the legacy
+`validation_error` field but label it training-only and expose `training_error`.
+Propagate metadata into synthetic application summaries under schema version 2;
+preserve historical schema-1 committed artifacts and their hashes/provenance.
+
+Audit failure paths while adding metadata: empty/rank-zero and budget stops,
+finite input validation, exact-zero tie tolerance, exhausted sparse libraries,
+rank deficiency, materially invalid PSD residuals, nonfinite arithmetic,
+nonlinear optimizer budget/failure and rejected worsening refinement. Final
+`converged` must describe the returned approximation's actual sampled error,
+not a stale pre-refinement flag. Do not select an already exhausted atom or
+selected zero Cholesky pivot. Convergence is sampled numerical evidence, not
+an analytic or rounding certificate. No explicit numerical inverse is allowed.
+
+Test metadata against independently recomputed residuals/SVDs, serialize with
+`allow_nan=False`, repeat deterministic runs, exercise all relevant failure/
+not-applicable paths and retain existing successful fixtures. Root verification,
+green CI, draft PR, merge and pushed-main gates are required. Non-claims:
+arbitrary precision Cholesky/sparse execution, continuous certification for
+sampled results, new Lean results, minimum sparse support or the remaining
+census/comparison deliverables. No Lean research-loop skill is needed because
+this phase adds no open formal theorem.
+
+DL type-audit clarification: fixed-order interpolation and dyadic Taylor
+construction objects are also public approximation outputs. Give them explicit
+non-iterative/not-applicable metadata, distinguishing internal mpmath precision
+from float64 returned evaluation arrays. Do not invent convergence tests or
+uniform numerical certificates for these fixed constructions.
+
+DL verification found newly disclosed dependency advisories on 2026-10-22:
+the first full gate passed 232 tests but pip-audit reported 25 findings in
+locked certifi 2026.7.22 and pillow 12.3.0, with fixed versions 2026.10.19 and
+13.0.0 respectively. Update those transitive lock entries and repeat root/CI
+gates; do not waive the audit or misreport the first full gate as successful.
+
+### DL outcome and next decision
+
+The metadata contract is implemented for GECP, Cholesky, sparse recovery,
+fixed constructions and schema-2 application summaries. Conditioning estimates
+are scoped by stage, unavailable values are null with a status, and optimizer
+termination is not confused with returned-fit convergence. Independent review
+and 49 new test cases cover singular values, actual returned errors, tie
+thresholds, rank-zero/non-applicable cases, exhaustion, invalid inputs,
+optimizer budget/failure/worsening/nonfinite rejection and deterministic JSON.
+Cholesky's actual error and accepted near-symmetry floor are exposed; stable
+symmetrization also handles finite SPD input at scale `1e308` without an
+avoidable overflow. Fixed barycentric construction now uses a fixed random
+state. No numerical inverse or new formal theorem is introduced.
+
+The transitive lock updates are exactly certifi 2026.10.19 and pillow 13.0.0;
+pip-audit reports no known vulnerabilities. A PNG render/read smoke passes.
+The repeated full root command passes 3,633 Lean jobs, all 876 axiom reports
+with permitted dependencies only, Ruff/format/mypy (14 source files), 232
+tests in 137.28 seconds, and the clean dependency audit. Rebuilt local source
+and wheel archives include the new diagnostics module and exclude the local
+notes/caches. An isolated Python 3.12 wheel smoke outside the checkout imports
+all 45 exports and executes Cholesky with metadata; nothing is published.
+
+Push/PR CI and exact merged/pushed-head verification remain required before
+closure. R24 is supported; R25–R27 and R31 remain incomplete, so the audit is
+36/40 (90% checklist coverage, not weighted effort). Next freeze a complete
+census record contract: seven cutoffs through `1e-12`, all residual/core/
+geometry histories and normalized `k/log(1+Lambda)` curves at deterministic
+revision/config/precision. Sparse-method comparisons then remain independent
+deliverables before a final original-SPEC audit can claim completion.

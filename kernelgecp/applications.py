@@ -16,7 +16,7 @@ from .cholesky import pivoted_cholesky
 from .gecp import cross_approximation, gecp, gecp_matrix
 from .kernels import FermionicKernel
 from .sparse import sparse_representation
-from .types import FloatArray, GECPConfig
+from .types import FloatArray, GECPConfig, NumericalMetadata
 
 SpectrumFixture = Literal["hubbard_three_peak", "gapped_two_band"]
 
@@ -92,6 +92,7 @@ class GreenCompressionResult:
     dyadic_rank_bound: int
     frequency_nodes: int
     basis_compression_factor: float
+    metadata: NumericalMetadata
 
 
 @dataclass(frozen=True, slots=True)
@@ -115,6 +116,7 @@ class SparseRecoveryResult:
     converged: bool
     stop_reason: str
     iterations: int
+    metadata: NumericalMetadata
 
 
 @dataclass(frozen=True, slots=True)
@@ -135,6 +137,8 @@ class PSDLandmarkResult:
     compression_factor: float
     selected_indices: list[int]
     selected_points: list[list[float]]
+    gecp_metadata: NumericalMetadata
+    cholesky_metadata: NumericalMetadata
 
 
 @dataclass(frozen=True, slots=True)
@@ -344,6 +348,7 @@ def _green_compression_results(
                 ),
                 frequency_nodes=config.quadrature_order,
                 basis_compression_factor=config.quadrature_order / max(1, result.rank),
+                metadata=result.metadata,
             )
         )
     return outputs
@@ -431,6 +436,7 @@ def _sparse_recovery_result(
         converged=recovered.converged,
         stop_reason=recovered.stop_reason,
         iterations=recovered.iterations,
+        metadata=recovered.metadata,
     )
 
 
@@ -518,6 +524,8 @@ def _psd_landmark_result(config: SyntheticApplicationConfig) -> PSDLandmarkResul
         compression_factor=config.psd_point_count / max(1, complete.rank),
         selected_indices=indices,
         selected_points=points[indices].tolist(),
+        gecp_metadata=complete.metadata,
+        cholesky_metadata=cholesky.metadata,
     )
 
 
@@ -530,7 +538,7 @@ def run_synthetic_application_suite(
 
     effective_config = SyntheticApplicationConfig() if config is None else config
     return SyntheticApplicationSuite(
-        schema_version=1,
+        schema_version=2,
         git_commit=git_commit,
         config_hash=_config_hash(effective_config),
         config=effective_config.normalized(),

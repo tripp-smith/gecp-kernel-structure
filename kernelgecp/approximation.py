@@ -12,7 +12,7 @@ from scipy.interpolate import BarycentricInterpolator
 
 from .grids import chebyshev_lobatto
 from .kernels import FermionicKernel
-from .types import FloatArray
+from .types import FloatArray, NumericalMetadata
 
 
 def exp_family_rank_bound(max_rate: float, tolerance: float) -> int:
@@ -65,6 +65,29 @@ class DyadicTaylorApproximation:
     accuracy_bits: int
     scale: int
     precision_bits: int = 256
+
+    @property
+    def metadata(self) -> NumericalMetadata:
+        return NumericalMetadata(
+            algorithm="dyadic_taylor_construction",
+            arithmetic="mpmath_internal_float64_output",
+            precision_bits=self.precision_bits,
+            requested_precision_bits=self.precision_bits,
+            precision_status="mpmath_internal_float64_output",
+            conditioning_status="not_estimated",
+            conditioning_method="taylor_evaluation_conditioning_not_estimated",
+            tie_status="not_applicable",
+            tie_policy="not_applicable_fixed_construction",
+            certification_scope="formal_exact_construction_bound_not_rounding_certificate",
+            convergence_scope="not_applicable_fixed_parameter_construction",
+            configuration={
+                "cutoff": self.cutoff,
+                "accuracy_bits": self.accuracy_bits,
+                "scale": self.scale,
+                "output_precision_bits": 53,
+                "error_bound": self.error_bound,
+            },
+        )
 
     @property
     def rank(self) -> int:
@@ -159,6 +182,28 @@ class SeparatedApproximation:
     band_bounds: list[tuple[float, float]]
 
     @property
+    def metadata(self) -> NumericalMetadata:
+        return NumericalMetadata(
+            algorithm="composite_chebyshev_interpolation",
+            arithmetic="float64",
+            precision_bits=53,
+            precision_status="float64_only",
+            conditioning_status="not_estimated",
+            conditioning_method="barycentric_conditioning_not_estimated",
+            tie_status="not_applicable",
+            tie_policy="not_applicable_fixed_construction",
+            certification_scope="fixed_order_interpolant_no_uniform_error_certificate",
+            convergence_scope="not_applicable_fixed_order_interpolation",
+            configuration={
+                "cutoff": self.kernel.cutoff,
+                "rank": self.rank,
+                "band_bounds": self.band_bounds,
+                "band_slices": self.band_slices,
+                "barycentric_random_state": 0,
+            },
+        )
+
+    @property
     def rank(self) -> int:
         return int(self.omega_nodes.size)
 
@@ -206,7 +251,7 @@ def fermionic_separated_approximation(
     node_parts = [chebyshev_lobatto(left, right, order) for left, right in bounds]
     weight_parts = [
         np.asarray(
-            BarycentricInterpolator(nodes, np.zeros_like(nodes)).wi,
+            BarycentricInterpolator(nodes, np.zeros_like(nodes), random_state=0).wi,
             dtype=np.float64,
         )
         for nodes in node_parts

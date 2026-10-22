@@ -534,6 +534,61 @@ to floating-point results. Numerical metadata remains an open R24 requirement;
 Python APIs are unchanged. Focused checks:
 `uv run python -m pytest tests/test_strict_kernel.py`.
 
+## Numerical metadata (DL)
+
+`GECPResult`, `CholeskyResult`, and `SparseResult` expose `result.metadata` with
+typed `NumericalMetadata`, `ConditioningDiagnostic`, and
+`RefinementDiagnostic` records. Use `metadata.as_dict()` or
+`metadata.canonical_json()` for deterministic JSON; the latter rejects NaN and
+infinity. Empty/unavailable estimates use explicit statuses and null values,
+not fabricated condition numbers. Legacy manually constructed result records
+default to `not_recorded` metadata.
+
+| Path | Actual arithmetic / scope |
+| --- | --- |
+| GECP grid | float64 or configured mpmath precision; sampled-grid convergence, no continuous certificate |
+| GECP interval adaptive | mpmath; interval upper-bound scope; `certified` only on certified-tolerance convergence; near-tie multiplicity not estimated |
+| Cholesky | float64, even if the shared config requests 128 bits; actual/requested bits differ explicitly |
+| Sparse OMP/refinement | float64; training-sample relative infinity error only, no held-out/continuous/support certificate |
+
+Conditioning histories identify their stage: selected original Cholesky core,
+OMP design, candidate refinement Jacobian, or returned sparse design. Each
+estimate records numerical rank, smallest singular value and condition number
+when applicable. A rank-deficient or failed diagnostic is not a successful
+conditioning certificate. GECP preserves its canonical high-precision singular
+value strings and explicitly reports that its metadata view estimates only
+the smallest singular value, not an uncomputed condition number.
+
+Cholesky recomputes `original - factor @ factor.T`; `residual_matrix` is that
+actual error and `converged` requires its infinity norm to meet `tol`.
+Roundoff or accepted near-symmetry can instead give
+`roundoff_or_symmetry_limit`. Materially invalid PSD residuals raise
+`NumericalBreakdownError`; PSD itself is not certified by floating-point code.
+`residual_history` retains the working diagonal maxima; metadata's
+`returned_error` is independently recomputed from the returned factor.
+Zero tie tolerance means exact ties, and selected zero pivots cannot be reused.
+
+Sparse `training_error` aliases the legacy `validation_error` (which has always
+been measured on training samples). Candidate exhaustion is an explicit stop.
+Nonlinear refinement is accepted only if finite and nonworsening in training
+infinity error. Optimizer status/success/evaluation budget are separate from
+representation convergence: an exhausted optimizer can return a useful fit,
+and a successful optimizer can still miss the requested tolerance. Failed or
+worsening refinement retains the OMP fit with an explicit diagnostic.
+`iterations` counts OMP selections; optimizer evaluations are recorded separately.
+`tie_rtol` and `refinement_max_nfev` are optional sparse controls. Candidate,
+time and target fingerprints plus settings support deterministic repetition.
+
+Fixed-order interpolants/Taylor constructions report non-iterative scopes:
+interpolation conditioning is not estimated; the Taylor evaluator uses mpmath
+internally but returns float64 arrays. Neither claims an outward-rounded
+numerical error certificate. Barycentric construction uses a fixed random
+state. Synthetic application outputs now use schema version 2 and retain
+nested algorithm metadata. Historical schema-1 committed JSON/PNG hashes and
+revision remain valid historical evidence, not silently rewritten output.
+
+Focused checks: `uv run python -m pytest tests/test_result_metadata.py`.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

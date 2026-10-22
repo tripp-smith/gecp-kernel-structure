@@ -19,6 +19,26 @@ from kernelgecp import (
 from kernelgecp.surrogates import fraction_determinant
 
 
+def test_fixed_construction_metadata_has_explicit_non_iterative_scope() -> None:
+    taylor = fermionic_dyadic_taylor_approximation(4, 1e-4, precision_bits=128)
+    assert taylor.metadata.precision_bits == 128
+    assert taylor.metadata.configuration["output_precision_bits"] == 53
+    assert taylor.metadata.precision_status == "mpmath_internal_float64_output"
+    assert taylor.metadata.conditioning_status == "not_estimated"
+    assert taylor.metadata.tie_status == "not_applicable"
+    assert taylor.metadata.certification_status == "not_certified"
+    assert "not_applicable" in taylor.metadata.convergence_scope
+    taylor.metadata.canonical_json()
+    first = fermionic_separated_approximation(4, order=8)
+    second = fermionic_separated_approximation(4, order=8)
+    assert np.array_equal(first.barycentric_weights, second.barycentric_weights)
+    assert first.metadata.canonical_json() == second.metadata.canonical_json()
+    assert first.metadata.precision_bits == 53
+    assert first.metadata.conditioning_status == "not_estimated"
+    assert first.metadata.certification_status == "not_certified"
+    assert "not_applicable" in first.metadata.convergence_scope
+
+
 def _stable_masked_eighth_order_error(t: mp.mpf, omega: mp.mpf) -> mp.mpf:
     """Evaluate the p=1 masked error from its convergent exponential tail."""
 
