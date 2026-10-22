@@ -2721,3 +2721,6 @@ This annotation records delivered identifiers without changing the goals above.
   separate from fit convergence. R24 is supported. This adds no Lean theorem,
   arbitrary-precision Cholesky/sparse implementation or continuous numerical
   certificate. Census and comparison requirements above remain unchanged.
+  Root verification passes 3,633 Lean jobs, 876 enforced axiom reports,
+  232 tests and a clean dependency audit after targeted transitive lock fixes;
+  isolated wheel smoke and green push/PR CI; merged as PR #118.

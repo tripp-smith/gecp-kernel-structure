@@ -12,9 +12,10 @@ DK adds the strict-SPD complete-run reduction and independently defined
 Cholesky equivalence, verified by the full root gate (3,633 Lean jobs,
 876 enforced axiom reports, 183 tests, no known dependency vulnerabilities),
 green push/PR CI, and merged as [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117).
-DL adds complete numerical result metadata and related failure-path repairs;
-focused tests pass. Full-phase gates and delivery are maintained in README
-and RESEARCH.
+DL adds complete numerical result metadata and related failure-path repairs,
+verified by the full root gate (3,633 Lean jobs, 876 enforced axiom reports,
+232 tests, clean dependency audit), green push/PR CI, an isolated wheel smoke,
+and merged as [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118).
 
 ## Decision
 
@@ -77,7 +78,7 @@ rewritten.
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, FINAL_HANDOFF and this ledger distinguish proofs, observations, hypotheses and non-claims. Historical bounded phase labels do not override incomplete scopes in this audit. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI, DJ and DK merged PRs #115, #116 and #117 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
+| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DL merged PRs #115–#118 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
 
 ## Original section and outcome coverage
 

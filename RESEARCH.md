@@ -9219,8 +9219,13 @@ and wheel archives include the new diagnostics module and exclude the local
 notes/caches. An isolated Python 3.12 wheel smoke outside the checkout imports
 all 45 exports and executes Cholesky with metadata; nothing is published.
 
-Push/PR CI and exact merged/pushed-head verification remain required before
-closure. R24 is supported; R25–R27 and R31 remain incomplete, so the audit is
+The final branch-head root repeat passes 232 tests in 135.97 seconds; push
+and PR CI pass at `7e3cffede223a0016dc24b14b1bdbeaf298c6b29`. The final wheel
+smoke outside the checkout also checks convergence/stop snapshots. PR #118
+merged on 2026-10-22 at 09:53 UTC as
+`1e95e5fad62cd7e13154e13ed82ee4b32dac7010`. Closure is pushed to main and
+exact merged/pushed-head gates are repeated before final handoff.
+R24 is supported; R25–R27 and R31 remain incomplete, so the audit is
 36/40 (90% checklist coverage, not weighted effort). Next freeze a complete
 census record contract: seven cutoffs through `1e-12`, all residual/core/
 geometry histories and normalized `k/log(1+Lambda)` curves at deterministic

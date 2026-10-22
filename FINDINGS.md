@@ -1793,6 +1793,10 @@ artifacts and all Lean theorems are unchanged. R24 is supported; the 40-group
 audit has 36 supported and four incomplete groups (90% checklist coverage,
 not weighted effort). Census depth/diagnostics/plots and sparse comparisons
 remain required work; no numerical evidence is relabeled a formal proof.
+The full gate passes 3,633 Lean jobs, 876 enforced axiom reports, 232 tests
+and the clean dependency audit after targeted certifi/pillow lock updates.
+PNG and isolated wheel smoke checks pass; push and PR CI pass; PR #118 merged
+on 2026-10-22. No artifact was published.
 
 ## Run provenance
 
