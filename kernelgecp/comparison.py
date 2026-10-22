@@ -381,6 +381,11 @@ def _universal_prefix(
             "kernel_rank": result.rank,
             "prefix_rank": rank,
             "prefix_kernel_error": result.residual_history[rank],
+            "prefix_kernel_error_decimal": (
+                result.high_precision.residual_history[rank]
+                if result.high_precision is not None
+                else str(result.residual_history[rank])
+            ),
             "weights_use_shared_observations": True,
             "node_selection": "kernel_only_complete_pivoting",
             "additional_refinement": False,
@@ -449,6 +454,11 @@ def run_spectral_comparison(
                 "tolerance": epsilon,
                 "rank": rank,
                 "sampled_kernel_error": universal.residual_history[rank],
+                "sampled_kernel_error_decimal": (
+                    universal.high_precision.residual_history[rank]
+                    if universal.high_precision is not None
+                    else str(universal.residual_history[rank])
+                ),
                 "converged": bool(indices),
             }
         )
@@ -624,6 +634,11 @@ def run_spectral_comparison(
         "validation_count_actual": validation_t.size,
         "universal_ranks": universal_ranks,
         "universal_metadata": universal.metadata.as_dict(),
+        "universal_high_precision": (
+            asdict(universal.high_precision)
+            if universal.high_precision is not None
+            else None
+        ),
         "fixtures": fixtures,
         "known_library_control": {
             "candidate_strategy": "explicit_generating_transition_library_not_blind",
