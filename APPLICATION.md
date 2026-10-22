@@ -225,7 +225,7 @@ two-resolution ladder is not residual-adaptive grid refinement or an
 exhaustive all-cutoff resolution study. The adaptive interval GECP API and
 its success/budget-failure tests remain separate evidence.
 
-### DM primary numerical results (phase in progress)
+### DM primary numerical results (verified; merged PR #119)
 
 The schema-2 primary artifact
 [`gecp_census_v2.jsonl`](experiments/data/gecp_census_v2.jsonl) contains 28
@@ -248,9 +248,11 @@ are all below `9e-27`. At cutoffs `1,1000,1000000`, the stored selected crosses
 are also evaluated on `36,3960,15120` held-out point pairs, with maximum errors
 approximately `6.31e-14,6.33e-13,8.61e-13`. These are pointwise numerical
 checks, not outward-rounded bounds, all-grid maxima or continuous guarantees.
-The representative denser GECP runs have also completed. Combined
-higher-precision checks pass; final root/CI verification remains pending.
-These numerical results alone do not close the phase or R25–R27.
+The representative denser GECP runs and combined higher-precision checks pass.
+The full branch root gate passes 3,633 Lean jobs, 876 enforced axiom reports
+and 430 tests, with clean dependency audit and green push/PR CI. DM is merged
+in PR #119 and supports R25–R27; exact merged/pushed closure-head gates will
+be repeated before handoff. Numerical results are not continuous certificates.
 
 ### DM representative resolution results
 
@@ -595,10 +597,11 @@ Stopping, conditioning, precision, tie, and certification metadata are unchanged
 At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
 at `1e-10`, lacked the full requested geometry/normalized curves, and the
 non-GECP result types needed fuller status metadata. DL supplies result
-metadata; DM's primary and resolution results above extend census depth and
-diagnostics; combined checks pass and final verification remains pending. Listed
-AAA/vector-fitting/Prony comparisons remain unimplemented requirements,
-not behavior silently supplied by the new exact theorem.
+metadata; DM's verified primary and resolution results above support R25–R27
+and are merged in PR #119. The audit records 39/40 supported groups (97.5%
+checklist coverage, not weighted effort). Listed AAA/vector-fitting/Prony
+comparisons remain required in R31, followed by the final forty-group audit;
+they are not behavior silently supplied by the new exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
 duplicate working-note files; wheel/sdist were rebuilt and the wheel was

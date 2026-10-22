@@ -9321,7 +9321,7 @@ versus refined outcomes remain visible. Native-frequency-data cohorts must be
 separate from same-time-input comparisons. No global sparse optimality or
 unique support recovery is inferred from the smallest tested passing fit.
 
-### DM numerical results (final gates pending)
+### DM numerical results
 
 The 28-record canonical schema-2 JSONL is generated from clean
 `c0e8c5093134f369b93781c413750b7f1de46036`, configuration hash
@@ -9368,8 +9368,9 @@ report SHA-256 is
 `b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
 Denser-grid residual maxima are larger in all three cases and the common
 selected-node prefix lengths are `3,0,0`: equal ranks do not mean equal paths.
-All five committed-artifact audit tests pass. The final root/CI and merged-head
-gates remain pending; R31 and the final full-SPEC audit remain next.
+All five committed-artifact audit tests pass. Full root and exact-head push/PR
+CI pass; PR #119 is merged. Exact pushed-main closure gates repeat before
+handoff. R31 and the final full-SPEC audit remain next.
 
 ### DM full local gate and CI finalization recovery
 
@@ -9381,9 +9382,28 @@ local notes/caches. An isolated installed-wheel smoke outside the checkout
 loads all 45 exports and exercises MP128 census diagnostics and non-integer
 physical endpoints. No package is published.
 
-PR CI run `39814069068` passes on that exact head. Push CI run `39814062885`
-has all successful job steps, including Python's `Complete job` at 16:29:58 UTC,
-but its job/run summary remains in progress. GitHub rejects cancellation as
-already completed and rejects a targeted rerun. No test or audit is waived,
-and no numerical process is restarted. Commit this actual verification and
-provenance record to obtain fresh exact-head CI before merging PR #119.
+PR CI run `39814069068` passed on that exact head. Push CI run `39814062885`
+had all successful job steps, including Python's `Complete job` at 16:29:58 UTC,
+but its job/run summary remained in progress. GitHub rejected cancellation as
+already completed and rejected a targeted rerun. This occurred while the
+[official status page](https://www.githubstatus.com/) reported degraded
+Actions/Pull Requests service. No test or audit was waived, and no numerical
+process was restarted. The actual verification/provenance record was committed
+as `4f99db923e89773e1d248eecde872f2350e0d853` to obtain fresh exact-head CI.
+
+### DM outcome and next decision
+
+At that final branch head, the full root repeat passes 430 tests in 139.64
+seconds, the same 3,633 Lean jobs/876 axiom reports and clean dependency audit.
+Push CI `39815369063` and PR CI `39815374660` both pass. PR #119 merged on
+2026-10-22 at 16:44:20 UTC as
+`b068e1070745d1308ee23101096e1197c345f057`. Main's pushed closure head repeats
+the root and exact-head CI gates before final handoff; no artifact is published.
+
+R25–R27 are supported. The audit is now 39/40 (97.5% checklist coverage, not
+weighted effort). Next freeze R31's fair six-method comparison contract using
+shared observations and held-out time-domain errors, actual spectral-atom
+bridges and explicit failure/conditioning/precision metadata. Keep known
+libraries separate from support-blind cases and retain failed fits. Only after
+that implementation and a final original-SPEC audit can the full goal be
+considered complete.

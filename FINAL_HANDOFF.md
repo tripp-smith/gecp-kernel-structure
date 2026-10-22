@@ -483,7 +483,7 @@ pass 3,633 Lean jobs, 876 enforced axiom reports, 232 tests and a clean
 dependency audit after targeted certifi/pillow lock updates. PNG and isolated
 wheel smoke checks and push/PR CI pass; merged as PR #118.
 
-Post-v1 Phase DM is in progress in draft PR #119. The full schema-2 census
+Post-v1 Phase DM is verified and merged in PR #119. The full schema-2 census
 contains 28 converged sampled-grid cases through `1e-12`, with complete
 residual/core and geometry histories. Two full runs from clean generator
 `c0e8c5093134f369b93781c413750b7f1de46036` match bytes, SHA-256
@@ -502,12 +502,15 @@ an all-cutoff resolution sweep or grid-independent-pivot claim. The combined
 report passes all 30 selected-core comparisons at 192 bits, SHA-256
 `b7192e8bc57a72bf64802dcb9334d4c1a4761be5a2a2876368fd72aeda40247d`.
 The full local root gate passes 3,633 Lean jobs, 876 axiom reports, 430 tests
-in 139.13 seconds and the clean dependency audit. Source/wheel inspection and
-an isolated installed-wheel smoke pass. Fresh exact-head CI and merged-head
-closure remain pending after an inconsistent GitHub finalization summary;
-the numerical artifacts and all test results are unchanged. None of these
-observations is a continuous certificate or new Lean
-rate theorem; R31 comparisons and the final full-SPEC audit remain required.
+in 139.64 seconds at the final branch head, plus the clean dependency audit.
+Source/wheel inspection and an isolated installed-wheel smoke pass. Exact-head
+push/PR CI pass at `4f99db923e89773e1d248eecde872f2350e0d853`; PR #119 merged
+at 16:44:20 UTC on 2026-10-22 as
+`b068e1070745d1308ee23101096e1197c345f057`. The pushed main closure head
+repeats root/CI gates before final handoff. The audit now supports 39/40 groups
+(97.5% checklist coverage, not weighted effort). None of these observations
+is a continuous certificate or new Lean rate theorem; R31 comparisons and the
+final full-SPEC audit remain required.
 
 ## Implementation run metadata
 
@@ -559,8 +562,8 @@ attached to these research counters.
 That historical snapshot was not an `active` or `complete` tracker report.
 The DL audit records four incomplete original-SPEC requirement groups.
 
-The DM continuation's current runtime snapshot (2026-10-22, 16:27 UTC) instead
-reports tracker status `active`, 18,534,934 aggregate goal tokens and 93,799
+The DM continuation's current runtime snapshot (2026-10-22, 16:44 UTC) instead
+reports tracker status `active`, 18,595,692 aggregate goal tokens and 94,848
 goal-accounting seconds. These are cumulative, not DM-only counters, and do
 not expose token categories or billing. Default mode, unrestricted local
 filesystem/network execution and approval policy `never` remain exposed.
@@ -569,8 +572,10 @@ effort remain unavailable. DM uses one primary agent and three temporary
 subagents for plotting/validation tests, independent review/geometry tests,
 and independent numerical checking. No serving-version attribution or new
 API-equivalent price calculation is inferred. The repeated primary numerical
-artifact, denser-grid evidence and combined checks are present; final gates
-are pending. The original-SPEC goal is not complete.
+artifact, denser-grid evidence and combined checks are verified; branch root
+and CI gates pass and PR #119 is merged. Exact pushed-main closure gates are
+repeated before handoff. The original-SPEC goal is not complete: R31 and the
+final whole-SPEC audit remain required.
 
 ## Phase status
 
@@ -615,7 +620,7 @@ are pending. The original-SPEC goal is not complete.
 | DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
-| DM — complete census diagnostics and normalized curves | in progress | full repeated census, resolution ladder, combined checks, local 430-test root gate and package smoke pass; fresh exact-head CI/merge closure pending |
+| DM — complete census diagnostics and normalized curves | verified; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -902,8 +907,10 @@ git status --short
   explicit inverse.
 - Every GECP result records pivots, residual history, conditioning, ties,
   convergence, and stopping metadata.
-- The 21-case census converges in every tracked case; sampled rank at
-  tolerance `1e-10` grows from 8 at cutoff 1 to 124 at cutoff `10⁶`.
+- The 28-case schema-2 census converges in every tracked case; sampled rank at
+  tolerance `1e-12` grows from 9 at cutoff 1 to 146 at cutoff `10⁶`. Grid
+  coordinates originate at 53 bits and elimination uses 128 bits. The
+  historical 21-case `1e-10` rank range 8–124 remains preserved.
 
 ## Security and dependency notes
 
@@ -949,15 +956,16 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds four
-incomplete requirement groups despite the proved central exact-GECP rate.
+The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds one
+incomplete requirement group despite the proved central exact-GECP rate.
 DJ/DK prove original-kernel Lipschitz fill control, arbitrary-domain PSD
 geometry and strict-SPD complete-pivot diagonal necessity through fresh
-residual prefixes. DL completes result metadata. Next complete census depth/diagnostics/normalized curves
-and the listed sparse-method comparisons. Re-audit all forty groups before
+residual prefixes. DL completes result metadata; DM completes the census
+depth/diagnostics/normalized curves and representative resolution checks.
+Next implement the listed sparse-method comparisons (R31), then re-audit all forty groups before
 claiming the full goal complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The 90% figure is checklist coverage, not weighted effort
+theorems. The 97.5% figure is checklist coverage, not weighted effort
 or a theorem-success probability.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative

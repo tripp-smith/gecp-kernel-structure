@@ -1800,7 +1800,7 @@ and the clean dependency audit after targeted certifi/pillow lock updates.
 PNG and isolated wheel smoke checks pass; push and PR CI pass; PR #118 merged
 on 2026-10-22. No artifact was published.
 
-## Phase DM: full census evidence (in progress)
+## Phase DM: full census evidence (verified; merged PR #119)
 
 **Implemented numerical interface, not a new theorem:** schema-2 records add
 complete sampled residual/core histories and physical boundary, signed dyadic
@@ -1855,8 +1855,14 @@ were compared.
 
 The combined report passes all 30 selected-core checks at 192 bits, including
 nine resolution cores. Relative determinant, signed-pivot-product and
-singular-value differences remain below `9e-27`. Final root/CI gates remain
-pending; R25–R27 stay open until the full phase evidence is verified. No
+singular-value differences remain below `9e-27`. The full branch root gate
+passes 3,633 Lean jobs, 876 enforced axiom reports and 430 tests (139.64
+seconds), with clean formatting/mypy/dependency audit and green push/PR CI.
+PR #119 merged on 2026-10-22; DM supports R25–R27. Exact merged/pushed
+closure-head gates will be repeated before handoff. The audit now records
+39 supported and one incomplete group, 97.5% checklist coverage rather than
+weighted effort. R31's AAA-derived/vector-fitting/Prony comparisons and the
+final forty-group audit remain required. No
 continuous-error certificate, exact-reflection theorem, grid independence,
 optimal tie behavior or new approximate-pivot rate is claimed.
 

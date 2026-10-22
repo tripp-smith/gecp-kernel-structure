@@ -16,12 +16,11 @@ DL adds complete numerical result metadata and related failure-path repairs,
 verified by the full root gate (3,633 Lean jobs, 876 enforced axiom reports,
 232 tests, clean dependency audit), green push/PR CI, an isolated wheel smoke,
 and merged as [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118).
-DM's numerical artifacts are now present in draft PR #119: the byte-repeated
+DM delivers in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119): the byte-repeated
 28-case schema-2 census, actual representative order-32 runs, normalized
 plots, and 30 passing 192-bit core checks. The full 430-test local root gate
-passes; fresh exact-head CI and merged-head gates are pending. The ledger
-below retains the last shipped 36/40 baseline until
-that phase closes; presence of new files alone does not close the gate.
+passes; exact-head push and PR CI pass, and PR #119 merged on 2026-10-22.
+The pushed main closure head repeats root/CI gates before final handoff.
 
 ## Decision
 
@@ -29,11 +28,11 @@ that phase closes; presence of new files alone does not close the gate.
 proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
-This audit has 40 concrete requirement groups: **36 supported and 4 incomplete**
-after DL's delivery of R24. This is **90% checklist coverage**, not a weighted
+This audit has 40 concrete requirement groups: **39 supported and 1 incomplete**
+after DM's delivery of R25–R27. This is **97.5% checklist coverage**, not a weighted
 estimate of remaining effort or a probability that an open theorem is true.
-The incomplete groups are R25, R26, R27 and R31. Root/CI success
-cannot turn those missing scopes into achieved results.
+R31 remains incomplete. Root/CI success cannot supply its missing method
+comparisons, and a final whole-SPEC audit remains required.
 
 “Supported” below means the named source was inspected at the relevant scope,
 with its tests/artifacts/gates, not merely that a similarly named file exists.
@@ -69,10 +68,10 @@ rewritten.
 | R22 | float64, arbitrary precision and exact surrogates (§15,24) | Supported | 53-bit matrix paths, `mpmath` bit settings and decimal-string `HighPrecisionData`, rational `Fraction` surrogates; sub-float64 pivot regression and independent precision checks. |
 | R23 | Cross evaluation by solves, not explicit numerical inversion (agent rules) | Supported | `gecp.py`, `applications.py`, exact/MP cross regressions use linear solves. Source scan finds no numerical inverse calls. Formal inverse notation in selected-core identities is algebraic, not a numerical implementation. |
 | R24 | Full result metadata: convergence, stopping, conditioning, precision, ties, certification (agent rules) | Supported | DL exports typed `NumericalMetadata`, `ConditioningDiagnostic`, `RefinementDiagnostic`: actual/requested precision, scoped conditioning estimates/status/history, tie policy/counts/tolerance, certification and error scopes/settings. Cholesky and sparse results carry them; GECP exposes a view over its existing evidence; fixed constructions expose non-iterative/not-applicable statuses. Schema-2 synthetic summaries preserve metadata. Final convergence is checked against the returned reconstruction/training error; candidate exhaustion, optimizer budget/failure/rejection, empty/rank-zero, nonfinite input, rank-deficient and diagnostic-failure paths are tested. JSON rejects nonfinite values; old schema-1 artifacts are preserved. No floating-point result is relabeled a proof or continuous certificate. |
-| R25 | Seven-cutoff census through at least `1e-12` (§14,26,30) | Incomplete | DM's `gecp_census_v2.jsonl` contains all 28 clean-generation, converged MP128 cases and two full runs match bytes. Separate actual order-32 cases at `1,1000,1000000` converge with ranks `9,63,146`; this is representative resolution evidence, not a continuous certificate or all-cutoff resolution sweep. Final root/CI and merge gates still required. |
-| R26 | All specified census diagnostics (§14) | Incomplete | Schema-2 `CensusRecord` serializes complete sampled residual and signed original-core determinant histories, singular values, signed pivots/magnitudes, all four physical boundary distances, dyadic panels, reflected coordinates and nearest selected partners/distances/tolerance. MP strings, 53-bit coordinate versus 128-bit elimination precision, per-prefix metadata and clean revision/config/lock/runtime provenance are explicit. Thirty independent 192-bit core checks pass; final phase gates still required. |
-| R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Incomplete | `gecp_census_normalized.png` contains seven deepest compatible trajectories, rank zero included. Both new PNGs are rendered, inspected and byte-repeated; numerical-zero omission is explicit and no zeros occur here. No universal fitted law is inferred; final phase gates still required. |
-| R28 | Deterministic machine-readable experiment dataset (§26) | Supported | `census.py` records config hash/revision and canonical JSONL; `test_census.py` byte-repeats a fixed configuration. The committed 21-case data/hash is valid historical evidence, not evidence for the absent R25 cases. |
+| R25 | Seven-cutoff census through at least `1e-12` (§14,26,30) | Supported | DM's `gecp_census_v2.jsonl` contains all 28 clean-generation, converged MP128 cases and two full runs match bytes. Separate actual order-32 cases at `1,1000,1000000` converge with ranks `9,63,146`; this is representative resolution evidence, not a continuous certificate or all-cutoff resolution sweep. Full root/CI pass; merged PR #119. |
+| R26 | All specified census diagnostics (§14) | Supported | Schema-2 `CensusRecord` serializes complete sampled residual and signed original-core determinant histories, singular values, signed pivots/magnitudes, all four physical boundary distances, dyadic panels, reflected coordinates and nearest selected partners/distances/tolerance. MP strings, 53-bit coordinate versus 128-bit elimination precision, per-prefix metadata and clean revision/config/lock/runtime provenance are explicit. Thirty independent 192-bit core checks pass; full phase gates pass and PR #119 is merged. |
+| R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Supported | `gecp_census_normalized.png` contains seven deepest compatible trajectories, rank zero included. Both new PNGs are rendered, inspected and byte-repeated; numerical-zero omission is explicit and no zeros occur here. No universal fitted law is inferred. Full phase gates pass; merged PR #119. |
+| R28 | Deterministic machine-readable experiment dataset (§26) | Supported | `census.py` records config hash/revision and canonical JSONL; small configurations and both full 28-case canonical runs repeat bytes. DM records dependency/lock/backend and clean-generation provenance; its combined report binds primary/resolution inputs and checker/grid sources. The original 21-case data/hash remains separately labeled historical evidence. |
 | R29 | Particular Green functions use fewer spectral atoms with explicit error (§19,27F) | Supported | Committed synthetic suite at cutoff 8: clean four-atom library recovery has held-out error `3.33e-16`, versus the same kernel's universal GECP rank 12 at `1e-8`; noisy case and two-delta tests are separately qualified. No sparse uniqueness or optimality claim. |
 | R30 | Sparse exponential/spectral interface, OMP and nonlinear least squares (§19,20) | Supported | `SparseResult` frequencies/weights represent sums of `K(·,ω)`; `sparse.py` implements OMP and bounded nonlinear refinement; synthetic fixtures/tests expose training and held-out errors. |
 | R31 | Listed Phase-II method comparisons (§20) | Incomplete | OMP/nonlinear least squares and universal GECP are implemented. AAA-derived, vector-fitting and Prony-type comparisons are not. A formal AAA implementation is explicitly outside initial scope, but that does not supply the listed numerical comparisons. |
@@ -84,7 +83,7 @@ rewritten.
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, FINAL_HANDOFF and this ledger distinguish proofs, observations, hypotheses and non-claims. Historical bounded phase labels do not override incomplete scopes in this audit. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DL merged PRs #115–#118 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
+| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DM merged PRs #115–#119 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
 
 ## Original section and outcome coverage
 
@@ -103,7 +102,7 @@ rewritten.
 | 11 | R16/R17: intended large-cutoff rate proved, literal arbitrarily-small-cutoff reading refuted. |
 | 12 | A proposed approximation-to-greedy route. The successful local-minor/panel mechanism fulfills the structural objective; a separate general best-rank comparison is not claimed. |
 | 13 | Research questions, not six independently promised positive answers. Actual all-orders signs/gauge are proved; pivot-location hypotheses and counterexamples remain explicitly distinguished. |
-| 14 | R25–R27: DM numerical tolerance/diagnostic/plot and representative resolution artifacts are present; final phase gates pending. Interval-adaptive GECP remains separately supported/tested. |
+| 14 | R25–R27: DM numerical tolerance/diagnostic/plot and representative resolution artifacts are verified. Interval-adaptive GECP remains separately supported/tested; no continuous or all-cutoff resolution claim. |
 | 15 | R18/R22: exact small certificates and rational/high-precision evidence. |
 | 16 | R19/R21: cover theorem and adaptive certified maximizer with failure metadata. |
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
@@ -115,7 +114,7 @@ rewritten.
 | 23 | R32 plus the actual documented result spelling. |
 | 24 | R22/R24/R33: precision and ties are exposed; DL adds explicit actual/requested precision and full metadata outside GECP. Cholesky/sparse remain float64 only, honestly labeled. |
 | 25 | R34/R35: source gates and numerical tests, including tested failure paths. |
-| 26 | R28 supported reproducibility; DM adds full requested data scope with final phase gates pending. |
+| 26 | R25–R28: requested data scope, full repeated canonical run and bound provenance are verified in DM. |
 | 27 A–F | A: R03–R05; B: R06–R09; C: R10–R14; D: R15; E: R16/R17; F: R29. |
 | 28 | R17/R37/R38: no unqualified “solved Problem 4.2”, no “optimal” theorem naming, no literature-priority claim. |
 | 29 | R38 and this explicit gap ledger. |
@@ -188,17 +187,16 @@ the control baseline, not this repository's claimed invention.
 DJ/DK close the staged continuous baseline (R08/R09), not the full published
 asymptotic P-greedy theory. The remaining required targets are:
 
-1. **Census completion (R25–R27).** DL closes result metadata (R24).
-   DM artifacts now implement the requested depth/diagnostics/plots and actual
-   representative denser runs; finish final root/CI/merge gates before closing
-   this target. Retain precision/tie/certification limitations.
-2. **Phase-II comparisons (R31).** Implement and compare the listed missing
+DM closes census completion (R25–R27), retaining all precision/tie/certification
+limitations. Required work remains:
+
+1. **Phase-II comparisons (R31).** Implement and compare the listed missing
    sparse methods on specified fixtures, with held-out errors, failure states,
    conditioning and reproducibility; do not infer sparse optimality.
    The historical noisy dictionary includes its generating frequencies and
    is not support-blind; new comparisons require independent candidate sets
    and shared observations/held-out errors across methods.
-3. Repeat this audit after those implementations, then run merged/pushed-head
+2. Repeat this audit after those implementations, then run merged/pushed-head
    gates before deciding whether the full goal is achieved.
 
 No missing requirement is resolved by a status annotation alone.

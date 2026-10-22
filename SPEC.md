@@ -2725,7 +2725,7 @@ This annotation records delivered identifiers without changing the goals above.
   232 tests and a clean dependency audit after targeted transitive lock fixes;
   isolated wheel smoke and green push/PR CI; merged as PR #118.
 
-- **Phase DM status (2026-10-22, in progress):** schema-2 `CensusRecord`
+- **Phase DM status (2026-10-22, verified; merged PR #119):** schema-2 `CensusRecord`
   implementation adds complete residual/determinant histories and boundary,
   dyadic-panel and nearest-selected-reflection diagnostics. The canonical
   configuration now requests four tolerances through `1e-12`, and normalized
@@ -2733,6 +2733,9 @@ This annotation records delivered identifiers without changing the goals above.
   checks are implemented. The full repeated 28-case primary artifact and both
   plots are present; three actual order-32 GECP cases also converge and match
   the corresponding order-24 ranks, with different paths. Thirty independent
-  192-bit core checks pass, with an explicit non-certification scope. Final
-  root/CI and merge verification are still required. No original objective above is rewritten
-  or yet reclassified by this in-progress annotation.
+  192-bit core checks pass, with an explicit non-certification scope. Full
+  root verification passes 3,633 Lean jobs, 876 axiom reports and 430 tests;
+  exact-head push/PR CI pass and PR #119 is merged. This supports R25–R27;
+  original mathematical objectives above are unchanged. R31 comparisons and
+  the final whole-SPEC audit remain required. Pushed-main closure gates repeat
+  before final handoff; no continuous numerical certificate is inferred.
