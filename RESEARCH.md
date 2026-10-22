@@ -9482,11 +9482,11 @@ training convergence remain distinct.
 ### DN canonical observations and independent checks
 
 The final clean numerical-generator revision is
-`e98dd62fa829fa3de6e5dfc4b8dfdade5aabbc20`; configuration SHA-256 is
+`072ce1004de11422f05ef1fbe3e738093d6f2f13`; configuration SHA-256 is
 `665e158dd17b5722ecd1e34b2d549cbe0dcd413613dd7f5d9c33a3af54cdeeb7`.
-Two full executions take 6.10 and 6.23 observed wall seconds and produce the
+Two full executions take 6.52 and 6.53 observed wall seconds and produce the
 same 192-fit JSON bytes, SHA-256
-`d07c84f3518eef7999c6f84916093a2dd888d53367036db49dc702ff52b4b7c4`.
+`9f85509c929bc0511b0f34f25af5188420902a165ddd3697631607d16fd5ec31`.
 The reviewed 1680-by-1120 PNG also repeats bytes, SHA-256
 `0368a73f27aa4b15ed9c313cb73a7326157d706b6aea22ca5c798cd75fe834d2`.
 Python 3.12.12, NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1 are recorded.

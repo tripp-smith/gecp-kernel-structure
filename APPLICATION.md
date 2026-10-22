@@ -745,6 +745,15 @@ kernel rank; it is not the globally minimal support, a support-identification
 certificate, or a continuous-error guarantee. Results are 53-bit fits; only
 the separately labeled universal node generator uses the configured precision.
 
+The frozen artifact contains 192 fits (four fixtures, eight budgets, six
+methods), and the JSON and reviewed plot repeat bytes. Universal kernel ranks
+at cutoff eight are 11/12 at `1e-6`/`1e-8`. At `1e-8`, AAA/VF/Prony/NLS reach
+four tested atoms on the clean off-grid case; VF/Prony/NLS also reach four on
+the noisy case and six on each continuous-density reference. AAA's other
+physical fits fail and remain in the plot/data. Density references are fixed
+normalized 2001-node quadratures; reported errors are not against the exact
+continuous integral. Full phase gates and merge are pending.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

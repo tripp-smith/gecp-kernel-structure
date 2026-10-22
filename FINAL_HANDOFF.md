@@ -512,6 +512,33 @@ repeats root/CI gates before final handoff. The audit now supports 39/40 groups
 is a continuous certificate or new Lean rate theorem; R31 comparisons and the
 final full-SPEC audit remain required.
 
+## DN six-method comparison (verification in progress)
+
+DN implements all six SPEC §20 methods on identical time observations,
+with original-kernel least-squares weights and separately scoped native,
+training and held-out convergence. Genuine VF eigenvalue pole relocation,
+SciPy AAA and data-ranked strided-Hankel Prony are not renamed nonlinear LS.
+All 192 fits are retained, including nonphysical pole rejections and failures.
+The known-library control is separate from the off-grid primary cohort.
+
+The canonical JSON comes from clean
+`072ce1004de11422f05ef1fbe3e738093d6f2f13`, configuration SHA-256
+`665e158dd17b5722ecd1e34b2d549cbe0dcd413613dd7f5d9c33a3af54cdeeb7`;
+two complete runs match bytes, JSON SHA-256
+`9f85509c929bc0511b0f34f25af5188420902a165ddd3697631607d16fd5ec31`.
+The reviewed PNG repeats bytes, SHA-256
+`0368a73f27aa4b15ed9c313cb73a7326157d706b6aea22ca5c798cd75fe834d2`.
+The final schema preserves the universal generator's MP decimal histories as
+well as labeled float summaries. Independent tests reconstruct every reported
+time error and smallest-tested support.
+
+At cutoff eight and `1e-8`, universal kernel rank is 12. AAA/VF/Prony/NLS use
+four tested atoms for the clean off-grid fixture. VF/Prony/NLS also pass with
+four on the noisy fixture and six on both fixed-quadrature density references.
+AAA fails the other three physical fits. No support optimum, uniqueness,
+continuous density-integral error or universal method ranking is claimed.
+Full root/CI gates and merge remain pending; final whole-SPEC audit is next.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at

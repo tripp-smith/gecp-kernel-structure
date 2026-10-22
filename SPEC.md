@@ -2743,7 +2743,7 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase DN status (2026-10-22, in progress):** implementing the six listed
   numerical comparisons in §§19–20 using shared time observations, explicit
   Matsubara/Prony bridges, original-kernel weight solves and retained failure
-  diagnostics. The contract is frozen in RESEARCH; canonical repeated artifacts,
-  full root/CI verification and merge are pending. Original mathematical goals
+  diagnostics. The contract is frozen in RESEARCH; all 192 canonical fits and
+  the reviewed PNG repeat bytes. Full root/CI verification and merge are pending. Original mathematical goals
   above are unchanged. No globally optimal sparse support or unique recovery
   is inferred from a smallest tested passing support.
