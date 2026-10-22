@@ -293,7 +293,8 @@ for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
 G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
-The updated audit identifies four required groups still incomplete. DH closes the
+The updated audit identifies one required group still incomplete, R31, followed
+by the final original-SPEC audit. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.

@@ -677,18 +677,22 @@ final whole-SPEC audit remain required.
 
 ## Deferred research
 
-No v1 implementation task is blocked. Open research and optional extensions
-are:
+No v1 implementation task is blocked. The current required remainder is R31's
+fair six-method comparison and the final original-SPEC audit. DG/DH have since
+closed the exact complete-pivot rate by a different route. The historical v1
+follow-ups below are therefore optional alternative proofs or extensions,
+except the explicitly required R31 comparisons:
 
-- transport the proved `Λ≤1` two-corner half contraction through dyadic
-  frequency layers, using the now-unconditional selected-pivot
+- as an alternative proof, transport the proved `Λ≤1` two-corner half
+  contraction through dyadic frequency layers, using the now-unconditional selected-pivot
   nonexpansiveness invariant between strict contractions, to obtain the
   `O(log Λ)` block length required by Conjecture G1;
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
-- add AAA, vector fitting, and multidimensional sparse recovery in a later
-  version.
+- complete R31's AAA-derived, vector-fitting and Prony comparisons against
+  universal GECP, nonlinear least squares and greedy pursuit; multidimensional
+  sparse recovery remains optional.
 
 ## Public Lean results
 
@@ -826,12 +830,20 @@ git status --short
 
 ## Known limitations and non-claims
 
+Current required work is R31 plus the final audit. Phase-specific proof-route
+non-claims below preserve their historical contracts; they are not additional
+missing original-SPEC requirements, and later DG/DH rate theorems do not depend
+on completing those abandoned routes.
+
 - No solution of Simons Problem 4.2 is claimed.
 - The low-rank theorem is not a GECP theorem.
 - Census curves and pivot certificates are evidence, not a continuous GECP
   convergence proof.
-- The proved `0<Λ≤1` two-step half contraction is not extrapolated to larger
-  cutoffs; the dyadic block scaling required by Conjecture G1 remains open.
+- The proved `0<Λ≤1` two-step half contraction alone is not extrapolated to
+  larger cutoffs. DG/DH separately prove the exact complete-pivot logarithmic
+  rate for `Λ≥1` and the all-positive-cutoff `log(2+Λ)` variant. Extending that
+  rate to arbitrary certified approximate pivots remains a conditional research
+  extension, not a delivered practical convergence guarantee.
 - Phase BR constructs the exact compatible low-rank-plus-tail split for every
   fermionic prefix and preserves the rank-eight feature factor. It does not
   prove the conditioned-tail amplification inequality: exact arithmetic shows
