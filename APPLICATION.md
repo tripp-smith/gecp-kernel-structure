@@ -152,7 +152,13 @@ claims.
 ```bash
 uv run python -m kernelgecp.census \
   --config experiments/census.toml \
-  --output experiments/data/gecp_census.jsonl
+  --output experiments/data/gecp_census_v2.jsonl
+uv run python experiments/plot_census.py \
+  experiments/data/gecp_census_v2.jsonl \
+  experiments/data/gecp_census_normalized.png --mode normalized
+uv run python experiments/check_census.py \
+  --input experiments/data/gecp_census_v2.jsonl \
+  --output experiments/data/gecp_census_checks.json
 uv run python experiments/exact_surrogates.py
 uv run python experiments/synthetic_applications.py \
   --config experiments/synthetic_applications.toml \
@@ -162,9 +168,40 @@ uv run python experiments/synthetic_applications.py \
 
 Runtime algorithms require no network access. The canonical census evaluates
 endpoint-refined grids at 128-bit precision and records decimal strings. Its
-three tolerance records per cutoff are exact prefixes of one strict trajectory;
-the checked dataset is byte-reproducible. Adaptive interval certification is a
+four tolerance records per cutoff are prefixes of one strict trajectory down
+to `1e-12`. The canonical config requires a clean tracked revision before
+generation; exploratory configurations may opt out and record their dirty
+state. The historical schema-1 `gecp_census.jsonl` and PNG are preserved;
+new schema-2 output uses separate names. Adaptive interval certification is a
 separate, more expensive continuous-domain mode.
+
+Schema 2 includes the actual sampled residual maxima (rank + 1 values), signed
+original-core determinants, singular values, signed pivots and magnitudes,
+boundary distances, dyadic scales/panels, and reflection diagnostics at every
+prefix. Each tolerance record recomputes its nearest selected reflection
+partners, including fixed-point self-partners, rather than slicing partner
+indices from a later prefix. Distances use
+`max(abs(dt), abs(domega)/cutoff)`; a match within the recorded tolerance is
+numerical proximity, not an exact symmetry theorem. The central panel has
+`abs(omega) <= 1`; scale `s > 0` means
+`2^(s-1) < abs(omega) <= 2^s`, with sign recorded separately.
+
+Elimination is 128-bit but the composite Chebyshev grid coordinates originate
+in float64 (53 bits); both precisions are exposed. Revision, dirty state,
+configuration hash, grid shape, Python/dependency versions, mpmath backend
+and lock digest describe provenance. No timestamps or runtime-dependent order
+are included in byte-reproducible JSONL. Prefix metadata distinguishes the
+requested tolerance from the source trajectory's strict tolerance. An
+uncertified adaptive terminal upper bound cannot establish convergence.
+
+Normalized plotting uses the deepest compatible trajectory once per cutoff
+and every `k/log(1+cutoff)` residual value, including rank zero. Exact numerical
+zeros are omitted from the log display and disclosed, not replaced with a
+positive floor. The independent check script recomputes selected cores at
+higher precision and evaluates fixed selected crosses on denser held-out
+panel samples using a factored solve. This is a resolution-sensitivity check,
+not a denser GECP trajectory, a continuous supremum certificate, or proof of
+grid independence.
 
 For the open GECP-rate question, `analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while

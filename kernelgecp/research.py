@@ -219,7 +219,9 @@ def certify_fermionic_block_contraction(
     )
 
 
-def _decimal_sequence(value: object, *, field: str) -> list[Decimal]:
+def _decimal_sequence(
+    value: object, *, field: str, nonnegative: bool = False
+) -> list[Decimal]:
     if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
         raise ValueError(f"{field} must be a sequence")
     result: list[Decimal] = []
@@ -230,6 +232,8 @@ def _decimal_sequence(value: object, *, field: str) -> list[Decimal]:
             raise ValueError(f"{field} contains a non-decimal value") from error
         if not parsed.is_finite():
             raise ValueError(f"{field} contains a non-finite value")
+        if nonnegative and parsed < 0:
+            raise ValueError(f"{field} must be nonnegative")
         result.append(abs(parsed))
     return result
 
@@ -244,7 +248,7 @@ def analyze_census_record(
     try:
         cutoff_text = str(record["cutoff"])
         tolerance_text = str(record["tolerance"])
-        residual = abs(Decimal(str(record["residual"])))
+        residual = Decimal(str(record["residual"]))
     except (KeyError, ArithmeticError) as error:
         raise ValueError(
             "record is missing valid cutoff, tolerance, or residual"
@@ -252,13 +256,18 @@ def analyze_census_record(
     cutoff = Decimal(cutoff_text)
     if not residual.is_finite():
         raise ValueError("residual must be finite")
+    if record.get("schema_version") == 2 and residual < 0:
+        raise ValueError("residual must be nonnegative")
+    residual = abs(residual)
     pivots = _decimal_sequence(record.get("pivots"), field="pivots")
     if not pivots or pivots[0] == 0:
         raise ValueError("record must contain a nonzero first pivot")
     # Schema 1 retained only selected near-maximal pivots; schema 2 stores
     # the actual sampled maxima, which need not be identical at a near tie.
     history = (
-        _decimal_sequence(record.get("residual_history"), field="residual_history")
+        _decimal_sequence(
+            record.get("residual_history"), field="residual_history", nonnegative=True
+        )
         if record.get("schema_version") == 2
         else [*pivots, residual]
     )

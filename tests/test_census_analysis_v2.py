@@ -39,8 +39,14 @@ def test_schema_two_analysis_uses_sampled_maxima_not_nearmaximal_pivots() -> Non
         ["1", "0.8", "0.4", "0.2", "0.1", "0.04"],
         ["1", "0.8", "0", "0.2", "0.1", "0.05"],
         ["1", "0.8", "nan", "0.2", "0.1", "0.05"],
+        ["-1", "-0.8", "-0.4", "-0.2", "-0.1", "-0.05"],
     ],
 )
 def test_schema_two_analysis_never_falls_back_to_pivot_proxy(history: object) -> None:
     with pytest.raises(ValueError, match="residual|preterminal"):
         analyze_census_record(_record() | {"residual_history": history})
+
+
+def test_schema_two_analysis_rejects_negative_terminal_residual() -> None:
+    with pytest.raises(ValueError, match="nonnegative"):
+        analyze_census_record(_record() | {"residual": "-0.05"})

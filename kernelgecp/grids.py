@@ -57,6 +57,10 @@ def frequency_grid(cutoff: float, order: int = 24) -> npt.NDArray[np.float64]:
         if left >= cutoff:
             break
     positive_nodes = _merge_nodes(positive)
+    # Floating midpoint arithmetic may put the final Lobatto node one ulp
+    # outside the physical cutoff. Preserve every interior node, but restore
+    # the supplied boundary exactly before reflecting the positive grid.
+    positive_nodes[-1] = cutoff
     return np.concatenate((-positive_nodes[:0:-1], positive_nodes))
 
 

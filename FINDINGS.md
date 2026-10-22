@@ -1798,6 +1798,27 @@ and the clean dependency audit after targeted certifi/pillow lock updates.
 PNG and isolated wheel smoke checks pass; push and PR CI pass; PR #118 merged
 on 2026-10-22. No artifact was published.
 
+## Phase DM: full census evidence (in progress)
+
+**Implemented numerical interface, not a new theorem:** schema-2 records add
+complete sampled residual/core histories and physical boundary, signed dyadic
+panel and nearest-reflection diagnostics. Prefix metadata uses the requested
+tolerance while retaining the source trajectory's strict tolerance. Failed
+adaptive certificates cannot imply convergence. Normalized plotting rejects
+explicit adaptive/non-sampled or unsuccessful runs instead of mislabeling them.
+
+Independent exact Fraction geometry checks and manually specified prefix,
+zero-rank, budget, malformed-history and failure cases pass. Review corrected
+floating-point frequency endpoints that could overshoot non-integer physical
+cutoffs; byte-level regressions preserve all seven canonical integer grids.
+Schema-2 block analysis uses actual sampled maxima, not near-maximal pivots,
+and rejects negative residuals rather than silently taking their magnitude.
+
+The full repeated census and higher-precision/held-out diagnostics are still
+being generated. R25–R27 remain open until those artifacts and final gates
+are verified. This phase makes no continuous-error, exact-reflection or new
+approximate-pivot-rate claim.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

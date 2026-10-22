@@ -898,6 +898,15 @@ not-applicable statuses prevent confusing an uncomputed numerical quantity
 with an established mathematical invariant. All prior public theorem and
 axiom checks remain mandatory root gates.
 
+## DM: complete numerical census diagnostics
+
+DM introduces no Lean abstraction, theorem or upstream candidate. Serialized
+numerical original-core determinants and signed pivot products can be checked
+against the existing proved GECP identity, but arbitrary-precision agreement
+is not itself a proof. Nearest selected reflected nodes, dyadic panel labels
+and denser held-out residual observations likewise assert no new mathematical
+invariant. Existing public-theorem exports and axiom gates remain unchanged.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

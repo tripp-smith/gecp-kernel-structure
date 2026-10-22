@@ -517,7 +517,7 @@ credit, or internal compute cost. They exclude cache discounts, long-context
 premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
-The post-v1 research goal remains incomplete. A runtime snapshot on
+The post-v1 research goal remains incomplete. A historical runtime snapshot on
 2026-10-22 at 09:38 UTC returned 17,290,841 aggregate goal tokens and 90,256
 goal-accounting seconds with tracker status `usageLimited`. These cumulative
 counters are not Phase DL-only usage, have not advanced between the observed
@@ -530,9 +530,20 @@ agent and unrestricted local filesystem/network access. DL used two temporary
 subagents for metadata tests and read-only review; exact serving versions are
 not exposed. No new pricing estimate is
 attached to these research counters.
-The latest user request continues the objective, but this snapshot is not an
-`active` or `complete` tracker report. The DL audit records four incomplete original-SPEC
-requirement groups. The proved central exact-GECP rate does not close those gaps.
+That historical snapshot was not an `active` or `complete` tracker report.
+The DL audit records four incomplete original-SPEC requirement groups.
+
+The DM continuation's current runtime snapshot (2026-10-22, 15:44 UTC) instead
+reports tracker status `active`, 17,909,239 aggregate goal tokens and 91,222
+goal-accounting seconds. These are cumulative, not DM-only counters, and do
+not expose token categories or billing. Default mode, unrestricted local
+filesystem/network execution and approval policy `never` remain exposed.
+The declared family is Codex based on GPT-5; exact model/version and reasoning
+effort remain unavailable. DM uses one primary agent and three temporary
+subagents for plotting/validation tests, independent review/geometry tests,
+and independent numerical checking. No serving-version attribution or new
+API-equivalent price calculation is inferred. Full repeated numerical
+artifacts and final gates are pending; the original-SPEC goal is not complete.
 
 ## Phase status
 
@@ -577,6 +588,7 @@ requirement groups. The proved central exact-GECP rate does not close those gaps
 | DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
+| DM — complete census diagnostics and normalized curves | in progress | schema-2 interface and focused checks implemented; full repeated census and final gates pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |

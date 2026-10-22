@@ -185,3 +185,50 @@ def test_failed_save_does_not_leak_a_figure(
     with pytest.raises(OSError, match="test save failure"):
         plotting.plot_ranks([_record()], tmp_path / "ranks.png")
     assert plotting.plt.get_fignums() == before
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        ({"algorithm": "adaptive"}, "grid algorithm"),
+        ({"algorithm": "matrix"}, "grid algorithm"),
+        (
+            {"metadata": {"convergence_scope": "continuous_interval_bound"}},
+            "sampled_grid",
+        ),
+        ({"metadata": {"convergence_scope": "not_recorded"}}, "sampled_grid"),
+        ({"converged": False, "stop_reason": "max_rank"}, "converged records"),
+        ({"converged": "true"}, "converged records"),
+        (
+            {"metadata": {"convergence_scope": "sampled_grid", "converged": False}},
+            "converged records",
+        ),
+        ({"metadata": None}, "metadata must be an object"),
+    ],
+)
+def test_plots_reject_mislabeled_or_unsuccessful_evidence_before_output(
+    tmp_path: Path, change: dict[str, Any], message: str
+) -> None:
+    record = _record() | change
+    before = plotting.plt.get_fignums()
+    with pytest.raises(ValueError, match=message):
+        plotting.normalized_curves([record])
+    for mode in (plotting.plot_normalized, plotting.plot_ranks):
+        output = tmp_path / f"{mode.__name__}.png"
+        with pytest.raises(ValueError, match=message):
+            mode([record], output)
+        assert not output.exists()
+    assert plotting.plt.get_fignums() == before
+
+
+def test_plot_validation_accepts_explicit_converged_sampled_grid_evidence(
+    tmp_path: Path,
+) -> None:
+    record = _record() | {
+        "algorithm": "grid",
+        "converged": True,
+        "metadata": {"convergence_scope": "sampled_grid", "converged": True},
+    }
+    assert len(plotting.normalized_curves([record])) == 1
+    plotting.plot_normalized([record], tmp_path / "normalized.png")
+    plotting.plot_ranks([record], tmp_path / "ranks.png")

@@ -9269,3 +9269,22 @@ near-optimal theorem for approximate numerical pivots is claimed. The remaining
 Phase-II sparse comparisons (R31) and final original-SPEC audit stay required.
 Use the phase skill for verification/delivery; the Lean research loop is not
 needed because this phase introduces no open formal claim.
+
+### DM implementation checks
+
+The immutable numerical-generator/configuration snapshot is
+`c0e8c5093134f369b93781c413750b7f1de46036`. Two complete canonical runs were
+started from its clean tracked tree. Subsequent review repaired non-integer
+outer frequency endpoints without changing any canonical integer-cutoff grid
+byte, rejected adaptive/unsuccessful inputs in finite-grid plots, and rejected
+negative schema-2 residual maxima in block analysis. These scope repairs do
+not relabel the dataset's actual generation revision as a later commit.
+
+The denser-grid check is specifically a fixed-selected-cross held-out sample:
+up to three source-disjoint order-32 interior coordinates in every endpoint/
+dyadic panel per axis, Cartesian product, evaluated at 192 bits using one LU
+factorization and batched triangular solves. It is not a denser GECP rerun,
+full-denser-grid maximum, continuous certificate, or proof of grid independence.
+Independent 192-bit core determinant, signed pivot-product and singular-value
+checks use fixed acceptance thresholds; disagreements must be preserved and
+reported rather than fixed by adapting thresholds after seeing the data.

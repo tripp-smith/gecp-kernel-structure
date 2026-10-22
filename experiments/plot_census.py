@@ -66,6 +66,31 @@ def _integer(value: Any, name: str, *, positive: bool = False) -> int:
     return value
 
 
+def _validate_sampled_record(record: Mapping[str, Any]) -> None:
+    """Do not label interval bounds or unsuccessful runs as grid evidence.
+
+    Missing fields remain accepted for old, minimal census records. Explicit
+    algorithm, scope and convergence metadata must agree with the plot labels.
+    """
+
+    if "algorithm" in record and record["algorithm"] != "grid":
+        raise ValueError("census plots require the grid algorithm, not adaptive bounds")
+    metadata = record.get("metadata", {})
+    if not isinstance(metadata, Mapping):
+        raise ValueError("census plot metadata must be an object")
+    if (
+        "convergence_scope" in metadata
+        and metadata["convergence_scope"] != "sampled_grid"
+    ):
+        raise ValueError("census plots require sampled_grid convergence scope")
+    for name, source in (("record", record), ("metadata", metadata)):
+        if "converged" in source and source["converged"] is not True:
+            raise ValueError(
+                "census plots require converged records; "
+                f"{name} does not establish the rank required for its tolerance"
+            )
+
+
 def read_census(path: Path) -> list[dict[str, Any]]:
     """Read JSONL without depending on optional, evolving census metadata."""
 
@@ -101,6 +126,7 @@ def normalized_curves(records: Sequence[Mapping[str, Any]]) -> list[NormalizedCu
         defaultdict(list)
     )
     for record in records:
+        _validate_sampled_record(record)
         if record.get("schema_version") != 2:
             raise ValueError(
                 "normalized mode requires schema_version 2 residual histories"
@@ -214,6 +240,7 @@ def plot_ranks(records: Sequence[Mapping[str, Any]], output: Path) -> None:
     grouped: dict[Decimal, list[tuple[float, int]]] = defaultdict(list)
     precisions = []
     for record in records:
+        _validate_sampled_record(record)
         try:
             cutoff = _as_float(
                 _decimal(record["cutoff"], "cutoff", positive=True), "cutoff"
