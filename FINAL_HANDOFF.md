@@ -512,7 +512,7 @@ repeats root/CI gates before final handoff. The audit now supports 39/40 groups
 is a continuous certificate or new Lean rate theorem; R31 comparisons and the
 final full-SPEC audit remain required.
 
-## DN six-method comparison (verification in progress)
+## DN six-method comparison (verified, PR #120)
 
 DN implements all six SPEC §20 methods on identical time observations,
 with original-kernel least-squares weights and separately scoped native,
@@ -537,7 +537,13 @@ four tested atoms for the clean off-grid fixture. VF/Prony/NLS also pass with
 four on the noisy fixture and six on both fixed-quadrature density references.
 AAA fails the other three physical fits. No support optimum, uniqueness,
 continuous density-integral error or universal method ranking is claimed.
-Full root/CI gates and merge remain pending; final whole-SPEC audit is next.
+The full root at `256779028bd5a07736730bf3ff70587f80b91c75` passes 513 tests
+in 141.91 seconds, 3,633 Lean jobs, all 876 axiom reports and the clean
+format/type/dependency gates. Exact-head push CI `39831341046` and PR CI
+`39831351890` pass. Source/wheel inspections and installed-wheel smokes outside
+the checkout pass with both SciPy 1.18 and the declared minimum 1.15. Nothing
+is published. Final closure-head gates repeat before PR #120 merge and main
+handoff; the final independent whole-SPEC audit remains next.
 
 ## Implementation run metadata
 
@@ -604,15 +610,17 @@ and CI gates pass and PR #119 is merged. Exact pushed-main closure gates are
 repeated before handoff. The original-SPEC goal is not complete: R31 and the
 final whole-SPEC audit remain required.
 
-DN's runtime snapshot on 2026-10-22 at 18:13 UTC reports tracker status `active`,
-19,153,881 aggregate goal tokens and 96,162 goal-accounting seconds, cumulative
+DN's runtime snapshot on 2026-10-22 at 18:30 UTC reports tracker status `active`,
+19,519,948 aggregate goal tokens and 97,203 goal-accounting seconds, cumulative
 rather than DN-only. Exact serving model/version, reasoning effort, token
 categories and billing remain unavailable. Default mode, declared Codex/GPT-5
 family and unrestricted execution are unchanged. Three temporary adapter
 workers contributed partial implementation before reporting an account usage
 limit; the primary agent continues integration and verification locally. No
-new cost calculation or serving-version attribution is inferred. DN is in
-progress; R31 and the final audit are not yet declared complete.
+new cost calculation or serving-version attribution is inferred. DN's full
+local and push/PR CI gates pass; R31 is supported, with final closure/merge
+gates pending. Forty of forty working-ledger groups are supported, but the
+final independent original-SPEC audit and full-goal completion remain unproved.
 
 ## Phase status
 
@@ -657,7 +665,8 @@ progress; R31 and the final audit are not yet declared complete.
 | DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
 | DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
-| DM — complete census diagnostics and normalized curves | verified; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
+| DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
+| DN — fair six-method spectral comparisons | verified; green CI | [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120), merge pending; byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -714,11 +723,10 @@ progress; R31 and the final audit are not yet declared complete.
 
 ## Deferred research
 
-No v1 implementation task is blocked. The current required remainder is R31's
-fair six-method comparison and the final original-SPEC audit. DG/DH have since
-closed the exact complete-pivot rate by a different route. The historical v1
-follow-ups below are therefore optional alternative proofs or extensions,
-except the explicitly required R31 comparisons:
+No v1 implementation task is blocked. DN verifies R31's six-method comparison;
+the final original-SPEC audit and exact closure/merge gates remain required.
+DG/DH have since closed the exact complete-pivot rate by a different route.
+The historical v1 follow-ups below are optional alternative proofs or extensions:
 
 - as an alternative proof, transport the proved `Λ≤1` two-corner half
   contraction through dyadic frequency layers, using the now-unconditional selected-pivot
@@ -727,9 +735,7 @@ except the explicitly required R31 comparisons:
 - formalize the Gimbutas–Marshall–Rokhlin selected-exponential Chebyshev
   construction as an alternate low-rank theorem;
 - formalize stronger published pivoted-Cholesky Lipschitz rates;
-- complete R31's AAA-derived, vector-fitting and Prony comparisons against
-  universal GECP, nonlinear least squares and greedy pursuit; multidimensional
-  sparse recovery remains optional.
+- extend sparse recovery to multidimensional kernels; this remains optional.
 
 ## Public Lean results
 
@@ -867,7 +873,7 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is R31 plus the final audit. Phase-specific proof-route
+Current required work is the final audit plus DN's exact closure/merge gates. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
 on completing those abandoned routes.
@@ -1005,16 +1011,17 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The original-SPEC audit is recorded in `COMPLETION_AUDIT.md`; it finds one
-incomplete requirement group despite the proved central exact-GECP rate.
+The working original-SPEC ledger is recorded in `COMPLETION_AUDIT.md`; it now
+supports all forty groups, without substituting that status for a final audit.
 DJ/DK prove original-kernel Lipschitz fill control, arbitrary-domain PSD
 geometry and strict-SPD complete-pivot diagonal necessity through fresh
 residual prefixes. DL completes result metadata; DM completes the census
 depth/diagnostics/normalized curves and representative resolution checks.
-Next implement the listed sparse-method comparisons (R31), then re-audit all forty groups before
-claiming the full goal complete. Approximate-pivot rate extensions remain
+DN verifies R31's six-method comparisons with shared observations and retained
+failures. Next complete its exact closure/merge gates and independently re-audit
+all forty groups before claiming the full goal complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The 97.5% figure is checklist coverage, not weighted effort
+theorems. The 100% figure is checklist coverage, not weighted effort
 or a theorem-success probability.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative

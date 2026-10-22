@@ -1866,7 +1866,7 @@ final forty-group audit remain required. No
 continuous-error certificate, exact-reflection theorem, grid independence,
 optimal tie behavior or new approximate-pivot rate is claimed.
 
-## DN: six-method spectral comparisons (in progress)
+## DN: six-method spectral comparisons (verified, PR #120)
 
 The R31 implementation adds the Matsubara rational bridge, SciPy AAA-derived
 physical atoms, genuine iterative vector-fitting pole relocation, and
@@ -1882,7 +1882,10 @@ pass with four on the noisy case and six on each fixed-quadrature continuous
 density reference. AAA fails the other three physical fits; those failures
 and nonphysical poles remain explicit. No method is supplied the true order.
 These are smallest tested supports, not optimality/uniqueness or continuous
-error claims. R31 completion remains pending full gates and merge.
+error claims. R31 is supported by the actual comparisons, independent error
+reconstruction, 513-test full root gate, green exact-head push/PR CI and
+installed-wheel checks (including minimum SciPy 1.15). PR #120 awaits merge;
+the final independent original-SPEC audit remains required.
 
 ## Run provenance
 

@@ -9517,4 +9517,12 @@ Independent tests reconstruct every returned model with a direct kernel
 formula and recompute all 192 training/held-out errors, support minima and
 pass flags. Source/lock/config/revision hashes are pinned. Prefix metadata
 reports the actual universal prefix's kernel error, not convergence of its
-full parent trajectory. The full root/CI gates and merge remain pending.
+full parent trajectory. At `256779028bd5a07736730bf3ff70587f80b91c75`, the
+full root passes 513 tests in 141.91 seconds, 3,633 Lean jobs, all 876 axiom
+reports, 81-file formatting, mypy on 19 sources and the clean dependency audit.
+Push CI `39831341046` and PR CI `39831351890` pass all four checks. Source/wheel
+archives contain the new artifacts and exclude local notes/caches. Installed
+wheel smokes outside the checkout pass both pinned SciPy 1.18 and the declared
+minimum 1.15. No package is published. PR #120 is ready for final closure-head
+reverification and merge. R31 is supported; the ledger is now forty supported
+groups, but final independent original-SPEC audit remains required.

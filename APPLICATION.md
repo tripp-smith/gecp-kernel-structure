@@ -709,7 +709,7 @@ revision remain valid historical evidence, not silently rewritten output.
 
 Focused checks: `uv run python -m pytest tests/test_result_metadata.py`.
 
-## Six-method spectral comparison (DN, in progress)
+## Six-method spectral comparison (DN, verified; PR #120)
 
 `ComparisonConfig` and `run_spectral_comparison` live in
 `kernelgecp.comparison`. The runner is
@@ -752,7 +752,9 @@ four tested atoms on the clean off-grid case; VF/Prony/NLS also reach four on
 the noisy case and six on each continuous-density reference. AAA's other
 physical fits fail and remain in the plot/data. Density references are fixed
 normalized 2001-node quadratures; reported errors are not against the exact
-continuous integral. Full phase gates and merge are pending.
+continuous integral. Full root (513 tests), exact-head push/PR CI and
+installed-wheel smokes pass, including the minimum supported SciPy 1.15.
+PR #120 awaits final closure-head checks and merge; no package is published.
 
 ## Release provenance
 
