@@ -27,6 +27,8 @@ experiments/data/*
 !experiments/data/exact_surrogates.json
 !experiments/data/synthetic_applications.json
 !experiments/data/synthetic_applications.png
+!experiments/data/spectral_comparison.json
+!experiments/data/spectral_comparison.png
 
 
 # Editors and operating systems

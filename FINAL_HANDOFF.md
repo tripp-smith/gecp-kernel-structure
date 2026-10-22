@@ -562,7 +562,7 @@ attached to these research counters.
 That historical snapshot was not an `active` or `complete` tracker report.
 The DL audit records four incomplete original-SPEC requirement groups.
 
-The DM continuation's current runtime snapshot (2026-10-22, 16:44 UTC) instead
+The DM continuation's runtime snapshot (2026-10-22, 16:44 UTC) instead
 reports tracker status `active`, 18,595,692 aggregate goal tokens and 94,848
 goal-accounting seconds. These are cumulative, not DM-only counters, and do
 not expose token categories or billing. Default mode, unrestricted local
@@ -576,6 +576,16 @@ artifact, denser-grid evidence and combined checks are verified; branch root
 and CI gates pass and PR #119 is merged. Exact pushed-main closure gates are
 repeated before handoff. The original-SPEC goal is not complete: R31 and the
 final whole-SPEC audit remain required.
+
+DN's runtime snapshot on 2026-10-22 at 18:13 UTC reports tracker status `active`,
+19,153,881 aggregate goal tokens and 96,162 goal-accounting seconds, cumulative
+rather than DN-only. Exact serving model/version, reasoning effort, token
+categories and billing remain unavailable. Default mode, declared Codex/GPT-5
+family and unrestricted execution are unchanged. Three temporary adapter
+workers contributed partial implementation before reporting an account usage
+limit; the primary agent continues integration and verification locally. No
+new cost calculation or serving-version attribution is inferred. DN is in
+progress; R31 and the final audit are not yet declared complete.
 
 ## Phase status
 

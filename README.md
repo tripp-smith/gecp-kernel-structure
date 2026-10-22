@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DM — complete census diagnostics and normalized curves<br>
-> **Phase state:** verified; DM merged and DL complete<br>
+> **Current phase:** DN — fair six-method spectral comparisons<br>
+> **Phase state:** in progress; DM complete<br>
 > **Last verification:** Phase DM branch `4f99db923e89773e1d248eecde872f2350e0d853` passes `./scripts/verify.sh`: 3,633 Lean jobs, 876 enforced axiom reports, 430 tests (139.64 seconds), clean formatting/mypy/dependency audit; push and PR CI passed on 2026-10-22. Exact merged/pushed closure-head gates will be repeated before handoff<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** Phase DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) on 2026-10-22; full primary repeat, three-cutoff resolution runs and combined numerical checks pass<br>
@@ -138,7 +138,8 @@ is authoritative for the remaining goal.
 | DJ | Original-kernel fill-distance control | complete | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
-| DM | Complete census diagnostics and normalized curves | verified | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
+| DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
+| DN | Fair six-method spectral comparisons (R31) | in progress | shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP benchmark; explicit rational and exponential bridges | contract frozen; implementation and verification pending | branch `codex/phase-dn-spectral-comparisons` |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

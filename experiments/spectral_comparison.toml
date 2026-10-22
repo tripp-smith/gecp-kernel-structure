@@ -1,0 +1,18 @@
+# All methods see the same observed imaginary-time samples. Truth is evaluation-only.
+cutoff = 8.0
+tolerances = [1e-6, 1e-8]
+atom_budgets = [1, 2, 3, 4, 6, 8, 10, 12]
+training_count = 513
+validation_count = 1024
+candidate_count = 1601
+density_count = 2001
+matsubara_modes = 12
+noise_sigma = 1e-8
+seed = 20261022
+grid_order = 12
+precision_bits = 128
+universal_max_rank = 64
+native_tolerance = 1e-11
+vf_max_iterations = 30
+nls_max_evaluations = 300
+nls_starts = 3

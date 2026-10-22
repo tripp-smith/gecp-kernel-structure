@@ -9407,3 +9407,74 @@ bridges and explicit failure/conditioning/precision metadata. Keep known
 libraries separate from support-blind cases and retain failed fits. Only after
 that implementation and a final original-SPEC audit can the full goal be
 considered complete.
+
+## Phase DN — fair six-method spectral comparisons
+
+### Contract (2026-10-22)
+
+Close R31 / SPEC §§19–20 with actual numerical comparisons of universal
+GECP/DLR nodes, AAA-derived atoms, genuine iterative vector-fitting pole
+relocation, Hankel/matrix-pencil Prony recovery, bounded nonlinear least
+squares, and greedy pursuit. No Lean theorem changes are planned, so the
+Lean research-loop skill is not needed. Reuse the established original-kernel
+and sparse interfaces; no new mathlib abstraction is justified.
+
+All six methods receive the same uniform imaginary-time observations and
+noise realization. Universal nodes depend on the kernel alone; their weights
+are fitted to those same observations. Independent fixed dictionaries must
+not contain truth by construction. A known-library control is explicitly
+separate. Fixtures include clean off-grid finite atoms, noisy near-Fermi atoms,
+and the two established continuous synthetic densities. Sweep tested atom
+budgets rather than supplying the generating order to any method. Report
+sampled held-out infinity errors, relative errors, and the smallest **tested**
+passing support against the universal rank, never global sparsity optimality
+or uniquely identified support.
+
+The rational bridge is
+`-integral_0^1 exp(z*t) G(t) dt = sum_j g_j/(z-omega_j)` at fermionic Matsubara
+`z=i*pi*(2n+1)`. AAA and vector fitting use a documented quadrature of the
+shared observations, not exact oracle frequency data. Record transform
+resolution/error diagnostics and retain failed or nonphysical poles. Prony
+uses `G(l*h)=sum_j a_j*exp(-h*omega_j)^l`, then fits weights in the original
+kernel design. Pole filtering never silently flips positive physical
+frequencies into an electrical-engineering stability half-plane. All
+cross/weight computations use factorizations or least-squares solves.
+
+Named outputs: `kernelgecp/spectral_common.py`, `rational.py`, `prony.py`,
+`vector_fitting.py`, `comparison.py`; focused tests; deterministic
+`experiments/spectral_comparison.toml`, runner, JSON and reviewed PNG. Results
+expose native and returned-fit convergence scopes, stopping/budgets,
+conditioning, 53-bit arithmetic, deterministic selection policies,
+invalid-pole counts, and lack of continuous/support certification. Optional
+nonlinear refinement is never hidden inside a method bearing another name.
+
+Independent checks cover the Matsubara identity and quadrature convergence,
+known-pole rational fits, a non-oracle Prony fixture, invalid/complex/out-of-band
+poles, zero/rank-deficient data, exhausted budgets, strict input validation,
+held-out-data independence, repeat bytes, and archive/install behavior. Update
+README, FINDINGS, APPLICATION, MATHLIB, SPEC status annotations,
+COMPLETION_AUDIT and canonical FINAL_HANDOFF provenance together. The full
+root gate and exact-head push/PR CI must pass before merge, then push and
+recheck main. Only the later whole-SPEC audit may declare the full goal done.
+
+### DN upstream numerical sources and scope decisions
+
+The public [SciPy 1.15 AAA API](https://docs.scipy.org/doc/scipy-1.15.0/reference/generated/scipy.interpolate.AAA.html)
+supplies barycentric rational approximation and pole extraction; the package
+minimum is raised accordingly without relabeling a time-domain interpolant's
+poles as spectral atoms. The [SINTEF algorithm description](https://www.sintef.no/en/software/vector-fitting/algorithm/)
+motivates scaled least squares followed by eigenvalue pole relocation. This
+repository implements those equations directly, not the use-restricted
+vectfit3 MATLAB code, and deliberately omits stability flipping because both
+frequency signs are physical here. [Potts and Tasche's author paper](https://www-user.tu-chemnitz.de/~potts/paper/LAA_Prony.pdf)
+provides the Prony/Hankel-subspace connection. Its nonincreasing convention is
+adapted explicitly to allow nodes greater than one for negative frequencies.
+
+Exploratory review caught four-atom coordinates that accidentally coincided
+with the independent dictionary. Before canonical generation, those primary
+fixtures were moved off-grid and a regression now checks a positive gap for
+every true atom. This repairs the named experimental scope, not a tolerance
+or pole-acceptance threshold chosen to improve measured outcomes. Preliminary
+dirty-run artifacts are not canonical evidence. Absolute held-out pass
+thresholds, genuine relative errors, native convergence and returned-model
+training convergence remain distinct.
