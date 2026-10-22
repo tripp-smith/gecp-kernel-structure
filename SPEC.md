@@ -2709,3 +2709,15 @@ This annotation records delivered identifiers without changing the goals above.
   Phase-II comparisons remain required work. Root verification passes 3,633
   Lean jobs, 876 enforced axiom reports, 183 tests and no known dependency
   vulnerabilities; green push and PR CI; merged as PR #117.
+
+- **Phase DL status (2026-10-22):** typed `NumericalMetadata`,
+  `ConditioningDiagnostic` and `RefinementDiagnostic` expose actual/requested
+  precision, conditioning status/history, tie policy/counts/tolerance and
+  certification/error scopes for Cholesky/sparse results, a GECP evidence view,
+  and explicit non-iterative approximation scopes. Schema-2 synthetic summaries
+  preserve these records; historical schema-1 committed artifacts are unchanged.
+  Convergence reflects the returned reconstruction/training error, candidate
+  exhaustion cannot reuse atoms, and optimizer failure/budget/rejection is
+  separate from fit convergence. R24 is supported. This adds no Lean theorem,
+  arbitrary-precision Cholesky/sparse implementation or continuous numerical
+  certificate. Census and comparison requirements above remain unchanged.

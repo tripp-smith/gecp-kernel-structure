@@ -39,16 +39,20 @@ from .research import (
 from .sparse import sparse_representation
 from .types import (
     CholeskyResult,
+    ConditioningDiagnostic,
     GECPConfig,
     GECPResult,
     HighPrecisionData,
     NumericalBreakdownError,
+    NumericalMetadata,
     PivotCertificate,
+    RefinementDiagnostic,
     SparseResult,
 )
 
 __all__ = [
     "CholeskyResult",
+    "ConditioningDiagnostic",
     "BlockContractionEvidence",
     "CertifiedBlockContractionEvidence",
     "DyadicTaylorApproximation",
@@ -58,8 +62,10 @@ __all__ = [
     "GreenCompressionResult",
     "HighPrecisionData",
     "NumericalBreakdownError",
+    "NumericalMetadata",
     "PSDLandmarkResult",
     "PivotCertificate",
+    "RefinementDiagnostic",
     "SeparatedApproximation",
     "SparseRecoveryResult",
     "SparseResult",

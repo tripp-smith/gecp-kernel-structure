@@ -1767,6 +1767,33 @@ Full verification passes 3,633 Lean jobs, 876 enforced axiom reports, 183 tests
 and no known dependency vulnerabilities. Push and PR CI pass; merged as
 PR #117 on 2026-10-20. The five computational gaps remain required work.
 
+## Phase DL: complete result metadata and numerical failure honesty
+
+**Implemented, not a new Lean theorem:** typed numerical metadata accompanies
+Cholesky/sparse results and schema-2 synthetic summaries; GECP exposes a view
+of recorded evidence and approximation constructions report non-iterative
+scopes. Actual precision, requested precision, conditioning stage/status,
+ties, certification and error scopes/settings are explicit. No estimate is
+silently replaced by a made-up finite value or high-precision claim.
+
+Cholesky uses the actual returned reconstruction to decide convergence, with
+an explicit roundoff/symmetry-limited stop. Stable symmetrization avoids
+overflow for finite large SPD input. Sparse supports no repeated exhausted
+atoms, returns zero atoms for an already-small signal, labels training error,
+and separates optimizer termination from returned-fit convergence. Worsening,
+nonfinite or failed refinement retains the prior fit. Empty/non-applicable,
+rank-deficient, failed-SVD and budget paths have independent tests.
+
+Independent review found and corrected a false `estimated` status for empty
+conditioning, an incorrect float64 GECP default tie threshold in the metadata
+view, and overflow in post-update Cholesky symmetrization. Tests independently
+recompute returned errors and singular values, exercise optimizer failure and
+rejection, and enforce deterministic finite JSON. Historical application
+artifacts and all Lean theorems are unchanged. R24 is supported; the 40-group
+audit has 36 supported and four incomplete groups (90% checklist coverage,
+not weighted effort). Census depth/diagnostics/plots and sparse comparisons
+remain required work; no numerical evidence is relabeled a formal proof.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

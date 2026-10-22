@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
@@ -38,12 +39,17 @@ class GECPConfig:
             raise ValueError("precision_bits must be at least 53")
         if self.grid_order < 2:
             raise ValueError("grid_order must be at least 2")
-        if self.certificate_abs_tol < 0 or self.certificate_rel_tol < 0:
-            raise ValueError("certificate tolerances must be nonnegative")
+        if any(
+            not np.isfinite(value) or value < 0
+            for value in (self.certificate_abs_tol, self.certificate_rel_tol)
+        ):
+            raise ValueError("certificate tolerances must be finite and nonnegative")
         if self.max_cells < 1:
             raise ValueError("max_cells must be positive")
-        if self.tie_rtol is not None and self.tie_rtol < 0:
-            raise ValueError("tie_rtol must be nonnegative")
+        if self.tie_rtol is not None and (
+            not np.isfinite(self.tie_rtol) or self.tie_rtol < 0
+        ):
+            raise ValueError("tie_rtol must be finite and nonnegative")
 
     def normalized(self) -> dict[str, Any]:
         """Return a deterministic JSON-compatible configuration mapping."""
@@ -81,6 +87,71 @@ class HighPrecisionData:
     core_sigma_min_history: list[str]
 
 
+@dataclass(frozen=True, slots=True)
+class ConditioningDiagnostic:
+    """Numerical conditioning estimate; unavailable values are null, not infinity."""
+
+    stage: str
+    status: str
+    columns: int
+    effective_rank: int | None = None
+    sigma_min: float | None = None
+    condition_number: float | None = None
+    sigma_min_decimal: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class RefinementDiagnostic:
+    """Optimizer termination is distinct from representation convergence."""
+
+    status: str = "not_applicable"
+    optimizer_success: bool | None = None
+    optimizer_status: int | None = None
+    evaluations: int = 0
+    max_evaluations: int | None = None
+    accepted: bool = False
+    message: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class NumericalMetadata:
+    """Explicit evidence scope shared by the numerical result records.
+
+    Defaults describe an unrecorded/manual result, never a measured execution.
+    Algorithm entry points populate all applicable fields.
+    """
+
+    schema_version: int = 1
+    algorithm: str = "not_recorded"
+    arithmetic: str = "not_recorded"
+    precision_bits: int | None = None
+    requested_precision_bits: int | None = None
+    precision_status: str = "not_recorded"
+    conditioning_status: str = "not_recorded"
+    conditioning_method: str = "not_recorded"
+    conditioning_history: list[ConditioningDiagnostic] = field(default_factory=list)
+    tie_status: str = "not_recorded"
+    tie_policy: str = "not_recorded"
+    tie_rtol: float | None = None
+    tie_tolerance_rule: str = "not_recorded"
+    tie_counts: list[int] = field(default_factory=list)
+    certification_status: str = "not_certified"
+    certification_scope: str = "no_analytic_or_rounding_certificate"
+    converged: bool | None = None
+    stop_reason: str = "not_recorded"
+    convergence_scope: str = "not_recorded"
+    configuration: dict[str, Any] = field(default_factory=dict)
+    refinement: RefinementDiagnostic = field(default_factory=RefinementDiagnostic)
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def canonical_json(self) -> str:
+        return json.dumps(
+            self.as_dict(), sort_keys=True, separators=(",", ":"), allow_nan=False
+        )
+
+
 @dataclass(slots=True)
 class GECPResult:
     """A complete, auditable record of a finite-grid GECP run."""
@@ -103,6 +174,80 @@ class GECPResult:
     residual_matrix: FloatArray | None = None
     high_precision: HighPrecisionData | None = None
 
+    @property
+    def metadata(self) -> NumericalMetadata:
+        """A scoped view over stored GECP evidence, without recomputing estimates."""
+        adaptive = (
+            self.residual_matrix is None and self.config.get("pivot") == "adaptive"
+        )
+        default_tie = (
+            2.0 ** (5 - self.precision_bits)
+            if self.precision_bits > 53
+            else 32 * np.finfo(float).eps
+        )
+        effective_tie = self.config.get("tie_rtol")
+        if effective_tie is None:
+            effective_tie = default_tie if default_tie else None
+        conditioning = [
+            ConditioningDiagnostic(
+                stage="selected_core",
+                status="estimated" if np.isfinite(sigma) else "not_representable",
+                columns=i + 1,
+                sigma_min=sigma if np.isfinite(sigma) else None,
+                sigma_min_decimal=(
+                    self.high_precision.core_sigma_min_history[i]
+                    if self.high_precision is not None
+                    else None
+                ),
+            )
+            for i, sigma in enumerate(self.core_sigma_min_history)
+        ]
+        return NumericalMetadata(
+            algorithm="gecp_interval_adaptive" if adaptive else "gecp_grid",
+            arithmetic="mpmath" if adaptive or self.precision_bits > 53 else "float64",
+            precision_bits=self.precision_bits,
+            requested_precision_bits=int(
+                self.config.get("precision_bits", self.precision_bits)
+            ),
+            precision_status="as_requested",
+            conditioning_status=(
+                "not_representable"
+                if any(record.status == "not_representable" for record in conditioning)
+                else "estimated"
+                if conditioning
+                else "not_applicable"
+            ),
+            conditioning_method="selected_core_smallest_singular_value_only",
+            conditioning_history=conditioning,
+            tie_status="not_estimated" if adaptive else "recorded",
+            tie_policy="interval_cell_order"
+            if adaptive
+            else "lexicographic_near_maximum",
+            tie_rtol=None if adaptive else effective_tie,
+            tie_tolerance_rule=(
+                "not_estimated_for_interval_maximization"
+                if adaptive
+                else "tie_rtol*max(1,max); default 32*float64_eps or 2^(5-mp_bits)"
+            ),
+            tie_counts=[] if adaptive else list(self.tie_counts),
+            certification_status=(
+                "certified"
+                if self.converged and self.stop_reason == "certified_tolerance"
+                else "not_certified"
+            ),
+            certification_scope=(
+                "outward_interval_residual_upper_bound"
+                if adaptive
+                else "sampled_grid_only_no_continuous_certificate"
+            ),
+            convergence_scope="continuous_interval_bound"
+            if adaptive
+            else "sampled_grid",
+            converged=self.converged,
+            stop_reason=self.stop_reason,
+            configuration=dict(self.config),
+        )
+
 
 @dataclass(slots=True)
 class CholeskyResult:
@@ -116,6 +261,7 @@ class CholeskyResult:
     stop_reason: str
     factor: FloatArray
     residual_matrix: FloatArray
+    metadata: NumericalMetadata = field(default_factory=NumericalMetadata)
 
 
 @dataclass(slots=True)
@@ -128,6 +274,12 @@ class SparseResult:
     converged: bool
     stop_reason: str
     iterations: int
+    metadata: NumericalMetadata = field(default_factory=NumericalMetadata)
+
+    @property
+    def training_error(self) -> float:
+        """The legacy validation_error is computed on the supplied training samples."""
+        return self.validation_error
 
 
 @dataclass(frozen=True, slots=True)

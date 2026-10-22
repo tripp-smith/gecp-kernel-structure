@@ -888,6 +888,16 @@ theory, asymptotic theorem, literature priority or upstream PR is claimed.
 The concrete two-pivot check uses a Gram factor rather than inferring SPD
 merely from entry positivity.
 
+## DL: numerical evidence metadata
+
+DL changes no Lean abstraction or theorem and claims no new upstream
+candidate. Singular-value/rank/condition estimates, optimizer termination,
+tie diagnostics and returned sampled errors are numerical evidence, not
+kernel proofs or outward-rounded certificates. Explicit unavailable and
+not-applicable statuses prevent confusing an uncomputed numerical quantity
+with an established mathematical invariant. All prior public theorem and
+axiom checks remain mandatory root gates.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream
