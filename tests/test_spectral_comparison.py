@@ -106,6 +106,16 @@ def test_small_comparison_same_inputs_metrics_and_repeat_bytes() -> None:
             assert len(result["weights"]) == result["atom_count"]
             assert result["passes"][0]["passed"] == (result["held_out_error"] <= 1e-4)
             assert not result["certified"]
+            if result["method"] == "universal_gecp":
+                native = result["native_metadata"]
+                assert (
+                    native["convergence_scope"] == "selected_prefix_sampled_kernel_grid"
+                )
+                assert native["configuration"]["prefix_rank"] == result["atom_count"]
+                assert len(native["conditioning_history"]) == result["atom_count"]
+                assert native["converged"] == (
+                    result["native_diagnostics"]["prefix_kernel_error"] <= 1e-4
+                )
         assert fixture["transform"]["oracle_scope"].startswith("evaluation_only")
     assert first["known_library_control"]["candidate_strategy"].endswith("not_blind")
 

@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import Callable
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from functools import partial
 from typing import Any
 
@@ -17,14 +17,24 @@ import numpy as np
 from scipy.optimize import least_squares
 
 from .applications import quadrature_weights, synthetic_spectral_density
-from .diagnostics import array_fingerprint, conditioning_diagnostic
+from .diagnostics import (
+    array_fingerprint,
+    conditioning_diagnostic,
+    conditioning_summary,
+)
 from .gecp import gecp
 from .kernels import FermionicKernel
 from .prony import prony_atoms
 from .rational import aaa_atoms, matsubara_transform
 from .sparse import sparse_representation
 from .spectral_common import AtomProposal
-from .types import FloatArray, GECPConfig, NumericalBreakdownError, NumericalMetadata
+from .types import (
+    FloatArray,
+    GECPConfig,
+    GECPResult,
+    NumericalBreakdownError,
+    NumericalMetadata,
+)
 from .vector_fitting import vector_fitting_atoms
 
 METHODS = (
@@ -341,6 +351,43 @@ def _safe_proposal(call: Callable[[], AtomProposal]) -> AtomProposal:
         )
 
 
+def _universal_prefix(
+    result: GECPResult, budget: int, tolerance: float
+) -> AtomProposal:
+    """Metadata describes this prefix, not the successful full generated run."""
+    rank = min(budget, result.rank)
+    base = result.metadata
+    history = base.conditioning_history[:rank]
+    converged = result.residual_history[rank] <= tolerance
+    return AtomProposal(
+        result.omega_nodes[:rank].copy(),
+        replace(
+            base,
+            converged=converged,
+            stop_reason="prefix_kernel_tolerance"
+            if converged
+            else "tested_prefix_budget",
+            convergence_scope="selected_prefix_sampled_kernel_grid",
+            conditioning_history=history,
+            conditioning_status=conditioning_summary(history),
+            tie_counts=base.tie_counts[:rank],
+            configuration={
+                **base.configuration,
+                "prefix_rank": rank,
+                "full_generated_rank": result.rank,
+            },
+        ),
+        {
+            "kernel_rank": result.rank,
+            "prefix_rank": rank,
+            "prefix_kernel_error": result.residual_history[rank],
+            "weights_use_shared_observations": True,
+            "node_selection": "kernel_only_complete_pivoting",
+            "additional_refinement": False,
+        },
+    )
+
+
 def _fixtures(
     config: ComparisonConfig,
 ) -> list[tuple[str, FloatArray, FloatArray, float]]:
@@ -440,15 +487,8 @@ def run_spectral_comparison(
                 budget=budget,
             )
             proposals = {
-                "universal_gecp": AtomProposal(
-                    universal.omega_nodes[:budget].copy(),
-                    universal.metadata,
-                    {
-                        "kernel_rank": universal.rank,
-                        "weights_use_shared_observations": True,
-                        "node_selection": "kernel_only_complete_pivoting",
-                        "additional_refinement": False,
-                    },
+                "universal_gecp": _universal_prefix(
+                    universal, budget, min(config.tolerances)
                 ),
                 "aaa": _safe_proposal(
                     partial(
