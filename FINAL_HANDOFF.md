@@ -483,6 +483,20 @@ pass 3,633 Lean jobs, 876 enforced axiom reports, 232 tests and a clean
 dependency audit after targeted certifi/pillow lock updates. PNG and isolated
 wheel smoke checks and push/PR CI pass; merged as PR #118.
 
+Post-v1 Phase DM is in progress in draft PR #119. The full schema-2 census
+contains 28 converged sampled-grid cases through `1e-12`, with complete
+residual/core and geometry histories. Two full runs from clean generator
+`c0e8c5093134f369b93781c413750b7f1de46036` match bytes, SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`;
+observed concurrent wall times are 1496.40 and 1508.07 seconds. Strictest ranks
+are `9,17,37,63,91,119,146` across the seven cutoffs. Both new plots have been
+rendered, inspected and byte-repeated. The legacy artifacts and all 21 shared
+pivot/rank traces are preserved. Preliminary 192-bit primary-core checks and
+panel-spanning held-out samples pass their stated numerical checks. Actual
+denser GECP runs, the combined report and final merged-head gates are still
+pending. None of these observations is a continuous certificate or new Lean
+rate theorem; R31 comparisons and the final full-SPEC audit remain required.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -542,8 +556,9 @@ The declared family is Codex based on GPT-5; exact model/version and reasoning
 effort remain unavailable. DM uses one primary agent and three temporary
 subagents for plotting/validation tests, independent review/geometry tests,
 and independent numerical checking. No serving-version attribution or new
-API-equivalent price calculation is inferred. Full repeated numerical
-artifacts and final gates are pending; the original-SPEC goal is not complete.
+API-equivalent price calculation is inferred. The repeated primary numerical
+artifact is present; denser-grid evidence, combined checks and final gates
+are pending. The original-SPEC goal is not complete.
 
 ## Phase status
 

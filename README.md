@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress; DL complete and merged<br>
 > **Last verification:** Phase DL `./scripts/verify.sh` passes a 3,633-job Lean build, enforced 876-declaration axiom audit, 232 tests and no known dependency vulnerabilities; push and PR CI passed on 2026-10-22<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DL merged in [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) with green CI<br>
+> **Delivery:** Phase DM draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); full primary census repeat passes, resolution ladder and final gates pending; DL merged in PR #118<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DL completes numerical result metadata; the [full-SPEC audit](COMPLETION_AUDIT.md) now records 36/40 supported groups (90% checklist coverage) and four incomplete groups; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -138,6 +138,7 @@ is authoritative for the remaining goal.
 | DJ | Original-kernel fill-distance control | complete | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | verified | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
+| DM | Complete census diagnostics and normalized curves | in progress | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary census byte repeat; 192-bit checks of 21 selected cores and representative held-out crosses; denser trajectories and final gates pending | draft [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -224,7 +225,7 @@ downstream experiments.
 | Fermionic structure | Direct, reflected, float64, and 256-bit kernel evaluations agree; extreme-cutoff endpoint values remain finite; grids resolve the `1/Λ` time layer and dyadic frequency scales | Numerical identity checks support the formal reflection, continuity, derivative, and domain lemmas |
 | Explicit low-rank scale | The theorem-matched dyadic evaluator reproduces the formal rank `16p(s+1)` and error bound `2⁻ᵖ`, including band boundaries and cutoff `10⁶`; the separate Chebyshev interpolant demonstrates a practical representation | Low-rank existence is proved, but neither evaluator proves that GECP attains that rank |
 | Trustworthy continuous pivoting | Synthetic objectives with known maxima and fermionic residuals receive lower/upper certificates; deliberately exhausted budgets remain `certified=False` | A certificate proves only the stated pivot gap under its analytic or interval enclosure, not a global GECP convergence rate |
-| Reproducible research census | The 21 cutoff/tolerance records use 128-bit arithmetic, include the Git revision and configuration hash, and are byte-identical across repeated executions | The observed rank curve is finite-grid evidence and is not promoted to a continuous theorem |
+| Reproducible research census | The 28 schema-2 cutoff/tolerance records use 128-bit elimination, include clean-generation revision/configuration/environment provenance and full histories/geometry, and are byte-identical across two full executions | Grid coordinates originate in float64; normalized residual curves and representative higher-precision cross checks are finite-grid evidence, not continuous certificates; DM final gates remain pending |
 | Structural theorem-or-obstruction research | Exact geometric matrices enumerate every requested minor and pivot path; marked-pivot witnesses and parameter boundaries are checked independently | DH gives the G1-shaped rate for every finite complete run at `Λ≥1`, without future-success assumptions; DG refutes the literal all-positive-cutoff interpretation |
 | Fermionic block contraction | Exact integer rank checks and independent actual-exponential observations supplement the proof | Every finite run on the actual cutoff `Λ≤2^s` has error `2^(-q)` once its stored count reaches `32(s+1)(33+4q)`; exact zero-complete stops may finish earlier; logarithmic constants remain `C=1024`, `c=(log 2)^2/256` |
 | Green-function application | The original two-delta regression is extended by universal compression of continuous Hubbard-like and gapped spectra, exact recovery from a known transition library, and held-out representation of noisy data from a dense support-augmented dictionary | These demonstrate useful forward compression and effective sparse representation, not blind support recovery, uniqueness or general robustness of analytic continuation |
@@ -300,8 +301,8 @@ never substitutes for a Lean theorem or a certified analytic argument.
 DI's audit is now recorded in [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
 DJ/DK prove original-kernel Lipschitz fill-distance control, arbitrary-domain
 PSD geometry and strict-SPD complete-pivot reduction. Required work remains in
-the `1e-12` census/diagnostics/
-normalized curves, and listed Phase-II sparse-method comparisons. Earlier
+final validation of the `1e-12` census/diagnostics/normalized curves, and listed
+Phase-II sparse-method comparisons. Earlier
 bounded phase labels are not a substitute for those missing scopes.
 
 DL adds typed result metadata for GECP, Cholesky and sparse recovery, and
@@ -312,9 +313,39 @@ are labeled. Cholesky and sparse convergence describe the returned sampled
 approximation. See [APPLICATION.md](APPLICATION.md) for the schema-2 summary
 interface; historical schema-1 committed artifacts remain unchanged.
 
+DM's primary census now has all 28 records converged through `1e-12` at the
+seven cutoffs from 1 to `1e6`. Two full executions at the same clean generator
+revision produce identical JSONL bytes; all 21 overlapping historical
+cutoff/tolerance prefixes retain exactly the same pivots and ranks. The new
+schema records every residual/core prefix and boundary, signed dyadic-panel
+and nearest-reflection diagnostic. The separate denser-trajectory study and
+final root/CI gates are still pending, so R25–R27 are not yet marked closed.
+
+At `1e-12`, the observed ranks are:
+
+| Cutoff | 1 | 10 | 100 | 1,000 | 10,000 | 100,000 | 1,000,000 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Sampled rank | 9 | 17 | 37 | 63 | 91 | 119 | 146 |
+
+The normalized plot uses one deepest trajectory per cutoff and includes rank
+zero. The curves show related decay scales, not an exact collapse onto one
+exponential law. All plotted residuals are positive; numerical zeros, if
+present in another dataset, are explicitly omitted from the logarithmic axis.
+
+![Sampled finite-grid GECP residuals against k/log(1+cutoff), not continuous certificates](experiments/data/gecp_census_normalized.png)
+
 ## Delivered evidence
 
-- Endpoint-resolved 128-bit finite-grid census: all 21 cutoff/tolerance cases
+- DM primary schema-2 census: all 28 cutoff/tolerance cases converged, full
+  repeat byte-identical, JSONL SHA-256
+  `c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`;
+  clean generator revision `c0e8c5093134f369b93781c413750b7f1de46036`.
+  Independent 192-bit recomputation checks 21 selected cores; determinant,
+  signed-pivot-product and smallest-singular-value relative differences are
+  below `9e-27`. Held-out selected-cross checks at cutoffs `1,1000,1000000`
+  evaluate `36,3960,15120` point pairs respectively, all below `1e-12`.
+  These are numerical point checks, not interval or continuum certificates.
+- Historical endpoint-resolved 128-bit finite-grid census: all 21 cases
   converged, byte-reproducible, SHA-256
   `a0a0a58271000ddd1efcf8514d3ae404eac359a900c7ba4ebc5c92336bf38179`.
 - Exact geometric surrogates: every square minor for sizes 2–8 at

@@ -2730,6 +2730,7 @@ This annotation records delivered identifiers without changing the goals above.
   dyadic-panel and nearest-selected-reflection diagnostics. The canonical
   configuration now requests four tolerances through `1e-12`, and normalized
   residual plotting plus independent higher-precision selected-core/held-out
-  checks are implemented. Full repeated artifacts and final verification are
-  still required; no original objective above is rewritten or yet reclassified
-  by this in-progress annotation.
+  checks are implemented. The full repeated 28-case primary artifact and both
+  plots are present; the actual denser-grid artifact, combined checks and final
+  verification are still required. No original objective above is rewritten
+  or yet reclassified by this in-progress annotation.

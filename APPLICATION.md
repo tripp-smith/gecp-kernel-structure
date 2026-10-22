@@ -158,10 +158,13 @@ uv run python -m kernelgecp.census \
 uv run python experiments/plot_census.py \
   experiments/data/gecp_census_v2.jsonl \
   experiments/data/gecp_census_normalized.png --mode normalized
+uv run python experiments/plot_census.py \
+  experiments/data/gecp_census_v2.jsonl \
+  experiments/data/gecp_census_v2.png
 uv run python -m kernelgecp.census \
   --config experiments/census_resolution.toml \
   --output experiments/data/gecp_census_resolution.jsonl
-uv run python experiments/check_census.py \
+uv run python -m experiments.check_census \
   --input experiments/data/gecp_census_v2.jsonl \
   --resolution-input experiments/data/gecp_census_resolution.jsonl \
   --output experiments/data/gecp_census_checks.json
@@ -203,7 +206,11 @@ uncertified adaptive terminal upper bound cannot establish convergence.
 Normalized plotting uses the deepest compatible trajectory once per cutoff
 and every `k/log(1+cutoff)` residual value, including rank zero. Exact numerical
 zeros are omitted from the log display and disclosed, not replaced with a
-positive floor. The independent check script recomputes selected cores at
+positive floor. Both plotting modes reject explicitly non-grid algorithms,
+non-sampled convergence scopes and unsuccessful records, rather than labeling
+an adaptive upper bound or a budget-limited rank as converged grid evidence.
+Legacy records with absent optional metadata remain accepted. The independent
+check script recomputes selected cores at
 higher precision and evaluates fixed selected crosses on denser held-out
 panel samples using a factored solve. This is a resolution-sensitivity check,
 not a denser GECP trajectory, a continuous supremum certificate, or proof of
@@ -217,6 +224,32 @@ rank need not decrease when the grid becomes denser. This representative
 two-resolution ladder is not residual-adaptive grid refinement or an
 exhaustive all-cutoff resolution study. The adaptive interval GECP API and
 its success/budget-failure tests remain separate evidence.
+
+### DM primary numerical results (phase in progress)
+
+The schema-2 primary artifact
+[`gecp_census_v2.jsonl`](experiments/data/gecp_census_v2.jsonl) contains 28
+converged records at seven cutoffs and tolerances `1e-6,1e-8,1e-10,1e-12`.
+Two complete runs from clean generator revision
+`c0e8c5093134f369b93781c413750b7f1de46036`, with configuration SHA-256
+`c0ac1bbaa7ddb39a2bb4a1c306985386f89f4103ff75cb4e21f99257e1e9f31b`,
+produce identical JSONL bytes with SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`.
+The `1e-12` ranks are `9,17,37,63,91,119,146` in increasing cutoff order.
+All 21 prefixes shared with the preserved legacy artifact have exactly the
+same pivots and ranks. The newly rendered rank and normalized-residual plots
+show sampled behavior; the normalized curves do not collapse exactly onto
+one exponential curve, and this artifact has no numerical zero residuals.
+
+Independent 192-bit point arithmetic recomputes rank-one, middle and terminal
+selected cores for each strictest trajectory (21 cores). Relative differences
+in stored determinants, signed pivot products and smallest singular values
+are all below `9e-27`. At cutoffs `1,1000,1000000`, the stored selected crosses
+are also evaluated on `36,3960,15120` held-out point pairs, with maximum errors
+approximately `6.31e-14,6.33e-13,8.61e-13`. These are pointwise numerical
+checks, not outward-rounded bounds, all-grid maxima or continuous guarantees.
+The representative denser GECP runs and final root/CI verification are still
+pending; this primary result alone does not close the phase or R25–R27.
 
 For the open GECP-rate question, `analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while
@@ -531,11 +564,13 @@ finite-run and exact-stop results do not turn floating-point zeros, approximate
 pivots, or certification-budget exhaustion into exact mathematical hypotheses.
 Stopping, conditioning, precision, tie, and certification metadata are unchanged.
 
-Phase DI's [audit](COMPLETION_AUDIT.md) finds that the canonical census still
-stops at `1e-10`, lacks the full requested geometry/normalized curves, and that
-the non-GECP result types need fuller status metadata. Listed AAA/vector-
-fitting/Prony comparisons are not yet implemented. These are incomplete
-requirements, not behavior silently supplied by the new exact theorem.
+At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
+at `1e-10`, lacked the full requested geometry/normalized curves, and the
+non-GECP result types needed fuller status metadata. DL supplies result
+metadata; DM's primary results above extend census depth and diagnostics,
+with the resolution study and final verification still pending. Listed
+AAA/vector-fitting/Prony comparisons remain unimplemented requirements,
+not behavior silently supplied by the new exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
 duplicate working-note files; wheel/sdist were rebuilt and the wheel was

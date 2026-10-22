@@ -582,7 +582,10 @@ def compare_resolution_records(
                 "controls_compatible_except_grid_order": True,
                 "source_grid_implementation_hashes_equal": (
                     original_grid_hash == denser_grid_hash
-                    if original_grid_hash is not None and denser_grid_hash is not None
+                    if original_grid_hash is not None
+                    and denser_grid_hash is not None
+                    and original.get("git_dirty") is False
+                    and denser.get("git_dirty") is False
                     else None
                 ),
                 "rank_difference_resolution_minus_source": denser["rank"]

@@ -3,6 +3,8 @@
 import copy
 import hashlib
 import json
+import subprocess
+import sys
 from decimal import Decimal
 from pathlib import Path
 
@@ -20,6 +22,17 @@ from experiments.check_census import (
 )
 from kernelgecp.grids import composite_chebyshev_grids
 from kernelgecp.types import GECPConfig
+
+
+def test_documented_checker_module_entry_point() -> None:
+    completed = subprocess.run(
+        [sys.executable, "-m", "experiments.check_census", "--help"],
+        cwd=Path(__file__).parents[1],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "--resolution-input" in completed.stdout
 
 
 def _record(rank: int = 2) -> dict:
@@ -330,6 +343,28 @@ def test_resolution_input_is_hashed_and_cores_checked_independently(
     assert (
         check_census(source, denser_order=8, resolution_input_path=resolution)["status"]
         == "numerical_core_disagreement"
+    )
+
+
+def test_dirty_run_cannot_attest_equal_runtime_grid_implementation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from experiments import check_census as checker
+
+    monkeypatch.setattr(checker, "_revision_grid_sha256", lambda _: "same-blob-hash")
+    source, denser = _resolution_record(4), _resolution_record(8)
+    assert (
+        compare_resolution_records([source], [denser])[0][
+            "source_grid_implementation_hashes_equal"
+        ]
+        is True
+    )
+    denser["git_dirty"] = True
+    assert (
+        compare_resolution_records([source], [denser])[0][
+            "source_grid_implementation_hashes_equal"
+        ]
+        is None
     )
 
 

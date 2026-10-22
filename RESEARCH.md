@@ -9280,7 +9280,7 @@ byte, rejected adaptive/unsuccessful inputs in finite-grid plots, and rejected
 negative schema-2 residual maxima in block analysis. These scope repairs do
 not relabel the dataset's actual generation revision as a later commit.
 
-The denser-grid check is specifically a fixed-selected-cross held-out sample:
+The complementary held-out check is a fixed-selected-cross sample:
 up to three source-disjoint order-32 interior coordinates in every endpoint/
 dyadic panel per axis, Cartesian product, evaluated at 192 bits using one LU
 factorization and batched triangular solves. It is not a denser GECP rerun,
@@ -9320,3 +9320,33 @@ time-domain errors; transform error, invalid poles, optimizer budgets and raw
 versus refined outcomes remain visible. Native-frequency-data cohorts must be
 separate from same-time-input comparisons. No global sparse optimality or
 unique support recovery is inferred from the smallest tested passing fit.
+
+### DM numerical results (final gates pending)
+
+The 28-record canonical schema-2 JSONL is generated from clean
+`c0e8c5093134f369b93781c413750b7f1de46036`, configuration hash
+`c0ac1bbaa7ddb39a2bb4a1c306985386f89f4103ff75cb4e21f99257e1e9f31b`,
+with SHA-256
+`c6854330fcb74007f8f9814fba48c314d34fe26c1cef5461d908ea5182b66bda`.
+Both full runs match byte for byte; observed wall times were 1496.40 and
+1508.07 seconds while running concurrently. All cases converge on their
+sampled grids. For cutoffs `1,10,100,1000,10000,100000,1000000`, strictest
+`1e-12` ranks are `9,17,37,63,91,119,146`. All 21 shared legacy tolerance
+cases retain the exact previous signed pivot strings and ranks; the legacy
+JSONL/PNG hashes are unchanged.
+
+The rank and normalized plots render correctly and repeat byte-identically.
+No numerical zero samples occur. Large-cutoff normalized trajectories lie on
+a similar scale, but do not coincide; the cutoff-one curve is visibly
+different. No common fitted law or new rate is inferred from that picture.
+
+The preliminary 192-bit primary-core analysis passes all 21 selected-core
+checks: maximum relative discrepancies are below `4.45e-27` for determinants,
+`6.33e-27` for signed pivot products, and `8.70e-27` for smallest singular
+values. Fixed acceptance thresholds remain `1e-18`, `1e-18`, and `1e-15`.
+At representative cutoffs `1,1000,1000000`, the held-out Cartesian samples
+contain `36,3960,15120` points; maximum observed errors are approximately
+`6.31e-14,6.33e-13,8.61e-13`, respectively. These are point-arithmetic
+observations, not full denser-grid maxima or continuous bounds. The actual
+order-32 dataset, combined check report, final root gate and final-head CI
+remain pending.
