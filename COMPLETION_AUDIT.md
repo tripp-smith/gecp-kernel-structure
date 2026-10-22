@@ -22,6 +22,13 @@ plots, and 30 passing 192-bit core checks. The full 430-test local root gate
 passes; exact-head push and PR CI pass, and PR #119 merged on 2026-10-22.
 The pushed main closure head repeats root/CI gates before final handoff.
 
+DN verifies all six R31 methods, the byte-repeated 192-fit JSON/PNG and
+independent reconstruction of every reported error. Final branch `eec016d`
+passes the 513-test root gate and exact-head push/PR CI. Installed-wheel smokes
+pass with both pinned SciPy 1.18 and minimum 1.15. PR #120 merged as
+`a3186a89b27d92677ef0e3338b90f9048a28fdb5` on 2026-10-22 at 18:37:17 UTC.
+Exact pushed-main closure gates repeat before handoff; final audit is next.
+
 ## Decision
 
 **The full goal is not complete.** The principal exact fermionic GECP rate is
@@ -31,8 +38,8 @@ prove all of the original specification's other requirements.
 This working ledger has 40 concrete requirement groups: **40 supported and 0 incomplete**
 after DN's delivery of R31. This is **100% checklist coverage**, not a weighted
 estimate of remaining effort or a probability that an open theorem is true.
-DN's measured comparisons, not root/CI alone, support R31. Merge/pushed-head
-verification and a final independent whole-SPEC audit remain required; the
+DN's measured comparisons, not root/CI alone, support R31. A final independent
+whole-SPEC audit remains required after exact pushed-main closure checks; the
 working ledger is not a substitute for that final completion decision.
 
 “Supported” below means the named source was inspected at the relevant scope,
@@ -75,7 +82,7 @@ rewritten.
 | R28 | Deterministic machine-readable experiment dataset (§26) | Supported | `census.py` records config hash/revision and canonical JSONL; small configurations and both full 28-case canonical runs repeat bytes. DM records dependency/lock/backend and clean-generation provenance; its combined report binds primary/resolution inputs and checker/grid sources. The original 21-case data/hash remains separately labeled historical evidence. |
 | R29 | Particular Green functions use fewer spectral atoms with explicit error (§19,27F) | Supported | Committed synthetic suite at cutoff 8: clean four-atom library recovery has held-out error `3.33e-16`, versus the same kernel's universal GECP rank 12 at `1e-8`; noisy case and two-delta tests are separately qualified. No sparse uniqueness or optimality claim. |
 | R30 | Sparse exponential/spectral interface, OMP and nonlinear least squares (§19,20) | Supported | `SparseResult` frequencies/weights represent sums of `K(·,ω)`; `sparse.py` implements OMP and bounded nonlinear refinement; synthetic fixtures/tests expose training and held-out errors. |
-| R31 | Listed Phase-II method comparisons (§20) | Supported | DN implements shared-observation AAA-derived, genuine vector-fitting and Prony adapters against universal GECP, bounded variable-projection nonlinear least squares and unrefined OMP. All 192 fits and reviewed PNG repeat bytes from clean `072ce10`; independent tests reconstruct every measured error. Full root passes 513 tests/3,633 Lean jobs/876 axiom reports; exact-head push/PR CI and installed-wheel checks, including SciPy 1.15, pass. PR #120 awaits merge. All methods are compared, including failed physical AAA fits; no requirement that every method win is substituted. A formal AAA implementation remains outside initial scope; no sparse optimality or support-uniqueness claim. |
+| R31 | Listed Phase-II method comparisons (§20) | Supported | DN implements shared-observation AAA-derived, genuine vector-fitting and Prony adapters against universal GECP, bounded variable-projection nonlinear least squares and unrefined OMP. All 192 fits and reviewed PNG repeat bytes from clean `072ce10`; independent tests reconstruct every measured error. Full root passes 513 tests/3,633 Lean jobs/876 axiom reports; exact-head push/PR CI and installed-wheel checks, including SciPy 1.15, pass. PR #120 is merged. All methods are compared, including failed physical AAA fits; no requirement that every method win is substituted. A formal AAA implementation remains outside initial scope; no sparse optimality or support-uniqueness claim. |
 | R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 45 `__all__` exports load after DL's three metadata exports. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
 | R33 | Deterministic ties and visible failures (§24) | Supported | Lexicographic tie policy, near-tie counts, `max_rank`, numerical-breakdown and certificate-budget tests. Approximation/conditioning limitations are explicit. |
 | R34 | Enumerated numerical coverage (§25) | Supported | Kernel reflection/centered checks, interpolation, pivot product, direct/iterative cross, PSD/Cholesky controls, PSD preservation/diagonal maxima, float/mp comparison, rank scaling and exact exponential tests all have named tests in `tests/`. |
@@ -84,7 +91,7 @@ rewritten.
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, FINAL_HANDOFF and this ledger distinguish proofs, observations, hypotheses and non-claims. Historical bounded phase labels do not override incomplete scopes in this audit. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DM merged PRs #115–#119 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
+| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DN merged PRs #115–#120 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
 
 ## Original section and outcome coverage
 
@@ -109,7 +116,7 @@ rewritten.
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
 | 18 | R01 and DH's actual Green-integral difference, including the physical restricted measure. |
 | 19 | R29/R30, computational sparse outcome, not a minimum-support theorem. |
-| 20 | R30 delivered families; DN verifies R31's six comparisons with repeated artifacts and independent errors; PR #120 awaits merge. Formal AAA remains excluded as explicitly stated. |
+| 20 | R30 delivered families; DN verifies R31's six comparisons with repeated artifacts and independent errors; PR #120 is merged. Formal AAA remains excluded as explicitly stated. |
 | 21 | Suggested layout: actual modules implement the roles; filenames are not treated as theorem evidence. |
 | 22 | See named-interface mapping below; aliases are not substituted for missing mathematics. |
 | 23 | R32 plus the actual documented result spelling. |
@@ -191,10 +198,10 @@ asymptotic P-greedy theory. The remaining required targets are:
 DM closes census completion (R25–R27), retaining all precision/tie/certification
 limitations. Required work remains:
 
-1. **Merge/push DN (R31).** Its six-method implementation and byte-repeated
-   evidence are verified in PR #120. Preserve retained failures and explicit
-   reference/conditioning/precision scopes; complete exact merged-head gates.
-2. Independently repeat the whole original-SPEC audit against current sources,
+1. **Final original-SPEC audit.** DN is verified and merged in PR #120. Preserve
+   retained failures and explicit reference/conditioning/precision scopes;
+   complete exact pushed-main closure gates, then independently repeat the
+   whole original-SPEC audit against current sources,
    statements, tests and artifacts before deciding whether the full goal is
    achieved. Reopen any unsupported scope rather than treating forty status
    labels or green checks as proof of completion.

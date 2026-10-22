@@ -1859,14 +1859,14 @@ singular-value differences remain below `9e-27`. The full branch root gate
 passes 3,633 Lean jobs, 876 enforced axiom reports and 430 tests (139.64
 seconds), with clean formatting/mypy/dependency audit and green push/PR CI.
 PR #119 merged on 2026-10-22; DM supports R25–R27. Exact merged/pushed
-closure-head gates will be repeated before handoff. The audit now records
+closure-head gates passed at `8fb6b03`. At DM closure the audit recorded
 39 supported and one incomplete group, 97.5% checklist coverage rather than
-weighted effort. R31's AAA-derived/vector-fitting/Prony comparisons and the
-final forty-group audit remain required. No
+weighted effort. DN subsequently verifies R31's comparisons; the final
+forty-group audit remains required. No
 continuous-error certificate, exact-reflection theorem, grid independence,
 optimal tie behavior or new approximate-pivot rate is claimed.
 
-## DN: six-method spectral comparisons (verified, PR #120)
+## DN: six-method spectral comparisons (verified, merged PR #120)
 
 The R31 implementation adds the Matsubara rational bridge, SciPy AAA-derived
 physical atoms, genuine iterative vector-fitting pole relocation, and
@@ -1884,7 +1884,7 @@ and nonphysical poles remain explicit. No method is supplied the true order.
 These are smallest tested supports, not optimality/uniqueness or continuous
 error claims. R31 is supported by the actual comparisons, independent error
 reconstruction, 513-test full root gate, green exact-head push/PR CI and
-installed-wheel checks (including minimum SciPy 1.15). PR #120 awaits merge;
+installed-wheel checks (including minimum SciPy 1.15). PR #120 is merged;
 the final independent original-SPEC audit remains required.
 
 ## Run provenance

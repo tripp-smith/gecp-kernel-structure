@@ -9523,6 +9523,10 @@ reports, 81-file formatting, mypy on 19 sources and the clean dependency audit.
 Push CI `39831341046` and PR CI `39831351890` pass all four checks. Source/wheel
 archives contain the new artifacts and exclude local notes/caches. Installed
 wheel smokes outside the checkout pass both pinned SciPy 1.18 and the declared
-minimum 1.15. No package is published. PR #120 is ready for final closure-head
-reverification and merge. R31 is supported; the ledger is now forty supported
-groups, but final independent original-SPEC audit remains required.
+minimum 1.15. No package is published. The final branch head
+`eec016d0b4040941e9e41f825bc0a3ac5f62f8bf` repeats the root gate with 513 tests
+in 140.52 seconds; push CI `39832373652` and PR CI `39832383406` pass. PR #120
+merged on 2026-10-22 at 18:37:17 UTC as
+`a3186a89b27d92677ef0e3338b90f9048a28fdb5`. Exact pushed-main closure gates
+repeat before handoff. R31 is supported; the ledger is now forty supported
+groups, but the final independent original-SPEC audit remains required.

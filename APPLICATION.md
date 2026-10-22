@@ -598,10 +598,10 @@ At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
 at `1e-10`, lacked the full requested geometry/normalized curves, and the
 non-GECP result types needed fuller status metadata. DL supplies result
 metadata; DM's verified primary and resolution results above support R25–R27
-and are merged in PR #119. The audit records 39/40 supported groups (97.5%
-checklist coverage, not weighted effort). Listed AAA/vector-fitting/Prony
-comparisons remain required in R31, followed by the final forty-group audit;
-they are not behavior silently supplied by the new exact theorem.
+and are merged in PR #119. At DM closure the audit recorded 39/40 supported
+groups (97.5% checklist coverage, not weighted effort). DN now verifies and
+merges R31's listed comparisons separately; the final forty-group audit remains.
+Those algorithms are not behavior silently supplied by the exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
 duplicate working-note files; wheel/sdist were rebuilt and the wheel was
@@ -709,7 +709,7 @@ revision remain valid historical evidence, not silently rewritten output.
 
 Focused checks: `uv run python -m pytest tests/test_result_metadata.py`.
 
-## Six-method spectral comparison (DN, verified; PR #120)
+## Six-method spectral comparison (DN, verified; merged PR #120)
 
 `ComparisonConfig` and `run_spectral_comparison` live in
 `kernelgecp.comparison`. The runner is
@@ -754,7 +754,8 @@ physical fits fail and remain in the plot/data. Density references are fixed
 normalized 2001-node quadratures; reported errors are not against the exact
 continuous integral. Full root (513 tests), exact-head push/PR CI and
 installed-wheel smokes pass, including the minimum supported SciPy 1.15.
-PR #120 awaits final closure-head checks and merge; no package is published.
+PR #120 is merged; exact pushed-main closure gates repeat before handoff.
+No package is published; the final independent SPEC audit remains next.
 
 ## Release provenance
 

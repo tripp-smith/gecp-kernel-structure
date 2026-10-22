@@ -5,11 +5,11 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DN — fair six-method spectral comparisons<br>
-> **Phase state:** verified; DN merge pending and DM complete<br>
-> **Last verification:** DN head `256779028bd5a07736730bf3ff70587f80b91c75` passes `./scripts/verify.sh`: 513 tests (141.91 seconds), 3,633 Lean jobs, 876 axiom reports, 81 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and installed-wheel checks pass, including minimum SciPy 1.15. Closure-head gates repeat before merge/handoff<br>
+> **Phase state:** verified; DN merged and DM complete<br>
+> **Last verification:** Final DN branch `eec016d0b4040941e9e41f825bc0a3ac5f62f8bf` passes `./scripts/verify.sh`: 513 tests (140.52 seconds), 3,633 Lean jobs, 876 axiom reports, 81 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and installed-wheel checks pass, including minimum SciPy 1.15. Exact pushed-main closure gates repeat before handoff<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DN draft [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); prior DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119)<br>
-> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DN supports R31. The [working completion ledger](COMPLETION_AUDIT.md) now records 40/40 supported groups (100% checklist coverage, not weighted effort). Merge/pushed-head gates and the final independent forty-group audit remain; full completion is not claimed<br>
+> **Delivery:** DN merged in [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) on 2026-10-22; canonical JSON/PNG and independent checks pass<br>
+> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DN supports R31. The [working completion ledger](COMPLETION_AUDIT.md) records 40/40 supported groups (100% checklist coverage, not weighted effort). The final independent forty-group audit remains; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -139,7 +139,7 @@ is authoritative for the remaining goal.
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
-| DN | Fair six-method spectral comparisons (R31) | verified | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120), merge pending |
+| DN | Fair six-method spectral comparisons (R31) | verified | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -323,8 +323,8 @@ cutoff/tolerance prefixes retain exactly the same pivots and ranks. The new
 schema records every residual/core prefix and boundary, signed dyadic-panel
 and nearest-reflection diagnostic. The separate denser-trajectory study has
 completed and combined numerical checks pass. The full branch root gate and
-push/PR CI pass; DM is merged in PR #119 and supports R25–R27. Exact
-merged/pushed closure-head gates will be repeated before handoff.
+push/PR CI pass; DM is merged in PR #119 and supports R25–R27. Its exact
+merged/pushed closure-head gates passed at `8fb6b03`.
 
 At `1e-12`, the observed ranks are:
 
@@ -358,8 +358,8 @@ Both generation revisions/source hashes are retained in the
 [combined check report](experiments/data/gecp_census_checks.json), which passes
 all 30 higher-precision core checks (21 primary and 9 resolution). Equal ranks
 do not imply grid independence, residual-adaptive refinement or continuous
-certification. The full branch root gate and push/PR CI pass; exact
-merged/pushed closure-head gates will be repeated before handoff.
+certification. The full branch root gate, push/PR CI and exact DM main
+closure gates pass.
 
 ## Delivered evidence
 
