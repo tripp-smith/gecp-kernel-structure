@@ -709,6 +709,53 @@ revision remain valid historical evidence, not silently rewritten output.
 
 Focused checks: `uv run python -m pytest tests/test_result_metadata.py`.
 
+## Six-method spectral comparison (DN, verified; PR #120)
+
+`ComparisonConfig` and `run_spectral_comparison` live in
+`kernelgecp.comparison`. The runner is
+`uv run python -m experiments.spectral_comparison`; plotting uses
+`uv run python -m experiments.plot_spectral_comparison`. Canonical runs reject
+a dirty tracked tree, record revision/configuration/lock/source hashes and
+versions, reject nonfinite JSON, and atomically replace output. The SciPy
+minimum is now 1.15 because its public `interpolate.AAA` implementation is used.
+
+The primary cohort gives GECP, AAA, genuine pole-relocation vector fitting,
+strided-Hankel ESPRIT/Prony, bounded variable-projection nonlinear least
+squares, and unrefined greedy pursuit the same observed uniform time samples.
+All returned weights are least-squares fitted on those observations. GECP's
+universal nodes depend on the kernel alone; OMP's fixed dictionary is
+independent and the four-atom primary spectra are off-grid. A separate
+known-transition-library control is prior-informed, not a blind comparison.
+
+AAA and vector fitting see a cubic-spline/Gauss-quadrature Matsubara transform
+of those samples. Quadrature and source-resolution discrepancies are empirical
+diagnostics, not rigorous interpolation/noise bounds. Ground-truth rational
+data is used only to assess transform error, never supplied to the fit.
+Nearly-real poles may be projected only within a recorded tolerance;
+nonphysical poles and budget failures remain visible. Prony permits nodes
+larger than one for negative physical frequencies. No stability-half-plane
+flip or hidden nonlinear refinement is applied to any other algorithm.
+
+Held-out infinity errors use disjoint noiseless time coordinates. Passes are
+absolute `error <= epsilon`; genuine relative errors use the held-out signal
+norm (null for zero signal). Training convergence, native rational/Prony
+convergence, optimizer termination and held-out success are separate fields.
+The smallest **tested** passing support is compared with the sampled universal
+kernel rank; it is not the globally minimal support, a support-identification
+certificate, or a continuous-error guarantee. Results are 53-bit fits; only
+the separately labeled universal node generator uses the configured precision.
+
+The frozen artifact contains 192 fits (four fixtures, eight budgets, six
+methods), and the JSON and reviewed plot repeat bytes. Universal kernel ranks
+at cutoff eight are 11/12 at `1e-6`/`1e-8`. At `1e-8`, AAA/VF/Prony/NLS reach
+four tested atoms on the clean off-grid case; VF/Prony/NLS also reach four on
+the noisy case and six on each continuous-density reference. AAA's other
+physical fits fail and remain in the plot/data. Density references are fixed
+normalized 2001-node quadratures; reported errors are not against the exact
+continuous integral. Full root (513 tests), exact-head push/PR CI and
+installed-wheel smokes pass, including the minimum supported SciPy 1.15.
+PR #120 awaits final closure-head checks and merge; no package is published.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

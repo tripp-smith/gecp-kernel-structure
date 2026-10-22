@@ -28,11 +28,12 @@ The pushed main closure head repeats root/CI gates before final handoff.
 proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
-This audit has 40 concrete requirement groups: **39 supported and 1 incomplete**
-after DM's delivery of R25–R27. This is **97.5% checklist coverage**, not a weighted
+This working ledger has 40 concrete requirement groups: **40 supported and 0 incomplete**
+after DN's delivery of R31. This is **100% checklist coverage**, not a weighted
 estimate of remaining effort or a probability that an open theorem is true.
-R31 remains incomplete. Root/CI success cannot supply its missing method
-comparisons, and a final whole-SPEC audit remains required.
+DN's measured comparisons, not root/CI alone, support R31. Merge/pushed-head
+verification and a final independent whole-SPEC audit remain required; the
+working ledger is not a substitute for that final completion decision.
 
 “Supported” below means the named source was inspected at the relevant scope,
 with its tests/artifacts/gates, not merely that a similarly named file exists.
@@ -74,7 +75,7 @@ rewritten.
 | R28 | Deterministic machine-readable experiment dataset (§26) | Supported | `census.py` records config hash/revision and canonical JSONL; small configurations and both full 28-case canonical runs repeat bytes. DM records dependency/lock/backend and clean-generation provenance; its combined report binds primary/resolution inputs and checker/grid sources. The original 21-case data/hash remains separately labeled historical evidence. |
 | R29 | Particular Green functions use fewer spectral atoms with explicit error (§19,27F) | Supported | Committed synthetic suite at cutoff 8: clean four-atom library recovery has held-out error `3.33e-16`, versus the same kernel's universal GECP rank 12 at `1e-8`; noisy case and two-delta tests are separately qualified. No sparse uniqueness or optimality claim. |
 | R30 | Sparse exponential/spectral interface, OMP and nonlinear least squares (§19,20) | Supported | `SparseResult` frequencies/weights represent sums of `K(·,ω)`; `sparse.py` implements OMP and bounded nonlinear refinement; synthetic fixtures/tests expose training and held-out errors. |
-| R31 | Listed Phase-II method comparisons (§20) | Incomplete | OMP/nonlinear least squares and universal GECP are implemented. AAA-derived, vector-fitting and Prony-type comparisons are not. A formal AAA implementation is explicitly outside initial scope, but that does not supply the listed numerical comparisons. |
+| R31 | Listed Phase-II method comparisons (§20) | Supported | DN implements shared-observation AAA-derived, genuine vector-fitting and Prony adapters against universal GECP, bounded variable-projection nonlinear least squares and unrefined OMP. All 192 fits and reviewed PNG repeat bytes from clean `072ce10`; independent tests reconstruct every measured error. Full root passes 513 tests/3,633 Lean jobs/876 axiom reports; exact-head push/PR CI and installed-wheel checks, including SciPy 1.15, pass. PR #120 awaits merge. All methods are compared, including failed physical AAA fits; no requirement that every method win is substituted. A formal AAA implementation remains outside initial scope; no sparse optimality or support-uniqueness claim. |
 | R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 45 `__all__` exports load after DL's three metadata exports. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
 | R33 | Deterministic ties and visible failures (§24) | Supported | Lexicographic tie policy, near-tie counts, `max_rank`, numerical-breakdown and certificate-budget tests. Approximation/conditioning limitations are explicit. |
 | R34 | Enumerated numerical coverage (§25) | Supported | Kernel reflection/centered checks, interpolation, pivot product, direct/iterative cross, PSD/Cholesky controls, PSD preservation/diagonal maxima, float/mp comparison, rank scaling and exact exponential tests all have named tests in `tests/`. |
@@ -108,7 +109,7 @@ rewritten.
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
 | 18 | R01 and DH's actual Green-integral difference, including the physical restricted measure. |
 | 19 | R29/R30, computational sparse outcome, not a minimum-support theorem. |
-| 20 | R30 delivered families; R31 listed method comparisons missing. Formal AAA remains excluded as explicitly stated. |
+| 20 | R30 delivered families; DN verifies R31's six comparisons with repeated artifacts and independent errors; PR #120 awaits merge. Formal AAA remains excluded as explicitly stated. |
 | 21 | Suggested layout: actual modules implement the roles; filenames are not treated as theorem evidence. |
 | 22 | See named-interface mapping below; aliases are not substituted for missing mathematics. |
 | 23 | R32 plus the actual documented result spelling. |
@@ -190,14 +191,13 @@ asymptotic P-greedy theory. The remaining required targets are:
 DM closes census completion (R25–R27), retaining all precision/tie/certification
 limitations. Required work remains:
 
-1. **Phase-II comparisons (R31).** Implement and compare the listed missing
-   sparse methods on specified fixtures, with held-out errors, failure states,
-   conditioning and reproducibility; do not infer sparse optimality.
-   The historical noisy dictionary includes its generating frequencies and
-   is not support-blind; new comparisons require independent candidate sets
-   and shared observations/held-out errors across methods.
-2. Repeat this audit after those implementations, then run merged/pushed-head
-   gates before deciding whether the full goal is achieved.
+1. **Merge/push DN (R31).** Its six-method implementation and byte-repeated
+   evidence are verified in PR #120. Preserve retained failures and explicit
+   reference/conditioning/precision scopes; complete exact merged-head gates.
+2. Independently repeat the whole original-SPEC audit against current sources,
+   statements, tests and artifacts before deciding whether the full goal is
+   achieved. Reopen any unsupported scope rather than treating forty status
+   labels or green checks as proof of completion.
 
 No missing requirement is resolved by a status annotation alone.
 

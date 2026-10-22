@@ -9407,3 +9407,122 @@ bridges and explicit failure/conditioning/precision metadata. Keep known
 libraries separate from support-blind cases and retain failed fits. Only after
 that implementation and a final original-SPEC audit can the full goal be
 considered complete.
+
+## Phase DN — fair six-method spectral comparisons
+
+### Contract (2026-10-22)
+
+Close R31 / SPEC §§19–20 with actual numerical comparisons of universal
+GECP/DLR nodes, AAA-derived atoms, genuine iterative vector-fitting pole
+relocation, Hankel/matrix-pencil Prony recovery, bounded nonlinear least
+squares, and greedy pursuit. No Lean theorem changes are planned, so the
+Lean research-loop skill is not needed. Reuse the established original-kernel
+and sparse interfaces; no new mathlib abstraction is justified.
+
+All six methods receive the same uniform imaginary-time observations and
+noise realization. Universal nodes depend on the kernel alone; their weights
+are fitted to those same observations. Independent fixed dictionaries must
+not contain truth by construction. A known-library control is explicitly
+separate. Fixtures include clean off-grid finite atoms, noisy near-Fermi atoms,
+and the two established continuous synthetic densities. Sweep tested atom
+budgets rather than supplying the generating order to any method. Report
+sampled held-out infinity errors, relative errors, and the smallest **tested**
+passing support against the universal rank, never global sparsity optimality
+or uniquely identified support.
+
+The rational bridge is
+`-integral_0^1 exp(z*t) G(t) dt = sum_j g_j/(z-omega_j)` at fermionic Matsubara
+`z=i*pi*(2n+1)`. AAA and vector fitting use a documented quadrature of the
+shared observations, not exact oracle frequency data. Record transform
+resolution/error diagnostics and retain failed or nonphysical poles. Prony
+uses `G(l*h)=sum_j a_j*exp(-h*omega_j)^l`, then fits weights in the original
+kernel design. Pole filtering never silently flips positive physical
+frequencies into an electrical-engineering stability half-plane. All
+cross/weight computations use factorizations or least-squares solves.
+
+Named outputs: `kernelgecp/spectral_common.py`, `rational.py`, `prony.py`,
+`vector_fitting.py`, `comparison.py`; focused tests; deterministic
+`experiments/spectral_comparison.toml`, runner, JSON and reviewed PNG. Results
+expose native and returned-fit convergence scopes, stopping/budgets,
+conditioning, 53-bit arithmetic, deterministic selection policies,
+invalid-pole counts, and lack of continuous/support certification. Optional
+nonlinear refinement is never hidden inside a method bearing another name.
+
+Independent checks cover the Matsubara identity and quadrature convergence,
+known-pole rational fits, a non-oracle Prony fixture, invalid/complex/out-of-band
+poles, zero/rank-deficient data, exhausted budgets, strict input validation,
+held-out-data independence, repeat bytes, and archive/install behavior. Update
+README, FINDINGS, APPLICATION, MATHLIB, SPEC status annotations,
+COMPLETION_AUDIT and canonical FINAL_HANDOFF provenance together. The full
+root gate and exact-head push/PR CI must pass before merge, then push and
+recheck main. Only the later whole-SPEC audit may declare the full goal done.
+
+### DN upstream numerical sources and scope decisions
+
+The public [SciPy 1.15 AAA API](https://docs.scipy.org/doc/scipy-1.15.0/reference/generated/scipy.interpolate.AAA.html)
+supplies barycentric rational approximation and pole extraction; the package
+minimum is raised accordingly without relabeling a time-domain interpolant's
+poles as spectral atoms. The [SINTEF algorithm description](https://www.sintef.no/en/software/vector-fitting/algorithm/)
+motivates scaled least squares followed by eigenvalue pole relocation. This
+repository implements those equations directly, not the use-restricted
+vectfit3 MATLAB code, and deliberately omits stability flipping because both
+frequency signs are physical here. [Potts and Tasche's author paper](https://www-user.tu-chemnitz.de/~potts/paper/LAA_Prony.pdf)
+provides the Prony/Hankel-subspace connection. Its nonincreasing convention is
+adapted explicitly to allow nodes greater than one for negative frequencies.
+
+Exploratory review caught four-atom coordinates that accidentally coincided
+with the independent dictionary. Before canonical generation, those primary
+fixtures were moved off-grid and a regression now checks a positive gap for
+every true atom. This repairs the named experimental scope, not a tolerance
+or pole-acceptance threshold chosen to improve measured outcomes. Preliminary
+dirty-run artifacts are not canonical evidence. Absolute held-out pass
+thresholds, genuine relative errors, native convergence and returned-model
+training convergence remain distinct.
+
+### DN canonical observations and independent checks
+
+The final clean numerical-generator revision is
+`072ce1004de11422f05ef1fbe3e738093d6f2f13`; configuration SHA-256 is
+`665e158dd17b5722ecd1e34b2d549cbe0dcd413613dd7f5d9c33a3af54cdeeb7`.
+Two full executions take 6.52 and 6.53 observed wall seconds and produce the
+same 192-fit JSON bytes, SHA-256
+`9f85509c929bc0511b0f34f25af5188420902a165ddd3697631607d16fd5ec31`.
+The reviewed 1680-by-1120 PNG also repeats bytes, SHA-256
+`0368a73f27aa4b15ed9c313cb73a7326157d706b6aea22ca5c798cd75fe834d2`.
+Python 3.12.12, NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1 are recorded.
+All fits use 513 shared training samples and 1024 disjoint noiseless validation
+coordinates; universal node generation alone uses 128-bit arithmetic.
+
+At cutoff eight, universal sampled kernel ranks are 11 and 12 at tolerances
+`1e-6` and `1e-8`. The smallest tested passing supports at `1e-8` are:
+
+| Fixture | GECP nodes | AAA | Vector fitting | Prony | NLS | Greedy |
+| --- | --- | --- | --- | --- | --- | --- |
+| Clean off-grid four atoms | 12 | 4 | 4 | 4 | 4 | 12 |
+| Noisy near-Fermi four atoms | 12 | none | 4 | 4 | 4 | 12 |
+| Hubbard-like density reference | 12 | none | 6 | 6 | 6 | 12 |
+| Gapped density reference | 12 | none | 6 | 6 | 6 | 12 |
+
+These are tested-budget comparisons, not global optima or an across-problem
+ranking. Continuous-density references use the explicit normalized 2001-node
+trapezoid; errors are against that reference, not the exact density integral.
+AAA's nonphysical-pole rejections and failed physical fits are retained, not
+repaired by another algorithm. Noise reaches `3.15e-8` in time and about
+`8.08e-10` in the transformed data; even tiny transform errors do not guarantee
+stable pole recovery. On noiseless cases the transform discrepancy against
+evaluation-only spectral truth is below `5.41e-13`. Neither diagnostic is a
+certified continuous error bound.
+
+Independent tests reconstruct every returned model with a direct kernel
+formula and recompute all 192 training/held-out errors, support minima and
+pass flags. Source/lock/config/revision hashes are pinned. Prefix metadata
+reports the actual universal prefix's kernel error, not convergence of its
+full parent trajectory. At `256779028bd5a07736730bf3ff70587f80b91c75`, the
+full root passes 513 tests in 141.91 seconds, 3,633 Lean jobs, all 876 axiom
+reports, 81-file formatting, mypy on 19 sources and the clean dependency audit.
+Push CI `39831341046` and PR CI `39831351890` pass all four checks. Source/wheel
+archives contain the new artifacts and exclude local notes/caches. Installed
+wheel smokes outside the checkout pass both pinned SciPy 1.18 and the declared
+minimum 1.15. No package is published. PR #120 is ready for final closure-head
+reverification and merge. R31 is supported; the ledger is now forty supported
+groups, but final independent original-SPEC audit remains required.

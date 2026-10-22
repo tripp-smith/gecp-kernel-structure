@@ -2739,3 +2739,13 @@ This annotation records delivered identifiers without changing the goals above.
   original mathematical objectives above are unchanged. R31 comparisons and
   the final whole-SPEC audit remain required. Pushed-main closure gates repeat
   before final handoff; no continuous numerical certificate is inferred.
+
+- **Phase DN status (2026-10-22, verified; PR #120):** implements the six listed
+  numerical comparisons in §§19–20 using shared time observations, explicit
+  Matsubara/Prony bridges, original-kernel weight solves and retained failure
+  diagnostics. The contract is frozen in RESEARCH; all 192 canonical fits and
+  the reviewed PNG repeat bytes. Full root verification passes 513 tests,
+  3,633 Lean jobs and 876 axiom reports; exact-head push/PR CI and installed-wheel
+  checks (including SciPy 1.15) pass. Final closure-head checks and merge are
+  pending. Original mathematical goals above are unchanged. No globally optimal sparse support or unique recovery
+  is inferred from a smallest tested passing support.

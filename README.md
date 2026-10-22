@@ -4,12 +4,12 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DM — complete census diagnostics and normalized curves<br>
-> **Phase state:** verified; DM merged and DL complete<br>
-> **Last verification:** Phase DM branch `4f99db923e89773e1d248eecde872f2350e0d853` passes `./scripts/verify.sh`: 3,633 Lean jobs, 876 enforced axiom reports, 430 tests (139.64 seconds), clean formatting/mypy/dependency audit; push and PR CI passed on 2026-10-22. Exact merged/pushed closure-head gates will be repeated before handoff<br>
+> **Current phase:** DN — fair six-method spectral comparisons<br>
+> **Phase state:** verified; DN merge pending and DM complete<br>
+> **Last verification:** DN head `256779028bd5a07736730bf3ff70587f80b91c75` passes `./scripts/verify.sh`: 513 tests (141.91 seconds), 3,633 Lean jobs, 876 axiom reports, 81 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and installed-wheel checks pass, including minimum SciPy 1.15. Closure-head gates repeat before merge/handoff<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** Phase DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) on 2026-10-22; full primary repeat, three-cutoff resolution runs and combined numerical checks pass<br>
-> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DM supports census requirements R25–R27; the [full-SPEC audit](COMPLETION_AUDIT.md) records 39/40 supported groups (97.5% checklist coverage, not weighted effort). R31 comparisons and the final forty-group audit remain; full completion is not claimed<br>
+> **Delivery:** DN draft [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); prior DM merged in [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119)<br>
+> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved; DN supports R31. The [working completion ledger](COMPLETION_AUDIT.md) now records 40/40 supported groups (100% checklist coverage, not weighted effort). Merge/pushed-head gates and the final independent forty-group audit remain; full completion is not claimed<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -138,7 +138,8 @@ is authoritative for the remaining goal.
 | DJ | Original-kernel fill-distance control | complete | arbitrary-domain PSD residual/order; energy comparison; `2*L*h` fill bound; compact diagonal complete maxima | 3,630 Lean jobs; 857 audited declarations; 180 tests; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116) |
 | DK | Strict-SPD complete-pivot reduction | complete | fresh strict Schur congruence; every complete pivot diagonal; actual-run Cholesky equivalence; compact/fill corollaries | 3,633 Lean jobs; 876 audited declarations; 183 tests; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117) |
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
-| DM | Complete census diagnostics and normalized curves | verified | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
+| DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
+| DN | Fair six-method spectral comparisons (R31) | verified | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120), merge pending |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -293,8 +294,8 @@ for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
 G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
-The updated audit identifies one required group still incomplete, R31, followed
-by the final original-SPEC audit. DH closes the
+The working ledger now supports all forty implementation groups; the final
+independent original-SPEC audit remains mandatory. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.
@@ -303,9 +304,9 @@ DI's audit is now recorded in [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md).
 DJ/DK prove original-kernel Lipschitz fill-distance control, arbitrary-domain
 PSD geometry and strict-SPD complete-pivot reduction. DM supports the `1e-12`
 census/diagnostics/normalized-curve requirements R25–R27. Required work remains
-in R31's listed AAA-derived, vector-fitting and Prony comparisons, followed by
-a final forty-group audit. Earlier bounded phase labels are not a substitute
-for those missing scopes.
+in the final forty-group audit after DN's verified AAA-derived, vector-fitting
+and Prony comparisons. Earlier bounded phase labels are not a substitute for
+that independent final audit.
 
 DL adds typed result metadata for GECP, Cholesky and sparse recovery, and
 explicit fixed-construction scopes for approximation objects. Actual float64

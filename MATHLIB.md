@@ -907,6 +907,14 @@ is not itself a proof. Nearest selected reflected nodes, dyadic panel labels
 and denser held-out residual observations likewise assert no new mathematical
 invariant. Existing public-theorem exports and axiom gates remain unchanged.
 
+## DN: spectral comparison, no new formal abstraction
+
+DN adds numerical Matsubara, rational pole-relocation and Hankel-subspace
+adapters, not Lean theorems. The exponential-to-spectral and Matsubara
+identities receive independent numerical checks, not new formal status.
+Existing public exports and the 876-declaration axiom audit are unchanged.
+No local Lean abstraction or credible new mathlib candidate is introduced.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

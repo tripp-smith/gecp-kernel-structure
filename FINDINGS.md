@@ -1866,6 +1866,27 @@ final forty-group audit remain required. No
 continuous-error certificate, exact-reflection theorem, grid independence,
 optimal tie behavior or new approximate-pivot rate is claimed.
 
+## DN: six-method spectral comparisons (verified, PR #120)
+
+The R31 implementation adds the Matsubara rational bridge, SciPy AAA-derived
+physical atoms, genuine iterative vector-fitting pole relocation, and
+data-ranked strided-Hankel Prony/ESPRIT. The shared-observation comparison
+retains every tested budget, including complex/out-of-band pole rejection and
+failed fits; no generating order or exact rational truth enters an adapter.
+Primary dictionaries are fixed independently of off-grid truth. The
+known-library control is separately prior-informed. The frozen 192-fit JSON
+and reviewed PNG repeat bytes from clean `072ce10`; every measured error is
+independently reconstructed. At `1e-8`, the clean four-atom case needs four
+tested atoms for AAA/VF/Prony/NLS versus universal rank 12. VF/Prony/NLS also
+pass with four on the noisy case and six on each fixed-quadrature continuous
+density reference. AAA fails the other three physical fits; those failures
+and nonphysical poles remain explicit. No method is supplied the true order.
+These are smallest tested supports, not optimality/uniqueness or continuous
+error claims. R31 is supported by the actual comparisons, independent error
+reconstruction, 513-test full root gate, green exact-head push/PR CI and
+installed-wheel checks (including minimum SciPy 1.15). PR #120 awaits merge;
+the final independent original-SPEC audit remains required.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
