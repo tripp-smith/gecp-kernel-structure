@@ -9632,3 +9632,13 @@ expectation. The final test uses independent direct binary64 products and the
 pivot product for that representable determinant. Focused numerical checks,
 Ruff/format and mypy pass after repairs. Fresh full committed-head, package,
 CI and shipping checks follow; the original goal is not complete.
+
+Final read-only QA passes 112 focused tests, fifteen signed enclosure cases,
+eight mixed-scale/transpose cases and 400 coordinate-reuse checks. It also
+exposes a preexisting sub-roundoff-tolerance failure on identical original
+rows `[0.7088646663651996,0.9626470984418726]`: roundoff can create a spurious
+fresh pivot and a singular selected core. DO adds a narrowly justified exact-
+duplicate row/column guard, with both-orientation regressions. It does not
+reject merely zero LAPACK determinant/singular-value estimates, which would
+incorrectly reject the nonsingular mixed-scale witness. These diagnostic
+limits are documented rather than turned into an exact rank claim.

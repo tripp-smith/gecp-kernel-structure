@@ -29,6 +29,14 @@ inverse. Results include residual history, determinants, smallest singular
 values, near-tie counts, convergence, stop reason, and actual precision.
 Runs above 53 bits retain canonical decimal strings in `result.high_precision`;
 the NumPy compatibility views remain float64.
+Determinants and smallest singular values are non-certifying numerical
+estimates: unscaled LAPACK can report zero for a nonsingular mixed-scale core,
+even when its true determinant is representable. A zero estimate alone is not
+a singularity proof. Float64 updates use bounded binary mantissas/exponents,
+preserve known interpolation zeros and exclude old coordinates from selection;
+unrepresentable updates and exact duplicate rows/columns in the selected core
+raise `NumericalBreakdownError`. Requests below arithmetic resolution do not
+give a rigorous accuracy guarantee or exact numerical-rank determination.
 For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
 diagonal-preferring lexicographic tie rule; the recursive equivalence of those
 pivot policies is separately proved in Lean.

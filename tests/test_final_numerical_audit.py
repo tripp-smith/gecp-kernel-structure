@@ -227,6 +227,21 @@ def test_unrepresentable_tiny_schur_term_is_an_explicit_breakdown() -> None:
         )
 
 
+@pytest.mark.parametrize("transpose", [False, True])
+def test_roundoff_does_not_promote_an_exact_duplicate_core(transpose: bool) -> None:
+    row = [0.7088646663651996, 0.9626470984418726]
+    matrix = np.array([row, row])
+    if transpose:
+        matrix = matrix.T
+    with pytest.raises(NumericalBreakdownError, match="exact duplicate"):
+        gecp_matrix(
+            matrix,
+            config=GECPConfig(
+                precision_bits=53, pivot="grid", max_rank=2, tol=1e-100, tie_rtol=0
+            ),
+        )
+
+
 def test_failed_float64_core_diagnostic_is_an_explicit_breakdown(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

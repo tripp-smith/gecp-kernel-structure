@@ -8,7 +8,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 > **Phase state:** in progress; DN complete<br>
 > **Last verification:** Final DN branch `eec016d0b4040941e9e41f825bc0a3ac5f62f8bf` passes `./scripts/verify.sh`: 513 tests (140.52 seconds), 3,633 Lean jobs, 876 axiom reports, 81 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and installed-wheel checks pass, including minimum SciPy 1.15. Exact pushed-main closure gates repeat before handoff<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DN merged in [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) on 2026-10-22; canonical JSON/PNG and independent checks pass<br>
+> **Delivery:** DO draft [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); final root/package/install/CI checks in progress<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. The [independent original-SPEC audit](FINAL_AUDIT.md) reopens R25: fixed-grid census/resolution runs do not meet the required seven-cutoff residual-adaptive experiment. DO also repairs numerical certificate/failure paths. Full completion is not claimed; revised overall effort estimate is approximately 97%, subject to the remaining experiment and closure gates<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -140,7 +140,7 @@ is authoritative for the remaining goal.
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 | DN | Fair six-method spectral comparisons (R31) | complete | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
-| DO | Independent original-SPEC completion audit | in progress | thirty-section audit; certificate/tie/overflow/coverage repairs; generic completeness layering | decision NOT COMPLETE: residual-adaptive R25 absent; repairs/gates pending | branch `codex/phase-do-final-spec-audit` |
+| DO | Independent original-SPEC completion audit | in progress | thirty-section audit; certificate/tie/overflow/coverage repairs; generic completeness layering | decision NOT COMPLETE: residual-adaptive R25 absent; final gates pending | draft [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

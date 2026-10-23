@@ -592,6 +592,14 @@ def gecp_matrix(
         residual[:, column] = 0.0
 
         core = original[np.ix_(rows, columns)]
+        if np.unique(core, axis=0).shape[0] != len(rows) or np.unique(
+            core, axis=1
+        ).shape[1] != len(columns):
+            # Exact duplicate samples prove singularity over the stored input;
+            # roundoff in elimination must not turn them into a usable core.
+            raise NumericalBreakdownError(
+                "exact duplicate rows or columns in GECP core"
+            )
         try:
             with np.errstate(over="raise", invalid="raise", divide="raise"):
                 determinant = float(np.linalg.det(core))
