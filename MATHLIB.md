@@ -940,7 +940,8 @@ rate remains distinct from numerical grid trajectories and approximate pivots.
 Both seven-cutoff canonical executions and the reviewed normalized plot now
 repeat bytes with all 28 sampled prefixes passing. This adds no formal result
 or upstream candidate. The DP root passes the unchanged 3,634-job Lean build
-and 876-declaration allowed-axiom gate; final CI/merge gates remain pending.
+and 876-declaration allowed-axiom gate; exact artifact-head push/PR CI pass.
+Final documentation/merge/main closure repeats these gates before handoff.
 
 ## Run provenance
 

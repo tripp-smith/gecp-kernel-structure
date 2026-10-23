@@ -1,6 +1,6 @@
 # Findings and claim ledger
 
-## Current original-SPEC audit (Phase DP in progress)
+## Current original-SPEC audit (Phase DP verified; final delivery closure next)
 
 The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
 finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
@@ -21,10 +21,12 @@ grids, with two fresh clean-source runs producing identical canonical bytes.
 These are observed finite-sample results, not a new theorem. The normalized
 plot has been rendered, visually inspected and repeated byte-for-byte.
 Independent post-run MP192 checking passes all 21 selected-core checks and
-28 full final crosses. The root gate, source/wheel audit and both outside-
-checkout install checks pass. Exact-head CI, merge/pushed-main closure and
-the original-scope closure audit remain pending; DP is not yet marked verified
-and the full goal is not declared closed.
+28 full final crosses. Code/artifact head
+`a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root,
+source/wheel and both outside-checkout install checks, plus green push/PR CI.
+Final documentation-head root/CI, merge/pushed-main closure and a fresh full
+original-SPEC audit remain pending. **The full goal is NOT COMPLETE.** The
+approximately 99% effort estimate is not a requirement-count percentage.
 
 DO's numerical repairs and historical verification remain valid: `f0d082d`
 passes the 569-test root, 3,634 Lean jobs, all 876 axiom reports, exact-head
@@ -1948,7 +1950,7 @@ is by Sungwoo Jeong, Alex Townsend and Christopher Wang; older phase records
 refer specifically to the two-author v1. The repository formalizes the staged
 fill-distance baseline, not all of that paper's stronger asymptotic results.
 
-## Phase DP: genuine residual-adaptive census (in progress)
+## Phase DP: genuine residual-adaptive census (code/artifact head verified; delivery pending)
 
 **Observed, not proved:** the new explicit-axis
 [`adaptive_census.json`](experiments/data/adaptive_census.json) contains all
@@ -2009,7 +2011,8 @@ requested tolerance. The report has SHA-256
 These are independent higher-precision point/factored-solve checks, not
 interval enclosures.
 
-The full root gate passes **713 tests in 151.22 seconds**, 3,634 Lean jobs,
+At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the
+exact full root gate passes **713 tests in 150.40 seconds**, 3,634 Lean jobs,
 all 876 axiom reports, 95 formatted files, mypy on 21 sources and the clean
 dependency audit. Source/wheel archives include all three DP artifacts and
 tests while excluding protected note copies, caches and scratch; all 21 wheel
@@ -2017,10 +2020,14 @@ Python files hash-match source and the packaged README is checked. Actual
 outside-checkout installed-wheel checks pass with pinned Python 3.12.12,
 NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1, and with minimum SciPy 1.15.0 /
 NumPy 2.4.6. Each environment exercises all 45 exports, adaptive success and
-budget failure, and 48 six-method fits. Exact-head CI, merge/pushed-main
-closure and the final original-SPEC closure audit remain pending; DP is not
-yet marked verified. No sampled maximum or surplus is a continuous supremum
-bound, and no approximate-pivot rate theorem is added.
+budget failure, and 48 six-method fits; both environments are rebuilt and
+rechecked at that code head. Exact push CI `40017052450` and PR CI
+`40017056920` pass all four checks. The earlier development root passed the
+same 713 tests in 151.22 seconds and is not relabeled as this committed-head
+run. Final documentation-head root/CI, merge/pushed-main closure and the next
+fresh full original-SPEC audit remain pending; whole-goal completion is not
+claimed. No sampled maximum or surplus is a continuous supremum bound, and
+no approximate-pivot rate theorem is added.
 
 ## Run provenance
 

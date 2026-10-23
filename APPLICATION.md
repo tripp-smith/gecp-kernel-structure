@@ -892,7 +892,8 @@ passes full seven-cutoff/28-prefix coverage and revision-blob checks, all 21
 selected-core determinant/pivot-product/singular-value checks, and all 28
 complete final sampled crosses within their requested tolerances. Its SHA-256
 is `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
-The DP full root gate passes 713 tests in 151.22 seconds, 3,634 Lean jobs,
+At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the DP
+exact full root gate passes 713 tests in 150.40 seconds, 3,634 Lean jobs,
 all 876 axiom reports, formatting of 95 files, mypy on 21 sources and the
 clean dependency audit. Source/wheel audits include the three DP artifacts
 and tests, exclude protected notes/caches/scratch, and verify all 21 packaged
@@ -900,11 +901,15 @@ Python hashes plus README. Installed-wheel checks run outside the checkout
 and pass in both pinned Python 3.12.12 / NumPy 2.5.2 / SciPy 1.18.0 /
 mpmath 1.4.1 and minimum SciPy 1.15.0 / NumPy 2.4.6 environments. Each checks
 all 45 exports, actual adaptive success and budget failure, and 48 six-method
-fits. Exact-head CI, merge/pushed-main closure and the full original-SPEC
-closure audit remain pending; DP is not yet marked verified. Successful
-sampled validation is not a continuous residual-supremum bound, an exact
-complete-pivot trajectory, or a new Lean rate theorem. No full-goal completion
-or package publication is claimed.
+fits; both environments pass again after rebuilding that exact code head.
+Push CI `40017052450` and PR CI `40017056920` pass all four checks. The
+earlier development root's 151.22-second result remains historical, not the
+committed-head timing. Final documentation-head root/CI, merge/pushed-main
+closure and a fresh full original-SPEC audit remain pending. The whole goal
+is **NOT COMPLETE**; an approximately 99% effort estimate is not a checklist
+count or completion verdict. Successful sampled validation is not a continuous
+residual-supremum bound, an exact complete-pivot trajectory, or a new Lean rate
+theorem. No package publication is claimed.
 
 ## Release provenance
 

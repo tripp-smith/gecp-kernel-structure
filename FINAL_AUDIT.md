@@ -15,8 +15,12 @@ adaptive plot is rendered, inspected and byte-repeated. Independent MP192
 checking passes all twenty-one representative selected-core checks and
 twenty-eight full final-cross checks, with every sampled maximum within its
 requested tolerance. The subsequent full original-scope closure audit
-and DP's exact-head CI/delivery gates remain required; the preliminary
-mapping of forty supported inventory groups is not whole-goal completion.
+follows DP delivery. DP is **verified** at artifact/code head
+`a6488cc0c91400bab3f327d93db153c390ef20f4`, with exact local root and push/PR
+CI passing. Final metadata-head root/CI repeats, merge and pushed-main closure
+remain required; the preliminary mapping of forty supported groups is not
+whole-goal completion. A separate rough overall effort estimate is **99%**,
+not a checklist-derived percentage or a completion decision.
 DO's verified repairs and merged PR #121 remain historical evidence, not
 verification of the new DP experiment.
 
@@ -131,8 +135,10 @@ It binds canonical input SHA-256
 and checker source SHA-256
 `711ac118e26cdab256ed43a3918f876fc7d00e3b0245885dfe994fb761af1316`.
 These are independent finite-sample checks, not continuous-error certificates.
-The parent run reports DP's current full `./scripts/verify.sh` passing:
-**713 tests in 151.22 seconds, 3,634 Lean jobs, all 876 allowed axiom reports,
+The parent run reports DP artifact/code head
+`a6488cc0c91400bab3f327d93db153c390ef20f4` passing the exact local
+`./scripts/verify.sh`:
+**713 tests in 150.40 seconds, 3,634 Lean jobs, all 876 allowed axiom reports,
 95 formatted files, mypy on 21 sources and a clean dependency audit**.
 The final source/wheel inspector finds clean archives, all three adaptive
 artifacts and new source/tests included, and local notes/caches/scratch
@@ -144,9 +150,13 @@ NumPy 2.5.2, SciPy 1.18 and mpmath 1.4.1, and with the declared-minimum
 NumPy 2.4.6/SciPy 1.15.0 environment. Each exercises all 45 exports, adaptive
 success/budget-failure paths and 48 six-method fits. These are current DP
 checks, separate from the preserved nineteen-source DO archive evidence.
+Both rebuilt wheels repeat these installed checks at `a6488cc`. The earlier
+development-tree root passed 713 tests in 151.22 seconds; it is retained as
+historical evidence rather than relabeled as the exact-head run.
 
-Exact-head push/PR CI, draft PR, permitted merge and pushed-main closure remain
-pending; phase verification is not yet claimed. The next decision is
+Exact-head push CI `40017052450` and PR CI `40017056920` pass all four checks
+at `a6488cc`; DP is verified on this evidence. Final metadata-head root/CI
+repeats, permitted merge and pushed-main closure remain pending. The next decision is
 the full original-SPEC closure audit after DP, not automatic completion from
 this numerical delivery or the inventory count.
 
@@ -262,7 +272,7 @@ are not silently promoted into mandatory additional theorems.
 | 22 | Supported semantic public theorem interfaces | Public algebraic, SPD, fermionic and Green identifiers appear in `Theorems.lean`/`scripts/AxiomAudit.lean`. The conservative `fermionicKernel_finiteRun_error_le_exp` delivers the proposed rate role with its range visible; no “optimal” theorem or false all-cutoff alias. |
 | 23 | Supported scoped API adaptations | Seven proposed names are exported in `kernelgecp/__init__.py:53–99`. `GECPConfig` supplies controls; result residual access is `residual_matrix`, histories and `evaluate_residual`; Cholesky consumes sampled matrices. These document the proposed example's roles, not literal compatibility with every example spelling/signature. |
 | 24 | Supported precision paths and root-verified tie/arithmetic repairs | Float64, mpmath with canonical decimal histories and `Fraction` surrogates exist. DO records observed candidate ties, scopes interval certificates, and handles representable extreme/mixed-scale updates and unrepresentable failures. MP128 census elimination still uses 53-bit grid coordinates; LAPACK conditioning diagnostics remain estimates. |
-| 25 | DP root and package/install checks passed; exact-head CI pending | DP's current full root passes 713 tests in 151.22 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and the clean dependency audit. Clean archives and pinned/minimum installed-wheel checks pass as recorded above. `scripts/verify.sh` and CI enforce build, axiom, placeholder, typing/lint/test/audit checks. Exact-head DP CI and final delivery remain pending; DO's 569-test gate and PR #121 remain historical evidence. |
+| 25 | DP exact-head root, package/install and CI verified | At `a6488cc0c91400bab3f327d93db153c390ef20f4`, the exact local root passes 713 tests in 150.40 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and the clean dependency audit; push CI `40017052450` and PR CI `40017056920` pass all four checks. Clean archives and repeated rebuilt-wheel checks pass in pinned/minimum environments. Final metadata-head root/CI repeats and merge/main closure remain pending; DO's 569-test gate and PR #121 remain historical evidence. |
 | 26 | Supported adaptive and historical datasets | Direct inspection finds seven schema-3 adaptive cases and twenty-eight converged tolerance records through `1e-12`, 128-bit elimination, 53-bit explicit coordinates and MP192 probe/final sample metadata. Revision/config/source/lock/environment provenance and exact full-run byte repeats are recorded above; the passing independent report pins its input and checker source and verifies revision blobs. Historical canonical JSONL retains its original provenance; final DP shipping gates remain separate. |
 | 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, but full completion still requires final delivery and the subsequent original-scope audit. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
@@ -316,12 +326,12 @@ subsequent original-scope closure audit, not that audit's completion decision.
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
 | R34 | S | Enumerated numerical categories plus independent centered-formula, cancellation, signed underflow, rounded-midpoint, invalid-gradient, mixed-scale, coordinate-reuse, duplicate-core and companion-diagnostic regressions pass the final 569-test root gate. |
-| R35 | S | DP's current full root passes 713 tests in 151.22 seconds, 3,634 Lean jobs, all 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and a clean dependency audit. Root/CI mechanisms and the exact axiom allow-list are inspected. Exact-head CI and delivery status remain under R40. |
+| R35 | S | DP artifact/code head `a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root: 713 tests in 150.40 seconds, 3,634 Lean jobs, all 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and a clean dependency audit. Exact-head push CI `40017052450` and PR CI `40017056920` pass all four checks. Final metadata-head repeats and merge/main closure remain under R40. |
 | R36 | S | DP's final source/wheel archives are inspected clean, include all three adaptive artifacts and new source/tests, and exclude local notes/caches/scratch. All 21 wheel Python sources and packaged APPLICATION/README hash-match source. Outside-checkout installed-wheel smokes pass pinned Python 3.12.12/NumPy 2.5.2/SciPy 1.18/mpmath 1.4.1 and minimum NumPy 2.4.6/SciPy 1.15.0; each checks 45 exports, adaptive success/budget failure and 48 six-method fits. Historical nineteen-source DO evidence is preserved separately. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
 | R38 | S | Current audits record the actual finite theorem, completed adaptive generation/repeat/plot, passing independent checks and numerical scope boundaries; historical phase/route text is distinguished. Final DP documentation/gate synchronization remains under R40. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | S historically; DP CI/delivery pending | DP's current full root, archive and outside-checkout installed-wheel gates pass. Exact-head push/PR CI, draft PR, permitted merge and pushed-main closure remain required before phase verification/delivery. DO's final `f0d082d`, passing CI `39961732232`/`39961740682` and merged PR #121 remain historical evidence. Neither those historical gates nor the forty-group mapping establishes whole-goal completion. |
+| R40 | S; DP verified, final delivery pending | DP is verified at `a6488cc0c91400bab3f327d93db153c390ef20f4`: exact local root, clean archives, repeated rebuilt-wheel installed checks and exact-head push/PR CI `40017052450`/`40017056920` pass. Final metadata-head root/CI repeats, permitted merge and pushed-main closure remain required. DO's final `f0d082d`, CI and merged PR #121 remain historical evidence. Neither phase verification nor the forty-group mapping establishes whole-goal completion; a fresh original-scope audit follows DP delivery. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -372,9 +382,9 @@ Section 17's “where feasible” extension remains explicit research work.
 
 To complete the original scope:
 
-1. Complete DP's exact-head push/PR CI, draft PR, permitted merge and
+1. Complete DP's final metadata-head root/CI repeats, permitted merge and
    pushed-main/provenance checks, including required checks at final committed
-   and merged heads. DO's verified
+   and merged heads. DP is verified at artifact/code head `a6488cc`; DO's verified
    repairs and prior DN evidence remain historical rather than substitutes
    for these new delivery gates. Preserve sampled scope and all failures; the
    passing independent numerical checks do not establish exact complete-pivot
