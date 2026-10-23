@@ -62,7 +62,13 @@ DEFAULT_GECP_CONFIG = GECPConfig()
 
 @dataclass(frozen=True, slots=True)
 class PivotCertificate:
-    """Bounds witnessing the quality of one approximate continuous pivot."""
+    """Bounds for the caller's interval objective, with an approximate point value.
+
+    ``value`` is an ordinary numerical evaluation; only ``lower_bound`` and
+    ``upper_bound`` are enclosure-derived bounds in interval mode. Candidate
+    tie counts concern the distinct sampled coordinates, not all continuous
+    maximizers. ``objective_scope`` identifies the function being enclosed.
+    """
 
     t: float
     omega: float
@@ -73,6 +79,12 @@ class PivotCertificate:
     cells_evaluated: int
     certified: bool
     termination_reason: str
+    candidate_count: int = 0
+    exact_tie_count: int = 0
+    near_tie_count: int = 0
+    tie_rtol: float | None = None
+    tie_scope: str = "not_recorded"
+    objective_scope: str = "caller_supplied_objective"
 
 
 @dataclass(frozen=True, slots=True)
@@ -219,24 +231,36 @@ class GECPResult:
             ),
             conditioning_method="selected_core_smallest_singular_value_only",
             conditioning_history=conditioning,
-            tie_status="not_estimated" if adaptive else "recorded",
-            tie_policy="interval_cell_order"
+            tie_status=(
+                "recorded_sampled_candidates"
+                if self.pivot_certificates
+                else "not_applicable"
+            )
+            if adaptive
+            else "recorded",
+            tie_policy="lexicographic_best_singleton_interval_lower_bound"
             if adaptive
             else "lexicographic_near_maximum",
-            tie_rtol=None if adaptive else effective_tie,
+            tie_rtol=(
+                self.pivot_certificates[0].tie_rtol if self.pivot_certificates else None
+            )
+            if adaptive
+            else effective_tie,
             tie_tolerance_rule=(
-                "not_estimated_for_interval_maximization"
+                "sampled_lower_bound_gap<=tie_rtol*max(1,best_lower_bound); "
+                "continuous_tie_multiplicity_not_estimated"
                 if adaptive
-                else "tie_rtol*max(1,max); default 32*float64_eps or 2^(5-mp_bits)"
+                else "nonzero_unselected_coordinates; gap<=tie_rtol*max(1,max); "
+                "default 32*float64_eps or 2^(5-mp_bits)"
             ),
-            tie_counts=[] if adaptive else list(self.tie_counts),
+            tie_counts=list(self.tie_counts),
             certification_status=(
                 "certified"
                 if self.converged and self.stop_reason == "certified_tolerance"
                 else "not_certified"
             ),
             certification_scope=(
-                "outward_interval_residual_upper_bound"
+                "outward_interval_frozen_rounded_residual_model_only"
                 if adaptive
                 else "sampled_grid_only_no_continuous_certificate"
             ),
@@ -245,7 +269,22 @@ class GECPResult:
             else "sampled_grid",
             converged=self.converged,
             stop_reason=self.stop_reason,
-            configuration=dict(self.config),
+            configuration={
+                **self.config,
+                **(
+                    {
+                        "interval_objective_scope": (
+                            "kernel_minus_approximation_defined_by_frozen_rounded_"
+                            "pivot_and_row_column_coefficients"
+                        ),
+                        "exact_selected_cross_certified": False,
+                        "float64_evaluate_residual_certified": False,
+                        "tie_scope": "distinct_sampled_coordinates_only",
+                    }
+                    if adaptive
+                    else {}
+                ),
+            },
         )
 
 

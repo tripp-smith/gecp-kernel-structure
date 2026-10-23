@@ -2750,3 +2750,19 @@ This annotation records delivered identifiers without changing the goals above.
   closure gates repeat before handoff. Original mathematical goals above are
   unchanged. No globally optimal sparse support or unique recovery
   is inferred from a smallest tested passing support.
+
+- **Phase DO audit status (2026-10-22, in progress):** the independent
+  `FINAL_AUDIT.md` checks all thirty original sections against actual theorem
+  assumptions, sources, artifacts and tests. It supports the original-kernel
+  exact finite-run rate, separated approximation, strict-SPD/fill baseline and
+  cross/Green consequences, but reopens R25: fixed order-24 seven-cutoff data
+  and three fixed order-32 reruns do not implement §14's increasingly dense
+  residual-adaptive grids. DO repairs interval lower-bound rounding, sampled
+  adaptive tie metadata, a large-finite float64 update failure and missing
+  independent centered-expression coverage, plus generic import layering and
+  stale current documentation. Fresh root/package/CI/merge gates are required.
+  The next required target is the genuine seven-cutoff adaptive experiment and
+  subsequent final closure. Original goals above are unchanged; the prior
+  forty supported labels are not accepted as a completion proof. No ideal-
+  exact-run or separately reconstructed-cross certificate, arbitrary-η rate,
+  sparse optimality or literature priority is inferred from numerical evidence.

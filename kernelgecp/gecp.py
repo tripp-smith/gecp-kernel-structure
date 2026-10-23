@@ -61,7 +61,13 @@ def _mp_decimal(value: mp.mpf, precision_bits: int) -> str:
 
 
 class _FermionicResidualEvaluator:
-    """Point and interval evaluation of successive fermionic GECP residuals."""
+    """Evaluate K minus a numerical approximant with frozen rounded coefficients.
+
+    At each update, rounded mpmath pivot and row/column constants are stored.
+    Interval evaluation treats these stored numbers as exact constants. Its
+    enclosure does not include their difference from an ideal exact-GECP cross
+    or a separately reconstructed float64 selected-core solve.
+    """
 
     def __init__(self, cutoff: float) -> None:
         self.cutoff = cutoff
@@ -229,7 +235,7 @@ class _FermionicResidualEvaluator:
 def _gecp_adaptive_fermionic(
     kernel: FermionicKernel, *, config: GECPConfig
 ) -> GECPResult:
-    """Run continuous fermionic GECP with an interval certificate per pivot."""
+    """Select pivots using bounds for each frozen rounded residual model."""
 
     evaluator = _FermionicResidualEvaluator(kernel.cutoff)
     pivots_mp: list[mp.mpf] = []
@@ -251,6 +257,8 @@ def _gecp_adaptive_fermionic(
                 rel_tol=config.certificate_rel_tol,
                 max_cells=config.max_cells,
                 gradient_interval_function=evaluator.interval_gradient,
+                tie_rtol=config.tie_rtol,
+                objective_scope="frozen_rounded_fermionic_residual_model",
             )
             residual_history_mp.append(_mp_value(certificate.upper_bound))
             if not certificate.certified:
@@ -264,8 +272,9 @@ def _gecp_adaptive_fermionic(
                 stop_reason = "max_rank"
                 break
 
-            t = _mp_value(certificate.t)
-            omega = _mp_value(certificate.omega)
+            # Match the exact binary coordinates used by singleton intervals.
+            t = mp.mpf(certificate.t)
+            omega = mp.mpf(certificate.omega)
             pivot = evaluator.point(t, omega)
             if not mp.isfinite(pivot) or pivot == 0:
                 raise NumericalBreakdownError(
@@ -312,7 +321,7 @@ def _gecp_adaptive_fermionic(
             residual_history=[float(value) for value in residual_history_mp],
             core_det_history=[float(value) for value in det_history_mp],
             core_sigma_min_history=[float(value) for value in sigma_history_mp],
-            tie_counts=[1] * len(pivots_mp),
+            tie_counts=[certificate.near_tie_count for certificate in certificates],
             pivot_certificates=certificates,
             rank=len(pivots_mp),
             converged=converged,
@@ -386,7 +395,12 @@ def _gecp_mpmath_matrix(
             chosen = False
             for i, residual_row in enumerate(residual):
                 for j, value in enumerate(residual_row):
-                    if abs(abs(value) - maximum) <= threshold:
+                    if (
+                        i not in rows
+                        and j not in columns
+                        and value != 0
+                        and abs(abs(value) - maximum) <= threshold
+                    ):
                         near_ties += 1
                         if not chosen:
                             pivot_row = i
@@ -409,6 +423,10 @@ def _gecp_mpmath_matrix(
                     residual[i][j] -= (
                         pivot_column_values[i] * pivot_row_values[j] / pivot
                     )
+            for j in range(column_count):
+                residual[pivot_row][j] = mp.mpf(0)
+            for i in range(row_count):
+                residual[i][pivot_column] = mp.mpf(0)
 
             core = mp.matrix([[original[i][j] for j in columns] for i in rows])
             det_history_mp.append(+mp.det(core))
@@ -528,6 +546,8 @@ def gecp_matrix(
     tie_rtol = _tie_tolerance(config)
 
     for _ in range(rank_limit):
+        if not np.all(np.isfinite(residual)):
+            raise NumericalBreakdownError("nonfinite float64 GECP residual")
         magnitudes = np.abs(residual)
         maximum = float(np.max(magnitudes))
         residual_history.append(maximum)
@@ -536,7 +556,12 @@ def gecp_matrix(
             stop_reason = "tolerance"
             break
         threshold = tie_rtol * max(1.0, maximum)
-        near_ties = np.flatnonzero(np.abs(magnitudes.ravel() - maximum) <= threshold)
+        eligible = (magnitudes > 0) & (np.abs(magnitudes - maximum) <= threshold)
+        eligible[rows, :] = False
+        eligible[:, columns] = False
+        near_ties = np.flatnonzero(eligible.ravel())
+        if not near_ties.size:
+            raise NumericalBreakdownError("no usable unselected float64 GECP pivot")
         flat_index = int(near_ties[0])
         row, column = np.unravel_index(flat_index, residual.shape)
         pivot = float(residual[row, column])
@@ -549,11 +574,53 @@ def gecp_matrix(
         columns.append(int(column))
         pivots.append(pivot)
         tie_counts.append(int(near_ties.size))
-        residual -= np.outer(residual[:, column], residual[row, :]) / pivot
+        try:
+            with np.errstate(
+                over="raise", under="raise", invalid="raise", divide="raise"
+            ):
+                # Work with bounded mantissas: neither the product-first form
+                # nor normalizing one factor first is safe at mixed scales.
+                # Recombine exponents only for the final representable update.
+                column_mantissa, column_exponent = np.frexp(residual[:, column])
+                row_mantissa, row_exponent = np.frexp(residual[row, :])
+                pivot_mantissa, pivot_exponent = math.frexp(pivot)
+                update = np.ldexp(
+                    np.outer(column_mantissa, row_mantissa) / pivot_mantissa,
+                    column_exponent[:, None] + row_exponent[None, :] - pivot_exponent,
+                )
+                residual -= update
+        except FloatingPointError as exc:
+            raise NumericalBreakdownError(
+                "float64 GECP update exceeds arithmetic range"
+            ) from exc
+        if not np.all(np.isfinite(residual)):
+            raise NumericalBreakdownError("nonfinite float64 GECP update")
+        # These interpolation zeros are exact algebraic constraints. Preserve
+        # them explicitly rather than selecting roundoff at an old coordinate.
+        residual[row, :] = 0.0
+        residual[:, column] = 0.0
 
         core = original[np.ix_(rows, columns)]
-        det_history.append(float(np.linalg.det(core)))
-        sigma_history.append(float(np.linalg.svd(core, compute_uv=False)[-1]))
+        if np.unique(core, axis=0).shape[0] != len(rows) or np.unique(
+            core, axis=1
+        ).shape[1] != len(columns):
+            # Exact duplicate samples prove singularity over the stored input;
+            # roundoff in elimination must not turn them into a usable core.
+            raise NumericalBreakdownError(
+                "exact duplicate rows or columns in GECP core"
+            )
+        try:
+            with np.errstate(over="raise", invalid="raise", divide="raise"):
+                determinant = float(np.linalg.det(core))
+                sigma_min = float(np.linalg.svd(core, compute_uv=False)[-1])
+        except (np.linalg.LinAlgError, FloatingPointError) as exc:
+            raise NumericalBreakdownError(
+                "float64 GECP core diagnostic failed"
+            ) from exc
+        if not np.isfinite(determinant) or not np.isfinite(sigma_min):
+            raise NumericalBreakdownError("nonfinite float64 GECP core diagnostic")
+        det_history.append(determinant)
+        sigma_history.append(sigma_min)
     else:
         final_maximum = float(np.max(np.abs(residual)))
         residual_history.append(final_maximum)

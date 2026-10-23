@@ -1,6 +1,6 @@
 import GECPKernelStructure.GECP.Determinant
 import GECPKernelStructure.Matrix.LowRankDeterminant
-import GECPKernelStructure.Fermionic.CompleteRun
+import GECPKernelStructure.GECP.CompletePivot
 import Mathlib.Data.Rat.Cast.Order
 
 namespace GECPKernelStructure

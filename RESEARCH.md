@@ -9530,3 +9530,138 @@ merged on 2026-10-22 at 18:37:17 UTC as
 `a3186a89b27d92677ef0e3338b90f9048a28fdb5`. Exact pushed-main closure gates
 repeat before handoff. R31 is supported; the ledger is now forty supported
 groups, but the final independent original-SPEC audit remains required.
+
+## Phase DO — independent final original-SPEC audit
+
+### Contract (2026-10-22)
+
+Start from synchronized main `5355c72f2508eeb604b5515d789f48d70b42278d` and
+treat completion as unproved. Read the original thirty SPEC sections and
+milestones A–F, not merely the prior forty-group ledger. For every explicit
+required statement, interface, artifact, test/gate, metadata field and shipping
+step, inspect current source/runtime evidence at the matching scope. Record
+optional research routes separately, without weakening the original goals.
+
+Deliver `FINAL_AUDIT.md` with the complete requirement-to-evidence mapping,
+actual headline theorem assumptions/quantifiers and parameter boundaries,
+numerical reference/certification limits, missing or contradicted evidence,
+fresh root/package/install/CI/Git checks, and an explicit completion decision.
+Refresh COMPLETION_AUDIT, README, FINDINGS, APPLICATION, MATHLIB, SPEC status
+annotations and canonical FINAL_HANDOFF provenance consistently. Remove stale
+current-status claims, but preserve historical evidence and original SPEC math.
+
+The forty supported labels are audit inputs, not proof of completion. A green
+test or an identifier's existence is insufficient unless it covers the actual
+requirement. Check that formal results concern the original kernel and actual
+complete runs without a convergence/conclusion premise. Check finite/real
+quantifiers, zero termination, selected-core/Green consequences, original-SPD
+and Lipschitz assumptions, and the explicit all-positive-cutoff obstruction.
+Inspect numerical adapters, validation/failure paths, deterministic artifacts,
+precision/conditioning/tie/certification metadata and shared-input fairness.
+
+If any required scope is unsupported, reopen it and implement a genuine
+repair or report the exact unresolved obligation; do not declare success by
+renaming a weaker statement. Compose lean-research-loop if this exposes an
+open formal claim requiring iterative proof or exact obstruction work. No new
+formal theorem is currently planned. Full root and exact-head push/PR CI,
+merged/pushed-main checks and inspected source/wheel installs remain mandatory.
+Only after all requirements and delivery gates are actually verified may the
+active goal be marked complete. No package publication or external research-
+priority claim is part of this phase.
+
+### Audit findings and bounded repair scope
+
+The independent source audit supports the original-kernel exact finite-run
+rate, separated approximation, strict-SPD reduction, original-Lipschitz fill
+bound, cross identity and actual Green-integral consequence. It also finds
+that the fixed order-24 census and three order-32 reruns do **not** deliver
+§14's residual-adaptive increasingly dense grids for all seven cutoffs.
+R25 is reopened; its genuine adaptive experiment is the next numerical phase,
+not a reinterpretation of the fixed-grid artifacts.
+
+DO repairs the newly exposed certificate lower-bound rounding defect in
+`kernelgecp/certified.py`, observed adaptive candidate-tie metadata in
+`types.py`/`gecp.py`, a representable large-finite float64 Schur-update failure,
+and missing independent centered-expression coverage. Regressions must include
+53-bit cancellation, exhausted budgets, truthful certificate scope, sampled
+tie multiplicities and the rank-one `1e308` matrix. Certificates enclose the
+stored rounded residual model, not an exact ideal GECP run or a separately
+reconstructed float64 cross. Moving generic completeness definitions into the
+GECP layer must preserve their statements/names and remove the SPD-to-fermionic
+import dependency; no new theorem is claimed. Historical DN artifact hashes
+must be checked against their recorded revision, never relabeled as current
+source after these repairs. The final decision remains **not complete** until
+the adaptive evidence and subsequent closure audit exist.
+
+### Prior-work attribution refresh
+
+The [workshop's v3 update](https://arxiv.org/html/2602.05394v3) records an
+August 2026 claimed solution of Problem 4.2 by Venkata Siddharth Pendyala,
+*Local-to-Global Convergence of Greedy Cross Approximation for Totally Positive
+Kernels* ([DOI](https://doi.org/10.5281/zenodo.21863274)). The workshop update
+was read, but the underlying paper was inaccessible to this audit; its claim
+is attributed, not independently verified. The repository makes no research-
+priority claim. Existing references to Jeong/Townsend describe the
+[two-author v1](https://arxiv.org/abs/2509.13582v1); the
+[current v3](https://arxiv.org/abs/2509.13582v3) adds Christopher Wang and stronger
+results beyond the staged fill-distance theorem formalized here.
+
+### Implementation and independent review
+
+The singleton lower-bound fix also covers intervals straddling zero and
+nonzero endpoints below the float64 subnormal range. Mean-value bounds use
+interval arithmetic for the actual rounded midpoint's distances, and invalid
+enclosures fail closed. Observed adaptive candidate counts are Python-JSON
+scalars, qualified as singleton-lower-bound samples; census prefixes preserve
+these counts and the frozen-residual scope instead of discarding them.
+
+Independent review rejected a first overflow fix that normalized a whole
+column: on `[[1e200,1e200],[1e-200,0]]`, the normalized column underflows even
+though the Schur term is representable. The final update uses bounded binary
+mantissas and recombines exponents only at the final product. It preserves
+known selected-row/column interpolation zeros and excludes those coordinates
+from later near-tie selection. Genuinely unrepresentable updates raise an
+explicit arithmetic-range error. These changes concern numerical arithmetic,
+not a formal approximate-pivot rate. Extreme dynamic-range LAPACK determinant
+and singular-value estimates can still be underresolved; they are not proofs.
+
+The first root run passes the 3,634-job Lean build and all 876 axiom reports;
+its Python stage reports 561 passes and two failures: draft inventory status
+spelling and a mixed-scale test's unreliable unscaled LAPACK determinant
+expectation. The final test uses independent direct binary64 products and the
+pivot product for that representable determinant. Focused numerical checks,
+Ruff/format and mypy pass after repairs. Fresh full committed-head, package,
+CI and shipping checks follow; the original goal is not complete.
+
+Final read-only QA passes 112 focused tests, fifteen signed enclosure cases,
+eight mixed-scale/transpose cases and 400 coordinate-reuse checks. It also
+exposes a preexisting sub-roundoff-tolerance failure on identical original
+rows `[0.7088646663651996,0.9626470984418726]`: roundoff can create a spurious
+fresh pivot and a singular selected core. DO adds a narrowly justified exact-
+duplicate row/column guard, with both-orientation regressions. It does not
+reject merely zero LAPACK determinant/singular-value estimates, which would
+incorrectly reject the nonsingular mixed-scale witness. These diagnostic
+limits are documented rather than turned into an exact rank claim.
+
+The companion `certify_fermionic_block_contraction` diagnostic used a second
+decimal-string coordinate conversion. It now uses the same exact binary-float
+coordinates as its singleton certificates and labels the frozen rounded model
+explicitly; a non-binary cutoff `1.3` callback-capture regression checks this
+data flow. No new mathematical rate is claimed.
+
+The same nonzero/fresh-coordinate tie eligibility and exact interpolation-zero
+preservation now apply to the arbitrary-precision grid path. A shared 53/128-bit
+regression with a near-tie tolerance larger than the remaining diagonal entry
+checks that an annihilated coordinate is not selected as a zero pivot. This
+does not turn high-precision elimination into exact arithmetic.
+
+At clean implementation head `e0941303f64299c2462b54685875e98ffbd0656b`, the
+full root gate passes 567 tests in 140.94 seconds, 3,634 Lean jobs, all 876 axiom
+reports, 83-file formatting, mypy on 19 sources and a clean dependency audit.
+Installed-wheel checks outside the checkout pass with Python 3.12.12,
+mpmath 1.4.1 and both pinned NumPy 2.5.2/SciPy 1.18 and minimum NumPy 2.4.6/
+SciPy 1.15.0. Each checks all 45 exports, cancellation/underflow, adaptive ties,
+large/mixed-scale updates, duplicate-core failure and 48 six-method fits.
+Source/wheel archives exclude local notes/caches, contain the audit/new module/
+tests and all nineteen wheel Python sources match the implementation. The
+companion diagnostic fix and final metadata receive another full-head gate.

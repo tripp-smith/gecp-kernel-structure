@@ -2,18 +2,41 @@
 
 ## Project summary
 
-`gecp-kernel-structure` v1.0.0 delivers a `sorry`-free Lean 4 library and the
-`kernelgecp` Python research package. The strongest fermionic result is a
-machine-checked separated approximation with rank
-`16p(s+1)` and uniform error `2⁻ᵖ` on
-`[0,1] × [-2ˢ,2ˢ]`, which is the required
-`O(log Λ log(1/ε))` low-rank scale.
+The current Lean library proves an exact-GECP rate for the original fermionic
+kernel, not just low-rank existence. For every real `Λ≥1`, every actual finite
+complete run on `[0,1]×[-Λ,Λ]`, and every physical point, with `k` successful
+pivots,
 
-Milestone E closes through the SPEC-approved obstruction outcome: exact strict
-minor signs do not determine complete-pivot locations, while the refined
-`CrossRatioControl` hypothesis is proved sufficient for geometric residual
-decay. The repository does not claim that the fermionic residuals satisfy that
-hypothesis with a cutoff-uniform contraction factor.
+`|R_k| ≤ 1024 exp(-((log 2)^2/256) k/log(1+Λ))`.
+
+`fermionicKernel_finiteRun_error_le_exp` assumes neither a convergence envelope
+nor future successful pivots. The original selected-core cross has the same
+error, and the actual Green-integral difference is bounded by this error times
+the density's L1 norm. Exact-zero stopping, real-parameter logarithmic separated
+rank, arbitrary-domain strict-SPD GECP/Cholesky equivalence and original-kernel
+`2*L*h` fill-distance control are also proved. An all-positive-cutoff
+`log(2+Λ)` rate is separate; the literal all-positive `log(1+Λ)` version is
+refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
+
+**Full original-SPEC completion is not claimed.** The independent
+[DO audit](FINAL_AUDIT.md) reopens R25: fixed order-24 data at seven cutoffs and
+three order-32 reruns do not deliver the required residual-adaptive increasingly
+dense grids. DO repairs certificate lower bounds, sampled adaptive tie metadata,
+large-finite float64 failure handling and centered-expression coverage; fresh
+root/package/CI/merge gates remain necessary. The next required phase is the
+genuine seven-cutoff adaptive experiment, followed by closure. The previous
+40/40 working-ledger count was not sufficient evidence.
+
+## Historical implementation and research chronology
+
+The following entries preserve what was available at each named phase. Their
+“remaining”, “open” and obstruction-only statements are historical, not a
+replacement for the current summary and final audit. v1.0.0 originally
+delivered a `sorry`-free library and the `kernelgecp` research package, including
+the dyadic `16p(s+1)` separated-rank construction. Its original E contract
+closed with a sign-pattern obstruction and a conditional `CrossRatioControl`
+rate; DG/DH later supplied the unconditional exact-GECP theorem above by the
+local-minor/panel route, without proving that abandoned cross-ratio hypothesis.
 
 The post-v1 Python application phase demonstrates how those components work
 together on realistic synthetic data: one universal fermionic basis compresses
@@ -548,6 +571,37 @@ CI `39832383406` pass. PR #120 merged on 2026-10-22 at 18:37:17 UTC as
 `a3186a89b27d92677ef0e3338b90f9048a28fdb5`. Exact pushed-main closure gates
 repeat before handoff; the final independent whole-SPEC audit remains next.
 
+## DO original-SPEC audit and numerical correctness repairs
+
+The [independent final audit](FINAL_AUDIT.md) maps all thirty original sections
+to source/artifact evidence rather than assuming the prior forty labels imply
+completion. Its formal assumption audit supports the finite exact rate,
+strict-SPD baseline, real separated witness and physical cross/Green claims.
+The required all-cutoff residual-adaptive experiment is still absent; fixed-grid
+diagnostics and normalized curves remain useful evidence at their actual scope.
+
+DO corrects a counterexample where rounded point cancellation produced a
+claimed lower bound above the interval upper bound. Candidate lower magnitudes
+now come from singleton interval enclosures; the interval callbacks must bound
+the same target function. Adaptive GECP certificates concern the residual model
+defined by stored rounded coefficients, not an ideal exact run or a new
+float64 core solve. Observed candidate ties do not count all global maximizers.
+A representable large-finite rank-one matrix receives a stable update/failure
+path, and the centered formula has an independent regression. Historical DN
+source hashes remain tied to clean generation revision `072ce10`, not relabeled
+after source repairs. Generic completeness definitions move below the
+fermionic layer, preserving all theorem interfaces and axiom obligations.
+
+The workshop's [v3 problem-list update](https://arxiv.org/html/2602.05394v3)
+attributes an August 2026 claimed solution of Problem 4.2 to Venkata Siddharth
+Pendyala's *Local-to-Global Convergence of Greedy Cross Approximation for Totally
+Positive Kernels* ([DOI](https://doi.org/10.5281/zenodo.21863274)). This audit
+could inspect that update but not the underlying paper. It records the prior
+claim without independently verifying it or asserting priority here. The
+[Cholesky v1](https://arxiv.org/abs/2509.13582v1) citations are historical;
+[v3](https://arxiv.org/abs/2509.13582v3) adds Christopher Wang to Jeong and
+Townsend. The staged fill theorem does not claim all published asymptotic rates.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -622,8 +676,29 @@ workers contributed partial implementation before reporting an account usage
 limit; the primary agent continues integration and verification locally. No
 new cost calculation or serving-version attribution is inferred. DN's full
 local and push/PR CI gates pass; R31 is supported and PR #120 is merged. Exact
-pushed-main closure gates repeat before handoff. Forty of forty working-ledger groups are supported, but the
-final independent original-SPEC audit and full-goal completion remain unproved.
+pushed-main closure gates repeat before handoff. DN's historical working ledger
+reported forty of forty supported; DO's independent audit subsequently reopens
+the required residual-adaptive census, so that historical count is not current.
+
+DO's runtime snapshot on 2026-10-22 at 18:59 UTC reports tracker status
+`active`, 20,178,930 aggregate goal tokens and 98,878 goal-accounting seconds.
+These cumulative counters are not DO-only, do not expose token categories,
+and are not billing. The exposed declaration remains Codex based on GPT-5,
+Default mode, unrestricted local filesystem/network and approval policy
+`never`. Exact serving model/version and reasoning effort remain unavailable.
+One primary agent and three temporary agents perform independent baseline,
+rate and numerical audits, then bounded repairs/review; no exact serving
+version or new price calculation is inferred. The required adaptive experiment
+remains open, and the full goal remains active rather than complete.
+
+The resumed DO snapshot on 2026-10-23 at 13:16 UTC reports `active`,
+21,175,795 cumulative aggregate goal tokens and 99,657 goal-accounting seconds.
+It does not include an input/cache/reasoning/output split, exact serving model,
+reasoning effort or billing. Root's exposed family declaration remains GPT-5
+based Codex in Default mode; no serving identity for temporary workers is
+inferred. Two workers reported account usage limits after contributing audit
+and repair evidence; the primary continued local integration. These counters
+are not DO-only usage and no new API-equivalent cost is calculated.
 
 ## Phase status
 
@@ -670,6 +745,7 @@ final independent original-SPEC audit and full-goal completion remain unproved.
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
+| DO — independent final SPEC audit | in progress | Reopens required residual-adaptive census; repairs certificate/tie/failure paths and generic import layering; root/CI/merge gates pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -727,7 +803,8 @@ final independent original-SPEC audit and full-goal completion remain unproved.
 ## Deferred research
 
 No v1 implementation task is blocked. DN verifies R31's six-method comparison;
-the final original-SPEC audit remains required after exact pushed-main closure gates.
+DO's independent original-SPEC audit reopens the required seven-cutoff
+residual-adaptive experiment. It and a subsequent closure audit remain required.
 DG/DH have since closed the exact complete-pivot rate by a different route.
 The historical v1 follow-ups below are optional alternative proofs or extensions:
 
@@ -876,7 +953,8 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is the final audit after DN's exact pushed-main closure gates. Phase-specific proof-route
+Current required work is the seven-cutoff residual-adaptive experiment and
+subsequent full-scope closure after DO's repairs and shipping gates. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
 on completing those abandoned routes.
@@ -1014,18 +1092,23 @@ only after the root command passes.
 
 ## Recommended next research step
 
-The working original-SPEC ledger is recorded in `COMPLETION_AUDIT.md`; it now
-supports all forty groups, without substituting that status for a final audit.
+The independent `FINAL_AUDIT.md` supersedes the earlier forty-supported-label
+assumption in `COMPLETION_AUDIT.md` and reopens R25.
 DJ/DK prove original-kernel Lipschitz fill control, arbitrary-domain PSD
 geometry and strict-SPD complete-pivot diagonal necessity through fresh
 residual prefixes. DL completes result metadata; DM completes the census
-depth/diagnostics/normalized curves and representative resolution checks.
+fixed-grid depth/diagnostics/normalized curves and representative resolution checks,
+not the required residual-adaptive grids.
 DN verifies R31's six-method comparisons with shared observations and retained
-failures. Next complete its exact pushed-main closure gates and independently re-audit
-all forty groups before claiming the full goal complete. Approximate-pivot rate extensions remain
+failures. After DO's correctness repairs and shipping gates, implement the
+genuine all-seven-cutoff residual-driven nested-grid experiment through `1e-12`,
+repeat its outputs, inspect geometry/normalized curves and independently check
+cores and held-out errors. Then repeat full-scope audit and exact pushed-main
+closure before claiming the full goal complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The 100% figure is checklist coverage, not weighted effort
-or a theorem-success probability.
+theorems. The revised post-repair inventory will be 39/40 (97.5% checklist
+coverage), with an approximate 97% overall effort estimate; neither is a
+theorem-success probability or proof that the final experiment will pass.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

@@ -1,6 +1,6 @@
 import GECPKernelStructure.PositiveDefinite.StrictKernel
 import GECPKernelStructure.PositiveDefinite.KernelFillDistance
-import GECPKernelStructure.Fermionic.CompleteRun
+import GECPKernelStructure.GECP.CompletePivot
 
 namespace GECPKernelStructure.PositiveDefinite
 

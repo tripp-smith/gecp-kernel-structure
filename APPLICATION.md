@@ -29,6 +29,14 @@ inverse. Results include residual history, determinants, smallest singular
 values, near-tie counts, convergence, stop reason, and actual precision.
 Runs above 53 bits retain canonical decimal strings in `result.high_precision`;
 the NumPy compatibility views remain float64.
+Determinants and smallest singular values are non-certifying numerical
+estimates: unscaled LAPACK can report zero for a nonsingular mixed-scale core,
+even when its true determinant is representable. A zero estimate alone is not
+a singularity proof. Float64 updates use bounded binary mantissas/exponents,
+preserve known interpolation zeros and exclude old coordinates from selection;
+unrepresentable updates and exact duplicate rows/columns in the selected core
+raise `NumericalBreakdownError`. Requests below arithmetic resolution do not
+give a rigorous accuracy guarantee or exact numerical-rank determination.
 For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
 diagonal-preferring lexicographic tie rule; the recursive equivalence of those
 pivot policies is separately proved in Lean.
@@ -37,17 +45,27 @@ pivot policies is separately proved in Lean.
 
 `certified_pivot` performs deterministic float64 cell subdivision from a
 supplied coordinatewise Lipschitz bound. Its result is conditional on that
-analytic bound. `interval_certified_pivot` instead uses `mpmath` interval
-arithmetic, outward-rounded float endpoints, and an optional interval-gradient
-mean-value enclosure.
+analytic bound and the supplied point evaluations; their rounding is not
+automatically enclosed. `interval_certified_pivot` instead uses `mpmath`
+interval arithmetic, outward-rounded float endpoints, singleton-interval
+candidate lower bounds, and an optional interval-gradient mean-value enclosure.
+Its rigor is conditional on the supplied interval callbacks enclosing the
+same function throughout the domain. A rounded point value alone is not a
+certified lower bound.
 
 `gecp(FermionicKernel(...), config=GECPConfig(pivot="adaptive", ...))` applies
 the interval method to every continuous residual pivot and retains each
 successful `PivotCertificate`. Cell-budget exhaustion returns
 `stop_reason="uncertified_pivot"`; it never silently becomes convergence.
-These certificates audit numerical pivot quality. The Lean derivative theorems
-prove the underlying kernel formulas and domain bounds, but Python execution is
-not itself a formal proof of a continuous GECP rate.
+These certificates audit pivot quality for the residual model defined by the
+stored rounded pivot coefficients. They do not enclose all coefficient error
+relative to an ideal exact GECP run, nor the error of the separate float64 core
+solve used by `evaluate_residual`. Adaptive candidate-tie counts describe only
+the observed sample set, not the multiplicity of global continuous maximizers.
+The Lean derivative theorems prove the underlying kernel formulas and domain
+bounds, but Python execution is not itself a formal proof of a continuous GECP
+rate. In particular, the exact-complete-pivot rate theorem is not automatically
+applicable to a numerical or certified inexact run.
 
 ## Separated interpolation
 
@@ -77,8 +95,10 @@ GECP convergence rate.
 `sparse_representation` performs orthogonal matching pursuit and optional
 bounded nonlinear frequency refinement. It returns `converged=False` when the
 requested tolerance is not met. The fixed two-delta regression reaches
-`1e-8` with two atoms. AAA and vector fitting are deferred extension methods,
-not placeholder APIs.
+`1e-8` with two atoms. The separate shared-observation comparison suite also
+implements AAA-derived physical poles, iterative vector fitting and
+Prony/ESPRIT; see the six-method comparison below. Failed or nonphysical fits
+remain visible rather than being replaced by another method.
 
 ## Realistic synthetic application suite
 
@@ -251,8 +271,10 @@ checks, not outward-rounded bounds, all-grid maxima or continuous guarantees.
 The representative denser GECP runs and combined higher-precision checks pass.
 The full branch root gate passes 3,633 Lean jobs, 876 enforced axiom reports
 and 430 tests, with clean dependency audit and green push/PR CI. DM is merged
-in PR #119 and supports R25–R27; exact merged/pushed closure-head gates will
-be repeated before handoff. Numerical results are not continuous certificates.
+in PR #119 and supports fixed-grid diagnostics/curves (R26/R27), not the
+residual-adaptive R25 requirement reopened by DO. Exact merged/pushed closure
+gates are recorded in the phase handoff. Numerical results are not continuous
+certificates.
 
 ### DM representative resolution results
 
@@ -281,7 +303,12 @@ and singular-value relative differences are below `9e-27`. This comparison
 does not confuse held-out evaluation of a fixed cross with rerunning denser
 GECP, or equate point arithmetic with interval certification.
 
-For the open GECP-rate question, `analyze_census_file` computes
+### Historical diagnostics and current proof scope
+
+These tools were developed while the exact rate was open. DG/DH now prove
+the original-kernel finite exact-complete-run rate; the diagnostics below are
+not substitutes for that theorem and do not extend it to inexact pivots.
+`analyze_census_file` computes
 cutoff-normalized block ratios from the stored decimal strings, while
 `certify_fermionic_block_contraction` uses outward-rounded interval residuals
 along a returned approximate-pivot trajectory:
@@ -305,15 +332,16 @@ assert abs(base_value) <= Decimal(1) / 4
 
 `BlockContractionEvidence.continuous_certified` is always false because the
 canonical census is finite-grid evidence. A certified block result applies to
-the explicitly returned interval-certified approximate-pivot trajectory; it
+the frozen rounded residual model of the returned approximate-pivot trajectory; it
 does not establish a cutoff-uniform exact-GECP theorem or resolve arbitrary
 tie choices.
 
 The two-corner evaluator is different: it independently implements the exact
 closed form formalized in Lean. Lean proves that the first two corner pivots
 are complete for every positive cutoff and that this residual contracts by
-one half for `0<Λ≤1`. Neither the evaluator nor that base theorem supplies the
-still-missing dyadic scaling argument for larger cutoffs.
+one half for `0<Λ≤1`. Neither the evaluator nor that base theorem supplies a
+dyadic scaling argument for larger cutoffs. The later exact finite-run rate
+uses the independent local-minor/panel-count proof, not that historical route.
 
 For exact structural experiments, `first_exact_gecp_sign_coherence_failure`
 checks every selected residual cross using `Fraction` arithmetic and returns
@@ -336,14 +364,16 @@ complete-pivot sequences: every rank-`n` domain residual magnitude raised to
 the `n`th power is bounded by the absolute determinant of the selected
 `n × n` core. The exact two-pivot rational example independently exercises
 this identity. This adds no Python API and does not turn a finite numerical
-determinant history into a certified convergence rate; a quantitative
-determinant-decay theorem is still required.
+determinant history into a certified convergence rate. The required quantitative
+determinant budgets and their actual-GECP composition are now proved in Lean;
+the numerical determinant history is not that proof.
 
 A second exact regression constructs the first `n` exponential Taylor features
 for rational row and column nodes through size six. Its determinant agrees
 exactly with the two Vandermonde products times `prod(1/k!)`. This exercises the
-new Lean principal-term theorem but does not numerically stand in for the
-missing generalized-term or infinite-series arguments.
+Lean principal-term theorem but does not numerically stand in for the
+generalized-term or infinite-series arguments, subsequently proved in the
+all-orders exponential total-positivity modules.
 
 For repository verification, pytest is launched through the synchronized
 project interpreter rather than a standalone editable-install console script:
