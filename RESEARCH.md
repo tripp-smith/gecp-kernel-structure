@@ -9693,3 +9693,172 @@ decision/stage. Keep deterministic budgets, all failures and exact source
 provenance; assess each completed high-precision trajectory on independent
 denser points and repeat outputs. This is a numerical research protocol, not
 a continuous-error certificate or an arbitrary-inexact-pivot rate theorem.
+
+## Phase DP — residual-adaptive seven-cutoff census
+
+### Contract (2026-10-23)
+
+Start from synchronized main `e6126f73f85683242cab31784afa2acd7110834a`.
+Close the remaining §14/R25 experiment scope with genuine increasingly dense,
+nested grids whose refinement decisions respond to measured residuals, for
+all cutoffs `1,10,100,1000,10000,100000,1000000` and tolerances
+`1e-6,1e-8,1e-10,1e-12`. This is one numerical phase, not a new formal theorem.
+Use new `kernelgecp/adaptive_grids.py` physical-panel/lattice helpers,
+`adaptive_grid.py` controller and arbitrary-precision factored cross probes,
+an explicit-axis census interface, a frozen experiment configuration/runner,
+independent checker, stage-aware plots and machine-readable artifacts.
+Preserve all fixed-grid historical artifacts and their generation provenance.
+
+Borrow the a-posteriori refinement pattern from adaptive quadrature. Start
+with five dyadic lattice nodes per endpoint/dyadic-frequency panel. Probe
+odd-eighth points, score panels by sampled residual magnitude and hierarchical
+surplus, mark influential panels deterministically together with reflection
+mates, bisect and retain every existing coordinate. Require at least two
+actual stages and two successive jointly passing training/probe/surplus
+checks, not monotonic errors, constant ranks or floating-point training zeros.
+Use MP128 elimination, MP192 probe/final checking, explicit precision/tie/
+conditioning metadata and conservative generation margin below `1e-12`.
+Initial controls are five stages, 512 nodes per axis and four highest marked
+panels per axis before mirrors. Calibrate budgets on labeled pilot runs,
+then freeze controls/source before canonical generation; no hidden retuning.
+
+For every requested tolerance preserve the actual selected-core/pivot/residual
+histories, boundary distances, dyadic scales, reflection partners, empirical
+training/jointly sampled ranks and complete stage decisions/explicit axes.
+Distinguish sampled training, marking/stopping probes and untouched final
+validation scopes. Six seventh-fraction points per final leaf panel form the
+final MP192 validation set and never influence refinement or stopping. A final
+validation failure stays visible and does not get silently recycled into
+independent evidence. Record all rank/stage/node budgets and failures.
+
+Generate all seven cases and twenty-eight tolerance records from a clean
+tracked source revision, repeat canonical output bytes, independently check
+selected cores and final crosses, and render/inspect/repeat normalized
+`k/log(1+Λ)` plots with zero samples and failures explicitly handled. Tests
+must cover nesting, physical endpoints, real selective marking, reflection,
+ties, budget exhaustion, malformed inputs, validation isolation, explicit-axis
+provenance and deterministic repeats. Root `./scripts/verify.sh`, clean source/
+wheel and outside-checkout install checks, exact-head CI, draft PR, permitted
+merge and pushed-main closure remain required. Update all claim documents and
+canonical run provenance in the same phase. R25 is not closed by a small pilot
+or an unsuccessful budget. A final original-SPEC closure audit follows DP.
+
+No sampled maximum/surplus is a continuous supremum bound. This protocol is
+distinct from interval `pivot="adaptive"` and from the exact complete-run Lean
+theorem. No arbitrary-η rate, approximate-run exactness, sparse optimum,
+literature priority or package publication is claimed. The user-owned duplicate
+notes remain untouched. lean-research-loop is unnecessary unless a new open
+formal claim actually enters the critical path.
+
+The stage controller evaluates the deepest generated trajectory against the
+strictest requested tolerance; this avoids four expensive probe solves per
+stage. Once two strict stages pass, test the requested tolerance prefixes on
+that final grid, advancing to later tested prefixes if a training-passing
+prefix fails its probes. The deepest passing trajectory remains a fallback,
+not an assertion of minimum rank. Final independent validation is performed
+only after refinement stops and never reused for marking. Record both the
+first training-passing rank and the first jointly sampled tested rank.
+
+### Calibration and independent QA
+
+The initial dirty small-cutoff pilots retain the proposed controls. At `Λ=10`,
+two stages grow `33×41` to `41×65`, with chosen ranks `12,13,15,17`; strict final
+validation is about `4.53e-13`. At `Λ=100`, the initial strict probe fails at
+`2.99e-11`, then selective stages `82×73` and `110×81` pass. Its first strict
+training rank 36 fails the joint test, so the selected prefix advances to 37;
+the four ranks are `23,28,32,37`, strict validation about `8.53e-14`.
+An independent direct-kernel, 256-bit Householder-QR/back-substitution check
+reproduces all eight full seventh-grid maxima within `2.5e-58`; additional
+Gauss-point samples pass. This is sampled QA, not a continuum certificate.
+The larger-cutoff calibration and canonical results below supersede this pilot status.
+
+Read-only review also reproduces and repairs two protocol hazards before
+freezing source: one-stage exhaustion must not mark locally passing prefixes
+as converged, and Decimal score/tolerance arithmetic must not depend on ambient
+precision, rounding or traps. Tests retain local `fit_passed` separately from
+`controller_passed`, exercise hostile Decimal settings, and pass actual real
+cutoffs `1.2`/`1.7` at MP128/192. The runner snapshots provenance before work and
+rejects revision/source/lock/environment changes before replacing evidence.
+
+The five-stage pilots for `Λ=1000,10000` converge at stage five. The `1e5` and
+`1e6` pilots exhaust five stages and remain failed: terminal probe/surplus
+maxima are respectively about `3.00e-13` and `5.75e-13`, above the surplus
+target `2.5e-13`. The largest initial probe is `1.16e-8`; genuine refinement
+reduces it by over four orders, but not monotonically. These original dirty
+pilot artifacts are retained in local scratch, not relabeled canonical.
+
+Before canonical generation, increase the stage budget from five to nine and
+tighten the generation margin from `0.25` to `0.01`, based on these training/
+probe/surplus failures, not final validation. Keep the rank, node and marking
+budgets unchanged. Seven workers start all cutoffs together; ordered output
+remains deterministic. Freeze these controls and source, then attempt the
+full clean-source census twice. Any further budget or validation failure
+must remain visible; successful delivery is still unproved at this point.
+
+Canonical generation uses a fresh CLI process and the matching frozen
+checkout. Pre/post disk hashes cannot prove the identity of stale imported
+functions in a long-lived process. The clean-source gate includes unknown
+experiment-package bootstrap code; the pilots have no such initializer.
+
+### Frozen canonical result and provenance boundary
+
+Both fresh CLI executions at clean generation revision
+`3cee4186fddf990abdd33dbe24c46ff908b1923f` finish with all seven controller cases
+and all 28 requested prefixes converged. Canonical JSON bytes are identical,
+SHA-256 `730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`.
+The recorded Python 3.12.12 / NumPy 2.5.2 / SciPy 1.18.0 / mpmath 1.4.1
+Python-backend environment and lock/config/source hashes are actual generation
+inputs, not retroactively changed to match a later release head.
+
+| Cutoff | Stages | Initial → final axes | Chosen ranks (`1e-6,1e-8,1e-10,1e-12`) | Strict untouched sampled maximum |
+| --- | --- | --- | --- | --- |
+| 1 | 3 | 9×9 → 25×25 | 6,7,8,9 | `3.488e-13` |
+| 10 | 2 | 33×41 → 41×57 | 12,13,15,17 | `4.528e-13` |
+| 100 | 3 | 57×65 → 109×89 | 24,28,33,36 | `6.418e-13` |
+| 1,000 | 4 | 81×89 → 122×121 | 38,48,55,64 | `3.659e-13` |
+| 10,000 | 4 | 113×121 → 170×169 | 53,66,80,97 | `9.792e-14` |
+| 100,000 | 5 | 137×145 → 238×217 | 68,87,103,124 | `2.932e-13` |
+| 1,000,000 | 6 | 161×169 → 258×257 | 83,103,126,151 | `2.175e-13` |
+
+Probe/surplus tests advance several first training-passing ranks, including
+`147→151` at the largest strict tolerance. This supports the protocol's reason
+for not equating a training-only rank with sampled convergence; it is not a
+rank-optimality or continuous-error theorem. The normalized/stage PNG is
+rendered, inspected and byte-repeated, SHA-256
+`dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`.
+It explicitly omits one zero from logarithmic axes without a positive floor.
+The independent MP192 report passes all 21 selected-core checks and all 28
+full final-cross checks, with every recomputed sampled maximum within its
+requested tolerance. Structure/source-blob/geometry/convergence checks pass.
+Report SHA-256 is
+`4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`;
+checker source SHA-256 is
+`711ac118e26cdab256ed43a3918f876fc7d00e3b0245885dfe994fb761af1316`.
+The final development-tree root passes 713 tests in 151.22 seconds, 3,634 Lean
+jobs, 876 allowed axiom reports, 95 formatted files, mypy on 21 sources and the
+clean dependency audit. Source/wheel archives are inspected: all 21 wheel
+Python sources and package README match; canonical artifacts/new tests are
+included, while owner notes, caches and scratch are excluded. Outside-checkout
+installed-wheel smokes pass on Python 3.12.12 with pinned NumPy 2.5.2/SciPy
+1.18.0/mpmath 1.4.1 and minimum NumPy 2.4.6/SciPy 1.15.0. Each exercises all
+45 exports, adaptive success/budget failure and 48 six-method fits. Artifact
+commit `a6488cc0c91400bab3f327d93db153c390ef20f4` repeats the root with 713 tests
+in 150.40 seconds and passes exact-head push CI `40017052450` and PR CI
+`40017056920`, all four checks. The archives and both installed smokes are
+rebuilt/repeated at that head. DP is verified; final documentation-head,
+merge and pushed-main closure gates repeat before handoff.
+
+After both immutable executions finished, a mocked regression exposed a
+post-run source-transaction edge case: new untracked experiment bootstrap code
+was scanned before work but not again afterward. The release runner reuses the
+same runtime-code scan at both ends, preserves previous canonical output on
+failure, and propagates a noncanonical run's final dirty flag to every child
+record. Both regression paths pass. No such code appeared in either actual
+generation checkout; neither numerical implementation nor frozen controls
+changed. Preserve the real `3cee4186` generator/source manifest rather than
+pretending these data were generated by the later hygiene repair. A fresh run
+at a later commit will correctly record that later revision and source hashes.
+
+Next repeat final documentation-head verification/CI, merge PR #122, then
+push/verify main. Only a subsequent original-SPEC closure
+audit can decide full completion; no status-label count substitutes for it.

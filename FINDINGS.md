@@ -1,6 +1,6 @@
 # Findings and claim ledger
 
-## Current original-SPEC audit (Phase DO)
+## Current original-SPEC audit (Phase DP verified; final delivery closure next)
 
 The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
 finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
@@ -13,15 +13,26 @@ fill-distance control are also proved. No convergence conclusion is supplied
 as a premise. Literal all-positive-cutoff `log(1+Λ)` wording is refuted; the
 all-positive `log(2+Λ)` variant is separate.
 
-**The full goal is not complete.** R25 is reopened because the seven-cutoff
-order-24 census and three order-32 reruns are fixed-grid experiments, not the
-required increasingly dense residual-adaptive grid experiment. DO fixes
-certificate lower-bound rounding, sampled candidate-tie metadata, a large-finite
-float64 update failure and missing centered-expression coverage. Final `f0d082d`
+**The full original-scope closure audit remains pending.** DO reopened R25
+because the fixed order-24 census and three order-32 reruns did not supply the
+required increasingly dense residual-adaptive experiment. DP now records all
+seven cutoffs and 28 tolerance prefixes passing on genuinely refined nested
+grids, with two fresh clean-source runs producing identical canonical bytes.
+These are observed finite-sample results, not a new theorem. The normalized
+plot has been rendered, visually inspected and repeated byte-for-byte.
+Independent post-run MP192 checking passes all 21 selected-core checks and
+28 full final crosses. Code/artifact head
+`a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root,
+source/wheel and both outside-checkout install checks, plus green push/PR CI.
+Final documentation-head root/CI, merge/pushed-main closure and a fresh full
+original-SPEC audit remain pending. **The full goal is NOT COMPLETE.** The
+approximately 99% effort estimate is not a requirement-count percentage.
+
+DO's numerical repairs and historical verification remain valid: `f0d082d`
 passes the 569-test root, 3,634 Lean jobs, all 876 axiom reports, exact-head
 push/PR CI and isolated wheel checks with SciPy 1.18 and minimum 1.15.0.
-PR #121 merged on 2026-10-23; merged/pushed-main closure gates repeat before
-handoff. Historical artifacts retain their original source hashes.
+PR #121 merged on 2026-10-23. Historical artifacts retain their original source
+hashes; DP adds evidence without overwriting those fixed-grid datasets.
 Certificates concern the stored rounded residual model, not the ideal exact
 run or a separately reconstructed cross. No arbitrary-η convergence theorem,
 continuous numerical census certificate, optimal sparse support, or literature
@@ -300,6 +311,13 @@ status; later proved results and this audit supersede earlier route limits.
   converged in all 21 cases. At tolerance `1e-10`, sampled ranks grow from 8
   at cutoff 1 to 124 at cutoff `1e6`. Two complete executions produced
   byte-identical JSONL.
+- The DP residual-adaptive MP128 census records seven successful nested-grid
+  trajectories and all 28 requested tolerance prefixes passing separate
+  training/probe/surplus and final MP192 sampled checks. The `1e-12` chosen
+  ranks are `9,17,36,64,97,124,151`; two clean-source runs produce identical
+  JSON bytes. Independent MP192 checking passes 21 selected-core checks and
+  all 28 full final crosses within their requested tolerances. The full
+  closure audit remains pending; no continuous supremum bound is inferred.
 - The fixed two-delta fixture is recovered below `1e-8` using two atoms.
 - One 128-bit, 12-pivot fermionic GECP basis at cutoff 8 compresses the
   2,001-node validation frequency grid by a factor of 166.75. For the
@@ -368,8 +386,9 @@ pivots.
   Chebyshev construction. The delivered formal theorem instead uses an
   explicit dyadic truncated-Taylor construction with the same asymptotic rank
   scale.
-- A continuous-domain GECP convergence conclusion from the 128-bit census. The
-  committed dataset is endpoint-resolved finite-grid evidence; adaptive
+- A continuous-domain GECP convergence conclusion from either 128-bit census.
+  The historical fixed-grid and DP residual-adaptive datasets are finite-grid
+  evidence, including separately labeled finite validation samples. Adaptive
   interval pivot certificates are validated separately on bounded cases.
 - Proof that the fermionic residual sequence satisfies `CrossRatioControl`
   with a cutoff-uniform contraction factor below one.
@@ -1930,6 +1949,85 @@ is asserted. The [current v3 Cholesky paper](https://arxiv.org/abs/2509.13582v3)
 is by Sungwoo Jeong, Alex Townsend and Christopher Wang; older phase records
 refer specifically to the two-author v1. The repository formalizes the staged
 fill-distance baseline, not all of that paper's stronger asymptotic results.
+
+## Phase DP: genuine residual-adaptive census (code/artifact head verified; delivery pending)
+
+**Observed, not proved:** the new explicit-axis
+[`adaptive_census.json`](experiments/data/adaptive_census.json) contains all
+seven cutoffs and four tolerances `1e-6,1e-8,1e-10,1e-12`. Every case and all
+28 prefixes report convergence. Refinement responds to odd-eighth residual
+and interpolation-surplus probes, selectively bisects marked panels together
+with reflection mates, and retains every previous binary64 coordinate.
+Two successive strictest-tolerance stage passes are required. This is actual
+adaptive-grid evidence, not a relabeling of the historical fixed-grid census
+or the separate interval-pivot API.
+
+| Cutoff | Actual stages | Initial → final training grid | Chosen ranks at the four tolerances | Final sampled error at `1e-12` |
+|---:|---:|---:|---|---:|
+| 1 | 3 | 9×9 → 25×25 | 6, 7, 8, 9 | `3.488e-13` |
+| 10 | 2 | 33×41 → 41×57 | 12, 13, 15, 17 | `4.528e-13` |
+| 100 | 3 | 57×65 → 109×89 | 24, 28, 33, 36 | `6.418e-13` |
+| 1,000 | 4 | 81×89 → 122×121 | 38, 48, 55, 64 | `3.659e-13` |
+| 10,000 | 4 | 113×121 → 170×169 | 53, 66, 80, 97 | `9.792e-14` |
+| 100,000 | 5 | 137×145 → 238×217 | 68, 87, 103, 124 | `2.932e-13` |
+| 1,000,000 | 6 | 161×169 → 258×257 | 83, 103, 126, 151 | `2.175e-13` |
+
+The table's errors are rounded summaries of the controller's MP192 final
+selected-cross checks on six seventh-fraction points per final leaf panel.
+Those coordinates are untouched until every refinement and prefix choice is
+complete. They do not tune a grid or rank. The first training-passing rank
+can fail the probe/surplus test: at cutoff `1e6`, the strict prefix advances
+from 147 to 151. The chosen ranks are first jointly passing tested prefixes,
+not globally minimum ranks or a claim of grid independence. Full canonical
+decimal strings, stage axes, panels, scores, decisions, budgets, pivot/core
+histories and physical geometry are retained in the JSON.
+
+Both fresh CLI generations use clean revision
+`3cee4186fddf990abdd33dbe24c46ff908b1923f`, configuration SHA-256
+`ac47ec5146f5dc50916513917518d2bbfcb31da622b1f659225568cc48d641a1`,
+and produce identical bytes with data SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`.
+The frozen study uses nine stages maximum and generation margin `0.01`
+(`1e-14` trajectory tolerance), following explicitly labeled failed pilots;
+library defaults remain five stages and margin `0.25`. Coordinates have
+53-bit repr-decimal semantics, elimination uses 128 bits, and sampled cross
+checks use 192-bit factorizations/solves, never an explicit inverse.
+Source/lock hashes and runtime versions are recorded. A fresh run on a later
+commit records that later revision and is not promised to reproduce the
+historical JSON bytes, even if the numerical paths agree.
+
+The normalized plot has been rendered and visually inspected at 2240×1440,
+with seven curves and 28 final-validation markers. One sampled zero is omitted
+from logarithmic coordinates without substituting a positive floor. Its
+byte-identical repeat has SHA-256
+`dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`.
+The independent MP192
+[`adaptive_census_checks.json`](experiments/data/adaptive_census_checks.json)
+passes full seven-cutoff/28-prefix coverage, all revision-blob provenance
+checks, 21 selected-core determinant/pivot-product/singular-value checks and
+all 28 complete final sampled crosses. Every final cross is within its
+requested tolerance. The report has SHA-256
+`4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
+These are independent higher-precision point/factored-solve checks, not
+interval enclosures.
+
+At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the
+exact full root gate passes **713 tests in 150.40 seconds**, 3,634 Lean jobs,
+all 876 axiom reports, 95 formatted files, mypy on 21 sources and the clean
+dependency audit. Source/wheel archives include all three DP artifacts and
+tests while excluding protected note copies, caches and scratch; all 21 wheel
+Python files hash-match source and the packaged README is checked. Actual
+outside-checkout installed-wheel checks pass with pinned Python 3.12.12,
+NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1, and with minimum SciPy 1.15.0 /
+NumPy 2.4.6. Each environment exercises all 45 exports, adaptive success and
+budget failure, and 48 six-method fits; both environments are rebuilt and
+rechecked at that code head. Exact push CI `40017052450` and PR CI
+`40017056920` pass all four checks. The earlier development root passed the
+same 713 tests in 151.22 seconds and is not relabeled as this committed-head
+run. Final documentation-head root/CI, merge/pushed-main closure and the next
+fresh full original-SPEC audit remain pending; whole-goal completion is not
+claimed. No sampled maximum or surplus is a continuous supremum bound, and
+no approximate-pivot rate theorem is added.
 
 ## Run provenance
 

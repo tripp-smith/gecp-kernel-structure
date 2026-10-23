@@ -3,7 +3,9 @@
 The public package supplies stable fermionic-kernel evaluation, deterministic
 finite-grid GECP, solve-based cross approximation, diagonal-pivoted Cholesky,
 conditional Lipschitz pivot certificates, numerical separated interpolation,
-and sparse spectral recovery.
+and sparse spectral recovery. The separate residual-adaptive experiment
+controller now has seven-cutoff, 28-prefix sampled evidence and passing
+independent MP192 checks; its full original-scope closure audit remains pending.
 
 ```python
 import numpy as np
@@ -71,8 +73,11 @@ DO's certificate, tie, extreme/mixed-scale arithmetic, exact-duplicate-core and
 centered-expression regressions pass the 569-test root gate and installed-wheel
 checks outside the checkout, with both SciPy 1.18 and the declared minimum
 1.15.0. [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121)
-is merged. These repairs do not supply the missing all-seven-cutoff adaptive
-experiment documented in [FINAL_AUDIT.md](FINAL_AUDIT.md).
+is merged. DO's repairs alone did not supply the all-seven-cutoff adaptive
+experiment reopened in [FINAL_AUDIT.md](FINAL_AUDIT.md). DP now supplies the
+actual adaptive-grid generations, passing independent post-run checks and
+root/package/install checks described below; final delivery gates remain
+pending.
 
 ## Separated interpolation
 
@@ -202,8 +207,8 @@ uv run python experiments/synthetic_applications.py \
   --plot experiments/data/synthetic_applications.png
 ```
 
-Runtime algorithms require no network access. The canonical census evaluates
-endpoint-refined grids at 128-bit precision and records decimal strings. Its
+Runtime algorithms require no network access. The historical fixed-grid census
+evaluates endpoint-refined grids at 128-bit precision and records decimal strings. Its
 four tolerance records per cutoff are prefixes of one strict trajectory down
 to `1e-12`. The canonical config requires a clean tracked revision before
 generation; exploratory configurations may opt out and record their dirty
@@ -637,9 +642,11 @@ non-GECP result types needed fuller status metadata. DL supplies result
 metadata; DM's primary/resolution data and PR #119 support fixed-grid
 diagnostics/curves (R26/R27). At DM closure the historical audit recorded
 39/40 supported groups; DN then delivered R31. DO's independent audit rejects
-the resulting 40/40 assumption and reopens the adaptive-grid R25 scope. Its
-current 39/40 count is 97.5% checklist coverage, not weighted effort; the
-adaptive experiment and subsequent final closure remain.
+the resulting 40/40 assumption and reopens the adaptive-grid R25 scope. At DO
+closure its 39/40 count was 97.5% checklist coverage, not weighted effort.
+DP now records the actual adaptive generations and passing independent
+post-run checks described below; the subsequent original-scope closure remains
+pending.
 Those algorithms are not behavior silently supplied by the exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
@@ -795,8 +802,114 @@ continuous integral. Full root (513 tests), exact-head push/PR CI and
 installed-wheel smokes pass, including the minimum supported SciPy 1.15.
 Those are DN's historical verification results and PR #120 is merged. DO's
 subsequent independent audit, 569-test verification and merged PR #121 are
-recorded above: the required adaptive-grid study remains open, followed by its
-final closure audit. No package is published.
+recorded above. DP's actual adaptive-grid generations are now available as
+described below, with independent MP192 checks passing; the final closure audit
+remains pending. No package is published.
+
+## DP residual-adaptive sampled grids
+
+`kernelgecp.adaptive_grid.run_adaptive_grid(cutoff, config=AdaptiveGridConfig(...))`
+is a separate experiment controller, not the interval `pivot="adaptive"` mode.
+It runs MP GECP on explicit nested quarter-lattices, probes odd-eighth points,
+marks influential panels and their reflection mates, and bisects selectively.
+Every previous binary64 coordinate is retained exactly. Elimination uses
+MP128 by default; grid coordinates remain 53-bit repr-decimal values. MP192
+factored selected-cross checks are higher-precision point arithmetic, not
+interval enclosures or continuous supremum bounds.
+
+Import `AdaptiveGridConfig` and `run_adaptive_grid` from
+`kernelgecp.adaptive_grid`. The public configuration defaults are five maximum
+stages and generation margin `0.25`; they are bounded research defaults, not a
+promise that every cutoff converges. The frozen seven-cutoff study instead
+uses `experiments/adaptive_census.toml`: nine stages, margin `0.01`, MP128
+elimination, MP192 checking, maximum rank 256, maximum 512 nodes per axis,
+and four highest marked panels per axis before reflection mates. Its four
+tolerances extend through `1e-12`, and its source trajectory tolerance is
+`1e-14`. These controls were fixed after labeled pilot failures, before
+canonical final validation.
+
+The returned `AdaptiveGridCase` preserves every stage, leaf panel, explicit
+axis, mark, generation tolerance, budget, pivot/core history and probe score.
+Two consecutive strictest-tolerance stage passes are required. Requested
+tolerance prefixes advance from the first training-passing rank until a tested
+prefix also passes its residual/surplus probes; this is not a global minimum
+rank claim. Only after all refinement and prefix choices, six seventh-fraction
+points per final panel supply independent validation. They never select a
+grid or rank. `fit_passed` and `controller_passed` remain separate: failed
+rank/stage/node budgets cannot be reported as convergence even if a local fit
+passes. Final validation failures remain visible and are not reused for tuning.
+
+`uv run python -m experiments.adaptive_census` reads the frozen TOML controls and
+writes schema-3 explicit-axis JSON. Canonical generation requires clean tracked
+source, snapshots source/lock/config hashes and environment versions, and
+rejects source/revision/lock/environment changes during a run. Use a fresh CLI
+process from the frozen checkout for canonical generation: disk guards cannot
+attest stale imported functions in a long-lived API process. Canonical `root`
+must match the executing runner, and untracked experiment-package bootstrap
+code is included in the clean-source gate. The independent
+`experiments.check_adaptive_census` checks geometry, nesting, marks, source
+blobs, selected cores and final crosses; `experiments.plot_adaptive_census`
+shows normalized sampled curves, independent validation and stage growth.
+These tools preserve failures and distinguish zero samples from positive
+log-plot values. The historical fixed-grid artifacts are not overwritten.
+
+The canonical [`adaptive_census.json`](experiments/data/adaptive_census.json)
+records all seven cases and all 28 tolerance prefixes passing the controller
+and its separate final sampled checks. For cutoffs
+`1,10,100,1000,10000,100000,1000000`, actual stage counts are
+`3,2,3,4,4,5,6`, final training grids are
+`25×25,41×57,109×89,122×121,170×169,238×217,258×257`, and chosen `1e-12`
+ranks are `9,17,36,64,97,124,151`. Every stage preserves canonical MP pivot,
+sampled residual, original selected-core determinant and smallest-singular-
+value histories. Final-prefix records also contain boundary distances,
+dyadic scales, nearest reflection partners and their stated matching metric.
+
+Two fresh CLI generations from clean revision
+`3cee4186fddf990abdd33dbe24c46ff908b1923f` produce identical bytes, SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`.
+The JSON records configuration hash
+`ac47ec5146f5dc50916513917518d2bbfcb31da622b1f659225568cc48d641a1`,
+all source/lock hashes, dirty state and environment. To reproduce the
+historical bytes, use that clean frozen revision and its recorded environment
+in a fresh CLI process. A run from a later checkout correctly records a
+different `git_commit`; byte identity across different revisions is not the
+reproducibility claim. Write exploratory reruns to a separate output path,
+without replacing historical evidence:
+
+```bash
+uv run python -m experiments.adaptive_census \
+  --config experiments/adaptive_census.toml \
+  --output /tmp/gecp_adaptive_rerun.json
+```
+
+The normalized PNG has been rendered, visually inspected at 2240×1440 and
+repeated byte-for-byte, SHA-256
+`dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`.
+It shows seven curves and 28 validation markers; one sampled zero is omitted
+from the logarithmic view without inventing a floor. The independent MP192
+[`adaptive_census_checks.json`](experiments/data/adaptive_census_checks.json)
+passes full seven-cutoff/28-prefix coverage and revision-blob checks, all 21
+selected-core determinant/pivot-product/singular-value checks, and all 28
+complete final sampled crosses within their requested tolerances. Its SHA-256
+is `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
+At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the DP
+exact full root gate passes 713 tests in 150.40 seconds, 3,634 Lean jobs,
+all 876 axiom reports, formatting of 95 files, mypy on 21 sources and the
+clean dependency audit. Source/wheel audits include the three DP artifacts
+and tests, exclude protected notes/caches/scratch, and verify all 21 packaged
+Python hashes plus README. Installed-wheel checks run outside the checkout
+and pass in both pinned Python 3.12.12 / NumPy 2.5.2 / SciPy 1.18.0 /
+mpmath 1.4.1 and minimum SciPy 1.15.0 / NumPy 2.4.6 environments. Each checks
+all 45 exports, actual adaptive success and budget failure, and 48 six-method
+fits; both environments pass again after rebuilding that exact code head.
+Push CI `40017052450` and PR CI `40017056920` pass all four checks. The
+earlier development root's 151.22-second result remains historical, not the
+committed-head timing. Final documentation-head root/CI, merge/pushed-main
+closure and a fresh full original-SPEC audit remain pending. The whole goal
+is **NOT COMPLETE**; an approximately 99% effort estimate is not a checklist
+count or completion verdict. Successful sampled validation is not a continuous
+residual-supremum bound, an exact complete-pivot trajectory, or a new Lean rate
+theorem. No package publication is claimed.
 
 ## Release provenance
 

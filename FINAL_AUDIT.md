@@ -1,19 +1,28 @@
 # Independent final audit against the original SPEC
 
-Audit opened: 2026-10-22; verification updated: 2026-10-23. Phase DO starts from synchronized main
+Audit opened: 2026-10-22; DP numerical delivery updated: 2026-10-23.
+Phase DO starts from synchronized main
 `5355c72f2508eeb604b5515d789f48d70b42278d`. The original text in SPEC sections
 1–30, rather than the subsequent phase annotations or the forty labels in
 `COMPLETION_AUDIT.md`, defines the required scope.
 
 **Decision: NOT COMPLETE.** The principal exact fermionic GECP rate is
 supported, including its finite-run selected-core cross and actual Green
-integral consequences. The required seven-cutoff experiments on increasingly
-dense adaptive grids are missing. Phase DO's numerical certificate, tie,
-arithmetic-range, test-coverage and documentation repairs pass the full root
-gate and inspected package/install checks at final implementation
-`f0d082dfbbc91e4213dea0d2cad06a36c4a78826`. Exact-head push/PR CI pass and
-PR #121 is merged. Pushed-main closure gates repeat before handoff. Passing
-these repair and delivery gates cannot discharge the missing adaptive experiment.
+integral consequences. DP now supplies the previously missing seven-cutoff
+residual-adaptive census: all seven cases and twenty-eight tolerance records
+report protocol convergence, two full generations repeat bytes, and the
+adaptive plot is rendered, inspected and byte-repeated. Independent MP192
+checking passes all twenty-one representative selected-core checks and
+twenty-eight full final-cross checks, with every sampled maximum within its
+requested tolerance. The subsequent full original-scope closure audit
+follows DP delivery. DP is **verified** at artifact/code head
+`a6488cc0c91400bab3f327d93db153c390ef20f4`, with exact local root and push/PR
+CI passing. Final metadata-head root/CI repeats, merge and pushed-main closure
+remain required; the preliminary mapping of forty supported groups is not
+whole-goal completion. A separate rough overall effort estimate is **99%**,
+not a checklist-derived percentage or a completion decision.
+DO's verified repairs and merged PR #121 remain historical evidence, not
+verification of the new DP experiment.
 
 This audit inspected original requirements, Lean definitions and proof
 dependencies, Python source and tests, experiment configurations, and committed
@@ -23,7 +32,7 @@ the fresh root, package, installation, CI and Git evidence recorded below;
 this document does not imply those commands were independently repeated by
 the source-audit reviewer. Earlier phase verification remains historical.
 
-## Fresh DO verification and delivery
+## Historical DO verification and delivery
 
 The parent run reports `./scripts/verify.sh` passing at code head
 `f0d082dfbbc91e4213dea0d2cad06a36c4a78826`: **569 tests in 142.82 seconds,
@@ -62,7 +71,94 @@ PR #121 merged at 2026-10-23 13:34:53 UTC as
 `b041c723add1b9a7a0395cfffbdf4b793c0cfed9`. The final pushed-main metadata
 head repeats root/CI and archive checks before handoff; exact Git/CI evidence
 is checked against that head, not assumed from the branch result. No package
-is published. The required adaptive experiment remains absent.
+is published. At DO closure the required adaptive experiment remained absent;
+the DP delivery below is a later, separate source revision and artifact.
+
+## DP adaptive numerical delivery and independent verification
+
+Direct inspection of `experiments/data/adaptive_census.json` finds seven
+actual residual-driven nested-grid trajectories and twenty-eight tolerance
+records, all reporting protocol convergence and final-sample passage. The
+generation revision is clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`;
+configuration SHA-256 is
+`ac47ec5146f5dc50916513917518d2bbfcb31da622b1f659225568cc48d641a1`.
+The 4,617,990-byte canonical JSON has SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`.
+The parent run reports both full generations exit successfully and compare
+byte-for-byte. These data are additional to the preserved historical fixed-grid
+artifacts; their generation provenance is not relabeled as current source.
+
+Elimination uses MP128 arithmetic on explicit 53-bit repr-decimal coordinates.
+MP192 factored-cross point checks drive odd-eighth residual/surplus probes;
+final validation uses all six seventh-fraction points per final leaf panel
+after every refinement and tolerance-prefix choice. Canonical controls are a
+nine-stage budget, 512 nodes per axis, rank budget 256, four highest marked
+panels before reflection mates, and generation margin `0.01`. Successful
+termination requires real refinement and two consecutive passing strictest
+stages, not merely a small terminal training residual or passing final sample.
+
+| Cutoff | Actual stages | Final training shape | Chosen ranks at `1e-6,1e-8,1e-10,1e-12` |
+| --- | --- | --- | --- |
+| `1` | 3 | `25×25` | `6,7,8,9` |
+| `10` | 2 | `41×57` | `12,13,15,17` |
+| `100` | 3 | `109×89` | `24,28,33,36` |
+| `1000` | 4 | `122×121` | `38,48,55,64` |
+| `10000` | 4 | `170×169` | `53,66,80,97` |
+| `100000` | 5 | `238×217` | `68,87,103,124` |
+| `1000000` | 6 | `258×257` | `83,103,126,151` |
+
+Every selected prefix retains the requested pivot/magnitude, sampled residual,
+original-core determinant/minimum singular-value and physical-geometry
+histories. First training-passing ranks and chosen jointly passing tested
+ranks are distinct fields; no global minimum-rank claim follows. Full stage
+axes, panels, scores, reflected marks, budgets, precision, conditioning, ties
+and source/lock/environment provenance remain in the artifact.
+
+The parent run reports the 2240-by-1440 `adaptive_census.png` rendered,
+visually inspected and byte-repeated, SHA-256
+`dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`.
+It shows seven normalized `k/log(1+Λ)` training curves, twenty-eight untouched
+validation markers, training/chosen rank comparisons, stage errors and node
+growth. One zero sample is omitted from logarithmic axes without a positive
+floor; no unsuccessful cases are removed or present in this canonical run.
+No universal fitted law or continuous supremum bound is inferred.
+
+The independent MP192 checker completes successfully and its report confirms
+full seven-case/twenty-eight-record coverage, every case's protocol convergence
+and the recorded source revision blobs. All twenty-one representative original
+selected-core determinant/pivot-product/SVD checks and twenty-eight full
+final-cross recomputations pass; every recomputed final sample maximum meets
+its requested tolerance. The 37,811-byte `adaptive_census_checks.json` has
+SHA-256 `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
+It binds canonical input SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`
+and checker source SHA-256
+`711ac118e26cdab256ed43a3918f876fc7d00e3b0245885dfe994fb761af1316`.
+These are independent finite-sample checks, not continuous-error certificates.
+The parent run reports DP artifact/code head
+`a6488cc0c91400bab3f327d93db153c390ef20f4` passing the exact local
+`./scripts/verify.sh`:
+**713 tests in 150.40 seconds, 3,634 Lean jobs, all 876 allowed axiom reports,
+95 formatted files, mypy on 21 sources and a clean dependency audit**.
+The final source/wheel inspector finds clean archives, all three adaptive
+artifacts and new source/tests included, and local notes/caches/scratch
+excluded. All 21 wheel Python files and the packaged APPLICATION/README
+match source bytes.
+
+Outside-checkout installed-wheel checks pass with pinned Python 3.12.12,
+NumPy 2.5.2, SciPy 1.18 and mpmath 1.4.1, and with the declared-minimum
+NumPy 2.4.6/SciPy 1.15.0 environment. Each exercises all 45 exports, adaptive
+success/budget-failure paths and 48 six-method fits. These are current DP
+checks, separate from the preserved nineteen-source DO archive evidence.
+Both rebuilt wheels repeat these installed checks at `a6488cc`. The earlier
+development-tree root passed 713 tests in 151.22 seconds; it is retained as
+historical evidence rather than relabeled as the exact-head run.
+
+Exact-head push CI `40017052450` and PR CI `40017056920` pass all four checks
+at `a6488cc`; DP is verified on this evidence. Final metadata-head root/CI
+repeats, permitted merge and pushed-main closure remain pending. The next decision is
+the full original-SPEC closure audit after DP, not automatic completion from
+this numerical delivery or the inventory count.
 
 ## The actual headline mathematical result
 
@@ -165,7 +261,7 @@ are not silently promoted into mandatory additional theorems.
 | 11 | Supported rate and rigorous parameter obstruction | `FiniteRunRate.lean:166,178`; `RealCutoffRate.lean:340`. Do not call the literal all-positive-cutoff conjecture true. |
 | 12 | Proposed route; structural objective supported | The question about a general `C(k)σ_(αk)` comparison is not a separately mandatory theorem. Actual-prefix gauge/local-minor/panel counting proves the desired original-kernel rate without that comparison. |
 | 13 | Research questions investigated, not six promised positive answers | All-orders signs, gauge and backward witnesses are proved; numerous exact obstruction modules distinguish false stronger sign/localization hypotheses. No universal nested one-dimensional pivot rule is claimed. |
-| 14 | **Incomplete required experiment scope** | `experiments/census.toml:2–7` runs all seven cutoffs at fixed order 24; `census_resolution.toml:2–7` runs order 32 at only three cutoffs. The 28-record primary artifact and normalized plot are valid sampled evidence, not increasingly dense residual-adaptive runs at all seven cutoffs. |
+| 14 | Supported DP adaptive delivery and independent checks | `adaptive_census.json` supplies seven actual residual-driven nested-grid trajectories and twenty-eight converged sampled tolerance records from clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`; both full generations repeat bytes. Schema-3 records retain all requested diagnostics; the adaptive normalized/stage plot is rendered, inspected and repeated. MP192 structure/provenance, twenty-one representative original-core and twenty-eight full final-cross checks pass. Final DP delivery and original-scope closure gates remain pending. Historical fixed order-24/order-32 artifacts remain separate. |
 | 15 | Supported exact small-instance layer | `SmallInstanceChecks.lean:38–107` certifies a concrete complete two-pivot real/rational grid, minors and `[2,1/2]` pivots. Larger rational exponential cases are exact Python evidence in `tests/test_surrogates.py` and `experiments/data/exact_surrogates.json`, not larger Lean enumerations. |
 | 16 | Supported formal cover bound and root-verified numerical repairs | `Discretization/Grid.lean:10` derives `gridMax+L*radius` from explicit cover/Lipschitz assumptions. `kernelgecp/certified.py` has tested adaptive interval and conditional analytic-Lipschitz APIs; cancellation, underflow, rounded-midpoint, invalid-enclosure and budget-failure paths pass the fresh root gate. |
 | 17 | Supported η-certificate bridge; structural extension unresolved | `Discretization/LipschitzCertificate.lean:8` transports an upper bound to the η inequality. Original wording says strengthen rates “where feasible”; no arbitrary-η near-optimal rate is proved. Exact rates cannot be applied to certified η<1 pivots. |
@@ -176,12 +272,12 @@ are not silently promoted into mandatory additional theorems.
 | 22 | Supported semantic public theorem interfaces | Public algebraic, SPD, fermionic and Green identifiers appear in `Theorems.lean`/`scripts/AxiomAudit.lean`. The conservative `fermionicKernel_finiteRun_error_le_exp` delivers the proposed rate role with its range visible; no “optimal” theorem or false all-cutoff alias. |
 | 23 | Supported scoped API adaptations | Seven proposed names are exported in `kernelgecp/__init__.py:53–99`. `GECPConfig` supplies controls; result residual access is `residual_matrix`, histories and `evaluate_residual`; Cholesky consumes sampled matrices. These document the proposed example's roles, not literal compatibility with every example spelling/signature. |
 | 24 | Supported precision paths and root-verified tie/arithmetic repairs | Float64, mpmath with canonical decimal histories and `Fraction` surrogates exist. DO records observed candidate ties, scopes interval certificates, and handles representable extreme/mixed-scale updates and unrepresentable failures. MP128 census elimination still uses 53-bit grid coordinates; LAPACK conditioning diagnostics remain estimates. |
-| 25 | Root, package/install and exact-head CI checks passed | Independent centered-formula, certificate/tie/extreme/mixed-scale/duplicate-core and companion-coordinate regressions pass the final 569-test root. `scripts/verify.sh:7–19` and `.github/workflows/ci.yml:12–40` enforce build, axiom, placeholder, typing/lint/test/audit checks. PR #121 is merged; pushed-main closure repeats before handoff. |
-| 26 | Supported fixed-grid dataset; adaptive data incomplete | Direct JSONL inspection finds 28 converged grid records, seven cutoffs, four tolerances through `1e-12`, 128-bit elimination, 53-bit coordinates. `kernelgecp/census.py:198–327,357–404` stores aligned diagnostics/provenance and canonical finite JSON. This does not supply the missing §14 trajectories. |
-| 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. Full completion still includes §14 and delivery requirements. |
+| 25 | DP exact-head root, package/install and CI verified | At `a6488cc0c91400bab3f327d93db153c390ef20f4`, the exact local root passes 713 tests in 150.40 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and the clean dependency audit; push CI `40017052450` and PR CI `40017056920` pass all four checks. Clean archives and repeated rebuilt-wheel checks pass in pinned/minimum environments. Final metadata-head root/CI repeats and merge/main closure remain pending; DO's 569-test gate and PR #121 remain historical evidence. |
+| 26 | Supported adaptive and historical datasets | Direct inspection finds seven schema-3 adaptive cases and twenty-eight converged tolerance records through `1e-12`, 128-bit elimination, 53-bit explicit coordinates and MP192 probe/final sample metadata. Revision/config/source/lock/environment provenance and exact full-run byte repeats are recorded above; the passing independent report pins its input and checker source and verifies revision blobs. Historical canonical JSONL retains its original provenance; final DP shipping gates remain separate. |
+| 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, but full completion still requires final delivery and the subsequent original-scope audit. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
-| 29 | Required documents and verified delivery synchronized | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF record the theorem, reopened adaptive requirement, repaired numerical scopes, phase verification and merge. Original mathematical goals are unchanged; exact pushed-main closure repeats before handoff. |
-| 30 | Minimum mathematical outcomes supported; full task incomplete | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. Fixed-grid census spans six orders; the adaptive experimental requirement and its future closure remain. |
+| 29 | Required documents maintained; final DP synchronization pending | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF preserve the theorem and historical verification. Current audits record the actual adaptive delivery and passing independent checks, with final delivery/closure still pending. Original mathematical goals are unchanged; final committed-head and pushed-main evidence must be synchronized before handoff. |
+| 30 | Minimum mathematical outcomes supported; full task incomplete | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. DP now adds the independently checked seven-cutoff adaptive census across six orders of magnitude; whole-goal closure still requires remaining delivery gates and a fresh original-scope audit. |
 
 ## Independent disposition of the forty inventory groups
 
@@ -189,7 +285,10 @@ These identifiers retain compatibility with the older inventory, but their
 statuses follow inspected scope rather than its previous “40/40” count.
 `S` means supported at the stated scope; `P` means repair or final verification
 pending; `I` means a required deliverable is missing. No percentage of overall
-completion is inferred from this table.
+completion is inferred from this table. DP's preliminary mapping is now
+**40 supported groups and 0 incomplete groups**, using the stated evidence
+scopes and preserving pending final gates. This is an input to the
+subsequent original-scope closure audit, not that audit's completion decision.
 
 | ID | Disposition | Evidence / boundary |
 | --- | --- | --- |
@@ -217,22 +316,22 @@ completion is inferred from this table.
 | R22 | S | Float64/mpmath/exact-rational paths and sub-float64 pivot regression; precision/coordinate scopes explicit. |
 | R23 | S | Cross evaluation uses solves (`kernelgecp/gecp.py` and `applications.py`); formal inverse notation is algebraic. |
 | R24 | S | Metadata, frozen-residual certificate scope, observed candidate ties and float64 arithmetic-range/duplicate-core failure paths pass the fresh root gate and installed-wheel smokes. Extreme-scale determinant/singular-value outputs remain numerical estimates. |
-| R25 | **I** | Required all-seven-cutoff increasingly dense residual-adaptive experiment is absent; fixed order-24/order-32 artifacts do not substitute. |
-| R26 | S, limited | Full prefix/core/geometry metadata is present for the fixed-grid census; no adaptive-output diagnostic coverage is inferred. |
-| R27 | S, limited | `experiments/data/gecp_census_normalized.png` and `experiments/plot_census.py` supply sampled normalized curves, not adaptive or continuous-rate evidence. |
-| R28 | S, limited | Historical canonical finite JSONL, generation revision/config/lock hashes and repeat evidence; preserve original generation rather than relabeling artifacts as current-source output. |
+| R25 | S, preliminary DP mapping | Actual clean-`3cee4186` canonical adaptive JSON has all seven increasingly dense nested trajectories and twenty-eight converged tolerance records; both full generations repeat bytes. Stage counts `3,2,3,4,4,5,6` and the final largest `258×257` grid are recorded above. Independent MP192 structure/provenance, twenty-one representative original-core and twenty-eight full final-cross checks pass. Final delivery and original-scope closure gates remain pending. |
+| R26 | S | DP schema-3 prefixes retain signed pivots/magnitudes, sampled residual/original-core determinant/minimum singular-value histories and all specified physical geometry. Complete stage axes/panels/marks, training/chosen ranks, precision/ties/conditioning/budget/failure scopes are explicit. All twenty-one independent representative core checks and twenty-eight final-cross recomputations pass; historical fixed-grid diagnostics remain intact. |
+| R27 | S | The 2240-by-1440 adaptive normalized/stage PNG is rendered, inspected and byte-repeated, SHA-256 `dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`. Seven curves and twenty-eight validation markers remain sampled evidence; one zero is omitted without a positive floor, and no universal law or continuous-rate evidence is inferred. Historical normalized plots are preserved. |
+| R28 | S | Canonical adaptive JSON SHA-256 `730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c` repeats bytes and records exact clean generation revision/config/source/lock/environment provenance. Passing independent report SHA-256 `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03` binds that input and checker source and verifies full coverage and revision blobs. Historical artifacts retain their original generation metadata. |
 | R29 | S | Particular synthetic Green functions have fewer atoms than the universal basis with measured held-out errors; `synthetic_applications.json`, `tests/test_applications.py`. |
 | R30 | S | Explicit spectral-frequency/weight interface, OMP and bounded nonlinear refinement in `kernelgecp/sparse.py`. |
 | R31 | S | Shared-observation six-method source and 192 retained artifact fits; independent error reconstruction and historical source-manifest compatibility checks pass the fresh root gate. Each installed environment also passes 48 six-method fits; historical artifact generation is preserved. |
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
 | R34 | S | Enumerated numerical categories plus independent centered-formula, cancellation, signed underflow, rounded-midpoint, invalid-gradient, mixed-scale, coordinate-reuse, duplicate-core and companion-diagnostic regressions pass the final 569-test root gate. |
-| R35 | S | Root/CI mechanisms and exact axiom allow-list are inspected; the fresh root gate passes 3,634 Lean jobs and all 876 axiom reports. Final CI and delivery status are tracked separately under R40. |
-| R36 | S | Fresh code-head source/wheel archives are inspected; all nineteen wheel Python files hash-match source; installed-wheel smokes outside the checkout pass pinned and declared-minimum SciPy environments. Later-revision final delivery gates remain under R40. |
+| R35 | S | DP artifact/code head `a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root: 713 tests in 150.40 seconds, 3,634 Lean jobs, all 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and a clean dependency audit. Exact-head push CI `40017052450` and PR CI `40017056920` pass all four checks. Final metadata-head repeats and merge/main closure remain under R40. |
+| R36 | S | DP's final source/wheel archives are inspected clean, include all three adaptive artifacts and new source/tests, and exclude local notes/caches/scratch. All 21 wheel Python sources and packaged APPLICATION/README hash-match source. Outside-checkout installed-wheel smokes pass pinned Python 3.12.12/NumPy 2.5.2/SciPy 1.18/mpmath 1.4.1 and minimum NumPy 2.4.6/SciPy 1.15.0; each checks 45 exports, adaptive success/budget failure and 48 six-method fits. Historical nineteen-source DO evidence is preserved separately. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
-| R38 | S | Current documentation records the actual finite theorem, adaptive gap and numerical scope boundaries; historical phase/route text is distinguished. Documentation repairs are included in the passing root gate; final gate metadata remains under R40. |
+| R38 | S | Current audits record the actual finite theorem, completed adaptive generation/repeat/plot, passing independent checks and numerical scope boundaries; historical phase/route text is distinguished. Final DP documentation/gate synchronization remains under R40. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | S | Final `f0d082d` passes the 569-test root and push/PR CI `39961732232`/`39961740682`; PR #121 is merged as `b041c723add1b9a7a0395cfffbdf4b793c0cfed9`. Exact pushed-main closure checks repeat before handoff; no Git/CI gate closes the missing adaptive experiment. |
+| R40 | S; DP verified, final delivery pending | DP is verified at `a6488cc0c91400bab3f327d93db153c390ef20f4`: exact local root, clean archives, repeated rebuilt-wheel installed checks and exact-head push/PR CI `40017052450`/`40017056920` pass. Final metadata-head root/CI repeats, permitted merge and pushed-main closure remain required. DO's final `f0d082d`, CI and merged PR #121 remain historical evidence. Neither phase verification nor the forty-group mapping establishes whole-goal completion; a fresh original-scope audit follows DP delivery. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -283,21 +382,17 @@ Section 17's “where feasible” extension remains explicit research work.
 
 To complete the original scope:
 
-1. Deliver deterministic residual-adaptive, increasingly dense experiments
-   for all seven requested cutoffs through at least `1e-12`, recording the
-   §14 diagnostics and honest certificate/precision/tie/failure scopes.
-   Existing small adaptive API tests, fixed-grid metadata and three denser
-   trajectories do not discharge this requirement. Store both successes and
-   failures; do not infer exact complete-pivot behavior from inexact runs.
-2. After the adaptive deliverable, repeat the full original-scope audit and
-   root/package/install/exact-head CI and pushed-main closure checks for that
-   change. DO's verified repair evidence cannot stand in for those future
-   experiments or gates. Prior DN evidence (513 tests, 3,633 Lean jobs, 876
-   axiom reports, CI `39833290391`, isolated SciPy 1.18/1.15 installs) remains
-   historical.
-3. Reassess this decision from the completed evidence. Do not mark the full
-   goal complete while the required adaptive experiment is missing, even if
-   all DO repair and shipping gates pass.
+1. Complete DP's final metadata-head root/CI repeats, permitted merge and
+   pushed-main/provenance checks, including required checks at final committed
+   and merged heads. DP is verified at artifact/code head `a6488cc`; DO's verified
+   repairs and prior DN evidence remain historical rather than substitutes
+   for these new delivery gates. Preserve sampled scope and all failures; the
+   passing independent numerical checks do not establish exact complete-pivot
+   behavior or continuous supremum bounds.
+2. Perform the subsequent full original-SPEC closure audit against all thirty
+   original sections and the completed DP evidence. Reassess this **NOT
+   COMPLETE** decision only after that audit and its gates; the preliminary
+   forty-supported-group mapping cannot make that decision by itself.
 
 No novel-priority conclusion follows from this repository audit. Mathematical
 support is the checked content and scope of the results; literature priority,

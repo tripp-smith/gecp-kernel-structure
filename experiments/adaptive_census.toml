@@ -1,0 +1,12 @@
+schema_version = 3
+cutoffs = [1, 10, 100, 1000, 10000, 100000, 1000000]
+tolerances = [1e-6, 1e-8, 1e-10, 1e-12]
+precision_bits = 128
+check_precision_bits = 192
+max_rank = 256
+max_stages = 9
+max_nodes = 512
+max_marked = 4
+generation_margin = 0.01
+workers = 7
+require_clean_revision = true
