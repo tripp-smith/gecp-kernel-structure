@@ -17,8 +17,11 @@ all-positive `log(2+Λ)` variant is separate.
 order-24 census and three order-32 reruns are fixed-grid experiments, not the
 required increasingly dense residual-adaptive grid experiment. DO fixes
 certificate lower-bound rounding, sampled candidate-tie metadata, a large-finite
-float64 update failure and missing centered-expression coverage; fresh shipping
-gates remain required. Historical artifacts retain their original source hashes.
+float64 update failure and missing centered-expression coverage. Final `f0d082d`
+passes the 569-test root, 3,634 Lean jobs, all 876 axiom reports, exact-head
+push/PR CI and isolated wheel checks with SciPy 1.18 and minimum 1.15.0.
+PR #121 merged on 2026-10-23; merged/pushed-main closure gates repeat before
+handoff. Historical artifacts retain their original source hashes.
 Certificates concern the stored rounded residual model, not the ideal exact
 run or a separately reconstructed cross. No arbitrary-η convergence theorem,
 continuous numerical census certificate, optimal sparse support, or literature

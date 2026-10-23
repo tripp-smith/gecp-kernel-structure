@@ -22,8 +22,10 @@ refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
 [DO audit](FINAL_AUDIT.md) reopens R25: fixed order-24 data at seven cutoffs and
 three order-32 reruns do not deliver the required residual-adaptive increasingly
 dense grids. DO repairs certificate lower bounds, sampled adaptive tie metadata,
-large-finite float64 failure handling and centered-expression coverage; fresh
-root/package/CI/merge gates remain necessary. The next required phase is the
+large-finite float64 failure handling and centered-expression coverage. Final
+`f0d082d` passes the 569-test root, exact-head push/PR CI and installed-wheel
+checks with SciPy 1.18 and minimum 1.15.0; PR #121 is merged. Exact pushed-main
+closure gates repeat before handoff. The next required phase is the
 genuine seven-cutoff adaptive experiment, followed by closure. The previous
 40/40 working-ledger count was not sufficient evidence.
 
@@ -592,6 +594,22 @@ source hashes remain tied to clean generation revision `072ce10`, not relabeled
 after source repairs. Generic completeness definitions move below the
 fermionic layer, preserving all theorem interfaces and axiom obligations.
 
+The final implementation `f0d082dfbbc91e4213dea0d2cad06a36c4a78826` passes
+569 tests in 142.82 seconds, 3,634 Lean jobs, all 876 axiom reports, 83-file
+formatting, mypy on 19 sources and the clean dependency audit. Push CI
+`39961732232` and PR CI `39961740682` pass all checks. Source/wheel archives
+are clean; all nineteen wheel Python files hash-match that implementation.
+Installed-wheel checks outside the checkout pass both pinned SciPy 1.18/
+NumPy 2.5.2 and minimum SciPy 1.15.0/NumPy 2.4.6, including all 45 exports,
+the repaired numerical paths and 48 six-method fits each. The companion block
+diagnostic preserves binary coordinates and the same frozen-model scope;
+float64 and MP ties exclude zero/old coordinates. These remain numerical
+models, not exact-run certificates. PR #121 merged at 2026-10-23 13:34:53 UTC as
+`b041c723add1b9a7a0395cfffbdf4b793c0cfed9`. The final pushed-main metadata
+head repeats root/CI and archive checks before handoff. R25 remains incomplete:
+39/40 supported groups is 97.5% checklist coverage, with a rough 97% overall
+effort estimate, not full completion or a theorem-success probability.
+
 The workshop's [v3 problem-list update](https://arxiv.org/html/2602.05394v3)
 attributes an August 2026 claimed solution of Problem 4.2 to Venkata Siddharth
 Pendyala's *Local-to-Global Convergence of Greedy Cross Approximation for Totally
@@ -700,6 +718,14 @@ inferred. Two workers reported account usage limits after contributing audit
 and repair evidence; the primary continued local integration. These counters
 are not DO-only usage and no new API-equivalent cost is calculated.
 
+The DO merge snapshot on 2026-10-23 at 13:35 UTC reports `active`,
+21,505,132 cumulative aggregate goal tokens and 100,758 goal-accounting seconds.
+All identity/category/billing limitations above remain: declared root family
+Codex/GPT-5, Default mode and unrestricted local execution are exposed; exact
+serving version, reasoning effort, token splits and account billing are not.
+No new cost estimate is inferred. The verified phase is merged; the full goal
+stays active because the adaptive experiment and its closure audit are absent.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -745,7 +771,7 @@ are not DO-only usage and no new API-equivalent cost is calculated.
 | DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
-| DO — independent final SPEC audit | in progress | Reopens required residual-adaptive census; repairs certificate/tie/failure paths and generic import layering; root/CI/merge gates pending |
+| DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -1100,13 +1126,13 @@ residual prefixes. DL completes result metadata; DM completes the census
 fixed-grid depth/diagnostics/normalized curves and representative resolution checks,
 not the required residual-adaptive grids.
 DN verifies R31's six-method comparisons with shared observations and retained
-failures. After DO's correctness repairs and shipping gates, implement the
+failures. DO verifies correctness repairs and merges PR #121. Next implement the
 genuine all-seven-cutoff residual-driven nested-grid experiment through `1e-12`,
 repeat its outputs, inspect geometry/normalized curves and independently check
 cores and held-out errors. Then repeat full-scope audit and exact pushed-main
 closure before claiming the full goal complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The revised post-repair inventory will be 39/40 (97.5% checklist
+theorems. The revised post-repair inventory is 39/40 (97.5% checklist
 coverage), with an approximate 97% overall effort estimate; neither is a
 theorem-success probability or proof that the final experiment will pass.
 

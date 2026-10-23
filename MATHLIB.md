@@ -925,6 +925,9 @@ statements are unchanged. This is a layering repair, not a new abstraction or
 upstream candidate. The final source/assumption audit finds no missing mathlib
 result needed by the delivered rate or strict-SPD baseline; numerical
 certificate repairs and residual-adaptive experiment work add no formal claim.
+The unchanged theorem interfaces pass the final DO 3,634-job Lean build and
+876-declaration axiom gate; PR #121 is merged. This verification adds no
+upstream-submission or literature-priority claim.
 
 ## Run provenance
 

@@ -45,9 +45,9 @@ proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
 The working ledger has 40 concrete requirement groups: **39 supported and 1 incomplete**.
-R25 remains missing. DO's implementation head passes the 567-test root gate,
-push/PR CI and isolated package checks. Final-head repair/shipping repeats
-are still under verification. The revised inventory is 97.5%
+R25 remains missing. DO's final implementation head passes the 569-test root
+gate, exact-head push/PR CI and isolated package checks; PR #121 is merged.
+Merged/pushed-main closure gates repeat before handoff. The inventory is 97.5%
 checklist coverage, not 100%. A rough overall effort
 estimate is **97%**, not a probability of theorem truth or an exact workload
 fraction. The principal theorem is proved, but the residual-adaptive experiment
@@ -103,7 +103,7 @@ rewritten.
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | FINAL_AUDIT independently maps all original sections. Current summaries foreground the exact finite rate and reopened adaptive experiment, distinguish numerical residual models from exact crosses, correct stale deferred-method text and mark older proof-route claims historical. Original SPEC mathematics is unchanged. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | DH merged PR #114 with matching main/origin and successful exact-head CI; DI–DN merged PRs #115–#120 after their full root and push/PR gates. Merged/pushed-head checks are repeated for final handoff and recorded in README/RESEARCH. No open requirement is excused by Git cleanliness or CI alone. |
+| R40 | Phase merge/push verification (active objective) | Supported | DO's final `f0d082d` passes the 569-test root and push/PR CI `39961732232`/`39961740682`; PR #121 merged as `b041c723add1b9a7a0395cfffbdf4b793c0cfed9` on 2026-10-23. Merged/pushed-main closure checks repeat before handoff. Earlier phase evidence remains historical; Git cleanliness/CI do not close R25. |
 
 ## Original section and outcome coverage
 

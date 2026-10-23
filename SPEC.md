@@ -2751,7 +2751,7 @@ This annotation records delivered identifiers without changing the goals above.
   unchanged. No globally optimal sparse support or unique recovery
   is inferred from a smallest tested passing support.
 
-- **Phase DO audit status (2026-10-22, in progress):** the independent
+- **Phase DO audit status (2026-10-23, verified; merged PR #121):** the independent
   `FINAL_AUDIT.md` checks all thirty original sections against actual theorem
   assumptions, sources, artifacts and tests. It supports the original-kernel
   exact finite-run rate, separated approximation, strict-SPD/fill baseline and
@@ -2760,7 +2760,10 @@ This annotation records delivered identifiers without changing the goals above.
   residual-adaptive grids. DO repairs interval lower-bound rounding, sampled
   adaptive tie metadata, a large-finite float64 update failure and missing
   independent centered-expression coverage, plus generic import layering and
-  stale current documentation. Fresh root/package/CI/merge gates are required.
+  stale current documentation. Final `f0d082d` passes the 569-test root,
+  3,634 Lean jobs, 876 axiom reports, exact-head push/PR CI and installed-wheel
+  checks with pinned SciPy 1.18 and minimum 1.15.0. PR #121 is merged;
+  exact pushed-main closure gates repeat before handoff.
   The next required target is the genuine seven-cutoff adaptive experiment and
   subsequent final closure. Original goals above are unchanged; the prior
   forty supported labels are not accepted as a completion proof. No ideal-

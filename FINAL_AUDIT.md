@@ -10,12 +10,10 @@ supported, including its finite-run selected-core cross and actual Green
 integral consequences. The required seven-cutoff experiments on increasingly
 dense adaptive grids are missing. Phase DO's numerical certificate, tie,
 arithmetic-range, test-coverage and documentation repairs pass the full root
-gate and inspected package/install checks at code head
-`e0941303f64299c2462b54685875e98ffbd0656b`. A later companion certificate-
-coordinate consistency fix has focused coverage; the final 568-test root
-rerun, metadata-head CI, merge and pushed-main closure gates remain pending.
-Passing these repair and delivery gates cannot discharge the missing adaptive
-experiment.
+gate and inspected package/install checks at final implementation
+`f0d082dfbbc91e4213dea0d2cad06a36c4a78826`. Exact-head push/PR CI pass and
+PR #121 is merged. Pushed-main closure gates repeat before handoff. Passing
+these repair and delivery gates cannot discharge the missing adaptive experiment.
 
 This audit inspected original requirements, Lean definitions and proof
 dependencies, Python source and tests, experiment configurations, and committed
@@ -25,10 +23,10 @@ the fresh root, package, installation, CI and Git evidence recorded below;
 this document does not imply those commands were independently repeated by
 the source-audit reviewer. Earlier phase verification remains historical.
 
-## Fresh DO verification and remaining delivery gates
+## Fresh DO verification and delivery
 
 The parent run reports `./scripts/verify.sh` passing at code head
-`e0941303f64299c2462b54685875e98ffbd0656b`: **567 tests in 140.94 seconds,
+`f0d082dfbbc91e4213dea0d2cad06a36c4a78826`: **569 tests in 142.82 seconds,
 3,634 Lean jobs, 876 axiom reports, 83 formatted files, mypy on 19 sources,
 and a clean dependency audit**. The generic complete-pivot import repair and
 all numerical/documentation repair regressions are included in this root
@@ -50,16 +48,21 @@ focused tests, fifteen signed interval cases, eight mixed-scale cases and
 400 coordinate-reuse checks. These complement the full root gate rather than
 replacing it.
 
-Code-head push CI `39960402307` and PR CI `39960409455` have both passed.
-A subsequent companion interval
-diagnostic correction in `kernelgecp/research.py` preserves binary float
-coordinates exactly as mpmath values, sets the same frozen-residual objective
-scope and corrects its docstrings. Its real-cutoff `1.3` callback-capture
-regression passes a focused check. The final 568-test root rerun after the
-metadata commit, metadata-head CI, permitted merge and exact pushed-main
-closure remain pending under R40. Archive/install evidence above belongs to
-the named code head and is not silently relabeled as evidence for a later
-revision.
+Final push CI `39961732232` and PR CI `39961740682` pass all four checks.
+The companion interval diagnostic preserves binary-float coordinates as
+mpmath values and the same frozen-residual scope; its non-binary cutoff `1.3`
+callback-capture regression is included in the root and installed checks.
+Both float64 and MP grid paths exclude old/zero coordinates from near-tie
+selection and preserve known interpolation zeros. Historical implementation
+`e094130` passed 567 tests before those final consistency additions; that
+earlier evidence is not relabeled as a later run. The archives and both
+installed environments were rebuilt/repeated at `f0d082d`.
+
+PR #121 merged at 2026-10-23 13:34:53 UTC as
+`b041c723add1b9a7a0395cfffbdf4b793c0cfed9`. The final pushed-main metadata
+head repeats root/CI and archive checks before handoff; exact Git/CI evidence
+is checked against that head, not assumed from the branch result. No package
+is published. The required adaptive experiment remains absent.
 
 ## The actual headline mathematical result
 
@@ -173,12 +176,12 @@ are not silently promoted into mandatory additional theorems.
 | 22 | Supported semantic public theorem interfaces | Public algebraic, SPD, fermionic and Green identifiers appear in `Theorems.lean`/`scripts/AxiomAudit.lean`. The conservative `fermionicKernel_finiteRun_error_le_exp` delivers the proposed rate role with its range visible; no “optimal” theorem or false all-cutoff alias. |
 | 23 | Supported scoped API adaptations | Seven proposed names are exported in `kernelgecp/__init__.py:53–99`. `GECPConfig` supplies controls; result residual access is `residual_matrix`, histories and `evaluate_residual`; Cholesky consumes sampled matrices. These document the proposed example's roles, not literal compatibility with every example spelling/signature. |
 | 24 | Supported precision paths and root-verified tie/arithmetic repairs | Float64, mpmath with canonical decimal histories and `Fraction` surrogates exist. DO records observed candidate ties, scopes interval certificates, and handles representable extreme/mixed-scale updates and unrepresentable failures. MP128 census elimination still uses 53-bit grid coordinates; LAPACK conditioning diagnostics remain estimates. |
-| 25 | Root and package/install checks passed; final delivery gates pending | Independent centered-formula and certificate/tie/extreme/mixed-scale/duplicate-core regressions are included in the 567-test root gate. `scripts/verify.sh:7–19` and `.github/workflows/ci.yml:12–40` enforce build, axiom, placeholder, typing/lint/test/audit checks. Final 568-test metadata-head root rerun, CI, merge and pushed-main checks remain pending. |
+| 25 | Root, package/install and exact-head CI checks passed | Independent centered-formula, certificate/tie/extreme/mixed-scale/duplicate-core and companion-coordinate regressions pass the final 569-test root. `scripts/verify.sh:7–19` and `.github/workflows/ci.yml:12–40` enforce build, axiom, placeholder, typing/lint/test/audit checks. PR #121 is merged; pushed-main closure repeats before handoff. |
 | 26 | Supported fixed-grid dataset; adaptive data incomplete | Direct JSONL inspection finds 28 converged grid records, seven cutoffs, four tolerances through `1e-12`, 128-bit elimination, 53-bit coordinates. `kernelgecp/census.py:198–327,357–404` stores aligned diagnostics/provenance and canonical finite JSON. This does not supply the missing §14 trajectories. |
 | 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. Full completion still includes §14 and delivery requirements. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
-| 29 | Required documents updated; final gate metadata pending | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF record the current theorem, reopened adaptive requirement and repaired numerical scopes; original mathematical goals are unchanged. Final CI/merge/main evidence must be recorded at closure. |
-| 30 | Minimum mathematical outcomes supported; full task incomplete | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. Fixed-grid census spans six orders; the adaptive experimental requirement and final DO gates still remain. |
+| 29 | Required documents and verified delivery synchronized | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF record the theorem, reopened adaptive requirement, repaired numerical scopes, phase verification and merge. Original mathematical goals are unchanged; exact pushed-main closure repeats before handoff. |
+| 30 | Minimum mathematical outcomes supported; full task incomplete | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. Fixed-grid census spans six orders; the adaptive experimental requirement and its future closure remain. |
 
 ## Independent disposition of the forty inventory groups
 
@@ -223,13 +226,13 @@ completion is inferred from this table.
 | R31 | S | Shared-observation six-method source and 192 retained artifact fits; independent error reconstruction and historical source-manifest compatibility checks pass the fresh root gate. Each installed environment also passes 48 six-method fits; historical artifact generation is preserved. |
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
-| R34 | S | Enumerated numerical categories plus independent centered-formula, cancellation, signed underflow, rounded-midpoint, invalid-gradient, mixed-scale, coordinate-reuse and duplicate-core regressions pass the fresh 567-test root gate. |
+| R34 | S | Enumerated numerical categories plus independent centered-formula, cancellation, signed underflow, rounded-midpoint, invalid-gradient, mixed-scale, coordinate-reuse, duplicate-core and companion-diagnostic regressions pass the final 569-test root gate. |
 | R35 | S | Root/CI mechanisms and exact axiom allow-list are inspected; the fresh root gate passes 3,634 Lean jobs and all 876 axiom reports. Final CI and delivery status are tracked separately under R40. |
 | R36 | S | Fresh code-head source/wheel archives are inspected; all nineteen wheel Python files hash-match source; installed-wheel smokes outside the checkout pass pinned and declared-minimum SciPy environments. Later-revision final delivery gates remain under R40. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
 | R38 | S | Current documentation records the actual finite theorem, adaptive gap and numerical scope boundaries; historical phase/route text is distinguished. Documentation repairs are included in the passing root gate; final gate metadata remains under R40. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | P | Code-head push CI `39960402307` and PR CI `39960409455` both passed. A later companion diagnostic coordinate fix has focused coverage; final 568-test metadata-head root rerun, CI, permitted merge, exact pushed-main closure and final handoff remain unverified. |
+| R40 | S | Final `f0d082d` passes the 569-test root and push/PR CI `39961732232`/`39961740682`; PR #121 is merged as `b041c723add1b9a7a0395cfffbdf4b793c0cfed9`. Exact pushed-main closure checks repeat before handoff; no Git/CI gate closes the missing adaptive experiment. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -250,15 +253,15 @@ establish that these cases worked.
 The final float64 Schur update uses bounded binary mantissas (`frexp`) and
 recombines exponents only at the final product (`ldexp`), avoiding both a
 product-first overflow and normalization-first underflow on representable
-mixed-scale terms (`kernelgecp/gecp.py:568–586`). Selected-row/column zeros
-are explicitly preserved and old coordinates are masked from near-tie
-selection (`549–552,589–592`). Original selected cores with exact duplicate
-rows or columns are rejected (`594–602`): roundoff cannot promote their
+mixed-scale terms (`kernelgecp/gecp.py`, `gecp_matrix`). Selected-row/column
+zeros are explicitly preserved and old coordinates are masked from near-tie
+selection in both arithmetic paths. Original selected cores with exact duplicate
+rows or columns are rejected: roundoff cannot promote their
 spurious fresh pivot into a usable core. These are exact duplicate checks on
 the stored input, not a general exact-rank test. Genuinely unrepresentable
 updates and failed/nonfinite diagnostics raise explicit breakdown errors.
 
-`tests/test_final_numerical_audit.py:186–266` independently exercises
+`tests/test_final_numerical_audit.py` independently exercises
 mixed-scale products, selected-coordinate reuse, tiny unrepresentable terms,
 duplicate cores in both orientations, diagnostic failure and 35 independent
 centered-expression cases. Additional independent QA covers the signed
@@ -280,26 +283,19 @@ Section 17's “where feasible” extension remains explicit research work.
 
 To complete the original scope:
 
-1. Finish final metadata-head verification and delivery: rerun the root after
-   the companion diagnostic coordinate/docstring correction and metadata
-   commit, pass exact-head CI, perform the permitted merge and exact pushed-main
-   closure, and record the evidence. The code-head root, archive inspection
-   and installed-wheel checks above are complete; they do not attest a later
-   revision automatically. Preserve historical artifacts and source manifests
-   at their recorded generation revisions.
-2. Deliver deterministic residual-adaptive, increasingly dense experiments
+1. Deliver deterministic residual-adaptive, increasingly dense experiments
    for all seven requested cutoffs through at least `1e-12`, recording the
    §14 diagnostics and honest certificate/precision/tie/failure scopes.
    Existing small adaptive API tests, fixed-grid metadata and three denser
    trajectories do not discharge this requirement. Store both successes and
    failures; do not infer exact complete-pivot behavior from inexact runs.
-3. After the adaptive deliverable, repeat the full original-scope audit and
+2. After the adaptive deliverable, repeat the full original-scope audit and
    root/package/install/exact-head CI and pushed-main closure checks for that
    change. DO's verified repair evidence cannot stand in for those future
    experiments or gates. Prior DN evidence (513 tests, 3,633 Lean jobs, 876
    axiom reports, CI `39833290391`, isolated SciPy 1.18/1.15 installs) remains
    historical.
-4. Reassess this decision from the completed evidence. Do not mark the full
+3. Reassess this decision from the completed evidence. Do not mark the full
    goal complete while the required adaptive experiment is missing, even if
    all DO repair and shipping gates pass.
 

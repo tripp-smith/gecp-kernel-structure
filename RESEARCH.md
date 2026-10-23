@@ -9665,3 +9665,31 @@ large/mixed-scale updates, duplicate-core failure and 48 six-method fits.
 Source/wheel archives exclude local notes/caches, contain the audit/new module/
 tests and all nineteen wheel Python sources match the implementation. The
 companion diagnostic fix and final metadata receive another full-head gate.
+
+### Verified delivery and next decision (2026-10-23)
+
+Final implementation `f0d082dfbbc91e4213dea0d2cad06a36c4a78826` passes the
+full root: 569 tests in 142.82 seconds, 3,634 Lean jobs, 876 accepted axiom
+reports, 83 formatted files, mypy on 19 sources and the clean dependency
+audit. Exact-head push CI `39961732232` and PR CI `39961740682` pass all four
+checks. The final wheel/source archives are inspected clean, all nineteen
+wheel Python sources match, and both outside-checkout installed environments
+repeat the numerical/six-method smokes, now including the companion diagnostic
+scope. PR #121 merged at 2026-10-23 13:34:53 UTC as
+`b041c723add1b9a7a0395cfffbdf4b793c0cfed9`; local main fast-forwards to it.
+The final pushed-main metadata head repeats root, archive and exact-head CI
+closure before handoff. User-owned duplicate notes remain untouched; no
+package is published and the full goal remains active.
+
+The revised audit has 39 supported groups and R25 incomplete: 97.5% checklist
+coverage, approximately 97% overall effort. Next implement and verify the
+seven-cutoff adaptive-grid study through `1e-12`, then repeat the final audit.
+SPEC §14 says “increasingly dense adaptive grids”; residual-driven nested
+refinement is the chosen concrete repair, not a claim that its exact marking
+rule was prescribed by SPEC. Borrow the a-posteriori refinement pattern from
+adaptive quadrature: measure residual discrepancies on held-out panel points,
+mark the influential panels, enrich only those coordinates and retain every
+decision/stage. Keep deterministic budgets, all failures and exact source
+provenance; assess each completed high-precision trajectory on independent
+denser points and repeat outputs. This is a numerical research protocol, not
+a continuous-error certificate or an arbitrary-inexact-pivot rate theorem.

@@ -67,6 +67,13 @@ bounds, but Python execution is not itself a formal proof of a continuous GECP
 rate. In particular, the exact-complete-pivot rate theorem is not automatically
 applicable to a numerical or certified inexact run.
 
+DO's certificate, tie, extreme/mixed-scale arithmetic, exact-duplicate-core and
+centered-expression regressions pass the 569-test root gate and installed-wheel
+checks outside the checkout, with both SciPy 1.18 and the declared minimum
+1.15.0. [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121)
+is merged. These repairs do not supply the missing all-seven-cutoff adaptive
+experiment documented in [FINAL_AUDIT.md](FINAL_AUDIT.md).
+
 ## Separated interpolation
 
 `fermionic_separated_approximation` uses piecewise barycentric interpolation on
