@@ -4,9 +4,9 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DO — independent final SPEC audit<br>
-> **Phase state:** verified; merged PR #121; full goal remains active<br>
-> **Last verification:** Final DO implementation `f0d082d` passes `./scripts/verify.sh`: 569 tests (142.82 seconds), 3,634 Lean jobs, 876 axiom reports, 83 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and clean-wheel checks pass with pinned SciPy 1.18 and minimum 1.15.0. Merged/pushed-main closure gates repeat before handoff<br>
+> **Current phase:** DP — residual-adaptive seven-cutoff census<br>
+> **Phase state:** in progress; DO complete; full goal remains active<br>
+> **Last verification:** DP development-tree root check passes 693 tests (153.00 seconds), 3,634 Lean jobs, 876 axiom reports, 93 formatted files, mypy on 21 sources and a clean dependency audit. Calibration, canonical artifact repeats and final committed-head shipping gates remain in progress. DO's merged closure remains historical evidence<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DO merged in [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) on 2026-10-23 as `b041c723add1b9a7a0395cfffbdf4b793c0cfed9`; closure metadata pushed to `main`<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. The [independent original-SPEC audit](FINAL_AUDIT.md) reopens R25: fixed-grid census/resolution runs do not meet the required seven-cutoff residual-adaptive experiment. DO also repairs numerical certificate/failure paths. Full completion is not claimed; revised overall effort estimate is approximately 97%, subject to the remaining experiment and closure gates<br>
@@ -140,7 +140,8 @@ is authoritative for the remaining goal.
 | DL | Complete numerical result metadata | complete | precision/conditioning/tie/certification scopes; returned-error convergence; optimizer failure/rejection; schema-2 summaries | 3,633 Lean jobs; 876 audited declarations; 232 tests; isolated wheel smoke; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118) |
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 | DN | Fair six-method spectral comparisons (R31) | complete | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
-| DO | Independent original-SPEC completion audit | verified | thirty-section audit; conservative certificates, sampled ties, scaled updates and failure coverage; generic completeness layering | 569-test root, 3,634 Lean jobs, 876 axiom reports; green push/PR CI; installed-wheel checks including SciPy 1.15.0; full goal NOT COMPLETE, R25 absent | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
+| DO | Independent original-SPEC completion audit | complete | thirty-section audit; conservative certificates, sampled ties, scaled updates and failure coverage; generic completeness layering | 569-test root, 3,634 Lean jobs, 876 axiom reports; green push/PR CI; installed-wheel checks including SciPy 1.15.0; full goal NOT COMPLETE, R25 absent | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
+| DP | Residual-adaptive seven-cutoff census | in progress | explicit nested panels/axes, residual-driven refinement, independent final cross checks, repeated artifacts | 693-test development root; small pilots and 256-bit independent QA pass; larger calibration/canonical gates pending | branch `codex/phase-dp-adaptive-census` |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change

@@ -929,6 +929,15 @@ The unchanged theorem interfaces pass the final DO 3,634-job Lean build and
 876-declaration axiom gate; PR #121 is merged. This verification adds no
 upstream-submission or literature-priority claim.
 
+## DP numerical refinement boundary
+
+DP's nested panel geometry, residual-driven marking, solve-based probes and
+independent sampled validation are Python research infrastructure. They add no
+Lean abstraction, axiom, rate theorem or upstream mathlib candidate. Existing
+cover/Lipschitz theorems do not convert these sampled maxima into continuous
+bounds without their independently established hypotheses. The exact finite-run
+rate remains distinct from numerical grid trajectories and approximate pivots.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

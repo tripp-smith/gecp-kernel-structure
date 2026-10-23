@@ -798,6 +798,43 @@ subsequent independent audit, 569-test verification and merged PR #121 are
 recorded above: the required adaptive-grid study remains open, followed by its
 final closure audit. No package is published.
 
+## DP residual-adaptive sampled grids
+
+`kernelgecp.adaptive_grid.run_adaptive_grid(cutoff, config=AdaptiveGridConfig(...))`
+is a separate experiment controller, not the interval `pivot="adaptive"` mode.
+It runs MP GECP on explicit nested quarter-lattices, probes odd-eighth points,
+marks influential panels and their reflection mates, and bisects selectively.
+Every previous binary64 coordinate is retained exactly. Elimination uses
+MP128 by default; grid coordinates remain 53-bit repr-decimal values. MP192
+factored selected-cross checks are higher-precision point arithmetic, not
+interval enclosures or continuous supremum bounds.
+
+The returned `AdaptiveGridCase` preserves every stage, leaf panel, explicit
+axis, mark, generation tolerance, budget, pivot/core history and probe score.
+Two consecutive strictest-tolerance stage passes are required. Requested
+tolerance prefixes advance from the first training-passing rank until a tested
+prefix also passes its residual/surplus probes; this is not a global minimum
+rank claim. Only after all refinement and prefix choices, six seventh-fraction
+points per final panel supply independent validation. They never select a
+grid or rank. `fit_passed` and `controller_passed` remain separate: failed
+rank/stage/node budgets cannot be reported as convergence even if a local fit
+passes. Final validation failures remain visible and are not reused for tuning.
+
+`python -m experiments.adaptive_census` reads the frozen TOML controls and
+writes schema-3 explicit-axis JSON. Canonical generation requires clean tracked
+source, snapshots source/lock/config hashes and environment versions, and
+rejects source/revision/lock/environment changes during a run. Use a fresh CLI
+process from the frozen checkout for canonical generation: disk guards cannot
+attest stale imported functions in a long-lived API process. Canonical `root`
+must match the executing runner, and untracked experiment-package bootstrap
+code is included in the clean-source gate. The independent
+`experiments.check_adaptive_census` checks geometry, nesting, marks, source
+blobs, selected cores and final crosses; `experiments.plot_adaptive_census`
+shows normalized sampled curves, independent validation and stage growth.
+These tools preserve failures and distinguish zero samples from positive
+log-plot values. The historical fixed-grid artifacts are not overwritten.
+Canonical seven-cutoff evidence and shipping gates are still pending in DP.
+
 ## Release provenance
 
 The implementation agent's exposed model family and mode, goal-accounting

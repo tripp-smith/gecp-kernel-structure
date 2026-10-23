@@ -29,6 +29,9 @@ experiments/data/*
 !experiments/data/synthetic_applications.png
 !experiments/data/spectral_comparison.json
 !experiments/data/spectral_comparison.png
+!experiments/data/adaptive_census.json
+!experiments/data/adaptive_census_checks.json
+!experiments/data/adaptive_census.png
 
 
 # Editors and operating systems
