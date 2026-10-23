@@ -634,10 +634,12 @@ Stopping, conditioning, precision, tie, and certification metadata are unchanged
 At Phase DI's [audit](COMPLETION_AUDIT.md) entry, the historical census stopped
 at `1e-10`, lacked the full requested geometry/normalized curves, and the
 non-GECP result types needed fuller status metadata. DL supplies result
-metadata; DM's verified primary and resolution results above support R25–R27
-and are merged in PR #119. At DM closure the audit recorded 39/40 supported
-groups (97.5% checklist coverage, not weighted effort). DN now verifies and
-merges R31's listed comparisons separately; the final forty-group audit remains.
+metadata; DM's primary/resolution data and PR #119 support fixed-grid
+diagnostics/curves (R26/R27). At DM closure the historical audit recorded
+39/40 supported groups; DN then delivered R31. DO's independent audit rejects
+the resulting 40/40 assumption and reopens the adaptive-grid R25 scope. Its
+current 39/40 count is 97.5% checklist coverage, not weighted effort; the
+adaptive experiment and subsequent final closure remain.
 Those algorithms are not behavior silently supplied by the exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
