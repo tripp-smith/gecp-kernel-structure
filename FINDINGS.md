@@ -1,5 +1,33 @@
 # Findings and claim ledger
 
+## Current original-SPEC audit (Phase DO)
+
+The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
+finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
+on `[0,1]×[-Λ,Λ]`, and every physical point,
+`|R_k| ≤ 1024 exp(-((log 2)^2/256) k/log(1+Λ))`.
+The selected-core cross and actual Green-integral error obey the corresponding
+bound. Real-parameter separated approximation, arbitrary-domain strict-SPD
+diagonal necessity/Cholesky equivalence, and original-kernel `2*L*h`
+fill-distance control are also proved. No convergence conclusion is supplied
+as a premise. Literal all-positive-cutoff `log(1+Λ)` wording is refuted; the
+all-positive `log(2+Λ)` variant is separate.
+
+**The full goal is not complete.** R25 is reopened because the seven-cutoff
+order-24 census and three order-32 reruns are fixed-grid experiments, not the
+required increasingly dense residual-adaptive grid experiment. DO fixes
+certificate lower-bound rounding, sampled candidate-tie metadata, a large-finite
+float64 update failure and missing centered-expression coverage; fresh shipping
+gates remain required. Historical artifacts retain their original source hashes.
+Certificates concern the stored rounded residual model, not the ideal exact
+run or a separately reconstructed cross. No arbitrary-η convergence theorem,
+continuous numerical census certificate, optimal sparse support, or literature
+priority is claimed.
+
+The phase entries below are a chronological development record. Their
+“remaining”/“open” language describes the named phase's delivery, not current
+status; later proved results and this audit supersede earlier route limits.
+
 ## Proved
 
 - A successful dependent GECP run leaves every selected row and column zero in
@@ -1689,7 +1717,7 @@ duplicate note files; a rebuilt wheel passes isolated import/GECP smoke.
 No artifact was published and original note files were not changed.
 
 Known continuous pivoted-Cholesky/P-greedy convergence is prior work, including
-[Jeong and Townsend's Lipschitz-kernel result](https://arxiv.org/abs/2509.13582).
+[Jeong and Townsend's historical v1 Lipschitz-kernel result](https://arxiv.org/abs/2509.13582v1).
 The repository's conditional residual-Lipschitz lemma is not claimed to
 formalize that full published result. Root verification passes 3,627 Lean
 jobs, 838 enforced axiom reports, 177 tests and no known dependency
@@ -1886,6 +1914,19 @@ error claims. R31 is supported by the actual comparisons, independent error
 reconstruction, 513-test full root gate, green exact-head push/PR CI and
 installed-wheel checks (including minimum SciPy 1.15). PR #120 is merged;
 the final independent original-SPEC audit remains required.
+
+## Attribution update (DO)
+
+The [workshop problem list, v3](https://arxiv.org/html/2602.05394v3) records an
+August 2026 claim that Venkata Siddharth Pendyala's *Local-to-Global Convergence
+of Greedy Cross Approximation for Totally Positive Kernels*
+([DOI](https://doi.org/10.5281/zenodo.21863274)) solves Problem 4.2. This audit
+read the workshop's update, not the inaccessible underlying paper, and does
+not independently certify that claim. No priority for the repository's rate
+is asserted. The [current v3 Cholesky paper](https://arxiv.org/abs/2509.13582v3)
+is by Sungwoo Jeong, Alex Townsend and Christopher Wang; older phase records
+refer specifically to the two-author v1. The repository formalizes the staged
+fill-distance baseline, not all of that paper's stronger asymptotic results.
 
 ## Run provenance
 

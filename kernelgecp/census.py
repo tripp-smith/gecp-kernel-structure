@@ -276,7 +276,7 @@ def _records_from_result(
             if adaptive and converged
             else "not_certified",
             configuration={
-                **result.config,
+                **source_metadata.configuration,
                 "tol": float(tolerance),
                 "source_trajectory_tolerance": str(min(raw["tolerances"])),
                 "prefix_extraction": True,
@@ -302,7 +302,7 @@ def _records_from_result(
                 t_nodes=t_nodes,
                 omega_nodes=omega_nodes,
                 core_sigma_min=histories["core_sigma_min_history"][:rank],
-                tie_counts=[] if adaptive else result.tie_counts[:rank],
+                tie_counts=result.tie_counts[:rank],
                 converged=bool(converged),
                 stop_reason=stop,
                 residual_history=residual_history,

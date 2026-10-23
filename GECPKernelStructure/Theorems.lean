@@ -1,4 +1,5 @@
 import GECPKernelStructure.CrossApproximation
+import GECPKernelStructure.GECP.CompletePivot
 import GECPKernelStructure.GECP.LocalMinorWitness
 import GECPKernelStructure.Fermionic.LocalPanelRate
 import GECPKernelStructure.Fermionic.RealCutoffRate

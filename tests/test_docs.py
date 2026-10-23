@@ -12,6 +12,7 @@ PROJECT_DOCS = (
     "RESEARCH.md",
     "SPEC.md",
     "COMPLETION_AUDIT.md",
+    "FINAL_AUDIT.md",
 )
 
 
@@ -42,6 +43,7 @@ def test_documentation_links_exist() -> None:
         "RESEARCH.md",
         "SPEC.md",
         "COMPLETION_AUDIT.md",
+        "FINAL_AUDIT.md",
     ):
         assert (ROOT / name).is_file(), name
 
@@ -82,6 +84,14 @@ def test_research_blockers_are_consistent() -> None:
     assert "run_synthetic_application_suite" in research
     assert (ROOT / "experiments/data/synthetic_applications.json").is_file()
     assert (ROOT / "experiments/data/synthetic_applications.png").is_file()
+
+
+def test_independent_audit_covers_original_sections_not_only_inventory_labels() -> None:
+    text = (ROOT / "FINAL_AUDIT.md").read_text(encoding="utf-8")
+    sections = re.findall(r"^\| (\d+) \|", text, re.MULTILINE)
+    groups = re.findall(r"^\| (R\d{2}) \|", text, re.MULTILINE)
+    assert len(sections) == 30 and set(map(int, sections)) == set(range(1, 31))
+    assert len(groups) == 40 and set(groups) == {f"R{i:02d}" for i in range(1, 41)}
 
 
 def test_implementation_run_metadata_is_complete_and_linked() -> None:

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import struct
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -11,6 +12,48 @@ from kernelgecp.applications import synthetic_spectral_density
 
 ROOT = Path(__file__).parents[1]
 DATA = ROOT / "experiments/data"
+GENERATION_REVISION = "072ce1004de11422f05ef1fbe3e738093d6f2f13"
+# Immutable generation manifest, not a requirement that all future source stays
+# identical to DN. Shallow CI/archive checkouts may lack the historical blobs.
+GENERATION_SOURCES = {
+    "experiments/spectral_comparison.py": (
+        "64549c6ca229f7192ba720a0b873ee7a2f7acec670d8e53b45a162c166b2dd36"
+    ),
+    "kernelgecp/comparison.py": (
+        "47b5c43795ec987080200d311b7168de4df20d6b16f31c213c97c9456094fbb1"
+    ),
+    "kernelgecp/gecp.py": (
+        "ea7b15a45c8f0f74eb85f1bc0cdcc043b282428810008e86e1eac3c9981a69a5"
+    ),
+    "kernelgecp/prony.py": (
+        "70df18eecc1ad9fcceb721e6432d801b8c65abd9d2d0cc1c1d09fb42c88169c1"
+    ),
+    "kernelgecp/rational.py": (
+        "bf1d00b00ad9dbbc241649ac1a0c13c1d89453efa27f5811fb49cc3d60a222f2"
+    ),
+    "kernelgecp/sparse.py": (
+        "3cb62cb4612eba112f53949d1c9b2708bff731e023e8956203fbae9f091c41b5"
+    ),
+    "kernelgecp/spectral_common.py": (
+        "ead7c4ddcc3ebe73fe60de5ba2f299040b97a6186c3d33b0be9027816ffbc8fb"
+    ),
+    "kernelgecp/vector_fitting.py": (
+        "e6ed5fec88e85a311ed2fc3649f7fe8dd5b5f5f87174dbdd6d5365d46079b4cf"
+    ),
+}
+
+
+def _generation_blob(path: str) -> bytes | None:
+    try:
+        result = subprocess.run(
+            ["git", "show", f"{GENERATION_REVISION}:{path}"],
+            cwd=ROOT,
+            capture_output=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return None
+    return result.stdout if result.returncode == 0 else None
 
 
 def _load() -> dict:
@@ -38,7 +81,7 @@ def _truth(fixture: dict, t: np.ndarray, config: dict) -> np.ndarray:
 def test_committed_comparison_complete_coverage_and_provenance() -> None:
     d = _load()
     assert d["schema_version"] == 1 and not d["git_dirty"]
-    assert d["git_commit"] == "072ce1004de11422f05ef1fbe3e738093d6f2f13"
+    assert d["git_commit"] == GENERATION_REVISION
     assert (
         d["config_hash"]
         == "665e158dd17b5722ecd1e34b2d549cbe0dcd413613dd7f5d9c33a3af54cdeeb7"
@@ -47,8 +90,11 @@ def test_committed_comparison_complete_coverage_and_provenance() -> None:
     assert d["validation_count_actual"] == 1024
     assert [r["rank"] for r in d["universal_ranks"]] == [11, 12]
     assert all(r["converged"] for r in d["universal_ranks"])
-    for path, digest in d["algorithm_source_sha256"].items():
-        assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
+    assert d["algorithm_source_sha256"] == GENERATION_SOURCES
+    for path, digest in GENERATION_SOURCES.items():
+        blob = _generation_blob(path)
+        if blob is not None:
+            assert hashlib.sha256(blob).hexdigest() == digest
     assert (
         hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest() == d["lock_sha256"]
     )

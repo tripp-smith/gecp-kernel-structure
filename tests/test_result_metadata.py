@@ -418,12 +418,13 @@ def test_gecp_metadata_view_distinguishes_grid_from_continuous_evidence() -> Non
     )
     assert adaptive.converged
     assert adaptive.metadata.algorithm == "gecp_interval_adaptive"
-    assert adaptive.metadata.tie_status == "not_estimated"
+    assert adaptive.metadata.tie_status == "not_applicable"
     assert adaptive.metadata.tie_counts == []
     assert adaptive.metadata.convergence_scope == "continuous_interval_bound"
     assert adaptive.metadata.certification_status == "certified"
     assert (
-        adaptive.metadata.certification_scope == "outward_interval_residual_upper_bound"
+        adaptive.metadata.certification_scope
+        == "outward_interval_frozen_rounded_residual_model_only"
     )
 
 
@@ -459,7 +460,7 @@ def test_uncertified_adaptive_metadata_does_not_promote_budget_exhaustion() -> N
     assert not result.converged
     assert result.stop_reason == "uncertified_pivot"
     assert result.metadata.certification_status == "not_certified"
-    assert result.metadata.tie_status == "not_estimated"
+    assert result.metadata.tie_status == "not_applicable"
     assert result.metadata.conditioning_status == "not_applicable"
     result.metadata.canonical_json()
 

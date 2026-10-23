@@ -915,6 +915,17 @@ identities receive independent numerical checks, not new formal status.
 Existing public exports and the 876-declaration axiom audit are unchanged.
 No local Lean abstraction or credible new mathlib candidate is introduced.
 
+## DO: generic completeness import boundary
+
+`GECP.CompletePivotOn` and `GECP.Run.CompleteOn` belong in the low-level
+`GECP/CompletePivot.lean` module. The fermionic wrapper reexports them for
+compatibility; the SPD baseline now depends directly on generic GECP rather
+than importing exponential total positivity. Their definitions and all theorem
+statements are unchanged. This is a layering repair, not a new abstraction or
+upstream candidate. The final source/assumption audit finds no missing mathlib
+result needed by the delivered rate or strict-SPD baseline; numerical
+certificate repairs and residual-adaptive experiment work add no formal claim.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

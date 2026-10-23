@@ -11,7 +11,7 @@ import numpy as np
 import pytest
 
 from kernelgecp.census import _pivot_geometry, _records_from_result
-from kernelgecp.types import GECPConfig, GECPResult, HighPrecisionData
+from kernelgecp.types import GECPConfig, GECPResult, HighPrecisionData, PivotCertificate
 
 
 def _fraction(value: str) -> Fraction:
@@ -238,6 +238,43 @@ def test_uncertified_adaptive_terminal_bound_does_not_imply_convergence() -> Non
     assert metadata["converged"] is False
     assert metadata["certification_status"] == "not_certified"
     assert metadata["stop_reason"] == "uncertified_pivot"
+
+
+def test_adaptive_prefix_preserves_observed_ties_and_residual_model_scope() -> None:
+    result = _manual_result(adaptive=True)
+    result.pivot_certificates = [
+        PivotCertificate(
+            t=t,
+            omega=omega,
+            value=value,
+            lower_bound=abs(value),
+            upper_bound=abs(value),
+            eta=1,
+            cells_evaluated=2,
+            certified=True,
+            termination_reason="interval_gap_tolerance",
+            near_tie_count=ties,
+            tie_rtol=1e-8,
+        )
+        for t, omega, value, ties in [(0, 8, 1, 2), (0.75, -4, -0.25, 1)]
+    ]
+    record = _records_from_result(
+        _raw([0.3], max_rank=2, pivot="adaptive"),
+        8.0,
+        "revision",
+        "configuration-hash",
+        result,
+        {"git_dirty": False, "environment": {}},
+    )[0]
+    assert record.rank == 1 and record.converged
+    assert record.tie_counts == [2]
+    assert record.metadata is not None
+    assert record.metadata.tie_counts == [2]
+    assert record.metadata.tie_status == "recorded_sampled_candidates"
+    configuration = record.metadata.configuration
+    assert configuration["tie_scope"] == "distinct_sampled_coordinates_only"
+    assert not configuration["exact_selected_cross_certified"]
+    assert not configuration["float64_evaluate_residual_certified"]
 
 
 @pytest.mark.parametrize(
