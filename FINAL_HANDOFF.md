@@ -18,16 +18,18 @@ rank, arbitrary-domain strict-SPD GECP/Cholesky equivalence and original-kernel
 `log(2+Λ)` rate is separate; the literal all-positive `log(1+Λ)` version is
 refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
 
-**Full original-SPEC completion is not claimed.** The independent
-[DO audit](FINAL_AUDIT.md) reopens R25: fixed order-24 data at seven cutoffs and
-three order-32 reruns do not deliver the required residual-adaptive increasingly
-dense grids. DO repairs certificate lower bounds, sampled adaptive tie metadata,
-large-finite float64 failure handling and centered-expression coverage. Final
-`f0d082d` passes the 569-test root, exact-head push/PR CI and installed-wheel
-checks with SciPy 1.18 and minimum 1.15.0; PR #121 is merged. Exact pushed-main
-closure gates repeat before handoff. The next required phase is the
-genuine seven-cutoff adaptive experiment, followed by closure. The previous
-40/40 working-ledger count was not sufficient evidence.
+**Full original-SPEC completion is not claimed.** DP now supplies the genuine
+seven-cutoff residual-adaptive experiment identified as missing by the
+[DO audit](FINAL_AUDIT.md). Both clean-source executions converge in all seven
+cases and 28 tolerance prefixes through `1e-12` and repeat bytes; the normalized
+PNG is inspected and byte-repeated. Independent MP192 checking passes all 21
+selected-core and 28 final-cross checks. DP's 713-test root and clean package/
+installed-wheel checks pass; exact-head CI/merge gates remain in progress in
+draft PR #122. DO's certificate/numerical repairs
+are merged in PR #121. A subsequent fresh original-SPEC closure audit and
+pushed-main verification remain required: the earlier 40/40 label count did
+not establish full completion. The current effort estimate is about 98%, not
+a theorem-success probability or exact workload fraction.
 
 ## Historical implementation and research chronology
 
@@ -620,6 +622,59 @@ claim without independently verifying it or asserting priority here. The
 [v3](https://arxiv.org/abs/2509.13582v3) adds Christopher Wang to Jeong and
 Townsend. The staged fill theorem does not claim all published asymptotic rates.
 
+## DP residual-adaptive census
+
+DP delivers `kernelgecp/adaptive_grids.py`, `adaptive_grid.py`, the schema-3
+explicit-axis runner, independent checker and stage-aware normalized plot.
+Residual/surplus scores drive selective mirrored panel refinement; every old
+coordinate is retained. Two consecutive jointly passing strict stages are
+required. Requested prefixes advance beyond the first training-passing rank
+when probes demand it. Six seventh-fraction samples per final leaf are used
+only after all refinement and rank choices; all 28 final checks pass.
+
+The two fresh clean-source executions at generation revision
+`3cee4186fddf990abdd33dbe24c46ff908b1923f` yield identical
+`experiments/data/adaptive_census.json`, SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`.
+At cutoffs `1,10,100,1000,10000,100000,1000000`, actual stage counts are
+`3,2,3,4,4,5,6`, final axes are respectively `25×25,41×57,109×89,122×121,
+170×169,238×217,258×257`, and `1e-12` jointly chosen ranks are
+`9,17,36,64,97,124,151`. Strict untouched sampled maxima range from
+`9.792e-14` to `6.418e-13`. Complete per-tolerance histories, geometry, initial
+and final axes and decisions remain machine-readable. These ranks are not
+global minima, and nonmonotone stage behavior is preserved.
+
+The inspected/repeated `adaptive_census.png` has SHA-256
+`dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`.
+It plots all seven normalized trajectories, untouched validation markers,
+training/joint ranks and stage growth. One zero is explicitly omitted from log
+axes without a positive display floor. The independent MP192 post-run report
+passes all 21 selected-core and 28 final-cross checks and binds the input and
+historical source blobs. Every recomputed final sampled maximum meets its
+tolerance. Report SHA-256 is
+`4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
+The full root passes 713 tests in 151.22 seconds, 3,634 Lean jobs, 876 allowed
+axiom reports, 95 formatted files, mypy on 21 sources and the clean dependency
+audit. Source/wheel archives are inspected; all 21 wheel Python files and
+package README match. Source includes the canonical artifacts/tests and excludes
+owner note copies, caches and scratch. Outside-checkout installed-wheel smokes
+pass with Python 3.12.12/mpmath 1.4.1 on pinned NumPy 2.5.2/SciPy 1.18.0 and
+minimum NumPy 2.4.6/SciPy 1.15.0. Both load all 45 exports, exercise adaptive
+success and budget failure, and complete 48 six-method fits. Exact-head CI,
+merge and pushed-main closure remain pending. Archives are rebuilt after final
+documentation synchronization rather than assuming an earlier package matches.
+
+Generation uses frozen nine-stage / `0.01` margin controls, not the public
+five-stage / `0.25` defaults. Actual environment is Python 3.12.12, NumPy 2.5.2,
+SciPy 1.18.0, mpmath 1.4.1 (Python backend), with recorded config/lock/source
+hashes. After both immutable runs, the release runner's post-work untracked
+experiment-code check is repaired and dirty noncanonical provenance propagates
+to every record. Actual generation had no such source change. Preserve its
+real `3cee4186` manifest rather than relabeling it with this later hygiene fix.
+No numerical core or frozen controls change. All errors are finite sampled
+evidence, not continuous, interval, exact-run or separately certified-cross
+bounds. Full original-SPEC closure follows this phase.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -726,6 +781,17 @@ serving version, reasoning effort, token splits and account billing are not.
 No new cost estimate is inferred. The verified phase is merged; the full goal
 stays active because the adaptive experiment and its closure audit are absent.
 
+DP's runtime snapshot on 2026-10-23 at 20:00:53 UTC reports `active`,
+23,678,436 cumulative aggregate goal tokens and 109,728 goal-accounting seconds.
+These are not DP-only counters, token-category splits or billing. Exposed
+declaration remains GPT-5-based Codex, Default mode, unrestricted local
+filesystem/network and approval policy `never`; exact serving version and
+reasoning effort remain unavailable. One primary agent and three temporary
+workers contribute numerical/controller, geometry/test and independent-checker
+work and reviews. No exact serving identities or new API-equivalent price are
+inferred. Both full sampled runs pass and repeat bytes; the goal remains active
+pending shipping and whole-scope closure; independent checking subsequently passes.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -772,6 +838,7 @@ stays active because the adaptive experiment and its closure audit are absent.
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
+| DP — residual-adaptive seven-cutoff census | in progress | draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments pass; exact-head CI/merge pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -829,8 +896,8 @@ stays active because the adaptive experiment and its closure audit are absent.
 ## Deferred research
 
 No v1 implementation task is blocked. DN verifies R31's six-method comparison;
-DO's independent original-SPEC audit reopens the required seven-cutoff
-residual-adaptive experiment. It and a subsequent closure audit remain required.
+DP supplies the seven-cutoff residual-adaptive experiment reopened by DO.
+DP shipping and a subsequent fresh original-SPEC closure audit remain required.
 DG/DH have since closed the exact complete-pivot rate by a different route.
 The historical v1 follow-ups below are optional alternative proofs or extensions:
 
@@ -927,6 +994,12 @@ weights, and deterministic sensor-point generation. The application runner
 combines existing public algorithms; it does not bypass their convergence,
 conditioning, or stop metadata.
 
+The research submodule `kernelgecp.adaptive_grid` additionally provides
+`AdaptiveGridConfig` and `run_adaptive_grid` without changing the established
+45-name top-level export surface. Its explicit nested axes, stage decisions,
+prefix diagnostics and untouched validation are documented in APPLICATION.
+The controller is separate from interval-certified adaptive pivoting.
+
 Normal non-convergence is represented by `converged` and `stop_reason`.
 Certified-pivot budget exhaustion is never reported as certification, and
 high-precision runs retain canonical decimal strings.
@@ -979,8 +1052,9 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is the seven-cutoff residual-adaptive experiment and
-subsequent full-scope closure after DO's repairs and shipping gates. Phase-specific proof-route
+Current required work is DP's shipping and subsequent
+fresh full-scope closure. Its seven-cutoff residual-adaptive data now pass all
+28 sampled tolerance cases; that is not a continuous certificate. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
 on completing those abandoned routes.
@@ -1086,6 +1160,8 @@ ignored.
 - Lean library: `GECPKernelStructure`.
 - Python package: `kernelgecp` v1.0.0.
 - Canonical data and plot under `experiments/data/`.
+- DP explicit-axis adaptive JSON, independent checker report and normalized/
+  stage PNG under `experiments/data/`; independent report passes.
 - Synthetic application configuration, canonical JSON, and reviewed summary
   plot under `experiments/` and `experiments/data/`.
 - Release artifacts: `dist/kernelgecp-1.0.0-py3-none-any.whl` and
@@ -1119,22 +1195,24 @@ only after the root command passes.
 ## Recommended next research step
 
 The independent `FINAL_AUDIT.md` supersedes the earlier forty-supported-label
-assumption in `COMPLETION_AUDIT.md` and reopens R25.
+assumption in `COMPLETION_AUDIT.md`; DP addresses the R25 gap it identified.
 DJ/DK prove original-kernel Lipschitz fill control, arbitrary-domain PSD
 geometry and strict-SPD complete-pivot diagonal necessity through fresh
 residual prefixes. DL completes result metadata; DM completes the census
 fixed-grid depth/diagnostics/normalized curves and representative resolution checks,
 not the required residual-adaptive grids.
 DN verifies R31's six-method comparisons with shared observations and retained
-failures. DO verifies correctness repairs and merges PR #121. Next implement the
-genuine all-seven-cutoff residual-driven nested-grid experiment through `1e-12`,
-repeat its outputs, inspect geometry/normalized curves and independently check
-cores and held-out errors. Then repeat full-scope audit and exact pushed-main
-closure before claiming the full goal complete. Approximate-pivot rate extensions remain
+failures. DO verifies correctness repairs and merges PR #121. DP's genuine
+all-seven-cutoff residual-driven nested-grid experiment through `1e-12` passes
+all sampled cases; data and reviewed plots repeat bytes. Next finish its
+committed-head/CI/merge gates; the independent checker, root and package checks
+pass. Then repeat the original
+full-scope audit and exact pushed-main closure before claiming the full goal
+complete. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. The revised post-repair inventory is 39/40 (97.5% checklist
-coverage), with an approximate 97% overall effort estimate; neither is a
-theorem-success probability or proof that the final experiment will pass.
+theorems. DP's working inventory mapping is not the final scope decision;
+the approximate 98% overall effort estimate is neither a theorem-success
+probability nor a substitute for remaining independent and release gates.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

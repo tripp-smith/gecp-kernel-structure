@@ -202,20 +202,8 @@ def _run_case(
     }
 
 
-def run(config_path: Path, output_path: Path, *, root: Path = ROOT) -> None:
-    """Atomically write deterministic JSON, retaining unsuccessful cases.
-
-    Canonical generation uses a fresh CLI process from this checkout. Disk
-    guards cannot attest previously imported code in a long-lived process.
-    """
-    raw, config = load_config(config_path)
-    if raw.get("require_clean_revision", True) and root.resolve() != ROOT.resolve():
-        raise ValueError("canonical source checkout must match the executing runner")
-    revision, provenance = _git_revision(root), _provenance(root)
-    source_hashes = {
-        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in SOURCES
-    }
-    lock_hash = hashlib.sha256((root / "uv.lock").read_bytes()).hexdigest()
+def _untracked_runtime_code(root: Path) -> bool:
+    """Include experiment bootstrap code in both source transaction guards."""
     untracked = subprocess.check_output(
         [
             "git",
@@ -230,7 +218,7 @@ def run(config_path: Path, output_path: Path, *, root: Path = ROOT) -> None:
         cwd=root,
         text=True,
     ).split("\0")
-    unknown_code = any(
+    return any(
         path
         and (
             path.startswith("kernelgecp/")
@@ -238,7 +226,25 @@ def run(config_path: Path, output_path: Path, *, root: Path = ROOT) -> None:
         )
         for path in untracked
     )
-    provenance["git_dirty"] = bool(provenance["git_dirty"] or unknown_code)
+
+
+def run(config_path: Path, output_path: Path, *, root: Path = ROOT) -> None:
+    """Atomically write deterministic JSON, retaining unsuccessful cases.
+
+    Canonical generation uses a fresh CLI process from this checkout. Disk
+    guards cannot attest previously imported code in a long-lived process.
+    """
+    raw, config = load_config(config_path)
+    if raw.get("require_clean_revision", True) and root.resolve() != ROOT.resolve():
+        raise ValueError("canonical source checkout must match the executing runner")
+    revision, provenance = _git_revision(root), _provenance(root)
+    source_hashes = {
+        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in SOURCES
+    }
+    lock_hash = hashlib.sha256((root / "uv.lock").read_bytes()).hexdigest()
+    provenance["git_dirty"] = bool(
+        provenance["git_dirty"] or _untracked_runtime_code(root)
+    )
     if raw.get("require_clean_revision", True) and provenance["git_dirty"]:
         raise ValueError("canonical adaptive census requires clean tracked source")
     config_hash = _config_hash(raw)
@@ -268,10 +274,15 @@ def run(config_path: Path, output_path: Path, *, root: Path = ROOT) -> None:
             "source, revision, lock or environment changed during census"
         )
     provenance["git_dirty"] = bool(
-        provenance["git_dirty"] or final_provenance["git_dirty"]
+        provenance["git_dirty"]
+        or final_provenance["git_dirty"]
+        or _untracked_runtime_code(root)
     )
     if raw.get("require_clean_revision", True) and provenance["git_dirty"]:
         raise ValueError("canonical source became dirty during census")
+    for case in cases:
+        for record in case["records"]:
+            record["git_dirty"] = provenance["git_dirty"]
     payload = {
         "schema_version": 3,
         "kind": "residual_adaptive_sampled_grid",

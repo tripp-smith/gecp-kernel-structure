@@ -6,10 +6,10 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DP — residual-adaptive seven-cutoff census<br>
 > **Phase state:** in progress; DO complete; full goal remains active<br>
-> **Last verification:** DP development-tree root check passes 693 tests (153.00 seconds), 3,634 Lean jobs, 876 axiom reports, 93 formatted files, mypy on 21 sources and a clean dependency audit. Calibration, canonical artifact repeats and final committed-head shipping gates remain in progress. DO's merged closure remains historical evidence<br>
+> **Last verification:** DP root passes 713 tests (151.22 seconds), 3,634 Lean jobs, 876 allowed axiom reports, 95 formatted files, mypy on 21 sources and a clean dependency audit. Independent MP192 checks, JSON/PNG repeats, inspected archives and outside-checkout wheel smokes (including SciPy 1.15.0) pass. Final exact-head CI/merge gates remain pending<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DO merged in [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) on 2026-10-23 as `b041c723add1b9a7a0395cfffbdf4b793c0cfed9`; closure metadata pushed to `main`<br>
-> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. The [independent original-SPEC audit](FINAL_AUDIT.md) reopens R25: fixed-grid census/resolution runs do not meet the required seven-cutoff residual-adaptive experiment. DO also repairs numerical certificate/failure paths. Full completion is not claimed; revised overall effort estimate is approximately 97%, subject to the remaining experiment and closure gates<br>
+> **Delivery:** DP is in draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); DO is merged in PR #121 and pushed to `main`<br>
+> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. DP supplies the genuine residual-adaptive experiment missing from DO's [original-SPEC audit](FINAL_AUDIT.md), at finite-sample scope only. Full completion is not claimed: DP shipping and the subsequent independent whole-scope closure remain. Approximately 98% complete by effort, not a theorem-success probability or exact workload fraction<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -141,7 +141,7 @@ is authoritative for the remaining goal.
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 | DN | Fair six-method spectral comparisons (R31) | complete | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
 | DO | Independent original-SPEC completion audit | complete | thirty-section audit; conservative certificates, sampled ties, scaled updates and failure coverage; generic completeness layering | 569-test root, 3,634 Lean jobs, 876 axiom reports; green push/PR CI; installed-wheel checks including SciPy 1.15.0; full goal NOT COMPLETE, R25 absent | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
-| DP | Residual-adaptive seven-cutoff census | in progress | explicit nested panels/axes, residual-driven refinement, independent final cross checks, repeated artifacts | 693-test development root; small pilots and 256-bit independent QA pass; larger calibration/canonical gates pending | branch `codex/phase-dp-adaptive-census` |
+| DP | Residual-adaptive seven-cutoff census | in progress | explicit nested panels/axes, residual-driven refinement, untouched final validation, repeated data/normalized PNG | 713-test root; 21 independent core/28 cross checks; clean source/wheel and two installed environments; exact-head CI/merge pending | draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -184,6 +184,7 @@ successful result.
 | [`kernelgecp/types.py`](kernelgecp/types.py) | Validated `GECPConfig` plus typed GECP, Cholesky, pivot-certificate, high-precision, sparse-fit, and census records | Makes convergence, stopping reason, precision, conditioning, ties, and certification part of the result rather than information hidden in logs |
 | [`kernelgecp/kernels.py`](kernelgecp/kernels.py) | Vectorized `FermionicKernel` with sign-dependent overflow-safe formulas, strict domain checks, reflection evaluation, and explicit-precision `mpmath` evaluation | Turns the formal reflection and centered identities into a stable evaluator that remains finite at frequencies as large as `±10⁶` |
 | [`kernelgecp/grids.py`](kernelgecp/grids.py) | Composite Chebyshev–Lobatto time grids resolving endpoint layers down to `1/Λ`, and dyadic frequency bands refined near zero and the cutoff | Samples the geometry that a uniform grid would miss as the cutoff grows while keeping the grid construction deterministic |
+| [`kernelgecp/adaptive_grids.py`](kernelgecp/adaptive_grids.py), [`adaptive_grid.py`](kernelgecp/adaptive_grid.py) | Nested physical panels, residual/surplus marking, mirrored selective refinement, MP selected-cross probes and untouched validation | Supplies genuine all-cutoff residual-adaptive sampled evidence while preserving explicit axes, budgets, failures and coordinate precision |
 | [`kernelgecp/gecp.py`](kernelgecp/gecp.py) | Float64 and arbitrary-precision finite-grid GECP, fermionic adaptive GECP, lexicographic near-tie handling, rank-one residual updates, determinant and smallest-singular-value histories, and solve-based cross evaluation | Provides the central experimental algorithm and independently checks interpolation, pivot-product, conditioning, residual, and stopping behavior without forming a numerical inverse |
 | [`kernelgecp/cholesky.py`](kernelgecp/cholesky.py) | Canonical diagonal-pivoted Cholesky with symmetry checks, PSD breakdown detection, deterministic ties, factor output, and residual history | Supplies the positive-definite control experiment corresponding to the formal GECP/pivoted-Cholesky equivalence |
 | [`kernelgecp/certified.py`](kernelgecp/certified.py) | Priority-queue branch-and-bound using either supplied Lipschitz constants or outward-rounded `mpmath` interval enclosures and optional interval gradients | Separates a sampled large residual from a certified approximate continuous pivot; exhausting `max_cells` returns an uncertified certificate |
@@ -296,8 +297,9 @@ for `Λ≥1` and an all-positive-cutoff variant with `log(2+Λ)`. The literal
 G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
-the [independent DO audit](FINAL_AUDIT.md) reopens the required seven-cutoff
-residual-adaptive experiment (R25). DH closes the
+DP delivers the seven-cutoff residual-adaptive experiment (R25) identified by
+the [independent DO audit](FINAL_AUDIT.md), with shipping and a fresh original-scope
+closure still required. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.
@@ -307,7 +309,7 @@ DJ/DK prove original-kernel Lipschitz fill-distance control, arbitrary-domain
 PSD geometry and strict-SPD complete-pivot reduction. DM supports fixed-grid
 `1e-12` census diagnostics and normalized curves, but not §14's adaptive grids.
 DN verifies AAA-derived, vector-fitting and Prony comparisons. DO's numerical
-correctness repairs do not fill the adaptive experimental gap. Earlier bounded
+correctness repairs and DP's genuine adaptive experiment have distinct scopes. Earlier bounded
 phase labels are not a substitute for the independently audited original scope.
 
 DL adds typed result metadata for GECP, Cholesky and sparse recovery, and
@@ -363,6 +365,42 @@ all 30 higher-precision core checks (21 primary and 9 resolution). Equal ranks
 do not imply grid independence, residual-adaptive refinement or continuous
 certification. The full branch root gate, push/PR CI and exact DM main
 closure gates pass.
+
+### Residual-adaptive seven-cutoff census (DP)
+
+The new [schema-3 data](experiments/data/adaptive_census.json) come from two
+fresh clean-source executions at `3cee4186fddf990abdd33dbe24c46ff908b1923f`,
+with identical bytes (SHA-256
+`730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`).
+Residual/surplus-driven selective refinement retains every previous coordinate;
+two consecutive strictest-tolerance stages must pass. Independent seventh-grid
+validation is used only after all grid/rank choices. All 28 prefixes pass.
+
+| Cutoff | Actual stages | Initial → final axes | Chosen rank at `1e-12` | Untouched sampled error |
+| --- | --- | --- | --- | --- |
+| 1 | 3 | 9×9 → 25×25 | 9 | `3.488e-13` |
+| 10 | 2 | 33×41 → 41×57 | 17 | `4.528e-13` |
+| 100 | 3 | 57×65 → 109×89 | 36 | `6.418e-13` |
+| 1,000 | 4 | 81×89 → 122×121 | 64 | `3.659e-13` |
+| 10,000 | 4 | 113×121 → 170×169 | 97 | `9.792e-14` |
+| 100,000 | 5 | 137×145 → 238×217 | 124 | `2.932e-13` |
+| 1,000,000 | 6 | 161×169 → 258×257 | 151 | `2.175e-13` |
+
+These are empirical jointly passing tested-prefix ranks, not global minima.
+Elimination uses MP128 and point checks MP192; coordinates remain 53-bit
+repr-decimal values. The frozen experiment uses nine stages and margin `0.01`,
+distinct from the public controller defaults of five and `0.25`.
+The [normalized plot](experiments/data/adaptive_census.png) is rendered,
+inspected and byte-repeated; it preserves stage nonmonotonicity and explicitly
+omits one zero from log axes, with no positive display floor. The independent
+checker [report](experiments/data/adaptive_census_checks.json) passes all 21
+selected-core and 28 final-cross checks, SHA-256
+`4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
+The 713-test root and inspected source/wheel plus both pinned/minimum-SciPy
+installed environments pass. Exact-head CI/merge gates remain pending. No continuum bound,
+ideal exact-run certificate or approximate-pivot rate is inferred.
+
+![Residual-adaptive sampled curves and stage growth, not continuous certificates](experiments/data/adaptive_census.png)
 
 ## Delivered evidence
 

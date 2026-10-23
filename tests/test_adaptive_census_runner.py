@@ -103,7 +103,9 @@ def test_untracked_generated_evidence_does_not_dirty_source(
         "check_output",
         lambda *a, **k: "experiments/data/adaptive_census.json\0",
     )
-    monkeypatch.setattr(runner, "_run_case", lambda *a: {"pilot": "unused"})
+    monkeypatch.setattr(
+        runner, "_run_case", lambda *a: {"pilot": "unused", "records": []}
+    )
     output = tmp_path / "repeat.json"
     runner.run(config, output)
     assert json.loads(output.read_text())["git_dirty"] is False

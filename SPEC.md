@@ -2769,3 +2769,21 @@ This annotation records delivered identifiers without changing the goals above.
   forty supported labels are not accepted as a completion proof. No ideal-
   exact-run or separately reconstructed-cross certificate, arbitrary-η rate,
   sparse optimality or literature priority is inferred from numerical evidence.
+
+- **Phase DP status (2026-10-23, in progress; draft PR #122):** implements
+  `kernelgecp.adaptive_grids` and `adaptive_grid.run_adaptive_grid`, explicit
+  nested physical axes and residual/surplus-driven selective refinement for
+  all seven §14 cutoffs and four tolerances through `1e-12`. Both clean-source
+  executions at `3cee4186fddf990abdd33dbe24c46ff908b1923f` converge in all seven
+  cases/28 prefixes and repeat `experiments/data/adaptive_census.json` bytes.
+  Actual stage counts are `3,2,3,4,4,5,6`; strict chosen ranks are
+  `9,17,36,64,97,124,151`. Untouched seventh-fraction samples are evaluated
+  only after grid/rank decisions. The normalized/stage PNG is reviewed and
+  byte-repeated; independent `experiments.check_adaptive_census` MP192 checks
+  pass all 21 selected cores and 28 final crosses. The full root and package
+  gates pass locally: 713 tests, 3,634 Lean jobs, 876 allowed axiom reports and
+  inspected archives/installed-wheel smokes with pinned/minimum SciPy. Final
+  exact-head CI and merge/pushed-main gates remain pending. Elimination is MP128,
+  coordinates retain 53-bit repr-decimal semantics, and every maximum is
+  finite-sample evidence, not a continuous certificate. Original mathematical
+  goals are unchanged. Final whole-scope closure follows this numerical phase.
