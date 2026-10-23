@@ -250,7 +250,8 @@ class GECPResult:
                 "sampled_lower_bound_gap<=tie_rtol*max(1,best_lower_bound); "
                 "continuous_tie_multiplicity_not_estimated"
                 if adaptive
-                else "tie_rtol*max(1,max); default 32*float64_eps or 2^(5-mp_bits)"
+                else "nonzero_unselected_coordinates; gap<=tie_rtol*max(1,max); "
+                "default 32*float64_eps or 2^(5-mp_bits)"
             ),
             tie_counts=list(self.tie_counts),
             certification_status=(

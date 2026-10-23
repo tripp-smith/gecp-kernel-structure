@@ -395,7 +395,12 @@ def _gecp_mpmath_matrix(
             chosen = False
             for i, residual_row in enumerate(residual):
                 for j, value in enumerate(residual_row):
-                    if abs(abs(value) - maximum) <= threshold:
+                    if (
+                        i not in rows
+                        and j not in columns
+                        and value != 0
+                        and abs(abs(value) - maximum) <= threshold
+                    ):
                         near_ties += 1
                         if not chosen:
                             pivot_row = i
@@ -418,6 +423,10 @@ def _gecp_mpmath_matrix(
                     residual[i][j] -= (
                         pivot_column_values[i] * pivot_row_values[j] / pivot
                     )
+            for j in range(column_count):
+                residual[pivot_row][j] = mp.mpf(0)
+            for i in range(row_count):
+                residual[i][pivot_column] = mp.mpf(0)
 
             core = mp.matrix([[original[i][j] for j in columns] for i in rows])
             det_history_mp.append(+mp.det(core))

@@ -16,6 +16,8 @@ from kernelgecp import (
     interval_certified_pivot,
 )
 from kernelgecp.certified import _make_interval_cell
+from kernelgecp.gecp import _FermionicResidualEvaluator
+from kernelgecp.research import certify_fermionic_block_contraction
 
 
 def test_cancellation_point_estimate_never_becomes_a_certified_lower_bound() -> None:
@@ -160,6 +162,33 @@ def test_adaptive_result_records_actual_ties_and_rounded_model_scope() -> None:
     metadata.canonical_json()
 
 
+def test_block_diagnostic_uses_the_same_binary_coordinates_as_its_certificates(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: list[tuple[mp.mpf, mp.mpf]] = []
+    original = _FermionicResidualEvaluator.add_pivot
+
+    def record(
+        evaluator: _FermionicResidualEvaluator,
+        t: mp.mpf,
+        omega: mp.mpf,
+        pivot: mp.mpf,
+    ) -> None:
+        captured.append((t, omega))
+        original(evaluator, t, omega, pivot)
+
+    monkeypatch.setattr(_FermionicResidualEvaluator, "add_pivot", record)
+    evidence = certify_fermionic_block_contraction(
+        1.3, 1, precision_bits=96, abs_tol=1e-2, max_cells=2000
+    )
+    assert evidence.completed_steps == 1
+    assert captured[0] == (mp.mpf(0), mp.mpf(1.3))
+    assert all(
+        c.objective_scope == "frozen_rounded_fermionic_residual_model"
+        for c in evidence.pivot_certificates
+    )
+
+
 def test_representable_large_rank_one_update_avoids_outer_product_overflow() -> None:
     matrix = np.full((2, 2), 1e308)
     with np.errstate(over="raise", invalid="raise"):
@@ -206,11 +235,18 @@ def test_mixed_scales_do_not_underflow_a_representable_schur_term(
     assert np.prod(result.pivots) == pytest.approx(determinant, rel=2e-15)
 
 
-def test_near_tie_tolerance_never_reselects_an_annihilated_coordinate() -> None:
+@pytest.mark.parametrize("precision_bits", [53, 128])
+def test_near_tie_tolerance_never_reselects_an_annihilated_coordinate(
+    precision_bits: int,
+) -> None:
     result = gecp_matrix(
         [[1.0, 0.0], [0.0, 1e-20]],
         config=GECPConfig(
-            precision_bits=53, pivot="grid", max_rank=2, tol=1e-25, tie_rtol=1e-8
+            precision_bits=precision_bits,
+            pivot="grid",
+            max_rank=2,
+            tol=1e-25,
+            tie_rtol=1e-8,
         ),
     )
     assert result.converged

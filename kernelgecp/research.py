@@ -1,4 +1,4 @@
-"""Claim-disciplined diagnostics for the open fermionic GECP rate problem."""
+"""Numerical diagnostics supplementing the exact fermionic GECP rate proof."""
 
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ class BlockContractionEvidence:
 
 @dataclass(frozen=True, slots=True)
 class CertifiedBlockContractionEvidence:
-    """Continuous interval evidence for one approximate-pivot trajectory."""
+    """Interval evidence for stored rounded residual models, not an ideal run."""
 
     cutoff: float
     requested_steps: int
@@ -139,10 +139,11 @@ def certify_fermionic_block_contraction(
     rel_tol: float = 1e-6,
     max_cells: int = 100_000,
 ) -> CertifiedBlockContractionEvidence:
-    """Certify a continuous residual block along interval-certified pivots.
+    """Bound frozen rounded residual models along interval-selected pivots.
 
-    The result concerns the returned approximate-pivot trajectory.  It does
-    not assert that every exact GECP tie choice follows the same trajectory.
+    Each bound concerns the model defined by stored rounded coefficients, not
+    an ideal exact GECP run or a separately reconstructed float64 cross. It
+    does not assert that every exact tie choice follows the same trajectory.
     Unlike the production GECP result builder, this focused diagnostic omits
     core SVD computations and certifies only the residual suprema needed by
     the contraction question.
@@ -174,6 +175,7 @@ def certify_fermionic_block_contraction(
                 rel_tol=rel_tol,
                 max_cells=max_cells,
                 gradient_interval_function=evaluator.interval_gradient,
+                objective_scope="frozen_rounded_fermionic_residual_model",
             )
             certificates.append(certificate)
             if step == 0:
@@ -187,8 +189,8 @@ def certify_fermionic_block_contraction(
                 final_upper = certificate.upper_bound
                 stop_reason = certificate.termination_reason
                 break
-            t = mp.mpf(repr(certificate.t))
-            omega = mp.mpf(repr(certificate.omega))
+            t = mp.mpf(certificate.t)
+            omega = mp.mpf(certificate.omega)
             pivot = evaluator.point(t, omega)
             if not mp.isfinite(pivot) or pivot == 0:
                 trajectory_certified = False

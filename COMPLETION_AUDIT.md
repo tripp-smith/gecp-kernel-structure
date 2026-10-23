@@ -45,8 +45,9 @@ proved, including its finite-run cross and Green consequences. That does not
 prove all of the original specification's other requirements.
 
 The working ledger has 40 concrete requirement groups: **39 supported and 1 incomplete**.
-R25 remains missing. DO's focused numerical repairs pass; the full phase's
-shipping gates are still under verification. The revised inventory is 97.5%
+R25 remains missing. DO's implementation head passes the 567-test root gate,
+push/PR CI and isolated package checks. Final-head repair/shipping repeats
+are still under verification. The revised inventory is 97.5%
 checklist coverage, not 100%. A rough overall effort
 estimate is **97%**, not a probability of theorem truth or an exact workload
 fraction. The principal theorem is proved, but the residual-adaptive experiment

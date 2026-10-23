@@ -9642,3 +9642,26 @@ duplicate row/column guard, with both-orientation regressions. It does not
 reject merely zero LAPACK determinant/singular-value estimates, which would
 incorrectly reject the nonsingular mixed-scale witness. These diagnostic
 limits are documented rather than turned into an exact rank claim.
+
+The companion `certify_fermionic_block_contraction` diagnostic used a second
+decimal-string coordinate conversion. It now uses the same exact binary-float
+coordinates as its singleton certificates and labels the frozen rounded model
+explicitly; a non-binary cutoff `1.3` callback-capture regression checks this
+data flow. No new mathematical rate is claimed.
+
+The same nonzero/fresh-coordinate tie eligibility and exact interpolation-zero
+preservation now apply to the arbitrary-precision grid path. A shared 53/128-bit
+regression with a near-tie tolerance larger than the remaining diagonal entry
+checks that an annihilated coordinate is not selected as a zero pivot. This
+does not turn high-precision elimination into exact arithmetic.
+
+At clean implementation head `e0941303f64299c2462b54685875e98ffbd0656b`, the
+full root gate passes 567 tests in 140.94 seconds, 3,634 Lean jobs, all 876 axiom
+reports, 83-file formatting, mypy on 19 sources and a clean dependency audit.
+Installed-wheel checks outside the checkout pass with Python 3.12.12,
+mpmath 1.4.1 and both pinned NumPy 2.5.2/SciPy 1.18 and minimum NumPy 2.4.6/
+SciPy 1.15.0. Each checks all 45 exports, cancellation/underflow, adaptive ties,
+large/mixed-scale updates, duplicate-core failure and 48 six-method fits.
+Source/wheel archives exclude local notes/caches, contain the audit/new module/
+tests and all nineteen wheel Python sources match the implementation. The
+companion diagnostic fix and final metadata receive another full-head gate.

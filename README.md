@@ -6,7 +6,7 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DO — independent final SPEC audit<br>
 > **Phase state:** in progress; DN complete<br>
-> **Last verification:** Final DN branch `eec016d0b4040941e9e41f825bc0a3ac5f62f8bf` passes `./scripts/verify.sh`: 513 tests (140.52 seconds), 3,633 Lean jobs, 876 axiom reports, 81 formatted files, mypy on 19 sources and a clean dependency audit. Exact-head push/PR CI and installed-wheel checks pass, including minimum SciPy 1.15. Exact pushed-main closure gates repeat before handoff<br>
+> **Last verification:** DO implementation `e094130` passes `./scripts/verify.sh`: 567 tests (140.94 seconds), 3,634 Lean jobs, 876 axiom reports, 83 formatted files, mypy on 19 sources and a clean dependency audit. Push/PR CI and clean-wheel checks pass with pinned SciPy 1.18 and minimum 1.15.0. The companion diagnostic coordinate fix and consistent MP tie eligibility receive another full-head gate before merge<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DO draft [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); final root/package/install/CI checks in progress<br>
 > **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. The [independent original-SPEC audit](FINAL_AUDIT.md) reopens R25: fixed-grid census/resolution runs do not meet the required seven-cutoff residual-adaptive experiment. DO also repairs numerical certificate/failure paths. Full completion is not claimed; revised overall effort estimate is approximately 97%, subject to the remaining experiment and closure gates<br>
