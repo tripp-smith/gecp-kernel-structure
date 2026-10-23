@@ -24,8 +24,8 @@ seven-cutoff residual-adaptive experiment identified as missing by the
 cases and 28 tolerance prefixes through `1e-12` and repeat bytes; the normalized
 PNG is inspected and byte-repeated. Independent MP192 checking passes all 21
 selected-core and 28 final-cross checks. DP's 713-test root and clean package/
-installed-wheel checks and exact artifact-head CI pass; final merge/main closure remains in progress in
-draft PR #122. DO's certificate/numerical repairs
+installed-wheel checks and final branch CI pass; PR #122 is merged and exact
+pushed-main closure repeats before handoff. DO's certificate/numerical repairs
 are merged in PR #121. A subsequent fresh original-SPEC closure audit and
 pushed-main verification remain required: the earlier 40/40 label count did
 not establish full completion. The updated effort estimate after DP
@@ -665,8 +665,12 @@ success and budget failure, and complete 48 six-method fits. The exact
 artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4` repeats the root with
 713 tests in 150.40 seconds and passes push CI `40017052450` and PR CI
 `40017056920`, all four checks. Both rebuilt installed environments pass again.
-DP is verified; final documentation-head, merge and pushed-main closure repeat
-the gates. Archives are rebuilt after final
+The final documentation head `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes
+the root again (713 tests, 150.98 seconds), push CI `40017937659` and PR CI
+`40017945103`; rebuilt archives and both installed smokes pass. PR #122 merges
+at 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`.
+The generation commit remains an ancestor of main. DP is verified and merged;
+exact pushed-main closure repeats the gates before handoff. Archives are rebuilt after final
 documentation synchronization rather than assuming an earlier package matches.
 
 Generation uses frozen nine-stage / `0.01` margin controls, not the public
@@ -797,6 +801,16 @@ work and reviews. No exact serving identities or new API-equivalent price are
 inferred. Both full sampled runs pass and repeat bytes; the goal remains active
 pending shipping and whole-scope closure; independent checking subsequently passes.
 
+The DP merge snapshot on 2026-10-23 at 20:20:53 UTC reports `active`,
+23,852,175 cumulative aggregate goal tokens and 110,928 goal-accounting seconds.
+These are not phase-only usage, token-category splits or billing. Declared
+root identity remains GPT-5-based Codex, Default mode, unrestricted local
+filesystem/network and approval policy `never`; exact serving version and
+reasoning effort are not exposed. The three temporary workers contribute
+controller/numerical QA, geometry/tests and independent checks/documentation.
+No new price or serving-version inference is made. DP is verified and merged;
+the original-SPEC goal remains active pending its fresh closure audit.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -843,7 +857,7 @@ pending shipping and whole-scope closure; independent checking subsequently pass
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
-| DP — residual-adaptive seven-cutoff census | verified; green artifact-head CI | draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments; final documentation/merge/main closure next |
+| DP — residual-adaptive seven-cutoff census | verified; green final-branch CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments; exact pushed-main closure repeats before handoff |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -902,7 +916,7 @@ pending shipping and whole-scope closure; independent checking subsequently pass
 
 No v1 implementation task is blocked. DN verifies R31's six-method comparison;
 DP supplies the seven-cutoff residual-adaptive experiment reopened by DO.
-DP shipping and a subsequent fresh original-SPEC closure audit remain required.
+DP is verified/merged; the subsequent fresh original-SPEC closure audit remains required.
 DG/DH have since closed the exact complete-pivot rate by a different route.
 The historical v1 follow-ups below are optional alternative proofs or extensions:
 
@@ -1057,8 +1071,8 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is DP's shipping and subsequent
-fresh full-scope closure. Its seven-cutoff residual-adaptive data now pass all
+Current required work is the fresh full-scope closure audit after verified,
+merged DP. Its seven-cutoff residual-adaptive data pass all
 28 sampled tolerance cases; that is not a continuous certificate. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
@@ -1209,11 +1223,10 @@ not the required residual-adaptive grids.
 DN verifies R31's six-method comparisons with shared observations and retained
 failures. DO verifies correctness repairs and merges PR #121. DP's genuine
 all-seven-cutoff residual-driven nested-grid experiment through `1e-12` passes
-all sampled cases; data and reviewed plots repeat bytes. Next finish its
-documentation-head/merge/main closure gates; the independent checker, root,
-artifact-head CI and package checks pass. Then repeat the original
-full-scope audit and exact pushed-main closure before claiming the full goal
-complete. Approximate-pivot rate extensions remain
+all sampled cases; data and reviewed plots repeat bytes. After DP's exact
+pushed-main closure, perform the fresh original-SPEC audit before claiming
+the full goal complete. The independent checker, root, final-branch CI and
+package checks pass. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
 theorems. DP's working inventory mapping is not the final scope decision;
 the approximate 99% overall effort estimate is neither a theorem-success

@@ -7,10 +7,13 @@ repeat bytes, and every case reports protocol convergence. The adaptive plot
 is rendered, inspected and byte-repeated. Independent MP192 checking passes all
 twenty-one representative selected-core checks and twenty-eight full final-cross
 checks, each within its requested sampled tolerance. This is a preliminary delivery mapping;
-DP is **verified** at artifact/code head
-`a6488cc0c91400bab3f327d93db153c390ef20f4`: the exact local root and push/PR
-CI pass. The full goal remains **not complete** until final metadata-head gates,
-merge/pushed-main closure and the subsequent original-scope audit are complete.
+DP is **verified and merged** in [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122)
+at 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`.
+Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
+root and push/PR CI; archives and installed-wheel checks repeat successfully.
+Pushed-main closure metadata/gates repeat before handoff and are not yet complete.
+The full goal remains **not complete** until that closure and the subsequent
+fresh original-scope audit are complete.
 
 Historical DO audit update (2026-10-22): the independent [FINAL_AUDIT.md](FINAL_AUDIT.md)
 reads all thirty original sections and checks actual sources/artifacts. It
@@ -62,11 +65,11 @@ the actual all-seven-cutoff adaptive artifact, rather than by the former
 fixed-grid substitutes. This count is not a completed original-scope audit,
 a percentage of overall effort, or permission to skip verification. Independent
 MP192 checking passes with full seven-case/twenty-eight-record coverage and
-recorded-revision source blobs checked. DP is verified at
-`a6488cc0c91400bab3f327d93db153c390ef20f4`: the exact local 713-test root,
-clean archive inspection, repeated outside-checkout installed-wheel checks and
-exact-head push/PR CI pass. Final metadata-head root/CI repeats, merge and
-pushed-main gates remain, followed by the final original-SPEC closure audit.
+recorded-revision source blobs checked. DP is verified and merged as PR #122.
+Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
+713-test root, clean archive inspection, repeated outside-checkout installed-wheel
+checks and exact-head push/PR CI. Pushed-main closure metadata/gates remain,
+followed by the fresh final original-SPEC closure audit.
 A rough overall effort estimate is **99%**; this is a planning estimate,
 not the forty-group count, a theorem-truth probability or a completion decision.
 DO's passing 569-test root, package checks and merged PR #121 remain historical
@@ -107,7 +110,7 @@ rewritten.
 | R22 | float64, arbitrary precision and exact surrogates (§15,24) | Supported | 53-bit matrix paths, `mpmath` bit settings and decimal-string `HighPrecisionData`, rational `Fraction` surrogates; sub-float64 pivot regression and independent precision checks. |
 | R23 | Cross evaluation by solves, not explicit numerical inversion (agent rules) | Supported | `gecp.py`, `applications.py`, exact/MP cross regressions use linear solves. Source scan finds no numerical inverse calls. Formal inverse notation in selected-core identities is algebraic, not a numerical implementation. |
 | R24 | Full result metadata: convergence, stopping, conditioning, precision, ties, certification (agent rules) | Supported | DL's typed precision/conditioning/optimizer/convergence metadata remain. DO replaces invented adaptive tie counts with observed sampled candidate counts and preserves rounded-residual scope through census serialization. Bounded-mantissa/exponent Schur updates avoid representable overflow and mixed-scale underflow, preserve selected interpolation zeros, and fail explicitly outside arithmetic range. No floating-point output is relabeled a proof. |
-| R25 | Seven-cutoff residual-adaptive increasingly dense census through at least `1e-12` (§14,26,30) | Supported | Preliminary DP mapping: `experiments/data/adaptive_census.json` contains seven actual nested residual-driven refinement trajectories and twenty-eight converged tolerance records from clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`. Both full generations repeat bytes. Stage counts are `3,2,3,4,4,5,6`; the largest final grid is `258×257`. Independent MP192 structure/provenance, twenty-one representative core and twenty-eight full final-cross checks pass. Final delivery and closure gates remain pending. Historical order-24/order-32 artifacts are preserved and are not substituted for these trajectories. |
+| R25 | Seven-cutoff residual-adaptive increasingly dense census through at least `1e-12` (§14,26,30) | Supported | Preliminary DP mapping: `experiments/data/adaptive_census.json` contains seven actual nested residual-driven refinement trajectories and twenty-eight converged tolerance records from clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`. Both full generations repeat bytes. Stage counts are `3,2,3,4,4,5,6`; the largest final grid is `258×257`. Independent MP192 structure/provenance, twenty-one representative core and twenty-eight full final-cross checks pass. DP is verified and merged in PR #122; pushed-main closure and the fresh original-scope audit remain pending. Historical order-24/order-32 artifacts are preserved. |
 | R26 | All specified census diagnostics (§14) | Supported | DP schema-3 records retain every chosen prefix's signed pivots/magnitudes, sampled residual history, original-core determinant and minimum singular-value histories, four physical boundary distances, dyadic scales and reflected/nearest selected partners. Explicit stage axes/panels/marks, first training and chosen jointly sampled ranks, MP128 elimination/MP192 point checks, 53-bit coordinate semantics, ties, conditioning, budgets and clean revision/config/source/lock/environment provenance are explicit. All twenty-one independent original-core checks and twenty-eight final-cross recomputations pass; DM's thirty passing core checks remain historical evidence only. |
 | R27 | Normalized `k/log(1+Λ)` residual-curve plot (§14) | Supported | DP `adaptive_census.png` is rendered, inspected and byte-repeated: seven actual final-grid training curves, twenty-eight untouched final-validation markers, rank comparisons, stage errors and node growth. One zero sample is omitted from logarithmic axes without a positive floor; no cases fail. Sampled scope and unsuccessful-prefix notation are explicit; no universal fitted law or continuous bound is inferred. The historical DM normalized plot is preserved. |
 | R28 | Deterministic machine-readable experiment dataset (§26) | Supported | DP canonical schema-3 JSON repeats bytes, SHA-256 `730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c`, and stores exact generation revision, configuration/source/lock hashes and environment versions. Passing independent report SHA-256 `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03` binds that input and the checker source and confirms full coverage plus revision blobs. Earlier 21-case, DM primary/resolution and DN artifacts keep their original provenance. |
@@ -117,12 +120,12 @@ rewritten.
 | R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 45 `__all__` exports load after DL's three metadata exports. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
 | R33 | Deterministic ties and visible failures (§24) | Supported | Lexicographic selection and candidate tie counts are qualified as sampled, not global multiplicities. DO tests certificate cancellation, exhausted budgets, large-finite and mixed-scale Schur updates, arithmetic-range failures and exclusion of already annihilated coordinates instead of a raw `IndexError` or duplicate-core false convergence. |
 | R34 | Enumerated numerical coverage (§25) | Supported | Existing reflection/interpolation/product/cross/PSD/Cholesky/precision/rank/exact tests remain. DO adds independent mpmath centered-expression comparisons at both signs, zero, boundaries and frequency magnitude 1000; comparing the centered alias with itself was not evidence. |
-| R35 | Trusted Lean/root/CI gate (§25, agent rules) | Supported | DP artifact/code head `a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root: 713 tests in 150.40 seconds, 3,634 Lean jobs, all 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and the clean dependency audit. Exact-head push CI `40017052450` and PR CI `40017056920` pass all four checks. Existing gates enforce the axiom allow-list/report coverage, reject placeholders/custom axioms and preserve failing exit status. Final metadata-head repeats and merge/main closure remain under R40. |
+| R35 | Trusted Lean/root/CI gate (§25, agent rules) | Supported | DP final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes the exact local root: 713 tests in 150.98 seconds, with the established Lean/axiom, formatting, mypy and dependency gates. Exact-head push CI `40017937659` and PR CI `40017945103` pass all four checks. The earlier artifact/code-head root and CI evidence remain recorded below. Existing gates enforce the axiom allow-list/report coverage and reject placeholders/custom axioms. Pushed-main closure remains under R40. |
 | R36 | Build/install handoff and local-note hygiene | Supported | DP's source/wheel archives are inspected clean, contain all three adaptive artifacts and new source/tests, and exclude notes/caches/scratch. All 21 wheel Python sources and the packaged APPLICATION/README match their source bytes. Outside-checkout installed-wheel smokes pass pinned Python 3.12.12/NumPy 2.5.2/SciPy 1.18/mpmath 1.4.1 and minimum NumPy 2.4.6/SciPy 1.15.0: each checks 45 exports, adaptive success/budget failure and 48 six-method fits. Historical packaging evidence and user notes are preserved; no package is published. |
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
-| R38 | Required documents and claim separation (§28,29) | Supported | FINAL_AUDIT preserves the thirty-section audit and records the DP adaptive delivery and passing independent checks, with final delivery and original-scope closure still pending. Current summaries distinguish numerical residual models from exact crosses and sampled maxima from continuous bounds. Older phase/proof-route claims remain historical; original SPEC mathematics is unchanged. |
+| R38 | Required documents and claim separation (§28,29) | Supported | FINAL_AUDIT preserves the thirty-section audit and records DP's adaptive delivery, passing independent checks and verified PR #122 merge, with pushed-main closure and the fresh original-scope audit pending. Current summaries distinguish numerical residual models from exact crosses and sampled maxima from continuous bounds. Older phase/proof-route claims remain historical; original SPEC mathematics is unchanged. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | DP is verified at `a6488cc0c91400bab3f327d93db153c390ef20f4`: exact local root, clean archives, repeated pinned/minimum installed wheels and exact-head push/PR CI `40017052450`/`40017056920` pass. Final metadata-head root/CI repeats, permitted merge and pushed-main closure remain required. DO's final `f0d082d`, CI and merged PR #121 remain historical evidence. Neither phase verification nor the preliminary forty-group mapping establishes whole-goal completion; the fresh original-scope audit follows DP delivery. |
+| R40 | Phase merge/push verification (active objective) | Supported | DP final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact root, clean rebuilt archives/installed wheels and push/PR CI `40017937659`/`40017945103`. PR #122 merged at 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`; local main fast-forwards to origin and generation revision `3cee4186` is confirmed an ancestor. Exact pushed-main closure metadata/gates repeat before handoff and remain pending. Historical artifact/code-head and DO gates are preserved; verified merge and the forty-group mapping do not establish whole-goal completion. |
 
 ## Original section and outcome coverage
 
@@ -141,7 +144,7 @@ rewritten.
 | 11 | R16/R17: intended large-cutoff rate proved, literal arbitrarily-small-cutoff reading refuted. |
 | 12 | A proposed approximation-to-greedy route. The successful local-minor/panel mechanism fulfills the structural objective; a separate general best-rank comparison is not claimed. |
 | 13 | Research questions, not six independently promised positive answers. Actual all-orders signs/gauge are proved; pivot-location hypotheses and counterexamples remain explicitly distinguished. |
-| 14 | DP supplies all seven actual residual-adaptive trajectories and twenty-eight converged sampled tolerance records with full diagnostics and the repeated normalized/stage plot. Independent MP192 structure/provenance, twenty-one core and twenty-eight final-cross checks pass. Final DP delivery and the original-scope closure audit remain pending. This is distinct from the bounded interval-adaptive API and is not continuous-supremum evidence. |
+| 14 | DP supplies all seven actual residual-adaptive trajectories and twenty-eight converged sampled tolerance records with full diagnostics and the repeated normalized/stage plot. Independent MP192 structure/provenance, twenty-one core and twenty-eight final-cross checks pass; PR #122 is verified and merged. Pushed-main closure and the fresh original-scope audit remain pending. This is distinct from the bounded interval-adaptive API and is not continuous-supremum evidence. |
 | 15 | R18/R22: exact small certificates and rational/high-precision evidence. |
 | 16 | R19/R21: cover theorem and adaptive certified maximizer with failure metadata. |
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
@@ -153,7 +156,7 @@ rewritten.
 | 23 | R32 plus the actual documented result spelling. |
 | 24 | R22/R24/R33: precision and ties are exposed; DL adds explicit actual/requested precision and full metadata outside GECP. Cholesky/sparse remain float64 only, honestly labeled. |
 | 25 | R34/R35: source gates and numerical tests, including tested failure paths. |
-| 26 | R25–R28 now include the byte-repeated schema-3 adaptive JSON, explicit axes, complete generation provenance and passing independent report. Historical fixed-grid data retain their original provenance; final DP delivery and original-scope closure gates remain pending. |
+| 26 | R25–R28 include the byte-repeated schema-3 adaptive JSON, explicit axes, complete generation provenance and passing independent report, delivered in merged PR #122. Historical fixed-grid data retain their original provenance; pushed-main closure and the fresh original-scope audit remain pending. |
 | 27 A–F | A: R03–R05; B: R06–R09; C: R10–R14; D: R15; E: R16/R17; F: R29. |
 | 28 | R17/R37/R38: no unqualified “solved Problem 4.2”, no “optimal” theorem naming, no literature-priority claim. |
 | 29 | R38 and this explicit gap ledger. |
@@ -232,8 +235,17 @@ budget-failure paths, and 48 six-method fits; both rebuilt wheels repeat these
 installed checks at `a6488cc`. Exact-head push CI `40017052450` and PR CI
 `40017056920` pass all four checks. DP is verified on this evidence. The earlier
 development-tree root passed 713 tests in 151.22 seconds; it is not relabeled
-as the exact-head run. Final metadata-head root/CI repeats, merge and pushed-main
-closure remain pending.
+as the exact-head run.
+
+The final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` repeats the full
+root with 713 tests in 150.98 seconds; exact-head push CI `40017937659` and
+PR CI `40017945103` pass all four checks. Final source/wheel archives and both
+outside-checkout installed-wheel smokes are rebuilt and pass again. PR #122
+merges at 2026-10-23 20:20:48 UTC as
+`3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`, and local main fast-forwards to
+origin. Generation revision `3cee4186fddf990abdd33dbe24c46ff908b1923f` is
+confirmed an ancestor. Exact pushed-main closure metadata/gates repeat before
+handoff and remain pending; no pushed-main CI identifier is asserted yet.
 
 Durable commands remain `uv sync --all-extras`, `lake exe cache get`, and
 `./scripts/verify.sh`. Focused checks do not replace the root command.
@@ -274,9 +286,9 @@ P-greedy theory. DN closes the six-method computational comparison. DP now
 supplies the actual adaptive census, repeated inspected plot and passing
 independent MP192 report. Required work is:
 
-1. **Finish DP delivery.** DP is verified at `a6488cc`; complete root/CI repeats
-   for the final metadata commit, permitted merge and pushed-main/provenance
-   gates, including required checks at the final committed and merged heads.
+1. **Finish pushed-main closure.** DP is verified and merged in PR #122;
+   complete closure metadata and root/CI/provenance gates at the final pushed
+   main head before handoff.
    Keep sampled maxima distinct from continuous bounds and retain every failure.
 2. **Final original-scope closure audit.** Reaudit all thirty original SPEC
    sections against the completed DP outputs and delivery evidence. The

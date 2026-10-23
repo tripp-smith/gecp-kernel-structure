@@ -6,10 +6,10 @@ pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DP — residual-adaptive seven-cutoff census<br>
 > **Phase state:** verified; DO complete; full goal remains active<br>
-> **Last verification:** Exact DP artifact head `a6488cc` passes the 713-test root (150.40 seconds), 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and clean dependency audit; push/PR CI `40017052450`/`40017056920` pass. Independent MP192 checks, JSON/PNG repeats, clean archives and outside-checkout wheel smokes (including SciPy 1.15.0) pass. Final documentation/merge closure repeats these gates<br>
+> **Last verification:** Final DP branch `3c38183` passes the 713-test root (150.98 seconds), 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and clean dependency audit; push/PR CI `40017937659`/`40017945103` pass. Independent MP192 checks, JSON/PNG repeats, clean archives and outside-checkout wheel smokes (including SciPy 1.15.0) pass. Exact pushed-main closure repeats these gates before handoff<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DP is in draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); DO is merged in PR #121 and pushed to `main`<br>
-> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. DP supplies the genuine residual-adaptive experiment missing from DO's [original-SPEC audit](FINAL_AUDIT.md), at finite-sample scope only. Full completion is not claimed: DP shipping and the subsequent independent whole-scope closure remain. Approximately 99% complete by effort, not a theorem-success probability or exact workload fraction<br>
+> **Delivery:** DP merged in [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) on 2026-10-23 as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`; closure metadata pushed to `main`<br>
+> **Claim level:** Main exact-GECP rate and staged continuous SPD baseline proved. DP supplies the genuine residual-adaptive experiment missing from DO's [original-SPEC audit](FINAL_AUDIT.md), at finite-sample scope only. Full completion is not claimed: a fresh independent whole-SPEC closure audit remains. Approximately 99% complete by effort, not a theorem-success probability or exact workload fraction<br>
 > **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
@@ -141,7 +141,7 @@ is authoritative for the remaining goal.
 | DM | Complete census diagnostics and normalized curves | complete | 28 schema-2 records through `1e-12`; full prefix/core/geometry metadata; normalized residual plot | full primary byte repeat; 192-bit checks of 30 cores; three order-32 GECP runs; 3,633 Lean jobs; 876 audited declarations; 430 tests; green push/PR CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119) |
 | DN | Fair six-method spectral comparisons (R31) | complete | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
 | DO | Independent original-SPEC completion audit | complete | thirty-section audit; conservative certificates, sampled ties, scaled updates and failure coverage; generic completeness layering | 569-test root, 3,634 Lean jobs, 876 axiom reports; green push/PR CI; installed-wheel checks including SciPy 1.15.0; full goal NOT COMPLETE, R25 absent | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
-| DP | Residual-adaptive seven-cutoff census | verified | explicit nested panels/axes, residual-driven refinement, untouched final validation, repeated data/normalized PNG | 713-test root, green exact-head CI; 21 independent core/28 cross checks; clean archives and two installed environments | draft [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); merge/main closure next |
+| DP | Residual-adaptive seven-cutoff census | verified | explicit nested panels/axes, residual-driven refinement, untouched final validation, repeated data/normalized PNG | 713-test root, green exact-head CI; 21 independent core/28 cross checks; clean archives and two installed environments | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); exact main closure repeats before handoff |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -298,8 +298,8 @@ G1 denominator `log(1+Λ)` cannot hold uniformly for arbitrarily small positive
 cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. Full original-SPEC completion is not claimed:
 DP delivers the seven-cutoff residual-adaptive experiment (R25) identified by
-the [independent DO audit](FINAL_AUDIT.md), with shipping and a fresh original-scope
-closure still required. DH closes the
+the [independent DO audit](FINAL_AUDIT.md), merged in PR #122 with a fresh original-scope
+closure audit still required. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
 it does not certify approximate numerical pivots. Numerical evidence
 never substitutes for a Lean theorem or a certified analytic argument.
@@ -397,8 +397,8 @@ checker [report](experiments/data/adaptive_census_checks.json) passes all 21
 selected-core and 28 final-cross checks, SHA-256
 `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
 The 713-test root and inspected source/wheel plus both pinned/minimum-SciPy
-installed environments pass. Exact artifact-head push/PR CI pass; final
-documentation/merge closure repeats the gates. No continuum bound,
+installed environments pass. Final branch push/PR CI pass and PR #122 is merged;
+exact pushed-main closure repeats the gates before handoff. No continuum bound,
 ideal exact-run certificate or approximate-pivot rate is inferred.
 
 ![Residual-adaptive sampled curves and stage growth, not continuous certificates](experiments/data/adaptive_census.png)

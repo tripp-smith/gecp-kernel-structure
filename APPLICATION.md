@@ -75,9 +75,9 @@ checks outside the checkout, with both SciPy 1.18 and the declared minimum
 1.15.0. [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121)
 is merged. DO's repairs alone did not supply the all-seven-cutoff adaptive
 experiment reopened in [FINAL_AUDIT.md](FINAL_AUDIT.md). DP now supplies the
-actual adaptive-grid generations, passing independent post-run checks and
-root/package/install checks described below; final delivery gates remain
-pending.
+actual adaptive-grid generations, passing independent post-run and final
+branch root/CI/package/install checks described below. PR #122 is merged;
+exact pushed-main closure gates repeat before handoff.
 
 ## Separated interpolation
 
@@ -806,7 +806,7 @@ recorded above. DP's actual adaptive-grid generations are now available as
 described below, with independent MP192 checks passing; the final closure audit
 remains pending. No package is published.
 
-## DP residual-adaptive sampled grids
+## DP residual-adaptive sampled grids (verified; merged PR #122)
 
 `kernelgecp.adaptive_grid.run_adaptive_grid(cutoff, config=AdaptiveGridConfig(...))`
 is a separate experiment controller, not the interval `pivot="adaptive"` mode.
@@ -892,8 +892,8 @@ passes full seven-cutoff/28-prefix coverage and revision-blob checks, all 21
 selected-core determinant/pivot-product/singular-value checks, and all 28
 complete final sampled crosses within their requested tolerances. Its SHA-256
 is `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03`.
-At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the DP
-exact full root gate passes 713 tests in 150.40 seconds, 3,634 Lean jobs,
+At final branch head `3c38183e5c2a7d2859867bb7acff1353ee98fb76`, the DP
+exact full root gate passes 713 tests in 150.98 seconds, 3,634 Lean jobs,
 all 876 axiom reports, formatting of 95 files, mypy on 21 sources and the
 clean dependency audit. Source/wheel audits include the three DP artifacts
 and tests, exclude protected notes/caches/scratch, and verify all 21 packaged
@@ -901,15 +901,21 @@ Python hashes plus README. Installed-wheel checks run outside the checkout
 and pass in both pinned Python 3.12.12 / NumPy 2.5.2 / SciPy 1.18.0 /
 mpmath 1.4.1 and minimum SciPy 1.15.0 / NumPy 2.4.6 environments. Each checks
 all 45 exports, actual adaptive success and budget failure, and 48 six-method
-fits; both environments pass again after rebuilding that exact code head.
-Push CI `40017052450` and PR CI `40017056920` pass all four checks. The
-earlier development root's 151.22-second result remains historical, not the
-committed-head timing. Final documentation-head root/CI, merge/pushed-main
-closure and a fresh full original-SPEC audit remain pending. The whole goal
-is **NOT COMPLETE**; an approximately 99% effort estimate is not a checklist
-count or completion verdict. Successful sampled validation is not a continuous
-residual-supremum bound, an exact complete-pivot trajectory, or a new Lean rate
-theorem. No package publication is claimed.
+fits; final archives and both environments pass again after rebuilding that
+exact branch head. Push CI `40017937659` and PR CI `40017945103` pass all four
+checks. Earlier development/code-artifact roots took 151.22/150.40 seconds;
+they are not the final branch timing.
+[PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) merged
+at 2026-10-23 20:20:48 UTC as
+`3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`, with local main fast-forwarded to
+origin. The original clean generation revision `3cee4186` is confirmed as an
+ancestor; its provenance remains unchanged. Exact pushed-main closure
+metadata/gates repeat before handoff, followed by the next fresh full
+original-SPEC audit. The whole goal is **NOT COMPLETE**; an approximately 99%
+effort estimate is not a checklist count or completion verdict. Successful
+sampled validation is not a continuous residual-supremum bound, an exact
+complete-pivot trajectory, or a new Lean rate theorem. No package publication
+is claimed.
 
 ## Release provenance
 

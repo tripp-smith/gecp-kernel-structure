@@ -1,6 +1,6 @@
 # Findings and claim ledger
 
-## Current original-SPEC audit (Phase DP verified; final delivery closure next)
+## Current original-SPEC audit (Phase DP verified; merged PR #122)
 
 The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
 finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
@@ -21,11 +21,14 @@ grids, with two fresh clean-source runs producing identical canonical bytes.
 These are observed finite-sample results, not a new theorem. The normalized
 plot has been rendered, visually inspected and repeated byte-for-byte.
 Independent post-run MP192 checking passes all 21 selected-core checks and
-28 full final crosses. Code/artifact head
-`a6488cc0c91400bab3f327d93db153c390ef20f4` passes the exact local root,
+28 full final crosses. Final branch head
+`3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes the exact local root,
 source/wheel and both outside-checkout install checks, plus green push/PR CI.
-Final documentation-head root/CI, merge/pushed-main closure and a fresh full
-original-SPEC audit remain pending. **The full goal is NOT COMPLETE.** The
+[PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) merged
+on 2026-10-23 at 20:20:48 UTC as
+`3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`. Exact pushed-main closure
+metadata/gates repeat before handoff; a fresh full original-SPEC audit remains
+the next phase. **The full goal is NOT COMPLETE.** The
 approximately 99% effort estimate is not a requirement-count percentage.
 
 DO's numerical repairs and historical verification remain valid: `f0d082d`
@@ -1950,7 +1953,7 @@ is by Sungwoo Jeong, Alex Townsend and Christopher Wang; older phase records
 refer specifically to the two-author v1. The repository formalizes the staged
 fill-distance baseline, not all of that paper's stronger asymptotic results.
 
-## Phase DP: genuine residual-adaptive census (code/artifact head verified; delivery pending)
+## Phase DP: genuine residual-adaptive census (verified; merged PR #122)
 
 **Observed, not proved:** the new explicit-axis
 [`adaptive_census.json`](experiments/data/adaptive_census.json) contains all
@@ -2011,8 +2014,8 @@ requested tolerance. The report has SHA-256
 These are independent higher-precision point/factored-solve checks, not
 interval enclosures.
 
-At code/artifact head `a6488cc0c91400bab3f327d93db153c390ef20f4`, the
-exact full root gate passes **713 tests in 150.40 seconds**, 3,634 Lean jobs,
+At final branch head `3c38183e5c2a7d2859867bb7acff1353ee98fb76`, the
+exact full root gate passes **713 tests in 150.98 seconds**, 3,634 Lean jobs,
 all 876 axiom reports, 95 formatted files, mypy on 21 sources and the clean
 dependency audit. Source/wheel archives include all three DP artifacts and
 tests while excluding protected note copies, caches and scratch; all 21 wheel
@@ -2020,14 +2023,19 @@ Python files hash-match source and the packaged README is checked. Actual
 outside-checkout installed-wheel checks pass with pinned Python 3.12.12,
 NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1, and with minimum SciPy 1.15.0 /
 NumPy 2.4.6. Each environment exercises all 45 exports, adaptive success and
-budget failure, and 48 six-method fits; both environments are rebuilt and
-rechecked at that code head. Exact push CI `40017052450` and PR CI
-`40017056920` pass all four checks. The earlier development root passed the
-same 713 tests in 151.22 seconds and is not relabeled as this committed-head
-run. Final documentation-head root/CI, merge/pushed-main closure and the next
-fresh full original-SPEC audit remain pending; whole-goal completion is not
-claimed. No sampled maximum or surplus is a continuous supremum bound, and
-no approximate-pivot rate theorem is added.
+budget failure, and 48 six-method fits; final archives and both environments
+are rebuilt and rechecked at that branch head. Exact push CI `40017937659`
+and PR CI `40017945103` pass all four checks. Earlier development and
+code/artifact-head roots passed the same 713 tests in 151.22 and 150.40
+seconds respectively; those results are not relabeled as the final branch
+run. PR #122 merged at 2026-10-23 20:20:48 UTC as
+`3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`, and local main is fast-forwarded
+to origin. Canonical generation revision `3cee4186` is confirmed as an
+ancestor, not replaced by the merge revision. Exact pushed-main closure
+metadata/gates repeat before handoff. The next fresh full original-SPEC audit
+remains required; whole-goal completion is not claimed. No sampled maximum
+or surplus is a continuous supremum bound, and no approximate-pivot rate
+theorem is added.
 
 ## Run provenance
 
