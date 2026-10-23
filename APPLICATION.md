@@ -793,8 +793,10 @@ physical fits fail and remain in the plot/data. Density references are fixed
 normalized 2001-node quadratures; reported errors are not against the exact
 continuous integral. Full root (513 tests), exact-head push/PR CI and
 installed-wheel smokes pass, including the minimum supported SciPy 1.15.
-PR #120 is merged; exact pushed-main closure gates repeat before handoff.
-No package is published; the final independent SPEC audit remains next.
+Those are DN's historical verification results and PR #120 is merged. DO's
+subsequent independent audit, 569-test verification and merged PR #121 are
+recorded above: the required adaptive-grid study remains open, followed by its
+final closure audit. No package is published.
 
 ## Release provenance
 
