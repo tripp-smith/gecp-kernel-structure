@@ -10211,3 +10211,49 @@ pilot rather than a canonical performance or speedup claim. Reuse existing
 provenance patterns, preserve protected notes unread, and run the root verification
 command before PR delivery. Rust remains conditional on end-to-end measurements;
 the public Python API and existing defaults are not changed in this phase.
+
+### DT pilot outcome and next decision
+
+Frozen generation `c0dda11ba91ad32f011eb7364a2c9ec2f9622d8e` produces nine
+fresh-worker records with pydlr 1.0.1, sparse-ir 2.1.6, pylibsparseir 0.12.0,
+NumPy 2.5.4, SciPy 1.18.1 and mpmath 1.4.1. The optional environment is isolated
+from the unchanged core lock. Its installed dependency audit finds no known
+vulnerabilities. Two full runs match all fields after removing nondeterministic
+`measurements`. The saved first pilot is
+`experiments/data/dlr_benchmark_pilot.json`, SHA-256
+`70ce453dddba309b488ec72c7740a8cd122ba6a6cc22dbb3ff0ecc152cfaa7ab`.
+
+Eight method/case records pass all three forward workloads at absolute `1e-8`;
+GECP at cutoff 1,000 explicitly fails with `NumericalBreakdownError: float64
+GECP update exceeds arithmetic range`. Successful GECP ranks at cutoffs 10/100
+are 13/27; pydlr ranks are 13/26/43 and sparse-ir ranks 12/26/43. This is not
+a rank-minimality or performance-superiority conclusion. No holdout result is
+used to revise the frozen source, rank or configuration.
+
+A separate reviewer verifies shared inputs/disjoint midpoint holdouts, actual
+versions/thread settings and generation Git blobs, and independently recomputes
+all 24 successful workload truths/3,498 prediction points using literal 100-digit
+mpmath physical pole sums, without the repository truth helper. Stored truth
+differs by at most `1.40e-16`, reported absolute error by at most `5.97e-17`,
+and every pass flag agrees. Maximum successful error is `4.3812592443e-9`.
+Focused checks pass 165 tests with two optional-package skips in the core
+environment and all 167 with the actual optional packages.
+
+Design review also caught and repaired asymmetric import timing, nonfinite
+conditioning serialization, unchecked worker payloads and load/snapshot races.
+Negative tests now enforce worker/config/source identity, finite output,
+failure retention and untouched holdouts. Imports precede constructor timing;
+their incremental timing is not a matched cold-start comparison. Process RSS
+includes runtime/native imports. Native tolerance meanings and coefficient-
+coordinate conditioning remain explicit.
+
+The next promising phase is the reusable cached-basis interface and a disciplined
+precision/range policy: reproduce the valid-input float64 failure, distinguish
+harmless tiny terms from actual breakdown with an error budget, and compare
+reference/mixed-precision alternatives before changing existing behavior. A
+language rewrite alone cannot resolve that arithmetic limitation. No Rust
+speedup, continuous certificate, production solver or public API is delivered
+by this first comparative-value phase. The user confirms continuing verified
+phase merges. [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126)
+holds final checked-revision/root/CI/merge/main evidence; the pilot remains bound
+to its generation revision rather than relabeled as a later documentation head.

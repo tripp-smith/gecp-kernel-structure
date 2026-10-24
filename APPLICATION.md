@@ -1022,6 +1022,41 @@ artifacts are unchanged. Rust optimization, a public reusable-basis API,
 Matsubara round trips, noisy-data fitting and physical solver integration are
 subsequent targets, not features delivered by this benchmark harness.
 
+### Recorded DT pilot
+
+The [pilot artifact](experiments/data/dlr_benchmark_pilot.json) was generated
+from clean source `c0dda11ba91ad32f011eb7364a2c9ec2f9622d8e` with the pinned
+optional requirements. It contains nine fresh-worker cases: three methods at
+cutoffs 10, 100 and 1,000. Eight meet the common `1e-8` heldout target for all
+three workloads; float64 GECP at cutoff 1,000 returns an explicit arithmetic-
+range failure. Successful ranks are:
+
+| Cutoff | GECP | pydlr | sparse-ir |
+| --- | --- | --- | --- |
+| 10 | 13 | 13 | 12 |
+| 100 | 27 | 26 | 26 |
+| 1,000 | numerical-range failure | 43 | 43 |
+
+The largest successful sampled error is `4.3812592443e-9`. Independent literal
+100-digit pole sums check all 24 successful workloads/3,498 stored prediction
+points: maximum stored-truth discrepancy `1.40e-16`, error-report discrepancy
+`5.97e-17`, and all pass flags agree. Two fresh full runs match numerical and
+environment/provenance fields exactly after excluding `measurements`; their
+timings and memory are not expected to repeat. Artifact SHA-256 is
+`70ce453dddba309b488ec72c7740a8cd122ba6a6cc22dbb3ff0ecc152cfaa7ab`.
+
+Constructor measurements include each adapter's native initialization features;
+they are single-machine pilot samples, not a statistically established speed
+ranking. Provider-import times are incremental after the common harness, not
+matched cold-start measurements. The six pinned optional distributions and
+their installed transitive environment pass a dependency audit. The immediate
+decision is to investigate the float64 range failure and design a reusable
+cached basis with an explicit precision policy before committing to Rust.
+
+Current phase/root/CI/delivery evidence is maintained in
+[PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126), separate
+from the frozen artifact's generation source and original-goal accounting.
+
 ## Release provenance
 
 DR's documentation source `51fa6b3` passed 759 tests in 144.90 seconds,

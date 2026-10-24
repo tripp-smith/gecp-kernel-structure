@@ -5,10 +5,10 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DT — matched DLR/IR application benchmarks<br>
-> **Phase state:** in progress; first practical-application phase; completed original-SPEC research scope remains unchanged<br>
+> **Phase state:** first practical-application phase; current verification/delivery in [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126); completed original-SPEC research scope remains unchanged<br>
 > **Last verification:** DS skill validation, behavioral checks and exact-revision root/CI receipt are tracked in [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125). Historical DR source head `51fa6b3` passed the root: 759 tests in 144.90 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-theorem consumer examples, 97-file formatting, mypy on 21 sources and clean dependency audit. Exact-head push/PR CI `40054146369`/`40054160333`, rebuilt archive inspection and both outside-checkout installed environments passed. The completed research baseline remains DQ exact main `e8c35ed` (757 tests in 150.31 seconds), [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) is the canonical maintenance verification/delivery record. Historical DR [PR #124](https://github.com/tripp-smith/gecp-kernel-structure/pull/124) merged on 2026-10-23 at 22:30:40 EDT as `a421f7c8ed8b1b8754f38116939e26181636fe82`. DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) and exact-main closure `e8c35ed` remain verified. No algorithm, proof, historical data, version tag or publication state changed<br>
+> **Delivery:** DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126) is the canonical application-benchmark verification/delivery record. DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) is merged. DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) and exact-main closure `e8c35ed` remain verified. Existing algorithms, proofs, historical artifacts, version tags and publication state are unchanged<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
 > **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): completed original goal, 24,738,403 cumulative aggregate tokens and 116,095 goal-accounting seconds (32:14:55), excluding this post-completion documentation task<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -146,12 +146,14 @@ original-source closure decision.
 | DQ | Original-SPEC closure audit | complete | explicit-item source audit, 22 public theorem consumers, real certificate/parameter boundary repairs | 757-test exact-main root (150.31 seconds), green CI 40051138962, rebuilt clean archives and two installed environments | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); main closure `e8c35ed` |
 | DR | Final documentation and repository handoff | verified | completed-main evidence, terminal goal accounting, synchronized claim docs, safe rerun commands and link/provenance regressions | 759-test exact-source root, green push/PR CI, clean archives and two installed environments; no proof/algorithm/data changes | merged [PR #124](https://github.com/tripp-smith/gecp-kernel-structure/pull/124) |
 | DS | Research-workflow skill hardening | complete | original-SPEC contracts, proof-route checkpoints, conditional numerical/release guidance | skill validation, behavioral forward tests and revision-specific root/CI evidence in PR | merged [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) |
-| DT | Matched DLR/IR application benchmarks | in progress | common physical Green-function observations, GECP/pydlr/sparse-ir adapters, separated setup/reuse measurements | focused correctness/failure checks, actual external-library pilot and full root required | PR pending |
+| DT | Matched DLR/IR application benchmarks | [receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/126) | common physical observations, optional adapters, cached fit-plan measurements and retained range failure | 167 focused optional-environment tests; 9-case pilot; independent 100-digit check; full root/CI in receipt | [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126) |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
 is merged, or after a verified direct-to-`main` delivery explicitly requested
 by the user.
+A table entry may link its canonical PR receipt rather than duplicate changing
+verification and delivery state.
 
 ## Quick start
 
