@@ -10165,3 +10165,49 @@ CI, merge and main synchronization. Its externally updated receipt avoids a
 new documentation commit solely to embed its own hash. The historical research
 verification/accounting in FINAL_HANDOFF remains unchanged. No package rebuild
 or canonical experiment rerun is claimed for this skills-only maintenance.
+
+## Phase DT — matched DLR/IR application benchmarks
+
+Contract opened 2026-10-24 EDT from synchronized main
+`f06a46300156ce2f645fa3413a7919f8e1b81229`, after the user agrees to the
+practical-application next steps. This bounded first phase establishes comparative
+value before any Rust rewrite. It is a post-completion application extension
+under SPEC §§27–29; original goals, proofs, completed research accounting and
+historical numerical artifacts remain frozen. No package publication, external
+maintainer outreach or new theorem is authorized or claimed by this contract.
+
+Named outputs are `experiments/dlr_workloads.py`, `experiments/dlr_adapters.py`,
+`experiments/dlr_benchmark.py`, a small TOML pilot configuration, focused tests,
+and application documentation. Optional external packages run in an isolated
+environment rather than becoming mandatory runtime dependencies. Lazy imports
+must distinguish unavailable packages, invalid inputs, runtime failures, timeouts
+and failed accuracy targets; no failed method is silently substituted.
+
+Use physical beta/wmax with cutoff `Lambda=beta*wmax`, `t=tau/beta`,
+`Omega=beta*omega`, and physical negative fermionic Green functions. Small
+positive normalized atomic spectra provide independent closed-form truth.
+Every method receives exactly the same method-independent training nodes and
+observations; fixed disjoint midpoint holdouts never select a rank, tolerance or
+grid. Native library tolerances retain their different meanings, while all
+methods face the same externally measured absolute/relative heldout error.
+This is sampled forward approximation, not spectral recovery or certification.
+
+Separate basis construction, common training-design setup, cached SVD fit-plan
+setup, repeated per-RHS fitting, arbitrary-grid evaluation and cached-grid reuse.
+The primary cohort uses the same SVD least-squares fitter for every basis; it
+does not purport to compare each library's native solver. Record retained design
+singular values/effective rank/rcond and label coordinate-dependent conditioning.
+Run each measured case in a fresh subprocess with disclosed thread controls;
+process peak RSS includes imports/runtime/native state, not just algorithm memory.
+Keep nondeterministic timings/memory separate from deterministic numerical fields.
+
+Tests must catch beta/sign/axis mistakes with independent mpmath values, verify
+shared input fingerprints, retain unavailable/failure and inaccurate outcomes,
+and demonstrate factor reuse. Actual installed pydlr/sparse-ir smoke/pilot runs
+are required; mocked adapter tests alone do not establish integration. Freeze
+the source/config before the pilot, record revision/source/config hashes and
+actual dependency/platform versions, and keep preliminary measurements explicitly
+pilot rather than a canonical performance or speedup claim. Reuse existing
+provenance patterns, preserve protected notes unread, and run the root verification
+command before PR delivery. Rust remains conditional on end-to-end measurements;
+the public Python API and existing defaults are not changed in this phase.

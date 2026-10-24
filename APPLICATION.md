@@ -980,6 +980,48 @@ CI `40051138962`, archive inspection and both installed environments. Required o
 SPEC scope is complete at these explicit boundaries; no package publication,
 external peer review or ideal/inexact-run numerical theorem is implied.
 
+## DT matched application benchmark
+
+The first practical-application extension compares GECP, `pydlr` and `sparse-ir`
+bases for the same physical negative fermionic Green functions. Three small
+normalized atomic spectra are closed-form forward workloads, not support-recovery
+or material-specific results. All bases receive identical endpoint-resolved
+training times/observations and fixed disjoint midpoint holdouts. Physical
+conventions are `Lambda=beta*wmax`, `t=tau/beta` and `Omega=beta*omega`.
+
+`experiments.dlr_benchmark` uses one cached SVD least-squares protocol for every
+basis. It separates provider import, actual adapter construction (including its
+package defaults), training-design evaluation, fit-plan factorization, repeated
+fitting, uncached evaluation and cached-grid evaluation. It does not compare the
+libraries' native fitting algorithms; those are separately smoke-tested. Native
+tolerance meanings remain distinct and every method faces the same sampled
+absolute-error acceptance test. Raw design conditioning depends on coefficient
+coordinates and is not a basis-independent quality ranking.
+
+Each case/method runs in a fresh worker with six disclosed thread settings fixed
+to one. Peak process RSS includes runtime, imports and native libraries, not just
+algorithm arrays. Timings/RSS are machine-dependent pilot measurements, separated
+from numerical records; no byte-repeatable timing, speedup or certification claim
+is made. Unavailable methods, numerical failures, timeouts and inaccurate fits
+are retained. Workers must match frozen parent source/configuration and input
+fingerprints before an output is accepted. Use a fresh CLI from clean tracked
+source; imported API functions cannot attest that stale code matches disk.
+
+Install optional packages without changing the core dependency lock:
+
+```bash
+uv run --isolated \
+  --with-requirements experiments/dlr_benchmark_requirements.txt \
+  python -m experiments.dlr_benchmark \
+  --config experiments/dlr_benchmark.toml \
+  --output experiments/scratch/dlr_benchmark_pilot.json
+```
+
+The public package, default precision/pivot behavior and original research
+artifacts are unchanged. Rust optimization, a public reusable-basis API,
+Matsubara round trips, noisy-data fitting and physical solver integration are
+subsequent targets, not features delivered by this benchmark harness.
+
 ## Release provenance
 
 DR's documentation source `51fa6b3` passed 759 tests in 144.90 seconds,

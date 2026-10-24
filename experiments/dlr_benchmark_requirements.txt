@@ -1,0 +1,7 @@
+# Optional isolated pilot environment; not core package requirements.
+numpy==2.5.4
+scipy==1.18.1
+mpmath==1.4.1
+pydlr==1.0.1
+sparse-ir==2.1.6
+pylibsparseir==0.12.0

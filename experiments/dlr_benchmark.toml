@@ -1,0 +1,23 @@
+schema_version = 1
+methods = ["kernelgecp", "pydlr", "sparse_ir"]
+grid_order = 12
+max_rank = 128
+repeats = 5
+warmups = 1
+fit_rcond = 1e-14
+timeout_seconds = 120.0
+
+[[cases]]
+beta = 2.0
+wmax = 5.0
+tolerance = 1e-8
+
+[[cases]]
+beta = 10.0
+wmax = 10.0
+tolerance = 1e-8
+
+[[cases]]
+beta = 20.0
+wmax = 50.0
+tolerance = 1e-8
