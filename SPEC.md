@@ -2791,3 +2791,31 @@ This annotation records delivered identifiers without changing the goals above.
   coordinates retain 53-bit repr-decimal semantics, and every maximum is
   finite-sample evidence, not a continuous certificate. Original mathematical
   goals are unchanged. Final whole-scope closure follows this numerical phase.
+
+- **Phase DQ source-audit status (2026-10-24 UTC; delivery gates pending):**
+  rereads original §§1–30 and checks every explicit outcome, diagnostic, test,
+  comparison method and proposed import against actual source and theorem
+  dependencies in `FINAL_AUDIT.md`. `scripts/CompletionContract.lean` checks
+  22 expected public theorem interfaces without introducing a new theorem.
+  Fresh MP192 adaptive checking and adaptive/spectral PNG byte comparisons
+  pass. The audit reproduces and repairs a one-ULP conditional Lipschitz pivot
+  upper-bound error and rounded-log Taylor parameters that miss their actual
+  cutoff/tolerance; exact-ratio boundary tests include subnormal inputs.
+  Standalone certificate metadata distinguishes point/enclosure/export
+  precision and retains uncertified coordinate-resolution outcomes. A live
+  dependency audit also requires a development-only filelock 4.2.1 update;
+  historical data/lock manifests are preserved. The original required scope
+  is accounted for at its explicit theorem/conditional/experimental boundaries,
+  but full root, archive/install, exact-head CI, PR merge and pushed-main
+  closure must pass before overall completion. Original mathematical goals
+  above are unchanged. No arbitrary-inexact-pivot rate, ideal-exact-run
+  numerical certificate, global sparse optimum or priority is inferred.
+
+  DQ code head `f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8` subsequently passes
+  the exact full root: 757 tests in 150.01 seconds, 3,634 Lean jobs, 876
+  permitted axiom reports, 22 public-import examples and clean style/type/
+  security gates. Push/PR CI `40050118292`/`40050129457` pass all four checks.
+  Clean rebuilt archives and both outside-checkout installed environments
+  pass, including 45 exports, adaptive success/budget failure and 48 six-method
+  fits per environment. Draft PR #123 is open. Final documentation-head and
+  pushed-main closure gates remain; these checks do not alter the goals above.

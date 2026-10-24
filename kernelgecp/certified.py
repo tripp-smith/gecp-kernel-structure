@@ -6,12 +6,13 @@ import heapq
 import math
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from fractions import Fraction
 from typing import Any
 
 import mpmath as mp
 import numpy as np
 
-from .types import PivotCertificate
+from .types import NumericalBreakdownError, PivotCertificate
 
 ScalarKernel = Callable[[float, float], float]
 LipschitzBound = (
@@ -32,6 +33,10 @@ class _Cell:
     w1: float = field(compare=False)
     value: float = field(compare=False)
     upper: float = field(compare=False)
+    t_radius: Fraction = field(compare=False)
+    w_radius: Fraction = field(compare=False)
+    lt: float = field(compare=False)
+    lw: float = field(compare=False)
 
 
 @dataclass(order=True, slots=True)
@@ -66,14 +71,35 @@ def _make_cell(
     serial: int,
 ) -> _Cell:
     t0, t1, w0, w1 = coordinates
-    t = (t0 + t1) / 2.0
-    omega = (w0 + w1) / 2.0
+    t = _midpoint(t0, t1)
+    omega = _midpoint(w0, w1)
     value = float(function(t, omega))
     if not np.isfinite(value):
         raise ValueError("pivot objective returned a non-finite value")
     lt, lw = _lipschitz_at(bound, t, omega)
-    upper = abs(value) + lt * (t1 - t0) / 2.0 + lw * (w1 - w0) / 2.0
-    return _Cell(-upper, serial, t0, t1, w0, w1, value, upper)
+    # The actual float sample need not be the exact center, even in a one-ULP
+    # box. Exact binary-rational arithmetic also avoids width/product overflow
+    # and positive-radius underflow before the final outward conversion.
+    t_radius = max(Fraction(t) - Fraction(t0), Fraction(t1) - Fraction(t))
+    w_radius = max(Fraction(omega) - Fraction(w0), Fraction(w1) - Fraction(omega))
+    exact_upper = (
+        Fraction(abs(value)) + Fraction(lt) * t_radius + Fraction(lw) * w_radius
+    )
+    try:
+        upper = float(exact_upper)
+    except OverflowError as error:
+        raise NumericalBreakdownError(
+            "Lipschitz certificate upper bound exceeds float64 range"
+        ) from error
+    if Fraction(upper) < exact_upper:
+        upper = math.nextafter(upper, math.inf)
+    if not math.isfinite(upper):
+        raise NumericalBreakdownError(
+            "Lipschitz certificate upper bound exceeds float64 range"
+        )
+    return _Cell(
+        -upper, serial, t0, t1, w0, w1, value, upper, t_radius, w_radius, lt, lw
+    )
 
 
 def certified_pivot(
@@ -88,15 +114,27 @@ def certified_pivot(
 ) -> PivotCertificate:
     """Certify an approximate absolute maximizer from a valid Lipschitz bound.
 
-    The function assumes the supplied coordinatewise Lipschitz constants are
-    rigorous. Its certificate is conditional on that analytic bound.
+    The callback must return exact point values of one fixed mathematical
+    function. Supplied coordinatewise Lipschitz constants (including those
+    returned by a callable) must be valid throughout each sampled cell, not
+    just at its center. The certificate is conditional on those obligations;
+    arbitrary callback evaluation error is not enclosed. Geometric/bound/gap
+    arithmetic is conservative for the supplied binary64 data.
     """
 
     t0, t1 = t_bounds
     w0, w1 = omega_bounds
     if not all(np.isfinite((t0, t1, w0, w1))) or t0 >= t1 or w0 >= w1:
         raise ValueError("bounds must be finite, ordered intervals")
-    if abs_tol < 0 or rel_tol < 0 or max_cells < 1:
+    if (
+        not np.isfinite(abs_tol)
+        or not np.isfinite(rel_tol)
+        or abs_tol < 0
+        or rel_tol < 0
+        or isinstance(max_cells, (bool, np.bool_))
+        or not isinstance(max_cells, (int, np.integer))
+        or max_cells < 1
+    ):
         raise ValueError("invalid certificate tolerance or budget")
 
     serial = 0
@@ -104,34 +142,71 @@ def certified_pivot(
     queue = [first]
     evaluated = 1
     best_value = abs(first.value)
-    best_point = ((t0 + t1) / 2.0, (w0 + w1) / 2.0)
+    best_signed_value = first.value
+    best_point = (_midpoint(t0, t1), _midpoint(w0, w1))
+    samples = {best_point: best_value}
+    termination_reason = "cell_budget"
+
+    def certificate(upper: float, *, certified: bool, reason: str) -> PivotCertificate:
+        if upper == 0:
+            eta = 1.0
+        else:
+            ratio = Fraction(best_value) / Fraction(upper)
+            eta = float(ratio)
+            if Fraction(eta) > ratio:
+                eta = math.nextafter(eta, 0.0)
+        ties = sum(value == best_value for value in samples.values())
+        return PivotCertificate(
+            t=best_point[0],
+            omega=best_point[1],
+            value=best_signed_value,
+            lower_bound=best_value,
+            upper_bound=upper,
+            eta=eta,
+            cells_evaluated=evaluated,
+            certified=certified,
+            termination_reason=reason,
+            candidate_count=len(samples),
+            exact_tie_count=ties,
+            near_tie_count=ties,
+            tie_rtol=0.0,
+            tie_scope="distinct_sampled_exact_callback_magnitudes",
+            objective_scope="exact_point_values_with_valid_cell_lipschitz_bounds",
+            arithmetic="binary64_points_exact_rational_lipschitz_bounds",
+            precision_bits=53,
+            requested_precision_bits=53,
+            bound_precision_bits=53,
+            coordinate_precision_bits=53,
+        )
 
     while queue:
         global_upper = -queue[0].priority
-        tolerance = abs_tol + rel_tol * best_value
-        if global_upper - best_value <= tolerance:
-            eta = 1.0 if global_upper == 0 else min(1.0, best_value / global_upper)
-            return PivotCertificate(
-                t=best_point[0],
-                omega=best_point[1],
-                value=float(function(*best_point)),
-                lower_bound=best_value,
-                upper_bound=global_upper,
-                eta=eta,
-                cells_evaluated=evaluated,
-                certified=True,
-                termination_reason="gap_tolerance",
-            )
+        tolerance = Fraction(float(abs_tol)) + Fraction(float(rel_tol)) * Fraction(
+            best_value
+        )
+        if Fraction(global_upper) - Fraction(best_value) <= tolerance:
+            return certificate(global_upper, certified=True, reason="gap_tolerance")
         if evaluated >= max_cells:
             break
 
         if evaluated + 2 > max_cells:
             break
 
-        cell = heapq.heappop(queue)
-        t_mid = (cell.t0 + cell.t1) / 2.0
-        w_mid = (cell.w0 + cell.w1) / 2.0
-        split_t = (cell.t1 - cell.t0) >= (cell.w1 - cell.w0)
+        cell = queue[0]
+        t_mid = _midpoint(cell.t0, cell.t1)
+        w_mid = _midpoint(cell.w0, cell.w1)
+        can_t = cell.lt > 0 and cell.t0 < t_mid < cell.t1
+        can_w = cell.lw > 0 and cell.w0 < w_mid < cell.w1
+        if not can_t and not can_w:
+            # Keep this cell in the queue: its unresolved upper bound remains
+            # part of the global enclosure even when no float split exists.
+            termination_reason = "coordinate_resolution"
+            break
+        split_t = can_t and (
+            not can_w
+            or Fraction(cell.lt) * cell.t_radius >= Fraction(cell.lw) * cell.w_radius
+        )
+        heapq.heappop(queue)
         if split_t:
             children = (
                 (cell.t0, t_mid, cell.w0, cell.w1),
@@ -149,28 +224,21 @@ def certified_pivot(
             heapq.heappush(queue, child)
             child_abs = abs(child.value)
             point = (
-                (child.t0 + child.t1) / 2.0,
-                (child.w0 + child.w1) / 2.0,
+                _midpoint(child.t0, child.t1),
+                _midpoint(child.w0, child.w1),
             )
+            if point in samples and samples[point] != child_abs:
+                raise ValueError("point callback changed its fixed objective")
+            samples[point] = child_abs
             if child_abs > best_value or (
                 child_abs == best_value and point < best_point
             ):
                 best_value = child_abs
+                best_signed_value = child.value
                 best_point = point
 
-    global_upper = max((-cell.priority for cell in queue), default=best_value)
-    eta = 1.0 if global_upper == 0 else min(1.0, best_value / global_upper)
-    return PivotCertificate(
-        t=best_point[0],
-        omega=best_point[1],
-        value=float(function(*best_point)),
-        lower_bound=best_value,
-        upper_bound=global_upper,
-        eta=eta,
-        cells_evaluated=evaluated,
-        certified=False,
-        termination_reason="cell_budget",
-    )
+    global_upper = max(best_value, max((-cell.priority for cell in queue), default=0.0))
+    return certificate(global_upper, certified=False, reason=termination_reason)
 
 
 def _outward_upper(value: float) -> float:
@@ -308,11 +376,15 @@ def interval_certified_pivot(
     if not all(np.isfinite((t0, t1, w0, w1))) or t0 >= t1 or w0 >= w1:
         raise ValueError("bounds must be finite, ordered intervals")
     if (
-        precision_bits < 53
+        isinstance(precision_bits, (bool, np.bool_))
+        or not isinstance(precision_bits, (int, np.integer))
+        or precision_bits < 53
         or not np.isfinite(abs_tol)
         or not np.isfinite(rel_tol)
         or abs_tol < 0
         or rel_tol < 0
+        or isinstance(max_cells, (bool, np.bool_))
+        or not isinstance(max_cells, (int, np.integer))
         or max_cells < 1
     ):
         raise ValueError("invalid interval certificate precision, tolerance, or budget")
@@ -322,7 +394,8 @@ def interval_certified_pivot(
         32 * np.finfo(float).eps if tie_rtol is None else tie_rtol
     )
 
-    old_dps = mp.iv.dps
+    precision_bits = int(precision_bits)
+    old_precision = mp.iv.prec
     mp.iv.dps = math.ceil(precision_bits * math.log10(2)) + 5
     try:
         initial_boxes = (
@@ -375,6 +448,12 @@ def interval_certified_pivot(
                 tie_rtol=effective_tie_rtol,
                 tie_scope="distinct_sampled_singleton_lower_bounds_only",
                 objective_scope=objective_scope,
+                arithmetic="mpmath_interval_with_float64_exports",
+                precision_bits=precision_bits,
+                requested_precision_bits=precision_bits,
+                enclosure_precision_bits=int(mp.iv.prec),
+                bound_precision_bits=53,
+                coordinate_precision_bits=53,
             )
 
         for coordinates in initial_boxes:
@@ -466,4 +545,4 @@ def interval_certified_pivot(
 
         return result(False, "cell_budget")
     finally:
-        mp.iv.dps = old_dps
+        mp.iv.prec = old_precision

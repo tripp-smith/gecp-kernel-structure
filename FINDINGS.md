@@ -1,6 +1,6 @@
 # Findings and claim ledger
 
-## Current original-SPEC audit (Phase DP verified; merged PR #122)
+## Current original-SPEC audit (Phase DQ; final delivery gates pending)
 
 The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
 finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
@@ -13,7 +13,22 @@ fill-distance control are also proved. No convergence conclusion is supplied
 as a premise. Literal all-positive-cutoff `log(1+Λ)` wording is refuted; the
 all-positive `log(2+Λ)` variant is separate.
 
-**The full original-scope closure audit remains pending.** DO reopened R25
+**DQ's source-level original-scope audit is performed; final delivery is pending.**
+The explicit-item evidence in [FINAL_AUDIT.md](FINAL_AUDIT.md) inspects every
+original section, theorem hypotheses, diagnostics, tests, six comparison
+methods and proposed imports. The required scope is accounted for without
+promoting optional proof routes or approximate-pivot extensions into proved
+results. DQ also reproduces and repairs genuine conditional pivot-certificate
+rounding and dyadic-parameter coverage defects. Its new theorem consumer uses
+only the public import and checks 22 non-tautological existing interfaces.
+No new formal result is asserted. Exact DQ code `f2ffd5e` passes the 757-test
+root, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-import examples,
+style/type/security gates and push/PR CI `40050118292`/`40050129457`.
+Clean rebuilt archives and both outside-checkout installed checks pass.
+Draft PR #123 exists; final documentation-head and merged-main checks must
+still pass before full completion. The effort estimate remains about 99%.
+
+DO reopened R25
 because the fixed order-24 census and three order-32 reruns did not supply the
 required increasingly dense residual-adaptive experiment. DP now records all
 seven cutoffs and 28 tolerance prefixes passing on genuinely refined nested
@@ -27,8 +42,9 @@ source/wheel and both outside-checkout install checks, plus green push/PR CI.
 [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) merged
 on 2026-10-23 at 20:20:48 UTC as
 `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`. Exact pushed-main closure
-metadata/gates repeat before handoff; a fresh full original-SPEC audit remains
-the next phase. **The full goal is NOT COMPLETE.** The
+metadata/gates subsequently pass at main `5a5fef0`, including CI `40018905634`.
+DQ's source audit and final repairs are the current phase. **The full goal
+is NOT COMPLETE until those final delivery gates pass.** The
 approximately 99% effort estimate is not a requirement-count percentage.
 
 DO's numerical repairs and historical verification remain valid: `f0d082d`

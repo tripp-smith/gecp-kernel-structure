@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from fractions import Fraction
 
 import mpmath as mp
 import numpy as np
@@ -13,6 +14,28 @@ from scipy.interpolate import BarycentricInterpolator
 from .grids import chebyshev_lobatto
 from .kernels import FermionicKernel
 from .types import FloatArray, NumericalMetadata
+
+
+def _binary_log_bounds(value: Fraction) -> tuple[int, int]:
+    """Exact floor/ceiling of log2 for a positive rational, without logs."""
+    numerator, denominator = int(value.numerator), int(value.denominator)
+    exponent = numerator.bit_length() - denominator.bit_length()
+    power = Fraction(1 << exponent) if exponent >= 0 else Fraction(1, 1 << -exponent)
+    if value < power:
+        exponent -= 1
+        power /= 2
+    return exponent, exponent + int(value != power)
+
+
+def _dyadic_parameters(cutoff: float, tolerance: float) -> tuple[int, int]:
+    if not np.isfinite(cutoff) or cutoff < 1:
+        raise ValueError("cutoff must be finite and at least one")
+    if not np.isfinite(tolerance) or not (0 < tolerance < 1):
+        raise ValueError("tolerance must lie strictly between zero and one")
+    return (
+        _binary_log_bounds(Fraction(cutoff))[1],
+        _binary_log_bounds(1 / Fraction(tolerance))[1],
+    )
 
 
 def exp_family_rank_bound(max_rate: float, tolerance: float) -> int:
@@ -28,16 +51,24 @@ def exp_family_rank_bound(max_rate: float, tolerance: float) -> int:
         raise ValueError("max_rate must be finite and at least one")
     if not np.isfinite(tolerance) or not (0 < tolerance < 1):
         raise ValueError("tolerance must lie strictly between zero and one")
-    scales = math.floor(math.log2(max_rate)) + 1
-    orders = math.floor(math.log(1.0 / tolerance, 4.0)) + 1
+    scales = _binary_log_bounds(Fraction(max_rate))[0] + 1
+    orders = _binary_log_bounds(1 / Fraction(tolerance))[0] // 2 + 1
     return scales * orders
 
 
 def dlr_rank_bound(cutoff: float, tolerance: float) -> int:
-    """A conservative explicit count for positive, negative, and central bands."""
+    """Conservative positive/negative/central count, not a GECP certificate.
 
-    band = exp_family_rank_bound(cutoff, tolerance / 3.0)
-    central = math.ceil(math.log(3.0 / tolerance)) + 1
+    The central count uses ceil(log2(3/tolerance))+1, an exact binary-log
+    upper envelope for the former natural-log count. Neither division
+    underflow nor rounded logarithms can shrink the advertised count.
+    This arithmetic helper is distinct from the Lean dyadic construction.
+    """
+    _dyadic_parameters(cutoff, tolerance)
+    ratio = Fraction(3) / Fraction(tolerance)
+    floor, ceiling = _binary_log_bounds(ratio)
+    band = (_binary_log_bounds(Fraction(cutoff))[0] + 1) * (floor // 2 + 1)
+    central = ceiling + 1
     return 2 * band + central
 
 
@@ -48,12 +79,7 @@ def dyadic_taylor_rank_bound(cutoff: float, tolerance: float) -> int:
     ``16 * p * (s + 1)`` separated terms for the full fermionic kernel.
     """
 
-    if not np.isfinite(cutoff) or cutoff < 1:
-        raise ValueError("cutoff must be finite and at least one")
-    if not np.isfinite(tolerance) or not (0 < tolerance < 1):
-        raise ValueError("tolerance must lie strictly between zero and one")
-    scales = math.ceil(math.log2(cutoff))
-    accuracy_bits = math.ceil(math.log2(1.0 / tolerance))
+    scales, accuracy_bits = _dyadic_parameters(cutoff, tolerance)
     return 16 * accuracy_bits * (scales + 1)
 
 
@@ -96,7 +122,10 @@ class DyadicTaylorApproximation:
 
     @property
     def error_bound(self) -> float:
-        return 2.0 ** (-self.accuracy_bits)
+        """A conservative float export, never an underflowed exact zero."""
+        if self.accuracy_bits > 1074:
+            return math.nextafter(0.0, math.inf)
+        return math.ldexp(1.0, -self.accuracy_bits)
 
     def _positive_value(self, t: mp.mpf, omega: mp.mpf) -> mp.mpf:
         if omega <= 1:
@@ -141,14 +170,9 @@ def fermionic_dyadic_taylor_approximation(
 ) -> DyadicTaylorApproximation:
     """Construct the numerical counterpart of the formal dyadic theorem."""
 
-    if not np.isfinite(cutoff) or cutoff < 1:
-        raise ValueError("cutoff must be finite and at least one")
-    if not np.isfinite(tolerance) or not (0 < tolerance < 1):
-        raise ValueError("tolerance must lie strictly between zero and one")
+    scale, accuracy_bits = _dyadic_parameters(cutoff, tolerance)
     if precision_bits < 64:
         raise ValueError("precision_bits must be at least 64")
-    scale = math.ceil(math.log2(cutoff))
-    accuracy_bits = math.ceil(math.log2(1.0 / tolerance))
     return DyadicTaylorApproximation(
         cutoff=cutoff,
         accuracy_bits=accuracy_bits,

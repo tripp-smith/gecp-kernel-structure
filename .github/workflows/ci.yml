@@ -18,6 +18,8 @@ jobs:
           build: true
           use-mathlib-cache: true
       - run: scripts/check_axioms.sh
+      - name: Check original-SPEC public theorem contracts
+        run: lake env lean scripts/CompletionContract.lean
       - name: Reject proof placeholders and custom axioms
         run: |
           if rg -n '\bsorry\b|\badmit\b|\bnative_decide\b|^\s*(private\s+|protected\s+)?axiom\s' --glob '*.lean' --glob '!.lake/**'; then

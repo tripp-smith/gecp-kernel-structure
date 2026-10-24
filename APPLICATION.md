@@ -5,7 +5,8 @@ finite-grid GECP, solve-based cross approximation, diagonal-pivoted Cholesky,
 conditional Lipschitz pivot certificates, numerical separated interpolation,
 and sparse spectral recovery. The separate residual-adaptive experiment
 controller now has seven-cutoff, 28-prefix sampled evidence and passing
-independent MP192 checks; its full original-scope closure audit remains pending.
+independent MP192 checks. DQ's original-scope source audit is performed; final
+repaired-source delivery gates remain pending.
 
 ```python
 import numpy as np
@@ -645,8 +646,8 @@ diagnostics/curves (R26/R27). At DM closure the historical audit recorded
 the resulting 40/40 assumption and reopens the adaptive-grid R25 scope. At DO
 closure its 39/40 count was 97.5% checklist coverage, not weighted effort.
 DP now records the actual adaptive generations and passing independent
-post-run checks described below; the subsequent original-scope closure remains
-pending.
+post-run checks described below. DQ's original-scope audit and boundary repairs
+are described below; final release gates remain pending.
 Those algorithms are not behavior silently supplied by the exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
@@ -803,8 +804,9 @@ installed-wheel smokes pass, including the minimum supported SciPy 1.15.
 Those are DN's historical verification results and PR #120 is merged. DO's
 subsequent independent audit, 569-test verification and merged PR #121 are
 recorded above. DP's actual adaptive-grid generations are now available as
-described below, with independent MP192 checks passing; the final closure audit
-remains pending. No package is published.
+described below, with independent MP192 checks passing. DQ subsequently
+performs the original-scope audit; final release gates remain pending.
+No package is published.
 
 ## DP residual-adaptive sampled grids (verified; merged PR #122)
 
@@ -916,6 +918,50 @@ effort estimate is not a checklist count or completion verdict. Successful
 sampled validation is not a continuous residual-supremum bound, an exact
 complete-pivot trajectory, or a new Lean rate theorem. No package publication
 is claimed.
+
+## DQ boundary safety and standalone certificate metadata
+
+`certified_pivot` is conditional on **exact callback point values of one fixed
+function** and coordinatewise Lipschitz constants valid throughout each cell,
+not just at its sample. It does not enclose arbitrary callback evaluation error.
+DQ computes radii/upper bounds and gap comparisons using exact binary-rational
+arithmetic before outward float64 export, and rounds the lower/upper eta ratio
+down. One-ULP cells and subnormal uncertainty no longer disappear through
+midpoint, width or product rounding. A non-splittable unresolved cell returns
+`coordinate_resolution` with `certified=False` and its upper bound retained;
+an unrepresentable upper bound raises `NumericalBreakdownError`.
+
+Standalone `PivotCertificate.metadata` now records arithmetic, actual point,
+interval enclosure and exported-bound/coordinate precision, distinct sampled
+tie counts, stop reason, objective/certification scope and scalar conditioning
+as not applicable. Interval certificates still require their separately
+documented valid interval callback. They restore the caller's exact interval
+bit precision, including failure paths; high internal precision does not make
+53-bit exported coordinates or bounds high precision.
+
+The Taylor factory and `dyadic_taylor_rank_bound` choose the smallest exact
+integer parameters covering the **actual binary64 cutoff/tolerance**, including
+values immediately adjacent to powers of two and subnormal tolerances.
+`exp_family_rank_bound` computes its published integer floor count without
+floating logarithms. `dlr_rank_bound` uses a conservative binary-log envelope
+for the central count, so it may be larger than the earlier rounded natural-log
+helper; neither it nor a sampled GECP rank is the Lean construction's rank.
+Exported Taylor error bounds never silently underflow to exact zero. These
+fixes do not certify rounded Taylor evaluation or an inexact numerical GECP
+trajectory with the ideal exact-run theorem.
+
+DQ also updates the development-only cache-lock dependency to filelock 4.2.1
+after the live dependency gate reports advisories. The numerical stack and all
+historical experiment manifests remain unchanged. DQ's source-level audit is
+recorded in [FINAL_AUDIT.md](FINAL_AUDIT.md). Exact code head `f2ffd5e` passes
+757 tests in 150.01 seconds and all Lean/consumer/axiom/style/type/security
+gates. Push/PR CI `40050118292`/`40050129457` pass all four checks. Rebuilt
+archives match all 21 Python/153 Lean sources and claim docs; installed wheels
+pass both pinned and minimum-SciPy environments, 45 exports, adaptive success/
+budget failure, 48 six-method fits and the new boundary/metadata checks each.
+Draft PR #123 exists. Final documentation-head and merged-main gates remain
+before a completion claim. No package publication or external peer review is
+implied.
 
 ## Release provenance
 
