@@ -3,6 +3,8 @@
 This is the acceptance ledger for the user's application-development goal. It
 does not replace the completed mathematical `SPEC.md` or weaken its theorems.
 An unchecked requirement remains open even when a related phase or test passes.
+DU's revision-specific root/CI/install and authorized delivery receipt is
+[PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127).
 
 ## Required end state
 

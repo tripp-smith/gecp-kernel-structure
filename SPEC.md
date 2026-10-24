@@ -2881,7 +2881,8 @@ This annotation records delivered identifiers without changing the goals above.
   100-digit checking; two runs match numerical fields, not machine-dependent
   measurements. Existing numerical behavior is not changed to hide the failure.
 
-- **Phase DU application extension (2026-10-24 EDT; verification in progress):**
+- **Phase DU application extension (2026-10-24 EDT; final verification/delivery
+  in [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127)):**
   adds installed `FermionicBasis`, `FermionicFit`, `LeastSquaresPlan`, immutable
   diagnostics, cached solve/SVD designs, arbitrary complex batch axes, explicit
   physical tau/ordinary-index Matsubara conventions, versioned pickle-free
