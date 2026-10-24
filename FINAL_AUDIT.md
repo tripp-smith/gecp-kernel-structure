@@ -20,7 +20,12 @@ review is implied. DQ code `f2ffd5e` passes its exact root, package/install
 and push/PR CI gates, recorded below. Final branch `0a6d363` repeats every
 root/package/install gate and passes CI `40050605960`/`40050610230`.
 PR #123 merges as `d9978607b88a45d98d917f44318bcaf99b4c3239` at
-2026-10-24 01:41:41 UTC. Exact pushed-main closure is checked before handoff.
+2026-10-24 01:41:41 UTC. Exact pushed-main closure
+`e8c35eda7662566639c5eac6748d3032df87075f` passed the root (757 tests in
+150.31 seconds), all proof/type/style/security gates,
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962),
+clean archives and both installed environments. The original goal was then
+marked complete; terminal accounting is in the canonical handoff metadata.
 The updated estimate is 100% of required scope, not a theorem-truth probability,
 an assertion every research question has a positive answer, or a publication
 priority/adjudication claim. Original mathematical goals remain unchanged.
@@ -184,10 +189,10 @@ PR #122 merges at 2026-10-23 20:20:48 UTC as
 `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`; local main fast-forwards to
 origin and generation revision `3cee4186fddf990abdd33dbe24c46ff908b1923f` is
 confirmed an ancestor. DP is verified and merged on this evidence. Exact
-pushed-main closure metadata/gates repeat before handoff and remain pending;
-no pushed-main CI identifier is asserted yet. The next decision is
-the full original-SPEC closure audit after DP, not automatic completion from
-this numerical delivery or the inventory count.
+pushed-main closure was pending at this historical DP branch snapshot.
+It subsequently passed at main `5a5fef0`, CI `40018905634`. DQ then completed
+the original-SPEC closure audit and exact-main `e8c35ed` gates; neither this
+numerical delivery nor the inventory count alone established completion.
 
 ## The actual headline mathematical result
 
@@ -301,11 +306,11 @@ are not silently promoted into mandatory additional theorems.
 | 22 | Supported semantic public theorem interfaces | Public algebraic, SPD, fermionic and Green identifiers appear in `Theorems.lean`/`scripts/AxiomAudit.lean`. The conservative `fermionicKernel_finiteRun_error_le_exp` delivers the proposed rate role with its range visible; no “optimal” theorem or false all-cutoff alias. |
 | 23 | Supported scoped API adaptations | Seven proposed names are exported in `kernelgecp/__init__.py:53–99`. `GECPConfig` supplies controls; result residual access is `residual_matrix`, histories and `evaluate_residual`; Cholesky consumes sampled matrices. These document the proposed example's roles, not literal compatibility with every example spelling/signature. |
 | 24 | Supported precision paths and root-verified tie/arithmetic repairs | Float64, mpmath with canonical decimal histories and `Fraction` surrogates exist. DO records observed candidate ties, scopes interval certificates, and handles representable extreme/mixed-scale updates and unrepresentable failures. MP128 census elimination still uses 53-bit grid coordinates; LAPACK conditioning diagnostics remain estimates. |
-| 25 | DP exact-head root, package/install and CI verified; PR merged | Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes the full local root with 713 tests in 150.98 seconds; exact-head push CI `40017937659` and PR CI `40017945103` pass all four checks. Clean archives and both rebuilt installed-wheel environments pass again; PR #122 is merged. The established 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and clean dependency gates remain documented above. Pushed-main closure is pending; earlier artifact/code-head and DO checks remain historical evidence. |
+| 25 | DP exact-head root, package/install and CI verified; PR merged | Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes the full local root with 713 tests in 150.98 seconds; exact-head push CI `40017937659` and PR CI `40017945103` pass all four checks. Clean archives and both rebuilt installed-wheel environments pass again; PR #122 is merged. The established 3,634 Lean jobs, 876 allowed axiom reports, 95-file formatting, mypy on 21 sources and clean dependency gates remain documented above. DP main closure subsequently passed at 5a5fef0, CI 40018905634; earlier artifact/code-head and DO checks remain historical evidence. |
 | 26 | Supported adaptive and historical datasets | Direct inspection finds seven schema-3 adaptive cases and twenty-eight converged tolerance records through `1e-12`, 128-bit elimination, 53-bit explicit coordinates and MP192 probe/final sample metadata. Revision/config/source/lock/environment provenance and exact full-run byte repeats are recorded above; the passing independent report pins its input and checker source and verifies revision blobs. Historical canonical JSONL retains its original provenance; final DP shipping gates remain separate. |
-| 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, but full completion still requires final delivery and the subsequent original-scope audit. |
+| 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, and DQ subsequently completed the original-scope audit and exact-main gates at e8c35ed, CI 40051138962. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
-| 29 | Supported synchronized claim and handoff documents | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, audits and canonical FINAL_HANDOFF record the actual theorem/obstruction boundaries, adaptive/sparse evidence, DQ repairs, final-branch gates and merged PR #123. Original mathematics and historical provenance are preserved. Exact-main gates are checked before handoff. |
+| 29 | Supported synchronized claim and handoff documents | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, audits and canonical FINAL_HANDOFF record the actual theorem/obstruction boundaries, adaptive/sparse evidence, DQ repairs, final-branch gates and merged PR #123. Original mathematics and historical provenance are preserved. Exact-main e8c35ed root, CI 40051138962 and package/install gates passed. |
 | 30 | Minimum and required original outcomes supported | Reusable core, arbitrary-domain strict-SPD baseline, fermionic algebra, constructive logarithmic rank and the stronger actual exact rate/cross/Green results are proved. Adaptive seven-cutoff data and the six-method sparse comparison are checked at sampled scope. The DQ explicit-item audit and actual delivery gates, not these minimum outcomes or an inventory count alone, support completion. |
 
 ## Independent disposition of the forty inventory groups
@@ -316,7 +321,7 @@ statuses follow inspected scope rather than its previous “40/40” count.
 pending; `I` means a required deliverable is missing. No percentage of overall
 completion is inferred from this table. DP's preliminary mapping is now
 **40 supported groups and 0 incomplete groups**, using the stated evidence
-scopes and preserving pending final gates. This is an input to the
+scopes and the subsequent actual closure evidence. This is an input to the
 DQ original-scope explicit-item audit below, not its completion decision.
 
 | ID | Disposition | Evidence / boundary |
@@ -355,12 +360,12 @@ DQ original-scope explicit-item audit below, not its completion decision.
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
 | R34 | S | All eleven original §25 numerical test categories are explicitly mapped in FINAL_AUDIT. DQ adds failure-first one-ULP/subnormal/gap/precision/parameter-boundary checks to the preserved exact, independent centered-expression, PSD/Cholesky, determinant/cross and adaptive/spectral tests. Exact code-head root passes 757 tests. |
-| R35 | S | Final DQ branch 0a6d3635529279beac9fb198c2d9de147c5ee2e5 passes ./scripts/verify.sh: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050605960/40050610230 pass all four checks. Exact pushed-main gates are checked before final handoff. |
+| R35 | S | Final DQ branch 0a6d3635529279beac9fb198c2d9de147c5ee2e5 passes ./scripts/verify.sh: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050605960/40050610230 pass all four checks. Exact main e8c35ed passed the root (757 tests in 150.31 seconds), CI 40051138962, clean archives and both installed environments. |
 | R36 | S | DQ rebuilt source/wheel archives are clean and hash-match all 21 Python/153 Lean sources plus claim docs/lock, include consumers/new tests/adaptive artifacts, and exclude local notes/caches/scratch. Outside-checkout installed checks pass pinned SciPy 1.18.0 and minimum 1.15.0, all 45 exports, adaptive success/budget failure and 48 six-method fits plus new boundary/metadata paths per environment. No package publication is claimed. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
 | R38 | S | DQ's original thirty-section and explicit-item source audit, theorem-assumption review and experimental/API/test lists are complete. All affected claim docs and canonical provenance record verified final-branch gates and merged PR #123. Original SPEC mathematics and historical evidence are preserved. The 100% estimate concerns required scope, not every optional extension or a positive literal small-cutoff conjecture. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | S | PR #123 merges at 2026-10-24 01:41:41 UTC as d9978607b88a45d98d917f44318bcaf99b4c3239 after exact final-branch root, clean rebuilt archives/two installed environments and push/PR CI 40050605960/40050610230 pass. Local main fast-forwards; generation 3cee4186 remains an ancestor. Closure metadata is pushed to main and exact-head root/CI/archive/install, synchronization and no-open-PR checks precede final handoff and tracker completion. |
+| R40 | S | PR #123 merges at 2026-10-24 01:41:41 UTC as d9978607b88a45d98d917f44318bcaf99b4c3239 after exact final-branch root, clean rebuilt archives/two installed environments and push/PR CI 40050605960/40050610230 pass. Local main fast-forwards; generation 3cee4186 remains an ancestor. Closure main e8c35ed passed the exact root (757 tests in 150.31 seconds), CI 40051138962, archive/install, synchronization and no-open-PR checks; the original tracker was then marked complete. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -412,8 +417,9 @@ Section 17's “where feasible” extension remains explicit research work.
 Final closure policy:
 
 1. DQ repaired-source and final documentation-head roots, package/install and
-   exact-head CI pass; PR #123 is merged. Repeat exact pushed-main gates before
-   final handoff. Prior DP/DO/DN verification remains historical rather than
+   exact-head CI pass; PR #123 is merged. Exact-main `e8c35ed` root, CI
+   `40051138962`, archives and both installed environments passed.
+   Prior DP/DO/DN verification remains historical rather than
    a substitute. Preserve sampled scope and all failures.
 2. The original-source explicit-item audit below together with those actual
    delivery gates supports completion. The forty-group mapping alone does not.
@@ -652,9 +658,11 @@ environments pass again. [PR #123](https://github.com/tripp-smith/gecp-kernel-st
 is attached and merges at 2026-10-24 01:41:41 UTC as
 `d9978607b88a45d98d917f44318bcaf99b4c3239`. Local main fast-forwards; frozen
 generation `3cee4186` remains an ancestor. Exact pushed-main root/CI/archive/
-install checks and synchronization are verified before final handoff. The
-overall goal is closed only after those actual checks pass, never from the
-source audit or inventory alone.
+install checks and synchronization passed at `e8c35ed`: 757 tests in
+150.31 seconds and successful CI `40051138962`, with local/main and origin/main
+equal and no open PRs. The original goal was closed after those actual checks,
+never from the source audit or inventory alone. DR's later documentation
+finalization does not reopen or broaden that mathematical scope.
 
 Canonical exposed model/mode/time/usage and unavailable billing/version fields:
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).

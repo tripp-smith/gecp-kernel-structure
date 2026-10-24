@@ -1,6 +1,7 @@
 import re
 import tomllib
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).parents[1]
 PROJECT_DOCS = (
@@ -114,3 +115,38 @@ def test_implementation_run_metadata_is_complete_and_linked() -> None:
     for name in PROJECT_DOCS:
         text = (ROOT / name).read_text(encoding="utf-8")
         assert metadata_link in text, name
+
+
+def test_terminal_original_goal_record_is_distinct_from_later_documentation() -> None:
+    handoff = (ROOT / "FINAL_HANDOFF.md").read_text(encoding="utf-8")
+    terminal = handoff.split("### Completed original-SPEC research goal\n", 1)[1]
+    terminal = terminal.split("\n## ", 1)[0]
+    required = (
+        "`complete`",
+        "e8c35eda7662566639c5eac6748d3032df87075f",
+        "40051138962",
+        "24,738,403",
+        "116,095 seconds (32:14:55)",
+        "exact serving model/version unavailable",
+        "account billing",
+        "post-completion documentation",
+        "returns null",
+        "not DQ-only usage",
+        "No DR-only",
+    )
+    assert all(value in terminal for value in required)
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "24,738,403" in readme and "116,095" in readme
+
+
+def test_project_markdown_local_link_targets_exist() -> None:
+    for name in (*PROJECT_DOCS, "FINAL_HANDOFF.md"):
+        document = ROOT / name
+        text = document.read_text(encoding="utf-8")
+        text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+        for target in re.findall(r"!?\[[^\]\n]*\]\(([^)\n]+)\)", text):
+            parsed = urlsplit(target.strip().strip("<>"))
+            if parsed.scheme or parsed.netloc or not parsed.path:
+                continue
+            path = document.parent / unquote(parsed.path)
+            assert path.exists(), (name, target)

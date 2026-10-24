@@ -19,8 +19,11 @@ rank, arbitrary-domain strict-SPD GECP/Cholesky equivalence and original-kernel
 refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
 
 **The required original-SPEC scope is complete at its stated boundaries.**
-Exact pushed-main verification is a prerequisite to this final handoff, not
-inferred from a status label. The audit rereads all original sections and explicit lists,
+Exact pushed-main verification passed at `e8c35ed`: 757 tests in 150.31 seconds,
+3,634 Lean jobs, 876 allowed axiom reports, 22 public-import examples and
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962),
+plus archive inspection and both installed-wheel environments. This is measured
+closure evidence, not a status-label inference. The audit rereads all original sections and explicit lists,
 checks actual proof hypotheses through a 22-example public consumer, and
 recomputes numerical artifact checks instead of relying on inventory labels.
 It repairs real conditional Lipschitz-certificate rounding and dyadic-parameter
@@ -28,8 +31,8 @@ coverage errors, including one-ULP/subnormal cases and standalone precision
 metadata. A live dependency audit also requires a development-only filelock
 update; numerical dependencies and historical data manifests are preserved.
 Exact repaired-source and final documentation-head root, package/install and
-push/PR CI pass; PR #123 is merged, and exact-main gates are checked before
-handoff. No new independent multiagent review is
+push/PR CI pass; PR #123 and its exact-main closure are delivered. No new
+independent multiagent review of the mathematics is
 claimed: three attempted reviewers hit an account limit before contributing;
 the primary completes this audit locally. The updated estimate is 100% of
 required scope, not a theorem probability, a count-based verdict or resolution
@@ -758,11 +761,16 @@ CI `40050610230` pass all four checks at that exact head. Clean archives are
 rebuilt and both reinstalled outside-checkout environments pass again.
 PR #123 merges at 2026-10-24 01:41:41 UTC as
 `d9978607b88a45d98d917f44318bcaf99b4c3239`; local main fast-forwards and clean
-generation `3cee4186` remains an ancestor. Closure metadata is pushed to main;
-the final handoff repeats exact pushed-main root/CI/archive/install checks and
-confirms local/origin synchronization and no open PRs. The required-scope
-completion decision rests on the original-source audit plus actual successful
-gates; the goal tracker is completed only after these checks pass.
+generation `3cee4186` remains an ancestor. Closure main
+`e8c35eda7662566639c5eac6748d3032df87075f` passed the exact root with 757 tests
+in 150.31 seconds, all 3,634 Lean jobs, 876 permitted axiom reports, 22 consumer
+examples and style/type/security gates. Exact-head CI `40051138962` completed
+successfully on 2026-10-23 at 21:52:41 EDT (2026-10-24 01:52:41 UTC), with
+both Lean and Python successful. Rebuilt source/wheel archives hash-matched
+21 Python sources, 153 Lean sources, claim docs and lock; both reinstalled
+outside-checkout environments passed. Final Git checks confirmed local/main
+and origin/main equal, no tracked changes and no open PRs. The original goal
+was marked complete after those actual gates, not from the inventory count.
 
 ## Implementation run metadata
 
@@ -925,6 +933,33 @@ identity or API-equivalent price is inferred. The tracker is marked complete
 only after the final pushed-main checks, which are outside this point-in-time
 snapshot; these operational counters do not prove a theorem or scope decision.
 
+### Completed original-SPEC research goal
+
+The terminal completion response on 2026-10-23 at 21:54 EDT (2026-10-24
+01:54 UTC) exposed the following frozen accounting record. It supersedes the
+earlier active snapshots for final goal state, not their historical usage.
+
+| Field | Completed original-goal record |
+| --- | --- |
+| Goal state at completion | `complete` |
+| Verified closure revision | `e8c35eda7662566639c5eac6748d3032df87075f` |
+| Exact-main CI | [40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962), successful Lean and Python jobs |
+| Terminal aggregate usage | 24,738,403 cumulative aggregate goal tokens |
+| Terminal goal-accounting time | 116,095 seconds (32:14:55) |
+| Declared root model identity | GPT-5-based Codex; exact serving model/version unavailable |
+| Execution mode | Default collaboration; unrestricted filesystem/network; approval policy `never` |
+| Unavailable fields | Reasoning effort, input/cache/reasoning/output token categories and account billing |
+| Scope of counters | Cumulative completed research goal, not DQ-only usage, total calendar duration or this later documentation task |
+
+DR is a post-completion documentation/finalization task. Its live goal query
+returns null; the original completion result above is preserved from the
+actual prior tool response, not fabricated from a current tracker. No DR-only
+usage, new cost estimate or account bill is inferred. The historical v1
+API-equivalent calculation above remains explicitly historical and is not
+applied to this terminal aggregate. DR uses the primary agent and a read-only
+documentation reviewer; that review does not imply new independent theorem
+or numerical verification, an exact worker model identity or external peer review.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -971,8 +1006,9 @@ snapshot; these operational counters do not prove a theorem or scope decision.
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
-| DP — residual-adaptive seven-cutoff census | verified; green final-branch CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments; exact pushed-main closure repeats before handoff |
-| DQ — original-SPEC closure audit | verified; green final-branch CI | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); explicit-item source audit, certificate/parameter boundary repairs, 757-test final-branch root, clean rebuilt archives/two installed environments and CI 40050605960/40050610230; exact-main gates checked before handoff |
+| DP — residual-adaptive seven-cutoff census | complete; green exact-main CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives/two installed environments; main closure 5a5fef0 and CI 40018905634 passed |
+| DQ — original-SPEC closure audit | complete; green exact-main CI | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); exact main e8c35ed, 757 tests in 150.31 seconds, successful CI 40051138962, clean archives and two installed environments |
+| DR — final documentation and repository handoff | in progress | completed-main evidence, terminal original-goal accounting and synchronized claim documents; no mathematical or numerical changes |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -1048,7 +1084,24 @@ The historical v1 follow-ups below are optional alternative proofs or extensions
 
 ## Public Lean results
 
-The public theorem surface includes:
+The principal completed-goal interfaces are exported through
+`GECPKernelStructure/Theorems.lean` and consumed by
+`scripts/CompletionContract.lean`:
+
+- `fermionicKernel_finiteRun_error_le_exp`, the actual finite exact-GECP rate
+  for real `Λ≥1`, without a convergence or future-pivot premise;
+- `fermionicKernel_finiteRun_cross_error_le_exp` and
+  `fermionicKernel_finiteRun_greenError_le_exp_interval`, the original-core
+  cross and physical integral consequences;
+- `fermionicKernel_separatedApprox_real`, constructive real-parameter D1;
+- `fermionicKernel_finiteRun_error_le_allCutoff_exp` and
+  `fermionicKernel_smallCutoff_logarithmic_obstruction`, the separate
+  all-positive-cutoff variant and literal-parameter counterexample;
+- `posDef_completeRun_iff_pivotedCholesky` and
+  `posDef_completeRun_error_le_original_fillDistance`, arbitrary-domain
+  strict-SPD complete-run equivalence and original-kernel fill control.
+
+Additional public results from the historical phases include:
 
 - exact GECP: `gecp_interpolates_selected_rows`,
   `gecp_interpolates_selected_cols`, `gecp_core_nonsingular`, and
@@ -1140,7 +1193,12 @@ Normal non-convergence is represented by `converged` and `stop_reason`.
 Certified-pivot budget exhaustion is never reported as certification, and
 high-precision runs retain canonical decimal strings.
 
-## Verification commands run
+## Historical experiment commands
+
+These commands describe earlier recorded runs, not fresh DR artifact
+generation. Historical data retain their generation revision and manifests;
+use the frozen revision for byte reproduction, or separate scratch output
+paths for exploratory runs from a later checkout (see APPLICATION).
 
 ```bash
 ./scripts/verify.sh
@@ -1156,6 +1214,14 @@ git status --short
 ```
 
 ## Verification results
+
+The completed original-goal baseline is exact main `e8c35ed`: 757 tests in
+150.31 seconds, all 3,634 Lean jobs, 876 permitted axiom reports, 22 consumer
+examples, style/type/security gates, CI `40051138962`, clean archives and both
+installed environments passed. DR's later documentation checks are recorded
+in the phase record and do not relabel that historical result.
+
+### Historical verification snapshot (126 tests)
 
 - Lean build and public axiom audit pass; no `sorry`, `admit`, or custom axiom
   is present.
@@ -1190,7 +1256,8 @@ git status --short
 
 No required original-SPEC deliverable remains at the verified final handoff.
 DQ's source-level audit and real boundary repairs are verified and merged;
-exact-main gates are checked before handoff. DP's seven-cutoff data pass all
+exact-main `e8c35ed` passed all gates, including CI `40051138962`.
+DP's seven-cutoff data pass all
 28 sampled tolerance cases; that is not a continuous certificate. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
@@ -1316,7 +1383,9 @@ ignored.
 uv sync --all-extras
 lake exe cache get
 uv run python -c "import kernelgecp; print(kernelgecp.__version__)"
-uv run python experiments/synthetic_applications.py
+uv run python experiments/synthetic_applications.py \
+  --output experiments/scratch/synthetic_rerun.json \
+  --plot experiments/scratch/synthetic_rerun.png
 ```
 
 See `APPLICATION.md` for GECP, certified-pivot, low-rank, and sparse-recovery
@@ -1333,7 +1402,8 @@ only after the root command passes.
 
 ## Final closure and optional next research
 
-The independent `FINAL_AUDIT.md` supersedes the earlier forty-supported-label
+DO's independent audit and DQ's primary-agent closure in `FINAL_AUDIT.md`
+supersede the earlier forty-supported-label
 assumption in `COMPLETION_AUDIT.md`; DP addresses the R25 gap it identified.
 DJ/DK prove original-kernel Lipschitz fill control, arbitrary-domain PSD
 geometry and strict-SPD complete-pivot diagonal necessity through fresh
@@ -1346,7 +1416,8 @@ all-seven-cutoff residual-driven nested-grid experiment through `1e-12` passes
 all sampled cases; data and reviewed plots repeat bytes. DQ performs the
 fresh original-SPEC audit and repairs actual certificate/parameter boundary
 defects. Final-branch root, package/install and exact-head CI pass; PR #123 is
-merged and pushed-main closure is checked before final handoff. No additional
+merged and exact-main closure `e8c35ed` passed all gates, including CI
+`40051138962`. No additional
 required original-SPEC task remains. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
 theorems. The original-scope source/explicit-item audit, not DP's inventory

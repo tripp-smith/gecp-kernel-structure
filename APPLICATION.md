@@ -6,7 +6,10 @@ conditional Lipschitz pivot certificates, numerical separated interpolation,
 and sparse spectral recovery. The separate residual-adaptive experiment
 controller now has seven-cutoff, 28-prefix sampled evidence and passing
 independent MP192 checks. DQ's original-scope source audit and boundary repairs
-are verified and merged in PR #123; exact-main gates are checked before handoff.
+are verified and merged in PR #123. Exact-main closure `e8c35ed` passed 757
+tests in 150.31 seconds, all proof/type/style/security gates,
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962),
+clean archive inspection and both outside-checkout installed environments.
 
 ```python
 import numpy as np
@@ -78,7 +81,8 @@ is merged. DO's repairs alone did not supply the all-seven-cutoff adaptive
 experiment reopened in [FINAL_AUDIT.md](FINAL_AUDIT.md). DP now supplies the
 actual adaptive-grid generations, passing independent post-run and final
 branch root/CI/package/install checks described below. PR #122 is merged;
-exact pushed-main closure gates repeat before handoff.
+DP main closure passed at `5a5fef0`, CI `40018905634`; DQ's later original-
+scope closure passed at `e8c35ed`, CI `40051138962`.
 
 ## Separated interpolation
 
@@ -184,28 +188,35 @@ claims.
 
 ## Reproducible experiments
 
+These are exploratory reruns from a clean current checkout. They write ignored
+scratch outputs, leaving the committed historical evidence and its generation
+manifests intact. Byte-for-byte canonical reproduction additionally requires
+the artifact's frozen source revision and recorded environment; a later Git
+revision correctly produces different provenance.
+
 ```bash
 uv run python -m kernelgecp.census \
   --config experiments/census.toml \
-  --output experiments/data/gecp_census_v2.jsonl
+  --output experiments/scratch/gecp_census_v2.jsonl
 uv run python experiments/plot_census.py \
-  experiments/data/gecp_census_v2.jsonl \
-  experiments/data/gecp_census_normalized.png --mode normalized
+  experiments/scratch/gecp_census_v2.jsonl \
+  experiments/scratch/gecp_census_normalized.png --mode normalized
 uv run python experiments/plot_census.py \
-  experiments/data/gecp_census_v2.jsonl \
-  experiments/data/gecp_census_v2.png
+  experiments/scratch/gecp_census_v2.jsonl \
+  experiments/scratch/gecp_census_v2.png
 uv run python -m kernelgecp.census \
   --config experiments/census_resolution.toml \
-  --output experiments/data/gecp_census_resolution.jsonl
+  --output experiments/scratch/gecp_census_resolution.jsonl
 uv run python -m experiments.check_census \
-  --input experiments/data/gecp_census_v2.jsonl \
-  --resolution-input experiments/data/gecp_census_resolution.jsonl \
-  --output experiments/data/gecp_census_checks.json
-uv run python experiments/exact_surrogates.py
+  --input experiments/scratch/gecp_census_v2.jsonl \
+  --resolution-input experiments/scratch/gecp_census_resolution.jsonl \
+  --output experiments/scratch/gecp_census_checks.json
+uv run python experiments/exact_surrogates.py \
+  --output experiments/scratch/exact_surrogates.json
 uv run python experiments/synthetic_applications.py \
   --config experiments/synthetic_applications.toml \
-  --output experiments/data/synthetic_applications.json \
-  --plot experiments/data/synthetic_applications.png
+  --output experiments/scratch/synthetic_applications.json \
+  --plot experiments/scratch/synthetic_applications.png
 ```
 
 Runtime algorithms require no network access. The historical fixed-grid census
@@ -964,7 +975,8 @@ Final documentation branch `0a6d363` repeats the full root (757 tests in
 149.97 seconds), rebuilt archives and both installed environments; push/PR CI
 `40050605960`/`40050610230` pass all four checks. PR #123 merges at
 2026-10-24 01:41:41 UTC as `d9978607b88a45d98d917f44318bcaf99b4c3239`.
-Exact pushed-main gates are checked before final handoff. Required original-
+Exact pushed-main `e8c35ed` passed the full root (757 tests in 150.31 seconds),
+CI `40051138962`, archive inspection and both installed environments. Required original-
 SPEC scope is complete at these explicit boundaries; no package publication,
 external peer review or ideal/inexact-run numerical theorem is implied.
 
@@ -974,5 +986,6 @@ The implementation agent's exposed model family and mode, goal-accounting
 time and token snapshot, and the assumptions behind the API-equivalent cost
 estimate are documented in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). They describe
-the historical v1 implementation and active research runs, not package runtime requirements or benchmark
-performance.
+the historical v1 implementation, completed original-SPEC research goal and
+later documentation-only task boundary, not package runtime requirements,
+phase-only costs or benchmark performance.

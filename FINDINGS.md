@@ -28,8 +28,11 @@ Clean rebuilt archives and both outside-checkout installed checks pass.
 Final branch `0a6d363` repeats the root (757 tests in 149.97 seconds), clean
 rebuilt archives and both installed environments; CI `40050605960`/`40050610230`
 pass all four checks. PR #123 merges at 2026-10-24 01:41:41 UTC as
-`d9978607b88a45d98d917f44318bcaf99b4c3239`. Exact pushed-main gates are checked
-before final handoff. The completion estimate is 100% of required scope,
+`d9978607b88a45d98d917f44318bcaf99b4c3239`. Exact main `e8c35ed` passed the root
+(757 tests in 150.31 seconds), all proof/type/style/security gates,
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962),
+archive inspection and both installed environments. The original goal was
+marked complete after these gates. The completion estimate is 100% of required scope,
 not a claim that every optional research question has been resolved positively.
 
 DO reopened R25
@@ -2056,6 +2059,19 @@ metadata/gates repeat before handoff. The next fresh full original-SPEC audit
 remains required; whole-goal completion is not claimed. No sampled maximum
 or surplus is a continuous supremum bound, and no approximate-pivot rate
 theorem is added.
+
+## DQ completed exact-main closure and DR documentation boundary
+
+The DQ closure revision `e8c35eda7662566639c5eac6748d3032df87075f` passed
+757 tests in 150.31 seconds, the 3,634-job Lean build, 876 permitted axiom
+reports, 22 public-import examples, style/type/security and CI `40051138962`.
+Clean source/wheel inspection and both outside-checkout installed environments
+passed; local and origin main were equal with no open PRs. The original goal
+was marked complete after these checks. This supersedes earlier prospective
+closure language in the dated DP/DQ history, not any theorem's assumptions.
+DR synchronizes documentation/provenance and adds documentation regressions;
+it does not add a mathematical result, change an algorithm, regenerate
+historical data or reopen the completed research scope.
 
 ## Run provenance
 

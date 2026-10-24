@@ -13,7 +13,10 @@ pass. Final documentation branch `0a6d363` repeats the root (757 tests in
 149.97 seconds), rebuilt archives and installed checks; push/PR CI
 `40050605960`/`40050610230` pass. PR #123 merges as
 `d9978607b88a45d98d917f44318bcaf99b4c3239` at 2026-10-24 01:41:41 UTC.
-Exact pushed-main gates are checked before final handoff. The required
+Exact pushed-main `e8c35ed` passed the root (757 tests in 150.31 seconds),
+all proof/type/style/security gates,
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962),
+archive inspection and both installed environments. The required
 original-SPEC scope is complete at its stated boundaries. This is primary-agent review, not a new
 external or independent multiagent audit. DP main `5a5fef0` already passed its
 root, CI `40018905634` and rebuilt package/install gates; those historical
@@ -91,7 +94,8 @@ Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
 713-test root, clean archive inspection, repeated outside-checkout installed-wheel
 checks and exact-head push/PR CI. DP pushed-main closure also passes. DQ's
 source-level audit and repaired final documentation-head release gates pass;
-PR #123 is merged and exact-main closure is checked before handoff.
+PR #123 is merged and exact-main closure `e8c35ed` passed, including CI
+`40051138962`; the original goal was marked complete afterward.
 The updated estimate is **100% of required scope**, not the forty-group count,
 a theorem-truth probability or a claim every research question has a positive answer.
 DO's passing 569-test root, package checks and merged PR #121 remain historical
@@ -142,12 +146,12 @@ rewritten.
 | R32 | Public Python interface (§23) | Supported | All seven proposed imports exist; all 45 `__all__` exports load after DL's three metadata exports. The result's actual residual interface is `residual_matrix`/histories plus `evaluate_residual`, documented in APPLICATION, rather than the illustrative `result.residual` spelling. |
 | R33 | Deterministic ties and visible failures (§24) | Supported | Lexicographic selection and candidate tie counts are qualified as sampled, not global multiplicities. DO tests certificate cancellation, exhausted budgets, large-finite and mixed-scale Schur updates, arithmetic-range failures and exclusion of already annihilated coordinates instead of a raw `IndexError` or duplicate-core false convergence. |
 | R34 | Enumerated numerical coverage (§25) | Supported | All eleven original §25 numerical test categories are explicitly mapped in FINAL_AUDIT. DQ adds failure-first one-ULP/subnormal/gap/precision/parameter-boundary checks to the preserved exact, independent centered-expression, PSD/Cholesky, determinant/cross and adaptive/spectral tests. Exact code-head root passes 757 tests. |
-| R35 | Trusted Lean/root/CI gate (§25, agent rules) | Supported | Final DQ branch 0a6d3635529279beac9fb198c2d9de147c5ee2e5 passes ./scripts/verify.sh: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050605960/40050610230 pass all four checks. Exact pushed-main gates are checked before final handoff. |
+| R35 | Trusted Lean/root/CI gate (§25, agent rules) | Supported | Final DQ branch 0a6d3635529279beac9fb198c2d9de147c5ee2e5 passes ./scripts/verify.sh: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050605960/40050610230 pass all four checks. Exact main e8c35ed passed the root (757 tests in 150.31 seconds), CI 40051138962, clean archives and both installed environments. |
 | R36 | Build/install handoff and local-note hygiene | Supported | DQ rebuilt source/wheel archives are clean and hash-match all 21 Python/153 Lean sources plus claim docs/lock, include consumers/new tests/adaptive artifacts, and exclude local notes/caches/scratch. Outside-checkout installed checks pass pinned SciPy 1.18.0 and minimum 1.15.0, all 45 exports, adaptive success/budget failure and 48 six-method fits plus new boundary/metadata paths per environment. No package publication is claimed. |
 | R37 | Pinned setup, license and prior attribution (§2,9,10,28) | Supported | `lean-toolchain`, `lake-manifest.json`, `uv.lock`, Apache-2.0 LICENSE, durable commands. The baseline is attributed below; this repo does not claim to originate pivoted Cholesky/P-greedy convergence. |
 | R38 | Required documents and claim separation (§28,29) | Supported | DQ's original thirty-section and explicit-item source audit, theorem-assumption review and experimental/API/test lists are complete. All affected claim docs and canonical provenance record verified final-branch gates and merged PR #123. Original SPEC mathematics and historical evidence are preserved. The 100% estimate concerns required scope, not every optional extension or a positive literal small-cutoff conjecture. |
 | R39 | Honest implementation-run provenance (agent rules) | Supported | Canonical FINAL_HANDOFF records exposed model family/mode, unavailable exact model/effort/categories/billing, cumulative goal counters, and explicitly historical API-equivalent cost assumptions; other documents link to it. |
-| R40 | Phase merge/push verification (active objective) | Supported | PR #123 merges at 2026-10-24 01:41:41 UTC as d9978607b88a45d98d917f44318bcaf99b4c3239 after exact final-branch root, clean rebuilt archives/two installed environments and push/PR CI 40050605960/40050610230 pass. Local main fast-forwards; generation 3cee4186 remains an ancestor. Closure metadata is pushed to main and exact-head root/CI/archive/install, synchronization and no-open-PR checks precede final handoff and tracker completion. |
+| R40 | Phase merge/push verification (active objective) | Supported | PR #123 merges at 2026-10-24 01:41:41 UTC as d9978607b88a45d98d917f44318bcaf99b4c3239 after exact final-branch root, clean rebuilt archives/two installed environments and push/PR CI 40050605960/40050610230 pass. Local main fast-forwards; generation 3cee4186 remains an ancestor. Closure main e8c35ed passed the exact root (757 tests in 150.31 seconds), CI 40051138962, archive/install, synchronization and no-open-PR checks; the original tracker was then marked complete. |
 
 ## Original section and outcome coverage
 
@@ -166,7 +170,7 @@ rewritten.
 | 11 | R16/R17: intended large-cutoff rate proved, literal arbitrarily-small-cutoff reading refuted. |
 | 12 | A proposed approximation-to-greedy route. The successful local-minor/panel mechanism fulfills the structural objective; a separate general best-rank comparison is not claimed. |
 | 13 | Research questions, not six independently promised positive answers. Actual all-orders signs/gauge are proved; pivot-location hypotheses and counterexamples remain explicitly distinguished. |
-| 14 | DP supplies all seven actual residual-adaptive trajectories and twenty-eight converged sampled tolerance records with full diagnostics and the repeated normalized/stage plot. Independent MP192 structure/provenance, twenty-one core and twenty-eight final-cross checks pass; PR #122 is verified and merged. DQ's original-scope audit is verified and merged; exact-main gates are checked before handoff. This is distinct from the bounded interval-adaptive API and is not continuous-supremum evidence. |
+| 14 | DP supplies all seven actual residual-adaptive trajectories and twenty-eight converged sampled tolerance records with full diagnostics and the repeated normalized/stage plot. Independent MP192 structure/provenance, twenty-one core and twenty-eight final-cross checks pass; PR #122 is verified and merged. DQ's original-scope audit is verified and merged; exact-main e8c35ed root, CI 40051138962 and package/install gates passed. This is distinct from the bounded interval-adaptive API and is not continuous-supremum evidence. |
 | 15 | R18/R22: exact small certificates and rational/high-precision evidence. |
 | 16 | R19/R21: cover theorem and adaptive certified maximizer with failure metadata. |
 | 17 | R20 plus the conditional-extension note below; no arbitrary-η near-optimal claim. |
@@ -178,7 +182,7 @@ rewritten.
 | 23 | R32 plus the actual documented result spelling. |
 | 24 | R22/R24/R33: precision and ties are exposed; DL adds explicit actual/requested precision and full metadata outside GECP. Cholesky/sparse remain float64 only, honestly labeled. |
 | 25 | R34/R35: source gates and numerical tests, including tested failure paths. |
-| 26 | R25–R28 include the byte-repeated schema-3 adaptive JSON, explicit axes, complete generation provenance and passing independent report, delivered in merged PR #122. Historical fixed-grid data retain their original provenance; DQ's original-scope audit is verified and merged; exact-main gates are checked before handoff. |
+| 26 | R25–R28 include the byte-repeated schema-3 adaptive JSON, explicit axes, complete generation provenance and passing independent report, delivered in merged PR #122. Historical fixed-grid data retain their original provenance; DQ's original-scope audit is verified and merged; exact-main e8c35ed root, CI 40051138962 and package/install gates passed. |
 | 27 A–F | A: R03–R05; B: R06–R09; C: R10–R14; D: R15; E: R16/R17; F: R29. |
 | 28 | R17/R37/R38: no unqualified “solved Problem 4.2”, no “optimal” theorem naming, no literature-priority claim. |
 | 29 | R38 and this explicit gap ledger. |
@@ -266,8 +270,9 @@ outside-checkout installed-wheel smokes are rebuilt and pass again. PR #122
 merges at 2026-10-23 20:20:48 UTC as
 `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`, and local main fast-forwards to
 origin. Generation revision `3cee4186fddf990abdd33dbe24c46ff908b1923f` is
-confirmed an ancestor. Exact pushed-main closure metadata/gates repeat before
-handoff and remain pending; no pushed-main CI identifier is asserted yet.
+confirmed an ancestor. At that historical branch snapshot, exact pushed-main
+closure was pending. It subsequently passed at `5a5fef0`, CI `40018905634`;
+DQ's later whole-scope closure passed at `e8c35ed`, CI `40051138962`.
 
 Durable commands remain `uv sync --all-extras`, `lake exe cache get`, and
 `./scripts/verify.sh`. Focused checks do not replace the root command.
@@ -308,8 +313,9 @@ P-greedy theory. DN closes the six-method computational comparison. DP now
 supplies the actual adaptive census, repeated inspected plot and passing
 independent MP192 report. DQ's original-source audit, real boundary repairs,
 final-branch root/CI/package gates and merged PR #123 supply the final required
-closure. Exact pushed-main checks are a prerequisite to handoff and tracker
-completion. No required original-SPEC task remains after those checks pass.
+closure. Exact pushed-main `e8c35ed` passed its root, CI `40051138962`, archive
+and installed-wheel checks; the original tracker was marked complete afterward.
+No required original-SPEC task remains at that verified scope.
 Arbitrary-inexact-pivot rates, ideal-run continuous numerical certification,
 global sparse support optimality and external publication remain optional
 extensions, not results inferred from this completion verdict.
