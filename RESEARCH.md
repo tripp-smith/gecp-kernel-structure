@@ -10037,3 +10037,49 @@ left under that scope. Arbitrary-inexact-pivot rates, certified ideal-run
 rounding propagation, global sparse optimality and external publication are
 optional next research, not silently supplied by the exact theorem. Original
 mathematical goals and all historical artifact provenance remain unchanged.
+
+### DQ exact-main completion record
+
+Exact main `e8c35eda7662566639c5eac6748d3032df87075f` passed the full root:
+757 tests in 150.31 seconds, 3,634 Lean jobs, 876 permitted axiom reports,
+22 public-import examples and style/type/security gates. CI `40051138962`
+passed both jobs, rebuilt archives and both installed environments passed,
+and final Git checks confirmed local/origin equality and no open PRs. The
+original goal was marked complete on 2026-10-23 at 21:54 EDT after those
+checks. Its terminal accounting is preserved in FINAL_HANDOFF; this recorded
+outcome supersedes earlier prospective DQ shipping statements without
+rewriting their historical phase contracts.
+
+## Phase DR — final documentation and repository handoff
+
+Contract opened 2026-10-23 EDT from synchronized main
+`e8c35eda7662566639c5eac6748d3032df87075f`, after completed DQ. This phase
+implements the user's documentation/finalization request under original SPEC
+§29. It does not reopen the completed research objective, create a new tracked
+goal, change a theorem or algorithm, or publish a package/release.
+
+Named outputs are synchronized README, FINAL_HANDOFF, FINAL_AUDIT,
+COMPLETION_AUDIT, APPLICATION, FINDINGS, MATHLIB and append-only SPEC status,
+plus this research record. Replace present-tense pre-handoff placeholders
+with actual DQ main evidence: 757 tests in 150.31 seconds at `e8c35ed`,
+successful exact-head CI `40051138962`, inspected source/wheel and both
+outside-checkout installed environments. Preserve historical phase narratives,
+all original mathematical goals, immutable generation manifests and protected
+untracked user notes. AGENTS and the preserved autonomous workflow reference
+remain operational/reference instructions, not mutable completion claims.
+
+Canonical implementation-run metadata must record the terminal original-goal
+result exposed in the preceding completion tool response: `complete`,
+24,738,403 cumulative aggregate tokens and 116,095 goal-accounting seconds
+(32:14:55). Those counters exclude this post-completion documentation task;
+the current goal query returns null, so no new live usage or billing is
+invented. Keep declared model/mode and unavailable exact-version/effort/token-
+category/billing fields distinct, and do not update historical pricing.
+
+Add bounded documentation regressions for completed-main evidence/provenance
+and local Markdown links where appropriate. Run the full root gate, inspect
+source/wheel contents, repeat installed checks, obtain exact-head CI, open a
+draft PR, merge under repository policy and push main. Final status must
+distinguish successfully verified source from pending checks, and final main
+must be synchronized. Disposable local build/cache outputs remain ignored;
+do not move, delete, read or stage the protected duplicate notes.

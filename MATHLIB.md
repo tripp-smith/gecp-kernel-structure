@@ -942,7 +942,7 @@ repeat bytes with all 28 sampled prefixes passing. This adds no formal result
 or upstream candidate. The DP root passes the unchanged 3,634-job Lean build
 and 876-declaration allowed-axiom gate; exact artifact-head push/PR CI pass.
 Final documentation-head root/CI also pass and PR #122 is merged;
-exact pushed-main closure repeats these gates before handoff.
+exact pushed-main closure subsequently passed at `5a5fef0`, CI `40018905634`.
 
 ## DQ public-interface consumer audit
 
@@ -962,8 +962,12 @@ Exact DQ code `f2ffd5e` passes all 3,634 Lean jobs, 876 permitted axiom
 reports and 22 consumer examples in the 757-test root, plus push/PR CI
 `40050118292`/`40050129457`. This adds no theorem or upstream-submission claim;
 final branch `0a6d363` repeats the root and passes CI
-`40050605960`/`40050610230`; PR #123 is merged. Exact-main gates are checked
-before handoff. No new formal result or upstream claim is introduced by that
+`40050605960`/`40050610230`; PR #123 is merged. Exact-main `e8c35ed` passed
+the root (757 tests in 150.31 seconds), 3,634 Lean jobs, 876 allowed axiom
+reports, 22 consumer examples and
+[CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962).
+DR only synchronizes documentation and completed-run evidence; it introduces
+no theorem, abstraction or new mathlib candidate. No new formal result or upstream claim is introduced by that
 delivery or the required-scope completion decision.
 
 ## Run provenance

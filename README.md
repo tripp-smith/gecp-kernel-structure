@@ -4,13 +4,13 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DQ — original-SPEC closure audit<br>
-> **Phase state:** verified and merged; required original-SPEC scope delivered<br>
-> **Last verification:** Final DQ branch `0a6d363` passes the exact root: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 22-example public-theorem consumer, 97-file formatting, mypy on 21 sources and clean dependency audit. Push/PR CI `40050605960`/`40050610230` pass all four checks. Rebuilt archives match 21 Python and 153 Lean sources plus claim docs/lock; both outside-checkout installed environments pass again. Exact pushed-main root/CI/package gates are repeated before final handoff<br>
+> **Current phase:** DR — final documentation and repository handoff<br>
+> **Phase state:** in progress; DQ complete; required original-SPEC scope delivered<br>
+> **Last verification:** DQ exact main `e8c35ed` passed the root: 757 tests in 150.31 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-theorem consumer examples, 97-file formatting, mypy on 21 sources and clean dependency audit. Exact-head [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962), rebuilt archive inspection and both outside-checkout installed environments passed. DR's documentation-only verification is recorded below when complete<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) merged at 2026-10-24 01:41:41 UTC as `d9978607b88a45d98d917f44318bcaf99b4c3239`; closure metadata is delivered on `main`<br>
+> **Delivery:** DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) merged as `d9978607b88a45d98d917f44318bcaf99b4c3239`; exact-main closure `e8c35ed` is verified. DR synchronizes the final documentation without changing algorithms, proofs, historical data, version tags or publication state<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
-> **Implementation provenance:** [model/mode, elapsed-time, token, and cost metadata](FINAL_HANDOFF.md#implementation-run-metadata)<br>
+> **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): completed original goal, 24,738,403 cumulative aggregate tokens and 116,095 goal-accounting seconds (32:14:55), excluding this post-completion documentation task<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
 ## Status
@@ -143,7 +143,8 @@ original-source closure decision.
 | DN | Fair six-method spectral comparisons (R31) | complete | 192 shared-observation GECP/AAA/vector-fitting/Prony/NLS/OMP fits; rational/exponential bridges; retained failures | byte-repeated JSON/PNG; independent reconstruction of every error; 513-test root gate; green push/PR CI; wheel checks including SciPy 1.15 | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120) |
 | DO | Independent original-SPEC completion audit | complete | thirty-section audit; conservative certificates, sampled ties, scaled updates and failure coverage; generic completeness layering | 569-test root, 3,634 Lean jobs, 876 axiom reports; green push/PR CI; installed-wheel checks including SciPy 1.15.0; full goal NOT COMPLETE, R25 absent | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121) |
 | DP | Residual-adaptive seven-cutoff census | complete | explicit nested panels/axes, residual-driven refinement, untouched final validation, repeated data/normalized PNG | 713-test main root, green exact-main CI; 21 independent core/28 cross checks; clean archives and two installed environments | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); main closure `5a5fef0` |
-| DQ | Original-SPEC closure audit | verified | explicit-item source audit, 22 public theorem consumers, real certificate/parameter boundary repairs | 757-test final-branch root, green push/PR CI, rebuilt clean archives and two installed environments; exact-main gates repeat before handoff | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) |
+| DQ | Original-SPEC closure audit | complete | explicit-item source audit, 22 public theorem consumers, real certificate/parameter boundary repairs | 757-test exact-main root (150.31 seconds), green CI 40051138962, rebuilt clean archives and two installed environments | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); main closure `e8c35ed` |
+| DR | Final documentation and repository handoff | in progress | completed-main evidence, terminal goal accounting, synchronized claim docs and hygiene | scoped documentation contract; final root/CI/package checks to follow | branch `codex/phase-dr-final-documentation` |
 
 Allowed states are `planned`, `in progress`, `verified`, `complete`, and
 `blocked (research)`. A phase becomes `complete` only after its verified change
@@ -164,7 +165,7 @@ lake exe cache get
 The Python package is named `kernelgecp` and the Lean library is
 `GECPKernelStructure`. See [APPLICATION.md](APPLICATION.md) for API usage,
 [FINDINGS.md](FINDINGS.md) for claim status, and [RESEARCH.md](RESEARCH.md) for
-theorem history. The v1 delivery summary is in
+theorem history. The current handoff and historical v1 delivery record are in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md), including the bounded
 [implementation run metadata](FINAL_HANDOFF.md#implementation-run-metadata).
 
@@ -301,7 +302,7 @@ cutoffs; a formal first-complete-pivot obstruction records that boundary.
 SPEC's goals are not rewritten. DP delivers the seven-cutoff residual-adaptive
 experiment (R25) identified by the independent DO audit, merged in PR #122.
 DQ's [original-scope source audit](FINAL_AUDIT.md) and repaired-source delivery
-are verified and merged; exact-main gates are checked before final handoff.
+are verified and merged; exact-main `e8c35ed` passed root, CI and package gates.
 Completion concerns that required repository scope, not every optional
 research question or an external publication claim. DH closes the
 finite-run, exact-termination, cross-approximation, and Green-error interfaces;
