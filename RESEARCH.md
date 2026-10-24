@@ -10257,3 +10257,87 @@ by this first comparative-value phase. The user confirms continuing verified
 phase merges. [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126)
 holds final checked-revision/root/CI/merge/main evidence; the pilot remains bound
 to its generation revision rather than relabeled as a later documentation head.
+
+## Phase DU — reusable physical basis interface
+
+Contract opened 2026-10-24 EDT from synchronized main
+`a6b54b0ff4997f7e113d33a34fcbecd97e1f393f`. The active user goal includes all
+five application/release objectives and the finite-precision bridge, not only
+this phase. `PRODUCTIZATION.md` preserves their explicit acceptance ledger.
+The previous turn is verified progress: DT added real comparative evidence and
+was merged/pushed. DU does not mark the full goal complete.
+
+Named outputs are `kernelgecp.fitting.LeastSquaresPlan`, a public physical
+`FermionicBasis` and fitted-result interface, cached core/fit/evaluation factors,
+complex matrix/batch axes, tau and ordinary-index fermionic Matsubara evaluation,
+safe versioned serialization, exported typing, independent tests and a short
+runnable tutorial. Physical conventions are `Lambda=beta*wmax`, `t=tau/beta`,
+`Omega=beta*omega`, negative physical Green values and Fourier phase
+`exp(+i*wn*tau)` with `wn=(2*n+1)*pi/beta`. No inverse matrices are formed.
+
+Existing `GECPConfig` defaults and public research APIs stay unchanged. New
+construction policies must disclose actual selection/export/solve precision,
+failure/fallback reasons and sampled stopping scope. A 128-bit construction
+followed by binary64 core solves is mixed precision, not a continuous accuracy
+certificate. DT's float64 range failure must be reproduced and handled explicitly,
+not hidden by relabeling convergence. Factor caching must be bounded and safe
+against caller mutation; serialization must reject invalid/untrusted object
+payloads without executing pickle or silently rerunning selection.
+
+Independent checks cover cached SVD versus pivoted QR, repeated-factor reuse,
+arbitrary complex batch axes, analytic Matsubara single-pole formulas including
+beta/sign/index conventions, serialization round trips/corruption, arithmetic
+boundaries and a practical large-cutoff construction. Use the full root command
+and exact-head CI before authorized PR merge/push; record receipts externally
+to avoid self-referential metadata commits. Publication access is investigated
+early, but absent PyPI setup does not prevent implementing other open rows.
+
+### DU implementation and independent checks
+
+The public facade now has separate selection, coordinate, kernel/solve,
+export and fit precision metadata. Reference mode actually evaluates and
+solves at the requested precision using an isolated cached mpmath LU; it does
+not merely select at 128 bits and reconstruct in double precision. Auto mode
+records a strict float64 arithmetic failure before reference fallback. Local
+kernel-tail underflow is permitted without weakening GECP's own update traps
+or altering caller NumPy settings. Native research defaults stay unchanged.
+
+Independent checks compare SVD fits with pivoted QR, verify complex arbitrary
+batch axes, count cached LU/SVD work, and attack metadata, ZIP/NPY headers,
+resource limits and semantic corruption. Review caught tuple-valued diagnostics
+at the strict JSON boundary, construction-work amplification from small
+archives, contradictory saved precision/attempt histories and large finite
+rcond overflow. The repairs have regressions. Snapshot installed-wheel
+checks verify import origin, physical transforms and a strict typing consumer.
+
+An independent 160-bit physical three-pole calculation at beta20/wmax50,
+order6, max_rank96, tol1e-8 confirms actual automatic recovery at rank45,
+128-bit selection/evaluation and 53-bit exports/fit. The sampled construction
+residual is8.295898986e-9, exported core condition1.927e9, nodal error1.684e-31;
+117 untouched time points and eight ordinary Matsubara indices give complex
+matrix errors3.817e-9 and1.224e-9. The check runs with all caller NumPy traps
+set to raise. Its roughly9-second local timing is a smoke observation, not a
+comparative speed claim or a frozen benchmark artifact.
+
+The early release-access audit also motivates shipping distribution gates now:
+Linux/macOS/Windows Python3.12/3.13 wheel and sdist rebuild/install checks,
+archive-content rejection fixtures and installed typing. They do not publish
+anything. GitHub access is present. With explicit user confirmation, the PyPI
+pending publisher for project `kernelgecp`, repository
+`tripp-smith/gecp-kernel-structure`, workflow `publish.yml` and environment
+`pypi` is saved and visibly verified after reload. No token is placed in source
+or chat. Publication awaits the full release gates.
+
+Next phase: exercise this public API in matched external-library frequency
+benchmarks and a genuine small physical solver loop; freeze validation before
+profiling an eligible Rust bottleneck. Continuous certificates and the numerical
+error bridge, release artifacts and actual adoption outreach remain open.
+
+The development root passes 1,170 tests with two optional-adapter skips, 3,634
+Lean jobs, 876 permitted axiom reports, public consumer checks, style, mypy on
+25 package sources and dependency audit. Final-revision root, platform matrix,
+archives/installed consumers and authorized merge/main/push evidence are
+maintained canonically in [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127),
+not fabricated as a commit containing its own final SHA. Protected local notes
+remain unread and unstaged. The next phase opening will summarize actual
+delivery only after those gates pass.

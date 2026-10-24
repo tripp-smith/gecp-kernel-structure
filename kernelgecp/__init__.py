@@ -21,8 +21,16 @@ from .approximation import (
     fermionic_dyadic_taylor_approximation,
     fermionic_separated_approximation,
 )
+from .basis import (
+    BasisDiagnostics,
+    ConstructionAttempt,
+    FermionicBasis,
+    FermionicFit,
+    FitDiagnostics,
+)
 from .certified import certified_pivot, interval_certified_pivot
 from .cholesky import pivoted_cholesky
+from .fitting import LeastSquaresDiagnostics, LeastSquaresPlan
 from .gecp import cross_approximation, evaluate_residual, gecp, gecp_matrix
 from .kernels import FermionicKernel
 from .research import (
@@ -51,16 +59,23 @@ from .types import (
 )
 
 __all__ = [
+    "BasisDiagnostics",
     "CholeskyResult",
     "ConditioningDiagnostic",
     "BlockContractionEvidence",
     "CertifiedBlockContractionEvidence",
+    "ConstructionAttempt",
     "DyadicTaylorApproximation",
     "FermionicKernel",
+    "FermionicBasis",
+    "FermionicFit",
+    "FitDiagnostics",
     "GECPConfig",
     "GECPResult",
     "GreenCompressionResult",
     "HighPrecisionData",
+    "LeastSquaresDiagnostics",
+    "LeastSquaresPlan",
     "NumericalBreakdownError",
     "NumericalMetadata",
     "PSDLandmarkResult",

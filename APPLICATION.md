@@ -1,5 +1,81 @@
 # Application guide
 
+## Reusable physical Green functions
+
+The practical facade uses inverse temperature `beta`, spectral energy cutoff
+`wmax`, and physical imaginary time `tau` in the closed interval `[0,beta]`.
+The dimensionless research coordinates are `t=tau/beta` and
+`Omega=beta*energy`; `beta*wmax` must be at least one. For a positive spectral
+measure, the physical fermionic Green function has a minus sign:
+`G(tau) = -integral exp(-tau*energy)/(1+exp(-beta*energy)) d rho(energy)`.
+
+```python
+import numpy as np
+from kernelgecp import FermionicBasis, FermionicFit
+
+beta, energy = 4.0, 0.7
+basis = FermionicBasis(beta=beta, wmax=3.0, tol=1e-9)
+tau = np.linspace(0, beta, 101)
+values = -np.exp(-tau * energy) / (1 + np.exp(-beta * energy))
+fit = basis.fit_tau(values, tau)
+print(fit.evaluate_tau([0.1, 1.2, 3.9]))
+n = np.array([-3, -1, 0, 2])  # ordinary integers, not reduced odd indices
+print(fit.evaluate_matsubara(n))
+# Convention: integral exp(+i*wn*tau)*G(tau) d tau, wn=(2*n+1)*pi/beta.
+# For this single pole the answer is 1/(1j*wn-energy).
+fit.save("green.npz")
+restored = FermionicFit.load("green.npz")
+```
+
+The instance caches one selected-core factorization, bounded evaluation designs
+and bounded SVD fit plans. Repeated `fit_tau` calls on identical coordinates and
+`rcond` reuse the SVD. `prepare_tau` exposes the reusable `LeastSquaresPlan`;
+`design_tau` and `design_matsubara` expose immutable design arrays. The cache
+capacity is eight entries per cache by default, not a byte limit; use
+`cache_size`, inspect `cache_info`, or release designs/plans with `clear_cache`.
+Core factors remain until the basis is released. An instance's mutable caches
+are not a concurrent execution API.
+
+Values can be complex and have any number of batch or matrix axes. `axis=0`
+is the default observation axis; fitting replaces it with the coefficient
+axis, and evaluation replaces that same axis with query coordinates. For
+example, values of shape `(ntau, n_orbital, n_orbital)` produce coefficients of
+shape `(rank, n_orbital, n_orbital)`. Use `axis=-1` for trailing observations.
+An independent `LeastSquaresPlan` also supports complex frequency-domain designs.
+SVD truncation uses `s > rcond*smax`, default `eps*max(design.shape)`; rank loss,
+untruncated/retained conditioning, arithmetic and training residual scopes are
+visible in diagnostics. An arbitrary function can fit its training samples
+well and still fail elsewhere: validate independent time and frequency data.
+
+Arithmetic is explicit. `precision="float64"` is a strict fast path;
+`precision="reference"` uses `precision_bits=128` by default for selection,
+kernel evaluations and cached cardinal solves, then exports doubles. `"auto"`
+first tries float64 selection and retries reference only on a numerical
+arithmetic breakdown, preserving the failed attempt in metadata. It does not
+retry invalid input or a rank-budget failure. Reference precision is supported
+from 64 through 4096 bits. Physical node coordinates, exported designs, SVD
+fitting and final matrix products are always binary64/complex128. Thus reference
+mode is still mixed precision; high-precision construction alone is not an
+end-to-end guarantee. `tol` is a finite-grid construction stopping criterion,
+not an accuracy contract for arbitrary spectral inputs, unsampled points,
+coefficient sensitivity, or Fourier transforms. No facade result is a
+continuous or rounding certificate. The pre-existing research API and its
+adaptive 128-bit defaults are unchanged.
+
+Basis and fit archives use a versioned, validated NPZ/JSON schema, never pickle.
+Loading reconstructs core factors without choosing new pivots and retains
+construction diagnostics as unverified historical reports. Training diagnostics
+are not restored as fresh evidence. Archives reject incompatible conventions,
+objects, malformed numerical payloads and oversized data (64 MiB uncompressed).
+Restoration additionally limits rank to 256 and `rank**2 * precision_bits` to
+`2**24` before allocating a core, independently of claimed archive settings.
+Arrays are immutable owned copies. These are portable numerical artifacts, not
+signed scientific certificates; validate accuracy again after transfer.
+The runnable [matrix-valued tutorial](examples/reusable_basis.py) checks time
+and frequency signs, reuse and persistence on an independent analytic pole.
+
+## Research interfaces
+
 The public package supplies stable fermionic-kernel evaluation, deterministic
 finite-grid GECP, solve-based cross approximation, diagonal-pivoted Cholesky,
 conditional Lipschitz pivot certificates, numerical separated interpolation,

@@ -4,16 +4,23 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DT — matched DLR/IR application benchmarks<br>
-> **Phase state:** first practical-application phase; current verification/delivery in [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126); completed original-SPEC research scope remains unchanged<br>
-> **Last verification:** DS skill validation, behavioral checks and exact-revision root/CI receipt are tracked in [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125). Historical DR source head `51fa6b3` passed the root: 759 tests in 144.90 seconds, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-theorem consumer examples, 97-file formatting, mypy on 21 sources and clean dependency audit. Exact-head push/PR CI `40054146369`/`40054160333`, rebuilt archive inspection and both outside-checkout installed environments passed. The completed research baseline remains DQ exact main `e8c35ed` (757 tests in 150.31 seconds), [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
+> **Current phase:** DU — reusable physical basis interface<br>
+> **Phase state:** implementation complete; final-revision verification/delivery tracked in [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127); full application/release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
+> **Last verification:** DU development root passes 1,170 tests with two optional-adapter skips, unchanged Lean/axiom/consumer gates, style, strict typing and dependency audit; 246 focused tests and independent physical checks pass. [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127) is the canonical final-revision root/platform/install/delivery receipt. Historical research closure remains DQ exact main `e8c35ed` (757 tests in 150.31 seconds), [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126) is the canonical application-benchmark verification/delivery record. DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) is merged. DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) and exact-main closure `e8c35ed` remain verified. Existing algorithms, proofs, historical artifacts, version tags and publication state are unchanged<br>
+> **Delivery:** DU [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127) records current API/platform verification and authorized delivery. DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126), DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125), and DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) are merged. Existing research algorithms, proofs, historical artifacts and version tags are unchanged; a PyPI pending publisher is configured, but no package upload is claimed<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
 > **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): completed original goal, 24,738,403 cumulative aggregate tokens and 116,095 goal-accounting seconds (32:14:55), excluding this post-completion documentation task<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
 ## Status
+
+The new [physical basis API](APPLICATION.md#reusable-physical-green-functions)
+supports cached factorizations, complex matrix batches, physical Matsubara
+evaluation and safe numerical archives. Run
+`uv run python -m examples.reusable_basis` for an analytic fixture with
+independent time/frequency checks. This is application-development progress,
+not completion of the [full product/release goal](PRODUCTIZATION.md).
 
 Phase states below describe their historical frozen contracts, not completion
 of every original SPEC requirement. The full-scope [audit](COMPLETION_AUDIT.md)

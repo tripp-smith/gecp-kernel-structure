@@ -2095,6 +2095,47 @@ materials-solver result. Timings and process RSS are single-machine pilot
 measurements, not deterministic numerical artifacts. Final verification and
 delivery are recorded in [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126).
 
+## DU reusable physical basis and arithmetic policy
+
+`FermionicBasis`, `FermionicFit` and `LeastSquaresPlan` promote reusable
+solve-based operations into the installed package without changing the existing
+research API defaults. Their arrays own immutable data; bounded per-instance
+caches retain a core factor, evaluation designs and SVD fit plans. Complex
+matrix batches preserve the caller's observation axis. The physical Fourier
+transform uses `exp(+i*wn*tau)`, `wn=(2*n+1)*pi/beta`, and ordinary integer `n`.
+Independent analytic pole sums test both beta scaling and the Green-function
+minus sign, not just consistency with another package helper.
+
+The valid-input cutoff-1,000 float64 failure is not a language-speed problem.
+The new explicit auto policy records the arithmetic failure and retries at
+reference precision; the original `gecp` behavior is unchanged. A beta-20,
+wmax-50, order-six, `tol=1e-8`, maximum-rank-96 check selects rank 45 with
+sampled residual `8.295898986e-9`. Reference selection, kernel evaluation and
+cached core solves use 128 bits; physical coordinates, design exports, SVD and
+final products remain binary64. Nodal cardinal error is `1.68e-31` before the
+final coefficient products. Independent 160-bit asymmetric three-pole truth
+checks the exported complex matrix fit at 117 time points and eight positive/
+negative Matsubara indices: maximum errors `3.82e-9` and `1.23e-9`. This also
+passes under NumPy's strict traps without changing the caller's settings.
+These are sampled fixture observations, not a certificate for arbitrary inputs.
+
+The smaller runnable tutorial gives time/frequency errors approximately
+`2.54e-12`/`2.85e-13`, but its double core has estimated condition `2.31e10`
+and nodal cardinal error about `3.04e-7`. Thus a benign smooth-function fit
+does not prove arbitrary coefficient stability. Neither a finite-grid stopping
+criterion nor high-precision construction supplies an end-to-end accuracy
+guarantee. The finite-precision/inexact-pivot bridge remains an open product
+requirement, including coefficient, transform and solve error propagation.
+
+Versioned NPZ/JSON persistence validates conventions, numerical shapes, byte
+budgets and reconstruction work without pickle or pivot reselection. Loaded
+construction metadata is unverified history and cannot grant certification;
+training diagnostics are not restored as fresh evidence. Distribution gates
+inspect the actual wheel/sdist and exercise installed APIs and typing outside
+the checkout. Cross-platform CI results, publication, production comparative
+value, a solver loop and the measured Rust decision remain separate gates in
+`PRODUCTIZATION.md`. No new mathematical theorem or speedup is claimed here.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the
