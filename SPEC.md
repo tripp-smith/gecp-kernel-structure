@@ -2880,3 +2880,20 @@ This annotation records delivered identifiers without changing the goals above.
   failure at cutoff 1,000. All 24 successful forward workloads pass independent
   100-digit checking; two runs match numerical fields, not machine-dependent
   measurements. Existing numerical behavior is not changed to hide the failure.
+
+- **Phase DU application extension (2026-10-24 EDT; verification in progress):**
+  adds installed `FermionicBasis`, `FermionicFit`, `LeastSquaresPlan`, immutable
+  diagnostics, cached solve/SVD designs, arbitrary complex batch axes, explicit
+  physical tau/ordinary-index Matsubara conventions, versioned pickle-free
+  persistence, typing and tutorials under §§27–29. The original mathematical
+  goals and completion decision remain unchanged. Explicit float64/reference/
+  automatic policies disclose selection, application and export precision;
+  actual reference kernel evaluations/core solves recover the cutoff-1,000
+  smoke case without changing the research `gecp` defaults or hiding its
+  original failure. Sampled tests are not continuous or rounding certificates.
+  Wheel/sdist rebuild and outside-checkout install/typing CI are introduced for
+  three platforms and two Python versions; their actual results remain a
+  delivery gate. `PRODUCTIZATION.md` tracks the broader benchmark, solver,
+  Rust, numerical-bridge, release/publication and adoption requirements. A
+  pending PyPI publisher is configured after user confirmation, but no package
+  upload or completed full application goal is claimed.

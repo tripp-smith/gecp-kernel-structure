@@ -1,0 +1,62 @@
+name: Distribution wheels
+
+on:
+  push:
+    branches: [main, "codex/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wheel:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.12", "3.13"]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - name: Build wheel and source distribution
+        run: uv build --no-sources --out-dir dist
+      - name: Inspect distribution contents and metadata
+        run: >-
+          uv run --no-project python scripts/check_distribution.py inspect
+          --project-root . --wheel dist/*.whl --sdist dist/*.tar.gz
+      - name: Rebuild and inspect a wheel from the source distribution
+        run: |
+          uv build dist/*.tar.gz --wheel --no-sources --out-dir sdist-wheel
+          uv run --no-project python scripts/check_distribution.py inspect \
+            --project-root . --wheel sdist-wheel/*.whl --sdist dist/*.tar.gz
+      - name: Install both wheels and check their API and typing outside checkout
+        run: |
+          for artifact_dir in dist sdist-wheel; do
+            check_env="$RUNNER_TEMP/kernelgecp-$artifact_dir"
+            uv venv "$check_env"
+            uv pip install --python "$check_env" "$GITHUB_WORKSPACE/$artifact_dir/"*.whl "mypy>=1.11,<2"
+            (
+              cd "$RUNNER_TEMP"
+              uv run --no-project --python "$check_env" python -I \
+                "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+                --project-root "$GITHUB_WORKSPACE"
+            )
+          done
+      - name: Retain inspected distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernelgecp-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+            sdist-wheel/*.whl
+          if-no-files-found: error

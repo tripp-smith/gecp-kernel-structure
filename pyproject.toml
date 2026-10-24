@@ -36,6 +36,9 @@ exclude = [
 [tool.hatch.build.targets.wheel]
 packages = ["kernelgecp"]
 
+[tool.hatch.build.targets.sdist]
+include = ["/kernelgecp", "/pyproject.toml", "/APPLICATION.md", "/README.md", "/LICENSE"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
