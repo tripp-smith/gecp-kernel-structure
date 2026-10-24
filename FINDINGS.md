@@ -2077,6 +2077,24 @@ proof/type/style/security gates, CI `40054146369`/`40054160333`, clean archive
 inspection and both installed environments. PR #124 merged on 2026-10-23
 at 22:30:40 EDT as `a421f7c8ed8b1b8754f38116939e26181636fe82`.
 
+## DT practical-application baseline
+
+The matched [DLR/IR pilot](experiments/data/dlr_benchmark_pilot.json) is a new
+application experiment, not a reopening of the completed original theorem scope.
+GECP, pydlr and sparse-ir receive the same physical forward observations and
+common cached SVD fitting. Eight of nine method/case records meet the sampled
+`1e-8` target; float64 GECP at cutoff 1,000 retains its explicit arithmetic-range
+failure. Independent 100-digit physical pole sums verify every successful
+workload/error flag. [APPLICATION.md](APPLICATION.md#recorded-dt-pilot) records
+the frozen generation, ranks, limitations and next decision.
+
+The observation supports investigating cached-basis reuse and numerical-range
+handling before a Rust rewrite. It does not establish a fastest algorithm,
+minimal rank, stable spectral recovery, continuous certificate or production
+materials-solver result. Timings and process RSS are single-machine pilot
+measurements, not deterministic numerical artifacts. Final verification and
+delivery are recorded in [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126).
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

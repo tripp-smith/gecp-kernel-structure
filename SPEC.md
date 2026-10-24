@@ -2865,3 +2865,18 @@ This annotation records delivered identifiers without changing the goals above.
   realistic behavioral checks, the root command and exact-revision PR CI before
   authorized merge/push; detailed contract and behavioral evidence are in
   `RESEARCH.md`, with the revision-specific check and delivery receipt in the PR.
+
+- **Phase DT application extension (2026-10-24 EDT; verification/delivery in
+  [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126)):** establishes
+  matched physical forward Green-function benchmarks against optional `pydlr`
+  and `sparse-ir` under §§27–29. The existing mathematical goals and completion
+  decision are unchanged. Identical observations, a common cached SVD fitter,
+  untouched sampled validation, explicit failure records and separate setup/
+  reuse/process-memory measurements precede any Rust optimization. This is a
+  pilot application extension, not a new theorem, performance claim, certified
+  numerical run, public API redesign or package publication. Contract and
+  acceptance tests are recorded in `RESEARCH.md`. The frozen nine-case pilot
+  retains eight successful sampled cases and a float64 GECP arithmetic-range
+  failure at cutoff 1,000. All 24 successful forward workloads pass independent
+  100-digit checking; two runs match numerical fields, not machine-dependent
+  measurements. Existing numerical behavior is not changed to hide the failure.
