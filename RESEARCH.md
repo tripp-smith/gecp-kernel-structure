@@ -10016,3 +10016,24 @@ boundary/metadata/context-restoration checks in each environment. Draft PR #123
 exists and is attached. Final documentation-head root/CI/package checks and
 merged-main closure remain before completing the goal; the source-scope
 decision is supported, but shipping is not inferred from a count or plan.
+
+### DQ final-branch delivery and closing decision
+
+Final documentation branch `0a6d3635529279beac9fb198c2d9de147c5ee2e5` passes
+the exact full root again: 757 tests in 149.97 seconds, 3,634 Lean jobs, all
+876 allowed axiom reports, 22 public-import examples and style/type/security
+gates. Exact-head push/PR CI `40050605960`/`40050610230` pass all four checks.
+Clean archives are rebuilt and both outside-checkout installed environments
+pass again. PR #123 merges at 2026-10-24 01:41:41 UTC as
+`d9978607b88a45d98d917f44318bcaf99b4c3239`; local main fast-forwards and the
+immutable generation revision `3cee4186` remains an ancestor.
+
+The final required-scope decision is complete, based on the original-source
+explicit-item audit and actual gates, not the older forty-label mapping. Final
+handoff repeats exact pushed-main root/CI/archive/install and synchronization
+checks before marking the full goal complete. The effort estimate is then
+100% of required original-SPEC scope. No mandatory theorem or experiment is
+left under that scope. Arbitrary-inexact-pivot rates, certified ideal-run
+rounding propagation, global sparse optimality and external publication are
+optional next research, not silently supplied by the exact theorem. Original
+mathematical goals and all historical artifact provenance remain unchanged.

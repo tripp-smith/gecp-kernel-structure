@@ -18,20 +18,22 @@ rank, arbitrary-domain strict-SPD GECP/Cholesky equivalence and original-kernel
 `log(2+Λ)` rate is separate; the literal all-positive `log(1+Λ)` version is
 refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
 
-**DQ's original-SPEC source audit is performed; full completion awaits final
-delivery gates.** The audit rereads all original sections and explicit lists,
+**The required original-SPEC scope is complete at its stated boundaries.**
+Exact pushed-main verification is a prerequisite to this final handoff, not
+inferred from a status label. The audit rereads all original sections and explicit lists,
 checks actual proof hypotheses through a 22-example public consumer, and
 recomputes numerical artifact checks instead of relying on inventory labels.
 It repairs real conditional Lipschitz-certificate rounding and dyadic-parameter
 coverage errors, including one-ULP/subnormal cases and standalone precision
 metadata. A live dependency audit also requires a development-only filelock
 update; numerical dependencies and historical data manifests are preserved.
-Exact repaired-source root, package/install and push/PR CI now pass at
-`f2ffd5e`; final documentation-head gates, PR merge and pushed-main closure
-remain required. No new independent multiagent review is
+Exact repaired-source and final documentation-head root, package/install and
+push/PR CI pass; PR #123 is merged, and exact-main gates are checked before
+handoff. No new independent multiagent review is
 claimed: three attempted reviewers hit an account limit before contributing;
-the primary completes this audit locally. The effort estimate remains about
-99%, not a theorem probability or a count-based completion decision.
+the primary completes this audit locally. The updated estimate is 100% of
+required scope, not a theorem probability, a count-based verdict or resolution
+of every optional research extension.
 
 DP supplies the genuine
 seven-cutoff residual-adaptive experiment identified as missing by the
@@ -747,8 +749,20 @@ Reinstalled wheels pass outside the checkout in pinned Python 3.12.12/NumPy
 checks all 45 exports, adaptive success/budget failure, 48 six-method fits,
 the new boundary/metadata paths and exact interval-context restoration.
 Draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123)
-is attached to the task. Final documentation-head and pushed-main gates
-repeat before handoff; code-head success is not relabeled as those later runs.
+is attached to the task. Code-head success is not relabeled as a later run.
+
+Final documentation branch `0a6d3635529279beac9fb198c2d9de147c5ee2e5` repeats
+the full root with 757 tests in 149.97 seconds and all established Lean,
+consumer, axiom, style, type and security gates. Push CI `40050605960` and PR
+CI `40050610230` pass all four checks at that exact head. Clean archives are
+rebuilt and both reinstalled outside-checkout environments pass again.
+PR #123 merges at 2026-10-24 01:41:41 UTC as
+`d9978607b88a45d98d917f44318bcaf99b4c3239`; local main fast-forwards and clean
+generation `3cee4186` remains an ancestor. Closure metadata is pushed to main;
+the final handoff repeats exact pushed-main root/CI/archive/install checks and
+confirms local/origin synchronization and no open PRs. The required-scope
+completion decision rests on the original-source audit plus actual successful
+gates; the goal tracker is completed only after these checks pass.
 
 ## Implementation run metadata
 
@@ -784,7 +798,7 @@ credit, or internal compute cost. They exclude cache discounts, long-context
 premiums, service-tier adjustments, tool-call charges, and any usage that was
 not represented by the completed goal counter.
 
-The post-v1 research goal remains incomplete. A historical runtime snapshot on
+At the historical DL snapshot, the post-v1 research goal was incomplete. A runtime snapshot on
 2026-10-22 at 09:38 UTC returned 17,290,841 aggregate goal tokens and 90,256
 goal-accounting seconds with tracker status `usageLimited`. These cumulative
 counters are not Phase DL-only usage, have not advanced between the observed
@@ -898,6 +912,19 @@ serving identity or API-equivalent cost is inferred. Code-head root/CI/archive/
 install gates pass, while final documentation-head and merged-main closure
 remain. The goal is still active at this point-in-time snapshot.
 
+The DQ merge snapshot on 2026-10-24 at 01:41:43 UTC reports `active`,
+24,701,811 cumulative aggregate goal tokens and 115,358 goal-accounting seconds.
+It is captured after the verified PR merge and before exact-main closure;
+it is not the final completion counter or DQ-only usage. No input/cache/
+reasoning/output split, account billing, exact serving version or reasoning
+effort is exposed. Declared root identity remains GPT-5-based Codex, Default
+mode, unrestricted local filesystem/network and approval policy `never`.
+The primary finishes local release checks; the three attempted DQ reviewers
+contribute no work after their account-limit failures. No new serving-model
+identity or API-equivalent price is inferred. The tracker is marked complete
+only after the final pushed-main checks, which are outside this point-in-time
+snapshot; these operational counters do not prove a theorem or scope decision.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -945,7 +972,7 @@ remain. The goal is still active at this point-in-time snapshot.
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
 | DP — residual-adaptive seven-cutoff census | verified; green final-branch CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments; exact pushed-main closure repeats before handoff |
-| DQ — original-SPEC closure audit | in progress; code-head gates pass | draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); explicit-item source audit, certificate/parameter boundary repairs, 757-test exact root and green push/PR CI; final documentation/main gates pending |
+| DQ — original-SPEC closure audit | verified; green final-branch CI | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); explicit-item source audit, certificate/parameter boundary repairs, 757-test final-branch root, clean rebuilt archives/two installed environments and CI 40050605960/40050610230; exact-main gates checked before handoff |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
@@ -1004,7 +1031,9 @@ remain. The goal is still active at this point-in-time snapshot.
 
 No v1 implementation task is blocked. DN verifies R31's six-method comparison;
 DP supplies the seven-cutoff residual-adaptive experiment reopened by DO.
-DP is verified/merged; the subsequent fresh original-SPEC closure audit remains required.
+DQ performs and verifies the subsequent original-SPEC closure audit and merges
+its real boundary repairs in PR #123. No required original-scope research task
+remains at the final verified handoff.
 DG/DH have since closed the exact complete-pivot rate by a different route.
 The historical v1 follow-ups below are optional alternative proofs or extensions:
 
@@ -1159,14 +1188,17 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is final verification and shipping of DQ's completed
-source-level audit and real boundary repairs. DP's seven-cutoff data pass all
+No required original-SPEC deliverable remains at the verified final handoff.
+DQ's source-level audit and real boundary repairs are verified and merged;
+exact-main gates are checked before handoff. DP's seven-cutoff data pass all
 28 sampled tolerance cases; that is not a continuous certificate. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
 on completing those abandoned routes.
 
-- No solution of Simons Problem 4.2 is claimed.
+- No unqualified all-positive-cutoff `log(1+Λ)` solution or workshop-priority
+  adjudication is claimed. The exact `Λ≥1` theorem and the literal small-cutoff
+  counterexample above are the actual mathematical outcomes.
 - The low-rank theorem is not a GECP theorem.
 - Census curves and pivot certificates are evidence, not a continuous GECP
   convergence proof.
@@ -1313,13 +1345,14 @@ failures. DO verifies correctness repairs and merges PR #121. DP's genuine
 all-seven-cutoff residual-driven nested-grid experiment through `1e-12` passes
 all sampled cases; data and reviewed plots repeat bytes. DQ performs the
 fresh original-SPEC audit and repairs actual certificate/parameter boundary
-defects. Final root, package/install, exact-head CI, PR merge and pushed-main
-closure remain before claiming completion. Approximate-pivot rate extensions remain
+defects. Final-branch root, package/install and exact-head CI pass; PR #123 is
+merged and pushed-main closure is checked before final handoff. No additional
+required original-SPEC task remains. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
 theorems. The original-scope source/explicit-item audit, not DP's inventory
 mapping, is the final scope evidence;
-the approximate 99% overall effort estimate is neither a theorem-success
-probability nor a substitute for remaining independent and release gates.
+the final 100% estimate concerns that required scope only and is neither a
+theorem-success probability nor a substitute for actual release gates.
 
 Earlier companion/conditioned-feature routes remain recorded as alternative
 research, including their exact obstructions. They are not additional

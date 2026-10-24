@@ -1,8 +1,8 @@
 # Findings and claim ledger
 
-## Current original-SPEC audit (Phase DQ; final delivery gates pending)
+## Current original-SPEC audit (Phase DQ verified; merged PR #123)
 
-The independent [final audit](FINAL_AUDIT.md) supports the exact original-kernel
+The source-level [final audit](FINAL_AUDIT.md) supports the exact original-kernel
 finite-run theorem: for every real `Λ≥1`, every actual finite complete GECP run
 on `[0,1]×[-Λ,Λ]`, and every physical point,
 `|R_k| ≤ 1024 exp(-((log 2)^2/256) k/log(1+Λ))`.
@@ -13,7 +13,7 @@ fill-distance control are also proved. No convergence conclusion is supplied
 as a premise. Literal all-positive-cutoff `log(1+Λ)` wording is refuted; the
 all-positive `log(2+Λ)` variant is separate.
 
-**DQ's source-level original-scope audit is performed; final delivery is pending.**
+**The required original-SPEC scope is delivered and verified at its stated boundaries.**
 The explicit-item evidence in [FINAL_AUDIT.md](FINAL_AUDIT.md) inspects every
 original section, theorem hypotheses, diagnostics, tests, six comparison
 methods and proposed imports. The required scope is accounted for without
@@ -25,8 +25,12 @@ No new formal result is asserted. Exact DQ code `f2ffd5e` passes the 757-test
 root, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-import examples,
 style/type/security gates and push/PR CI `40050118292`/`40050129457`.
 Clean rebuilt archives and both outside-checkout installed checks pass.
-Draft PR #123 exists; final documentation-head and merged-main checks must
-still pass before full completion. The effort estimate remains about 99%.
+Final branch `0a6d363` repeats the root (757 tests in 149.97 seconds), clean
+rebuilt archives and both installed environments; CI `40050605960`/`40050610230`
+pass all four checks. PR #123 merges at 2026-10-24 01:41:41 UTC as
+`d9978607b88a45d98d917f44318bcaf99b4c3239`. Exact pushed-main gates are checked
+before final handoff. The completion estimate is 100% of required scope,
+not a claim that every optional research question has been resolved positively.
 
 DO reopened R25
 because the fixed order-24 census and three order-32 reruns did not supply the
@@ -43,9 +47,9 @@ source/wheel and both outside-checkout install checks, plus green push/PR CI.
 on 2026-10-23 at 20:20:48 UTC as
 `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`. Exact pushed-main closure
 metadata/gates subsequently pass at main `5a5fef0`, including CI `40018905634`.
-DQ's source audit and final repairs are the current phase. **The full goal
-is NOT COMPLETE until those final delivery gates pass.** The
-approximately 99% effort estimate is not a requirement-count percentage.
+DQ supplies the subsequent original-scope audit and final repairs; its
+completion decision follows original requirements and actual gates, not
+the historical forty-group count or earlier 99% effort estimate.
 
 DO's numerical repairs and historical verification remain valid: `f0d082d`
 passes the 569-test root, 3,634 Lean jobs, all 876 axiom reports, exact-head
@@ -335,8 +339,8 @@ status; later proved results and this audit supersede earlier route limits.
   training/probe/surplus and final MP192 sampled checks. The `1e-12` chosen
   ranks are `9,17,36,64,97,124,151`; two clean-source runs produce identical
   JSON bytes. Independent MP192 checking passes 21 selected-core checks and
-  all 28 full final crosses within their requested tolerances. The full
-  closure audit remains pending; no continuous supremum bound is inferred.
+  all 28 full final crosses within their requested tolerances. DQ's source
+  closure audit is verified; no continuous supremum bound is inferred.
 - The fixed two-delta fixture is recovered below `1e-8` using two atoms.
 - One 128-bit, 12-pivot fermionic GECP basis at cutoff 8 compresses the
   2,001-node validation frequency grid by a factor of 166.75. For the

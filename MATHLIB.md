@@ -961,7 +961,10 @@ are Python correctness work, not formal analytic results.
 Exact DQ code `f2ffd5e` passes all 3,634 Lean jobs, 876 permitted axiom
 reports and 22 consumer examples in the 757-test root, plus push/PR CI
 `40050118292`/`40050129457`. This adds no theorem or upstream-submission claim;
-final documentation-head and merged-main release gates remain.
+final branch `0a6d363` repeats the root and passes CI
+`40050605960`/`40050610230`; PR #123 is merged. Exact-main gates are checked
+before handoff. No new formal result or upstream claim is introduced by that
+delivery or the required-scope completion decision.
 
 ## Run provenance
 

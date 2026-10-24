@@ -5,8 +5,8 @@ finite-grid GECP, solve-based cross approximation, diagonal-pivoted Cholesky,
 conditional Lipschitz pivot certificates, numerical separated interpolation,
 and sparse spectral recovery. The separate residual-adaptive experiment
 controller now has seven-cutoff, 28-prefix sampled evidence and passing
-independent MP192 checks. DQ's original-scope source audit is performed; final
-repaired-source delivery gates remain pending.
+independent MP192 checks. DQ's original-scope source audit and boundary repairs
+are verified and merged in PR #123; exact-main gates are checked before handoff.
 
 ```python
 import numpy as np
@@ -647,7 +647,7 @@ the resulting 40/40 assumption and reopens the adaptive-grid R25 scope. At DO
 closure its 39/40 count was 97.5% checklist coverage, not weighted effort.
 DP now records the actual adaptive generations and passing independent
 post-run checks described below. DQ's original-scope audit and boundary repairs
-are described below; final release gates remain pending.
+are described below; final branch gates pass and PR #123 is merged.
 Those algorithms are not behavior silently supplied by the exact theorem.
 
 The public numerical API is unchanged in DI. Packaging excludes the two local
@@ -805,7 +805,7 @@ Those are DN's historical verification results and PR #120 is merged. DO's
 subsequent independent audit, 569-test verification and merged PR #121 are
 recorded above. DP's actual adaptive-grid generations are now available as
 described below, with independent MP192 checks passing. DQ subsequently
-performs the original-scope audit; final release gates remain pending.
+performs the original-scope audit and verifies its repaired-source delivery.
 No package is published.
 
 ## DP residual-adaptive sampled grids (verified; merged PR #122)
@@ -912,9 +912,10 @@ at 2026-10-23 20:20:48 UTC as
 `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`, with local main fast-forwarded to
 origin. The original clean generation revision `3cee4186` is confirmed as an
 ancestor; its provenance remains unchanged. Exact pushed-main closure
-metadata/gates repeat before handoff, followed by the next fresh full
-original-SPEC audit. The whole goal is **NOT COMPLETE**; an approximately 99%
-effort estimate is not a checklist count or completion verdict. Successful
+metadata/gates subsequently pass at `5a5fef0`; at DP closure the next required
+phase was the fresh original-SPEC audit and the effort estimate was about 99%,
+not a checklist count or completion verdict. DQ below delivers that audit and
+the final repairs. Successful
 sampled validation is not a continuous residual-supremum bound, an exact
 complete-pivot trajectory, or a new Lean rate theorem. No package publication
 is claimed.
@@ -959,9 +960,13 @@ gates. Push/PR CI `40050118292`/`40050129457` pass all four checks. Rebuilt
 archives match all 21 Python/153 Lean sources and claim docs; installed wheels
 pass both pinned and minimum-SciPy environments, 45 exports, adaptive success/
 budget failure, 48 six-method fits and the new boundary/metadata checks each.
-Draft PR #123 exists. Final documentation-head and merged-main gates remain
-before a completion claim. No package publication or external peer review is
-implied.
+Final documentation branch `0a6d363` repeats the full root (757 tests in
+149.97 seconds), rebuilt archives and both installed environments; push/PR CI
+`40050605960`/`40050610230` pass all four checks. PR #123 merges at
+2026-10-24 01:41:41 UTC as `d9978607b88a45d98d917f44318bcaf99b4c3239`.
+Exact pushed-main gates are checked before final handoff. Required original-
+SPEC scope is complete at these explicit boundaries; no package publication,
+external peer review or ideal/inexact-run numerical theorem is implied.
 
 ## Release provenance
 

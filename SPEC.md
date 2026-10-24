@@ -2792,7 +2792,7 @@ This annotation records delivered identifiers without changing the goals above.
   finite-sample evidence, not a continuous certificate. Original mathematical
   goals are unchanged. Final whole-scope closure follows this numerical phase.
 
-- **Phase DQ source-audit status (2026-10-24 UTC; delivery gates pending):**
+- **Phase DQ source-audit status (2026-10-24 UTC; verified, merged PR #123):**
   rereads original §§1–30 and checks every explicit outcome, diagnostic, test,
   comparison method and proposed import against actual source and theorem
   dependencies in `FINAL_AUDIT.md`. `scripts/CompletionContract.lean` checks
@@ -2819,3 +2819,15 @@ This annotation records delivered identifiers without changing the goals above.
   pass, including 45 exports, adaptive success/budget failure and 48 six-method
   fits per environment. Draft PR #123 is open. Final documentation-head and
   pushed-main closure gates remain; these checks do not alter the goals above.
+
+  Final documentation branch `0a6d3635529279beac9fb198c2d9de147c5ee2e5`
+  repeats the exact root (757 tests in 149.97 seconds), rebuilt archives and
+  both installed environments. Push/PR CI `40050605960`/`40050610230` pass all
+  four checks. PR #123 merges at 2026-10-24 01:41:41 UTC as
+  `d9978607b88a45d98d917f44318bcaf99b4c3239`; local main fast-forwards and
+  immutable generation `3cee4186` remains an ancestor. Exact pushed-main
+  root/CI/archive/install and synchronization checks precede final handoff
+  and tracker completion. Required original-SPEC scope is complete at those
+  explicit boundaries; the 100% estimate is not a positive answer to every
+  research question, a continuous numerical certificate, or an external
+  priority claim. The original mathematical goals above are unchanged.

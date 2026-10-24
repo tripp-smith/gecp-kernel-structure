@@ -6,8 +6,9 @@ Phase DO starts from synchronized main
 1–30, rather than the subsequent phase annotations or the forty labels in
 `COMPLETION_AUDIT.md`, defines the required scope.
 
-**Decision: source scope accounted for; final DQ delivery gates pending.**
-The full goal is not complete until those gates pass. DQ rereads the original
+**Decision: COMPLETE at the stated required original-SPEC scope.** This
+handoff requires successful exact pushed-main root/CI/archive/install checks,
+not merely this document's verdict. DQ rereads the original
 thirty sections and their explicit lists, inspects actual proof dependencies,
 and adds a consumer that checks 22 theorem types through the public import.
 It reruns independent MP192 checks and both plot comparisons, and repairs
@@ -16,8 +17,13 @@ explicit-item tables below, not the earlier forty-label count, support this
 scope decision. This is primary-agent review; new temporary reviewers hit an
 account limit before contributing, so no new independent human or multiagent
 review is implied. DQ code `f2ffd5e` passes its exact root, package/install
-and push/PR CI gates, recorded below. Final documentation-head and merged-main
-closure are still required. The effort estimate remains approximately 99%.
+and push/PR CI gates, recorded below. Final branch `0a6d363` repeats every
+root/package/install gate and passes CI `40050605960`/`40050610230`.
+PR #123 merges as `d9978607b88a45d98d917f44318bcaf99b4c3239` at
+2026-10-24 01:41:41 UTC. Exact pushed-main closure is checked before handoff.
+The updated estimate is 100% of required scope, not a theorem-truth probability,
+an assertion every research question has a positive answer, or a publication
+priority/adjudication claim. Original mathematical goals remain unchanged.
 
 The principal exact fermionic GECP rate is
 supported, including its finite-run selected-core cross and actual Green
@@ -271,7 +277,7 @@ are not silently promoted into mandatory additional theorems.
 
 | SPEC section | Original requirement and independent finding | Evidence and scope |
 | --- | --- | --- |
-| 1 | Supported exact mathematical objective; full project incomplete | Finite exact rate, original cross and Green consequence above close the large-cutoff linear-to-logarithmic gap. The small-cutoff boundary is explicit. |
+| 1 | Supported exact mathematical objective and required project scope | Finite exact rate, original cross and physical Green consequence close the large-cutoff linear-to-logarithmic gap. The literal small-cutoff obstruction is proved. DQ's full original-source audit and verified delivery support required-scope completion, not every optional extension. |
 | 2 | Supported baseline role and attribution | SPD/Cholesky and fill-distance results below reproduce the control setting. Updated references distinguish the historical two-author Cholesky v1 from v3 and attribute the workshop's separate solution claim without verifying its inaccessible underlying paper or claiming priority. |
 | 3 | Supported two mathematical tracks | Track A: `PositiveDefinite/ContinuousCholesky.lean:68–148`; Track B: actual finite-run fermionic rate, rather than a structural hypothesis merely assumed to contain it. |
 | 4 | Supported identities and structural infrastructure | `Fermionic/Symmetry.lean:7`, `Centering.lean:12`, `Derivatives.lean:9,40,65,113,125`, all-orders signs and actual-prefix gauge above. No universal pivot-localization or residual-section-monotonicity claim. |
@@ -284,7 +290,7 @@ are not silently promoted into mandatory additional theorems.
 | 11 | Supported rate and rigorous parameter obstruction | `FiniteRunRate.lean:166,178`; `RealCutoffRate.lean:340`. Do not call the literal all-positive-cutoff conjecture true. |
 | 12 | Proposed route; structural objective supported | The question about a general `C(k)σ_(αk)` comparison is not a separately mandatory theorem. Actual-prefix gauge/local-minor/panel counting proves the desired original-kernel rate without that comparison. |
 | 13 | Research questions investigated, not six promised positive answers | All-orders signs, gauge and backward witnesses are proved; numerous exact obstruction modules distinguish false stronger sign/localization hypotheses. No universal nested one-dimensional pivot rule is claimed. |
-| 14 | Supported verified/merged DP adaptive delivery and independent checks | `adaptive_census.json` supplies seven actual residual-driven nested-grid trajectories and twenty-eight converged sampled tolerance records from clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`; both full generations repeat bytes. Schema-3 records retain all requested diagnostics; the adaptive normalized/stage plot is rendered, inspected and repeated. MP192 structure/provenance, twenty-one representative original-core and twenty-eight full final-cross checks pass. PR #122 is verified and merged; pushed-main closure and the fresh original-scope audit remain pending. Historical fixed-grid artifacts remain separate. |
+| 14 | Supported adaptive delivery and independently recomputed checks | The seven actual residual-driven nested trajectories and 28 converged prefixes retain every §14 diagnostic; two full clean-generation runs repeat bytes. DP delivers the experiment, reviewed normalized plot and independent MP192 report. DQ reruns all 21 representative cores and 28 full final sampled crosses and both plot comparisons. Original-scope closure is audited; historical fixed-grid artifacts/provenance remain separate. |
 | 15 | Supported exact small-instance layer | `SmallInstanceChecks.lean:38–107` certifies a concrete complete two-pivot real/rational grid, minors and `[2,1/2]` pivots. Larger rational exponential cases are exact Python evidence in `tests/test_surrogates.py` and `experiments/data/exact_surrogates.json`, not larger Lean enumerations. |
 | 16 | Supported formal cover bound and root-verified numerical repairs | `Discretization/Grid.lean:10` derives `gridMax+L*radius` from explicit cover/Lipschitz assumptions. `kernelgecp/certified.py` has tested adaptive interval and conditional analytic-Lipschitz APIs; cancellation, underflow, rounded-midpoint, invalid-enclosure and budget-failure paths pass the fresh root gate. |
 | 17 | Supported η-certificate bridge; structural extension unresolved | `Discretization/LipschitzCertificate.lean:8` transports an upper bound to the η inequality. Original wording says strengthen rates “where feasible”; no arbitrary-η near-optimal rate is proved. Exact rates cannot be applied to certified η<1 pivots. |
@@ -299,8 +305,8 @@ are not silently promoted into mandatory additional theorems.
 | 26 | Supported adaptive and historical datasets | Direct inspection finds seven schema-3 adaptive cases and twenty-eight converged tolerance records through `1e-12`, 128-bit elimination, 53-bit explicit coordinates and MP192 probe/final sample metadata. Revision/config/source/lock/environment provenance and exact full-run byte repeats are recorded above; the passing independent report pins its input and checker source and verifies revision blobs. Historical canonical JSONL retains its original provenance; final DP shipping gates remain separate. |
 | 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, but full completion still requires final delivery and the subsequent original-scope audit. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
-| 29 | Required documents maintained; pushed-main closure synchronization pending | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF preserve the theorem and historical verification. Current audits record the adaptive delivery, passing independent checks and verified PR #122 merge. Original mathematical goals are unchanged; exact pushed-main closure metadata/gates must be synchronized before handoff. |
-| 30 | Minimum mathematical outcomes supported; final delivery gates pending | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. DP adds the independently checked seven-cutoff adaptive census across six orders of magnitude. DQ's original-scope explicit-item audit is performed below; whole-goal closure still requires final repaired-source delivery gates. |
+| 29 | Supported synchronized claim and handoff documents | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB, audits and canonical FINAL_HANDOFF record the actual theorem/obstruction boundaries, adaptive/sparse evidence, DQ repairs, final-branch gates and merged PR #123. Original mathematics and historical provenance are preserved. Exact-main gates are checked before handoff. |
+| 30 | Minimum and required original outcomes supported | Reusable core, arbitrary-domain strict-SPD baseline, fermionic algebra, constructive logarithmic rank and the stronger actual exact rate/cross/Green results are proved. Adaptive seven-cutoff data and the six-method sparse comparison are checked at sampled scope. The DQ explicit-item audit and actual delivery gates, not these minimum outcomes or an inventory count alone, support completion. |
 
 ## Independent disposition of the forty inventory groups
 
@@ -349,12 +355,12 @@ DQ original-scope explicit-item audit below, not its completion decision.
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
 | R34 | S | All eleven original §25 numerical test categories are explicitly mapped in FINAL_AUDIT. DQ adds failure-first one-ULP/subnormal/gap/precision/parameter-boundary checks to the preserved exact, independent centered-expression, PSD/Cholesky, determinant/cross and adaptive/spectral tests. Exact code-head root passes 757 tests. |
-| R35 | S | Exact DQ code f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8 passes ./scripts/verify.sh: 757 tests in 150.01 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050118292/40050129457 pass all four checks. Final documentation/main gates repeat before handoff. |
+| R35 | S | Final DQ branch 0a6d3635529279beac9fb198c2d9de147c5ee2e5 passes ./scripts/verify.sh: 757 tests in 149.97 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050605960/40050610230 pass all four checks. Exact pushed-main gates are checked before final handoff. |
 | R36 | S | DQ rebuilt source/wheel archives are clean and hash-match all 21 Python/153 Lean sources plus claim docs/lock, include consumers/new tests/adaptive artifacts, and exclude local notes/caches/scratch. Outside-checkout installed checks pass pinned SciPy 1.18.0 and minimum 1.15.0, all 45 exports, adaptive success/budget failure and 48 six-method fits plus new boundary/metadata paths per environment. No package publication is claimed. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
-| R38 | S | DQ's original thirty-section and explicit-item source audit is performed, including theorem assumptions and experimental/API/test lists. All affected claim documents and canonical provenance are synchronized. Original SPEC mathematical goals and historical phase evidence are preserved; exact/conditional/observed/non-claim boundaries remain explicit. Final shipping status is recorded under R40. |
+| R38 | S | DQ's original thirty-section and explicit-item source audit, theorem-assumption review and experimental/API/test lists are complete. All affected claim docs and canonical provenance record verified final-branch gates and merged PR #123. Original SPEC mathematics and historical evidence are preserved. The 100% estimate concerns required scope, not every optional extension or a positive literal small-cutoff conjecture. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | S | DQ draft PR #123 is open and attached; exact code-head root, push/PR CI and rebuilt package/install checks pass. Final documentation-head and exact pushed-main gates and permitted PR merge remain. DP already completed main closure at 5a5fef0 with CI 40018905634, and immutable generation 3cee4186 is an ancestor. Neither inventory counts nor prior-phase gates establish DQ completion. |
+| R40 | S | PR #123 merges at 2026-10-24 01:41:41 UTC as d9978607b88a45d98d917f44318bcaf99b4c3239 after exact final-branch root, clean rebuilt archives/two installed environments and push/PR CI 40050605960/40050610230 pass. Local main fast-forwards; generation 3cee4186 remains an ancestor. Closure metadata is pushed to main and exact-head root/CI/archive/install, synchronization and no-open-PR checks precede final handoff and tracker completion. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -403,16 +409,16 @@ The exact finite-run theorem therefore does not certify numerical η<1 pivot
 trajectories or prove convergence of the practical adaptive DLR construction.
 Section 17's “where feasible” extension remains explicit research work.
 
-To complete the original scope:
+Final closure policy:
 
-1. Complete DQ repaired-source root, package/install and exact-head CI gates,
-   then PR merge and exact pushed-main closure before handoff. Prior DP/DO/DN
-   verification is historical, not a substitute for these gates. Preserve
-   sampled scope and all failures; passing numerical checks do not establish
-   exact complete-pivot behavior or continuous supremum bounds.
-2. Use the completed DQ original-scope explicit-item audit below together with
-   those actual delivery gates to decide completion. The preliminary forty-
-   supported-group mapping cannot make that decision by itself.
+1. DQ repaired-source and final documentation-head roots, package/install and
+   exact-head CI pass; PR #123 is merged. Repeat exact pushed-main gates before
+   final handoff. Prior DP/DO/DN verification remains historical rather than
+   a substitute. Preserve sampled scope and all failures.
+2. The original-source explicit-item audit below together with those actual
+   delivery gates supports completion. The forty-group mapping alone does not.
+   Arbitrary-inexact-pivot rates, ideal-run numerical certification, global
+   sparse optimality and external priority remain unclaimed extensions.
 
 No novel-priority conclusion follows from this repository audit. Mathematical
 support is the checked content and scope of the results; literature priority,
@@ -638,11 +644,17 @@ pass outside-checkout smokes under pinned Python 3.12.12/NumPy 2.5.2/SciPy
 exports, adaptive success and budget failure, 48 six-method fits, the new
 one-ULP/parameter/metadata regressions and exact interval-context restoration.
 
-Draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123)
-exists and is attached to this task. Final documentation-head root/CI/archive
-checks, permitted merge and exact pushed-main closure remain before handoff.
-The full goal remains active until those gates pass; the source audit or
-inventory alone is not shipping.
+Final documentation branch `0a6d3635529279beac9fb198c2d9de147c5ee2e5` repeats
+the full root with 757 tests in 149.97 seconds and all established proof/type/
+style/security gates. Push CI `40050605960` and PR CI `40050610230` pass all
+four checks at that exact head. Rebuilt archives and both reinstalled wheel
+environments pass again. [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123)
+is attached and merges at 2026-10-24 01:41:41 UTC as
+`d9978607b88a45d98d917f44318bcaf99b4c3239`. Local main fast-forwards; frozen
+generation `3cee4186` remains an ancestor. Exact pushed-main root/CI/archive/
+install checks and synchronization are verified before final handoff. The
+overall goal is closed only after those actual checks pass, never from the
+source audit or inventory alone.
 
 Canonical exposed model/mode/time/usage and unavailable billing/version fields:
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).
