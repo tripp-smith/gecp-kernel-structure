@@ -2854,3 +2854,12 @@ This annotation records delivered identifiers without changing the goals above.
   `a421f7c8ed8b1b8754f38116939e26181636fe82`. The original mathematical text,
   proofs, algorithms and historical data/manifests remain unchanged. DR is
   documentation/hygiene delivery, not a new mathematical or publication claim.
+
+- **Phase DS workflow status (2026-10-24 EDT; in progress):** updates the two
+  workspace skills under §29 with original-obligation contracts, proof-route
+  checkpoints and conditional numerical/verification/delivery guidance. This
+  post-completion maintenance does not alter the original mathematical goals,
+  completed scope decision, formal proofs, numerical code, dependency lock or
+  historical experiment provenance. The phase requires skill validation,
+  realistic behavioral checks, the root command and exact-revision PR CI before
+  authorized merge/push; detailed contract and evidence are in `RESEARCH.md`.
