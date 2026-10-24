@@ -10104,3 +10104,64 @@ documentation records completed evidence rather than prospective DQ shipping
 plans. The phase changes no theorem, algorithm, source lock, version tag,
 publication state or historical artifact. The completed original research
 goal remains complete; live DR goal accounting is unavailable, not inferred.
+
+## Phase DS — research-workflow skill hardening
+
+Contract opened 2026-10-24 EDT from synchronized main
+`af8b592ca227625aec05e260dbc290bba0261fa2`. The user authorizes updating the
+workspace skills, committing on a PR branch, merging to main and pushing
+origin. This is bounded workflow maintenance under SPEC §29, not a reopened
+mathematical objective, new tracked goal or package publication.
+
+Named outputs are revised `.agents/skills/phase-cadence/SKILL.md` and
+`.agents/skills/lean-research-loop/SKILL.md`, with conditional references for
+numerical evidence and release verification. Capture six demonstrated lessons:
+original-SPEC/expected-type contracts, route-level proof checkpoints,
+adversarial numerical boundaries, pilot/freeze/heldout separation, negative
+verification fixtures and exact-revision delivery receipts. Keep entrypoints
+concise, preserve user authority and retain existing proof/certification rules.
+Reuse current audit documents rather than introduce a competing ledger.
+
+Independent checks comprise skill-frontmatter validation, local reference
+resolution, read-only realistic forward tests without supplied answers, and
+review for scope or existing-policy regressions. Run `./scripts/verify.sh` on
+the final content and obtain exact-branch CI before merging. Record verification
+and delivery in the PR, bound to concrete revisions rather than pretending a
+file can contain its own final commit hash. README and append-only SPEC status
+track this maintenance phase; completed research conclusions, historical run
+metadata, Lean/Python code, dependencies and experiment artifacts do not change.
+Protected untracked duplicate notes remain unread and untouched. No new usage,
+billing, publication, independent theorem audit or mathematical claim is inferred.
+
+### DS validation and canonical delivery record
+
+Both skill frontmatters pass the skill-creator validator. All four skill
+documents and both relative reference links resolve; nine focused documentation
+tests pass. Three independent read-only forward tests received realistic
+requests and minimal fictional artifacts, without the intended answer:
+
+- Scope/route: a clean axiom audit of a theorem with an extra envelope premise,
+  fixed grids labeled adaptive, and three successful phases retaining the same
+  bridge. The evaluator rejects closure and chooses a bounded original-run
+  witness test using existing local bounds, retaining explicit remaining gaps.
+- Numerical evidence: a one-ULP identity-function false certificate, a mixed-scale
+  multiplication repair, stale imports, holdout reuse and an alias checker. The
+  evaluator reproduces both arithmetic failures with exact-rational checks,
+  calls for fresh frozen runs/new holdouts and preserves historical manifests.
+- Delivery: older-head CI, a fail-open axiom parser, checkout-imported wheel
+  smoke test, unintended note in a fictional distribution, self-referential SHA
+  updates and unsupported usage/billing attribution. The evaluator rejects
+  readiness and performs no unauthorized external action.
+
+A separate read-only scope reviewer identified a circular pre-/post-merge
+definition of done in the draft. The final guidance separates pre-merge
+acceptance from confirmed merge/main checks and requires evidence even when
+completion is recorded at the next phase opening. These are skill-behavior
+checks, not a new audit of the completed mathematics or canonical experiments.
+
+[PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) is the
+canonical DS receipt for final checked source, full-root output, exact-revision
+CI, merge and main synchronization. Its externally updated receipt avoids a
+new documentation commit solely to embed its own hash. The historical research
+verification/accounting in FINAL_HANDOFF remains unchanged. No package rebuild
+or canonical experiment rerun is claimed for this skills-only maintenance.
