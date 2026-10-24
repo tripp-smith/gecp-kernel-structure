@@ -666,3 +666,14 @@ finalization does not reopen or broaden that mathematical scope.
 
 Canonical exposed model/mode/time/usage and unavailable billing/version fields:
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).
+
+## DR documentation-only finalization
+
+DR replaces prospective current-summary wording with the completed DQ main
+result and terminal original-goal accounting, while preserving dated historical
+contracts and every original mathematical goal. Exact DR source `51fa6b3`
+passed 759 tests in 144.90 seconds, the unchanged proof/axiom/consumer gates,
+style/type/security checks, CI `40054146369`/`40054160333`, clean archives and
+both installed environments. PR #124 merged on 2026-10-23 at 22:30:40 EDT as
+`a421f7c8ed8b1b8754f38116939e26181636fe82`. This is documentation/provenance
+delivery, not a new independent mathematical audit, theorem or numerical run.

@@ -2832,7 +2832,7 @@ This annotation records delivered identifiers without changing the goals above.
   research question, a continuous numerical certificate, or an external
   priority claim. The original mathematical goals above are unchanged.
 
-- **Phase DR documentation status (2026-10-23 EDT; in progress):** finalizes
+- **Phase DR documentation status (2026-10-23 EDT; verified, merged PR #124):** finalizes
   the documentation under §29 without changing any original mathematical goal,
   theorem, numerical algorithm, historical data or publication state. DQ's
   actual exact-main closure is `e8c35eda7662566639c5eac6748d3032df87075f`:
@@ -2846,3 +2846,11 @@ This annotation records delivered identifiers without changing the goals above.
   historical pending statements retain their original phase context; current
   summaries record the completed outcome. DR repeats root/CI/package and
   merge/push verification before its own final handoff.
+
+  Exact DR documentation source `51fa6b3` passed 759 tests in 144.90 seconds,
+  unchanged Lean/axiom/consumer and style/type/security gates, CI
+  `40054146369`/`40054160333`, clean archives and both installed environments.
+  PR #124 merged on 2026-10-23 at 22:30:40 EDT as
+  `a421f7c8ed8b1b8754f38116939e26181636fe82`. The original mathematical text,
+  proofs, algorithms and historical data/manifests remain unchanged. DR is
+  documentation/hygiene delivery, not a new mathematical or publication claim.

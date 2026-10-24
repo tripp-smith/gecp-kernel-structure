@@ -969,6 +969,9 @@ reports, 22 consumer examples and
 DR only synchronizes documentation and completed-run evidence; it introduces
 no theorem, abstraction or new mathlib candidate. No new formal result or upstream claim is introduced by that
 delivery or the required-scope completion decision.
+DR source `51fa6b3` passed the 759-test root, all unchanged Lean/axiom/consumer
+gates and CI `40054146369`/`40054160333`; PR #124 is merged. Documentation
+finalization adds no mathematical abstraction or new upstream candidate.
 
 ## Run provenance
 

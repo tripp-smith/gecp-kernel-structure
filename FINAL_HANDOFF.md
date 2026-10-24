@@ -772,6 +772,35 @@ outside-checkout environments passed. Final Git checks confirmed local/main
 and origin/main equal, no tracked changes and no open PRs. The original goal
 was marked complete after those actual gates, not from the inventory count.
 
+## DR verified documentation finalization
+
+The user-requested final documentation/hygiene phase updates all nine project
+claim documents, records the completed DQ main result and terminal goal
+accounting, labels historical snapshots, aligns closed-phase states and makes
+exploratory command examples write ignored scratch outputs. Two documentation
+regressions check the terminal record and local Markdown link targets. A
+read-only reviewer found no factual/scope/provenance defect; the requested
+phase-table alignment is included. AGENTS and the preserved autonomous
+workflow reference were inspected and left unchanged.
+
+Exact source `51fa6b3bdc28b02b7d2a45cbabaab71fce56e9bd` passed the full root:
+759 tests in 144.90 seconds, 3,634 Lean jobs, 876 permitted axiom reports,
+22 consumer examples, 97 formatted files, mypy on 21 sources and clean
+dependency audit. Push/PR CI `40054146369`/`40054160333` passed all four checks.
+Clean source/wheel inspection matched 21 Python/153 Lean sources, claim docs,
+lock, documentation tests, AGENTS and CI. Both outside-checkout installed
+environments passed all 45 exports, adaptive success/budget failure, 48 six-
+method fits and boundary/metadata checks. Original SPEC prefix bytes and all
+historical experiment data/manifests are unchanged.
+
+[PR #124](https://github.com/tripp-smith/gecp-kernel-structure/pull/124) merged
+on 2026-10-23 at 22:30:40 EDT as
+`a421f7c8ed8b1b8754f38116939e26181636fe82`. Closing metadata is delivered on
+main. Local version-1.0.0 archives are build snapshots, not a new publication;
+old versioned build artifacts/caches remain ignored and protected user notes
+remain untouched and untracked. No new goal or phase-only accounting is
+invented; the completed original research scope is not reopened.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -935,8 +964,9 @@ snapshot; these operational counters do not prove a theorem or scope decision.
 
 ### Completed original-SPEC research goal
 
-The terminal completion response on 2026-10-23 at 21:54 EDT (2026-10-24
-01:54 UTC) exposed the following frozen accounting record. It supersedes the
+The terminal goal record in the preceding completion response was updated on
+2026-10-23 at 21:54 EDT (2026-10-24 01:54 UTC). It exposed the following frozen
+accounting record, which supersedes the
 earlier active snapshots for final goal state, not their historical usage.
 
 | Field | Completed original-goal record |
@@ -962,6 +992,10 @@ or numerical verification, an exact worker model identity or external peer revie
 
 ## Phase status
 
+States track closed phase contracts. Delivery counts and then-open research
+gaps in older rows are historical snapshots; the current scope decision and
+later results above take precedence.
+
 | Phase | State | Delivery |
 | --- | --- | --- |
 | 0 — bootstrap | complete | [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1) |
@@ -973,7 +1007,7 @@ or numerical verification, an exact worker model identity or external peer revie
 | F — sparse spectral application | complete | [PR #1](https://github.com/tripp-smith/gecp-kernel-structure/pull/1) |
 | R — release readiness | complete | [PR #9](https://github.com/tripp-smith/gecp-kernel-structure/pull/9), [closure PR #10](https://github.com/tripp-smith/gecp-kernel-structure/pull/10) |
 | S — realistic synthetic applications | complete | implementation `6404311`; canonical evidence delivered directly to `main` |
-| G — fermionic GECP rate | complete bounded research phase; G1 open | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
+| G — fermionic GECP rate | complete; bounded historical contract | merged [PR #11](https://github.com/tripp-smith/gecp-kernel-structure/pull/11) |
 | BC — product-measure Andréief identity | complete; green CI | merged [PR #57](https://github.com/tripp-smith/gecp-kernel-structure/pull/57) |
 | BD — arbitrary-sample and Taylor-tail weak signs | complete; green CI | merged [PR #58](https://github.com/tripp-smith/gecp-kernel-structure/pull/58) |
 | BE — strict all-orders Taylor-tail signs | complete; green CI | merged [PR #59](https://github.com/tripp-smith/gecp-kernel-structure/pull/59) |
@@ -999,17 +1033,17 @@ or numerical verification, an exact worker model identity or external peer revie
 | DF — backwards witnesses and global finite rate | complete; green CI | merged [PR #112](https://github.com/tripp-smith/gecp-kernel-structure/pull/112); actual-kernel bound `2^(-q)` after `32(s+1)(33+4q)` complete pivots; 3,619 Lean jobs and 155 tests |
 | DG — actual real-cutoff rate and parameter boundary | complete; green CI | merged [PR #113](https://github.com/tripp-smith/gecp-kernel-structure/pull/113); explicit logarithmic rate / tolerance and actual first-pivot obstruction; 3,622 Lean jobs and 159 tests |
 | DH — finite-run and physical-error closure | complete; green CI | merged [PR #114](https://github.com/tripp-smith/gecp-kernel-structure/pull/114); no future-pivot premise; exact stop, selected cross and actual Green-integral difference; 3,625 Lean jobs and 163 tests |
-| DI — original-SPEC audit and bounded closures | verified; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); 40 groups / seven incomplete; real D1, compact maxima, exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests and wheel smoke |
-| DJ — original-kernel fill-distance control | verified; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
-| DK — strict-SPD complete-pivot reduction | verified; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
-| DL — complete numerical result metadata | verified; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
+| DI — original-SPEC audit and bounded closures | complete; green CI | merged [PR #115](https://github.com/tripp-smith/gecp-kernel-structure/pull/115); 40 groups / seven incomplete; real D1, compact maxima, exact certificates; 3,627 Lean jobs, 838 audited declarations, 177 tests and wheel smoke |
+| DJ — original-kernel fill-distance control | complete; green CI | merged [PR #116](https://github.com/tripp-smith/gecp-kernel-structure/pull/116); arbitrary-domain PSD/order and compact diagonal maxima; original-kernel `2*L*h` bound; R09 closed; 3,630 Lean jobs, 857 audited declarations and 180 tests |
+| DK — strict-SPD complete-pivot reduction | complete; green CI | merged [PR #117](https://github.com/tripp-smith/gecp-kernel-structure/pull/117); fresh strict Schur congruence; every complete pivot diagonal; independently defined actual-run Cholesky equivalence; compact/fill corollaries; 3,633 Lean jobs, 876 audited declarations and 183 tests |
+| DL — complete numerical result metadata | complete; green CI | merged [PR #118](https://github.com/tripp-smith/gecp-kernel-structure/pull/118); actual/requested precision, conditioning/ties/certification scopes, returned-error convergence and optimizer/failure diagnostics; schema-2 summaries; 232 tests; clean dependency audit; isolated wheel smoke |
 | DM — complete census diagnostics and normalized curves | complete; green CI | merged [PR #119](https://github.com/tripp-smith/gecp-kernel-structure/pull/119); byte-repeated 28-case MP128 census, complete diagnostics, normalized plots, actual representative resolution ladder, 30 MP192 core checks, 430 tests and isolated wheel smoke |
-| DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
-| DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
+| DN — fair six-method spectral comparisons | complete; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
+| DO — independent final SPEC audit | complete; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
 | DP — residual-adaptive seven-cutoff census | complete; green exact-main CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives/two installed environments; main closure 5a5fef0 and CI 40018905634 passed |
 | DQ — original-SPEC closure audit | complete; green exact-main CI | merged [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); exact main e8c35ed, 757 tests in 150.31 seconds, successful CI 40051138962, clean archives and two installed environments |
-| DR — final documentation and repository handoff | in progress | completed-main evidence, terminal original-goal accounting and synchronized claim documents; no mathematical or numerical changes |
-| H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
+| DR — final documentation and repository handoff | verified; green exact-source CI | merged [PR #124](https://github.com/tripp-smith/gecp-kernel-structure/pull/124); 759-test root, CI 40054146369/40054160333, clean archives/two installed environments; synchronized completed-run evidence and no mathematical/numerical changes |
+| H — verification integrity refresh | complete locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
 | K — exponential total-positivity scaffolding | complete; green CI | merged [PR #15](https://github.com/tripp-smith/gecp-kernel-structure/pull/15) |

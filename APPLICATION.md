@@ -982,6 +982,14 @@ external peer review or ideal/inexact-run numerical theorem is implied.
 
 ## Release provenance
 
+DR's documentation source `51fa6b3` passed 759 tests in 144.90 seconds,
+CI `40054146369`/`40054160333`, clean source/wheel inspection and both
+outside-checkout installed environments. PR #124 is merged. These are later
+documentation checks, not relabeled DQ experiments or new runtime behavior.
+Exploratory commands above use ignored scratch outputs; committed artifacts
+retain their original generation manifests. Local build snapshots are not a
+new package publication.
+
 The implementation agent's exposed model family and mode, goal-accounting
 time and token snapshot, and the assumptions behind the API-equivalent cost
 estimate are documented in

@@ -328,3 +328,14 @@ Exposed model/mode, cumulative goal counters and unavailable billing/version
 fields are recorded in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). They are
 operational provenance, not evidence for a theorem or a completed requirement.
+
+## DR final documentation delivery
+
+The later documentation-only source `51fa6b3` passed its exact full root
+(759 tests in 144.90 seconds), unchanged Lean/axiom/consumer gates,
+style/type/security, CI `40054146369`/`40054160333`, clean archives and both
+installed environments. PR #124 merged on 2026-10-23 at 22:30:40 EDT as
+`a421f7c8ed8b1b8754f38116939e26181636fe82`. Current summaries and canonical
+terminal accounting are synchronized; no original requirement, algorithm,
+theorem or historical artifact changed. The research completion verdict and
+its explicit limitations remain unchanged.

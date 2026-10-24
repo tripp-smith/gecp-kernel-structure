@@ -2072,6 +2072,10 @@ closure language in the dated DP/DQ history, not any theorem's assumptions.
 DR synchronizes documentation/provenance and adds documentation regressions;
 it does not add a mathematical result, change an algorithm, regenerate
 historical data or reopen the completed research scope.
+Exact DR source `51fa6b3` passed 759 tests in 144.90 seconds, all established
+proof/type/style/security gates, CI `40054146369`/`40054160333`, clean archive
+inspection and both installed environments. PR #124 merged on 2026-10-23
+at 22:30:40 EDT as `a421f7c8ed8b1b8754f38116939e26181636fe82`.
 
 ## Run provenance
 
