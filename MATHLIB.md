@@ -944,6 +944,21 @@ and 876-declaration allowed-axiom gate; exact artifact-head push/PR CI pass.
 Final documentation-head root/CI also pass and PR #122 is merged;
 exact pushed-main closure repeats these gates before handoff.
 
+## DQ public-interface consumer audit
+
+`scripts/CompletionContract.lean` imports only the public `Theorems` module
+and checks 22 expected types for the delivered GECP, fermionic, separated-rank,
+Green and arbitrary-domain strict-SPD/fill interfaces. The root and CI compile
+this consumer separately from the library build. It introduces no theorem,
+axiom or local abstraction, and leaves the 876 public axiom targets unchanged.
+The audit confirms mathlib's `Matrix.PosDef` uses finitely supported quadratic
+forms and therefore does not impose a hidden finite-domain restriction on the
+continuous strict-SPD result. Existing `Matrix.PosDef`/Schur/compact maximum
+and elementary logarithm candidates already recorded above suffice; no new
+credible upstream abstraction is introduced by this closure phase.
+The conditional numerical Lipschitz-bound and exact binary-parameter repairs
+are Python correctness work, not formal analytic results.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

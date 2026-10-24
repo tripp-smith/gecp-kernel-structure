@@ -85,6 +85,65 @@ class PivotCertificate:
     tie_rtol: float | None = None
     tie_scope: str = "not_recorded"
     objective_scope: str = "caller_supplied_objective"
+    arithmetic: str = "not_recorded"
+    precision_bits: int | None = None
+    requested_precision_bits: int | None = None
+    enclosure_precision_bits: int | None = None
+    bound_precision_bits: int | None = None
+    coordinate_precision_bits: int | None = None
+
+    @property
+    def metadata(self) -> NumericalMetadata:
+        """Expose scalar-search evidence without inventing matrix conditioning."""
+        interval = self.arithmetic == "mpmath_interval_with_float64_exports"
+        return NumericalMetadata(
+            algorithm="interval_certified_pivot"
+            if interval
+            else "lipschitz_pivot"
+            if self.precision_bits is not None
+            else "not_recorded",
+            arithmetic=self.arithmetic,
+            precision_bits=self.precision_bits,
+            requested_precision_bits=self.requested_precision_bits,
+            precision_status="mixed_precision_explicit_in_configuration"
+            if self.precision_bits is not None
+            else "not_recorded",
+            conditioning_status="not_applicable",
+            conditioning_method="scalar_objective_no_matrix_factorization",
+            tie_status="recorded_sampled_candidates"
+            if self.candidate_count
+            else "not_recorded",
+            tie_policy="lexicographic_sampled_singleton_lower_bound"
+            if interval
+            else "lexicographic_sampled_absolute_point_value",
+            tie_rtol=self.tie_rtol,
+            tie_counts=[self.near_tie_count] if self.candidate_count else [],
+            tie_tolerance_rule=self.tie_scope,
+            certification_status="certified" if self.certified else "not_certified",
+            certification_scope=self.objective_scope,
+            converged=self.certified,
+            stop_reason=self.termination_reason,
+            convergence_scope="declared_objective_pivot_gap_under_callback_obligations",
+            configuration={
+                "enclosure_precision_bits": self.enclosure_precision_bits,
+                "enclosure_arithmetic": "mpmath_interval"
+                if interval
+                else "exact_binary_rational"
+                if self.precision_bits is not None
+                else "not_recorded",
+                "bound_precision_bits": self.bound_precision_bits,
+                "value_precision_bits": self.bound_precision_bits,
+                "coordinate_precision_bits": self.coordinate_precision_bits,
+                "point_precision_bits": self.precision_bits,
+                "candidate_count": self.candidate_count,
+                "exact_tie_count": self.exact_tie_count,
+                "near_tie_count": self.near_tie_count,
+                "cells_evaluated": self.cells_evaluated,
+                "lower_bound": self.lower_bound,
+                "upper_bound": self.upper_bound,
+                "eta": self.eta,
+            },
+        )
 
 
 @dataclass(frozen=True, slots=True)

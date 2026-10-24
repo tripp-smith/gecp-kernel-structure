@@ -9869,3 +9869,123 @@ pushed to main and exact pushed-main root/CI/package gates repeat before handoff
 
 Next perform the fresh original-SPEC closure audit. Only that subsequent
 audit can decide full completion; no status-label count substitutes for it.
+
+## Phase DQ — original-SPEC closure audit
+
+### Contract (2026-10-23)
+
+Start from synchronized main `5a5fef0050b52958d6551aeaa1b1ed06645ba119`.
+The previous goal turn is progress: DP's genuine adaptive census, independent
+checks, documentation, PR #122 merge and pushed-main closure are delivered.
+That exact main head passes the root (713 tests in 150.17 seconds, 3,634 Lean
+jobs, 876 allowed axiom reports, 95 formatted files, mypy on 21 sources and
+clean dependency audit), rebuilt archives/two installed smokes and push CI
+`40018905634`. The generation revision remains an ancestor of main.
+
+Treat full completion as unproved. Re-read original SPEC sections 1–30 and
+the initial recommendation, not only later phase annotations or forty ledger
+labels. Audit each explicit outcome, enumeration, public interface, invariant,
+artifact, verification command and delivery gate at its actual scope. Extend
+`FINAL_AUDIT.md` with direct requirement-to-source/test/artifact evidence and
+an explicit decision; synchronize `COMPLETION_AUDIT.md` and all current claim
+documents. Inspect the exact finite rate, real separated rank, original cross
+and Green-integral statements and their definitions/dependencies; the original
+SPD/Cholesky/fill baseline; all ten adaptive census diagnostics; precision,
+ties, conditioning, failures, certifier scope; all six sparse comparisons;
+public APIs; package/build/axiom and Git/CI delivery evidence. No test count,
+manifest or passing status substitutes for mathematical or numerical coverage.
+
+Do not rewrite original SPEC mathematics or retroactively change experiment
+provenance. Distinguish required outcomes from explicitly conditional research
+extensions: an arbitrary-eta rate and an ideal exact-run numerical certifier
+must stay unresolved/unclaimed unless actually proved. Preserve the proved
+small-cutoff parameter obstruction and do not advertise an unqualified solution
+or literature priority. A missing mandatory item keeps the full goal open and
+determines the next substantive target; do not close by weakening its scope.
+
+No new Lean theorem or local abstraction is planned. If a genuinely open formal
+claim enters the critical path, read/use lean-research-loop before iterative
+proof work. Temporary reviewers were dispatched but report account usage
+limits before contributing DQ evidence; the primary performs the audit locally
+and does not present this as a new independent multi-reviewer audit.
+User-owned duplicate notes remain untouched and excluded from all archives.
+
+The audit also adds `scripts/CompletionContract.lean`: a downstream consumer
+of `Theorems.lean` with explicit expected types for the required algebra,
+real-parameter separated approximation, actual finite-run rate/cross/Green
+consequences, arbitrary-domain SPD/fill baseline, exact small instance and
+conditional discretization bridge. Root and CI compile this consumer so a
+theorem name alone cannot hide a weakened quantifier or extra hypothesis.
+This is a verification fixture using existing public proofs, not new research
+or a new theorem claim. It supplements, rather than replaces, source review.
+
+### Reproduced DQ obstruction: Lipschitz certificate rounding
+
+Direct audit finds a mandatory numerical correctness gap, not merely missing
+status text. For the exact identity callback `f(t,w)=t`, bounds
+`t=[1,nextafter(1,+inf)]`, `w=[0,1]`, valid coordinate Lipschitz constants
+`(1,0)`, zero tolerances and one cell, the current non-interval
+`certified_pivot` reports `certified=True`, lower=upper=1. The actual maximum
+is `1.0000000000000002`. Rounded midpoint/half-width arithmetic underestimates
+the geometric cover and upper addition. This witness uses an exact callback;
+it does not rely on hidden function-evaluation error.
+
+Standalone pivot certificates also lacked the shared precision/conditioning/
+convergence metadata view. Populate actual point precision, guarded interval
+enclosure precision, binary64 bound/coordinate export precision, sampled tie
+counts and scalar-conditioning-not-applicable fields for both entry points;
+manual records retain explicit unrecorded defaults. These are evidence fields,
+not a certificate that callback obligations hold or a new convergence theorem.
+
+Add failure-first tests and repair this bounded certificate path before any
+completion decision. Compute conservative radii from the actual sampled float
+point to both endpoints, enclose nonnegative arithmetic outward, reject invalid
+tolerances, and preserve visible budget/coordinate-resolution failure rather
+than certifying an unrepresentable refinement. Document that the Lipschitz mode
+is conditional on valid analytic constants and exact callback point values;
+arbitrary evaluation error is not certified. Interval mode and the immutable
+DP generation source/manifests are not relabeled. No new mathematical theorem
+or inexact-rate claim follows from this repair.
+
+### DQ development dependency gate
+
+The preliminary root passes all 753 tests and the Lean/consumer/type/style
+gates, but its fresh dependency audit fails: filelock 3.32.3 is reported for
+`CVE-2026-112940`, `CVE-2026-112913` and `CVE-2026-112907`, with patched version
+4.2.1. It is a development-only dependency through pip-audit's CacheControl
+file cache, not part of the numerical runtime. The maintained
+[4.2.1 release](https://pypi.org/project/filelock/4.2.1/) supports Python 3.12.
+Constrain the development dependency to `filelock>=4.2.1,<5` and upgrade only
+that lock entry/dependency metadata, preserving the numerical stack.
+
+Keep every historical experiment's original lock digest. DN's artifact test
+must bind its frozen generation lock to the recorded Git blob, as DP already
+does, not require all future development lockfiles to equal that historical
+input. Verify this change rather than relabeling/regenerating the old artifact.
+The root cannot be reported passing until the updated dependency audit passes.
+
+### DQ dyadic-parameter boundary witness
+
+The same explicit-quantifier audit finds Python parameter rounding outside the
+existing ordinary-input tests. `cutoff=nextafter(16,+inf)` selects scale 4,
+which does not cover the cutoff; `tolerance=nextafter(2**-40,0)` selects 40
+accuracy bits and advertises a bound larger than the tolerance. Reciprocal
+logs also overflow (or `tolerance/3` underflows) at valid subnormal tolerances.
+The Lean real-parameter theorem itself is unaffected.
+
+Choose binary logarithm floors/ceilings by exact integer-ratio comparisons,
+share those parameters between the Taylor factory and rank helper, and test
+both sides of dyadic transitions/subnormal inputs with exact Fractions.
+The conservative DLR arithmetic helper may use a binary-log upper envelope
+for its central count, preserving the logarithmic scale without a floating
+transcendental rounding certificate. Do not claim this published-count helper
+is the Lean construction or an empirical GECP rank bound. A manual Taylor
+accuracy below binary64's minimum positive value must expose a conservative
+positive exported error bound, not a spurious exact zero.
+
+The phase requires fresh full `./scripts/verify.sh`, source/wheel inspection,
+outside-checkout installed smokes (pinned and minimum SciPy), exact final-head
+CI, a draft PR, permitted merge and pushed-main closure. Record only actually
+exposed run metadata. Mark the overall goal complete only if the original-scope
+audit and all final delivery gates prove completion; otherwise retain the full
+active objective and document the precise missing evidence or deliverable.

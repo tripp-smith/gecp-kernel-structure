@@ -1,5 +1,17 @@
 # Original SPEC completion audit
 
+DQ source-level closure update (2026-10-24 UTC): [FINAL_AUDIT.md](FINAL_AUDIT.md)
+now checks the original thirty sections and every explicit deliverable/test/API
+list against actual definitions, proofs, source and artifacts. It finds the
+required outcomes accounted for at their stated scopes, not from a forty-label
+count. New public-import theorem consumers and regressions repair genuine
+certificate-rounding and dyadic-parameter boundary defects. Final root,
+package/install, exact-head CI, PR and pushed-main closure remain pending;
+the full goal is not yet complete. This is primary-agent review, not a new
+external or independent multiagent audit. DP main `5a5fef0` already passed its
+root, CI `40018905634` and rebuilt package/install gates; those historical
+checks do not verify DQ changes.
+
 DP numerical-delivery update (2026-10-23): the required residual-adaptive
 census now exists for all seven cutoffs and all twenty-eight tolerance records.
 Two full generations from clean `3cee4186fddf990abdd33dbe24c46ff908b1923f`
@@ -11,9 +23,9 @@ DP is **verified and merged** in [PR #122](https://github.com/tripp-smith/gecp-k
 at 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`.
 Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
 root and push/PR CI; archives and installed-wheel checks repeat successfully.
-Pushed-main closure metadata/gates repeat before handoff and are not yet complete.
-The full goal remains **not complete** until that closure and the subsequent
-fresh original-scope audit are complete.
+Its pushed-main closure subsequently passes at `5a5fef0`, including CI
+`40018905634`. The fresh DQ audit and repairs supersede this preliminary
+mapping; final DQ delivery gates remain open.
 
 Historical DO audit update (2026-10-22): the independent [FINAL_AUDIT.md](FINAL_AUDIT.md)
 reads all thirty original sections and checks actual sources/artifacts. It
@@ -55,9 +67,11 @@ Exact pushed-main closure gates repeat before handoff; final audit is next.
 
 ## Decision
 
-**The full goal is not complete.** The principal exact fermionic GECP rate is
-proved, including its finite-run cross and Green consequences. That does not
-prove all of the original specification's other requirements.
+**The full goal is not complete until DQ shipping gates pass.** The original
+scope, rather than the numerical inventory below, has been rechecked in the
+DQ explicit-item audit. The principal exact fermionic GECP rate and its
+finite-run cross and Green consequences are supported, as are the separate
+baseline, separated approximation, adaptive diagnostics and sparse comparison.
 
 The preliminary DP mapping has 40 concrete requirement groups:
 **40 supported and 0 incomplete** at the stated scopes. R25 is supported by
@@ -68,8 +82,9 @@ MP192 checking passes with full seven-case/twenty-eight-record coverage and
 recorded-revision source blobs checked. DP is verified and merged as PR #122.
 Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
 713-test root, clean archive inspection, repeated outside-checkout installed-wheel
-checks and exact-head push/PR CI. Pushed-main closure metadata/gates remain,
-followed by the fresh final original-SPEC closure audit.
+checks and exact-head push/PR CI. DP pushed-main closure also passes. DQ's
+source-level audit is now performed, with final repaired-source release gates
+remaining rather than another inventory-based completion assertion.
 A rough overall effort estimate is **99%**; this is a planning estimate,
 not the forty-group count, a theorem-truth probability or a completion decision.
 DO's passing 569-test root, package checks and merged PR #121 remain historical
@@ -286,14 +301,13 @@ P-greedy theory. DN closes the six-method computational comparison. DP now
 supplies the actual adaptive census, repeated inspected plot and passing
 independent MP192 report. Required work is:
 
-1. **Finish pushed-main closure.** DP is verified and merged in PR #122;
-   complete closure metadata and root/CI/provenance gates at the final pushed
-   main head before handoff.
-   Keep sampled maxima distinct from continuous bounds and retain every failure.
-2. **Final original-scope closure audit.** Reaudit all thirty original SPEC
-   sections against the completed DP outputs and delivery evidence. The
-   preliminary forty-supported-group mapping is an input to that audit, not its
-   conclusion; decide whole-goal completion only after that audit and its gates.
+1. **Verify DQ's real repairs.** Repeat the root, source/wheel inspection and
+   pinned/minimum-SciPy outside-checkout installed checks after the certificate
+   and exact-parameter changes. Preserve immutable experiment provenance.
+2. **Ship the audited result.** Require exact-head CI, draft PR, permitted merge,
+   push and exact-main closure. Only then close the full goal at the explicit
+   original-SPEC scope; arbitrary-inexact-pivot rates and continuous numerical
+   certificates remain unclaimed research extensions.
 
 No missing requirement is resolved by a status annotation alone.
 

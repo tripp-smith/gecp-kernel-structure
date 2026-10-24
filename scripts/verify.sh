@@ -6,6 +6,7 @@ cd "$task_dir"
 
 lake build
 scripts/check_axioms.sh
+lake env lean scripts/CompletionContract.lean
 
 if rg -n '\bsorry\b|\badmit\b|\bnative_decide\b|^\s*(private\s+|protected\s+)?axiom\s' --glob '*.lean' --glob '!.lake/**'; then
   echo "Lean placeholder, proof escape, or custom axiom declaration found" >&2

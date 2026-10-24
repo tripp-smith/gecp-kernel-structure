@@ -18,19 +18,31 @@ rank, arbitrary-domain strict-SPD GECP/Cholesky equivalence and original-kernel
 `log(2+Λ)` rate is separate; the literal all-positive `log(1+Λ)` version is
 refuted. No arbitrary-η numerical-pivot rate or literature priority is claimed.
 
-**Full original-SPEC completion is not claimed.** DP now supplies the genuine
+**DQ's original-SPEC source audit is performed; full completion awaits final
+delivery gates.** The audit rereads all original sections and explicit lists,
+checks actual proof hypotheses through a 22-example public consumer, and
+recomputes numerical artifact checks instead of relying on inventory labels.
+It repairs real conditional Lipschitz-certificate rounding and dyadic-parameter
+coverage errors, including one-ULP/subnormal cases and standalone precision
+metadata. A live dependency audit also requires a development-only filelock
+update; numerical dependencies and historical data manifests are preserved.
+Final repaired-source root, package/install, exact-head CI, PR merge and
+pushed-main closure remain required. No new independent multiagent review is
+claimed: three attempted reviewers hit an account limit before contributing;
+the primary completes this audit locally. The effort estimate remains about
+99%, not a theorem probability or a count-based completion decision.
+
+DP supplies the genuine
 seven-cutoff residual-adaptive experiment identified as missing by the
 [DO audit](FINAL_AUDIT.md). Both clean-source executions converge in all seven
 cases and 28 tolerance prefixes through `1e-12` and repeat bytes; the normalized
 PNG is inspected and byte-repeated. Independent MP192 checking passes all 21
 selected-core and 28 final-cross checks. DP's 713-test root and clean package/
 installed-wheel checks and final branch CI pass; PR #122 is merged and exact
-pushed-main closure repeats before handoff. DO's certificate/numerical repairs
-are merged in PR #121. A subsequent fresh original-SPEC closure audit and
-pushed-main verification remain required: the earlier 40/40 label count did
-not establish full completion. The updated effort estimate after DP
-verification is approximately 99%, not a theorem-success probability or exact
-workload fraction.
+pushed-main closure subsequently passes at `5a5fef0`, including CI `40018905634`.
+DO's certificate/numerical repairs are merged in PR #121. The earlier 40/40
+label count did not establish full completion; the DQ original-scope source
+audit and final delivery evidence, not that count, govern the current decision.
 
 ## Historical implementation and research chronology
 
@@ -684,6 +696,43 @@ No numerical core or frozen controls change. All errors are finite sampled
 evidence, not continuous, interval, exact-run or separately certified-cross
 bounds. Full original-SPEC closure follows this phase.
 
+## DQ original-scope audit and boundary repairs
+
+The explicit-item tables in `FINAL_AUDIT.md` cover all thirty original
+sections, eleven §14 diagnostics, eleven §25 numerical test categories,
+six §20 methods, seven proposed imports, six milestones and six minimum
+outcomes. Actual original-kernel finite-run proofs, arbitrary-domain strict-SPD
+types and the literal small-cutoff obstruction are checked through source
+dependencies and the new public-import consumer. Optional research routes
+and approximate-pivot extensions remain explicitly unclaimed; illustrative
+API syntax is distinguished from delivered residual/matrix semantics.
+
+The Lipschitz branch-and-bound repair uses exact binary-rational radii from
+the actual sample, outward upper conversion, exact gap checks and downward
+eta. Exact fixed-function callback values and valid whole-cell analytic
+constants remain required. Unresolved coordinate resolution is uncertified;
+out-of-range upper bounds fail explicitly. Standalone certificates expose
+point/enclosure/export precision and tie/stopping/certification metadata.
+The caller's exact interval bit precision is restored on success and failure.
+The Taylor factory/rank helpers now select dyadic parameters by exact integer
+ratios, not rounded logarithms, covering adjacent powers and subnormal
+tolerances; the DLR count conservatively bounds its central term. None of
+these numerical fixes is a new exact-run theorem or rounding certificate for
+the Taylor evaluator. Regressions reproduce the old defects before repair.
+
+The full independent adaptive MP192 report and both adaptive/spectral PNGs
+are freshly regenerated and compare byte-for-byte. The retained second DP
+canonical generation also still equals the committed JSON. The initial
+753-test DQ root correctly fails newly reported filelock advisories; updating
+only the development cache-lock dependency/constraint to 4.2.1 restores the
+audit while preserving NumPy 2.5.2, SciPy 1.18.0 and mpmath 1.4.1. Historical
+generation-lock hashes remain checked against their actual generation Git
+blobs, not relabeled as the current lock. The repaired preliminary root then
+passes 753 tests in 151.32 seconds, 3,634 Lean jobs, all 876 allowed axiom
+reports, the 22-example consumer and style/type/security gates. Later dyadic
+boundary changes require final root/package/CI and merged-main verification;
+those preliminary timings are not final-head evidence.
+
 ## Implementation run metadata
 
 The following table is the historical v1 implementation record, captured at
@@ -810,6 +859,17 @@ reasoning effort are not exposed. The three temporary workers contribute
 controller/numerical QA, geometry/tests and independent checks/documentation.
 No new price or serving-version inference is made. DP is verified and merged;
 the original-SPEC goal remains active pending its fresh closure audit.
+
+DQ's source-audit snapshot on 2026-10-24 at 01:25:33 UTC reports `active`,
+24,576,774 cumulative aggregate goal tokens and 114,384 goal-accounting seconds.
+These are not DQ-only counters and expose neither token categories nor billing.
+Root is declared GPT-5-based Codex in Default mode, with unrestricted local
+filesystem/network and approval policy `never`; exact serving model/version
+and reasoning effort remain unavailable. Three attempted temporary reviewers
+fail at the account usage limit without contributing DQ work. The primary
+continues the source-level audit/repairs and release gates locally. No worker
+identity, new price estimate or external peer review is inferred. The goal
+remains active until the actual DQ release and merged-main gates pass.
 
 ## Phase status
 
@@ -1071,8 +1131,8 @@ git status --short
 
 ## Known limitations and non-claims
 
-Current required work is the fresh full-scope closure audit after verified,
-merged DP. Its seven-cutoff residual-adaptive data pass all
+Current required work is final verification and shipping of DQ's completed
+source-level audit and real boundary repairs. DP's seven-cutoff data pass all
 28 sampled tolerance cases; that is not a continuous certificate. Phase-specific proof-route
 non-claims below preserve their historical contracts; they are not additional
 missing original-SPEC requirements, and later DG/DH rate theorems do not depend
@@ -1211,7 +1271,7 @@ examples.
 Focused commands are documented in `AGENTS.md`; a phase is considered verified
 only after the root command passes.
 
-## Recommended next research step
+## Final closure and optional next research
 
 The independent `FINAL_AUDIT.md` supersedes the earlier forty-supported-label
 assumption in `COMPLETION_AUDIT.md`; DP addresses the R25 gap it identified.
@@ -1223,12 +1283,13 @@ not the required residual-adaptive grids.
 DN verifies R31's six-method comparisons with shared observations and retained
 failures. DO verifies correctness repairs and merges PR #121. DP's genuine
 all-seven-cutoff residual-driven nested-grid experiment through `1e-12` passes
-all sampled cases; data and reviewed plots repeat bytes. After DP's exact
-pushed-main closure, perform the fresh original-SPEC audit before claiming
-the full goal complete. The independent checker, root, final-branch CI and
-package checks pass. Approximate-pivot rate extensions remain
+all sampled cases; data and reviewed plots repeat bytes. DQ performs the
+fresh original-SPEC audit and repairs actual certificate/parameter boundary
+defects. Final root, package/install, exact-head CI, PR merge and pushed-main
+closure remain before claiming completion. Approximate-pivot rate extensions remain
 explicitly qualified research, not an inferred consequence of exact-pivot
-theorems. DP's working inventory mapping is not the final scope decision;
+theorems. The original-scope source/explicit-item audit, not DP's inventory
+mapping, is the final scope evidence;
 the approximate 99% overall effort estimate is neither a theorem-success
 probability nor a substitute for remaining independent and release gates.
 

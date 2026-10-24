@@ -13,6 +13,7 @@ from kernelgecp.applications import synthetic_spectral_density
 ROOT = Path(__file__).parents[1]
 DATA = ROOT / "experiments/data"
 GENERATION_REVISION = "072ce1004de11422f05ef1fbe3e738093d6f2f13"
+GENERATION_LOCK = "ec9204011e82b7d4bc7e1f626d4449ee7ed86d0c3e3e6375b90eea7fc026969c"
 # Immutable generation manifest, not a requirement that all future source stays
 # identical to DN. Shallow CI/archive checkouts may lack the historical blobs.
 GENERATION_SOURCES = {
@@ -95,9 +96,10 @@ def test_committed_comparison_complete_coverage_and_provenance() -> None:
         blob = _generation_blob(path)
         if blob is not None:
             assert hashlib.sha256(blob).hexdigest() == digest
-    assert (
-        hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest() == d["lock_sha256"]
-    )
+    assert d["lock_sha256"] == GENERATION_LOCK
+    generation_lock = _generation_blob("uv.lock")
+    if generation_lock is not None:
+        assert hashlib.sha256(generation_lock).hexdigest() == GENERATION_LOCK
     for fixture in d["fixtures"]:
         assert len(fixture["results"]) == 48
         assert {

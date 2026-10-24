@@ -1,12 +1,24 @@
-# Independent final audit against the original SPEC
+# Final audit against the original SPEC
 
-Audit opened: 2026-10-22; DP numerical delivery updated: 2026-10-23.
+Audit opened: 2026-10-22; DQ source-level closure audit: 2026-10-24 UTC.
 Phase DO starts from synchronized main
 `5355c72f2508eeb604b5515d789f48d70b42278d`. The original text in SPEC sections
 1–30, rather than the subsequent phase annotations or the forty labels in
 `COMPLETION_AUDIT.md`, defines the required scope.
 
-**Decision: NOT COMPLETE.** The principal exact fermionic GECP rate is
+**Decision: source scope accounted for; final DQ delivery gates pending.**
+The full goal is not complete until those gates pass. DQ rereads the original
+thirty sections and their explicit lists, inspects actual proof dependencies,
+and adds a consumer that checks 22 theorem types through the public import.
+It reruns independent MP192 checks and both plot comparisons, and repairs
+real one-ULP Lipschitz-certificate and dyadic-parameter failures. The DQ
+explicit-item tables below, not the earlier forty-label count, support this
+scope decision. This is primary-agent review; new temporary reviewers hit an
+account limit before contributing, so no new independent human or multiagent
+review is implied. Full root, package/install, exact-head CI and merged-main
+closure are still required. The effort estimate remains approximately 99%.
+
+The principal exact fermionic GECP rate is
 supported, including its finite-run selected-core cross and actual Green
 integral consequences. DP now supplies the previously missing seven-cutoff
 residual-adaptive census: all seven cases and twenty-eight tolerance records
@@ -14,15 +26,13 @@ report protocol convergence, two full generations repeat bytes, and the
 adaptive plot is rendered, inspected and byte-repeated. Independent MP192
 checking passes all twenty-one representative selected-core checks and
 twenty-eight full final-cross checks, with every sampled maximum within its
-requested tolerance. The subsequent full original-scope closure audit
-follows DP delivery. DP is **verified and merged** in
+requested tolerance. DP is **verified and merged** in
 [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122) at
 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`.
 Final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact local
-root and push/PR CI. Exact pushed-main closure metadata/gates remain required;
-the preliminary mapping of forty supported groups is not
-whole-goal completion. A separate rough overall effort estimate is **99%**,
-not a checklist-derived percentage or a completion decision.
+root and push/PR CI; exact DP main `5a5fef0050b52958d6551aeaa1b1ed06645ba119`
+also passes the root, CI `40018905634`, clean archives and both installed-wheel
+checks. These are historical DP gates, not verification of DQ changes.
 DO's verified repairs and merged PR #121 remain historical evidence, not
 verification of the new DP experiment.
 
@@ -289,7 +299,7 @@ are not silently promoted into mandatory additional theorems.
 | 27 | A–E formal outcomes supported; F computational outcome supported | A: interpolation/core product; B: actual strict-SPD equivalence/fill bound; C: identities/sign infrastructure; D: real D1; E: actual exact logarithmic rate; F: sparse application with explicit held-out error. DP supplies the independently checked §14 artifact, but full completion still requires final delivery and the subsequent original-scope audit. |
 | 28 | Supported claim boundaries and updated attribution | Current summaries preserve small-cutoff obstruction, exact-vs-inexact and proof-vs-observation distinctions. No unqualified all-parameter G1, practical inexact rate, sparse optimality, or novel-priority claim. |
 | 29 | Required documents maintained; pushed-main closure synchronization pending | README, SPEC, FINDINGS, RESEARCH, APPLICATION, MATHLIB and canonical FINAL_HANDOFF preserve the theorem and historical verification. Current audits record the adaptive delivery, passing independent checks and verified PR #122 merge. Original mathematical goals are unchanged; exact pushed-main closure metadata/gates must be synchronized before handoff. |
-| 30 | Minimum mathematical outcomes supported; full task incomplete | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. DP now adds the independently checked seven-cutoff adaptive census across six orders of magnitude; whole-goal closure still requires remaining delivery gates and a fresh original-scope audit. |
+| 30 | Minimum mathematical outcomes supported; final delivery gates pending | Reusable core, SPD equivalence, fermionic algebra, constructive low rank and an actual exact rate exceed the minimum formal threshold. DP adds the independently checked seven-cutoff adaptive census across six orders of magnitude. DQ's original-scope explicit-item audit is performed below; whole-goal closure still requires final repaired-source delivery gates. |
 
 ## Independent disposition of the forty inventory groups
 
@@ -300,7 +310,7 @@ pending; `I` means a required deliverable is missing. No percentage of overall
 completion is inferred from this table. DP's preliminary mapping is now
 **40 supported groups and 0 incomplete groups**, using the stated evidence
 scopes and preserving pending final gates. This is an input to the
-subsequent original-scope closure audit, not that audit's completion decision.
+DQ original-scope explicit-item audit below, not its completion decision.
 
 | ID | Disposition | Evidence / boundary |
 | --- | --- | --- |
@@ -394,17 +404,14 @@ Section 17's “where feasible” extension remains explicit research work.
 
 To complete the original scope:
 
-1. Complete exact pushed-main closure metadata/root/CI/provenance checks at the
-   final main head before handoff. DP is verified and merged in PR #122;
-   DO's verified
-   repairs and prior DN evidence remain historical rather than substitutes
-   for these new delivery gates. Preserve sampled scope and all failures; the
-   passing independent numerical checks do not establish exact complete-pivot
-   behavior or continuous supremum bounds.
-2. Perform the subsequent full original-SPEC closure audit against all thirty
-   original sections and the completed DP evidence. Reassess this **NOT
-   COMPLETE** decision only after that audit and its gates; the preliminary
-   forty-supported-group mapping cannot make that decision by itself.
+1. Complete DQ repaired-source root, package/install and exact-head CI gates,
+   then PR merge and exact pushed-main closure before handoff. Prior DP/DO/DN
+   verification is historical, not a substitute for these gates. Preserve
+   sampled scope and all failures; passing numerical checks do not establish
+   exact complete-pivot behavior or continuous supremum bounds.
+2. Use the completed DQ original-scope explicit-item audit below together with
+   those actual delivery gates to decide completion. The preliminary forty-
+   supported-group mapping cannot make that decision by itself.
 
 No novel-priority conclusion follows from this repository audit. Mathematical
 support is the checked content and scope of the results; literature priority,
@@ -412,6 +419,211 @@ full published P-greedy asymptotics, arbitrary-η near-optimal rates and sparse
 optimality are not claimed. Runtime counters and any explicitly labeled
 API-equivalent pricing estimates are operational provenance, not theorem or
 completion evidence.
+
+## DQ explicit-item evidence audit
+
+DQ re-reads the original sections 1–30 and initial recommendation from
+`SPEC.md:1–1271`, rather than treating the forty inventory labels as the
+definition of success. The primary performs this source audit locally; the
+three dispatched temporary reviewers report account usage limits before
+contributing DQ evidence. Earlier DO/DP independent reviews remain dated
+historical evidence, not a fresh multi-reviewer sign-off.
+
+### Formal assumptions and named interfaces
+
+The primary inspects `GECP/Definitions.lean`, `GECP/CompletePivot.lean`, the
+whole finite-run rate proof, its real separated witness, original-core cross
+and actual Green-integral consequence, strict-SPD preservation/equivalence and
+original-kernel fill proof. Mathlib's `Matrix.PosDef` is explicitly defined
+using finitely supported coefficients on an arbitrary index type, not only a
+finite matrix (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:161–162`). Thus the
+baseline does not hide a finite-domain hypothesis. Strict fresh-sample
+positivity is derived through injective rectangular Schur congruence; weak
+PSD off-diagonal ties are not promoted to diagonal necessity.
+
+`scripts/CompletionContract.lean` imports only `Theorems.lean` and compiles
+22 downstream examples with explicit expected types. These include real D1
+quantifiers, actual finite complete runs with no future-pivot premise, the
+original cross, physical restricted-measure Green integral, arbitrary-domain
+SPD/fill statements, small-cutoff obstruction, exact-zero stop and conditional
+cover/eta bridges. The root command and CI both compile this consumer. It
+guards interface strength; it is not a new theorem or a replacement for
+checking assumptions and the trusted proofs.
+
+| Original §22 role | Actual public evidence |
+| --- | --- |
+| Selected-row interpolation | `GECP.Run.gecp_interpolates_selected_rows`, `GECP/Interpolation.lean:13–22`; consumer arbitrary-field example. |
+| Selected-column interpolation | `GECP.Run.gecp_interpolates_selected_cols`, same file:25–34; consumer arbitrary-field example. |
+| Original-core determinant/pivots | `GECP.gecp_core_det_eq_prod_pivots`, `Determinant.lean:134–142`; nonsingularity is derived at:144–151. |
+| GECP/Cholesky equivalence | Proposed finite alias `gecp_eq_pivotedCholesky_of_posDef` remains; the stronger original-SPD role is `posDef_completeRun_iff_pivotedCholesky`, `ContinuousCholesky.lean:111–117`, consumed at its full arbitrary-domain type. |
+| Residual maximum equals diagonal maximum | Proposed finite alias `posDef_gecp_residual_sup_eq_diag_sup`; arbitrary-domain squared domination at `ContinuousCholesky.lean:125–128` and compact attained diagonal complete maximum at:130–139 establish the continuous role. |
+| Reflection | `Fermionic.fermionicKernel_reflection`, `Symmetry.lean:7–15`; explicit consumer equality. |
+| Centered form | `fermionicKernel_centered`, `Centering.lean:12–27`; consumer checks the actual exponential/cosh expression, not an opaque alias name. |
+| Continuity | `fermionicKernel_continuous`, `Derivatives.lean:9`; consumer checks joint continuity on real pairs. |
+| Separated approximation | Natural dyadic `fermionicKernel_separatedApprox` and stronger `fermionicKernel_separatedApprox_real`: actual finite list, all real `Λ≥1`, `0<ε<1`, uniform error and explicit rank constant 128. |
+| Green error transfer | `greenError_le_kernelError_mul_l1`, `GreenFunction.lean:10–34`; actual original-cross integral consequence at `FiniteRunRate.lean:231–261` is consumed directly. |
+| Main exponential rate | Conservative `fermionicKernel_finiteRun_error_le_exp`, `FiniteRunRate.lean:166–176`, delivers the proposed name's role with real `Λ≥1` visible. The all-positive `log(2+Λ)` variant and literal small-cutoff obstruction have separate consumed types; no false alias or “optimal” claim. |
+
+### All ten §14 diagnostics
+
+The canonical adaptive data retain every requested field for each of the 28
+requested prefixes, not only the terminal rank. The source is
+`experiments/adaptive_census.py:68–178`, `kernelgecp/census.py:123–192`, and
+the actual artifact/schema assertions in `tests/test_adaptive_census_artifacts.py`.
+
+| Requested diagnostic | Serialized and independently inspected evidence |
+| --- | --- |
+| Pivot time `t_j` | Decimal-string `t_nodes`, full chosen-prefix history. |
+| Pivot frequency `omega_j` | Decimal-string `omega_nodes`, same prefix alignment. |
+| Pivot magnitude | Signed `pivots` plus `pivot_magnitudes`; tests check exact decimal absolute values. |
+| Residual supremum on adaptive grids | `residual_history`, `residual`, explicit axes and stage training/probe/validation maxima. These are finite-grid/sample maxima, not continuous suprema. |
+| Core determinant | Signed original selected-core `core_det_history`; independent MP192 first/middle/final core checks at each cutoff. |
+| Minimum core singular value | `core_sigma_min`/stage histories; independent MP192 checks, numerically estimated rather than rigorous conditioning bounds. |
+| Boundary distances | Both time and both frequency boundary distances in every `pivot_geometry` entry. |
+| Dyadic frequency scale | Signed scale/panel diagnostics in `pivot_geometry`; stage physical leaf panels and actual marks remain explicit. |
+| Reflection partner | Reflected coordinates, nearest selected partner index/distance and tolerance, not an assertion of exact paired pivot order. |
+| Empirical tolerance rank | Four requested prefixes per cutoff retain first training-passing and chosen jointly passing tested ranks. Neither is advertised as a global rank minimum. |
+
+All seven cutoffs and four tolerances through `1e-12` are present; actual
+stage counts `3,2,3,4,4,5,6` and nested retained axes prove real refinement.
+The normalized PNG uses seven true `k/log(1+Λ)` curves, all 28 untouched
+validation markers, rank comparisons, nonmonotone stage diagnostics and node
+growth. Testing possible collapse is an experiment, not a requirement that
+curves coincide. Zero omission is explicit and no positive display floor or
+continuous error certificate is invented.
+
+DQ reruns the full independent MP192 checker on the committed adaptive data;
+all 21 core and 28 final-cross checks pass, and its output compares byte-for-byte
+with the committed report. It regenerates both adaptive and spectral-comparison
+PNGs and compares their bytes, and reconfirms the retained second full DP census
+equals the canonical JSON. The historical generation manifests remain unchanged
+after the development-only dependency update.
+
+### All eleven §25 numerical test categories
+
+| Required category | Actual executable checks |
+| --- | --- |
+| Reflection | `tests/test_kernels.py::test_reflection_identity`, both frequency signs/boundaries. |
+| Centered formula | `tests/test_final_numerical_audit.py::test_centered_kernel_formula_against_independent_high_precision_expression`; independent exponential/cosh expression, not alias-vs-itself. |
+| Interpolation | `tests/test_gecp.py::test_rank_two_interpolation_and_determinant_product` and exact finite-cross regressions in `test_finite_run_closure.py`. |
+| Determinant/pivot product | Same GECP test, exact `Fraction` surrogate determinants, and independent MP192 selected original-core checks. |
+| Direct cross vs iterative residual | `test_iterative_and_direct_cross_residual_agree` plus `test_finite_run_closure.py`; numerical evaluation uses solves. |
+| GECP/Cholesky SPD equivalence | `tests/test_cholesky.py::test_psd_gecp_matches_canonical_cholesky`, with the diagonal-preferring weak-PSD tie policy separately tested. |
+| PSD residual preservation | The weak-PSD tie test checks residual eigenvalues; `test_kernel_geometry.py::test_every_diagonal_prefix_original_energy_and_fill_bound` checks all sampled principal minors of residual/removed kernels at every exact rational prefix, including repeated nodes. Strict fresh-prefix checks and Lean Schur instances supplement this. |
+| Finite-grid maximum equals diagonal maximum | `test_kernel_geometry.py::test_every_diagonal_prefix_original_energy_and_fill_bound` compares full absolute and diagonal maxima at every exact rational prefix; `test_strict_kernel.py` additionally enumerates every complete branch. |
+| Float64/high-precision agreement | `tests/test_kernels.py::test_float64_matches_high_precision`, independent centered cases and GECP precision/underflow regressions. |
+| Empirical DLR rank scaling | Seven-cutoff adaptive artifact/rank/normalized-curve tests in `test_adaptive_census_artifacts.py`; observations stay separate from the exact theorem. |
+| Exact exponential small cases | `tests/test_surrogates.py` exact rational minors/pivots and `SmallInstanceChecks.lean`'s complete two-by-two run/minors/pivots; larger Python enumerations are not mislabeled Lean proofs. |
+
+### All six §20 comparisons and the §19/27F sparse objective
+
+| Method | Actual implementation and measured comparison |
+| --- | --- |
+| Universal GECP/DLR nodes | `comparison.py::_universal_prefix`, actual original-kernel GECP frequency prefixes, with weights fitted on the common observations. |
+| AAA-derived | `rational.py::matsubara_transform` and `aaa_atoms`: transform only the same time observations, SciPy AAA barycentric fit, physical pole filtering and original-kernel weight solve. |
+| Vector fitting | `vector_fitting.py::vector_fitting_atoms`: real/conjugate basis, linear residue/denominator least squares and `eig(A-b*c)` pole relocation, not renamed nonlinear least squares. |
+| Prony | `prony.py::prony_atoms`: data-ranked strided Hankel SVD/ESPRIT, `omega=-log(node)/h`, retained root/projection/rejection diagnostics, no supplied true support order. |
+| Nonlinear least squares | `comparison.py::_nls_proposal`: bounded variable projection, deterministic non-oracle starts, linear weights solved at every objective evaluation, training-only model selection. |
+| Greedy pursuit | `sparse.py::sparse_representation` with nonlinear refinement disabled for this comparison; common fixed dictionary excludes generating off-grid atoms. |
+
+`tests/test_spectral_artifacts.py` independently reconstructs training and
+all 1024-point held-out errors for all 192 fits, checks the shared input hash,
+physical atoms and every tolerance flag/summary, and verifies failed AAA fits
+remain visible. Plot inspection shows six labeled methods and four specified
+cohorts. Native rational/exponential success is not renamed physical held-out
+success. The clean off-grid cohort reaches both tolerances with four atoms
+for AAA-derived/vector-fitting/Prony/nonlinear fits, versus universal kernel
+ranks 11 at `1e-6` and 12 at `1e-8`. The earlier known-transition-library
+control is explicitly not blind. These demonstrate the requested computational
+advantage on specified Green functions, not global minimum support, spectrum
+identification, uniqueness or a continuous-error theorem.
+
+### Seven proposed imports and documented interface choices
+
+| §23 import | Actual callable and evidence |
+| --- | --- |
+| `FermionicKernel` | Exported in `kernelgecp/__init__.py`; stable sign-aware float/MP evaluator, `test_kernels.py`. |
+| `gecp` | Exported grid/interval-adaptive entry point, `gecp.py:650`; separate failure and convergence metadata. |
+| `pivoted_cholesky` | Exported sampled-matrix implementation, `cholesky.py`; sampled covariance/control tests and installed-wheel smoke. |
+| `cross_approximation` | Exported original selected-core solve, `gecp.py:706`; interpolation and direct-vs-iterative checks. |
+| `evaluate_residual` | Exported evaluator, `gecp.py:730`, with separate sampled/exact-run numerical-model boundaries. |
+| `certified_pivot` | Exported conditional exact-point/Lipschitz branch-and-bound; DQ one-ULP/subnormal/gap/tie/precision regressions below. Interval alternative is separately exported. |
+| `dlr_rank_bound` | Exported conservative published-count arithmetic, `approximation.py`, distinct from the Lean construction's `dyadic_taylor_rank_bound` and not an observed GECP-rank certificate. DQ exact-ratio tests cover dyadic transitions and subnormal tolerances. |
+
+The original language is **proposed API** and **example**, not a frozen wire
+schema. The delivered residual interface is `residual_matrix`, histories and
+`evaluate_residual(kernel,result,...)`, not a fabricated `result.residual`
+alias with different semantics. Cholesky accepts a sampled matrix/config,
+rather than pretending its sample-based code is an exact continuous optimizer.
+These explicit interface choices preserve the requested roles; literal
+compatibility with every illustrative spelling/signature is not claimed.
+
+### Six milestones and six minimum outcomes
+
+Milestone A is the actual interpolation/product/nonsingularity/cross layer;
+B is original strict-SPD continuous-domain equivalence plus original-kernel
+fill distance; C is the actual identities/derivatives/all-orders signs; D is
+real-parameter constructive D1; E is the actual exact logarithmic-cutoff rate
+with its proved small-cutoff boundary; F is the measured sparse advantage just
+listed. These respectively supply §30's reusable GECP core, SPD equivalence,
+fermionic structure, constructive logarithmic separated rank, high-precision
+six-order census, and structural mechanism/rigorous obstructions. DQ does not
+substitute that easier minimum threshold for the full original scope: the
+stronger rate, physical Green consequence, adaptive diagnostics and six-method
+application are separately inspected above.
+
+Sections 6/12 propose proof routes, §13 asks research questions, §17 says
+“where feasible”, and §21 suggests a module layout. They do not promise every
+candidate route or a positive answer to every research question. In
+particular an arbitrary-eta near-optimal rate, ideal-exact-run numerical
+certification, a universal one-dimensional nested pivot rule, full published
+P-greedy asymptotics, global sparse optimality and a formal AAA implementation
+remain explicitly unclaimed extensions, not results silently supplied by
+the exact theorem. No external publication, priority or workshop adjudication
+is inferred from repository completion.
+
+### DQ certificate and dependency repair evidence
+
+The fresh source audit reproduces a previously missed counterexample in
+the non-interval Lipschitz path: exact identity values on
+`[1,nextafter(1,+inf)]` with valid constants `(1,0)` produce an upper bound 1
+below the true maximum `1.0000000000000002`, while reporting certification.
+`tests/test_lipschitz_certificate_safety.py` fails on that old source.
+The repair uses exact binary-rational radii from the actual float sample,
+conservative upper conversion, exact gap/tolerance comparison and downward
+eta ratios. It records distinct sampled ties, preserves unresolved bounds
+when coordinates cannot split, and fails explicitly outside arithmetic range.
+Lipschitz certificates require exact callback point values and valid whole-cell
+analytic constants; they do not enclose arbitrary evaluation error. Interval
+mode retains its different callback obligations and frozen-rounded-model scope.
+Standalone certificates expose shared metadata with actual point/guarded
+enclosure/export precision and scalar-conditioning-not-applicable status;
+the caller's exact interval bit precision is restored on success and failure.
+
+The first DQ root passes 753 tests and all proof/type/style gates but correctly
+fails the fresh dependency audit for three advisories against filelock 3.32.3.
+Only the development cache-lock dependency is advanced to the maintained
+[filelock 4.2.1 release](https://pypi.org/project/filelock/4.2.1/), constrained
+by `filelock>=4.2.1,<5`; NumPy/SciPy/mpmath do not change. The updated targeted
+audit reports no known vulnerabilities. Historical DN/DP lock digest
+`ec9204011e82b7d4bc7e1f626d4449ee7ed86d0c3e3e6375b90eea7fc026969c`
+remains bound to each recorded generation Git blob. It is not replaced by
+the current development lock digest, and old experiment files are not edited.
+
+The dyadic audit also reproduces scale 4 for `nextafter(16,+inf)` and accuracy
+40 for `nextafter(2**-40,0)`: neither parameter covers its actual binary64
+input. Exact integer-ratio logarithm floors/ceilings repair the factory and
+rank helpers, including minimum-subnormal tolerances without reciprocal
+overflow or division underflow. `tests/test_rank_parameter_boundaries.py`
+checks both sides of dyadic transitions, independently reconstructs counts,
+and prevents a manually subfloat error bound from being exported as zero.
+The DLR count uses a conservative binary central-count envelope, not a new
+Lean construction or GECP rank certificate. The exact real Lean theorem is
+unchanged.
+
+Fresh full-root, package/install, exact-head CI, PR merge and pushed-main
+closure gates must still pass for DQ. Until then the full-goal decision above
+remains pending; this source/explicit-item audit alone is not shipping.
 
 Canonical exposed model/mode/time/usage and unavailable billing/version fields:
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).
