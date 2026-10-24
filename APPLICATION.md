@@ -953,9 +953,15 @@ trajectory with the ideal exact-run theorem.
 DQ also updates the development-only cache-lock dependency to filelock 4.2.1
 after the live dependency gate reports advisories. The numerical stack and all
 historical experiment manifests remain unchanged. DQ's source-level audit is
-recorded in [FINAL_AUDIT.md](FINAL_AUDIT.md); final root, package/install, CI
-and merged-main closure must pass before a completion claim. No package
-publication or external peer review is implied.
+recorded in [FINAL_AUDIT.md](FINAL_AUDIT.md). Exact code head `f2ffd5e` passes
+757 tests in 150.01 seconds and all Lean/consumer/axiom/style/type/security
+gates. Push/PR CI `40050118292`/`40050129457` pass all four checks. Rebuilt
+archives match all 21 Python/153 Lean sources and claim docs; installed wheels
+pass both pinned and minimum-SciPy environments, 45 exports, adaptive success/
+budget failure, 48 six-method fits and the new boundary/metadata checks each.
+Draft PR #123 exists. Final documentation-head and merged-main gates remain
+before a completion claim. No package publication or external peer review is
+implied.
 
 ## Release provenance
 

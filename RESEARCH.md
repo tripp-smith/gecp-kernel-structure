@@ -9989,3 +9989,30 @@ CI, a draft PR, permitted merge and pushed-main closure. Record only actually
 exposed run metadata. Mark the overall goal complete only if the original-scope
 audit and all final delivery gates prove completion; otherwise retain the full
 active objective and document the precise missing evidence or deliverable.
+
+### DQ code-head verification and scope decision
+
+The original thirty sections and explicit lists are accounted for in
+`FINAL_AUDIT.md` against actual definitions/proof dependencies, 22 downstream
+public-import type checks, eleven diagnostics, eleven numerical test groups,
+six comparison methods, seven proposed imports and the stronger main exact
+rate/cross/physical-Green consequences. The literal small-cutoff statement is
+resolved by its proved obstruction, not rewritten as true. Optional proof
+routes and arbitrary-inexact-pivot extensions remain unclaimed. Three attempted
+temporary reviewers hit an account limit before contributing DQ work, so this
+is primary-agent source review, not a new independent multiagent audit.
+
+The old-source one-ULP certificate and dyadic-neighbor parameter failures are
+reproduced before repair. The full independent MP192 report, adaptive/spectral
+PNGs and retained second full DP generation compare bytes; historical source/
+lock provenance is unchanged. DQ code `f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8`
+passes the exact root: 757 tests in 150.01 seconds, 3,634 Lean jobs, 876 allowed
+axiom reports, 22 consumers, 97 formatted files, mypy on 21 sources and clean
+dependency audit. Push/PR CI `40050118292`/`40050129457` pass all four checks.
+Clean rebuilt archives match 21 Python and 153 Lean sources plus claim docs/
+lock. Outside-checkout installed wheels pass pinned and minimum SciPy 1.15.0,
+all 45 exports, adaptive success/budget failure, 48 six-method fits and the new
+boundary/metadata/context-restoration checks in each environment. Draft PR #123
+exists and is attached. Final documentation-head root/CI/package checks and
+merged-main closure remain before completing the goal; the source-scope
+decision is supported, but shipping is not inferred from a count or plan.

@@ -15,7 +15,8 @@ real one-ULP Lipschitz-certificate and dyadic-parameter failures. The DQ
 explicit-item tables below, not the earlier forty-label count, support this
 scope decision. This is primary-agent review; new temporary reviewers hit an
 account limit before contributing, so no new independent human or multiagent
-review is implied. Full root, package/install, exact-head CI and merged-main
+review is implied. DQ code `f2ffd5e` passes its exact root, package/install
+and push/PR CI gates, recorded below. Final documentation-head and merged-main
 closure are still required. The effort estimate remains approximately 99%.
 
 The principal exact fermionic GECP rate is
@@ -334,11 +335,11 @@ DQ original-scope explicit-item audit below, not its completion decision.
 | R18 | S | Lean two-by-two complete-grid/minor/pivot certificate and exact Python exponential-surrogate checks; scopes distinguished. |
 | R19 | S | Generic explicit Lipschitz/cover transfer: `Discretization/Grid.lean:10–20`. |
 | R20 | S | Formal η arithmetic bridge and root-verified numerical lower/upper consistency repairs; no arbitrary-η structural rate. |
-| R21 | S | Adaptive interval and conditional analytic-Lipschitz APIs, repaired singleton lower bounds, underflow/rounded-midpoint/invalid-enclosure guards, and success/budget-failure paths pass the fresh root gate. Certificates remain conditional on valid callbacks and their stated residual model. |
+| R21 | S | Conditional exact-point/Lipschitz and interval maximizers have distinct callback obligations and explicit budget/resolution/range failures. DO repairs interval singleton bounds; DQ repairs one-ULP/subnormal Lipschitz bounds and exact context restoration. Both are covered by the 757-test exact code-head root and installed checks, without certifying an ideal exact run. |
 | R22 | S | Float64/mpmath/exact-rational paths and sub-float64 pivot regression; precision/coordinate scopes explicit. |
 | R23 | S | Cross evaluation uses solves (`kernelgecp/gecp.py` and `applications.py`); formal inverse notation is algebraic. |
-| R24 | S | Metadata, frozen-residual certificate scope, observed candidate ties and float64 arithmetic-range/duplicate-core failure paths pass the fresh root gate and installed-wheel smokes. Extreme-scale determinant/singular-value outputs remain numerical estimates. |
-| R25 | S, preliminary DP mapping | Actual clean-`3cee4186` canonical adaptive JSON has all seven increasingly dense nested trajectories and twenty-eight converged tolerance records; both full generations repeat bytes. Stage counts `3,2,3,4,4,5,6` and the final largest `258×257` grid are recorded above. Independent MP192 structure/provenance, twenty-one representative original-core and twenty-eight full final-cross checks pass. DP is verified and merged in PR #122; pushed-main closure and the fresh original-scope audit remain pending. |
+| R24 | S | GECP/Cholesky/sparse/fixed-construction metadata remain explicit. DQ adds standalone PivotCertificate point/enclosure/export precision, sampled ties, stopping and scalar-conditioning-not-applicable metadata. Extreme-scale and duplicate-core repairs remain tested; estimates and frozen numerical objectives are not relabeled exact proofs. |
+| R25 | S | All seven actual residual-driven nested adaptive trajectories and 28 prefixes converge at clean generation 3cee4186; two complete runs repeat bytes. Stage counts are 3,2,3,4,4,5,6 and the largest final training grid is 258×257. DQ reruns the MP192 checker: all 21 representative original cores and 28 complete final sampled crosses pass and the report repeats bytes. Historical data/provenance remain unchanged; no continuous supremum certificate is claimed. |
 | R26 | S | DP schema-3 prefixes retain signed pivots/magnitudes, sampled residual/original-core determinant/minimum singular-value histories and all specified physical geometry. Complete stage axes/panels/marks, training/chosen ranks, precision/ties/conditioning/budget/failure scopes are explicit. All twenty-one independent representative core checks and twenty-eight final-cross recomputations pass; historical fixed-grid diagnostics remain intact. |
 | R27 | S | The 2240-by-1440 adaptive normalized/stage PNG is rendered, inspected and byte-repeated, SHA-256 `dd1d9f08a00e1ddbd9f4d5ac0224b62241e91d42781857b4537f0c81f352f3d6`. Seven curves and twenty-eight validation markers remain sampled evidence; one zero is omitted without a positive floor, and no universal law or continuous-rate evidence is inferred. Historical normalized plots are preserved. |
 | R28 | S | Canonical adaptive JSON SHA-256 `730fc70a9fb3d12889361e6b57d1bc4cce63e07723452bb5b8709f83b5bca93c` repeats bytes and records exact clean generation revision/config/source/lock/environment provenance. Passing independent report SHA-256 `4949243cb779e5fd1132df2768a696465573046f4f0210d872ad2911b4c2be03` binds that input and checker source and verifies full coverage and revision blobs. Historical artifacts retain their original generation metadata. |
@@ -347,13 +348,13 @@ DQ original-scope explicit-item audit below, not its completion decision.
 | R31 | S | Shared-observation six-method source and 192 retained artifact fits; independent error reconstruction and historical source-manifest compatibility checks pass the fresh root gate. Each installed environment also passes 48 six-method fits; historical artifact generation is preserved. |
 | R32 | S | Seven proposed public names exported; documented config/result/matrix-interface adaptations, not literal example signature compatibility. |
 | R33 | S | Deterministic finite-grid ties, observed adaptive sample ties, no selected-coordinate reuse, explicit arithmetic-range/duplicate-core/diagnostic failures and exhausted certificate budgets pass root and installed-wheel checks. |
-| R34 | S | Enumerated numerical categories plus independent centered-formula, cancellation, signed underflow, rounded-midpoint, invalid-gradient, mixed-scale, coordinate-reuse, duplicate-core and companion-diagnostic regressions pass the final 569-test root gate. |
-| R35 | S | DP final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes the exact local root: 713 tests in 150.98 seconds, with the established Lean/axiom, formatting, mypy and dependency gates. Exact-head push CI `40017937659` and PR CI `40017945103` pass all four checks. Earlier artifact/code-head root and CI evidence remain recorded above; pushed-main closure remains under R40. |
-| R36 | S | DP's final source/wheel archives are inspected clean, include all three adaptive artifacts and new source/tests, and exclude local notes/caches/scratch. All 21 wheel Python sources and packaged APPLICATION/README hash-match source. Outside-checkout installed-wheel smokes pass pinned Python 3.12.12/NumPy 2.5.2/SciPy 1.18/mpmath 1.4.1 and minimum NumPy 2.4.6/SciPy 1.15.0; each checks 45 exports, adaptive success/budget failure and 48 six-method fits. Historical nineteen-source DO evidence is preserved separately. |
+| R34 | S | All eleven original §25 numerical test categories are explicitly mapped in FINAL_AUDIT. DQ adds failure-first one-ULP/subnormal/gap/precision/parameter-boundary checks to the preserved exact, independent centered-expression, PSD/Cholesky, determinant/cross and adaptive/spectral tests. Exact code-head root passes 757 tests. |
+| R35 | S | Exact DQ code f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8 passes ./scripts/verify.sh: 757 tests in 150.01 seconds, 3,634 Lean jobs, 876 permitted axiom reports, 22 public-import consumers, 97 formatted files, mypy on 21 sources and clean dependency audit. Push/PR CI 40050118292/40050129457 pass all four checks. Final documentation/main gates repeat before handoff. |
+| R36 | S | DQ rebuilt source/wheel archives are clean and hash-match all 21 Python/153 Lean sources plus claim docs/lock, include consumers/new tests/adaptive artifacts, and exclude local notes/caches/scratch. Outside-checkout installed checks pass pinned SciPy 1.18.0 and minimum 1.15.0, all 45 exports, adaptive success/budget failure and 48 six-method fits plus new boundary/metadata paths per environment. No package publication is claimed. |
 | R37 | S | Pinned Lean/Python setup, locks and Apache-2.0 license exist; current references distinguish historical and updated Cholesky authorship, attribute the workshop's separate claim, and assert no literature priority. |
-| R38 | S | Current audits record the actual finite theorem, completed adaptive generation/repeat/plot, passing independent checks and numerical scope boundaries; historical phase/route text is distinguished. Final DP documentation/gate synchronization remains under R40. |
+| R38 | S | DQ's original thirty-section and explicit-item source audit is performed, including theorem assumptions and experimental/API/test lists. All affected claim documents and canonical provenance are synchronized. Original SPEC mathematical goals and historical phase evidence are preserved; exact/conditional/observed/non-claim boundaries remain explicit. Final shipping status is recorded under R40. |
 | R39 | S | `FINAL_HANDOFF.md#implementation-run-metadata` remains canonical; exposed model/mode/time/usage fields and unavailable exact-version/token-category/billing fields are distinguished. Final closure counters/evidence are operational metadata, not completion proof. |
-| R40 | S; DP verified/merged, pushed-main closure pending | DP final branch `3c38183e5c2a7d2859867bb7acff1353ee98fb76` passes its exact root, clean rebuilt archives/installed wheels and push/PR CI `40017937659`/`40017945103`. PR #122 merged at 2026-10-23 20:20:48 UTC as `3a6c01585d2a1407b13e9ff55378f7d3a1f2fc8f`; local main fast-forwards to origin and generation revision `3cee4186` is confirmed an ancestor. Exact pushed-main closure metadata/gates repeat before handoff and remain pending. Artifact/code-head and DO gates are preserved as historical evidence; verified merge and the forty-group mapping do not establish whole-goal completion. |
+| R40 | S | DQ draft PR #123 is open and attached; exact code-head root, push/PR CI and rebuilt package/install checks pass. Final documentation-head and exact pushed-main gates and permitted PR merge remain. DP already completed main closure at 5a5fef0 with CI 40018905634, and immutable generation 3cee4186 is an ancestor. Neither inventory counts nor prior-phase gates establish DQ completion. |
 
 ## Reproduced defects, certificate scope and remaining work
 
@@ -621,9 +622,27 @@ The DLR count uses a conservative binary central-count envelope, not a new
 Lean construction or GECP rank certificate. The exact real Lean theorem is
 unchanged.
 
-Fresh full-root, package/install, exact-head CI, PR merge and pushed-main
-closure gates must still pass for DQ. Until then the full-goal decision above
-remains pending; this source/explicit-item audit alone is not shipping.
+DQ code head `f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8` passes its exact
+`./scripts/verify.sh`: **757 tests in 150.01 seconds, 3,634 Lean jobs,
+876 permitted axiom reports, 22 public-import examples, 97 formatted files,
+mypy on 21 sources and no known dependency vulnerabilities**. The preceding
+development-tree root took 148.83 seconds; it is not relabeled as the exact
+commit run. Push CI `40050118292` and PR CI `40050129457` both pass Lean and
+Python, four checks total, at that exact code head.
+
+Rebuilt clean archives include the consumer/new tests and exclude protected
+notes, caches and scratch. All 21 wheel Python sources, 153 owned Lean
+sources, claim documents and lock hash-match the checkout. Reinstalled wheels
+pass outside-checkout smokes under pinned Python 3.12.12/NumPy 2.5.2/SciPy
+1.18.0/mpmath 1.4.1 and NumPy 2.4.6/minimum SciPy 1.15.0. Each exercises 45
+exports, adaptive success and budget failure, 48 six-method fits, the new
+one-ULP/parameter/metadata regressions and exact interval-context restoration.
+
+Draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123)
+exists and is attached to this task. Final documentation-head root/CI/archive
+checks, permitted merge and exact pushed-main closure remain before handoff.
+The full goal remains active until those gates pass; the source audit or
+inventory alone is not shipping.
 
 Canonical exposed model/mode/time/usage and unavailable billing/version fields:
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata).

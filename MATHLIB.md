@@ -958,6 +958,10 @@ and elementary logarithm candidates already recorded above suffice; no new
 credible upstream abstraction is introduced by this closure phase.
 The conditional numerical Lipschitz-bound and exact binary-parameter repairs
 are Python correctness work, not formal analytic results.
+Exact DQ code `f2ffd5e` passes all 3,634 Lean jobs, 876 permitted axiom
+reports and 22 consumer examples in the 757-test root, plus push/PR CI
+`40050118292`/`40050129457`. This adds no theorem or upstream-submission claim;
+final documentation-head and merged-main release gates remain.
 
 ## Run provenance
 

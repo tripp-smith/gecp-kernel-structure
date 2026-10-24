@@ -21,8 +21,12 @@ promoting optional proof routes or approximate-pivot extensions into proved
 results. DQ also reproduces and repairs genuine conditional pivot-certificate
 rounding and dyadic-parameter coverage defects. Its new theorem consumer uses
 only the public import and checks 22 non-tautological existing interfaces.
-No new formal result is asserted. Root/package/CI/merged-main checks must
-still pass before full completion; the effort estimate remains about 99%.
+No new formal result is asserted. Exact DQ code `f2ffd5e` passes the 757-test
+root, 3,634 Lean jobs, 876 allowed axiom reports, 22 public-import examples,
+style/type/security gates and push/PR CI `40050118292`/`40050129457`.
+Clean rebuilt archives and both outside-checkout installed checks pass.
+Draft PR #123 exists; final documentation-head and merged-main checks must
+still pass before full completion. The effort estimate remains about 99%.
 
 DO reopened R25
 because the fixed order-24 census and three order-32 reruns did not supply the

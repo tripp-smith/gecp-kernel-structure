@@ -2810,3 +2810,12 @@ This annotation records delivered identifiers without changing the goals above.
   closure must pass before overall completion. Original mathematical goals
   above are unchanged. No arbitrary-inexact-pivot rate, ideal-exact-run
   numerical certificate, global sparse optimum or priority is inferred.
+
+  DQ code head `f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8` subsequently passes
+  the exact full root: 757 tests in 150.01 seconds, 3,634 Lean jobs, 876
+  permitted axiom reports, 22 public-import examples and clean style/type/
+  security gates. Push/PR CI `40050118292`/`40050129457` pass all four checks.
+  Clean rebuilt archives and both outside-checkout installed environments
+  pass, including 45 exports, adaptive success/budget failure and 48 six-method
+  fits per environment. Draft PR #123 is open. Final documentation-head and
+  pushed-main closure gates remain; these checks do not alter the goals above.

@@ -26,8 +26,9 @@ It repairs real conditional Lipschitz-certificate rounding and dyadic-parameter
 coverage errors, including one-ULP/subnormal cases and standalone precision
 metadata. A live dependency audit also requires a development-only filelock
 update; numerical dependencies and historical data manifests are preserved.
-Final repaired-source root, package/install, exact-head CI, PR merge and
-pushed-main closure remain required. No new independent multiagent review is
+Exact repaired-source root, package/install and push/PR CI now pass at
+`f2ffd5e`; final documentation-head gates, PR merge and pushed-main closure
+remain required. No new independent multiagent review is
 claimed: three attempted reviewers hit an account limit before contributing;
 the primary completes this audit locally. The effort estimate remains about
 99%, not a theorem probability or a count-based completion decision.
@@ -730,8 +731,24 @@ generation-lock hashes remain checked against their actual generation Git
 blobs, not relabeled as the current lock. The repaired preliminary root then
 passes 753 tests in 151.32 seconds, 3,634 Lean jobs, all 876 allowed axiom
 reports, the 22-example consumer and style/type/security gates. Later dyadic
-boundary changes require final root/package/CI and merged-main verification;
-those preliminary timings are not final-head evidence.
+boundary changes require their own exact-head verification; those preliminary
+timings are not final-head evidence.
+
+Exact DQ code head `f2ffd5e344818e2c06ff5152a7f182ef7a31e3a8` subsequently
+passes the full root: **757 tests in 150.01 seconds, 3,634 Lean jobs, 876
+permitted axiom reports, 22 public-import examples, 97 formatted files, mypy
+on 21 sources and clean dependency audit**. The preceding development-tree
+root took 148.83 seconds. Push CI `40050118292` and PR CI `40050129457` pass
+all four checks at that exact code commit. Clean rebuilt archives hash-match
+21 wheel Python sources, all 153 owned Lean sources, claim docs and lock;
+they include new consumers/tests and exclude local notes/caches/scratch.
+Reinstalled wheels pass outside the checkout in pinned Python 3.12.12/NumPy
+2.5.2/SciPy 1.18.0/mpmath 1.4.1 and NumPy 2.4.6/minimum SciPy 1.15.0. Each
+checks all 45 exports, adaptive success/budget failure, 48 six-method fits,
+the new boundary/metadata paths and exact interval-context restoration.
+Draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123)
+is attached to the task. Final documentation-head and pushed-main gates
+repeat before handoff; code-head success is not relabeled as those later runs.
 
 ## Implementation run metadata
 
@@ -871,6 +888,16 @@ continues the source-level audit/repairs and release gates locally. No worker
 identity, new price estimate or external peer review is inferred. The goal
 remains active until the actual DQ release and merged-main gates pass.
 
+DQ's code-head shipping snapshot on 2026-10-24 at 01:35:20 UTC reports
+`active`, 24,675,942 cumulative aggregate goal tokens and 114,959
+goal-accounting seconds. These counters are not phase-only, do not expose
+input/cache/reasoning/output categories and are not account billing. Declared
+root family, Default mode and unrestricted/never-approval execution remain as
+above; exact serving version and reasoning effort are unavailable. No new
+serving identity or API-equivalent cost is inferred. Code-head root/CI/archive/
+install gates pass, while final documentation-head and merged-main closure
+remain. The goal is still active at this point-in-time snapshot.
+
 ## Phase status
 
 | Phase | State | Delivery |
@@ -918,6 +945,7 @@ remains active until the actual DQ release and merged-main gates pass.
 | DN — fair six-method spectral comparisons | verified; green CI | merged [PR #120](https://github.com/tripp-smith/gecp-kernel-structure/pull/120); byte-repeated 192-fit JSON/PNG, independent error reconstruction, 513-test full root gate, installed-wheel smokes including SciPy 1.15 |
 | DO — independent final SPEC audit | verified; green CI | merged [PR #121](https://github.com/tripp-smith/gecp-kernel-structure/pull/121); 569-test root, 3,634 Lean jobs, 876 axiom reports, installed-wheel checks including minimum SciPy 1.15.0; R25 still incomplete |
 | DP — residual-adaptive seven-cutoff census | verified; green final-branch CI | merged [PR #122](https://github.com/tripp-smith/gecp-kernel-structure/pull/122); repeated seven-case/28-prefix data, 21 independent core/28 cross checks, 713-test root, clean archives and two installed environments; exact pushed-main closure repeats before handoff |
+| DQ — original-SPEC closure audit | in progress; code-head gates pass | draft [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123); explicit-item source audit, certificate/parameter boundary repairs, 757-test exact root and green push/PR CI; final documentation/main gates pending |
 | H — verification integrity refresh | verified locally; green CI | merged [PR #12](https://github.com/tripp-smith/gecp-kernel-structure/pull/12) |
 | I — determinantal sign-coherence bridge | complete; green CI | merged [PR #13](https://github.com/tripp-smith/gecp-kernel-structure/pull/13) |
 | J — strict-sign-regularity transfer | complete; green CI | merged [PR #14](https://github.com/tripp-smith/gecp-kernel-structure/pull/14) |
