@@ -2855,11 +2855,13 @@ This annotation records delivered identifiers without changing the goals above.
   proofs, algorithms and historical data/manifests remain unchanged. DR is
   documentation/hygiene delivery, not a new mathematical or publication claim.
 
-- **Phase DS workflow status (2026-10-24 EDT; in progress):** updates the two
+- **Phase DS workflow status (2026-10-24 EDT; verification/delivery in
+  [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125)):** updates the two
   workspace skills under §29 with original-obligation contracts, proof-route
   checkpoints and conditional numerical/verification/delivery guidance. This
   post-completion maintenance does not alter the original mathematical goals,
   completed scope decision, formal proofs, numerical code, dependency lock or
   historical experiment provenance. The phase requires skill validation,
   realistic behavioral checks, the root command and exact-revision PR CI before
-  authorized merge/push; detailed contract and evidence are in `RESEARCH.md`.
+  authorized merge/push; detailed contract and behavioral evidence are in
+  `RESEARCH.md`, with the revision-specific check and delivery receipt in the PR.

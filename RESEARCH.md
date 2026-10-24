@@ -10132,3 +10132,36 @@ track this maintenance phase; completed research conclusions, historical run
 metadata, Lean/Python code, dependencies and experiment artifacts do not change.
 Protected untracked duplicate notes remain unread and untouched. No new usage,
 billing, publication, independent theorem audit or mathematical claim is inferred.
+
+### DS validation and canonical delivery record
+
+Both skill frontmatters pass the skill-creator validator. All four skill
+documents and both relative reference links resolve; nine focused documentation
+tests pass. Three independent read-only forward tests received realistic
+requests and minimal fictional artifacts, without the intended answer:
+
+- Scope/route: a clean axiom audit of a theorem with an extra envelope premise,
+  fixed grids labeled adaptive, and three successful phases retaining the same
+  bridge. The evaluator rejects closure and chooses a bounded original-run
+  witness test using existing local bounds, retaining explicit remaining gaps.
+- Numerical evidence: a one-ULP identity-function false certificate, a mixed-scale
+  multiplication repair, stale imports, holdout reuse and an alias checker. The
+  evaluator reproduces both arithmetic failures with exact-rational checks,
+  calls for fresh frozen runs/new holdouts and preserves historical manifests.
+- Delivery: older-head CI, a fail-open axiom parser, checkout-imported wheel
+  smoke test, unintended note in a fictional distribution, self-referential SHA
+  updates and unsupported usage/billing attribution. The evaluator rejects
+  readiness and performs no unauthorized external action.
+
+A separate read-only scope reviewer identified a circular pre-/post-merge
+definition of done in the draft. The final guidance separates pre-merge
+acceptance from confirmed merge/main checks and requires evidence even when
+completion is recorded at the next phase opening. These are skill-behavior
+checks, not a new audit of the completed mathematics or canonical experiments.
+
+[PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125) is the
+canonical DS receipt for final checked source, full-root output, exact-revision
+CI, merge and main synchronization. Its externally updated receipt avoids a
+new documentation commit solely to embed its own hash. The historical research
+verification/accounting in FINAL_HANDOFF remains unchanged. No package rebuild
+or canonical experiment rerun is claimed for this skills-only maintenance.

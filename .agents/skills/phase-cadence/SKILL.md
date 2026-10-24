@@ -97,20 +97,23 @@ Update the same logical change in all affected documents:
 Remove stale status text. Set the phase to `verified` only after the final
 content passes the full local command and exact-revision CI. Record the checked
 revision explicitly; a later metadata commit is not that same checked head.
-Mark delivery `complete` after merge is confirmed, or at the next phase opening.
+Mark delivery `complete` only after confirmed merge and remote-state checks;
+recording this at the next phase opening still requires that evidence.
 Do not reopen completed mathematical scope for workflow-only maintenance.
 
 ## 5. Ship
 
 Keep commits logical and intentional. Push the phase branch and open a draft
-PR against `main`. Record the PR in README. Merge only when the definition of
-done is satisfied, repository policy allows it and the user authorized merging.
+PR against `main`. Record the PR in README. Merge only when the pre-merge checks
+below pass, repository policy allows it and the user authorized merging.
 Keep one canonical revision-specific verification receipt in the PR or a linked
 record. Summaries reference it instead of copying changing hashes and counts.
 Use the delivery reference for exact-head checks and post-merge synchronization;
 a receipt never substitutes for a required gate.
 
 ## Definition of done
+
+Pre-merge acceptance:
 
 - The contract has named outputs and non-claims.
 - Original-SPEC obligations are matched to actual evidence; public expected-type
@@ -121,5 +124,8 @@ a receipt never substitutes for a required gate.
 - Exact, high-precision, failure, and certificate paths relevant to the phase
   have evidence.
 - README and supporting documents match delivered claims.
-- For authorized PR delivery, the branch is pushed and a draft PR exists;
-  completion additionally records the authorized merge and remote state.
+- For authorized PR delivery, the branch is pushed and a draft PR exists.
+
+Delivery completion, when merging is authorized, additionally requires confirmed
+merge, required main checks and local/`origin/main` agreement. These post-merge
+checks are not prerequisites for performing the merge itself.
