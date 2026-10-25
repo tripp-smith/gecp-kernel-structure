@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DY — practical versioned release and publication<br>
-> **Phase state:** in progress; version 1.1.0 preparation and final acceptance in [PR #131](https://github.com/tripp-smith/gecp-kernel-structure/pull/131), followed by actual authorized PyPI publication and public installs under [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
+> **Current phase:** DZ — published release handoff and metadata readiness<br>
+> **Phase state:** in progress; PyPI 1.1.0 is published and all public installs pass. Final repository handoff records the actual release and preserves the first metadata-visibility failure<br>
 > **Last verification:** DX exact main `67e4b14` passes the full root: 1,662 tests, eight optional skips, 878 allowed axiom reports, source CI, six pure-wheel install jobs and Linux/macOS native build/archive/install/typing checks. [PR #130's canonical delivery receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719) records full revisions and evidence. DW's finite-query bridge is delivered in [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129). Historical original-research closure remains DQ exact main `e8c35ed`<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DU–DX are merged and pushed; [PRODUCTIZATION.md](PRODUCTIZATION.md) tracks the practical goal separately from original research completion. Version 1.1.0 publication is authorized and being prepared; actual upload/public installs remain required<br>
