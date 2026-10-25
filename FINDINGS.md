@@ -2236,3 +2236,10 @@ The uniform-time full-rank reference remains a valid large-discrepancy case.
 No finite-query arithmetic budget is promoted into a physical or continuous
 error theorem. Source/hash and final delivery evidence are in `RESEARCH.md`
 and [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129).
+
+Cross-platform CI caught an audit portability error: re-executing BLAS cannot
+authenticate another machine's rounded result byte for byte. Cohort C instead
+stores those actual results and audits their mathematical discrepancy directly.
+Its complete repeat agrees, and every prior scientific/numerical result is
+unchanged from B. Historical B artifacts and failed audit/CI evidence remain
+retained. This is a data/provenance correction, not a relaxed accuracy check.

@@ -1363,7 +1363,7 @@ before generation. Final canonical results and phase delivery are recorded in
 the current README receipt.
 
 DW's canonical six-case artifact is
-`experiments/data/precision_bridge.json.gz`, generated twice from `c5afd26`
+`experiments/data/precision_bridge.json.gz`, generated twice from `a4995b4`
 with identical complete JSON bytes. Five enclosures complete and one remains
 inconclusive; a completed enclosure can have a large valid discrepancy.
 At cutoff 1000 the endpoint-resolved numerical budget is below `2.50e-14`,
@@ -1382,9 +1382,9 @@ Recheck the immutable data independently, without importing the implementation:
 uv run python scripts/audit_precision_bridge.py \
   --source experiments/data/precision_bridge.json.gz \
   --output experiments/scratch/precision_bridge_audit.json \
-  --generation-commit c5afd2668630c6229c332c8d5aa1038aa958cdc7 \
-  --expected-sha256 26d86287b06d034d9a239542aa33c7a53eb586795909e853428bb5994402596e \
-  --expected-payload-sha256 9a2a607aabb0a24a5a7068c0da733a22f74e755c054d070f23210313dc317820
+  --generation-commit a4995b471506fe043f3102114d42620c3c645d76 \
+  --expected-sha256 b88c47735487433a482620a60577485cb1749e652ccfde201db2145112f9d09a \
+  --expected-payload-sha256 b77e38e42aad25082d14fbafb9d767525f61c302942b7ecca607c54df5631782
 ```
 
 This checks the generation-era Git/config/dependency manifests, complete arrays,
@@ -1392,3 +1392,10 @@ all grid points by 1280-bit bordered determinants, exact selected-node
 coefficients, selected-node predictions and all physical pole checks. It
 preserves inconclusive/large-error cases and states which other LS checks were
 performed by the generation-time QR audit rather than this separate tool.
+Schema 2 stores all 90 complete numerical arrays, including the actual rounded
+grid residuals and binary64 core proxies. Auditing checks these observed values
+directly and does not require a different machine to reproduce BLAS or exp
+rounding bit for bit. A separate small guard checks physical fixture identity;
+the certificate error bounds retain their strict checks. Historical cohort B
+and its generation-platform audit remain in the `precision_bridge_cohort_b*`
+files. CI fetches the Git history required by the provenance test.

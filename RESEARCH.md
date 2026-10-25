@@ -10675,14 +10675,14 @@ passes both 384- and 1024-bit QR with identical reported significant digits;
 its large discrepancy remains. The revised generator also stores complete
 actual input/design/coefficient/output arrays with dtype/shape/content hashes,
 and logs case identity before auditing so future failures are localized.
-### DW canonical generation and result boundaries
+### DW cohort B generation and result boundaries (historical)
 
 Source `c5afd2668630c6229c332c8d5aa1038aa958cdc7`, tree
 `e23f49aac1fd4082123da6ce5cd2c1d6418da3bb`, is frozen before two fresh
 generation processes. Both exit zero (82.68/82.81 seconds) and their complete
 JSON bytes agree. Payload SHA256 is
 `9a2a607aabb0a24a5a7068c0da733a22f74e755c054d070f23210313dc317820`.
-The canonical `experiments/data/precision_bridge.json.gz` uses storage-only
+The retained `experiments/data/precision_bridge_cohort_b.json.gz` uses storage-only
 gzip compression; compressed SHA256 is
 `26d86287b06d034d9a239542aa33c7a53eb586795909e853428bb5994402596e`.
 The initial failed oracle runs remain separately committed in
@@ -10715,7 +10715,7 @@ package, interval engine or benchmark helper. Its 43 focused checks cover real
 bounded file/decompression reads, malformed/nonfinite/duplicate JSON,
 dtype/shape/complete-complex hashes, source/config provenance and forged
 status/quality/discrepancy rejection. Full artifact audit exits zero in 25.80
-seconds. The committed `experiments/data/precision_bridge_audit.json` has SHA256
+seconds. The retained `experiments/data/precision_bridge_cohort_b_audit.json` has SHA256
 `e61674c6cddca0950a906af71bbaec089a734950e8ee20219d71a3e287cf4ef9`;
 auditor source SHA256 is
 `431e31428428eaed679a9bbc41d62dbd23a9e353515ed857c284d39de9bd6896`.
@@ -10724,8 +10724,9 @@ determinant ratios at every point of the three unique grids, 196 exact
 selected-node coefficient components, 40 selected-node query values and all
 240 physical-pole values. It does not independently recompute the other four
 completed LS fits; their separate 1024-bit QR checks remain generation evidence.
-The original one-off audit and its receipt are development review history;
-the promoted helper/receipt are the reusable acceptance record.
+The original one-off audit and its receipt are development review history.
+This first promoted helper/receipt preceded the portability correction below;
+their source/platform scope is retained rather than attributed to the new tool.
 ### DW portability correction after exact-head CI
 
 The local 1429-test root and all six installed-platform jobs pass at `2ccfd91`.
@@ -10751,3 +10752,40 @@ required for historical blob checks rather than waiving the provenance test.
 The new schema-2 source/configuration is frozen before fresh generation. Cases,
 target conventions, interval budgets and final physical observations remain
 unchanged; the new cohort must retain the inconclusive and large-error records.
+
+### DW portable cohort C
+
+Schema-2 generation is frozen at `a4995b471506fe043f3102114d42620c3c645d76`,
+tree `8ce876415f2e50bcee250073c285cb8b7e754ebd`. Two fresh processes exit zero
+in 81.97/82.94 seconds and produce byte-identical complete JSON. The canonical
+`experiments/data/precision_bridge.json.gz` compressed SHA256 is
+`b88c47735487433a482620a60577485cb1749e652ccfde201db2145112f9d09a`;
+payload SHA256 is
+`b77e38e42aad25082d14fbafb9d767525f61c302942b7ecca607c54df5631782`.
+Each record now stores 15 complete numerical arrays (90 total), including the
+observed rounded grid and binary64 proxy core. All six original fit/grid
+certificates, query results, least-squares diagnostics and original 13 input
+arrays compare exactly equal to cohort B. No mathematical budget, observation
+decision or physical accuracy result changes.
+
+The standalone auditor uses stored outputs plus independent exact/high-precision
+mathematics. It never replays exp/BLAS to demand an architecture-specific byte
+result. Its fixed `64*eps` absolute observation guard checks fixture identity
+only; pivot discrepancy, quality and numerical error budgets remain strict.
+Thread environment controls are recorded as settings, not invented OS-thread
+measurements. The failed exact-head CI evidence remains separately committed
+in `precision_bridge_portability_failure.json`. Final full root, portable source
+CI and platform/install/delivery acceptance are recorded in PR129.
+
+The portable full audit exits zero in 25.51 seconds. Its committed receipt
+`experiments/data/precision_bridge_audit.json` has SHA256
+`0d48df8d9abb04da8dd217ffc0077c59473fc2d413eae11a9ef21cb8483bf290`;
+auditor source SHA256 is
+`2654d494e4056e53b186a6cc8e60b0341db93a36a617f476ce34e83739f76459`.
+It checks 47 source blobs, 90 complete arrays, all six stored-grid bindings,
+five certificate-bound stored proxy cores, 75 independent bordered determinants,
+7723 proxy-core error components, 196 exact coefficient components, 40 selected
+predictions and 240 physical values. Five enclosures and one inconclusive fit
+remain. There are 48 focused auditor rejection/success tests plus a direct
+cheap canonical-v2 binding test for cross-platform CI. No floating-point replay
+or missing-history exception is waived by these checks.

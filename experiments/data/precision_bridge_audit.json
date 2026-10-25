@@ -1,0 +1,168 @@
+{
+  "artifact_container_sha256": "b88c47735487433a482620a60577485cb1749e652ccfde201db2145112f9d09a",
+  "artifact_payload_sha256": "b77e38e42aad25082d14fbafb9d767525f61c302942b7ecca607c54df5631782",
+  "audit_precision_bits": 1280,
+  "audit_script_sha256": "2654d494e4056e53b186a6cc8e60b0341db93a36a617f476ce34e83739f76459",
+  "audit_versions": {
+    "mpmath": "1.4.1",
+    "numpy": "2.5.2"
+  },
+  "bordered_determinants_evaluated": 75,
+  "config_git_blob_verified": true,
+  "enclosed_fit_records": 5,
+  "fixture_identity_absolute_guard": 1.4210854715202004e-14,
+  "generation_commit": "a4995b471506fe043f3102114d42620c3c645d76",
+  "generation_tree": "8ce876415f2e50bcee250073c285cb8b7e754ebd",
+  "generation_versions": {
+    "kernelgecp": "1.0.0",
+    "mpmath": "1.4.1",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "grid_records": [
+    {
+      "candidate": [
+        4,
+        4
+      ],
+      "independent_discrepancy": "3.031084720702603646061523497172854035563e-16",
+      "independent_maximum": "0.00000000005237697537071481945261945416501252474465",
+      "independent_quality": "1.0",
+      "record": 0,
+      "reported_eta": 0.9999884259520543,
+      "stored_core_error_components": 196
+    },
+    {
+      "candidate": [
+        1,
+        4
+      ],
+      "independent_discrepancy": "1.280279872735543457984829421409036735318e-16",
+      "independent_maximum": "0.00000000006512227292025706093460043565043486845437",
+      "independent_quality": "1.0",
+      "record": 1,
+      "reported_eta": 0.9999960680841542,
+      "stored_core_error_components": 324
+    },
+    {
+      "candidate": [
+        0,
+        3
+      ],
+      "independent_discrepancy": "1.404311018802571923800448663240015353525e-17",
+      "independent_maximum": "0.0000000002463886680780020164576348704092221489755",
+      "independent_quality": "1.0",
+      "record": 2,
+      "reported_eta": 0.9999998860084801,
+      "stored_core_error_components": 0
+    },
+    {
+      "candidate": [
+        0,
+        3
+      ],
+      "independent_discrepancy": "1.404311018802571923800448663240015353525e-17",
+      "independent_maximum": "0.0000000002463886680780020164576348704092221489755",
+      "independent_quality": "1.0",
+      "record": 3,
+      "reported_eta": 0.9999998860084801,
+      "stored_core_error_components": 2401
+    },
+    {
+      "candidate": [
+        0,
+        3
+      ],
+      "independent_discrepancy": "1.404311018802571923800448663240015353525e-17",
+      "independent_maximum": "0.0000000002463886680780020164576348704092221489755",
+      "independent_quality": "1.0",
+      "record": 4,
+      "reported_eta": 0.9999998860084801,
+      "stored_core_error_components": 2401
+    },
+    {
+      "candidate": [
+        0,
+        3
+      ],
+      "independent_discrepancy": "1.404311018802571923800448663240015353525e-17",
+      "independent_maximum": "0.0000000002463886680780020164576348704092221489755",
+      "independent_quality": "1.0",
+      "record": 5,
+      "reported_eta": 0.9999998860084801,
+      "stored_core_error_components": 2401
+    }
+  ],
+  "inconclusive_fit_records": [
+    {
+      "reason": "normal_pivot_contains_zero",
+      "record": 2
+    }
+  ],
+  "limitations": [
+    "No kernelgecp module, interval engine or benchmark helper was imported.",
+    "Independent high-precision computations are consistency evidence, not interval proofs or Lean verification of runtime.",
+    "True grids use centered-kernel bordered determinants; selected-node coefficients use exact reproduction and queries use direct LU.",
+    "No independent LS recomputation of other enclosed fits is claimed; their recorded QR checks remain generation evidence.",
+    "Inconclusive interval pivot reports are retained, not reclassified as singularity proofs or successful certificates.",
+    "Physical pole errors are sampled observations; small arithmetic bounds do not imply physical accuracy.",
+    "The fixed 64-epsilon observation-fixture identity guard does not relax exact binary inputs or any certificate interval/error budget."
+  ],
+  "packed_array_count": 90,
+  "physical_errors": [
+    {
+      "matsubara": "0.000000000001901503865247323490111985324173413949213",
+      "record": 0,
+      "time": "0.000000000001638637670138983828241533061741390531515"
+    },
+    {
+      "matsubara": "0.000000000005289267588120668164295834174417444743091",
+      "record": 1,
+      "time": "0.000000000003907028398125813116128049007625739958956"
+    },
+    {
+      "matsubara": "0.03481626588151869841548857147045495373586",
+      "record": 2,
+      "time": "0.0000000001967787232856188514913003894780069766492"
+    },
+    {
+      "matsubara": "0.03481626588151869841548857147045495373586",
+      "record": 3,
+      "time": "0.0000000001967787232856188514913003894780069766492"
+    },
+    {
+      "matsubara": "0.00000003371375683868179481360599028865437484411",
+      "record": 4,
+      "time": "0.00000001289371532115968514463437535931891742003"
+    },
+    {
+      "matsubara": "0.0000000003145806101936761758695707874364973946191",
+      "record": 5,
+      "time": "0.0000000004470244719275176659945751913683382236721"
+    }
+  ],
+  "physical_pole_values_checked": 240,
+  "selected_node_records": [
+    {
+      "coefficient_components": 196,
+      "max_coefficient_error": "3.88578058618804789148271083831787109375e-16",
+      "queries": {
+        "matsubara": {
+          "checked_values": 20,
+          "independent_max_error": "9.647132288267345115258321546142667953794e-16"
+        },
+        "time": {
+          "checked_values": 20,
+          "independent_max_error": "1.325279039908240881028932463642120324666e-16"
+        }
+      },
+      "query_values_checked": 40,
+      "record": 5
+    }
+  ],
+  "source_blob_count": 47,
+  "status": "passed",
+  "stored_core_hashes": 5,
+  "stored_grid_residuals": 6,
+  "unique_grid_computations": 3
+}
