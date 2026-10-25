@@ -10789,3 +10789,68 @@ predictions and 240 physical values. Five enclosures and one inconclusive fit
 remain. There are 48 focused auditor rejection/success tests plus a direct
 cheap canonical-v2 binding test for cross-platform CI. No floating-point replay
 or missing-history exception is waived by these checks.
+## Phase DX — optional Rust reference evaluation (in progress)
+
+This application phase addresses PRODUCTIZATION's measured Rust requirement
+under original SPEC §§27–29. DW is merged as `2d41100`; its canonical PR129
+receipt owns exact branch and pushed-main verification. The exact mathematical
+theorems and existing research GECP defaults remain unchanged.
+
+The retained disposable pilot identifies uncached reference time-kernel rows
+and cached transpose-LU substitution as an eligible bottleneck. For rank 55,
+three fresh-process trials including construction, fit, native import/factor
+packing and 80 distinct 64-row evaluations with default cache capacity eight
+gave median 42.899 seconds Python versus 21.797 seconds native. Outputs were
+bitwise equal. Small reuse and warm cache hits do not show the same gain.
+These are development results archived outside the repository, not production
+DX performance evidence. Per-rank construction diagnostics remain expensive;
+they are not silently skipped to make Rust look better.
+
+Implement explicit `reference_backend='python'|'rust'` on the physical facade,
+with Python the unchanged default. The Rust path accelerates only 128-bit
+reference time evaluation and triangular substitution. Physical normalization
+remains binary64 in Python, frequency evaluation remains mpmath, and fitting/
+final products remain NumPy/SciPy. Disclose each actual backend and precision.
+Float64 construction remains the existing SciPy path. Unsupported precision,
+unavailable native modules and failed native arithmetic must produce clear
+errors rather than silently changing working precision or implementations.
+Archives keep coordinates/coefficients and restore with Python by default;
+explicit Rust restoration rebuilds a checked handle, never executable archive
+state. Preserve earlier archive and API behavior.
+
+Native PyO3/Rug code validates finite/distinct frequencies, exact supported
+precision, bounded lists/tokens/work, LU shapes/permutation/triangular structure
+and nonzero pivots before computation. Use immutable owned factors, release the
+GIL for numerical work, guard MPFR TLS/exponent/sticky state and restore caller
+state on success/error. Distinguish internal MPFR range failure from ordinary
+binary64 output rounding, including subnormals. No unchecked parse/panic path,
+explicit inverse or replacement of mature BLAS is accepted.
+
+Keep Hatchling universal/source builds and add explicit Maturin platform wheels
+for the same kernelgecp project. Linux/macOS native support requires actual
+build/install tests; Windows retains the tested universal Python fallback.
+Do not claim native Windows coverage from GNU/MSYS2 plans or an MSVC build.
+Update archive gates to distinguish pure/native payloads, require typed lazy
+imports/stubs and backend installed consumers, and reject accidental binaries,
+host paths or missing native license/source metadata. Include complete locked
+corresponding sources/build instructions/vendor licenses in a reproducible
+source asset and test its unpacked offline build. Native metadata must describe
+the bundled code accurately; local previews are not release-compliance proof.
+
+Freeze actual production source/configuration/native binary/toolchain/dependency
+identity before canonical timing. Predeclare retention: at least 20% median
+end-to-end reduction for the streaming workload, including construction/fit/
+setup/import and actual default-cache misses, with numerical parity against the
+Python implementation and independent physical/QR checks. Use three fresh
+alternating trials per backend; report process wall and component scopes,
+resource use, rank/conditioning, small-reuse and cache-hit limitations. A useful
+native path must not be advertised as a universal speedup. Exercise the DW
+certificate on actual native fit output where useful, without promoting sampled
+physical accuracy or bit parity to a continuous theorem.
+
+Acceptance includes native boundary/context/concurrency/parity tests, retained
+development failures, public and archive regressions, pure/native wheel source
+identity and outside-checkout installed typing checks, complete corresponding
+source inspection/rebuild, the full root, exact-head CI and authorized merge/
+push/main closure. Final methods/citation, publish workflow, actual PyPI upload
+and upstream outreach follow as the release phase; publication is authorized.

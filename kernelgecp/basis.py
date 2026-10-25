@@ -21,6 +21,7 @@ import numpy.typing as npt
 
 from ._basis_io import read_archive, write_archive
 from ._basis_numerics import BasisNumerics
+from ._reference_backend import NativeInfo, ReferenceBackend
 from .fitting import (
     LeastSquaresDiagnostics,
     LeastSquaresPlan,
@@ -84,6 +85,11 @@ class BasisDiagnostics:
     conditioning_scope: str = "binary64_exported_core_2norm_estimate"
     certification_status: str = "not_certified"
     certification_scope: str = "no_continuous_input_or_rounding_certificate"
+    requested_reference_backend: ReferenceBackend = "python"
+    time_evaluation_backend: str = "not_recorded"
+    frequency_evaluation_backend: str = "not_recorded"
+    fit_backend: str = "numpy_svd_float64_or_complex128"
+    native_backend_info: NativeInfo = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -176,6 +182,13 @@ class FermionicBasis:
     successful construction. All public arrays and least-squares fits are
     float64/complex128. Inspect ``diagnostics`` and validate your own workload.
 
+    ``reference_backend='rust'`` explicitly enables the optional 128-bit
+    accelerator for reference time designs. Selection, Matsubara evaluation
+    and fitting keep their existing implementations. The default ``'python'``
+    needs no native module; a float64 construction does not use the reference
+    backend. Native initialization/arithmetic failures never substitute a
+    silent Python fallback.
+
     Caches belong to this instance, are bounded by ``cache_size`` entries each,
     and own their coordinates. Repeated fitting on one grid reuses one SVD.
     Instances are not intended for concurrent cache mutation across threads.
@@ -192,9 +205,18 @@ class FermionicBasis:
         grid_order: int = 12,
         max_rank: int = 256,
         cache_size: int = 8,
+        reference_backend: ReferenceBackend = "python",
     ) -> None:
         self._set_parameters(
-            beta, wmax, tol, precision, precision_bits, grid_order, max_rank, cache_size
+            beta,
+            wmax,
+            tol,
+            precision,
+            precision_bits,
+            grid_order,
+            max_rank,
+            cache_size,
+            reference_backend,
         )
         attempts: list[ConstructionAttempt] = []
         chosen_bits = 53 if precision != "reference" else self._reference_bits
@@ -233,6 +255,10 @@ class FermionicBasis:
             attempts=tuple(attempts),
             exported_core_condition=self._numerics.core_condition,
             nodal_error=self._numerics.nodal_error,
+            requested_reference_backend=self._reference_backend,
+            time_evaluation_backend=self._numerics.time_evaluation_backend,
+            frequency_evaluation_backend=self._numerics.frequency_evaluation_backend,
+            native_backend_info=self._numerics.native_backend_info,
         )
 
     def _set_parameters(
@@ -245,6 +271,7 @@ class FermionicBasis:
         grid_order: object,
         max_rank: object,
         cache_size: object,
+        reference_backend: object = "python",
     ) -> None:
         self._beta = _positive_real(beta, "beta")
         self._wmax = _positive_real(wmax, "wmax")
@@ -263,6 +290,14 @@ class FermionicBasis:
             raise ValueError("precision must be 'auto', 'float64' or 'reference'")
         self._precision = cast(PrecisionPolicy, precision)
         self._reference_bits = _integer(precision_bits, "precision_bits", 64)
+        if not isinstance(reference_backend, str) or reference_backend not in (
+            "python",
+            "rust",
+        ):
+            raise ValueError("reference_backend must be 'python' or 'rust'")
+        self._reference_backend = cast(ReferenceBackend, reference_backend)
+        if self._reference_backend == "rust" and self._reference_bits != 128:
+            raise ValueError("Rust reference backend requires precision_bits=128")
         self._grid_order = _integer(grid_order, "grid_order", 2)
         self._max_rank = _integer(max_rank, "max_rank", 1)
         self._cache_size = _integer(cache_size, "cache_size", 1)
@@ -315,6 +350,7 @@ class FermionicBasis:
             self._tau_nodes,
             self._omega_nodes,
             precision_bits=bits,
+            reference_backend=self._reference_backend,
         )
 
     @property
@@ -512,7 +548,11 @@ class FermionicBasis:
 
     @classmethod
     def _restore(
-        cls, metadata: dict[str, object], arrays: dict[str, npt.NDArray[np.generic]]
+        cls,
+        metadata: dict[str, object],
+        arrays: dict[str, npt.NDArray[np.generic]],
+        *,
+        reference_backend: ReferenceBackend = "python",
     ) -> FermionicBasis:
         expected_envelope = {
             "format",
@@ -547,7 +587,7 @@ class FermionicBasis:
         if set(parameters) != expected:
             raise ValueError("invalid archive parameters")
         result = cls.__new__(cls)
-        result._set_parameters(**parameters)
+        result._set_parameters(**parameters, reference_backend=reference_backend)
         history = _mapping(metadata.get("construction"), "construction")
         bits = _integer(
             history.get("evaluation_precision_bits"), "evaluation_precision_bits", 53
@@ -653,20 +693,30 @@ class FermionicBasis:
             attempts=tuple(attempts),
             exported_core_condition=result._numerics.core_condition,
             nodal_error=result._numerics.nodal_error,
+            requested_reference_backend=result._reference_backend,
+            time_evaluation_backend=result._numerics.time_evaluation_backend,
+            frequency_evaluation_backend=result._numerics.frequency_evaluation_backend,
+            native_backend_info=result._numerics.native_backend_info,
             history_status="restored_unverified_history",
         )
         return result
 
     @classmethod
-    def load(cls, path: ArchivePath) -> FermionicBasis:
-        """Validate and restore a basis without recomputing pivot selection."""
+    def load(
+        cls, path: ArchivePath, *, reference_backend: ReferenceBackend = "python"
+    ) -> FermionicBasis:
+        """Restore factors without pivot selection, using Python by default.
+
+        An archived backend history never activates a native extension.
+        Explicit ``reference_backend='rust'`` rebuilds a checked native handle.
+        """
         metadata, arrays = read_archive(path)
         if metadata.get("kind") != "basis" or set(arrays) != {
             "tau_nodes",
             "omega_nodes",
         }:
             raise ValueError("archive does not contain a standalone basis")
-        return cls._restore(metadata, arrays)
+        return cls._restore(metadata, arrays, reference_backend=reference_backend)
 
 
 class FermionicFit:
@@ -731,11 +781,14 @@ class FermionicFit:
         write_archive(path, metadata, arrays)
 
     @classmethod
-    def load(cls, path: ArchivePath) -> FermionicFit:
+    def load(
+        cls, path: ArchivePath, *, reference_backend: ReferenceBackend = "python"
+    ) -> FermionicFit:
         """Restore coefficients and factors, without rerunning GECP or SVD.
 
         Historical training diagnostics are not independently revalidated and
         are intentionally not restored as current evidence.
+        Python is the default backend regardless of archived backend history.
         """
         metadata, arrays = read_archive(path)
         if metadata.get("kind") != "fit" or "coefficients" not in arrays:
@@ -744,5 +797,7 @@ class FermionicFit:
         if set(fit) != {"axis", "diagnostics"}:
             raise ValueError("invalid fitted-function archive envelope")
         axis = _integer(fit.get("axis"), "axis", 0)
-        basis = FermionicBasis._restore(metadata, arrays)
+        basis = FermionicBasis._restore(
+            metadata, arrays, reference_backend=reference_backend
+        )
         return cls(basis, arrays["coefficients"], axis=axis)

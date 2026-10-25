@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import subprocess
@@ -99,6 +100,144 @@ def test_distribution_gate_accepts_complete_minimal_archives(tmp_path: Path) -> 
     assert report["package_source_files"] == 3
     assert all(len(archive["sha256"]) == 64 for archive in report["archives"])
     json.dumps(report, allow_nan=False)
+
+
+def _native_fixture(
+    tmp_path: Path, *, changes: dict[str, bytes | None] | None = None
+) -> tuple[Path, Path, Path]:
+    notices = b"Complete third-party notices and LGPL/GPL source instructions.\n"
+    sbom = b'{"bomFormat":"CycloneDX","specVersion":"1.5","components":[]}\n'
+    expression = "Apache-2.0 AND LGPL-3.0-or-later"
+    inventory = {
+        "schema": "kernelgecp.native-wheel.v1",
+        "version": "1.0.0",
+        "source_revision": "a" * 40,
+        "source_tree": "b" * 40,
+        "source_asset": {
+            "filename": "kernelgecp-1.0.0-native-source.tar.gz",
+            "sha256": "c" * 64,
+            "url": "https://github.com/tripp-smith/gecp-kernel-structure/releases/download/v1.0.0/kernelgecp-1.0.0-native-source.tar.gz",
+        },
+        "license_bundle_sha256": hashlib.sha256(notices).hexdigest(),
+        "sbom_sha256": hashlib.sha256(sbom).hexdigest(),
+        "license_expression": expression,
+    }
+    stub = b"def build_info() -> dict[str, str | int | bool]: ...\n"
+    payload = {
+        "kernelgecp/_native.abi3.so": b"\x7fELF" + bytes(60),
+        "kernelgecp/_native.pyi": stub,
+        "kernelgecp/_native_inventory.json": json.dumps(inventory).encode(),
+        f"{DIST_INFO}/METADATA": METADATA.replace(
+            b"Apache-2.0", expression.encode()
+        ).replace(
+            b"\n\nPackage description.",
+            b"\nLicense-File: LICENSE\nLicense-File: native/_wheel_licenses.txt"
+            b"\n\nPackage description.",
+        ),
+        f"{DIST_INFO}/WHEEL": (
+            b"Wheel-Version: 1.0\nRoot-Is-Purelib: false\n"
+            b"Tag: cp312-abi3-manylinux_2_28_x86_64\n"
+        ),
+        f"{DIST_INFO}/licenses/native/_wheel_licenses.txt": notices,
+        f"{DIST_INFO}/sboms/_wheel_dependencies.cyclonedx.json": sbom,
+    }
+    payload.update(changes or {})
+    root, wheel, sdist = _fixture_archives(
+        tmp_path,
+        wheel_changes=payload,
+        sdist_changes={"kernelgecp/_native.pyi": stub},
+    )
+    (root / "kernelgecp/_native.pyi").write_bytes(stub)
+    native_wheel = wheel.with_name(
+        "kernelgecp-1.0.0-cp312-abi3-manylinux_2_28_x86_64.whl"
+    )
+    wheel.rename(native_wheel)
+    return root, native_wheel, sdist
+
+
+def test_native_gate_accepts_explicit_platform_wheel_and_identical_sources(
+    tmp_path: Path,
+) -> None:
+    root, wheel, sdist = _native_fixture(tmp_path)
+    result = check_archives(project_root=root, wheel=wheel, sdist=sdist, kind="native")
+    assert result["kind"] == "native" and result["package_source_files"] == 4
+    with pytest.raises(DistributionError, match="universal"):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist)
+
+
+@pytest.mark.parametrize(
+    "changes,message",
+    [
+        ({"kernelgecp/_native_inventory.json": None}, "missing inventory"),
+        ({"kernelgecp/_native.abi3.so": b"not a binary"}, "malformed"),
+        (
+            {
+                "kernelgecp/_native.abi3.so": b"\x7fELF"
+                + bytes(30)
+                + b"/home/runner/build"
+            },
+            "host build path",
+        ),
+        ({"kernelgecp/arbitrary.so": b"\x7fELF"}, "unexpected wheel"),
+        ({f"{DIST_INFO}/licenses/native/_wheel_licenses.txt": None}, "missing notices"),
+        (
+            {f"{DIST_INFO}/licenses/native/_wheel_licenses.txt": b"changed"},
+            "hash mismatch",
+        ),
+        (
+            {f"{DIST_INFO}/sboms/_wheel_dependencies.cyclonedx.json": b"{}"},
+            "hash mismatch",
+        ),
+        ({f"{DIST_INFO}/METADATA": METADATA}, "license metadata"),
+        (
+            {
+                f"{DIST_INFO}/WHEEL": (
+                    b"Wheel-Version: 1.0\nRoot-Is-Purelib: true\nTag: py3-none-any\n"
+                )
+            },
+            "platform tags",
+        ),
+        ({"kernelgecp/_native.pyi": None}, "sources differ"),
+    ],
+)
+def test_native_gate_rejects_missing_or_forged_native_payload(
+    tmp_path: Path, changes: dict[str, bytes | None], message: str
+) -> None:
+    root, wheel, sdist = _native_fixture(tmp_path, changes=changes)
+    with pytest.raises(DistributionError, match=message):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist, kind="native")
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("version", "9.0.0"),
+        ("source_revision", "HEAD"),
+        ("license_expression", "Apache-2.0"),
+    ],
+)
+def test_native_inventory_rejects_wrong_identity(
+    tmp_path: Path, field: str, value: str
+) -> None:
+    root, wheel, sdist = _native_fixture(tmp_path)
+    with zipfile.ZipFile(wheel) as archive:
+        files = {name: archive.read(name) for name in archive.namelist()}
+    data = json.loads(files["kernelgecp/_native_inventory.json"])
+    data[field] = value
+    files["kernelgecp/_native_inventory.json"] = json.dumps(data).encode()
+    with zipfile.ZipFile(wheel, "w") as archive:
+        for name, payload in files.items():
+            archive.writestr(name, payload)
+    with pytest.raises(DistributionError):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist, kind="native")
+
+
+def test_native_sdist_must_include_current_rust_sources(tmp_path: Path) -> None:
+    root, wheel, sdist = _native_fixture(tmp_path)
+    (root / "native").mkdir()
+    (root / "native/Cargo.toml").write_text('[package]\nname="kernelgecp-native"\n')
+    with pytest.raises(DistributionError, match="native sources differ"):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist, kind="native")
 
 
 @pytest.mark.parametrize(

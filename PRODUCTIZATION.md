@@ -22,15 +22,15 @@ DV's full root/platform/install and merged-main closure is in
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
 | Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example, merged PR #128 | delivered |
 | Concrete upstream proposal and actual adoption outreach | UPSTREAM_PROPOSAL.md plus tested standalone Sparse-IR recipe | proposal prepared; actual outreach open |
-| Profile and prototype the measured Rust bottleneck | setup/reuse profiling and disposable in-process PyO3/Rug pilot | frozen production integration/measurement open |
+| Profile and prototype the measured Rust bottleneck | profiling, actual in-process pilot, DX checked optional backend | production freeze/benchmark/platform acceptance pending |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | none | open; rejection is valid only after measurement |
 | Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |
 | Distributed typing and extension stubs if applicable | DU py.typed and installed positive/negative consumers pass | delivered; repeat for final release |
 | Reproducible production benchmarks and citation-ready methods document | bounded DT pilot and research docs | open |
 | Publish a tested versioned release and installable distributions | no release | open |
 | PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
-| Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets plus two conditional Lean theorems | implemented and independently checked; final acceptance pending; continuous inexact rate remains open |
-| Implementation validated, committed, PR-merged and pushed | DT, DU and DV delivered; DW in progress | open for full objective |
+| Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW portable repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets, two conditional Lean theorems, merged PR #129 | delivered bounded bridge; continuous inexact rate remains a research extension |
+| Implementation validated, committed, PR-merged and pushed | DT, DU, DV and DW delivered; DX in progress | open for full objective |
 
 ## Delivery order and gates
 

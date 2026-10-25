@@ -12,6 +12,10 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+kernelgecp/_native*.so
+kernelgecp/_native*.pyd
+native/target/
+native/vendor/
 
 # Local research scratch output (canonical data is explicitly unignored)
 experiments/scratch/

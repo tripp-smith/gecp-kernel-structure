@@ -2933,3 +2933,11 @@ This annotation records delivered identifiers without changing the goals above.
   Two complete frozen artifacts are byte-identical; all five completed
   coefficient/prediction enclosures pass independent QR/exact-reproduction
   checks. The inconclusive case and physical/model errors remain explicit.
+- **Phase DX application follow-on (in progress):** implements an explicit
+  optional 128-bit Rust time-evaluation backend, preserving research defaults,
+  portable archives, mpmath selection/frequency and NumPy fitting. Native input,
+  arithmetic-state and resource boundaries are tested. Universal/source and
+  native distributions have separate archive/license/source-identity gates.
+  Production performance retention and actual platform/install proof remain
+  acceptance gates; the original mathematical goals and exact-GECP claims are
+  unchanged. Final release/publication and upstream outreach remain open.

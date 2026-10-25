@@ -20,6 +20,8 @@ dev = [
   "filelock>=4.2.1,<5",
   "pytest>=9.0.3,<10",
   "ruff>=0.6,<1",
+  "maturin==1.15.0",
+  "packaging>=24.2,<27",
 ]
 
 [build-system]
@@ -31,13 +33,35 @@ exclude = [
   "/autonomous-implementation.md",
   "/FINDINGS 2.md",
   "/MATHLIB 2.md",
+  "/kernelgecp/*.so",
+  "/kernelgecp/*.pyd",
+  "/kernelgecp/*.dylib",
+  "/native/target",
+  "/native/vendor",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["kernelgecp"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/kernelgecp", "/pyproject.toml", "/APPLICATION.md", "/README.md", "/LICENSE"]
+include = [
+  "/kernelgecp", "/pyproject.toml", "/APPLICATION.md", "/README.md", "/LICENSE",
+  "/native", "/rust-toolchain.toml",
+]
+
+[tool.maturin]
+manifest-path = "native/Cargo.toml"
+module-name = "kernelgecp._native"
+python-source = "."
+bindings = "pyo3"
+features = ["extension-module"]
+locked = true
+strip = true
+
+[tool.maturin.sbom]
+# The native builder supplies an audited, deterministic dependency inventory.
+rust = false
+auditwheel = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

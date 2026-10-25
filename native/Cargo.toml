@@ -1,0 +1,17 @@
+[package]
+name = "kernelgecp-native"
+version = "1.0.0"
+edition = "2021"
+license = "Apache-2.0"
+[lib]
+name = "_native"
+crate-type = ["cdylib"]
+[features]
+default = []
+extension-module = ["pyo3/extension-module"]
+[dependencies]
+pyo3 = {version = "=0.27.2", features = ["abi3-py312", "generate-import-lib"]}
+rug = {version = "=1.30.0", default-features = false, features = ["float"]}
+gmp-mpfr-sys = {version = "=1.7.1", default-features = false, features = ["mpfr"]}
+[build-dependencies]
+pyo3-build-config = "=0.27.2"

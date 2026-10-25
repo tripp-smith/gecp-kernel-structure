@@ -2243,3 +2243,24 @@ stores those actual results and audits their mathematical discrepancy directly.
 Its complete repeat agrees, and every prior scientific/numerical result is
 unchanged from B. Historical B artifacts and failed audit/CI evidence remain
 retained. This is a data/provenance correction, not a relaxed accuracy check.
+## DX — measured optional native evaluation
+
+The application backend now isolates high-precision time-kernel evaluation and
+cached triangular substitution behind an explicit optional Rust interface.
+Selection, frequency evaluation, normalization/export policy and existing
+NumPy fitting/products keep their prior implementations. Python remains the
+default, and archive history cannot activate native code automatically.
+
+Development tests cover MPFR state restoration, concurrency, resource/token
+limits and independent numerical parity. Review found two concrete private-API
+boundary defects before source freeze: reentrant numeric conversion could
+mutate input lists and create an inconsistent handle; oversized Unicode tokens
+could allocate a UTF-8 copy before the byte limit. Exact builtin input checks
+and pre-copy character limits fix both, with retained regressions. These are
+engineering corrections, not new mathematical results.
+
+The earlier disposable streaming pilot shows a promising end-to-end gain, but
+its archived source and machine-specific timings are historical development
+evidence. Production retention requires the committed DX implementation's
+frozen alternating-process benchmark and independent accuracy checks. Small
+reuse, cache hits and persistent construction cost must remain visible.
