@@ -50,6 +50,12 @@ _REQUIRED = {
     "kernelgecp/__init__.py",
     "kernelgecp/py.typed",
 }
+_RELEASE_DOCUMENTS = {
+    "PACKAGE_README.md",
+    "METHODS.md",
+    "CITATION.cff",
+    "RELEASE_NOTES.md",
+}
 _SCHEMA = "kernelgecp.corresponding-source.v1"
 _RECEIPT_SCHEMA = "kernelgecp.corresponding-source.receipt.v1"
 
@@ -110,7 +116,7 @@ def _tree(root: Path, revision: str) -> tuple[str, dict[str, tuple[str, int]]]:
         header, raw_name = raw.split(b"\t", 1)
         mode, kind, blob = header.decode().split()
         name = raw_name.decode("utf-8")
-        include = name in _REQUIRED
+        include = name in _REQUIRED or name in _RELEASE_DOCUMENTS
         if name.startswith("kernelgecp/"):
             include = name.endswith((".py", ".pyi")) or name.endswith("/py.typed")
         if name.startswith("native/"):
@@ -157,6 +163,12 @@ def _version(payloads: dict[str, bytes]) -> str:
         "invalid project version",
     )
     _require(native.get("version") == version, "native/project version mismatch")
+    if "readme" in project:
+        readme = project["readme"]
+        _require(
+            isinstance(readme, str) and readme in payloads,
+            "configured package readme missing from corresponding source",
+        )
     return str(version)
 
 

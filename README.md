@@ -4,13 +4,13 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DX — optional measured Rust reference backend<br>
-> **Phase state:** measured backend retained; final verification and delivery in [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130); full release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
-> **Last verification:** DW's six-case artifact repeats byte for byte: five completed enclosures and one retained inconclusive solve; independent QR/exact-reproduction checks distinguish useful numerical bounds from large fitting/physical errors. [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129) is the canonical final-revision acceptance receipt. DV's 1,338-test merged-main and six-platform install closure is in [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128). Historical research closure remains DQ exact main `e8c35ed`, [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
+> **Current phase:** DY — practical versioned release and publication<br>
+> **Phase state:** in progress; version 1.1.0 preparation and final acceptance in [PR #131](https://github.com/tripp-smith/gecp-kernel-structure/pull/131), followed by actual authorized PyPI publication and public installs under [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
+> **Last verification:** DX exact main `67e4b14` passes the full root: 1,662 tests, eight optional skips, 878 allowed axiom reports, source CI, six pure-wheel install jobs and Linux/macOS native build/archive/install/typing checks. [PR #130's canonical delivery receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719) records full revisions and evidence. DW's finite-query bridge is delivered in [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129). Historical original-research closure remains DQ exact main `e8c35ed`<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DW [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129) is merged at `2d41100`; its exact-main root and CI/install gates pass. DV [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128), DU [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127), DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126), DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125), and DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) are merged. Publication is authorized; upload awaits the verified release artifacts and workflow<br>
+> **Delivery:** DU–DX are merged and pushed; [PRODUCTIZATION.md](PRODUCTIZATION.md) tracks the practical goal separately from original research completion. Version 1.1.0 publication is authorized and being prepared; actual upload/public installs remain required<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
-> **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): completed original goal, 24,738,403 cumulative aggregate tokens and 116,095 goal-accounting seconds (32:14:55), excluding this post-completion documentation task<br>
+> **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): frozen original research accounting is 24,738,403 aggregate tokens and 116,095 goal-accounting seconds (32:14:55). Later application-development usage/billing and exact serving version are unavailable; those historical counters are not extended or repriced<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
 
 ## Status
@@ -26,15 +26,17 @@ The [matched DLR/IR cohort](APPLICATION.md#recorded-dv-matched-cohort-b)
 adds independently checked time/frequency errors and a genuine small physical
 self-consistency loop using the same protocol with GECP, pydlr and sparse-ir.
 The failed sampling/calibration cases are retained. A tested standalone recipe
-supports the [upstream proposal](UPSTREAM_PROPOSAL.md), which is not yet external
-adoption. The [finite-query numerical bridge](APPLICATION.md#finite-query-numerical-certificates)
+supports the [public upstream proposal](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382);
+maintainer acceptance remains pending. The [finite-query numerical bridge](APPLICATION.md#finite-query-numerical-certificates)
 now computes actual coefficient/solve/output budgets and finite-grid pivot
 quality. It preserves inconclusive and large-error cases. Continuous inexact-run
 rates remain a research extension. The optional Rust backend passes its frozen
 streaming-workload retention gate: median application time is 42.80 s Python
 versus 21.33 s Rust, with physical errors below `2.57e-11` and paired differences
-below `4.26e-15`. Small reuse and cache hits show much less benefit. Platform
-acceptance and final release/publication remain delivery gates.
+below `4.26e-15`. Small reuse and cache hits show much less benefit. Final
+release/publication remains a delivery gate; native platform acceptance is
+recorded in PR #130. [METHODS.md](METHODS.md) and [CITATION.cff](CITATION.cff)
+describe the recorded evidence and how to cite it.
 
 Phase states below describe their historical frozen contracts, not completion
 of every original SPEC requirement. The full-scope [audit](COMPLETION_AUDIT.md)

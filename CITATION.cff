@@ -1,0 +1,26 @@
+cff-version: "1.2.0"
+message: >-
+  Cite the release or commit of kernelgecp used in your work, together with
+  relevant upstream methods and numerical libraries.
+type: software
+version: "1.1.0"
+title: "kernelgecp: Fermionic kernel cross approximation and verified numerical research"
+authors:
+  - name: "kernelgecp contributors"
+repository-code: "https://github.com/tripp-smith/gecp-kernel-structure"
+url: "https://github.com/tripp-smith/gecp-kernel-structure"
+abstract: >-
+  Lean formalization and reproducible numerical tools for Gaussian elimination
+  with complete pivoting and the fermionic kernel. The Python interface supports
+  cached physical Green-function bases, complex matrix batches, imaginary-time
+  and Matsubara evaluation, finite-query numerical certificates, and an optional
+  Rust backend for 128-bit reference time evaluation. Formal exact-run theorems,
+  sampled physical comparisons, and conditional numerical certificates retain
+  distinct scopes.
+keywords:
+  - "Gaussian elimination with complete pivoting"
+  - "fermionic Green functions"
+  - "cross approximation"
+  - "verified numerics"
+  - "Lean"
+  - "Rust"

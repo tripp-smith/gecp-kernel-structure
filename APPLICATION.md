@@ -1461,5 +1461,18 @@ project's Apache license. Native distribution metadata is specific to the code
 it contains, consistent with the [PyPA metadata specification](https://packaging.python.org/en/latest/specifications/core-metadata/#license-expression).
 The complete locked third-party sources and offline rebuild instructions are
 prepared with `scripts/prepare_corresponding_source.py`; see
-`native/SOURCE_BUILD.md`. Native Linux/macOS support is subject to actual wheel
-CI/install acceptance. Windows uses the tested universal Python fallback.
+`native/SOURCE_BUILD.md`. DX's actual native build/install coverage is Linux
+x86_64 (glibc 2.28+) and macOS arm64 (11+) on Python 3.12/3.13. Windows, Intel
+macOS, Linux ARM and other unbuilt native targets use the universal Python
+fallback; no native support is inferred from that fallback.
+
+## Versioned practical release
+
+Version 1.1.0 preparation includes a short [package quickstart](PACKAGE_README.md),
+[computational methods](METHODS.md), [citation metadata](CITATION.cff) and
+[release notes](RELEASE_NOTES.md). Source, wheel and installed behavior must
+pass on the final revision before upload. The release workflow promotes the
+unchanged exact-main tested artifacts, publishes complete native sources and
+notices on GitHub first, and then uses the saved PyPI Trusted Publisher.
+Publication and clean public-index installation remain required external
+checks; a prepared version or workflow does not establish them.

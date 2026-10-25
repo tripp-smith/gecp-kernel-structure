@@ -7,15 +7,19 @@ Propose a short physical-accuracy and complex-matrix sampling recipe to the
 Its repository describes itself as the ecosystem theory/notation/library hub;
 the current Python API is documented separately in the
 [basis reference](https://sparse-ir.readthedocs.io/en/latest/basis.html).
-This is a proposal, not a submitted or accepted upstream contribution yet.
+The concrete executable example was [submitted publicly on 2026-10-25](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382)
+after checking the current issue, notebook and contribution guidance. The exact
+posted text was fetched and verified. Maintainer acceptance remains pending.
 
 The independently usable candidate is
 [`examples/sparse_ir_physical_recipe.py`](examples/sparse_ir_physical_recipe.py).
 It requires only NumPy and sparse-ir, not kernelgecp or our benchmark harness.
-It uses native `TauSampling.fit`, a positive Hermitian complex matrix spectral
-weight, and the exactly known zero-energy atom. It checks physical time and
-frequency output with ordinary `n` explicitly converted to reduced `2*n+1`.
-The test uses the actual installed provider rather than a protocol mock.
+It uses native `TauSampling.fit` and two real poles with positive Hermitian
+complex matrix residues summing to identity. Strictly disjoint time grids and
+both frequency signs are checked against analytic truth. Following upstream's
+notation, ordinary `m` is converted to reduced `n=2*m+1`. Tests use the actual
+installed provider, canonical normalization invariants and an independent
+Gauss–Legendre Fourier check.
 
 The proposed patch is one executable recipe and a small documentation note:
 
@@ -55,14 +59,21 @@ timings do not establish a universal fastest method or rank minimality.
 
 Do not initially ask upstream to absorb the full GECP package, replace native
 SVE/DLR algorithms, add a Rust dependency, or endorse a numerical certificate.
-Discuss this small self-contained recipe first, check for an existing issue or
-recipe, follow the project's contribution requirements, and link the exact
-tested source and artifacts. Any upstream patch should follow the destination's
+The submitted comment offers this small self-contained recipe as a notebook
+cell after the conditioning example, with a comparison-page link. Current
+upstream commit `c94bf6ae3d3953ca9e2081a8be9998db348cdd24` already has released-IR
+plots/tables; the recipe addresses complex matrix physical-accuracy checks
+rather than duplicating them. Any upstream patch should follow the destination's
 licensing/contribution process; this proposal does not change licenses here.
 
 ## Adoption gate
 
-Actual outreach must record the public issue/PR URL and what was offered.
-Maintainer acceptance and external adoption cannot be inferred from a local
-proposal or green tests. `PRODUCTIZATION.md` retains that external gate until
-the communication occurs; acceptance remains pending unless observed.
+Actual outreach is recorded at
+https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382 . The
+posted code runs with Python 3.12.12, NumPy 2.5.4, sparse-ir 2.1.6 and
+pylibsparseir 0.12.0: rank 14, maximum sampled time error `2.76169e-11` and
+frequency error `4.94085e-11`, against `1e-8`. The updated standalone recipe
+repeats those results and all nine actual-provider interoperability tests pass.
+This closes the outreach requirement in `PRODUCTIZATION.md`. Acceptance and
+external adoption remain pending unless observed; no upstream PR or merger is
+claimed.

@@ -1,0 +1,238 @@
+name: Publish kernelgecp
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.repository == 'tripp-smith/gecp-kernel-structure'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.select.outputs.version }}
+      source_sha: ${{ steps.select.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-extras --frozen
+      - name: Select successful exact-commit main producers
+        id: select
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin main:refs/remotes/origin/main
+          uv run --all-extras --frozen python scripts/release_artifacts.py select \
+            --project-root . --ref "$GITHUB_REF" --event-sha "$GITHUB_SHA" \
+            --repository "$GITHUB_REPOSITORY" --output selected-runs.json \
+            --github-output "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: tripp-smith/gecp-kernel-structure
+          run-id: ${{ steps.select.outputs.native_run_id }}
+          pattern: kernelgecp-release-*
+          path: downloaded
+      - name: Inspect and collect the unchanged tested bytes
+        run: >-
+          uv run --all-extras --frozen python scripts/release_artifacts.py collect
+          --project-root . --selected-runs selected-runs.json
+          --artifacts downloaded --output release-input
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validated-release
+          path: release-input/
+          if-no-files-found: error
+
+  release-sources:
+    needs: collect
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: validated-release
+          path: release-input
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync --all-extras --frozen
+      - name: Publish complete GitHub source, notices, inventory and artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ needs.collect.outputs.version }}
+          RELEASE_SHA: ${{ needs.collect.outputs.source_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          uv run --all-extras --frozen python scripts/release_artifacts.py verify --payload release-input
+          release_tag="v$RELEASE_VERSION"
+          if gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release download "$release_tag" --dir "$RUNNER_TEMP/existing-release"
+            python - <<'PY'
+          import hashlib, os, pathlib
+          root = pathlib.Path('release-input')
+          expected = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
+          current = pathlib.Path(os.environ['RUNNER_TEMP'])/'existing-release'
+          actual = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in current.iterdir() if p.is_file()}
+          assert actual == expected, 'Existing release differs; no assets were overwritten'
+          PY
+          else
+            gh release create "$release_tag" --verify-tag --target "$RELEASE_SHA" \
+              --title "kernelgecp $RELEASE_VERSION" --notes-file RELEASE_NOTES.md --draft
+            gh release upload "$release_tag" release-input/release-manifest.json \
+              release-input/source/* release-input/documents/* release-input/dist/*
+          fi
+          gh release edit "$release_tag" --draft=false
+          python - <<'PY'
+          import hashlib, json, pathlib, urllib.request
+          root = pathlib.Path('release-input')
+          manifest = json.loads((root/'release-manifest.json').read_text())
+          source = next(x for x in manifest['source'] if x['filename'].endswith('-native-source.tar.gz'))
+          url = 'https://github.com/tripp-smith/gecp-kernel-structure/releases/download/'+manifest['tag']+'/'+source['filename']
+          with urllib.request.urlopen(url, timeout=60) as stream:
+              observed = hashlib.sha256(stream.read()).hexdigest()
+          assert observed == source['sha256'], 'Public source asset hash mismatch'
+          print('Public corresponding source verified:', source['filename'])
+          PY
+
+  publish-pypi:
+    needs: [collect, release-sources]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/kernelgecp/
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: validated-release
+          path: release-input
+      - name: Verify hashes and select only missing identical-version files
+        id: upload
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, shutil, urllib.error, urllib.request
+          root = pathlib.Path('release-input')
+          manifest = json.loads((root/'release-manifest.json').read_text())
+          assert manifest['schema'] == 'kernelgecp.release.v1' and manifest['project'] == 'kernelgecp'
+          expected = {x['filename']:x['sha256'] for x in manifest['dist']}
+          paths = list((root/'dist').iterdir())
+          assert len(paths) == len(expected) == 4 and all(p.is_file() and not p.is_symlink() for p in paths)
+          actual = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+          assert actual == expected, 'Upload payload changed'
+          try:
+              with urllib.request.urlopen('https://pypi.org/pypi/kernelgecp/'+manifest['version']+'/json', timeout=30) as stream:
+                  data = json.load(stream)
+              observed = {x['filename']:x['digests']['sha256'] for x in data['urls']}
+              assert all(name in expected and expected[name] == value for name,value in observed.items()), 'Conflicting public version'
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404:
+                  raise
+              observed = {}
+          output = pathlib.Path('upload')
+          output.mkdir()
+          for path in paths:
+              if path.name not in observed:
+                  shutil.copyfile(path, output/path.name)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('pending_count='+str(len(list(output.iterdir())))+'\n')
+          PY
+      - name: Publish through the saved Trusted Publisher
+        if: steps.upload.outputs.pending_count != '0'
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        with:
+          packages-dir: upload/
+          attestations: true
+          skip-existing: false
+
+  verify-public:
+    needs: [collect, publish-pypi]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.12", "3.13"]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: validated-release
+          path: release-input
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Verify public file identities and install from PyPI
+        env:
+          RELEASE_VERSION: ${{ needs.collect.outputs.version }}
+        run: |
+          uv run --all-extras --frozen python scripts/release_artifacts.py verify-pypi --payload release-input
+          public_env="$RUNNER_TEMP/kernelgecp-public"
+          uv venv "$public_env"
+          uv pip install --python "$public_env" --no-cache --index-url https://pypi.org/simple \
+            "kernelgecp==$RELEASE_VERSION" "mypy>=1.11,<2"
+          (
+            cd "$RUNNER_TEMP"
+            uv run --no-project --python "$public_env" python -I \
+              "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+              --project-root "$GITHUB_WORKSPACE" --backend python
+            if [ "$RUNNER_OS" = Windows ]; then
+              uv run --no-project --python "$public_env" python -I -c \
+                'import importlib.util; assert importlib.util.find_spec("kernelgecp._native") is None'
+            else
+              uv run --no-project --python "$public_env" python -I \
+                "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+                --project-root "$GITHUB_WORKSPACE" --backend rust
+            fi
+          )
+
+  verify-public-sdist:
+    needs: [collect, publish-pypi]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install the public sdist using the portable build backend
+        env:
+          RELEASE_VERSION: ${{ needs.collect.outputs.version }}
+        run: |
+          public_env="$RUNNER_TEMP/kernelgecp-public-sdist"
+          uv venv "$public_env"
+          uv pip install --python "$public_env" --no-cache --index-url https://pypi.org/simple \
+            --no-binary kernelgecp "kernelgecp==$RELEASE_VERSION" "mypy>=1.11,<2"
+          (
+            cd "$RUNNER_TEMP"
+            uv run --no-project --python "$public_env" python -I \
+              "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+              --project-root "$GITHUB_WORKSPACE" --backend python
+            uv run --no-project --python "$public_env" python -I -c \
+              'import importlib.util; assert importlib.util.find_spec("kernelgecp._native") is None'
+          )

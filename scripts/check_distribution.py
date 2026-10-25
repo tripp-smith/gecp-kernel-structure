@@ -29,6 +29,10 @@ SDIST_ROOT_FILES = {
     "LICENSE",
     "PKG-INFO",
     "README.md",
+    "PACKAGE_README.md",
+    "METHODS.md",
+    "CITATION.cff",
+    "RELEASE_NOTES.md",
     "pyproject.toml",
 }
 FORBIDDEN_PARTS = {
@@ -440,13 +444,32 @@ def check_archives(
     )
     for required in ("pyproject.toml", "APPLICATION.md", "LICENSE", "PKG-INFO"):
         _require(required in sdist_files, f"sdist missing {required}")
+    readme = project.get("readme", "APPLICATION.md")
+    _require(
+        isinstance(readme, str) and readme in sdist_files,
+        "sdist missing configured package readme",
+    )
     for name in (
         "pyproject.toml",
         "APPLICATION.md",
         "LICENSE",
         "README.md",
         ".gitignore",
+        "PACKAGE_README.md",
+        "METHODS.md",
+        "CITATION.cff",
+        "RELEASE_NOTES.md",
     ):
+        if name in {
+            "PACKAGE_README.md",
+            "METHODS.md",
+            "CITATION.cff",
+            "RELEASE_NOTES.md",
+        }:
+            _require(
+                not (project_root / name).is_file() or name in sdist_files,
+                f"sdist missing release document {name}",
+            )
         if name in sdist_files:
             _require(
                 sdist_files[name] == (project_root / name).read_bytes(),

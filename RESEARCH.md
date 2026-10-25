@@ -10929,3 +10929,72 @@ arithmetic discrepancies. Installed typing consumers cover explicit backend
 selection, portable/native archive load signatures and native extension stubs.
 These checks complement the existing resource/concurrency/arithmetic-state
 tests; final platform gates must use the repaired builder on the final head.
+
+## Phase DY — practical versioned release and publication (in progress)
+
+This phase closes the remaining controlled delivery obligations in
+`PRODUCTIZATION.md` under original SPEC §§27–29. DX is merged in PR #130 at
+`67e4b14ecc16785d639f087fcd22f0848c083904`; its final branch root, source CI,
+pure/native build/installed checks pass, as does the local merged-main root.
+Exact-main remote source, pure distribution and native distribution checks are
+successful; PR #130's canonical closure records the complete delivery. The
+original mathematical goals, research defaults, frozen numerical
+artifacts and original-goal implementation accounting remain unchanged.
+
+Prepare coherent version 1.1.0 in Python/Cargo/runtime/lock metadata. Add a short
+package-facing readme, computational METHODS and schema-valid CITATION, tested
+quickstart/archive examples and precise supported native architectures versus
+the universal Python fallback. Preserve physical signs, frequency conventions,
+sampled-versus-certified scopes and the benchmark's short-reuse/cache limits.
+Keep release notes and canonical FINAL_HANDOFF run metadata synchronized with
+README: expose only the runtime's declared model family/mode and actual times;
+exact serving version, current token categories/usage and billing are not
+available. No new price estimate or replacement of frozen original accounting.
+
+The producer is `native.yml`: build each original pure wheel/sdist and complete
+corresponding-source asset once, rebuild a validation-only wheel from that
+sdist, and install the exact original/rebuilt pure artifacts on Linux/macOS/
+Windows with Python 3.12/3.13. Native Linux x86_64 and macOS arm64 builds retain
+their actual archive/install/typing/Python/Rust checks on both interpreters.
+Keep precise source/report/sidecar hashes and immutable artifact roles.
+
+Implement a small release selector/collector using the existing distribution
+and corresponding-source inspectors. Reject wrong/nonstable tags, Python/Cargo
+version or full commit disagreement, a tag outside main, non-main/non-push or
+failed/stale/expired producer runs, missing/duplicate/extra/symlinked artifacts,
+wrong native targets, malformed metadata and hash/source mismatches. Exercise
+negative fixtures and a real downloaded producer-artifact collection. Do not
+create a generic release framework, rebuild candidate bytes during upload,
+overwrite a different public asset or hide conflicting uploads with skip-existing.
+
+`.github/workflows/publish.yml` must match the already saved PyPI Trusted
+Publisher and use environment `pypi`. The tag workflow promotes unchanged
+artifacts only from successful exact-commit main `ci.yml` and `native.yml` runs.
+Publish the complete source/notices/SBOM/report and distribution manifest on
+GitHub before PyPI; fetch the public source URL and check its hash. Only the
+direct OIDC upload job receives `id-token: write`; it rechecks the four exact
+distribution hashes and uses the verified pinned PyPA action. No token is
+requested from the user or stored in source. Publication is explicitly
+authorized by the user and is required, not replaced by a prepared workflow.
+
+After upload, verify public PyPI project/version/file hashes and ordinary clean
+public-index installs on the tested OS/interpreter matrix, including native
+execution where built and the Windows universal fallback. Check an actual
+public sdist installation separately. Preserve errors and stop before upload
+on failed gates; retry only the failed operation after inspecting its state.
+
+Actual upstream outreach is already posted and exact-text verified at
+https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382 . It
+offers a tested independent normalized two-pole complex matrix recipe with
+disjoint time checks and both frequency signs, using sparse-ir 2.1.6. Record
+the public evidence, update the standalone recipe to that tested form and keep
+maintainer acceptance explicitly pending. No upstream merger or endorsement
+is claimed or required to truthfully report that outreach occurred.
+
+Acceptance: affected docs/typing/source/archive fixtures, full root on the final
+branch and exact CI, authorized PR merge/push and exact-main closure; then a
+versioned tag, public source assets, actual PyPI upload and verified public
+installs. Record the external release/publication receipt and finish current
+documentation in a final verified change if post-publication facts require it.
+No new theorem, universal speed ranking, native Windows/Intel-macOS/Linux-ARM
+support or continuous inexact-pivot guarantee is claimed.

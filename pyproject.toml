@@ -1,8 +1,8 @@
 [project]
 name = "kernelgecp"
-version = "1.0.0"
-description = "Reproducible numerical research tools for GECP and the fermionic DLR kernel"
-readme = "APPLICATION.md"
+version = "1.1.0"
+description = "Reusable fermionic cross bases, precision diagnostics, and optional native evaluation"
+readme = "PACKAGE_README.md"
 requires-python = ">=3.12"
 license = { text = "Apache-2.0" }
 dependencies = [
@@ -10,6 +10,12 @@ dependencies = [
   "numpy>=2.0,<3",
   "scipy>=1.15,<2",
 ]
+
+[project.urls]
+Repository = "https://github.com/tripp-smith/gecp-kernel-structure"
+Documentation = "https://github.com/tripp-smith/gecp-kernel-structure/blob/main/APPLICATION.md"
+Methods = "https://github.com/tripp-smith/gecp-kernel-structure/blob/main/METHODS.md"
+Issues = "https://github.com/tripp-smith/gecp-kernel-structure/issues"
 
 [project.optional-dependencies]
 plot = ["matplotlib>=3.9,<4"]
@@ -47,6 +53,7 @@ packages = ["kernelgecp"]
 include = [
   "/kernelgecp", "/pyproject.toml", "/APPLICATION.md", "/README.md", "/LICENSE",
   "/native", "/rust-toolchain.toml",
+  "/PACKAGE_README.md", "/METHODS.md", "/CITATION.cff", "/RELEASE_NOTES.md",
 ]
 
 [tool.maturin]
