@@ -10,9 +10,11 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
+> **Current phase:** DZ — published release handoff and metadata readiness<br>
+> **Phase state:** [final handoff acceptance and merge status](https://github.com/tripp-smith/gecp-kernel-structure/pull/132); the functional 1.1.0 release is complete<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), and exact final repository verification/merge status in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132)<br>
-> **Release verification:** Source/tag `9a67993` passes 1,726 tests, eight optional skips, 878 allowed axiom reports, full source/pure/native CI and seven clean public-install lanes. [Publication workflow 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2) is successful; the initial metadata-visibility failure is retained in the receipt<br>
+> **Last verification:** Release source/tag `9a67993` passes 1,726 tests, eight optional skips, 878 allowed axiom reports, full source/pure/native CI and seven clean public-install lanes. [Publication workflow 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2) is successful; the initial metadata-visibility failure is retained in the receipt. Final DZ revisions/checks are recorded in PR #132<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DU–DY are merged and pushed, and the tested 1.1.0 artifacts are public. Post-publication handoff changes preserve the released tag/files; PR #132 owns its final checked branch/main evidence<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>

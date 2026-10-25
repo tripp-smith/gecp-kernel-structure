@@ -11032,3 +11032,12 @@ Acceptance: focused retry/receipt/doc/typing checks, full root and exact-head
 CI, authorized PR merge/push and exact-main agreement/checks. Publication is
 already verified; no new upload, tag movement, binary rebuild for distribution,
 new scientific claim or inferred usage/billing/model identity is introduced.
+
+The first DZ documentation head `cc771a1` fails the existing README progress
+contract: header cleanup removed `Current phase`, `Phase state` and
+`Last verification`. The full root reports one failure, 1,726 passes and eight
+optional skips; both source-CI contexts also retain that failure. Restore the
+required fields, attribute the completed release to its immutable source, and
+link current final-handoff status to PR #132. Do not weaken the documentation
+gate or claim that the initial documentation head passed. Final exact-head
+verification follows the repair; the public release is unaffected.
