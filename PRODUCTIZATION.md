@@ -59,3 +59,8 @@ repository `tripp-smith/gecp-kernel-structure`, workflow `publish.yml`, environm
 has been uploaded, and this does not reserve the name or prove publication.
 The matching gated workflow/environment and tested release remain to be
 delivered. Never place upload tokens in chat or source files.
+
+On 2026-10-25 the user asked to prepare publication and leave further account
+setup to them. Continue release artifacts/workflow verification; final publication
+is pending. The previously saved publisher remains recorded, rather than being
+re-added or treated as evidence of an upload.

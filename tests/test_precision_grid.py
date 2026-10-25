@@ -132,6 +132,21 @@ def test_interval_failure_is_not_singularity_or_zero_error(
     assert report.discrepancy_upper is report.eta is None
 
 
+def test_malformed_complex_design_cannot_silently_drop_imaginary_residual(
+    basis: FermionicBasis, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    original = FermionicBasis.design_tau
+
+    def complex_design(self: FermionicBasis, tau: Any) -> Any:
+        return original(self, tau) + 0.001j
+
+    monkeypatch.setattr(FermionicBasis, "design_tau", complex_design)
+    report = grid.certify_grid_pivot_precision(basis, [0.1, 0.8], [-0.3, 0.2])
+    assert not report.certified
+    assert report.termination_reason == "invalid_real_rounded_residual"
+    assert report.discrepancy_upper is None
+
+
 def test_exact_zero_grid_has_explicit_zero_branch(
     basis: FermionicBasis, monkeypatch: pytest.MonkeyPatch
 ) -> None:

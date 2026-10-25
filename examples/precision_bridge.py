@@ -14,7 +14,7 @@ import mpmath as mp
 import numpy as np
 
 from kernelgecp import FermionicBasis
-from kernelgecp.precision import certify_fit_precision
+from kernelgecp.precision import _certificate_hash, certify_fit_precision
 from kernelgecp.precision_grid import certify_grid_pivot_precision
 
 
@@ -26,8 +26,9 @@ def audited_case(
     training: str = "uniform",
     precision_bits: int = 256,
     max_work: int = 2**22,
+    audit_precision_bits: int = 1024,
 ) -> dict[str, Any]:
-    """Compare actual complex matrix fits to a 384-bit independent QR solve."""
+    """Compare actual complex matrix fits to an independent QR solve."""
     basis = FermionicBasis(
         beta=beta, wmax=wmax, tol=tolerance, grid_order=6, precision="reference"
     )
@@ -70,6 +71,39 @@ def audited_case(
         precision_bits=precision_bits,
         max_work=max_work,
     )
+    arrays = {
+        "basis_parameters": np.array([basis.beta, basis.wmax, basis.cutoff]),
+        "basis_tau_nodes": basis.tau_nodes,
+        "basis_omega_nodes": basis.omega_nodes,
+        "training_tau": tau,
+        "observations": values,
+        "coefficients": fit.coefficients,
+        "query_tau": queries,
+        "matsubara_indices": modes,
+        "actual_training_design": basis.design_tau(tau),
+        "actual_time_design": basis.design_tau(queries),
+        "actual_frequency_design": basis.design_matsubara(modes),
+        "actual_time_output": fit.evaluate_tau(queries),
+        "actual_frequency_output": fit.evaluate_matsubara(modes),
+    }
+    recorded_hashes = dict(certificate.input_hashes)
+    for name, array in arrays.items():
+        if (
+            name in recorded_hashes
+            and _certificate_hash(array) != recorded_hashes[name]
+        ):
+            raise AssertionError(f"frozen actual input/output changed: {name}")
+
+    def packed(array: Any) -> dict[str, Any]:
+        value = np.asarray(array)
+        return {
+            "dtype": value.dtype.str,
+            "shape": value.shape,
+            "real": value.real.tolist(),
+            "imag": value.imag.tolist() if np.iscomplexobj(value) else None,
+            "sha256": _certificate_hash(value),
+        }
+
     metadata = {
         "beta": beta,
         "wmax": wmax,
@@ -79,6 +113,7 @@ def audited_case(
         "actual_least_squares": asdict(basis.prepare_tau(tau).diagnostics),
         "fit_certificate": certificate.to_dict(),
         "grid_certificate": asdict(grid),
+        "inputs": {name: packed(array) for name, array in arrays.items()},
         "scope": "finite_query_arithmetic_reference;physical_errors_are_sampled",
     }
     if not certificate.certified:
@@ -86,7 +121,7 @@ def audited_case(
     assert certificate.coefficients is not None
     assert certificate.time is not None and certificate.matsubara is not None
     context = mp.mp.clone()
-    context.prec = 384
+    context.prec = audit_precision_bits
     exact_beta = context.mpf(beta)
 
     def scalar(value: complex | float) -> Any:
@@ -116,17 +151,26 @@ def audited_case(
             core_q, core_r, context.matrix([kernel(time, w) for w in basis.omega_nodes])
         )
 
-    training_design = context.matrix([list(row(float(t))) for t in tau])
-    training_q, training_r = context.qr(training_design)
     flattened = values.reshape(len(tau), -1)
-    coefficients = [
-        qr_solve(
-            training_q,
-            training_r,
-            context.matrix([scalar(v) for v in flattened[:, column]]),
-        )
-        for column in range(flattened.shape[1])
-    ]
+    if training == "selected_nodes":
+        # Once the core is nonsingular its exact cardinal design at the same
+        # nodes is I. This exact algebraic oracle avoids interpreting QR's
+        # tiny nonzero roundoff as an error in an exactly reproduced datum.
+        coefficients = [
+            context.matrix([scalar(v) for v in flattened[:, column]])
+            for column in range(flattened.shape[1])
+        ]
+    else:
+        training_design = context.matrix([list(row(float(t))) for t in tau])
+        training_q, training_r = context.qr(training_design)
+        coefficients = [
+            qr_solve(
+                training_q,
+                training_r,
+                context.matrix([scalar(v) for v in flattened[:, column]]),
+            )
+            for column in range(flattened.shape[1])
+        ]
     actual_coefficients = fit.coefficients.reshape(basis.rank, -1)
     coefficient_bound = certificate.coefficients.actual_error_bound.reshape(
         basis.rank, -1
@@ -136,7 +180,11 @@ def audited_case(
         for i in range(basis.rank):
             error = abs(solution[i] - scalar(actual_coefficients[i, column]))
             if error > context.mpf(float(coefficient_bound[i, column])):
-                raise AssertionError("independent QR exceeds coefficient enclosure")
+                raise AssertionError(
+                    f"independent QR exceeds coefficient enclosure at {(i, column)}: "
+                    f"error={context.nstr(error, 25)}, "
+                    f"bound={coefficient_bound[i, column]}"
+                )
             max_coefficient_error = max(max_coefficient_error, error)
 
     query_records = {}
@@ -222,6 +270,9 @@ def audited_case(
     return {
         **metadata,
         "independent_qr_performed": True,
+        "independent_coefficient_oracle": (
+            "exact_selected_node_reproduction" if training == "selected_nodes" else "QR"
+        ),
         "independent_qr_bits": context.prec,
         "independent_coefficient_error": context.nstr(max_coefficient_error, 35),
         "queries": query_records,

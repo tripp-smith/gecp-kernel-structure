@@ -48,7 +48,14 @@ def main() -> None:
         return result
 
     before = snapshot()
-    records = [audited_case(**case) for case in raw["cases"]]
+    records = []
+    for index, case in enumerate(raw["cases"]):
+        print(f"Case {index + 1}: {json.dumps(case, sort_keys=True)}", flush=True)
+        records.append(audited_case(**case))
+        print(
+            f"Case {index + 1}: {records[-1]['fit_certificate']['termination_reason']}",
+            flush=True,
+        )
     if snapshot() != before:
         raise RuntimeError("source/config changed during certificate generation")
     result = {

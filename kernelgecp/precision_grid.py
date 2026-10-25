@@ -170,6 +170,8 @@ def certify_grid_pivot_precision(
             )
         if not np.all(np.isfinite(rounded)):
             return incomplete("nonfinite_rounded_residual")
+        if np.iscomplexobj(rounded) or rounded.shape != (times.size, frequencies.size):
+            return incomplete("invalid_real_rounded_residual")
         # Include actual rounded values in the report identity. Query/basis
         # inputs alone cannot identify an implementation-dependent BLAS result.
         digest.update(rounded.dtype.str.encode())

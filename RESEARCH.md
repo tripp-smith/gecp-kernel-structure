@@ -10646,10 +10646,32 @@ the large-cutoff observation-design comparison: uniform at 256 bits
 512 and selected-node training at 512. No engine identity shortcut or bound
 weakening is used for selected nodes. The same actual pole data, query rules
 and exact full-rank target convention are retained. A cached independent
-384-bit QR factorization checks every completed fit's coefficients and all
+1024-bit QR factorization checks completed fits and all
 queried time/frequency predictions; physical pole errors are reported separately.
+Selected-node coefficients additionally use the exact cardinal reproduction
+identity, so a coefficient equal to its observation is checked as exact zero
+error rather than through a rounded numerical solve.
 Source/config/dependency manifests precede generation; repeat the committed
 configuration in fresh processes and compare complete deterministic JSON.
 CLI success includes retained inconclusive/large-budget records, so inspect
 their explicit statuses and magnitudes. Final hashes/root/platform/delivery
 evidence belong in the canonical PR receipt.
+
+The first frozen source `0dbd60c3aba109d70879287b1ad5a35a3defd40e`
+stopped both generation processes at an independent coefficient-oracle check;
+neither incomplete run produced a canonical JSON artifact. It used only 384
+audit bits against 512-bit interval enclosures. The retained source/logs permit
+reproduction; the next freeze uses 1024 audit bits and exact selected-node
+coefficient reproduction. Bounds are unchanged. This is a validation-resolution
+repair, subject to independent confirmation, not permission to ignore a failed
+enclosure check.
+
+Independent diagnosis isolated selected-node coefficient `(0,0)`: the 384-bit
+QR oracle introduced error about `2.538e-116` against an interval budget about
+`1.169e-137` for an exactly reproduced observation. The same ordinary QR at
+1024 bits passes. Exact cardinal reproduction independently identifies the
+reference coefficient with the supplied datum. The uniform-time 512-bit case
+passes both 384- and 1024-bit QR with identical reported significant digits;
+its large discrepancy remains. The revised generator also stores complete
+actual input/design/coefficient/output arrays with dtype/shape/content hashes,
+and logs case identity before auditing so future failures are localized.
