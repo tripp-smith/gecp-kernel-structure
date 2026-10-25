@@ -2226,3 +2226,13 @@ regularization: a small physical error, a small equation defect and fidelity to
 an exact unregularized least-squares reference answer different questions. The
 frozen six-case protocol retains the inconclusive and large-discrepancy cases
 alongside the useful alternatives; it does not hide them as failed tests.
+The frozen repeat confirms these distinctions. Both complete JSON artifacts
+match exactly. All five completed enclosures pass the independent coefficient
+and prediction audit; one solve remains inconclusive. Large-cutoff endpoint
+sampling gives numerical budgets below `2.50e-14` while physical fixture error
+still reaches `3.38e-8`, above a `1e-8` ceiling. Selected-node fitting gives
+numerical budgets below `9.65e-16` and physical errors below `4.48e-10`.
+The uniform-time full-rank reference remains a valid large-discrepancy case.
+No finite-query arithmetic budget is promoted into a physical or continuous
+error theorem. Source/hash and final delivery evidence are in `RESEARCH.md`
+and [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129).

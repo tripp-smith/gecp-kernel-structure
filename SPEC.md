@@ -2919,7 +2919,8 @@ This annotation records delivered identifiers without changing the goals above.
   execute actual installed libraries. The concrete upstream proposal has not
   been submitted or accepted. No new theorem, Rust speedup or publication is
   claimed by this phase.
-- **Phase DW application follow-on (in progress):** adds actual finite-query
+- **Phase DW application follow-on (final acceptance in
+  [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129)):** adds actual finite-query
   coefficient/core/solve/output discrepancy budgets and true selected-cross
   pivot quality on an explicit finite grid. Public conditional theorems are
   `Discretization.approxPivot_of_uniform_discrepancy` and
@@ -2929,3 +2930,6 @@ This annotation records delivered identifiers without changing the goals above.
   truncated-SVD targets and a continuous inexact-trajectory rate. The six-case
   frozen protocol preserves an interval-resolution failure and a valid but
   large-discrepancy ill-conditioned fit, alongside useful observation designs.
+  Two complete frozen artifacts are byte-identical; all five completed
+  coefficient/prediction enclosures pass independent QR/exact-reproduction
+  checks. The inconclusive case and physical/model errors remain explicit.

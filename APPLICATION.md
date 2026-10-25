@@ -1300,6 +1300,8 @@ report = certify_fit_precision(
     fit, values, tau, query_tau=queries, matsubara_indices=[-1, 0, 4]
 )
 if report.certified:
+    assert report.coefficients is not None
+    assert report.time is not None and report.matsubara is not None
     print(report.coefficients.max_error)
     print(report.time.max_error, report.matsubara.max_error)
 else:
@@ -1359,3 +1361,34 @@ with an independent QR audit. The frozen experiment uses
 `experiments.precision_bridge`; its source must be committed and tracked-clean
 before generation. Final canonical results and phase delivery are recorded in
 the current README receipt.
+
+DW's canonical six-case artifact is
+`experiments/data/precision_bridge.json.gz`, generated twice from `c5afd26`
+with identical complete JSON bytes. Five enclosures complete and one remains
+inconclusive; a completed enclosure can have a large valid discrepancy.
+At cutoff 1000 the endpoint-resolved numerical budget is below `2.50e-14`,
+but its sampled physical error reaches `3.38e-8`. Selected-node fitting gives
+a numerical budget below `9.65e-16` and physical error below `4.48e-10`.
+The uniform-time truncated fit has a frequency discrepancy around `1.10e15`
+from the ill-conditioned exact full-rank target. These outcomes are retained;
+they illustrate why an arithmetic certificate and physical accuracy need
+separate acceptance criteria. See `RESEARCH.md` for source/container/payload
+hashes and [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129)
+for final revision, platform/install and authorized delivery checks.
+
+Recheck the immutable data independently, without importing the implementation:
+
+```bash
+uv run python scripts/audit_precision_bridge.py \
+  --source experiments/data/precision_bridge.json.gz \
+  --output experiments/scratch/precision_bridge_audit.json \
+  --generation-commit c5afd2668630c6229c332c8d5aa1038aa958cdc7 \
+  --expected-sha256 26d86287b06d034d9a239542aa33c7a53eb586795909e853428bb5994402596e \
+  --expected-payload-sha256 9a2a607aabb0a24a5a7068c0da733a22f74e755c054d070f23210313dc317820
+```
+
+This checks the generation-era Git/config/dependency manifests, complete arrays,
+all grid points by 1280-bit bordered determinants, exact selected-node
+coefficients, selected-node predictions and all physical pole checks. It
+preserves inconclusive/large-error cases and states which other LS checks were
+performed by the generation-time QR audit rather than this separate tool.

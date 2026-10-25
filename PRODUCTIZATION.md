@@ -17,19 +17,19 @@ DV's full root/platform/install and merged-main closure is in
 | Include a small physical solver loop | DV Bethe loop passes with all three providers | implemented and checked; noninteracting scope |
 | Public reusable basis and cached factors | DU FermionicBasis/LeastSquaresPlan, merged PR #127 | delivered |
 | Batching and complex/matrix-valued coefficients | DU arbitrary-axis public tests and tutorial, merged PR #127 | delivered |
-| Explicit physical conventions and accuracy/precision contracts | DU API/guide and time/frequency analytic checks | implemented; continuous/rounding bridge open |
+| Explicit physical conventions and accuracy/precision contracts | DU API/guide; DW finite-query arithmetic/reference separation | implemented; final DW acceptance pending; continuous inexact rate open |
 | Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
 | Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example, merged PR #128 | delivered |
 | Concrete upstream proposal and actual adoption outreach | UPSTREAM_PROPOSAL.md plus tested standalone Sparse-IR recipe | proposal prepared; actual outreach open |
-| Profile and prototype the measured Rust bottleneck | DT setup/reuse timings, no Rust prototype | open |
+| Profile and prototype the measured Rust bottleneck | setup/reuse profiling and disposable in-process PyO3/Rug pilot | frozen production integration/measurement open |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | none | open; rejection is valid only after measurement |
 | Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |
 | Distributed typing and extension stubs if applicable | DU py.typed and installed positive/negative consumers pass | delivered; repeat for final release |
 | Reproducible production benchmarks and citation-ready methods document | bounded DT pilot and research docs | open |
 | Publish a tested versioned release and installable distributions | no release | open |
 | PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
-| Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW actual finite-query fit and finite-grid true-pivot budgets plus two conditional Lean theorems | implemented; final acceptance pending; continuous inexact rate remains open |
+| Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets plus two conditional Lean theorems | implemented and independently checked; final acceptance pending; continuous inexact rate remains open |
 | Implementation validated, committed, PR-merged and pushed | DT, DU and DV delivered; DW in progress | open for full objective |
 
 ## Delivery order and gates
@@ -60,7 +60,7 @@ has been uploaded, and this does not reserve the name or prove publication.
 The matching gated workflow/environment and tested release remain to be
 delivered. Never place upload tokens in chat or source files.
 
-On 2026-10-25 the user asked to prepare publication and leave further account
-setup to them. Continue release artifacts/workflow verification; final publication
-is pending. The previously saved publisher remains recorded, rather than being
-re-added or treated as evidence of an upload.
+On 2026-10-25 the user first asked for publication preparation, then explicitly
+authorized publication through the open PyPI account. Publication is authorized
+once the tested release artifacts and workflow are ready. Reuse the previously
+saved publisher; its presence alone remains distinct from an actual upload.

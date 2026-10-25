@@ -10675,3 +10675,54 @@ passes both 384- and 1024-bit QR with identical reported significant digits;
 its large discrepancy remains. The revised generator also stores complete
 actual input/design/coefficient/output arrays with dtype/shape/content hashes,
 and logs case identity before auditing so future failures are localized.
+### DW canonical generation and result boundaries
+
+Source `c5afd2668630c6229c332c8d5aa1038aa958cdc7`, tree
+`e23f49aac1fd4082123da6ce5cd2c1d6418da3bb`, is frozen before two fresh
+generation processes. Both exit zero (82.68/82.81 seconds) and their complete
+JSON bytes agree. Payload SHA256 is
+`9a2a607aabb0a24a5a7068c0da733a22f74e755c054d070f23210313dc317820`.
+The canonical `experiments/data/precision_bridge.json.gz` uses storage-only
+gzip compression; compressed SHA256 is
+`26d86287b06d034d9a239542aa33c7a53eb586795909e853428bb5994402596e`.
+The initial failed oracle runs remain separately committed in
+`experiments/data/precision_bridge_initial_failure.json` (SHA256
+`f20f1a6b72c3dd078b1ac607651edba02a3fe71ae9224fbf7c696a30ace96f26`).
+
+Five fit enclosures complete; uniform-time 256-bit Gram elimination remains
+inconclusive. Every completed coefficient/prediction budget passes independent
+1024-bit QR or exact selected-node reproduction. All six finite-grid pivot
+certificates complete, with qualities at least `0.9999884`, strictly on their
+5x5 supplied grids. The two moderate cases have direct numerical budgets at
+most `1.05e-15` and sampled physical errors below `5.3e-12`.
+
+At cutoff 1000, uniform-time 512-bit LS has a frequency discrepancy about
+`1.10e15` from the actual truncated fit and actual sampled physical frequency
+error about `0.0348`. Endpoint-resolved fitting has numerical discrepancy at
+most `2.50e-14`, but sampled physical errors still reach `1.29e-8` in time and
+`3.38e-8` in frequency. It does not pass a `1e-8` physical ceiling. Selected-node
+fitting has numerical discrepancy below `9.65e-16` and sampled physical errors
+below `4.48e-10`. These are different error sources; a small rounding budget
+cannot certify the spectral model or remove projection error. No tolerance,
+bound or validation point is changed in response to these final results.
+
+The frozen artifact, independent review and failure scopes are delivered for
+final root/platform/install and authorized merge/main checks in
+[PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129).
+
+The reusable independent gate `scripts/audit_precision_bridge.py` imports no
+package, interval engine or benchmark helper. Its 43 focused checks cover real
+bounded file/decompression reads, malformed/nonfinite/duplicate JSON,
+dtype/shape/complete-complex hashes, source/config provenance and forged
+status/quality/discrepancy rejection. Full artifact audit exits zero in 25.80
+seconds. The committed `experiments/data/precision_bridge_audit.json` has SHA256
+`e61674c6cddca0950a906af71bbaec089a734950e8ee20219d71a3e287cf4ef9`;
+auditor source SHA256 is
+`431e31428428eaed679a9bbc41d62dbd23a9e353515ed857c284d39de9bd6896`.
+It checks 47 source blobs, all 78 complete arrays, 75 centered-kernel bordered
+determinant ratios at every point of the three unique grids, 196 exact
+selected-node coefficient components, 40 selected-node query values and all
+240 physical-pole values. It does not independently recompute the other four
+completed LS fits; their separate 1024-bit QR checks remain generation evidence.
+The original one-off audit and its receipt are development review history;
+the promoted helper/receipt are the reusable acceptance record.
