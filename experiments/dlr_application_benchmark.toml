@@ -1,0 +1,35 @@
+schema_version = 1
+methods = ["kernelgecp", "pydlr", "sparse_ir"]
+native_eps_candidates = [1e-6, 1e-8, 1e-10, 1e-12]
+grid_order = 8
+max_rank = 128
+precision_bits = 128
+repeats = 3
+warmups = 1
+fit_rcond = 1e-14
+calibration_fraction = 0.1
+timeout_seconds = 600.0
+solver_mixing = 0.5
+solver_tolerance = 1e-9
+solver_max_iterations = 200
+
+[[cases]]
+beta = 10.0
+wmax = 1.0
+target = 1e-8
+
+[[cases]]
+beta = 10.0
+wmax = 10.0
+target = 1e-8
+
+[[cases]]
+beta = 20.0
+wmax = 50.0
+target = 1e-8
+
+[[cases]]
+beta = 10.0
+wmax = 2.0
+target = 1e-8
+solver = true

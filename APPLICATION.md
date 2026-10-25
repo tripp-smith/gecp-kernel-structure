@@ -74,6 +74,138 @@ signed scientific certificates; validate accuracy again after transfer.
 The runnable [matrix-valued tutorial](examples/reusable_basis.py) checks time
 and frequency signs, reuse and persistence on an independent analytic pole.
 
+## DLR/IR interoperability and a physical solver loop
+
+From a checkout with optional providers, run the same complex matrix workload
+and small scalar bath self-consistency loop with all three bases:
+
+```bash
+uv run --with pydlr==1.0.1 --with sparse-ir==2.1.6 \
+  python -m examples.dlr_interoperability
+```
+
+The [executable example](examples/dlr_interoperability.py) fits identical time
+observations using `LeastSquaresPlan` and provider design matrices, then checks
+physical time and Matsubara predictions. It also iterates the half-filled,
+noninteracting Bethe equation `G(z)=1/(z-hopping**2*G(z))`, with cached projection
+factors, an explicit fixed-point defect and independent iteration budget.
+Its reference is the causal semicircle resolvent and separate spectral
+quadrature, not another run of the same iteration. This is a small physical
+self-consistency workload, not an interacting impurity solver or production
+DMFT package. The Bethe bath relation follows the
+[TRIQS tutorial](https://triqs.github.io/triqs/latest/userguide/python/dmft_one_page.html);
+here the interaction is explicitly zero.
+
+Adapters expose ordinary integer `n` consistently. Sparse-ir's native `uhat`
+instead expects the reduced odd index `2*n+1`, as documented in its
+[Fourier convention](https://sparse-ir.readthedocs.io/en/latest/basis.html#sparse_ir.FiniteTempBasis.uhat).
+Pydlr's native frequency helper has a transpose/conjugation convention for
+matrix inputs. The adapter constructs its frequency design from a real identity
+and applies coefficients linearly, so general complex batches are not silently
+conjugated. These are interoperability adapters, not replacements for the
+providers' native optimized fitting APIs.
+
+The separate matched-accuracy application benchmark uses a predeclared native
+eps list, shared calibration values in both domains, then a fresh measured
+worker for the selected constructor and reuse. Equal eps parameters alone are
+not claimed to mean equal accuracy. A clean tracked revision is required:
+
+```bash
+uv run --with pydlr==1.0.1 --with sparse-ir==2.1.6 \
+  python -m experiments.dlr_application_benchmark \
+  --config experiments/dlr_application_benchmark.toml \
+  --output experiments/scratch/dlr_application_benchmark.json
+```
+
+The report separates construction, design/SVD preparation, cached fitting,
+cached/uncached evaluation and solver setup/loop times, plus rank, native-coordinate
+conditioning and fresh-worker process peak memory. Memory includes imports,
+the harness and native libraries; it is not basis-only allocation. Calibration
+has its own worker and cost rather than contaminating the selected worker's
+memory measurement. Timing fields are nondeterministic, not a universal speedup
+claim. The tutorial's fixed eps is likewise not a calibrated performance result.
+
+The first recorded [cohort A](experiments/data/dlr_applications_cohort_a.json.gz)
+retains a real calibration miss: sparse-ir at cutoff 10 passes its calibration
+but reaches final frequency error1.21e-8 against target 1e-8. Eleven of twelve
+records pass; all three physical solvers pass their separate checks. Two runs
+have identical numerical fields and an independent 95-digit physical audit
+confirms the failure. Its source/provenance stays frozen, not rewritten to
+reflect later improvements. The follow-up protocol uses denser calibration and
+a 1/10 calibration guardband while preserving the final1e-8 target and choosing
+new untouched final points. A guardband is not a uniform error theorem.
+
+`scripts/audit_dlr_applications.py` is a separate95-digit verifier: it imports
+no benchmark truth helper, checks immutable generation-era Git blobs and
+container/payload hashes, recomputes all forward physical errors and checks
+solver frequencies plus selected direct energy integrals. Its CLI requires the
+expected full source SHA and artifact SHA256, and accepts JSON or compressed
+JSON. It distinguishes a correctly reported scientific failure from an invalid
+artifact. Exact environment/provenance checking requires the recorded optional
+versions in `experiments/dlr_benchmark_requirements.txt` and the recorded platform;
+it does not claim a new platform reproduces historical performance. Gzip only
+reduces storage size and does not alter the underlying generated JSON payload.
+
+### Recorded DV matched cohort B
+
+The [cohort B artifact](experiments/data/dlr_applications_cohort_b.json.gz) is
+generated from frozen source `8a4dd6bec0d606764667a1721e06469286e82cef`.
+All 12 method/case records pass the shared final1e-8 criterion, with all 36 complex
+matrix forward workloads independently checked in time and Matsubara frequency.
+Maximum forward errors are 5.45e-10 (time) and 7.97e-10 (frequency). All three
+Bethe loops converge and pass: maximum time error5.74e-10, unseen frequency
+error4.23e-11, and independently checked observed-grid error4.49e-10. This is
+finite sampled evidence for the fixed physical fixtures, not a uniform bound.
+
+| Dimensionless cutoff | GECP native eps / rank | pydlr native eps / rank | sparse-ir native eps / rank |
+| --- | --- | --- | --- |
+| 10 | 1e-8 / 14 | 1e-8 / 13 | 1e-10 / 14 |
+| 100 | 1e-8 / 28 | 1e-10 / 31 | 1e-10 / 30 |
+| 1,000 | 1e-10 / 55 | 1e-10 / 51 | 1e-10 / 52 |
+| 20 (solver case) | 1e-8 / 17 | 1e-10 / 19 | 1e-10 / 18 |
+
+These are the first passing choices on a coarse predeclared candidate list,
+not proved minimal ranks or optimally tuned runtimes. GECP uses128-bit
+construction/application at cutoff 1,000 after recorded float64 breakdown;
+other GECP cases use53-bit arithmetic. All designs/fit products export doubles.
+Provider construction arithmetic is not inferred from its exported dtype.
+
+In the first recorded run, cutoff 1,000 constructor times are 19.67s(GECP),
+0.0194s(pydlr), and 1.337s(sparse-ir). Fresh selected-worker high-water RSS is
+approximately98.2/91.9/178.0MB, respectively, including harness/import/native
+state before output JSON encoding. The complete raw measurements, setup and
+reuse timings and scopes remain in the artifact. This is a single-machine
+application comparison, not a universal speedup claim; GECP's reference
+construction is an obvious performance target rather than an established
+advantage. Mature native numerical routines are already present beneath the
+Python APIs. Profile the actual workload before deciding what Rust can improve.
+
+Both complete runs have byte-identical numerical fields after removing all
+measurements. The [independent B audit](experiments/data/dlr_applications_cohort_b_audit.json)
+checks43frozen source blobs,838 array hashes, all forward errors, all solver
+frequencies/defects and 18 selected95-digit direct time energy integrals. Maximum
+stored forward truth discrepancy is 1.31e-16 and reported-error discrepancy
+5.95e-17. [A's audit](experiments/data/dlr_applications_cohort_a_audit.json) remains
+alongside its failed record. Reproduction requires the recorded generation
+revision/configuration and optional environment; a current-revision rerun
+properly produces different provenance. Source, payload and repeat hashes are
+centralized in `RESEARCH.md`.
+
+The separately tested [standalone Sparse-IR recipe](examples/sparse_ir_physical_recipe.py)
+requires no kernelgecp import and uses native sampling; its proposed documentation
+contribution is described in [UPSTREAM_PROPOSAL.md](UPSTREAM_PROPOSAL.md).
+No upstream acceptance or package publication is implied by these local results.
+
+Sampling matters. An explicitly retained pilot removes important low Matsubara
+rows and reaches a tiny sampled defect while predicting unseen values poorly.
+Reality/symmetry constraints and extra iterations did not repair that missing
+information. The final solver preserves its low-frequency observations and
+checks independent truth on the complete solved grid (not heldout), plus disjoint
+middle/high-frequency and time holdouts. Forward fitting separately has unseen
+low-frequency checks. Convergence, each accuracy check and certification remain
+different fields. All accuracy evidence is sampled; `tol`, singular values and
+an observed defect do not certify continuous or roundoff error.
+
 ## Research interfaces
 
 The public package supplies stable fermionic-kernel evaluation, deterministic
