@@ -14,8 +14,9 @@ import mpmath as mp
 import numpy as np
 
 from kernelgecp import FermionicBasis
+from kernelgecp.kernels import FermionicKernel
 from kernelgecp.precision import _certificate_hash, certify_fit_precision
-from kernelgecp.precision_grid import certify_grid_pivot_precision
+from kernelgecp.precision_grid import _grid_content_hash, certify_grid_pivot_precision
 
 
 def audited_case(
@@ -86,6 +87,22 @@ def audited_case(
         "actual_time_output": fit.evaluate_tau(queries),
         "actual_frequency_output": fit.evaluate_matsubara(modes),
     }
+    grid_omega = basis.cutoff * np.array([-0.91, -0.41, 0.03, 0.37, 0.83])
+    kernel_binary64 = FermionicKernel(basis.cutoff)
+    with np.errstate(all="ignore"):
+        arrays["reconstructed_binary64_core"] = kernel_binary64(
+            basis.tau_nodes[:, None] / basis.beta, basis.omega_nodes[None, :]
+        )
+        arrays["actual_grid_residual"] = kernel_binary64(
+            queries[:, None] / basis.beta, grid_omega[None, :]
+        ) - arrays["actual_time_design"] @ kernel_binary64(
+            basis.tau_nodes[:, None] / basis.beta, grid_omega[None, :]
+        )
+    if (
+        _grid_content_hash(basis, queries, grid_omega, arrays["actual_grid_residual"])
+        != grid.content_sha256
+    ):
+        raise AssertionError("actual rounded grid changed after certification")
     recorded_hashes = dict(certificate.input_hashes)
     for name, array in arrays.items():
         if (

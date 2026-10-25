@@ -10726,3 +10726,28 @@ selected-node coefficient components, 40 selected-node query values and all
 completed LS fits; their separate 1024-bit QR checks remain generation evidence.
 The original one-off audit and its receipt are development review history;
 the promoted helper/receipt are the reusable acceptance record.
+### DW portability correction after exact-head CI
+
+The local 1429-test root and all six installed-platform jobs pass at `2ccfd91`.
+Exact-head source CI nevertheless rejects two audit-layer assumptions:
+replaying a BLAS residual on another architecture does not reproduce the
+original binary64 bytes, and a shallow checkout lacks the historical generation
+commit needed by the provenance gate. Failed source runs are `40169508074` and
+`40169505056`; no successful final delivery is inferred from the local pass.
+
+Preserve cohort B unchanged as
+`experiments/data/precision_bridge_cohort_b.json.gz` with its historical
+`precision_bridge_cohort_b_audit.json`. Its hashes/source/numerical outcomes
+above remain historical. Schema 2 adds the actual rounded grid residual and
+the actual binary64 core proxy as complete stored arrays. The independent
+auditor checks those frozen values, hashes and true-error budgets directly;
+it does not require a new machine to replay exp/BLAS rounding bit for bit.
+Fixture identity has a separate small observation-roundoff guard, while
+certificate discrepancy, pivot quality, coefficient and prediction bounds
+retain their strict arithmetic checks. This implements the same a posteriori
+principle as the runtime certificate. Source CI fetches the Git history actually
+required for historical blob checks rather than waiving the provenance test.
+
+The new schema-2 source/configuration is frozen before fresh generation. Cases,
+target conventions, interval budgets and final physical observations remain
+unchanged; the new cohort must retain the inconclusive and large-error records.

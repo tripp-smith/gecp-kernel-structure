@@ -85,6 +85,29 @@ def _directed(value: Fraction, upward: bool) -> float:
     return result
 
 
+def _grid_content_hash(
+    basis: FermionicBasis,
+    times: np.ndarray,
+    frequencies: np.ndarray,
+    rounded: np.ndarray | None = None,
+) -> str:
+    digest = hashlib.sha256(b"kernelgecp-grid-precision-v1")
+    for array in (
+        np.array([basis.beta, basis.wmax], dtype=np.float64),
+        basis.tau_nodes,
+        basis.omega_nodes,
+        times,
+        frequencies,
+    ):
+        digest.update(str(array.shape).encode())
+        digest.update(array.dtype.str.encode())
+        digest.update(array.tobytes())
+    if rounded is not None:
+        digest.update(rounded.dtype.str.encode())
+        digest.update(rounded.tobytes())
+    return digest.hexdigest()
+
+
 def certify_grid_pivot_precision(
     basis: FermionicBasis,
     tau: npt.ArrayLike,
@@ -124,19 +147,8 @@ def certify_grid_pivot_precision(
         + times.size * frequencies.size * (rank + 1)
         + rank * frequencies.size
     ) * ((bits + 63) // 64)
-    digest = hashlib.sha256(b"kernelgecp-grid-precision-v1")
-    for array in (
-        np.array([basis.beta, basis.wmax], dtype=np.float64),
-        basis.tau_nodes,
-        basis.omega_nodes,
-        times,
-        frequencies,
-    ):
-        digest.update(str(array.shape).encode())
-        digest.update(array.dtype.str.encode())
-        digest.update(array.tobytes())
     metadata: dict[str, Any] = {
-        "content_sha256": digest.hexdigest(),
+        "content_sha256": _grid_content_hash(basis, times, frequencies),
         "grid_shape": (int(times.size), int(frequencies.size)),
         "rank": rank,
         "precision_bits": bits,
@@ -174,9 +186,9 @@ def certify_grid_pivot_precision(
             return incomplete("invalid_real_rounded_residual")
         # Include actual rounded values in the report identity. Query/basis
         # inputs alone cannot identify an implementation-dependent BLAS result.
-        digest.update(rounded.dtype.str.encode())
-        digest.update(rounded.tobytes())
-        metadata["content_sha256"] = digest.hexdigest()
+        metadata["content_sha256"] = _grid_content_hash(
+            basis, times, frequencies, rounded
+        )
         discrepancy = 0.0
         for i, time in enumerate(times):
             for j, frequency in enumerate(frequencies):

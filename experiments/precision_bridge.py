@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
+import os
 import platform
 import tomllib
 from pathlib import Path
@@ -59,7 +60,7 @@ def main() -> None:
     if snapshot() != before:
         raise RuntimeError("source/config changed during certificate generation")
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "source": before,
         "config": raw,
         "python": platform.python_version(),
@@ -67,6 +68,18 @@ def main() -> None:
             package: importlib.metadata.version(package)
             for package in ("kernelgecp", "numpy", "scipy", "mpmath")
         },
+        "environment_controls": {
+            name: os.environ.get(name)
+            for name in (
+                "OMP_NUM_THREADS",
+                "OPENBLAS_NUM_THREADS",
+                "MKL_NUM_THREADS",
+                "VECLIB_MAXIMUM_THREADS",
+                "BLIS_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS",
+            )
+        },
+        "thread_control_scope": "environment_settings_not_observed_os_thread_counts",
         "records": records,
         "scope": "finite_query_arithmetic;independent_QR;physical_errors_sampled",
     }

@@ -27,6 +27,7 @@ import mpmath as mp
 import numpy as np
 
 AUDIT_BITS = 1280
+FIXTURE_IDENTITY_GUARD = 64 * np.finfo(np.float64).eps
 MAX_ARTIFACT_BYTES = 64 * 1024**2
 HEX256 = re.compile(r"[0-9a-f]{64}\Z")
 HEX_COMMIT = re.compile(r"[0-9a-f]{40}\Z")
@@ -44,7 +45,10 @@ INPUT_NAMES = (
     "actual_frequency_design",
     "actual_time_output",
     "actual_frequency_output",
+    "actual_grid_residual",
+    "reconstructed_binary64_core",
 )
+FIT_INPUT_NAMES = tuple(name for name in INPUT_NAMES if name != "actual_grid_residual")
 FIT_FAILURES = {
     "rank_budget",
     "work_budget",
@@ -275,21 +279,35 @@ def validate_provenance(
     return len(manifest)
 
 
-def kernel_binary64(time: Any, omega: Any) -> np.ndarray:
-    """Reproduce the frozen rounded input solely to check its content binding."""
-    time, omega = np.broadcast_arrays(
-        np.asarray(time, dtype=np.float64), np.asarray(omega, dtype=np.float64)
-    )
-    result = np.empty_like(omega)
-    positive = omega >= 0
-    with np.errstate(all="ignore"):
-        result[positive] = np.exp(-time[positive] * omega[positive]) / (
-            1 + np.exp(-omega[positive])
+def validate_observation_fixture(
+    arrays: dict[str, np.ndarray], beta: float, wmax: float
+) -> None:
+    """Check fixture identity, independently of platform exp/BLAS bit patterns.
+
+    The fixed absolute guard applies only to identifying the small positive
+    three-pole fixture (weights sum to one and matrix amplitudes have norm at
+    most one). Observations remain exact frozen binary values everywhere in
+    certificate checks; this guard never widens an interval or error budget.
+    """
+    ctx = mp.mp.clone()
+    ctx.prec = 256
+    energies = wmax * np.array([-0.31, 0.23, 0.71])
+    amplitude = np.array([[1, 0.25 + 0.5j], [0.25 - 0.5j, 0.75]])
+    guard = ctx.mpf(float(FIXTURE_IDENTITY_GUARD))
+    for row, time in enumerate(arrays["training_tau"]):
+        truth = -ctx.fsum(
+            ctx.mpf(weight)
+            * ctx.exp(-ctx.mpf(float(time)) * ctx.mpf(float(energy)))
+            / (1 + ctx.exp(-ctx.mpf(float(beta)) * ctx.mpf(float(energy))))
+            for weight, energy in zip([0.25, 0.5, 0.25], energies, strict=True)
         )
-        result[~positive] = np.exp((1 - time[~positive]) * omega[~positive]) / (
-            1 + np.exp(omega[~positive])
-        )
-    return result
+        for batch in np.ndindex(2, 2):
+            actual = _scalar(ctx, arrays["observations"][(row, *batch)])
+            expected = truth * _scalar(ctx, amplitude[batch])
+            require(
+                abs(actual - expected) <= guard,
+                "physical observation fixture identity mismatch",
+            )
 
 
 def validate_fit_status(record: dict[str, Any]) -> None:
@@ -385,9 +403,15 @@ def validate_grid_binding(
     beta, wmax, cutoff = arrays["basis_parameters"]
     times = arrays["query_tau"]
     omega = cutoff * np.array([-0.91, -0.41, 0.03, 0.37, 0.83])
-    rounded = kernel_binary64(times[:, None] / beta, omega[None, :]) - arrays[
-        "actual_time_design"
-    ] @ kernel_binary64(arrays["basis_tau_nodes"][:, None] / beta, omega[None, :])
+    # Rhat is an actual frozen algorithm output. Replaying BLAS or libm on
+    # another machine is not an identity check for those stored binary values.
+    rounded = arrays["actual_grid_residual"]
+    require(
+        rounded.dtype.str == "<f8"
+        and rounded.shape == (5, 5)
+        and bool(np.all(np.isfinite(rounded))),
+        "invalid stored rounded grid residual",
+    )
     digest = hashlib.sha256(b"kernelgecp-grid-precision-v1")
     for array in (
         np.array([beta, wmax]),
@@ -499,6 +523,8 @@ def validate_record(
         "actual_frequency_design": (5, rank),
         "actual_time_output": (5, 2, 2),
         "actual_frequency_output": (5, 2, 2),
+        "actual_grid_residual": (5, 5),
+        "reconstructed_binary64_core": (rank, rank),
     }
     complex_names = {
         "observations",
@@ -569,22 +595,7 @@ def validate_record(
             np.array_equal(arrays["training_tau"], arrays["basis_tau_nodes"]),
             "selected training mesh mismatch",
         )
-    energies = wmax * np.array([-0.31, 0.23, 0.71])
-    exponents = np.where(
-        energies >= 0,
-        -arrays["training_tau"][:, None] * energies,
-        (beta - arrays["training_tau"][:, None]) * energies,
-    )
-    with np.errstate(all="ignore"):
-        observed = -(
-            np.exp(exponents)
-            / (1 + np.exp(-beta * np.abs(energies)))
-            @ np.array([0.25, 0.5, 0.25])
-        )[:, None, None] * np.array([[1, 0.25 + 0.5j], [0.25 - 0.5j, 0.75]])
-    require(
-        np.array_equal(observed, arrays["observations"]),
-        "physical observation fixture mismatch",
-    )
+    validate_observation_fixture(arrays, float(beta), float(wmax))
     validate_fit_status(record)
     certificate = record["fit_certificate"]
     hashes = certificate.get("input_hashes")
@@ -596,31 +607,18 @@ def validate_record(
     recorded = dict(hashes)
     require(len(recorded) == len(hashes), "duplicate certificate input hash")
     require(
-        set(INPUT_NAMES[:8])
-        <= set(recorded)
-        <= set(INPUT_NAMES) | {"reconstructed_binary64_core"},
+        set(INPUT_NAMES[:8]) <= set(recorded) <= set(FIT_INPUT_NAMES),
         "certificate input coverage mismatch",
     )
     for name, expected in recorded.items():
-        if name != "reconstructed_binary64_core":
-            require(
-                array_hash(arrays[name]) == expected,
-                "certificate input hash mismatch: " + name,
-            )
-    core_count = 0
-    if "reconstructed_binary64_core" in recorded:
-        core = kernel_binary64(
-            arrays["basis_tau_nodes"][:, None] / beta,
-            arrays["basis_omega_nodes"][None, :],
-        )
         require(
-            array_hash(core) == recorded["reconstructed_binary64_core"],
-            "rounded core hash mismatch",
+            array_hash(arrays[name]) == expected,
+            "certificate input hash mismatch: " + name,
         )
-        core_count = 1
+    core_count = int("reconstructed_binary64_core" in recorded)
     if certificate["certified"]:
         require(
-            set(recorded) == set(INPUT_NAMES) | {"reconstructed_binary64_core"},
+            set(recorded) == set(FIT_INPUT_NAMES),
             "completed certificate input coverage mismatch",
         )
         for name in ("time", "matsubara"):
@@ -699,8 +697,8 @@ def audit_grid_math(
                 row.append(ctx.det(border) / determinant)
                 evaluated += 1
             truth.append(row)
-        cache[key] = truth
-    truth = cache[key]
+        cache[key] = (truth, core)
+    truth, core = cache[key]
     grid = record["grid_certificate"]
     maximum = max(abs(value) for row in truth for value in row)
     discrepancy = max(
@@ -724,12 +722,29 @@ def audit_grid_math(
         "independent grid exceeds global upper bound",
     )
     require(quality >= ctx.mpf(grid["eta"]), "independent grid quality below eta")
+    core_components = 0
+    if record["fit_certificate"]["certified"]:
+        core_bound = _numeric_bound(
+            record["fit_certificate"]["core"]["binary64_kernel_error_bound"],
+            arrays["reconstructed_binary64_core"].shape,
+            "stored core error bound",
+        )
+        for i, j in np.ndindex(core_bound.shape):
+            error = abs(
+                core[i, j] - ctx.mpf(float(arrays["reconstructed_binary64_core"][i, j]))
+            )
+            require(
+                error <= ctx.mpf(float(core_bound[i, j])),
+                "independent stored core error exceeds enclosure",
+            )
+            core_components += 1
     return {
         "candidate": grid["candidate_index"],
         "reported_eta": grid["eta"],
         "independent_quality": ctx.nstr(quality, 40),
         "independent_maximum": ctx.nstr(maximum, 40),
         "independent_discrepancy": ctx.nstr(discrepancy, 40),
+        "stored_core_error_components": core_components,
     }, evaluated
 
 
@@ -895,7 +910,7 @@ def audit_artifact(
         source, expected_sha256, expected_payload_sha256
     )
     require(
-        type(artifact.get("schema_version")) is int and artifact["schema_version"] == 1,
+        type(artifact.get("schema_version")) is int and artifact["schema_version"] == 2,
         "unsupported artifact schema",
     )
     blob_count = validate_provenance(artifact, root, generation_commit)
@@ -945,7 +960,9 @@ def audit_artifact(
         "audit_script_sha256": sha256(Path(__file__).read_bytes()),
         "source_blob_count": blob_count,
         "packed_array_count": len(INPUT_NAMES) * len(records),
-        "reconstructed_core_hashes": sum(item[2] for item in decoded),
+        "stored_core_hashes": sum(item[2] for item in decoded),
+        "stored_grid_residuals": len(records),
+        "fixture_identity_absolute_guard": float(FIXTURE_IDENTITY_GUARD),
         "config_git_blob_verified": True,
         "generation_versions": artifact["versions"],
         "audit_versions": {
@@ -978,6 +995,8 @@ def audit_artifact(
             "as singularity proofs or successful certificates.",
             "Physical pole errors are sampled observations; small arithmetic "
             "bounds do not imply physical accuracy.",
+            "The fixed 64-epsilon observation-fixture identity guard does not "
+            "relax exact binary inputs or any certificate interval/error budget.",
         ],
     }
 

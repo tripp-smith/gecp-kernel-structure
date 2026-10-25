@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def canonical() -> dict[str, Any]:
     return json.loads(
         gzip.decompress(
-            (ROOT / "experiments/data/precision_bridge.json.gz").read_bytes()
+            (ROOT / "experiments/data/precision_bridge_cohort_b.json.gz").read_bytes()
         )
     )
 
@@ -121,17 +121,13 @@ def test_array_decoder_rejects_dtype_shape_component_and_hash_forgery(
         audit.decode_array(payload)
 
 
-def test_all_canonical_record_bindings_and_honest_inconclusive_status(
+def test_portable_v2_record_binding_and_honest_inconclusive_status(
     canonical: dict[str, Any],
 ) -> None:
-    count = 0
-    for record, config in zip(
-        canonical["records"], canonical["config"]["cases"], strict=True
-    ):
-        arrays, grid, _ = audit.validate_record(record, config)
-        assert len(arrays) == 13 and grid[2].shape == (5, 5)
-        count += record["fit_certificate"]["certified"]
-    assert count == 5
+    record, config = tiny_record()
+    arrays, grid, _ = audit.validate_record(record, config)
+    assert len(arrays) == 15 and grid[2].shape == (5, 5)
+    assert record["fit_certificate"]["termination_reason"] == "work_budget"
     failure = canonical["records"][2]
     audit.validate_fit_status(failure)
     assert (
@@ -188,11 +184,10 @@ def test_unknown_failure_and_failure_with_success_data_are_rejected(
     ],
 )
 def test_grid_eta_flags_and_identity_forgery_are_rejected(
-    canonical: dict[str, Any], change: dict[str, Any]
+    change: dict[str, Any],
 ) -> None:
-    record = copy.deepcopy(canonical["records"][0])
+    record, arrays = tiny_grid()
     record["grid_certificate"].update(change)
-    arrays = {k: audit.decode_array(v) for k, v in record["inputs"].items()}
     with pytest.raises(audit.AuditError):
         audit.validate_grid_binding(record, arrays)
 
@@ -247,10 +242,41 @@ def tiny_grid() -> tuple[dict[str, Any], dict[str, np.ndarray]]:
         "basis_omega_nodes": np.array([0.0]),
         "query_tau": times,
         "actual_time_design": np.ones((5, 1)),
+        "reconstructed_binary64_core": np.array([[0.5]]),
     }
-    rounded = audit.kernel_binary64(
-        times[:, None] / beta, omega[None, :]
-    ) - audit.kernel_binary64(0.0, omega[None, :])
+    # An independent closed form for the rank-one exact selected cross.
+    # Stored binary64 values can legitimately differ by a platform ULP.
+    context = mp.mp.clone()
+    context.prec = 256
+    arrays["actual_grid_residual"] = np.array(
+        [
+            [
+                float(
+                    (
+                        context.exp(
+                            -context.mpf(float(time))
+                            * context.mpf(float(frequency))
+                            / context.mpf(beta)
+                        )
+                        - 1
+                    )
+                    / (1 + context.exp(-context.mpf(float(frequency))))
+                )
+                for frequency in omega
+            ]
+            for time in times
+        ]
+    )
+    record = {"beta": beta, "fit_certificate": {"certified": False}}
+    bind_tiny_grid(record, arrays)
+    return record, arrays
+
+
+def bind_tiny_grid(record: dict[str, Any], arrays: dict[str, np.ndarray]) -> None:
+    beta, wmax, cutoff = arrays["basis_parameters"]
+    times = arrays["query_tau"]
+    omega = cutoff * np.array([-0.91, -0.41, 0.03, 0.37, 0.83])
+    rounded = arrays["actual_grid_residual"]
     location = np.unravel_index(np.argmax(np.abs(rounded)), rounded.shape)
     magnitude = float(abs(rounded[location]))
     discrepancy = 1e-12
@@ -277,30 +303,168 @@ def tiny_grid() -> tuple[dict[str, Any], dict[str, np.ndarray]]:
     digest.update(rounded.dtype.str.encode())
     digest.update(rounded.tobytes())
     ties = int(np.count_nonzero(abs(rounded) == magnitude))
-    record = {
-        "beta": beta,
-        "grid_certificate": {
-            "certified": True,
-            "continuous_certificate": False,
-            "objective_scope": "exact_physical_selected_cross_on_supplied_finite_grid",
-            "content_sha256": digest.hexdigest(),
-            "grid_shape": [5, 5],
-            "candidate_index": list(location),
-            "candidate_tau": float(times[location[0]]),
-            "candidate_omega": float(omega[location[1]]),
-            "rounded_candidate_magnitude": magnitude,
-            "rounded_global_upper": magnitude,
-            "discrepancy_upper": discrepancy,
-            "true_candidate_lower": lower,
-            "true_global_upper": upper,
-            "eta": eta,
-            "termination_reason": "positive_finite_grid_quality",
-            "exact_tie_count": ties,
-            "near_tie_count": ties,
-            "tie_rtol": 0,
-        },
+    record["grid_certificate"] = {
+        "certified": True,
+        "continuous_certificate": False,
+        "objective_scope": "exact_physical_selected_cross_on_supplied_finite_grid",
+        "content_sha256": digest.hexdigest(),
+        "grid_shape": [5, 5],
+        "candidate_index": list(location),
+        "candidate_tau": float(times[location[0]]),
+        "candidate_omega": float(omega[location[1]]),
+        "rounded_candidate_magnitude": magnitude,
+        "rounded_global_upper": magnitude,
+        "discrepancy_upper": discrepancy,
+        "true_candidate_lower": lower,
+        "true_global_upper": upper,
+        "eta": eta,
+        "termination_reason": "positive_finite_grid_quality",
+        "exact_tie_count": ties,
+        "near_tie_count": ties,
+        "tie_rtol": 0,
     }
-    return record, arrays
+
+
+def bind_tiny_fit(record: dict[str, Any]) -> None:
+    certificate = record["fit_certificate"]
+    certificate["input_hashes"] = [
+        [name, record["inputs"][name]["sha256"]] for name in audit.INPUT_NAMES[:8]
+    ]
+    metadata = {
+        key: certificate[key]
+        for key in (
+            "input_hashes",
+            "rank",
+            "precision_bits",
+            "observation_axis",
+            "estimated_work",
+        )
+    }
+    certificate["content_sha256"] = audit.sha256(
+        json.dumps(metadata, sort_keys=True).encode()
+    )
+
+
+def tiny_record() -> tuple[dict[str, Any], dict[str, Any]]:
+    record, arrays = tiny_grid()
+    beta = 2.0
+    times = np.linspace(0, beta, 40)
+    context = mp.mp.clone()
+    context.prec = 256
+    energies = np.array([-0.31, 0.23, 0.71])
+    amplitudes = np.array([[1, 0.25 + 0.5j], [0.25 - 0.5j, 0.75]])
+    observations = []
+    for time in times:
+        value = -context.fsum(
+            context.mpf(weight)
+            * context.exp(-context.mpf(float(time)) * context.mpf(float(energy)))
+            / (1 + context.exp(-context.mpf(beta) * context.mpf(float(energy))))
+            for weight, energy in zip([0.25, 0.5, 0.25], energies, strict=True)
+        )
+        observations.append(float(value) * amplitudes)
+    arrays.update(
+        training_tau=times,
+        observations=np.array(observations),
+        coefficients=np.zeros((1, 2, 2), dtype=np.complex128),
+        matsubara_indices=np.array([-17, -2, 0, 4, 31]),
+        actual_training_design=np.ones((40, 1)),
+        actual_frequency_design=np.array(
+            [
+                [
+                    complex(
+                        -2 * context.mpf(beta) / (context.j * context.pi * (2 * n + 1))
+                    )
+                ]
+                for n in [-17, -2, 0, 4, 31]
+            ]
+        ),
+        actual_time_output=np.zeros((5, 2, 2), dtype=np.complex128),
+        actual_frequency_output=np.zeros((5, 2, 2), dtype=np.complex128),
+    )
+    record.update(
+        rank=1,
+        wmax=1.0,
+        training="uniform",
+        inputs={name: packed(array) for name, array in arrays.items()},
+        queries={},
+        independent_qr_performed=False,
+    )
+    record["fit_certificate"] = {
+        "certified": False,
+        "termination_reason": "work_budget",
+        "continuous_certificate": False,
+        "physical_truth_certificate": False,
+        "objective_scope": "finite_query_exact_physical_full_column_rank_least_squares",
+        "rank": 1,
+        "precision_bits": 256,
+        "observation_axis": 0,
+        "estimated_work": 1344,
+    }
+    bind_tiny_fit(record)
+    return record, {"beta": beta, "wmax": 1.0, "tolerance": 0.9, "max_work": 512}
+
+
+def test_stored_residual_and_core_do_not_replay_numpy_blas_or_exp(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    record, config = tiny_record()
+
+    def forbidden(*args: Any, **kwargs: Any) -> Any:
+        raise AssertionError("platform numerical replay is not an identity check")
+
+    monkeypatch.setattr(audit.np, "dot", forbidden)
+    monkeypatch.setattr(audit.np, "matmul", forbidden)
+    monkeypatch.setattr(audit.np, "exp", forbidden)
+    arrays, grid, _ = audit.validate_record(record, config)
+    context = mp.mp.clone()
+    context.prec = audit.AUDIT_BITS
+    result, _ = audit.audit_grid_math(record, arrays, grid, context, {})
+    assert float(result["independent_quality"]) >= record["grid_certificate"]["eta"]
+
+
+def test_platform_ulp_differences_keep_frozen_inputs_and_strict_math_bounds() -> None:
+    record, arrays = tiny_grid()
+    arrays["actual_grid_residual"][0, 0] = np.nextafter(
+        arrays["actual_grid_residual"][0, 0], np.inf
+    )
+    bind_tiny_grid(record, arrays)
+    grid = audit.validate_grid_binding(record, arrays)
+    context = mp.mp.clone()
+    context.prec = audit.AUDIT_BITS
+    audit.audit_grid_math(record, arrays, grid, context, {})
+    record["grid_certificate"]["discrepancy_upper"] = 0.0
+    with pytest.raises(audit.AuditError, match="discrepancy"):
+        audit.audit_grid_math(record, arrays, grid, context, {})
+
+
+def test_observation_ulp_guard_is_only_fixture_identity() -> None:
+    record, config = tiny_record()
+    changed = audit.decode_array(record["inputs"]["observations"])
+    changed.real[0, 0, 0] = np.nextafter(changed.real[0, 0, 0], np.inf)
+    record["inputs"]["observations"] = packed(changed)
+    bind_tiny_fit(record)
+    arrays, _, _ = audit.validate_record(record, config)
+    np.testing.assert_array_equal(arrays["observations"], changed)
+    changed.real[0, 0, 0] += 1e-6
+    record["inputs"]["observations"] = packed(changed)
+    bind_tiny_fit(record)
+    with pytest.raises(audit.AuditError, match="fixture identity"):
+        audit.validate_record(record, config)
+
+
+def test_stored_core_error_is_checked_without_fixture_guard() -> None:
+    record, arrays = tiny_grid()
+    record["fit_certificate"] = {
+        "certified": True,
+        "core": {"binary64_kernel_error_bound": [[0.0]]},
+    }
+    context = mp.mp.clone()
+    context.prec = audit.AUDIT_BITS
+    grid = audit.validate_grid_binding(record, arrays)
+    audit.audit_grid_math(record, arrays, grid, context, {})
+    arrays["reconstructed_binary64_core"][0, 0] = np.nextafter(0.5, np.inf)
+    with pytest.raises(audit.AuditError, match="stored core error"):
+        audit.audit_grid_math(record, arrays, grid, context, {})
 
 
 def test_tiny_independent_bordered_determinant_success_and_understated_error() -> None:
@@ -343,3 +507,15 @@ def test_cli_hash_failure_exits_nonzero_without_receipt(tmp_path: Path) -> None:
     )
     assert result.returncode == 1 and "container hash mismatch" in result.stderr
     assert not output.exists()
+
+
+def test_portable_audit_requires_v2_instead_of_replaying_legacy_values(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "legacy.json"
+    payload = b'{"schema_version":1}'
+    source.write_bytes(payload)
+    with pytest.raises(audit.AuditError, match="artifact schema"):
+        audit.audit_artifact(
+            source, ROOT, "0" * 40, audit.sha256(payload), audit.sha256(payload)
+        )
