@@ -973,6 +973,19 @@ DR source `51fa6b3` passed the 759-test root, all unchanged Lean/axiom/consumer
 gates and CI `40054146369`/`40054160333`; PR #124 is merged. Documentation
 finalization adds no mathematical abstraction or new upstream candidate.
 
+## DW numerical discrepancy bridge
+
+`Discretization.approxPivot_of_uniform_discrepancy` reuses
+`abs_sub_abs_le_abs_sub` to transfer a candidate bound to the true residual on
+the same domain. `Discretization.dot_error_le_of_component_bounds` uses
+`norm_sum_le`, `Finset.sum_le_sum`, `Complex.norm_mul` and the ordinary triangle
+inequality for separate complex design, coefficient and final-dot errors.
+Both are short consequences of existing mathlib APIs; no new abstraction or
+upstream-submission candidate is proposed. The runtime interval factorization
+and its endpoint arithmetic are not formally verified by these theorems: their
+computed component enclosures supply the explicitly stated hypotheses. A grid
+consumer retains a grid domain and does not acquire a continuous GECP rate.
+
 ## Run provenance
 
 Implementation-agent metadata is intentionally kept out of the upstream

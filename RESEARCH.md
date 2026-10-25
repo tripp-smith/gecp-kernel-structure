@@ -10564,3 +10564,92 @@ closure are recorded canonically in
 The next phase should implement the error bridge and profile a genuinely eligible
 Rust bottleneck rather than infer a speedup from a language choice. Exact
 research defaults, mathematical goals and historical generations are preserved.
+## Phase DW — actual numerical error and finite-grid pivot bridge (in progress)
+
+This application follow-on preserves the original SPEC's exact continuous-run
+theorems and their quantifiers. It addresses the product goal's practical
+coefficient/solve discrepancy, without identifying a sampled or inexact run with
+an exact complete-pivot trajectory. DV's matched comparison is merged in PR128;
+its receipt is authoritative for the checked branch and merged-main revisions.
+
+Freeze the target as follows. Every supplied binary64 beta, selected physical
+tau node, dimensionless frequency node, observation and query denotes its exact
+binary rational value. The ideal core uses exact `tau/beta`, not the facade's
+rounded normalization. Its cardinal rows solve the exact physical transpose
+core system. The ideal fitting target is the unique full-column-rank
+least-squares solution on the supplied physical time observations, with exact
+binary64 data. This is an algebraic reference, not unknown physical truth.
+
+Implement independent-context outward interval kernel/core LU and Gram-system
+solves, requiring every chosen pivot interval to exclude zero. No inverse is
+formed. Compare these enclosures to the actual frozen facade design,
+coefficients and output. Expose coefficient, design/solve, final dot-product
+and total prediction discrepancy bounds, including arbitrary complex batches.
+The final rounded BLAS dot is compared to its exact binary-rational dot; no
+unverified vendor-specific BLAS error formula is assumed. Bind reports to
+basis, observations, coefficients and queries by content hashes. Precision,
+work budgets, inconclusive pivots, exported-bound precision and finite-query
+scope must remain explicit; caller mpmath contexts must remain unchanged.
+
+Use the same core enclosure for an exact selected-cross residual on an explicit
+finite Cartesian query grid. Compute a uniform discrepancy from the actual
+rounded grid residual, then certify its selected pivot quality on that same
+grid. The formal consumer is
+`Discretization.approxPivot_of_uniform_discrepancy`: from `|R-Rhat| <= delta`,
+`0 <= delta < L`, candidate lower `L <= |Rhat(p)|` and global rounded upper
+`|Rhat| <= U`, derive positive quality `(L-delta)/(U+delta) <= 1` and the
+corresponding true residual inequality. Also prove a finite dot-product error
+decomposition matching the runtime coefficient/design/dot budgets. Search
+mathlib first; export and audit the actual public theorem interfaces.
+
+Acceptance requires actual facade fits and nontrivial selected cores, independent
+high-precision QR/direct solves and physical spectral fixtures, exact rational
+boundary checks, singular/insufficient-precision/work-budget failures, complex
+axis/transpose/cancellation/subnormal attacks, immutable content-bound reports,
+and repeatable frozen example generation. Full root, exact-head CI, built-wheel
+install checks and authorized merge/push follow the existing phase cadence.
+
+Route decision: finite-query direct interval LU plus Gram solves is the first
+bounded implementation. Whole-box interval right-hand sides can amplify
+dependency through ill-conditioned cores, so continuous branch-and-bound is a
+follow-on only after a useful bound is demonstrated. A failed interval solve is
+inconclusive, never proof of a singular ideal core or physical counterexample.
+The interval engine is a numerical trusted component, not a Lean-verified
+implementation. No continuous rate for arbitrary inexact trajectories, spectral
+model error, noisy-data uncertainty, or truncation equivalence is claimed.
+An actual truncated or unrelated supplied fit can have a valid large discrepancy
+from the full-rank reference; it must not be silently promoted to that reference.
+Rust prototype investigation remains a separate disposable pilot, not a speedup
+or release claim.
+### DW implemented interfaces and freeze decision
+
+The formal names above are implemented, publicly exported and checked by the
+expected-type consumer. Focused axiom audit passes with 878 declarations.
+`kernelgecp.precision.certify_fit_precision` returns immutable interval,
+coefficient, design, backward-residual and direct/decomposed query budgets;
+`kernelgecp.precision_grid.certify_grid_pivot_precision` computes a real
+discrepancy budget and applies the same-domain quality transfer. Inputs,
+actual designs and actual outputs are hashed; exact rational dot comparisons
+avoid a vendor BLAS assumption. The engine uses owned interval contexts and
+explicit zero-excluding core/Gram pivot gates, without forming an inverse.
+
+Independent review checked a complex rank-10 fit with 512-bit QR and a finite
+grid via bordered determinant ratios, plus uncertain rational 3x3 vertex
+systems. These are development checks, not canonical frozen-source receipts.
+The focused runtime suites cover complex axes, underresolved pivots,
+singular/underdetermined training, budgets, cancellation/subnormals, directed
+exports, caller contexts and immutable complete-array hashes.
+
+The six-case canonical configuration freezes two moderate useful cases and
+the large-cutoff observation-design comparison: uniform at 256 bits
+(inconclusive), uniform at 512 (valid but large error), endpoint-resolved at
+512 and selected-node training at 512. No engine identity shortcut or bound
+weakening is used for selected nodes. The same actual pole data, query rules
+and exact full-rank target convention are retained. A cached independent
+384-bit QR factorization checks every completed fit's coefficients and all
+queried time/frequency predictions; physical pole errors are reported separately.
+Source/config/dependency manifests precede generation; repeat the committed
+configuration in fresh processes and compare complete deterministic JSON.
+CLI success includes retained inconclusive/large-budget records, so inspect
+their explicit statuses and magnitudes. Final hashes/root/platform/delivery
+evidence belong in the canonical PR receipt.

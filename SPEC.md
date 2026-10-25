@@ -2919,3 +2919,13 @@ This annotation records delivered identifiers without changing the goals above.
   execute actual installed libraries. The concrete upstream proposal has not
   been submitted or accepted. No new theorem, Rust speedup or publication is
   claimed by this phase.
+- **Phase DW application follow-on (in progress):** adds actual finite-query
+  coefficient/core/solve/output discrepancy budgets and true selected-cross
+  pivot quality on an explicit finite grid. Public conditional theorems are
+  `Discretization.approxPivot_of_uniform_discrepancy` and
+  `Discretization.dot_error_le_of_component_bounds`. The original continuous
+  exact-GECP goals and delivered claims are unchanged. Numerical enclosure of
+  exact physical binary64-input problems is distinguished from physical truth,
+  truncated-SVD targets and a continuous inexact-trajectory rate. The six-case
+  frozen protocol preserves an interval-resolution failure and a valid but
+  large-discrepancy ill-conditioned fit, alongside useful observation designs.

@@ -3,14 +3,15 @@
 This is the acceptance ledger for the user's application-development goal. It
 does not replace the completed mathematical `SPEC.md` or weaken its theorems.
 An unchecked requirement remains open even when a related phase or test passes.
-DU's revision-specific root/CI/install and authorized delivery receipt is
-[PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127).
+DU's revision-specific receipt is [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127);
+DV's full root/platform/install and merged-main closure is in
+[PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128).
 
 ## Required end state
 
 | Requirement | Current evidence | State |
 | --- | --- | --- |
-| Compare with pydlr and sparse-ir using shared observations and external accuracy criteria | DV frozen A retained failure; B12/12 passing, independent audit | implemented and checked; phase delivery pending |
+| Compare with pydlr and sparse-ir using shared observations and external accuracy criteria | DV frozen A retained failure; B12/12 passing, independent audit, merged PR #128 | delivered bounded comparison |
 | Separate construction, repeated fit/evaluation, time, process memory, rank and conditioning | DV two-worker matched cohort B and explicit scopes | implemented and checked; single-machine evidence |
 | Independently check both time and Matsubara frequency errors | DV95-digit all-forward and solver frequency/direct-integral checks | delivered numerical evidence; not a continuous certificate |
 | Include a small physical solver loop | DV Bethe loop passes with all three providers | implemented and checked; noninteracting scope |
@@ -19,7 +20,7 @@ DU's revision-specific root/CI/install and authorized delivery receipt is
 | Explicit physical conventions and accuracy/precision contracts | DU API/guide and time/frequency analytic checks | implemented; continuous/rounding bridge open |
 | Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
-| Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example passes | implemented and checked; phase delivery pending |
+| Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example, merged PR #128 | delivered |
 | Concrete upstream proposal and actual adoption outreach | UPSTREAM_PROPOSAL.md plus tested standalone Sparse-IR recipe | proposal prepared; actual outreach open |
 | Profile and prototype the measured Rust bottleneck | DT setup/reuse timings, no Rust prototype | open |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | none | open; rejection is valid only after measurement |
@@ -28,8 +29,8 @@ DU's revision-specific root/CI/install and authorized delivery receipt is
 | Reproducible production benchmarks and citation-ready methods document | bounded DT pilot and research docs | open |
 | Publish a tested versioned release and installable distributions | no release | open |
 | PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
-| Finite-precision/inexact-pivot bridge including coefficient and solve errors | exact-run theorem and limited rounded-model pivot certificates | open |
-| Implementation validated, committed, PR-merged and pushed | DT and DU delivered; DV in progress | open for full objective |
+| Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW actual finite-query fit and finite-grid true-pivot budgets plus two conditional Lean theorems | implemented; final acceptance pending; continuous inexact rate remains open |
+| Implementation validated, committed, PR-merged and pushed | DT, DU and DV delivered; DW in progress | open for full objective |
 
 ## Delivery order and gates
 

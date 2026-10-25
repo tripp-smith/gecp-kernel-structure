@@ -885,3 +885,5 @@ import GECPKernelStructure.Theorems
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_prefix_nonneg
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_suffix_nonneg
 #print axioms GECPKernelStructure.Fermionic.onePivotTaylorProduct_step_nonneg
+#print axioms GECPKernelStructure.Discretization.approxPivot_of_uniform_discrepancy
+#print axioms GECPKernelStructure.Discretization.dot_error_le_of_component_bounds

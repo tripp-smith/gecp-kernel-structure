@@ -1282,3 +1282,80 @@ estimate are documented in
 the historical v1 implementation, completed original-SPEC research goal and
 later documentation-only task boundary, not package runtime requirements,
 phase-only costs or benchmark performance.
+## Finite-query numerical certificates
+
+`certify_fit_precision(fit, values, tau, query_tau=..., matsubara_indices=...)`
+independently encloses the difference between an actual `FermionicFit` and the
+unique full-column-rank least-squares fit on the supplied time samples. Every
+stored binary64 input denotes its exact binary rational value; the ideal kernel
+uses exact physical `tau/beta`. This encloses normalization, kernel/core solve,
+coefficient fit, design export and final output arithmetic effects. It does not
+assume that a working precision or a small backward residual guarantees a small
+forward error.
+
+```python
+from kernelgecp import certify_fit_precision, certify_grid_pivot_precision
+
+report = certify_fit_precision(
+    fit, values, tau, query_tau=queries, matsubara_indices=[-1, 0, 4]
+)
+if report.certified:
+    print(report.coefficients.max_error)
+    print(report.time.max_error, report.matsubara.max_error)
+else:
+    print(report.termination_reason)
+
+pivot = certify_grid_pivot_precision(basis, queries, [-2.3, -0.3, 1.7])
+print(pivot.certified, pivot.eta, pivot.objective_scope)
+```
+
+An enclosed report is not an accuracy-tolerance pass. A truncated SVD fit can
+differ greatly from the ideal full-rank fit, especially when observations omit
+endpoint information. Compare the reported budget to the application's error
+allowance. Physical spectral-model and observation uncertainty are separate;
+the exact-data least-squares reference need not be a good physical model.
+Supplying `tau=None` uses the selected physical nodes, matching `fit_tau`.
+The observation axis is `fit.axis`; complex matrix batches are preserved.
+
+`report.core` distinguishes exact physical versus rounded normalization and a
+reconstructed binary64 kernel proxy. The proxy is not the internal reference
+factorization; its error already includes normalization and is not an additional
+disjoint stage. Training/query design bounds compare the actual facade exports
+to independent interval core solves and include true-core backward residuals.
+Coefficient enclosures use interval Gram solves solely for certification; the
+ordinary public fitter still uses its cached SVD. Query reports contain a direct
+prediction enclosure and the separately valid coefficient/design/final-dot
+triangle budget. The final BLAS result is compared to an exact rational dot of
+the actual exported design and computed coefficients, so no vendor-specific
+reduction-order assumption is needed.
+
+Reports and bound arrays are immutable and hash all numerical inputs plus the
+actual designs/outputs. Default interval precision is 256 bits, with binary64
+outward bound exports; rank/work budgets are explicit. Zero-containing interval
+pivots, underdetermined data, export overflow and budget exhaustion produce
+uncertified reports with missing bounds, not zero error or a singularity proof.
+Higher precision can resolve interval overestimation but cannot repair an
+ill-conditioned exact fitting problem. Successful pivot gates establish
+regularity, not a rigorous norm condition number.
+
+The grid certificate bounds the discrepancy between the actual rounded selected
+cross and the exact physical selected cross on exactly the supplied Cartesian
+grid. It transfers the first row-major rounded maximum into a positive true
+pivot quality when the discrepancy is small enough; ties are explicit. It
+does not cover points between grid samples or identify an inexact trajectory
+with an exact complete-pivot run. An exactly zero enclosed grid is labeled
+separately and has trivial quality one.
+
+The conditional pivot-transfer and complex finite-dot budget theorems are
+kernel-checked Lean results. The interval LU/Gram implementation trusts the
+mpmath interval engine and is independently checked with rational/Cramer,
+high-precision QR and bordered-determinant formulations; the numerical program
+itself has not been verified in Lean. mpmath documents interval containment and
+the experimental scope of its engine in its [context documentation](https://mpmath.org/doc/current/contexts.html).
+
+Run `uv run python -m examples.precision_bridge` for a complex matrix example
+with an independent QR audit. The frozen experiment uses
+`experiments/precision_bridge.toml` and the module
+`experiments.precision_bridge`; its source must be committed and tracked-clean
+before generation. Final canonical results and phase delivery are recorded in
+the current README receipt.

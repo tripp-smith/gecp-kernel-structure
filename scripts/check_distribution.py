@@ -272,7 +272,10 @@ TYPING_CONSUMER = """\
 import numpy as np
 import numpy.typing as npt
 from typing import assert_type
-from kernelgecp import FermionicBasis, LeastSquaresPlan
+from kernelgecp import (
+    FermionicBasis, LeastSquaresPlan, FitPrecisionCertificate,
+    GridPrecisionCertificate, certify_fit_precision, certify_grid_pivot_precision,
+)
 
 design: npt.NDArray[np.float64] = np.eye(3)
 values: npt.NDArray[np.float64] = np.ones(3)
@@ -282,6 +285,12 @@ basis = FermionicBasis(beta=2.0, wmax=3.0, tol=1e-8)
 fit = basis.fit_tau(values, tau=np.linspace(0.0, 2.0, 3), axis=0)
 tau_values = fit.evaluate_tau(np.array([0.2, 0.8]))
 iw_values = fit.evaluate_matsubara(np.array([-1, 0, 2]))
+precision = certify_fit_precision(
+    fit, values, np.linspace(0.0, 2.0, 3), query_tau=[0.2],
+)
+assert_type(precision, FitPrecisionCertificate)
+grid = certify_grid_pivot_precision(basis, [0.2, 0.8], [-1.0, 1.0])
+assert_type(grid, GridPrecisionCertificate)
 """
 
 
@@ -316,7 +325,7 @@ def check_installed(*, project_root: Path) -> dict[str, Any]:
 
     import numpy as np
 
-    basis = package.FermionicBasis(beta=2.0, wmax=3.0, tol=1e-8)
+    basis = package.FermionicBasis(beta=2.0, wmax=3.0, tol=1e-8, precision="reference")
     tau = np.linspace(0.0, 2.0, 65)
     pole = 0.7
     values = -np.exp(-tau * pole) / (1.0 + np.exp(-2.0 * pole))
@@ -337,6 +346,30 @@ def check_installed(*, project_root: Path) -> dict[str, Any]:
             and float(np.max(np.abs(actual - expected))) < 1e-5,
             f"{domain} physical one-pole smoke failed",
         )
+    certificate = package.certify_fit_precision(
+        fitted,
+        values,
+        tau,
+        query_tau=heldout[[0, 15, 32]],
+        matsubara_indices=indices,
+    )
+    _require(
+        certificate.certified
+        and certificate.time is not None
+        and certificate.matsubara is not None
+        and certificate.time.max_error < 1e-5
+        and certificate.matsubara.max_error < 1e-5,
+        "installed finite-query coefficient/solve certificate failed",
+    )
+    grid_certificate = package.certify_grid_pivot_precision(
+        basis, heldout[[0, 15, 32]], [-2.3, -0.3, 1.7]
+    )
+    _require(
+        grid_certificate.certified
+        and grid_certificate.eta is not None
+        and grid_certificate.eta > 0,
+        "installed finite-grid pivot certificate failed",
+    )
     design = np.array([[1.0, 0.0], [1.0, 1.0], [1.0, 2.0]])
     expected_coefficients = np.array([[2.0 + 1j, 0.5 - 2j], [1j, -3.0]])
     fitted_coefficients = package.LeastSquaresPlan(design).fit(

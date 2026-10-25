@@ -1,0 +1,44 @@
+schema_version = 1
+
+[[cases]]
+beta = 3.7
+wmax = 2.4
+tolerance = 1e-9
+
+[[cases]]
+beta = 10.0
+wmax = 2.0
+tolerance = 1e-9
+
+# Retain both interval-resolution and full-rank fitting obstructions.
+[[cases]]
+beta = 20.0
+wmax = 50.0
+tolerance = 1e-9
+training = "uniform"
+precision_bits = 256
+max_work = 67108864
+
+[[cases]]
+beta = 20.0
+wmax = 50.0
+tolerance = 1e-9
+training = "uniform"
+precision_bits = 512
+max_work = 67108864
+
+[[cases]]
+beta = 20.0
+wmax = 50.0
+tolerance = 1e-9
+training = "resolved"
+precision_bits = 512
+max_work = 67108864
+
+[[cases]]
+beta = 20.0
+wmax = 50.0
+tolerance = 1e-9
+training = "selected_nodes"
+precision_bits = 512
+max_work = 67108864
