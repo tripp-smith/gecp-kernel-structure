@@ -113,6 +113,38 @@ def overlay_project_metadata(text: str, expression: str) -> str:
     return result
 
 
+def native_build_environment(
+    working: Path,
+    source_revision: str,
+    *,
+    original: dict[str, str] | None = None,
+    platform: str | None = None,
+) -> dict[str, str]:
+    """Bind source provenance and remove compiler/linker host paths."""
+    environment = dict(os.environ if original is None else original)
+    canonical = working.resolve()
+    environment["KERNELGECP_SOURCE_REVISION"] = source_revision
+    # A cached C library may have been compiled without path remapping.
+    environment["GMP_MPFR_SYS_CACHE"] = "_"
+    flags = (
+        environment.get("CARGO_ENCODED_RUSTFLAGS", "").split("\x1f")
+        if environment.get("CARGO_ENCODED_RUSTFLAGS")
+        else shlex.split(environment.get("RUSTFLAGS", ""))
+    )
+    flags.append(f"--remap-path-prefix={canonical}=/kernelgecp-source")
+    if (sys.platform if platform is None else platform) == "darwin":
+        # Rust's default Mach-O LC_ID_DYLIB embeds the absolute output path.
+        # Compiler prefix maps do not rewrite linker load commands.
+        flags += ["-C", "link-arg=-Wl,-install_name,@rpath/_native.abi3.so"]
+    environment.pop("RUSTFLAGS", None)
+    environment["CARGO_ENCODED_RUSTFLAGS"] = "\x1f".join(flags)
+    for name in ("CFLAGS", "CXXFLAGS", "CPPFLAGS"):
+        c_flags = shlex.split(environment.get(name, ""))
+        c_flags.append(f"-ffile-prefix-map={canonical}=/kernelgecp-source")
+        environment[name] = shlex.join(c_flags)
+    return environment
+
+
 def build_native_wheel(
     *, project_root: Path, source_report: Path, output: Path, compatibility: str | None
 ) -> dict[str, Any]:
@@ -153,7 +185,7 @@ def build_native_wheel(
     output.mkdir(parents=True, exist_ok=True)
     _require(not list(output.glob("*.whl")), "output already contains wheels")
     with tempfile.TemporaryDirectory(prefix="kernelgecp-native-wheel-") as temporary:
-        stage = Path(temporary)
+        stage = Path(temporary).resolve()
         with tarfile.open(archive, "r:gz") as source:
             source.extractall(stage, filter="data")
         roots = list(stage.iterdir())
@@ -190,22 +222,7 @@ def build_native_wheel(
         (working / "kernelgecp/_native_inventory.json").write_text(
             json.dumps(inventory, sort_keys=True, indent=2) + "\n"
         )
-        environment = os.environ.copy()
-        environment["KERNELGECP_SOURCE_REVISION"] = report["source_revision"]
-        # A cached C library may have been compiled without path remapping.
-        environment["GMP_MPFR_SYS_CACHE"] = "_"
-        flags = (
-            environment.get("CARGO_ENCODED_RUSTFLAGS", "").split("\x1f")
-            if environment.get("CARGO_ENCODED_RUSTFLAGS")
-            else shlex.split(environment.get("RUSTFLAGS", ""))
-        )
-        flags.append(f"--remap-path-prefix={working}=/kernelgecp-source")
-        environment.pop("RUSTFLAGS", None)
-        environment["CARGO_ENCODED_RUSTFLAGS"] = "\x1f".join(flags)
-        for name in ("CFLAGS", "CXXFLAGS", "CPPFLAGS"):
-            c_flags = shlex.split(environment.get(name, ""))
-            c_flags.append(f"-ffile-prefix-map={working}=/kernelgecp-source")
-            environment[name] = shlex.join(c_flags)
+        environment = native_build_environment(working, report["source_revision"])
         command = [
             sys.executable,
             "-m",

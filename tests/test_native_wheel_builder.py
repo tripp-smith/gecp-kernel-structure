@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import shlex
 import tomllib
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import pytest
 
 from scripts.build_native_wheel import (
     NativeWheelError,
+    native_build_environment,
     overlay_project_metadata,
     read_source_report,
 )
@@ -119,3 +121,58 @@ def test_metadata_overlay_rejects_automatic_host_sbom() -> None:
     )
     with pytest.raises(NativeWheelError):
         overlay_project_metadata(text, "Apache-2.0 AND LGPL-3.0-or-later")
+
+
+def test_macos_environment_replaces_absolute_install_id_and_preserves_flags(
+    tmp_path: Path,
+) -> None:
+    original = {"RUSTFLAGS": "--cfg existing", "CFLAGS": "-O2", "OTHER": "retained"}
+    value = native_build_environment(
+        tmp_path, "a" * 40, original=original, platform="darwin"
+    )
+    flags = value["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+    assert flags[:2] == ["--cfg", "existing"]
+    assert flags[-2:] == ["-C", "link-arg=-Wl,-install_name,@rpath/_native.abi3.so"]
+    assert f"--remap-path-prefix={tmp_path.resolve()}=/kernelgecp-source" in flags
+    assert "RUSTFLAGS" not in value
+    assert value["OTHER"] == "retained"
+    assert value["KERNELGECP_SOURCE_REVISION"] == "a" * 40
+    assert value["GMP_MPFR_SYS_CACHE"] == "_"
+    assert original == {
+        "RUSTFLAGS": "--cfg existing",
+        "CFLAGS": "-O2",
+        "OTHER": "retained",
+    }
+    assert shlex.split(value["CFLAGS"])[0] == "-O2"
+
+
+def test_environment_maps_canonical_stage_and_keeps_encoded_rust_flags(
+    tmp_path: Path,
+) -> None:
+    physical = tmp_path / "physical stage"
+    physical.mkdir()
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(physical, target_is_directory=True)
+    except OSError:
+        pytest.skip("platform does not permit directory symbolic links")
+    value = native_build_environment(
+        alias,
+        "b" * 40,
+        original={
+            "CARGO_ENCODED_RUSTFLAGS": "--cfg\x1fselected",
+            "RUSTFLAGS": "ignored",
+        },
+        platform="linux",
+    )
+    flags = value["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+    assert flags == [
+        "--cfg",
+        "selected",
+        f"--remap-path-prefix={physical}=/kernelgecp-source",
+    ]
+    assert not any("install_name" in flag for flag in flags)
+    for name in ("CFLAGS", "CXXFLAGS", "CPPFLAGS"):
+        assert shlex.split(value[name]) == [
+            f"-ffile-prefix-map={physical}=/kernelgecp-source"
+        ]

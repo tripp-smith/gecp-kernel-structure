@@ -10854,3 +10854,78 @@ identity and outside-checkout installed typing checks, complete corresponding
 source inspection/rebuild, the full root, exact-head CI and authorized merge/
 push/main closure. Final methods/citation, publish workflow, actual PyPI upload
 and upstream outreach follow as the release phase; publication is authorized.
+
+### DX frozen production cohort
+
+Generation commit `e5f6e796893d31837545e6c7eac0918b641e3fda`, tree
+`2cbf33bbe9a1b12d31e427b88791e5eb5e357d5e`, supplies the production Python/Rust
+implementation and unchanged predeclared configuration. The rebuilt native
+binary records that exact source revision and has SHA-256
+`545964d50686b771122d6940556f8435d329f84d446d61da7106576f3de0e304`.
+Rust 1.92.0, Rug 1.30.0, PyO3 0.27.2, MPFR 4.2.2 and GMP 6.3.0 identify this
+macOS arm64 build; the complete artifact records Python/platform/dependency
+versions and source/config hashes. Six BLAS/OpenMP environment controls are
+set to one; actual operating-system thread counts are not observed.
+
+Canonical `experiments/data/rust_reference_benchmark.json.gz` has container
+SHA-256 `e8714fcae9d1021fe0e905d1ab740259f33e7258532b2c6344721aee61ca85cb`
+and uncompressed JSON SHA-256
+`373365d72516dc67faf834b3d02ea0a91d4c533b5b1750658a66d84203598a1d`.
+Three alternating fresh processes per backend all complete at rank 55, 128-bit
+reference evaluation, one selected-node fit, 80 distinct 64-row query meshes,
+one disjoint validation call and zero design calls for 100 warm cached calls.
+The complete numerical arrays and independent 512-bit QR values repeat exactly
+within each backend's three trials. Replaying parent validation on all six
+stored records recomputes physical/QR errors from complete arrays and reproduces
+the summary exactly; that replay is a consistency check of the retained
+independent generation-time oracle, not a second independent algorithm.
+
+Median application times are 42.795850 s Python and 21.332023 s Rust, a 50.15%
+reduction including construction, fit, import and factor packing. Median full
+process walls are 44.703104 s and 23.350768 s, a 47.76% reduction including
+startup, checks and serialization. Both exceed the unchanged 20% retention
+threshold. The eight-query application prefix improves 8.92%; warm cached
+time differs by 0.32%. These controls are retained rather than extrapolated to
+a universal speedup. Maximum physical stream errors are `2.56409e-11` Python
+and `2.56420e-11` Rust, against `1e-8`. Maximum paired output/coefficient
+discrepancy is `4.25522e-15`, against `1e-12`; production outputs are not
+bitwise equal. Independent centered-core QR comparisons are below `4.12e-16`
+Python and `2.64e-16` Rust. Fits are full-rank selected-node designs with
+condition numbers approximately one. Process RSS and all timing scopes remain
+in the artifact. No exact or continuous theorem is inferred from these checks.
+
+Two complete corresponding-source generations from the same frozen source
+are byte-identical: archive SHA-256
+`e185c2927f5d2453d6721c51b892893160beb12f4b1538392bd2f4572635c993`,
+12,851,005 bytes, 29 vendored crates and 5,184 payload files. The license bundle
+hash is `5448a0dda31ca3457a00ee2928dfab7d149157703cd13dc943702449b4b94291`;
+the sanitized dependency inventory hash is
+`711ecb281262e407fb4b65e8d84d7d346dda9b0597c75a6fb3de89fce19662f1`.
+These are phase acceptance assets for unpublished version 1.0.0, not a claim
+that their eventual GitHub release URL exists. The final 1.1.0 release must
+generate assets from its own frozen version/revision. Linux wheel construction,
+inspection and both installed interpreter checks pass in CI. A macOS tooling
+failure is retained and repaired before final acceptance; it is not treated as
+a numerical failure or a passed build. Final revision root/CI and merge/main
+evidence belong to the canonical receipt in PR #130.
+
+The same inspected asset also builds locally with `--locked --offline` and an
+empty Cargo home, including fresh GMP/MPFR compilation and their build-time
+checks. Its first wheel hash is
+`19993b01bb025dcf57ae2c752651c9c8f465b80594fcf97f8de8ca5368c99452`.
+It reproduces the macOS archive defect: Cargo canonicalizes `/var` to
+`/private/var`, while the old compiler prefix map used the unresolved temporary
+path, leaving vendored Rust panic-source locations in the binary. Resolve the
+stage before Rust/C prefix mapping and use a relative Mach-O install name;
+a small separate PyO3 link probe verifies the latter change. Keep the full
+archive gate, additionally reject `/tmp/` binary paths, and retain
+`experiments/data/rust_native_build_failure.json`. A passing offline build
+alone does not make that first wheel a publishable artifact.
+
+Current independent review also checks the actual Rust fit against the DW
+interval enclosure using exact selected-node coefficients and a 512-bit
+centered-core QR prediction oracle. Physical-pole errors stay separate from
+arithmetic discrepancies. Installed typing consumers cover explicit backend
+selection, portable/native archive load signatures and native extension stubs.
+These checks complement the existing resource/concurrency/arithmetic-state
+tests; final platform gates must use the repaired builder on the final head.

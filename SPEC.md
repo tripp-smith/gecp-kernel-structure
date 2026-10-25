@@ -2938,6 +2938,9 @@ This annotation records delivered identifiers without changing the goals above.
   portable archives, mpmath selection/frequency and NumPy fitting. Native input,
   arithmetic-state and resource boundaries are tested. Universal/source and
   native distributions have separate archive/license/source-identity gates.
-  Production performance retention and actual platform/install proof remain
-  acceptance gates; the original mathematical goals and exact-GECP claims are
-  unchanged. Final release/publication and upstream outreach remain open.
+  The frozen six-process production cohort passes the predeclared retention
+  gate with 50.15% median application and 47.76% process-wall reduction for
+  changing time meshes, physical errors below `2.57e-11` and paired differences
+  below `4.26e-15`. Platform/install and final revision delivery remain gates;
+  the original mathematical goals and exact-GECP claims are unchanged. Final
+  release/publication and upstream outreach remain open.

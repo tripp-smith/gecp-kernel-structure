@@ -1442,10 +1442,16 @@ a validated native handle. No native objects or executable state are loaded
 from an archive.
 
 The measured opportunity is repeated evaluation on changing time meshes after
-construction. Warm cache hits already use cached designs and mature BLAS, while
-construction can dominate a short workload. The canonical DX benchmark will
-report both controls and full-process costs; a native language alone is not a
-performance claim. Existing research GECP defaults are unchanged.
+construction. DX's frozen three-trial cohort gives median application time
+42.80 s Python versus 21.33 s Rust for rank 55, construction/fit/setup and 80
+distinct 64-row evaluations with cache capacity eight. Full-process reduction
+is 47.76%; the eight-query prefix improves only 8.92%, and warm cache hits show
+little difference. All physical stream errors are below `2.57e-11` against
+`1e-8`; paired differences are below `4.26e-15`, not bitwise equal. This is
+single-machine sampled evidence, not a universal speed or accuracy guarantee.
+The complete artifact is `experiments/data/rust_reference_benchmark.json.gz`;
+run `python -m experiments.rust_reference_benchmark --help` for the frozen
+configuration runner. Existing research GECP defaults are unchanged.
 
 Official native wheels are built from the inspected corresponding-source asset
 using `scripts/build_native_wheel.py`. They carry complete dependency notices,

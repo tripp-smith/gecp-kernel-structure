@@ -178,6 +178,14 @@ def test_native_gate_accepts_explicit_platform_wheel_and_identical_sources(
             },
             "host build path",
         ),
+        (
+            {
+                "kernelgecp/_native.abi3.so": b"\x7fELF"
+                + bytes(30)
+                + b"/tmp/host-private-build"
+            },
+            "host build path",
+        ),
         ({"kernelgecp/arbitrary.so": b"\x7fELF"}, "unexpected wheel"),
         ({f"{DIST_INFO}/licenses/native/_wheel_licenses.txt": None}, "missing notices"),
         (

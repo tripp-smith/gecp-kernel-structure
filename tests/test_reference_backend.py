@@ -15,7 +15,12 @@ import mpmath as mp
 import numpy as np
 import pytest
 
-from kernelgecp import FermionicBasis, FermionicFit, NumericalBreakdownError
+from kernelgecp import (
+    FermionicBasis,
+    FermionicFit,
+    NumericalBreakdownError,
+    certify_fit_precision,
+)
 from kernelgecp._basis_numerics import BasisNumerics
 from kernelgecp._reference_backend import RustReferenceBackend
 
@@ -305,3 +310,131 @@ def test_actual_native_fit_and_archive_are_portable(tmp_path: Path) -> None:
         fit.evaluate_matsubara([-3, -1, 0, 5]),
         python_restore.evaluate_matsubara([-3, -1, 0, 5]),
     )
+
+
+def test_actual_native_fit_is_enclosed_by_independent_precision_certificate() -> None:
+    pytest.importorskip("kernelgecp._native")
+    basis = FermionicBasis(
+        2.0,
+        1.0,
+        tol=1e-9,
+        precision="reference",
+        grid_order=6,
+        reference_backend="rust",
+    )
+    amplitude = np.array([[1, 0.25 + 0.5j], [0.25 - 0.5j, 0.75]])
+    energies, weights = np.array([-0.37, 0.41]), np.array([0.4, 0.6])
+
+    def physical_time(times: np.ndarray) -> np.ndarray:
+        values = -sum(
+            weight * np.exp(-times * energy) / (1 + np.exp(-basis.beta * energy))
+            for weight, energy in zip(weights, energies, strict=True)
+        )
+        return values[:, None, None] * amplitude
+
+    observations = physical_time(basis.tau_nodes)
+    fitted = basis.fit_tau(observations)
+    times = basis.beta * np.array([0.127, 0.431, 0.863])
+    modes = np.array([-2, 0, 3])
+    assert not np.intersect1d(times, basis.tau_nodes).size
+    actual_time = fitted.evaluate_tau(times)
+    actual_frequency = fitted.evaluate_matsubara(modes)
+    certificate = certify_fit_precision(
+        fitted,
+        observations,
+        query_tau=times,
+        matsubara_indices=modes,
+    )
+    assert basis.diagnostics.time_evaluation_backend == "rust_mpfr_128"
+    assert certificate.certified, certificate.termination_reason
+    assert certificate.coefficients is not None
+    assert certificate.time is not None and certificate.matsubara is not None
+    assert certificate.time.max_error < 1e-12
+    assert certificate.matsubara.max_error < 1e-12
+
+    context = mp.mp.clone()
+    context.prec = 512
+    beta = context.mpf(basis.beta)
+
+    def scalar(value: Any) -> Any:
+        return context.mpc(float(np.real(value)), float(np.imag(value)))
+
+    def centered_kernel(time: float, omega: float) -> Any:
+        t, w = context.mpf(float(time)) / beta, context.mpf(float(omega))
+        return context.exp((context.mpf(".5") - t) * w) / (2 * context.cosh(w / 2))
+
+    core = context.matrix(
+        [
+            [centered_kernel(time, omega) for omega in basis.omega_nodes]
+            for time in basis.tau_nodes
+        ]
+    )
+    # The exact cardinal design at its own selected nodes is I. Therefore the
+    # exact-data LS coefficients are the supplied observations, independently
+    # of the SVD and interval normal equations used by the actual implementation.
+    for index in np.ndindex(observations.shape):
+        ideal = scalar(observations[index])
+        error = abs(scalar(fitted.coefficients[index]) - ideal)
+        assert error <= context.mpf(
+            float(certificate.coefficients.actual_error_bound[index])
+        )
+        for part in ("real", "imag"):
+            enclosure = certificate.coefficients.ideal
+            lower, upper = (
+                getattr(enclosure, part + "_lower"),
+                getattr(enclosure, part + "_upper"),
+            )
+            assert (
+                context.mpf(float(lower[index]))
+                <= getattr(ideal, part)
+                <= context.mpf(float(upper[index]))
+            )
+
+    for name, points, actual, bounds in (
+        ("time", times, actual_time, certificate.time),
+        ("frequency", modes, actual_frequency, certificate.matsubara),
+    ):
+        for row, point in enumerate(points):
+            rhs = context.matrix(
+                [
+                    centered_kernel(float(point), omega)
+                    if name == "time"
+                    else -beta
+                    / (
+                        context.j * context.pi * (2 * int(point) + 1)
+                        - context.mpf(float(omega))
+                    )
+                    for omega in basis.omega_nodes
+                ]
+            )
+            # QR and a centered physical kernel differ from the certificate's
+            # interval PLU and sign-split kernel formulation.
+            design = context.qr_solve(core.T, rhs)[0]
+            for a, b in np.ndindex(2, 2):
+                index = (row, a, b)
+                ideal = context.fsum(
+                    design[k] * scalar(observations[k, a, b]) for k in range(basis.rank)
+                )
+                error = abs(scalar(actual[index]) - ideal)
+                assert error <= context.mpf(float(bounds.direct_error_bound[index]))
+                assert error <= context.mpf(float(bounds.total_error_bound[index]))
+                for part in ("real", "imag"):
+                    lower = getattr(bounds.ideal_prediction, part + "_lower")
+                    upper = getattr(bounds.ideal_prediction, part + "_upper")
+                    assert (
+                        context.mpf(float(lower[index]))
+                        <= getattr(ideal, part)
+                        <= context.mpf(float(upper[index]))
+                    )
+
+    # Physical accuracy is a separate sampled check, not an interpretation of
+    # the arithmetic-reference certificate as a physical truth guarantee.
+    np.testing.assert_allclose(actual_time, physical_time(times), rtol=0, atol=1e-8)
+    frequency_truth = (
+        sum(
+            weight / (1j * (2 * modes + 1) * np.pi / basis.beta - energy)
+            for weight, energy in zip(weights, energies, strict=True)
+        )[:, None, None]
+        * amplitude
+    )
+    np.testing.assert_allclose(actual_frequency, frequency_truth, rtol=0, atol=1e-8)

@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           cargo vendor --manifest-path native/Cargo.toml --locked --versioned-dirs "$RUNNER_TEMP/native-vendor"
-          uv run python scripts/prepare_corresponding_source.py build \
+          uv run --all-extras --frozen python scripts/prepare_corresponding_source.py build \
             --project-root . --revision "$GITHUB_SHA" \
             --vendor "$RUNNER_TEMP/native-vendor" --output "$RUNNER_TEMP/source-assets" \
             --report "$RUNNER_TEMP/source-assets/source-report.json"
@@ -39,7 +39,7 @@ jobs:
         run: uv build --no-sources --out-dir pure-dist
       - name: Inspect portable distribution including native source inputs
         run: >-
-          uv run python scripts/check_distribution.py inspect
+          uv run --all-extras --frozen python scripts/check_distribution.py inspect
           --project-root . --wheel pure-dist/*.whl --sdist pure-dist/*.tar.gz
       - uses: actions/upload-artifact@v4
         with:
@@ -121,11 +121,11 @@ jobs:
       - name: Build macOS wheel
         if: runner.os == 'macOS'
         run: >-
-          uv run python scripts/build_native_wheel.py --project-root .
+          uv run --all-extras --frozen python scripts/build_native_wheel.py --project-root .
           --source-report "$NATIVE_SOURCE_REPORT" --output "$RUNNER_TEMP/native-wheel"
       - name: Inspect native wheel, source identity, licenses and dependency inventory
         run: >-
-          uv run python scripts/check_distribution.py inspect --kind native
+          uv run --all-extras --frozen python scripts/check_distribution.py inspect --kind native
           --project-root . --wheel "$RUNNER_TEMP/native-wheel/"*.whl --sdist "$NATIVE_SDIST"
       - name: Install native wheel outside checkout on both supported interpreters
         run: |

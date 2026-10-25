@@ -348,7 +348,8 @@ def check_archives(
         )
         _require(
             not any(
-                path in binary for path in (b"/Users/", b"/home/", b"/private/var/")
+                path in binary
+                for path in (b"/Users/", b"/home/", b"/private/var/", b"/tmp/")
             ),
             "native extension contains a host build path",
         )
@@ -482,7 +483,7 @@ import numpy as np
 import numpy.typing as npt
 from typing import assert_type
 from kernelgecp import (
-    FermionicBasis, LeastSquaresPlan, FitPrecisionCertificate,
+    FermionicBasis, FermionicFit, LeastSquaresPlan, FitPrecisionCertificate,
     GridPrecisionCertificate, certify_fit_precision, certify_grid_pivot_precision,
 )
 
@@ -490,7 +491,15 @@ design: npt.NDArray[np.float64] = np.eye(3)
 values: npt.NDArray[np.float64] = np.ones(3)
 plan = LeastSquaresPlan(design)
 assert_type(plan.fit(values), npt.NDArray[np.float64] | npt.NDArray[np.complex128])
-basis = FermionicBasis(beta=2.0, wmax=3.0, tol=1e-8)
+basis = FermionicBasis(
+    beta=2.0, wmax=3.0, tol=1e-8, reference_backend="python",
+)
+assert_type(
+    FermionicBasis.load("type-only.npz", reference_backend="rust"), FermionicBasis,
+)
+assert_type(
+    FermionicFit.load("type-only.npz", reference_backend="rust"), FermionicFit,
+)
 fit = basis.fit_tau(values, tau=np.linspace(0.0, 2.0, 3), axis=0)
 tau_values = fit.evaluate_tau(np.array([0.2, 0.8]))
 iw_values = fit.evaluate_matsubara(np.array([-1, 0, 2]))
@@ -652,7 +661,16 @@ def check_installed(*, project_root: Path, backend: str = "python") -> dict[str,
     )
     with tempfile.TemporaryDirectory(prefix="kernelgecp-typing-") as temporary:
         consumer = Path(temporary) / "consumer.py"
-        consumer.write_text(TYPING_CONSUMER, encoding="utf-8")
+        typing_consumer = TYPING_CONSUMER
+        if backend == "rust":
+            typing_consumer += """
+from kernelgecp import _native
+assert_type(_native.build_info(), dict[str, str | int | bool])
+def native_consumer(handle: _native.ReferenceCardinal128) -> None:
+    assert_type(handle.rank, int)
+    assert_type(handle.design_tau([0.25, 0.75]), bytes)
+"""
+        consumer.write_text(typing_consumer, encoding="utf-8")
         mypy = [sys.executable, "-I", "-m", "mypy", "--strict", "--no-incremental"]
         subprocess.run(
             [*mypy, str(consumer)],
@@ -660,7 +678,7 @@ def check_installed(*, project_root: Path, backend: str = "python") -> dict[str,
             check=True,
         )
         consumer.write_text(
-            TYPING_CONSUMER + '\nplan.fit(values, axis="invalid-axis")\n',
+            typing_consumer + '\nplan.fit(values, axis="invalid-axis")\n',
             encoding="utf-8",
         )
         rejected = subprocess.run(

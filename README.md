@@ -5,7 +5,7 @@ Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
 > **Current phase:** DX — optional measured Rust reference backend<br>
-> **Phase state:** implementation complete; canonical timing, native wheel/source acceptance and delivery in [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130); full release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
+> **Phase state:** measured backend retained; final verification and delivery in [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130); full release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
 > **Last verification:** DW's six-case artifact repeats byte for byte: five completed enclosures and one retained inconclusive solve; independent QR/exact-reproduction checks distinguish useful numerical bounds from large fitting/physical errors. [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129) is the canonical final-revision acceptance receipt. DV's 1,338-test merged-main and six-platform install closure is in [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128). Historical research closure remains DQ exact main `e8c35ed`, [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DW [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129) is merged at `2d41100`; its exact-main root and CI/install gates pass. DV [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128), DU [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127), DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126), DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125), and DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) are merged. Publication is authorized; upload awaits the verified release artifacts and workflow<br>
@@ -30,7 +30,11 @@ supports the [upstream proposal](UPSTREAM_PROPOSAL.md), which is not yet externa
 adoption. The [finite-query numerical bridge](APPLICATION.md#finite-query-numerical-certificates)
 now computes actual coefficient/solve/output budgets and finite-grid pivot
 quality. It preserves inconclusive and large-error cases. Continuous inexact-run
-rates, production Rust integration and final release preparation remain open.
+rates remain a research extension. The optional Rust backend passes its frozen
+streaming-workload retention gate: median application time is 42.80 s Python
+versus 21.33 s Rust, with physical errors below `2.57e-11` and paired differences
+below `4.26e-15`. Small reuse and cache hits show much less benefit. Platform
+acceptance and final release/publication remain delivery gates.
 
 Phase states below describe their historical frozen contracts, not completion
 of every original SPEC requirement. The full-scope [audit](COMPLETION_AUDIT.md)
