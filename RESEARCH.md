@@ -10564,7 +10564,7 @@ closure are recorded canonically in
 The next phase should implement the error bridge and profile a genuinely eligible
 Rust bottleneck rather than infer a speedup from a language choice. Exact
 research defaults, mathematical goals and historical generations are preserved.
-## Phase DW — actual numerical error and finite-grid pivot bridge (in progress)
+## Phase DW — actual numerical error and finite-grid pivot bridge (delivered: PR #129)
 
 This application follow-on preserves the original SPEC's exact continuous-run
 theorems and their quantifiers. It addresses the product goal's practical
@@ -10789,7 +10789,7 @@ predictions and 240 physical values. Five enclosures and one inconclusive fit
 remain. There are 48 focused auditor rejection/success tests plus a direct
 cheap canonical-v2 binding test for cross-platform CI. No floating-point replay
 or missing-history exception is waived by these checks.
-## Phase DX — optional Rust reference evaluation (in progress)
+## Phase DX — optional Rust reference evaluation (delivered: PR #130)
 
 This application phase addresses PRODUCTIZATION's measured Rust requirement
 under original SPEC §§27–29. DW is merged as `2d41100`; its canonical PR129
@@ -10930,7 +10930,7 @@ selection, portable/native archive load signatures and native extension stubs.
 These checks complement the existing resource/concurrency/arithmetic-state
 tests; final platform gates must use the repaired builder on the final head.
 
-## Phase DY — practical versioned release and publication (in progress)
+## Phase DY — practical versioned release and publication (published: PR #131)
 
 This phase closes the remaining controlled delivery obligations in
 `PRODUCTIZATION.md` under original SPEC §§27–29. DX is merged in PR #130 at
@@ -10998,3 +10998,46 @@ installs. Record the external release/publication receipt and finish current
 documentation in a final verified change if post-publication facts require it.
 No new theorem, universal speed ranking, native Windows/Intel-macOS/Linux-ARM
 support or continuous inexact-pivot guarantee is claimed.
+
+## Phase DZ — published release handoff and metadata readiness (acceptance: PR #132)
+
+DY is delivered at tag/main `9a679930db326bda2456bfa91b3256f37359e4ce`:
+PR #131's exact-main root/CI/producer acceptance and publication receipt own
+the complete record. PyPI 1.1.0 and the GitHub source release are public;
+publication workflow 40244470229 attempt 2 passes all six clean public wheel
+install lanes and the separate public sdist install. Exact public JSON and
+simple-index file hashes equal the tested release manifest. Upstream outreach
+is delivered; maintainer acceptance remains pending.
+
+Close the repository handoff by synchronizing README, PRODUCTIZATION,
+APPLICATION, FINDINGS, SPEC status annotations, FINAL_HANDOFF and citation
+metadata with observed publication facts. Add a concise immutable release
+receipt with exact source/tag, file/source hashes, build/publication URLs,
+tested architecture/interpreter boundaries and the preserved first-attempt
+failure. Keep the released tag/assets and frozen scientific data unchanged.
+Final source cannot contain its own final commit; the PR receipt records exact
+final branch/main root and CI status outside that checked content.
+
+The measured operational failure is a too-short metadata visibility window:
+five initial JSON probes returned 404 while public-index/sdist access already
+worked. Only failed verification jobs were rerun after visibility recovered;
+upload was not repeated. Change only the future verifier's bounded retry
+delays from five fixed 5-second waits to capped exponential waits totaling
+at most 135 seconds (individual wait at most 60 seconds). Preserve six
+attempts, strict project/version/exact-file/hash checks and fail-closed
+non-404/conflict behavior. Tests cover bounded absence and actual delayed
+success without real sleeps. This is readiness handling, not a weaker check.
+
+Acceptance: focused retry/receipt/doc/typing checks, full root and exact-head
+CI, authorized PR merge/push and exact-main agreement/checks. Publication is
+already verified; no new upload, tag movement, binary rebuild for distribution,
+new scientific claim or inferred usage/billing/model identity is introduced.
+
+The first DZ documentation head `cc771a1` fails the existing README progress
+contract: header cleanup removed `Current phase`, `Phase state` and
+`Last verification`. The full root reports one failure, 1,726 passes and eight
+optional skips; both source-CI contexts also retain that failure. Restore the
+required fields, attribute the completed release to its immutable source, and
+link current final-handoff status to PR #132. Do not weaken the documentation
+gate or claim that the initial documentation head passed. Final exact-head
+verification follows the repair; the public release is unaffected.

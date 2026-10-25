@@ -431,7 +431,9 @@ def verify_pypi(root: Path) -> dict[str, Any]:
         except urllib.error.HTTPError as exc:
             if exc.code != 404 or attempt == 5:
                 raise ReleaseError("public PyPI metadata unavailable") from exc
-        time.sleep(5)
+        # A newly created project's JSON endpoint may lag its public file index.
+        # Keep six strict attempts, but allow bounded propagation backoff.
+        time.sleep(min(60, 5 * 2**attempt))
     raise ReleaseError("PyPI publication not visible")
 
 

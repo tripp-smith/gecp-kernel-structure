@@ -6,6 +6,13 @@ An unchecked requirement remains open even when a related phase or test passes.
 DU's revision-specific receipt is [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127);
 DV's full root/platform/install and merged-main closure is in
 [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128).
+All controlled functional requirements are now delivered in
+[kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and the
+[GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0).
+The [release receipt](RELEASE_RECEIPT.md) records the immutable source, tested
+file hashes and actual publication checks. Final repository handoff acceptance
+is recorded separately in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132).
+Upstream maintainer acceptance remains an external follow-up.
 
 ## Required end state
 
@@ -24,13 +31,13 @@ DV's full root/platform/install and merged-main closure is in
 | Concrete upstream proposal and actual adoption outreach | [Public tested complex-matrix recipe proposal](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382), exact text verified | outreach delivered; maintainer acceptance pending |
 | Profile and prototype the measured Rust bottleneck | profiling, actual pilot, DX optional backend and exact-main platform acceptance in PR #130 | delivered |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | DX frozen six-process cohort: 50.15% application, 47.76% process-wall reduction; paired differences <4.26e-15, physical <2.57e-11 | delivered for streaming workload; small reuse/cache-hit limits explicit |
-| Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |
-| Distributed typing and extension stubs if applicable | DX pure/native installed positive/negative consumers and native stubs pass | delivered; repeat for final release |
-| Reproducible production benchmarks and citation-ready methods document | DV/DW/DX frozen evidence; DY METHODS and schema-valid CITATION preparation | final release verification pending |
-| Publish a tested versioned release and installable distributions | no release | open |
-| PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
+| Cross-platform built-wheel and outside-checkout install CI | DY exact-main producer and six public OS/Python install lanes plus public sdist installation; release receipt | delivered for the recorded platform matrix |
+| Distributed typing and extension stubs if applicable | DY installed positive/negative typing consumers pass for pure/native distributions and public installs | delivered |
+| Reproducible production benchmarks and citation-ready methods document | DV/DW/DX frozen evidence; published METHODS and schema-validated CITATION with explicit claim boundaries | delivered |
+| Publish a tested versioned release and installable distributions | public v1.1.0 release from exact-main source 9a679930db326bda2456bfa91b3256f37359e4ce; three wheels and original sdist | delivered |
+| PyPI publication for the practical Python module | four public files match the tested manifest; workflow 40244470229 attempt 2 passes all public installs | delivered |
 | Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW portable repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets, two conditional Lean theorems, merged PR #129 | delivered bounded bridge; continuous inexact rate remains a research extension |
-| Implementation validated, committed, PR-merged and pushed | DT through DX delivered; DY release in progress | open for full objective |
+| Implementation validated, committed, PR-merged and pushed | DT through DY delivered; PR #131 exact-main root/CI/producer and publication receipts | delivered release; final handoff acceptance in PR #132 |
 
 ## Delivery order and gates
 
@@ -47,20 +54,30 @@ DV's full root/platform/install and merged-main closure is in
    independently useful proposal and link the actual external evidence.
 
 Steps can share work, but a phase receipt is not proof that unrelated rows are
-complete. Publication/adoption and broad platform claims require their actual
-external results. GitHub releases alone do not establish a PyPI publication.
+complete. Actual public installation now closes publication. Native wheel
+targets are Linux x86_64 (manylinux 2.28) and macOS arm64 (deployment tag 11.0).
+Their public installation and execution pass on hosted Ubuntu/macOS runners
+with Python 3.12/3.13; Windows uses the universal Python fallback. No native
+Windows, Linux arm64 or macOS x86_64 wheel is claimed. Broader adoption still
+requires maintainer action.
 
-## Current external prerequisites
+## Publication and external follow-up
 
 GitHub repository access is available. On 2026-10-24 EDT the user explicitly
 confirmed adding the PyPI pending Trusted Publisher for project `kernelgecp`,
 repository `tripp-smith/gecp-kernel-structure`, workflow `publish.yml`, environment
-`pypi`. The signed-in PyPI management page displays it after reload. No package
-has been uploaded, and this does not reserve the name or prove publication.
-The matching gated workflow/environment and tested release remain to be
-delivered. Never place upload tokens in chat or source files.
+`pypi`. The user subsequently explicitly authorized publication on 2026-10-25.
+That saved publisher uploaded version 1.1.0 on 2026-10-25 at
+23:23:48–23:23:53 UTC. The original tested bytes are public, including complete
+corresponding native source, notices and dependency inventory published on
+GitHub before upload. No user-supplied upload token or password was requested
+or stored in the repository.
 
-On 2026-10-25 the user first asked for publication preparation, then explicitly
-authorized publication through the open PyPI account. Publication is authorized
-once the tested release artifacts and workflow are ready. Reuse the previously
-saved publisher; its presence alone remains distinct from an actual upload.
+The [publication receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/131#issuecomment-6404917491)
+preserves the initial five postchecks that exhausted their short PyPI JSON
+visibility window with HTTP 404. Only those failed verification jobs were
+rerun; upload was not repeated. Attempt 2 passes all checks, and independent
+public JSON/simple-index hashes match all four tested distributions. Final
+handoff and a bounded readiness-backoff correction are tracked in PR #132;
+released assets remain unchanged. The public upstream proposal is delivered,
+while maintainer acceptance remains pending.

@@ -427,7 +427,43 @@ def test_public_absence_is_bounded_and_never_success(
         raise urllib.error.HTTPError(url, 404, "not found", {}, None)
 
     monkeypatch.setattr(release.urllib.request, "urlopen", missing)
-    monkeypatch.setattr(release.time, "sleep", lambda _: None)
+    delays = []
+    monkeypatch.setattr(release.time, "sleep", delays.append)
     with pytest.raises(release.ReleaseError):
         release.verify_pypi(output)
     assert len(calls) == 6
+    assert len(delays) == 5 and max(delays) <= 60
+    assert 100 < sum(delays) <= 135
+
+
+def test_public_metadata_visibility_recovers_without_relaxing_hash_checks(
+    project: Path,
+    collected: tuple[Path, dict[str, Any], Path],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output, manifest = _collect(project, collected)
+    payload = {
+        "info": {"name": "kernelgecp", "version": "1.1.0"},
+        "urls": [
+            {"filename": item["filename"], "digests": {"sha256": item["sha256"]}}
+            for item in manifest["dist"]
+        ],
+    }
+    calls = []
+    delays = []
+
+    def eventually_visible(url: str, **kwargs: Any) -> Any:
+        calls.append(url)
+        if len(calls) <= 2:
+            raise urllib.error.HTTPError(url, 404, "not yet visible", {}, None)
+        return io.BytesIO(json.dumps(payload).encode())
+
+    monkeypatch.setattr(release.urllib.request, "urlopen", eventually_visible)
+    monkeypatch.setattr(release.time, "sleep", delays.append)
+    result = release.verify_pypi(output)
+    assert result["status"] == "verified"
+    assert result["files"] == {
+        item["filename"]: item["sha256"] for item in manifest["dist"]
+    }
+    assert len(calls) == 3 and len(delays) == 2
+    assert 0 < delays[0] < delays[1] <= 60

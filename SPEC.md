@@ -2945,9 +2945,28 @@ This annotation records delivered identifiers without changing the goals above.
   below `4.26e-15`. Exact-main root, source and pure/native platform/install
   acceptance pass at `67e4b14`; the original mathematical goals and exact-GECP
   claims are unchanged.
-- **Phase DY application release follow-on (in progress):** prepares coherent
-  version 1.1.0, methods/citation, tested pure/native artifacts and promotion
-  through the authorized PyPI Trusted Publisher. Actual upstream outreach is
+- **Phase DY application release follow-on (delivered in
+  [PR #131](https://github.com/tripp-smith/gecp-kernel-structure/pull/131)):** publishes
+  [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and the
+  [GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)
+  from immutable tag/source `9a679930db326bda2456bfa91b3256f37359e4ce`.
+  Exact-main root/CI/producer acceptance precedes promotion of the original
+  three tested wheels and sdist through the authorized Trusted Publisher.
+  Complete corresponding native source, notices and dependency inventory
+  were public before upload. Workflow `40244470229` attempt 2 passes all six
+  clean public OS/Python wheel installs and separate public sdist installation;
+  public file hashes equal the tested manifest. Actual upstream outreach is
   [publicly recorded](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382);
-  acceptance remains pending. Upload and public installation remain required
-  release gates. No original mathematical goal is rewritten or weakened.
+  acceptance remains pending. The
+  [release receipt](RELEASE_RECEIPT.md) preserves exact source/file provenance
+  and the first-attempt metadata-visibility failure; only failed verification
+  jobs were rerun, without another upload. Controlled functional application
+  requirements are delivered at their stated numerical/platform boundaries.
+  No original mathematical goal is rewritten or weakened.
+- **Phase DZ published-release handoff (final acceptance in
+  [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132)):** synchronizes
+  current documentation with actual public release evidence and extends only
+  the future verifier's bounded metadata-readiness waits. Released tag/assets,
+  original mathematical goals, proved claims and frozen numerical evidence
+  remain unchanged. Final exact-head root/CI and merged-main delivery evidence
+  belong to the external PR receipt rather than a self-referential source hash.
