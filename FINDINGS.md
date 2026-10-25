@@ -2243,3 +2243,36 @@ stores those actual results and audits their mathematical discrepancy directly.
 Its complete repeat agrees, and every prior scientific/numerical result is
 unchanged from B. Historical B artifacts and failed audit/CI evidence remain
 retained. This is a data/provenance correction, not a relaxed accuracy check.
+## DX — measured optional native evaluation
+
+The application backend now isolates high-precision time-kernel evaluation and
+cached triangular substitution behind an explicit optional Rust interface.
+Selection, frequency evaluation, normalization/export policy and existing
+NumPy fitting/products keep their prior implementations. Python remains the
+default, and archive history cannot activate native code automatically.
+
+Development tests cover MPFR state restoration, concurrency, resource/token
+limits and independent numerical parity. Review found two concrete private-API
+boundary defects before source freeze: reentrant numeric conversion could
+mutate input lists and create an inconsistent handle; oversized Unicode tokens
+could allocate a UTF-8 copy before the byte limit. Exact builtin input checks
+and pre-copy character limits fix both, with retained regressions. These are
+engineering corrections, not new mathematical results.
+
+The production cohort frozen at `e5f6e796893d31837545e6c7eac0918b641e3fda`
+retains the backend under its predeclared 20% application/process-wall gate.
+Three alternating fresh trials per backend give median application times
+42.7959 s Python and 21.3320 s Rust (50.15% reduction), and process-wall times
+44.7031 s and 23.3508 s (47.76% reduction). Rank is 55; all six physical
+stream errors are below `2.57e-11`, against an unchanged `1e-8` target.
+Independent 512-bit physical-coordinate QR checks pass; maximum paired
+Python/Rust discrepancy is `4.26e-15`, below `1e-12`, but outputs are not
+bitwise equal. Each backend's complete numerical arrays and QR values repeat
+exactly across its three trials.
+
+The eight-query prefix improves only 8.92%; warm cached calls differ by 0.32%
+in this cohort and make zero new design calls. Construction remains about
+19 s. These are one-machine observations for changing time meshes, not a
+universal speedup, a physical continuous certificate or a new theorem.
+Complete arrays, timings, scopes, hashes and failures are retained in
+`experiments/data/rust_reference_benchmark.json.gz`; RESEARCH owns provenance.

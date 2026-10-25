@@ -1399,3 +1399,67 @@ rounding bit for bit. A separate small guard checks physical fixture identity;
 the certificate error bounds retain their strict checks. Historical cohort B
 and its generation-platform audit remain in the `precision_bridge_cohort_b*`
 files. CI fetches the Git history required by the provenance test.
+## Optional Rust reference time backend
+
+The physical facade accepts `reference_backend="rust"` when a compatible native
+wheel is installed. The default remains `"python"` and the universal wheel
+needs no Rust compiler or native module:
+
+```python
+from kernelgecp import FermionicBasis, FermionicFit
+
+basis = FermionicBasis(
+    beta=20.0,
+    wmax=50.0,
+    tol=1e-10,
+    precision="reference",
+    precision_bits=128,
+    reference_backend="rust",
+)
+print(basis.diagnostics.time_evaluation_backend)
+print(basis.diagnostics.native_backend_info)
+```
+
+This backend evaluates reference time-kernel rows and solves with the existing
+cached LU using 128-bit MPFR arithmetic. Physical normalization stays binary64
+in Python. GECP selection and Matsubara evaluation remain mpmath; fits and
+final products remain NumPy/SciPy. Diagnostics identify every stage. Float64
+construction uses the existing SciPy path, so a reference-backend request does
+not make that path native. Other reference precisions and ranks above the
+native limit of 128 are not supported by this backend.
+
+A missing/incompatible module or native arithmetic failure raises a clear
+error; it does not silently substitute a different implementation or precision.
+The checked native handle owns its factors and releases the GIL during work.
+The public basis caches themselves retain their existing concurrency contract.
+No new rounding or continuous physical guarantee follows from choosing Rust;
+the explicit finite-query certificate can audit actual native output too.
+
+Archives remain portable. `FermionicBasis.load(path)` and
+`FermionicFit.load(path)` restore Python execution by default, regardless of
+saved backend history. Explicit `load(path, reference_backend="rust")` rebuilds
+a validated native handle. No native objects or executable state are loaded
+from an archive.
+
+The measured opportunity is repeated evaluation on changing time meshes after
+construction. DX's frozen three-trial cohort gives median application time
+42.80 s Python versus 21.33 s Rust for rank 55, construction/fit/setup and 80
+distinct 64-row evaluations with cache capacity eight. Full-process reduction
+is 47.76%; the eight-query prefix improves only 8.92%, and warm cache hits show
+little difference. All physical stream errors are below `2.57e-11` against
+`1e-8`; paired differences are below `4.26e-15`, not bitwise equal. This is
+single-machine sampled evidence, not a universal speed or accuracy guarantee.
+The complete artifact is `experiments/data/rust_reference_benchmark.json.gz`;
+run `python -m experiments.rust_reference_benchmark --help` for the frozen
+configuration runner. Existing research GECP defaults are unchanged.
+
+Official native wheels are built from the inspected corresponding-source asset
+using `scripts/build_native_wheel.py`. They carry complete dependency notices,
+an explicit composite SPDX expression, a sanitized dependency inventory and
+the matching source-asset identity. The Python/source distributions retain the
+project's Apache license. Native distribution metadata is specific to the code
+it contains, consistent with the [PyPA metadata specification](https://packaging.python.org/en/latest/specifications/core-metadata/#license-expression).
+The complete locked third-party sources and offline rebuild instructions are
+prepared with `scripts/prepare_corresponding_source.py`; see
+`native/SOURCE_BUILD.md`. Native Linux/macOS support is subject to actual wheel
+CI/install acceptance. Windows uses the tested universal Python fallback.

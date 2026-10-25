@@ -17,6 +17,7 @@ import numpy as np
 import numpy.typing as npt
 from scipy.linalg import LinAlgWarning, lu_factor, lu_solve
 
+from ._reference_backend import ReferenceBackend, RustReferenceBackend
 from .kernels import FermionicKernel
 from .types import FloatArray, NumericalBreakdownError
 
@@ -56,6 +57,7 @@ class BasisNumerics:
         omega_nodes: npt.ArrayLike,
         *,
         precision_bits: int,
+        reference_backend: ReferenceBackend = "python",
     ) -> None:
         for name, value in (("beta", beta), ("cutoff", cutoff)):
             if (
@@ -76,6 +78,18 @@ class BasisNumerics:
         self.beta = float(beta)
         self.cutoff = float(cutoff)
         self.precision_bits = int(precision_bits)
+        if reference_backend not in ("python", "rust"):
+            raise ValueError("reference_backend must be 'python' or 'rust'")
+        if reference_backend == "rust" and self.precision_bits not in (53, 128):
+            raise ValueError("Rust reference backend requires exactly 128 working bits")
+        self._rust_backend: RustReferenceBackend | None = None
+        self.native_backend_info: tuple[tuple[str, str | int | bool], ...] = ()
+        self.time_evaluation_backend = (
+            "scipy_lapack_float64"
+            if self.precision_bits == 53
+            else "python_mpmath_reference"
+        )
+        self.frequency_evaluation_backend = self.time_evaluation_backend
         times = _real_vector(tau_nodes, "tau_nodes")
         frequencies = _real_vector(omega_nodes, "omega_nodes")
         if times.size == 0 or times.shape != frequencies.shape:
@@ -138,6 +152,12 @@ class BasisNumerics:
             ]
             self._mp_lu = ordering, lower, upper
             core = np.asarray(reference_core.tolist(), dtype=np.float64)
+            if reference_backend == "rust":
+                self._rust_backend = RustReferenceBackend(
+                    self.omega_nodes, ordering, lower, upper, self._context
+                )
+                self.time_evaluation_backend = "rust_mpfr_128"
+                self.native_backend_info = self._rust_backend.info
         self.exported_core_condition = self._condition(core)
         # Kept as the requested scalar interface; its explicit scope is above.
         self.core_condition = self.exported_core_condition
@@ -221,6 +241,8 @@ class BasisNumerics:
                 result = np.asarray(
                     lu_solve(self._float_lu, columns.T).T, dtype=np.float64
                 )
+            elif self._rust_backend is not None:
+                result = self._rust_backend.design_tau(normalized_times)
             else:
                 result = np.asarray(
                     self._solve_reference(

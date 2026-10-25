@@ -1,0 +1,152 @@
+name: Optional native backend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  source-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: uv sync --all-extras --frozen
+      - name: Vendor exact dependencies and prepare inspected source/notices
+        shell: bash
+        run: |
+          cargo vendor --manifest-path native/Cargo.toml --locked --versioned-dirs "$RUNNER_TEMP/native-vendor"
+          uv run --all-extras --frozen python scripts/prepare_corresponding_source.py build \
+            --project-root . --revision "$GITHUB_SHA" \
+            --vendor "$RUNNER_TEMP/native-vendor" --output "$RUNNER_TEMP/source-assets" \
+            --report "$RUNNER_TEMP/source-assets/source-report.json"
+      - name: Build portable wheel and source distribution
+        run: uv build --no-sources --out-dir pure-dist
+      - name: Inspect portable distribution including native source inputs
+        run: >-
+          uv run --all-extras --frozen python scripts/check_distribution.py inspect
+          --project-root . --wheel pure-dist/*.whl --sdist pure-dist/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-source-assets
+          path: |
+            ${{ runner.temp }}/source-assets/*
+            pure-dist/*.tar.gz
+          if-no-files-found: error
+
+  rust-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: uv sync --all-extras --frozen
+      - name: Rust format, lint and native state/export tests
+        shell: bash
+        run: |
+          export PYO3_PYTHON="$(uv python find)"
+          cargo fmt --manifest-path native/Cargo.toml --check
+          cargo clippy --manifest-path native/Cargo.toml --locked --all-targets -- -D warnings
+          cargo test --manifest-path native/Cargo.toml --locked
+
+  wheel:
+    needs: source-assets
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: uv sync --all-extras --frozen
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-source-assets
+          path: ${{ runner.temp }}/native-input
+      - name: Locate source report and sdist
+        run: |
+          native_report="$(find "$RUNNER_TEMP/native-input" -name source-report.json -print -quit)"
+          native_sdist="$(find "$RUNNER_TEMP/native-input" -name 'kernelgecp-*.tar.gz' ! -name '*-native-source.tar.gz' -print -quit)"
+          test -n "$native_report" && test -n "$native_sdist"
+          echo "NATIVE_SOURCE_REPORT=$native_report" >> "$GITHUB_ENV"
+          echo "NATIVE_SDIST=$native_sdist" >> "$GITHUB_ENV"
+      - name: Build Linux wheel in the manylinux 2.28 environment
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p "$RUNNER_TEMP/native-wheel"
+          native_assets="$(dirname "$NATIVE_SOURCE_REPORT")"
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/work:ro" -v "$native_assets:/source-assets:ro" \
+            -v "$RUNNER_TEMP/native-wheel:/output" \
+            -v "$HOME/.cargo:/cargo" -v "$HOME/.rustup:/rustup:ro" \
+            -e CARGO_HOME=/cargo -e RUSTUP_HOME=/rustup -e RUSTUP_TOOLCHAIN=1.92.0 \
+            -e PYO3_PYTHON=/opt/python/cp312-cp312/bin/python \
+            -w /work quay.io/pypa/manylinux_2_28_x86_64:latest \
+            bash -euxc '
+              export PATH=/cargo/bin:/opt/python/cp312-cp312/bin:$PATH
+              git config --global --add safe.directory /work
+              python -m pip install "maturin==1.15.0" "packaging>=24.2,<27"
+              python scripts/build_native_wheel.py --project-root /work \
+                --source-report /source-assets/source-report.json --output /output \
+                --compatibility manylinux_2_28
+            '
+      - name: Build macOS wheel
+        if: runner.os == 'macOS'
+        run: >-
+          uv run --all-extras --frozen python scripts/build_native_wheel.py --project-root .
+          --source-report "$NATIVE_SOURCE_REPORT" --output "$RUNNER_TEMP/native-wheel"
+      - name: Inspect native wheel, source identity, licenses and dependency inventory
+        run: >-
+          uv run --all-extras --frozen python scripts/check_distribution.py inspect --kind native
+          --project-root . --wheel "$RUNNER_TEMP/native-wheel/"*.whl --sdist "$NATIVE_SDIST"
+      - name: Install native wheel outside checkout on both supported interpreters
+        run: |
+          for native_python in 3.12 3.13; do
+            native_env="$RUNNER_TEMP/native-install-$native_python"
+            uv venv --python "$native_python" "$native_env"
+            uv pip install --python "$native_env" "$RUNNER_TEMP/native-wheel/"*.whl "mypy>=1.11,<2" "pytest>=9,<10"
+            (
+              cd "$RUNNER_TEMP"
+              for native_backend in python rust; do
+                uv run --no-project --python "$native_env" python -I \
+                  "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+                  --project-root "$GITHUB_WORKSPACE" --backend "$native_backend"
+              done
+              uv run --no-project --python "$native_env" python -I -m pytest \
+                --import-mode=importlib "$GITHUB_WORKSPACE/tests/test_native_backend.py" \
+                "$GITHUB_WORKSPACE/tests/test_reference_backend.py"
+            )
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kernelgecp-native-${{ matrix.os }}
+          path: ${{ runner.temp }}/native-wheel/*.whl
+          if-no-files-found: error

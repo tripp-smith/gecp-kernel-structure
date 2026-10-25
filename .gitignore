@@ -12,6 +12,10 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+kernelgecp/_native*.so
+kernelgecp/_native*.pyd
+native/target/
+native/vendor/
 
 # Local research scratch output (canonical data is explicitly unignored)
 experiments/scratch/
@@ -32,6 +36,8 @@ experiments/data/*
 !experiments/data/adaptive_census.json
 !experiments/data/adaptive_census_checks.json
 !experiments/data/adaptive_census.png
+!experiments/data/rust_reference_benchmark.json.gz
+!experiments/data/rust_native_build_failure.json
 
 
 # Editors and operating systems

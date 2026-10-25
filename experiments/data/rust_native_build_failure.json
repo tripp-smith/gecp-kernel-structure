@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_revision": "e5f6e796893d31837545e6c7eac0918b641e3fda",
+  "workflow_run": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40214825498",
+  "job": "wheel (macos-latest)",
+  "build_status": "succeeded",
+  "inspection_status": "failed",
+  "inspection_error": "native extension contains a host build path",
+  "other_jobs": {
+    "source-assets": "success",
+    "rust-tests": "success",
+    "wheel (ubuntu-latest)": "success"
+  },
+  "scope": "retained_packaging_failure_not_a_numerical_failure",
+  "resolution": "Repair path remapping/link metadata; retain strict archive gate and repeat final-revision platform acceptance."
+}
