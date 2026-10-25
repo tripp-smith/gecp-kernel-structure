@@ -10564,7 +10564,7 @@ closure are recorded canonically in
 The next phase should implement the error bridge and profile a genuinely eligible
 Rust bottleneck rather than infer a speedup from a language choice. Exact
 research defaults, mathematical goals and historical generations are preserved.
-## Phase DW — actual numerical error and finite-grid pivot bridge (in progress)
+## Phase DW — actual numerical error and finite-grid pivot bridge (delivered: PR #129)
 
 This application follow-on preserves the original SPEC's exact continuous-run
 theorems and their quantifiers. It addresses the product goal's practical
@@ -10789,7 +10789,7 @@ predictions and 240 physical values. Five enclosures and one inconclusive fit
 remain. There are 48 focused auditor rejection/success tests plus a direct
 cheap canonical-v2 binding test for cross-platform CI. No floating-point replay
 or missing-history exception is waived by these checks.
-## Phase DX — optional Rust reference evaluation (in progress)
+## Phase DX — optional Rust reference evaluation (delivered: PR #130)
 
 This application phase addresses PRODUCTIZATION's measured Rust requirement
 under original SPEC §§27–29. DW is merged as `2d41100`; its canonical PR129
@@ -10930,7 +10930,7 @@ selection, portable/native archive load signatures and native extension stubs.
 These checks complement the existing resource/concurrency/arithmetic-state
 tests; final platform gates must use the repaired builder on the final head.
 
-## Phase DY — practical versioned release and publication (in progress)
+## Phase DY — practical versioned release and publication (published: PR #131)
 
 This phase closes the remaining controlled delivery obligations in
 `PRODUCTIZATION.md` under original SPEC §§27–29. DX is merged in PR #130 at
@@ -10999,7 +10999,7 @@ documentation in a final verified change if post-publication facts require it.
 No new theorem, universal speed ranking, native Windows/Intel-macOS/Linux-ARM
 support or continuous inexact-pivot guarantee is claimed.
 
-## Phase DZ — published release handoff and metadata readiness (in progress)
+## Phase DZ — published release handoff and metadata readiness (acceptance: PR #132)
 
 DY is delivered at tag/main `9a679930db326bda2456bfa91b3256f37359e4ce`:
 PR #131's exact-main root/CI/producer acceptance and publication receipt own

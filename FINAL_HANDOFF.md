@@ -58,12 +58,31 @@ basis, complex batches/archives, matched DLR/IR comparison and small physical
 solver, finite-query precision bridge, and a measured optional Rust backend.
 DX is merged at `67e4b14`; its complete exact-main root/platform/install closure
 is in [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719).
-DY prepares coherent version 1.1.0, methods/citation and promotion of the exact
-tested artifacts. PyPI upload and public installation are still required.
+DY published [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/)
+and [GitHub release v1.1.0](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)
+from immutable source/tag `9a679930db326bda2456bfa91b3256f37359e4ce` on
+2026-10-25. The universal Python wheel, Linux x86_64/macOS arm64 native wheels
+and source distribution are the unchanged exact-main tested artifacts.
+[Publication workflow 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2)
+is successful: all six Linux/macOS/Windows × Python 3.12/3.13 clean public-index
+wheel installs, native execution where built, the Windows Python fallback and
+a separate public-sdist install pass. Complete corresponding sources, notices,
+dependency inventory and the manifest were public on GitHub before the OIDC
+upload. The [publication receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/131#issuecomment-6404917491)
+records the exact hashes and checks.
+
+The upload occurred once, at 23:23:48–23:23:53 UTC. Five initial postchecks
+exhausted their short readiness window while PyPI JSON still returned HTTP 404;
+the upload, public-sdist install and Windows 3.13 verification had succeeded.
+Once the public JSON and simple-index hashes matched the tested files, only
+those five failed verification jobs were rerun. The first attempt remains in
+Actions history; attempt 2 does not imply an initially all-green run. Final DZ
+documentation and verification leave the released tag and artifact bytes
+unchanged. The functional practical release/publication objective is complete.
 [Actual upstream outreach](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382)
 offers an independently useful tested recipe; acceptance remains pending.
-The original research's 100% scope estimate does not stand in for this later
-product's release gates.
+The original research's 100% scope estimate and this later product's measured
+release gates retain their separate scopes.
 
 ## Historical implementation and research chronology
 
@@ -1016,6 +1035,12 @@ goal usage, elapsed-goal total or phase-only usage is available. The frozen
 completed original-goal record above is preserved; it excludes this later
 application development and is not extrapolated or repriced.
 
+The same provenance limits apply to the completed 1.1.0 publication and DZ
+repository handoff. Publication timestamps and individual command/CI durations
+are observed operational records, not new aggregate implementation accounting.
+Successful OIDC upload, public artifact hashes and clean installations establish
+publication; no continuing authenticated PyPI browser session is claimed.
+
 Temporary agents contribute implementation, native-boundary tests, packaging
 review, benchmark work and upstream recipe/methods preparation. Earlier
 account-limit failures are not counted as reviews; later successful reviews
@@ -1432,16 +1457,23 @@ ignored.
 ## Files and artifacts delivered
 
 - Lean library: `GECPKernelStructure`.
-- Python package: `kernelgecp` v1.0.0.
+- Python package: [kernelgecp v1.1.0](https://pypi.org/project/kernelgecp/1.1.0/).
 - Canonical data and plot under `experiments/data/`.
 - DP explicit-axis adaptive JSON, independent checker report and normalized/
   stage PNG under `experiments/data/`; independent report passes.
 - Synthetic application configuration, canonical JSON, and reviewed summary
   plot under `experiments/` and `experiments/data/`.
-- Release artifacts: `dist/kernelgecp-1.0.0-py3-none-any.whl` and
-  `dist/kernelgecp-1.0.0.tar.gz`.
+- Public release artifacts: `kernelgecp-1.1.0-py3-none-any.whl`,
+  `kernelgecp-1.1.0-cp312-abi3-manylinux_2_28_x86_64.whl`,
+  `kernelgecp-1.1.0-cp312-abi3-macosx_11_0_arm64.whl` and
+  `kernelgecp-1.1.0.tar.gz`; each matches the
+  [release manifest](https://github.com/tripp-smith/gecp-kernel-structure/releases/download/v1.1.0/release-manifest.json).
+  Its SHA-256 is `2d2d9b2cb7cb1c35f7762cc079aa3722ad4e335434d57cbe3c98ba4894124420`.
+  The same GitHub release includes complete locked native sources, notices,
+  dependency inventory, source receipt, methods, citation and release notes.
 - Claim and research documentation: `README.md`, `FINDINGS.md`, `RESEARCH.md`,
-  `APPLICATION.md`, `MATHLIB.md`, and `SPEC.md`.
+  `APPLICATION.md`, `MATHLIB.md`, and `SPEC.md`; practical release documentation
+  adds `PACKAGE_README.md`, `METHODS.md`, `CITATION.cff` and `RELEASE_NOTES.md`.
 - Preserved workflow input: `autonomous-implementation.md`, explicitly labeled
   as a reference rather than current status and excluded from package builds.
 

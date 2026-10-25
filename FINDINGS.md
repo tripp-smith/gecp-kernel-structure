@@ -2184,7 +2184,9 @@ in the recorded run, versus0.0194/1.337 seconds for pydlr/sparse-ir. The methods
 meet one external ceiling but do not have identical errors or native arithmetic.
 The next optimization must be measured, and any Rust prototype must preserve
 numerical behavior. A standalone native-Sparse-IR recipe and concrete upstream
-proposal are present; external adoption and publication remain unperformed.
+proposal were present at DV's freeze; external adoption and publication had
+not yet occurred. The later DY record below supplies actual publication and
+outreach evidence.
 
 ## Run provenance
 
@@ -2277,12 +2279,16 @@ universal speedup, a physical continuous certificate or a new theorem.
 Complete arrays, timings, scopes, hashes and failures are retained in
 `experiments/data/rust_reference_benchmark.json.gz`; RESEARCH owns provenance.
 
-## DY — reproducible practical release
+## DY — published practical release
 
 DX's exact pushed-main root/source/pure/native installed gates pass at
 `67e4b14`; [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719)
-owns that closure. DY prepares coherent version 1.1.0 and promotes the same
-tested artifact bytes through the saved PyPI publisher. METHODS and CITATION
+owns that closure. DY delivers
+[kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and the
+[GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)
+from immutable tag/source `9a679930db326bda2456bfa91b3256f37359e4ce`.
+The saved Trusted Publisher uploaded the same tested artifact bytes on
+2026-10-25 at 23:23:48–23:23:53 UTC. METHODS and CITATION
 keep exact-run theorems, independent numerical observations and finite-query
 arithmetic enclosures distinct. This is release engineering, not a new theorem.
 
@@ -2292,5 +2298,26 @@ both frequency signs and native Sparse-IR fitting. Its sampled time/frequency
 errors are `2.76169e-11` and `4.94085e-11` against `1e-8`; canonical spectral
 normalization and independent Fourier quadrature tests pass. The earlier
 single-atom recipe remains historical development evidence. Outreach has
-occurred; maintainer acceptance and actual PyPI publication are not inferred
-from tests or a prepared workflow.
+occurred; maintainer acceptance remains pending.
+
+[Publication workflow 40244470229](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229)
+attempt 2 passes all six Linux/macOS/Windows × Python 3.12/3.13 clean public
+wheel installs and the separate public sdist installation. Actual native
+execution is checked for Linux x86_64 and macOS arm64; Windows uses the
+universal Python fallback. Public JSON and simple-index file hashes match all
+four original tested distributions. Complete native source, notices and the
+locked dependency inventory were publicly available on GitHub before upload.
+The [release receipt](RELEASE_RECEIPT.md) links exact-main verification and
+records the source and file hashes.
+
+The initial publication attempt is retained: upload, the public sdist and one
+public wheel lane passed, but five postchecks exhausted the short metadata
+visibility window with HTTP 404. Only failed verification jobs were rerun;
+upload and source publication were not repeated. This distinguishes package
+availability from JSON metadata readiness. DZ records that outcome and a
+bounded readiness correction; its final repository acceptance is in
+[PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132).
+The controlled application and publication requirements are delivered at
+their recorded workload, arithmetic and platform boundaries. Upstream
+acceptance, broader platform support and a continuous inexact-trajectory
+theorem remain separate extensions.

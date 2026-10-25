@@ -4,11 +4,17 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DZ — published release handoff and metadata readiness<br>
-> **Phase state:** in progress; PyPI 1.1.0 is published and all public installs pass. Final repository handoff records the actual release and preserves the first metadata-visibility failure<br>
-> **Last verification:** DX exact main `67e4b14` passes the full root: 1,662 tests, eight optional skips, 878 allowed axiom reports, source CI, six pure-wheel install jobs and Linux/macOS native build/archive/install/typing checks. [PR #130's canonical delivery receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719) records full revisions and evidence. DW's finite-query bridge is delivered in [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129). Historical original-research closure remains DQ exact main `e8c35ed`<br>
+```sh
+python -m pip install kernelgecp==1.1.0
+```
+
+Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
+
+> **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
+> **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), and exact final repository verification/merge status in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132)<br>
+> **Release verification:** Source/tag `9a67993` passes 1,726 tests, eight optional skips, 878 allowed axiom reports, full source/pure/native CI and seven clean public-install lanes. [Publication workflow 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2) is successful; the initial metadata-visibility failure is retained in the receipt<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** DU–DX are merged and pushed; [PRODUCTIZATION.md](PRODUCTIZATION.md) tracks the practical goal separately from original research completion. Version 1.1.0 publication is authorized and being prepared; actual upload/public installs remain required<br>
+> **Delivery:** DU–DY are merged and pushed, and the tested 1.1.0 artifacts are public. Post-publication handoff changes preserve the released tag/files; PR #132 owns its final checked branch/main evidence<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
 > **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): frozen original research accounting is 24,738,403 aggregate tokens and 116,095 goal-accounting seconds (32:14:55). Later application-development usage/billing and exact serving version are unavailable; those historical counters are not extended or repriced<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -19,8 +25,9 @@ The new [physical basis API](APPLICATION.md#reusable-physical-green-functions)
 supports cached factorizations, complex matrix batches, physical Matsubara
 evaluation and safe numerical archives. Run
 `uv run python -m examples.reusable_basis` for an analytic fixture with
-independent time/frequency checks. This is application-development progress,
-not completion of the [full product/release goal](PRODUCTIZATION.md).
+independent time/frequency checks. These features are delivered in 1.1.0; the
+[acceptance ledger](PRODUCTIZATION.md) separates the practical release from
+the original mathematical scope.
 
 The [matched DLR/IR cohort](APPLICATION.md#recorded-dv-matched-cohort-b)
 adds independently checked time/frequency errors and a genuine small physical
@@ -33,9 +40,9 @@ quality. It preserves inconclusive and large-error cases. Continuous inexact-run
 rates remain a research extension. The optional Rust backend passes its frozen
 streaming-workload retention gate: median application time is 42.80 s Python
 versus 21.33 s Rust, with physical errors below `2.57e-11` and paired differences
-below `4.26e-15`. Small reuse and cache hits show much less benefit. Final
-release/publication remains a delivery gate; native platform acceptance is
-recorded in PR #130. [METHODS.md](METHODS.md) and [CITATION.cff](CITATION.cff)
+below `4.26e-15`. Small reuse and cache hits show much less benefit. Version
+1.1.0 is published with public install acceptance; native prototype evidence
+is recorded in PR #130. [METHODS.md](METHODS.md) and [CITATION.cff](CITATION.cff)
 describe the recorded evidence and how to cite it.
 
 Phase states below describe their historical frozen contracts, not completion

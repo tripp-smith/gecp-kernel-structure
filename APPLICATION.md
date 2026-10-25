@@ -1,5 +1,16 @@
 # Application guide
 
+[kernelgecp 1.1.0 is available on PyPI](https://pypi.org/project/kernelgecp/1.1.0/):
+
+```bash
+python -m pip install kernelgecp==1.1.0
+```
+
+Python 3.12/3.13 public installs are verified on Linux, macOS and Windows;
+supported Linux x86_64/macOS arm64 wheels include the optional native backend.
+Other targets use the universal Python wheel. See the
+[package quickstart](PACKAGE_README.md) and [release verification](#versioned-practical-release).
+
 ## Reusable physical Green functions
 
 The practical facade uses inverse temperature `beta`, spectral energy cutoff
@@ -1468,11 +1479,27 @@ fallback; no native support is inferred from that fallback.
 
 ## Versioned practical release
 
-Version 1.1.0 preparation includes a short [package quickstart](PACKAGE_README.md),
+Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and
+[GitHub](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0),
+with a short [package quickstart](PACKAGE_README.md),
 [computational methods](METHODS.md), [citation metadata](CITATION.cff) and
-[release notes](RELEASE_NOTES.md). Source, wheel and installed behavior must
-pass on the final revision before upload. The release workflow promotes the
-unchanged exact-main tested artifacts, publishes complete native sources and
-notices on GitHub first, and then uses the saved PyPI Trusted Publisher.
-Publication and clean public-index installation remain required external
-checks; a prepared version or workflow does not establish them.
+[release notes](RELEASE_NOTES.md). The immutable source/tag is
+`9a679930db326bda2456bfa91b3256f37359e4ce`. The release workflow promoted the
+unchanged exact-main tested universal wheel, two supported native wheels and
+sdist; complete native sources, notices, dependency inventory and manifest were
+public on GitHub before the Trusted Publisher's OIDC upload on 2026-10-25 at
+23:23:48–23:23:53 UTC.
+
+[Workflow 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2)
+passes all ten jobs, including clean public-index wheel installations on
+Linux/macOS/Windows with Python 3.12/3.13, actual native execution where built,
+the Windows universal fallback and a separate public-sdist installation.
+Public PyPI JSON and simple-index file hashes match the four tested files in
+the [release manifest](https://github.com/tripp-smith/gecp-kernel-structure/releases/download/v1.1.0/release-manifest.json).
+The [publication receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/131#issuecomment-6404917491)
+preserves the first attempt: five postchecks exhausted a short PyPI-JSON HTTP
+404 readiness window after successful upload. Only those five verification
+jobs were rerun once the exact public hashes were visible; no upload or source
+job was repeated. These release checks leave the finite-fixture, conditional
+certificate and exact-theorem scopes above unchanged. Upstream outreach is
+public; maintainer acceptance remains pending.
