@@ -2136,6 +2136,30 @@ the checkout. Cross-platform CI results, publication, production comparative
 value, a solver loop and the measured Rust decision remain separate gates in
 `PRODUCTIZATION.md`. No new mathematical theorem or speedup is claimed here.
 
+## DV pilot: sampling observability is not solver convergence
+
+The new physical comparison remains in progress. Its initial solver pilot
+withheld several low Matsubara rows and reached a small observed fixed-point
+defect while giving unseen time/frequency errors around `1e-5`. All three
+providers exhibited the issue. More iterations, real-coefficient fitting,
+particle-hole symmetrization, truncation changes and endpoint constraints did
+not repair the missing information. The low-frequency-hole witness is retained
+as an executable regression, not relabeled as successful validation.
+
+Keeping the informative low modes makes the GECP projection design well
+conditioned on a scout (estimated condition roughly `13` rather than `1e10`)
+and gives independent physical errors around `5e-10`. This illustrates the
+connection to observability/experimental design: a validation split can remove
+essential information from an inverse projection. It does not establish a new
+GECP theorem or justify accepting a small sampled defect as global accuracy.
+The final protocol retains low-frequency observations, separately checks their
+physical truth after the loop, and uses disjoint time/middle-high-frequency
+holdouts. Forward time fitting also has fresh unseen low-frequency checks.
+The old pilot points are now calibration evidence; final time fractions and
+frequency lists are frozen anew before recorded generation. Detailed failed
+hypotheses, conventions, acceptance criteria and the numerical-bridge planning
+checkpoint are in `RESEARCH.md`. Actual results and delivery gates will follow.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

@@ -74,6 +74,67 @@ signed scientific certificates; validate accuracy again after transfer.
 The runnable [matrix-valued tutorial](examples/reusable_basis.py) checks time
 and frequency signs, reuse and persistence on an independent analytic pole.
 
+## DLR/IR interoperability and a physical solver loop
+
+From a checkout with optional providers, run the same complex matrix workload
+and small scalar bath self-consistency loop with all three bases:
+
+```bash
+uv run --with pydlr==1.0.1 --with sparse-ir==2.1.6 \
+  python -m examples.dlr_interoperability
+```
+
+The [executable example](examples/dlr_interoperability.py) fits identical time
+observations using `LeastSquaresPlan` and provider design matrices, then checks
+physical time and Matsubara predictions. It also iterates the half-filled,
+noninteracting Bethe equation `G(z)=1/(z-hopping**2*G(z))`, with cached projection
+factors, an explicit fixed-point defect and independent iteration budget.
+Its reference is the causal semicircle resolvent and separate spectral
+quadrature, not another run of the same iteration. This is a small physical
+self-consistency workload, not an interacting impurity solver or production
+DMFT package. The Bethe bath relation follows the
+[TRIQS tutorial](https://triqs.github.io/triqs/latest/userguide/python/dmft_one_page.html);
+here the interaction is explicitly zero.
+
+Adapters expose ordinary integer `n` consistently. Sparse-ir's native `uhat`
+instead expects the reduced odd index `2*n+1`, as documented in its
+[Fourier convention](https://sparse-ir.readthedocs.io/en/latest/basis.html#sparse_ir.FiniteTempBasis.uhat).
+Pydlr's native frequency helper has a transpose/conjugation convention for
+matrix inputs. The adapter constructs its frequency design from a real identity
+and applies coefficients linearly, so general complex batches are not silently
+conjugated. These are interoperability adapters, not replacements for the
+providers' native optimized fitting APIs.
+
+The separate matched-accuracy application benchmark uses a predeclared native
+eps list, shared calibration values in both domains, then a fresh measured
+worker for the selected constructor and reuse. Equal eps parameters alone are
+not claimed to mean equal accuracy. A clean tracked revision is required:
+
+```bash
+uv run --with pydlr==1.0.1 --with sparse-ir==2.1.6 \
+  python -m experiments.dlr_application_benchmark \
+  --config experiments/dlr_application_benchmark.toml \
+  --output experiments/scratch/dlr_application_benchmark.json
+```
+
+The report separates construction, design/SVD preparation, cached fitting,
+cached/uncached evaluation and solver setup/loop times, plus rank, native-coordinate
+conditioning and fresh-worker process peak memory. Memory includes imports,
+the harness and native libraries; it is not basis-only allocation. Calibration
+has its own worker and cost rather than contaminating the selected worker's
+memory measurement. Timing fields are nondeterministic, not a universal speedup
+claim. The tutorial's fixed eps is likewise not a calibrated performance result.
+
+Sampling matters. An explicitly retained pilot removes important low Matsubara
+rows and reaches a tiny sampled defect while predicting unseen values poorly.
+Reality/symmetry constraints and extra iterations did not repair that missing
+information. The final solver preserves its low-frequency observations and
+checks independent truth on the complete solved grid (not heldout), plus disjoint
+middle/high-frequency and time holdouts. Forward fitting separately has unseen
+low-frequency checks. Convergence, each accuracy check and certification remain
+different fields. All accuracy evidence is sampled; `tol`, singular values and
+an observed defect do not certify continuous or roundoff error.
+
 ## Research interfaces
 
 The public package supplies stable fermionic-kernel evaluation, deterministic

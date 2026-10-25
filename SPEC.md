@@ -2898,3 +2898,13 @@ This annotation records delivered identifiers without changing the goals above.
   Rust, numerical-bridge, release/publication and adoption requirements. A
   pending PyPI publisher is configured after user confirmation, but no package
   upload or completed full application goal is claimed.
+
+- **Phase DV application extension (implementation in progress):** extends
+  §§23–29 with physical Matsubara adapters, matched-accuracy calibration,
+  separately measured fresh-worker construction/reuse, complex matrix workloads
+  and a small noninteracting Bethe self-consistency loop. The failed low-frequency
+  sampling pilot is retained; independent physical accuracy is distinct from
+  observed convergence. Fresh validation is fixed after pilot decisions and
+  before canonical generation. Original mathematical goals, proved theorems and
+  historical evidence are unchanged. `PRODUCTIZATION.md` keeps Rust evaluation,
+  the numerical error bridge, release/publication and upstream adoption open.

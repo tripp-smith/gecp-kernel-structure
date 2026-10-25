@@ -4,8 +4,8 @@ Lean 4 formalization and reproducible Python research package for continuous
 Gaussian elimination with complete pivoting (GECP), its positive-definite
 pivoted-Cholesky baseline, and the fermionic DLR kernel.
 
-> **Current phase:** DU — reusable physical basis interface<br>
-> **Phase state:** implementation complete; final-revision verification/delivery tracked in [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127); full application/release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
+> **Current phase:** DV — matched physical frequency/solver comparison<br>
+> **Phase state:** in progress; DU is verified, merged and pushed in [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127); full application/release requirements remain open in [PRODUCTIZATION.md](PRODUCTIZATION.md)<br>
 > **Last verification:** DU development root passes 1,170 tests with two optional-adapter skips, unchanged Lean/axiom/consumer gates, style, strict typing and dependency audit; 246 focused tests and independent physical checks pass. [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127) is the canonical final-revision root/platform/install/delivery receipt. Historical research closure remains DQ exact main `e8c35ed` (757 tests in 150.31 seconds), [CI 40051138962](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40051138962)<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** DU [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127) records current API/platform verification and authorized delivery. DT [PR #126](https://github.com/tripp-smith/gecp-kernel-structure/pull/126), DS [PR #125](https://github.com/tripp-smith/gecp-kernel-structure/pull/125), and DQ [PR #123](https://github.com/tripp-smith/gecp-kernel-structure/pull/123) are merged. Existing research algorithms, proofs, historical artifacts and version tags are unchanged; a PyPI pending publisher is configured, but no package upload is claimed<br>

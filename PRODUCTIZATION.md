@@ -14,22 +14,22 @@ DU's revision-specific root/CI/install and authorized delivery receipt is
 | Separate construction, repeated fit/evaluation, time, process memory, rank and conditioning | DT measurement schema and pilot | delivered pilot; production comparison pending |
 | Independently check both time and Matsubara frequency errors | DT independent time checks | frequency checks open |
 | Include a small physical solver loop | none | open |
-| Public reusable basis and cached factors | DU FermionicBasis/LeastSquaresPlan | implemented; full verification/delivery in progress |
-| Batching and complex/matrix-valued coefficients | DU arbitrary-axis public tests and tutorial | implemented; full verification/delivery in progress |
+| Public reusable basis and cached factors | DU FermionicBasis/LeastSquaresPlan, merged PR #127 | delivered |
+| Batching and complex/matrix-valued coefficients | DU arbitrary-axis public tests and tutorial, merged PR #127 | delivered |
 | Explicit physical conventions and accuracy/precision contracts | DU API/guide and time/frequency analytic checks | implemented; continuous/rounding bridge open |
-| Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example | implemented; full verification/delivery in progress |
-| Preserve existing research API defaults | unchanged through DT | ongoing invariant |
+| Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
+| Preserve existing research API defaults | unchanged through DU | ongoing invariant |
 | Same-workload interoperability demo with an existing DLR/IR implementation | DT comparison adapters | full demo open |
 | Concrete upstream proposal and actual adoption outreach | research only | open |
 | Profile and prototype the measured Rust bottleneck | DT setup/reuse timings, no Rust prototype | open |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | none | open; rejection is valid only after measurement |
-| Cross-platform built-wheel and outside-checkout install CI | DU six-job wheel/sdist/install matrix | implemented; actual CI results pending |
-| Distributed typing and extension stubs if applicable | DU py.typed and installed consumer gate | implemented; final release checks open |
+| Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |
+| Distributed typing and extension stubs if applicable | DU py.typed and installed positive/negative consumers pass | delivered; repeat for final release |
 | Reproducible production benchmarks and citation-ready methods document | bounded DT pilot and research docs | open |
 | Publish a tested versioned release and installable distributions | no release | open |
 | PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
 | Finite-precision/inexact-pivot bridge including coefficient and solve errors | exact-run theorem and limited rounded-model pivot certificates | open |
-| Implementation validated, committed, PR-merged and pushed | DT delivered; future phases absent | open for full objective |
+| Implementation validated, committed, PR-merged and pushed | DT and DU delivered; DV in progress | open for full objective |
 
 ## Delivery order and gates
 

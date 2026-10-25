@@ -10341,3 +10341,129 @@ maintained canonically in [PR #127](https://github.com/tripp-smith/gecp-kernel-s
 not fabricated as a commit containing its own final SHA. Protected local notes
 remain unread and unstaged. The next phase opening will summarize actual
 delivery only after those gates pass.
+
+## Phase DV — matched physical frequency/solver comparison
+
+Contract opened from synchronized main `1eef6fe1d8d83f29bbd60218d7c59cf2dd9722e7`.
+The previous goal turn is progress: DU is merged in PR #127; exact-main root,
+source CI and all six installed-wheel jobs pass, with local/main/origin agreement.
+The full product goal remains intact in PRODUCTIZATION.md, estimated roughly
+35% complete by remaining functional and external delivery obligations. This
+phase extends original SPEC §§23–29 applications/precision/evidence, not its
+completed mathematical goals or historical artifacts.
+
+Named outputs: frequency-capable optional adapters, independent physical truth
+and a small noninteracting Bethe-lattice self-consistency loop in
+`experiments/dlr_physics.py`, matched-accuracy orchestration in
+`experiments/dlr_application_benchmark.py` with a frozen TOML configuration,
+an executable interoperability tutorial, tests and a canonical numerical artifact.
+Use the installed public `FermionicBasis` and `LeastSquaresPlan`, not the old
+benchmark-local float64 prototype. Keep optional libraries outside core runtime
+dependencies and preserve existing research defaults and DT evidence.
+
+All methods receive the same physical time observations, ordinary integer
+Matsubara indices, complex matrix amplitudes and common SVD fitting. Native
+tolerances are not assumed equivalent: select from a predeclared descending
+list by shared calibration time/frequency error, retain every failed candidate,
+then construct the chosen method afresh in a measured subprocess. Construction,
+time/frequency design preparation, SVD preparation, repeated fitting, cached and
+uncached evaluation, peak process RSS, rank and coordinate-dependent conditioning
+are separate. Peak memory is fresh-worker process memory including imports/native
+state, not an allocator-independent basis-only claim. Calibration cost is distinct
+from selected-basis construction/reuse. Fixed thread controls and environment,
+source/config/lock hashes are recorded; nondeterministic measurements are separate.
+
+Training times, calibration midpoints and final interval-interior points are
+disjoint. The initial thirds/low-frequency-hole split is explicitly superseded
+by the pilot obstruction and fresh sampling decision below. Calibration and
+final Matsubara lists are disjoint and fixed without evaluating final truth.
+No final validation influences rank, native eps, grid or stopping. Failed
+accuracy, imports, arithmetic, convergence and worker
+budgets remain explicit. The matched criterion is shared achieved absolute error
+in both physical domains; report relative errors too, without treating units or
+native eps semantics as interchangeable.
+
+The small solver solves the actual noninteracting Bethe self-consistency equation
+`G(z)=1/(z-hopping**2*G(z))` at half filling, with common mixing and independent
+convergence/iteration limits. Each iteration projects onto the chosen basis through
+a cached complex SVD. Validate frequency output against the causal closed-form
+semicircle resolvent and time output against independent spectral quadrature;
+independently cross-check selected quadrature values with high-precision integration.
+This is a genuine small bath self-consistency loop, not an interacting impurity
+solver, material simulation or production DMFT claim. Persist iteration/defect
+history, fit/projection diagnostics and nonconvergence rather than accepting a
+budget exhaustion as success.
+
+Interoperability must execute installed pydlr/sparse-ir, including their different
+ordinary-index/reduced-odd-index conventions and complex linearity. Inspect native
+frequency helpers: a transpose/conjugation convention for Hermitian matrix inputs
+must not silently conjugate general complex batches. The same analytic workload
+and solver protocol form a concrete independently useful upstream proposal;
+actual outreach/adoption remains a later explicit evidence gate.
+
+Freeze source/config before canonical generation, launch fresh workers, repeat
+deterministic fields and independently recompute final physical errors. Any pilot
+feedback used for selection becomes calibration and requires untouched validation
+after the final freeze. Run the full root, exact-head CI and authorized PR merge/
+pushed-main checks. No Rust speedup or finite-precision/continuous certificate is
+claimed by this phase; profile this resulting workload before the actual Rust
+prototype and keep the numerical bridge and publication requirements open.
+
+### Parallel numerical-bridge route checkpoint
+
+Planning claim (not yet a delivered theorem): for real residuals `R`, `Rhat`,
+a uniform discrepancy `abs(R-Rhat) <= delta`, `0 <= delta < L`, a candidate
+lower bound `L <= abs(Rhat(p))` and global upper bound `abs(Rhat) <= U`, derive
+the true multiplicative pivot quality `(L-delta)/(U+delta)` with an explicit
+positive denominator. The downstream consumer is a practical certificate for
+the true selected-cross residual, only after a computable discrepancy budget
+includes kernel-coordinate, frozen-coefficient and core-solve errors. This does
+not imply that an inexact trajectory is an exact complete-pivot trajectory.
+
+Search repository/mathlib transfer and finite norm lemmas before new abstraction.
+Compare interval direct selected-core LU enclosures against verified triangular
+factor/backward-residual bounds; require a small nontrivial numerical core where
+the budget is both conservative and useful. A scalar perturbation lemma without
+an implemented, justified discrepancy budget cannot close the bridge objective.
+Exit planning with either a concrete runtime/formal contract and discriminating
+exact/high-precision witness or an explicit missing fact; do not accumulate
+auxiliary lemmas without that consumer. DV's benchmark itself remains sampled,
+uncertified evidence regardless of this parallel research route.
+
+### DV pilot obstruction and final sampling decision
+
+The initial pilot removed several low Matsubara observations from the solver
+to reserve them for validation. This was a failed observation-design mechanism,
+not a failure of the Bethe equation or a negative theorem about GECP. Across
+GECP/pydlr/sparse-ir, the loop reaches an observed defect around `1e-9` while
+unseen values can be wrong by `1e-5`. Repeating longer, constraining real
+coefficients, exploiting particle-hole symmetry, varying SVD truncation and
+adding endpoint sum rules did not repair the missing information. The raw
+complex pilot is preserved as explicit failed evidence before the final freeze.
+
+The useful related-field insight is observability/experimental design: removing
+the highest-information low-frequency rows makes the projection almost singular.
+For GECP at beta10/wmax2/native eps1e-10, retaining the complete low-frequency
+grid changes its design condition from roughly `1e10` to `13`; all three methods
+then achieve approximately `5e-10` independent time error on a pilot. These are
+scouting observations, not final validation or comparative timing evidence.
+Condition numbers remain native-coordinate dependent: pydlr's raw coefficient
+design can be ill-conditioned even when its function prediction is accurate.
+
+Final design, fixed without evaluating its final truth: forward fitting keeps
+the shared time observations, midpoint calibration, and now uses new time
+holdouts at `2/7` and `5/7` of each training interval. New final forward Matsubara
+indices are `[-769,-385,-161,-67,-35,-19,-10,-5,4,9,18,34,66,160,384,768]`.
+The solver retains all critical low modes `[-18,17]` and reserves the subset
+of these final indices with `abs(2*n+1)>=37` as disjoint middle/high-frequency
+holdouts. It also compares the entire solved observation grid against independent
+closed-form physical truth after convergence; that latter check is explicitly
+not heldout and is never supplied to iteration, stopping or native-eps selection.
+All methods receive identical observations and the same physical checks.
+
+The old thirds/low-hole validation points are now pilot/calibration evidence
+because they influenced this decision. They are not relabeled as untouched
+final validation. The final accuracy criterion remains `1e-8` in both domains;
+solver convergence, heldout accuracy and observed-grid independent-truth accuracy
+are separate required flags. Canonical generation follows a clean source/config
+freeze; failure on the fresh points is retained, not repaired by tuning them.
