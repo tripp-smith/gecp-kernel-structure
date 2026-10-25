@@ -2933,7 +2933,8 @@ This annotation records delivered identifiers without changing the goals above.
   Two complete frozen artifacts are byte-identical; all five completed
   coefficient/prediction enclosures pass independent QR/exact-reproduction
   checks. The inconclusive case and physical/model errors remain explicit.
-- **Phase DX application follow-on (in progress):** implements an explicit
+- **Phase DX application follow-on (delivered in
+  [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130)):** implements an explicit
   optional 128-bit Rust time-evaluation backend, preserving research defaults,
   portable archives, mpmath selection/frequency and NumPy fitting. Native input,
   arithmetic-state and resource boundaries are tested. Universal/source and
@@ -2941,6 +2942,12 @@ This annotation records delivered identifiers without changing the goals above.
   The frozen six-process production cohort passes the predeclared retention
   gate with 50.15% median application and 47.76% process-wall reduction for
   changing time meshes, physical errors below `2.57e-11` and paired differences
-  below `4.26e-15`. Platform/install and final revision delivery remain gates;
-  the original mathematical goals and exact-GECP claims are unchanged. Final
-  release/publication and upstream outreach remain open.
+  below `4.26e-15`. Exact-main root, source and pure/native platform/install
+  acceptance pass at `67e4b14`; the original mathematical goals and exact-GECP
+  claims are unchanged.
+- **Phase DY application release follow-on (in progress):** prepares coherent
+  version 1.1.0, methods/citation, tested pure/native artifacts and promotion
+  through the authorized PyPI Trusted Publisher. Actual upstream outreach is
+  [publicly recorded](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382);
+  acceptance remains pending. Upload and public installation remain required
+  release gates. No original mathematical goal is rewritten or weakened.

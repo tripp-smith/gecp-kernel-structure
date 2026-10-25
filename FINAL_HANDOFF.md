@@ -50,6 +50,21 @@ DO's certificate/numerical repairs are merged in PR #121. The earlier 40/40
 label count did not establish full completion; the DQ original-scope source
 audit and final delivery evidence, not that count, govern the current decision.
 
+## Practical application follow-on
+
+The later practical implementation goal is tracked separately in
+[PRODUCTIZATION.md](PRODUCTIZATION.md). DU–DX deliver the reusable physical
+basis, complex batches/archives, matched DLR/IR comparison and small physical
+solver, finite-query precision bridge, and a measured optional Rust backend.
+DX is merged at `67e4b14`; its complete exact-main root/platform/install closure
+is in [PR #130](https://github.com/tripp-smith/gecp-kernel-structure/pull/130#issuecomment-6400942719).
+DY prepares coherent version 1.1.0, methods/citation and promotion of the exact
+tested artifacts. PyPI upload and public installation are still required.
+[Actual upstream outreach](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382)
+offers an independently useful tested recipe; acceptance remains pending.
+The original research's 100% scope estimate does not stand in for this later
+product's release gates.
+
 ## Historical implementation and research chronology
 
 The following entries preserve what was available at each named phase. Their
@@ -989,6 +1004,25 @@ API-equivalent calculation above remains explicitly historical and is not
 applied to this terminal aggregate. DR uses the primary agent and a read-only
 documentation reviewer; that review does not imply new independent theorem
 or numerical verification, an exact worker model identity or external peer review.
+
+### Later practical application development: runtime provenance
+
+On 2026-10-25 UTC, the current runtime describes the primary as Codex based on
+GPT-6 in Default collaboration mode, with unrestricted filesystem/network and
+approval policy `never`. It does not expose a verifiable exact serving model
+snapshot, reasoning-effort setting, input/cache/reasoning/output token counts
+or account billing. The current goal query returns null, so no new aggregate
+goal usage, elapsed-goal total or phase-only usage is available. The frozen
+completed original-goal record above is preserved; it excludes this later
+application development and is not extrapolated or repriced.
+
+Temporary agents contribute implementation, native-boundary tests, packaging
+review, benchmark work and upstream recipe/methods preparation. Earlier
+account-limit failures are not counted as reviews; later successful reviews
+and tests are identified in the phase PR receipts. Exact worker serving
+versions and billing are unavailable. Local/CI durations are recorded only for
+the measured commands in those receipts, not treated as full-project calendar
+duration. No new API-equivalent price or actual account cost is inferred.
 
 ## Phase status
 

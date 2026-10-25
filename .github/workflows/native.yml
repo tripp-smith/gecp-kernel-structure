@@ -41,13 +41,63 @@ jobs:
         run: >-
           uv run --all-extras --frozen python scripts/check_distribution.py inspect
           --project-root . --wheel pure-dist/*.whl --sdist pure-dist/*.tar.gz
+      - name: Rebuild and inspect a validation wheel from the original sdist
+        run: |
+          uv build pure-dist/*.tar.gz --wheel --no-sources --out-dir sdist-wheel
+          uv run --all-extras --frozen python scripts/check_distribution.py inspect \
+            --project-root . --wheel sdist-wheel/*.whl --sdist pure-dist/*.tar.gz
+      - name: Stage the original candidates and separate validation artifact
+        run: |
+          mkdir -p "$RUNNER_TEMP/release-source/source" "$RUNNER_TEMP/release-source/dist" \
+            "$RUNNER_TEMP/release-source/validation/sdist-wheel"
+          cp "$RUNNER_TEMP/source-assets/"* "$RUNNER_TEMP/release-source/source/"
+          cp pure-dist/*.whl pure-dist/*.tar.gz "$RUNNER_TEMP/release-source/dist/"
+          cp sdist-wheel/*.whl "$RUNNER_TEMP/release-source/validation/sdist-wheel/"
       - uses: actions/upload-artifact@v4
         with:
-          name: native-source-assets
-          path: |
-            ${{ runner.temp }}/source-assets/*
-            pure-dist/*.tar.gz
+          name: kernelgecp-release-source
+          path: ${{ runner.temp }}/release-source/
           if-no-files-found: error
+
+  portable-install:
+    needs: source-assets
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.12", "3.13"]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: kernelgecp-release-source
+          path: ${{ runner.temp }}/release-source
+      - name: Install both exact portable artifacts outside checkout
+        run: |
+          portable_index=0
+          for candidate in dist validation/sdist-wheel; do
+            portable_env="$RUNNER_TEMP/portable-install-$portable_index"
+            uv venv "$portable_env"
+            uv pip install --python "$portable_env" \
+              "$RUNNER_TEMP/release-source/$candidate/"*.whl "mypy>=1.11,<2"
+            (
+              cd "$RUNNER_TEMP"
+              uv run --no-project --python "$portable_env" python -I \
+                "$GITHUB_WORKSPACE/scripts/check_distribution.py" installed \
+                --project-root "$GITHUB_WORKSPACE" --backend python
+              uv run --no-project --python "$portable_env" python -I -c \
+                'import importlib.util; assert importlib.util.find_spec("kernelgecp._native") is None'
+            )
+            portable_index=$((portable_index + 1))
+          done
 
   rust-tests:
     runs-on: ubuntu-latest
@@ -72,7 +122,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: macos
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -89,13 +143,14 @@ jobs:
       - run: uv sync --all-extras --frozen
       - uses: actions/download-artifact@v4
         with:
-          name: native-source-assets
+          name: kernelgecp-release-source
           path: ${{ runner.temp }}/native-input
       - name: Locate source report and sdist
         run: |
-          native_report="$(find "$RUNNER_TEMP/native-input" -name source-report.json -print -quit)"
-          native_sdist="$(find "$RUNNER_TEMP/native-input" -name 'kernelgecp-*.tar.gz' ! -name '*-native-source.tar.gz' -print -quit)"
-          test -n "$native_report" && test -n "$native_sdist"
+          native_version="$(uv run --all-extras --frozen python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          native_report="$RUNNER_TEMP/native-input/source/source-report.json"
+          native_sdist="$RUNNER_TEMP/native-input/dist/kernelgecp-$native_version.tar.gz"
+          test -f "$native_report" && test -f "$native_sdist"
           echo "NATIVE_SOURCE_REPORT=$native_report" >> "$GITHUB_ENV"
           echo "NATIVE_SDIST=$native_sdist" >> "$GITHUB_ENV"
       - name: Build Linux wheel in the manylinux 2.28 environment
@@ -147,6 +202,6 @@ jobs:
           done
       - uses: actions/upload-artifact@v4
         with:
-          name: kernelgecp-native-${{ matrix.os }}
+          name: kernelgecp-release-native-${{ matrix.platform }}
           path: ${{ runner.temp }}/native-wheel/*.whl
           if-no-files-found: error

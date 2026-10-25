@@ -164,6 +164,46 @@ def _members(archive: Path) -> list[tuple[tarfile.TarInfo, bytes | None]]:
     return records
 
 
+def test_source_asset_includes_configured_package_readme_and_release_documents(
+    source_fixture: _Fixture,
+) -> None:
+    fixture = source_fixture
+    project = fixture.root / "pyproject.toml"
+    project.write_text(project.read_text() + 'readme = "PACKAGE_README.md"\n')
+    for name in ("PACKAGE_README.md", "METHODS.md", "CITATION.cff", "RELEASE_NOTES.md"):
+        (fixture.root / name).write_text(f"Fixture {name}\n")
+    revised = _Fixture(
+        fixture.root, fixture.vendor, _commit(fixture.root), fixture.output
+    )
+    report = revised.prepare()
+    names = {Path(member.name).name for member, _ in _members(revised.archive(report))}
+    assert {
+        "PACKAGE_README.md",
+        "METHODS.md",
+        "CITATION.cff",
+        "RELEASE_NOTES.md",
+    } <= names
+    inspect_corresponding_source(
+        revised.archive(report),
+        expected_sha256=report["sha256"],
+        project_root=revised.root,
+        revision=revised.revision,
+    )
+
+
+def test_source_asset_rejects_missing_configured_package_readme(
+    source_fixture: _Fixture,
+) -> None:
+    fixture = source_fixture
+    project = fixture.root / "pyproject.toml"
+    project.write_text(project.read_text() + 'readme = "PACKAGE_README.md"\n')
+    revised = _Fixture(
+        fixture.root, fixture.vendor, _commit(fixture.root), fixture.output
+    )
+    with pytest.raises(SourceAssetError, match="configured package readme missing"):
+        revised.prepare()
+
+
 def _rewrite(
     archive: Path,
     directory: Path,

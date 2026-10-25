@@ -36,17 +36,21 @@ def _fixture_archives(
     *,
     wheel_changes: dict[str, bytes | None] | None = None,
     sdist_changes: dict[str, bytes | None] | None = None,
+    package_readme: bool = False,
 ) -> tuple[Path, Path, Path]:
     root = tmp_path / "checkout"
     package = root / "kernelgecp"
     package.mkdir(parents=True)
     (root / "pyproject.toml").write_text(
         '[project]\nname = "kernelgecp"\nversion = "1.0.0"\n'
-        'requires-python = ">=3.12"\n',
+        'requires-python = ">=3.12"\n'
+        + ('readme = "PACKAGE_README.md"\n' if package_readme else ""),
         encoding="utf-8",
     )
     (root / "LICENSE").write_text("Apache License\nVersion 2.0\n", encoding="utf-8")
     (root / "APPLICATION.md").write_text("Application guide.\n", encoding="utf-8")
+    if package_readme:
+        (root / "PACKAGE_README.md").write_text("Package quickstart.\n")
     (package / "__init__.py").write_text('__version__ = "1.0.0"\n', encoding="utf-8")
     (package / "basis.py").write_text('"""Public basis."""\n', encoding="utf-8")
     (package / "py.typed").touch()
@@ -70,6 +74,8 @@ def _fixture_archives(
         "LICENSE": (root / "LICENSE").read_bytes(),
         "PKG-INFO": METADATA,
     }
+    if package_readme:
+        sdist_files["PACKAGE_README.md"] = (root / "PACKAGE_README.md").read_bytes()
     for files, changes in (
         (wheel_files, wheel_changes or {}),
         (sdist_files, sdist_changes or {}),
@@ -100,6 +106,29 @@ def test_distribution_gate_accepts_complete_minimal_archives(tmp_path: Path) -> 
     assert report["package_source_files"] == 3
     assert all(len(archive["sha256"]) == 64 for archive in report["archives"])
     json.dumps(report, allow_nan=False)
+
+
+def test_configured_package_readme_is_included_and_checked(tmp_path: Path) -> None:
+    root, wheel, sdist = _fixture_archives(tmp_path, package_readme=True)
+    check_archives(project_root=root, wheel=wheel, sdist=sdist)
+
+
+@pytest.mark.parametrize("payload", [None, b"Different quickstart\n"])
+def test_configured_package_readme_cannot_be_omitted_or_changed(
+    tmp_path: Path, payload: bytes | None
+) -> None:
+    root, wheel, sdist = _fixture_archives(
+        tmp_path, package_readme=True, sdist_changes={"PACKAGE_README.md": payload}
+    )
+    with pytest.raises(DistributionError, match="readme|PACKAGE_README"):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist)
+
+
+def test_release_methods_document_cannot_be_silently_omitted(tmp_path: Path) -> None:
+    root, wheel, sdist = _fixture_archives(tmp_path)
+    (root / "METHODS.md").write_text("Reproducible methods.\n")
+    with pytest.raises(DistributionError, match="missing release document METHODS"):
+        check_archives(project_root=root, wheel=wheel, sdist=sdist)
 
 
 def _native_fixture(

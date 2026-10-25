@@ -21,16 +21,16 @@ DV's full root/platform/install and merged-main closure is in
 | Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
 | Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example, merged PR #128 | delivered |
-| Concrete upstream proposal and actual adoption outreach | UPSTREAM_PROPOSAL.md plus tested standalone Sparse-IR recipe | proposal prepared; actual outreach open |
-| Profile and prototype the measured Rust bottleneck | profiling, actual in-process pilot, DX checked optional backend | production freeze/benchmark/platform acceptance pending |
-| Keep Rust only with demonstrated end-to-end gain and numerical parity | DX frozen six-process cohort: 50.15% application, 47.76% process-wall reduction; paired differences <4.26e-15, physical <2.57e-11 | retention gate passed for streaming workload; platform/final revision delivery pending |
+| Concrete upstream proposal and actual adoption outreach | [Public tested complex-matrix recipe proposal](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382), exact text verified | outreach delivered; maintainer acceptance pending |
+| Profile and prototype the measured Rust bottleneck | profiling, actual pilot, DX optional backend and exact-main platform acceptance in PR #130 | delivered |
+| Keep Rust only with demonstrated end-to-end gain and numerical parity | DX frozen six-process cohort: 50.15% application, 47.76% process-wall reduction; paired differences <4.26e-15, physical <2.57e-11 | delivered for streaming workload; small reuse/cache-hit limits explicit |
 | Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |
-| Distributed typing and extension stubs if applicable | DU py.typed and installed positive/negative consumers pass | delivered; repeat for final release |
-| Reproducible production benchmarks and citation-ready methods document | bounded DT pilot and research docs | open |
+| Distributed typing and extension stubs if applicable | DX pure/native installed positive/negative consumers and native stubs pass | delivered; repeat for final release |
+| Reproducible production benchmarks and citation-ready methods document | DV/DW/DX frozen evidence; DY METHODS and schema-valid CITATION preparation | final release verification pending |
 | Publish a tested versioned release and installable distributions | no release | open |
 | PyPI publication for the practical Python module | pending Trusted Publisher saved and reloaded after user confirmation | upload and public install remain open |
 | Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW portable repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets, two conditional Lean theorems, merged PR #129 | delivered bounded bridge; continuous inexact rate remains a research extension |
-| Implementation validated, committed, PR-merged and pushed | DT, DU, DV and DW delivered; DX in progress | open for full objective |
+| Implementation validated, committed, PR-merged and pushed | DT through DX delivered; DY release in progress | open for full objective |
 
 ## Delivery order and gates
 
