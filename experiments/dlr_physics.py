@@ -104,7 +104,7 @@ def matsubara_frequencies(indices: Any, *, beta: float) -> FloatArray:
 def physical_tau_meshes(
     *, beta: float, wmax: float, order: int = 16
 ) -> tuple[FloatArray, FloatArray, FloatArray]:
-    """Training nodes, midpoint calibration and untouched interval sevenths.
+    """Training nodes, midpoint calibration and untouched interval fifths.
 
     All three actual binary64 meshes are checked for ordering, domain validity,
     duplicates and pairwise overlap after scaling. Resolution exhaustion fails
@@ -114,7 +114,7 @@ def physical_tau_meshes(
     training, calibration = common_tau_meshes(beta=beta, wmax=wmax, order=order)
     left = training[:-1]
     widths = training[1:] - left
-    final = np.column_stack((left + (2.0 / 7.0) * widths, left + (5.0 / 7.0) * widths))
+    final = np.column_stack((left + widths / 5.0, left + (4.0 / 5.0) * widths))
     final = np.asarray(final.ravel(), dtype=np.float64)
     validate_tau_meshes(training, final, beta=beta)
     validate_tau_meshes(calibration, final, beta=beta)
@@ -133,12 +133,17 @@ def frequency_index_meshes() -> tuple[IndexArray, IndexArray]:
     Conjugate pairs use ``n -> -n-1``. No truth evaluation selects these lists.
     """
 
-    calibration = np.array(
-        [-64, -32, -16, -8, -4, -1, 0, 3, 7, 15, 31, 63], dtype=np.int64
-    )
     final = np.array(
-        [-769, -385, -161, -67, -35, -19, -10, -5, 4, 9, 18, 34, 66, 160, 384, 768],
+        [-801, -401, -171, -71, -38, -22, -9, -7, 6, 8, 21, 37, 70, 170, 400, 800],
         dtype=np.int64,
+    )
+    calibration = np.setdiff1d(
+        np.unique(
+            np.concatenate(
+                (np.arange(-32, 32, dtype=np.int64), [-256, -128, -64, 63, 127, 255])
+            )
+        ),
+        final,
     )
     return cast(IndexArray, _immutable(calibration)), cast(
         IndexArray, _immutable(final)

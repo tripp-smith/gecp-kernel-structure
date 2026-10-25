@@ -36,6 +36,12 @@ def test_time_meshes_reuse_training_and_are_actually_pairwise_disjoint(
     )
     np.testing.assert_array_equal(training, expected_training)
     np.testing.assert_array_equal(calibration, expected_midpoints)
+    left = training[:-1]
+    widths = training[1:] - left
+    np.testing.assert_array_equal(
+        final,
+        np.column_stack((left + widths / 5.0, left + (4.0 / 5.0) * widths)).ravel(),
+    )
     assert len(final) == 2 * (len(training) - 1)
     for mesh in (training, calibration, final):
         assert np.all(np.diff(mesh) > 0)
@@ -74,8 +80,16 @@ def test_fixed_frequency_grids_isolate_forward_and_solver_holdouts() -> None:
     assert calibration.dtype == final.dtype == solver.dtype == np.int64
     np.testing.assert_array_equal(
         final,
-        [-769, -385, -161, -67, -35, -19, -10, -5, 4, 9, 18, 34, 66, 160, 384, 768],
+        [-801, -401, -171, -71, -38, -22, -9, -7, 6, 8, 21, 37, 70, 170, 400, 800],
     )
+    np.testing.assert_array_equal(
+        calibration,
+        np.setdiff1d(
+            np.unique(np.r_[np.arange(-32, 32), [-256, -128, -64, 63, 127, 255]]),
+            final,
+        ),
+    )
+    assert 4 in calibration and -5 in calibration
     assert not np.intersect1d(calibration, final).size
     assert not np.intersect1d(solver, solver_final).size
     np.testing.assert_array_equal(solver_final, final[np.abs(2 * final + 1) >= 37])
@@ -344,7 +358,7 @@ def test_public_basis_solver_matches_independent_truth_on_observations() -> None
     # explicitly not an untouched holdout or the fresh canonical final split.
     expected = semicircle_matsubara(result.indices, beta=10, hopping=1)
     np.testing.assert_allclose(result.frequency_values, expected, rtol=0, atol=1e-8)
-    # Reuse already explored pilot time coordinates; reserve fresh sevenths for
+    # Reuse already explored pilot time coordinates; reserve fresh fifths for
     # frozen canonical generation, so this regression does not inspect them.
     pilot_tau = np.array([0.0, 0.13, 1.7, 5.0, 9.87, 10.0])
     time_values = basis.design_tau(pilot_tau) @ result.coefficients

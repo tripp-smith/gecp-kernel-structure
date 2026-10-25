@@ -662,3 +662,84 @@ def test_solver_budget_exhaustion_requires_complete_history() -> None:
             "measurement",
             calibration,
         )
+
+
+@pytest.mark.parametrize(
+    "fraction", [0.0, -0.1, 1.01, np.inf, np.nan, True, np.bool_(True), [0.1]]
+)
+def test_calibration_fraction_rejects_invalid_bounds_and_types(fraction: Any) -> None:
+    with pytest.raises(ValueError, match="calibration_fraction"):
+        replace(_config(), calibration_fraction=fraction)
+
+
+def test_calibration_fraction_allows_one_and_rejects_target_product_underflow() -> None:
+    assert replace(_config(), calibration_fraction=1.0).calibration_fraction == 1.0
+    tiny_case = ApplicationCase(1.0, 1.0, target=float(np.nextafter(0.0, 1.0)))
+    with pytest.raises(ValueError, match="calibration_absolute_target"):
+        replace(_config(), cases=(tiny_case,), calibration_fraction=0.1)
+    assert replace(_config(), cases=(tiny_case,), calibration_fraction=1.0)
+
+
+def test_calibration_margin_is_explicit_and_final_target_stays_unchanged(
+    calibrated: tuple[ApplicationConfig, dict[str, Any], dict[str, Any]],
+) -> None:
+    config, calibration, measurement = calibrated
+    case = config.cases[0]
+    assert case.target == 1e-5
+    assert calibration["calibration_absolute_target"] == case.target * 0.1
+    assert measurement["calibration_absolute_target"] == case.target * 0.1
+    assert (
+        benchmark.load_config(
+            Path("experiments/dlr_application_benchmark.toml")
+        ).calibration_fraction
+        == 0.1
+    )
+    assert all(
+        canonical_case.target == 1e-8
+        for canonical_case in benchmark.load_config(
+            Path("experiments/dlr_application_benchmark.toml")
+        ).cases
+    )
+    # A residual between the two targets must pass final validation but fail
+    # calibration, even if a worker supplies the looser final-target flag.
+    original = calibration["candidates"][0]["workloads"][0]["time"]
+    truth = benchmark._decode_array(original["truth"])
+    falsely_passing = benchmark._error(truth + case.target / 2, truth, case.target)
+    assert falsely_passing["accuracy_passed"]
+    assert (
+        falsely_passing["absolute_error"] > calibration["calibration_absolute_target"]
+    )
+    bad_calibration = copy.deepcopy(calibration)
+    bad_calibration["candidates"][0]["workloads"][0]["time"] = falsely_passing
+    with pytest.raises(ValueError, match="physical error"):
+        benchmark._selection(bad_calibration, config)
+    final_records = copy.deepcopy(measurement["workloads"])
+    final_truth = benchmark._decode_array(final_records[0]["time"]["truth"])
+    final_records[0]["time"] = benchmark._error(
+        final_truth + case.target / 2, final_truth, case.target
+    )
+    benchmark._validate_workloads(final_records, case, config, "measurement")
+
+
+def test_selection_receipt_cannot_replace_strict_calibration_target_with_final_target(
+    calibrated: tuple[ApplicationConfig, dict[str, Any], dict[str, Any]],
+) -> None:
+    config, calibration, _ = calibrated
+    case = config.cases[0]
+    receipt = benchmark._selection_receipt({**calibration, "worker_provenance": {}})
+    assert (
+        receipt["calibration_absolute_target"]
+        == case.target * config.calibration_fraction
+    )
+    inflated = copy.deepcopy(receipt)
+    inflated["calibration_absolute_target"] = case.target
+    with pytest.raises(ValueError, match="identity"):
+        benchmark._validate_receipt(inflated, "kernelgecp", case, config)
+    forged_pass = copy.deepcopy(receipt)
+    forged_pass["candidates"][0]["max_absolute_errors"]["matsubara"] = case.target / 2
+    with pytest.raises(ValueError, match="accuracy"):
+        benchmark._validate_receipt(forged_pass, "kernelgecp", case, config)
+    inflated_calibration = copy.deepcopy(calibration)
+    inflated_calibration["calibration_absolute_target"] = case.target
+    with pytest.raises(ValueError, match="absolute target"):
+        benchmark._selection(inflated_calibration, config)

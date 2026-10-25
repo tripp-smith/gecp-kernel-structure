@@ -125,6 +125,27 @@ has its own worker and cost rather than contaminating the selected worker's
 memory measurement. Timing fields are nondeterministic, not a universal speedup
 claim. The tutorial's fixed eps is likewise not a calibrated performance result.
 
+The first recorded [cohort A](experiments/data/dlr_applications_cohort_a.json.gz)
+retains a real calibration miss: sparse-ir at cutoff10 passes its calibration
+but reaches final frequency error1.21e-8 against target1e-8. Eleven of twelve
+records pass; all three physical solvers pass their separate checks. Two runs
+have identical numerical fields and an independent95-digit physical audit
+confirms the failure. Its source/provenance stays frozen, not rewritten to
+reflect later improvements. The follow-up protocol uses denser calibration and
+a1/10 calibration guardband while preserving the final1e-8 target and choosing
+new untouched final points. A guardband is not a uniform error theorem.
+
+`scripts/audit_dlr_applications.py` is a separate95-digit verifier: it imports
+no benchmark truth helper, checks immutable generation-era Git blobs and
+container/payload hashes, recomputes all forward physical errors and checks
+solver frequencies plus selected direct energy integrals. Its CLI requires the
+expected full source SHA and artifact SHA256, and accepts JSON or compressed
+JSON. It distinguishes a correctly reported scientific failure from an invalid
+artifact. Exact environment/provenance checking requires the recorded optional
+versions in `experiments/dlr_benchmark_requirements.txt` and the recorded platform;
+it does not claim a new platform reproduces historical performance. Gzip only
+reduces storage size and does not alter the underlying generated JSON payload.
+
 Sampling matters. An explicitly retained pilot removes important low Matsubara
 rows and reaches a tiny sampled defect while predicting unseen values poorly.
 Reality/symmetry constraints and extra iterations did not repair that missing

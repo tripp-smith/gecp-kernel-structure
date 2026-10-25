@@ -7,6 +7,7 @@ precision_bits = 128
 repeats = 3
 warmups = 1
 fit_rcond = 1e-14
+calibration_fraction = 0.1
 timeout_seconds = 600.0
 solver_mixing = 0.5
 solver_tolerance = 1e-9

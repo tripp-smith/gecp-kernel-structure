@@ -100,6 +100,7 @@ class ApplicationConfig:
     repeats: int = 3
     warmups: int = 1
     fit_rcond: float = 1e-14
+    calibration_fraction: float = 0.1
     timeout_seconds: float = 600.0
     solver_mixing: float = 0.5
     solver_tolerance: float = 1e-9
@@ -142,6 +143,13 @@ class ApplicationConfig:
             raise ValueError("precision_bits must be <= 4096")
         for name in ("fit_rcond", "solver_mixing", "solver_tolerance"):
             _positive(getattr(self, name), name, below_one=True)
+        _positive(self.calibration_fraction, "calibration_fraction")
+        if self.calibration_fraction > 1:
+            raise ValueError("calibration_fraction must lie in (0, 1]")
+        for case in self.cases:
+            _positive(
+                case.target * self.calibration_fraction, "calibration_absolute_target"
+            )
         _positive(self.timeout_seconds, "timeout_seconds")
 
 
@@ -256,6 +264,7 @@ def _identity(
         "config": _json_value(asdict(config)),
         "protocol": PROTOCOL,
         "stage": stage,
+        "calibration_absolute_target": case.target * config.calibration_fraction,
         "inputs": _inputs(case, config),
         "certification_status": "not_certified_sampled_physical_validation",
     }
@@ -321,8 +330,11 @@ def _evaluate_workloads(
     indices: np.ndarray,
     tau_design: np.ndarray,
     frequency_design: np.ndarray,
+    *,
+    target: float | None = None,
 ) -> list[dict[str, Any]]:
     amplitude = matrix_amplitudes()
+    target = case.target if target is None else target
     return [
         {
             "name": w.name,
@@ -332,7 +344,7 @@ def _evaluate_workloads(
                 _apply(tau_design, coeff),
                 green_function(w, tau, beta=case.beta, wmax=case.wmax)[:, None, None]
                 * amplitude,
-                case.target,
+                target,
             ),
             "matsubara": _error(
                 _apply(frequency_design, coeff),
@@ -340,7 +352,7 @@ def _evaluate_workloads(
                     :, None, None
                 ]
                 * amplitude,
-                case.target,
+                target,
             ),
         }
         for w, coeff in zip(workloads, coefficients, strict=True)
@@ -411,6 +423,7 @@ def run_calibration(
                     calibration_n,
                     tau_design,
                     frequency_design,
+                    target=case.target * config.calibration_fraction,
                 )
                 candidate.update(
                     status="accuracy_passed" if _passed(records) else "accuracy_failed",
@@ -472,7 +485,14 @@ def _selection_receipt(calibration: dict[str, Any]) -> dict[str, Any]:
     """Compact proof summary; selected workers never load calibration arrays."""
     receipt = {
         key: calibration[key]
-        for key in ("method", "case", "config", "protocol", "worker_provenance")
+        for key in (
+            "method",
+            "case",
+            "config",
+            "protocol",
+            "worker_provenance",
+            "calibration_absolute_target",
+        )
     }
     receipt.update(
         selected_native_eps=calibration["selected_native_eps"],
@@ -511,6 +531,7 @@ def _validate_receipt(
             "case": asdict(case),
             "config": _json_value(asdict(config)),
             "protocol": PROTOCOL,
+            "calibration_absolute_target": case.target * config.calibration_fraction,
         }.items()
     ):
         raise ValueError("selection receipt identity mismatch")
@@ -549,7 +570,8 @@ def _validate_receipt(
             ):
                 raise ValueError("selection receipt errors invalid")
             if (status == "accuracy_passed") != all(
-                error <= case.target for error in errors.values()
+                error <= case.target * config.calibration_fraction
+                for error in errors.values()
             ):
                 raise ValueError("selection receipt accuracy mismatch")
         if status == "accuracy_passed":
@@ -598,6 +620,11 @@ def _validate_workloads(
     tau, indices = (
         (calibration, calibration_n) if stage == "calibration" else (final, final_n)
     )
+    target = (
+        case.target * config.calibration_fraction
+        if stage == "calibration"
+        else case.target
+    )
     for record, workload in zip(
         records, make_pole_workloads(beta=case.beta, wmax=case.wmax), strict=True
     ):
@@ -612,7 +639,7 @@ def _validate_workloads(
             record.get("time"),
             green_function(workload, tau, beta=case.beta, wmax=case.wmax)[:, None, None]
             * amplitude,
-            case.target,
+            target,
         )
         _validate_error(
             record.get("matsubara"),
@@ -620,12 +647,15 @@ def _validate_workloads(
                 :, None, None
             ]
             * amplitude,
-            case.target,
+            target,
         )
 
 
 def _selection(calibration: dict[str, Any], config: ApplicationConfig) -> float | None:
     """Fail closed if chosen eps is not the first fully passing declared trial."""
+    target = calibration["case"]["target"] * config.calibration_fraction
+    if calibration.get("calibration_absolute_target") != target:
+        raise ValueError("calibration absolute target does not match configuration")
     candidates = calibration.get("candidates")
     if not isinstance(candidates, list) or len(candidates) > len(
         config.native_eps_candidates
@@ -657,8 +687,7 @@ def _selection(calibration: dict[str, Any], config: ApplicationConfig) -> float 
                         or not isinstance(absolute, Real)
                         or not math.isfinite(absolute)
                         or absolute < 0
-                        or error.get("accuracy_passed")
-                        is not (absolute <= calibration["case"]["target"])
+                        or error.get("accuracy_passed") is not (absolute <= target)
                     ):
                         raise ValueError("invalid calibration accuracy decision")
             if (candidate["status"] == "accuracy_passed") != _passed(records):
@@ -1361,7 +1390,7 @@ def run_benchmark(config_path: Path, root: Path) -> dict[str, Any]:
             "forward_final_indices": array_payload(frequency_index_meshes()[1]),
             "solver_projection_indices": array_payload(solver_index_mesh()),
             "solver_final_indices": array_payload(solver_validation_index_mesh()),
-            "final_tau_interval_fractions": ["2/7", "5/7"],
+            "final_tau_interval_fractions": ["1/5", "4/5"],
             "solver_observation_truth": "independent_post_loop_not_heldout",
         },
         "environment": {

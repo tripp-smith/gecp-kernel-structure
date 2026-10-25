@@ -2160,6 +2160,15 @@ frequency lists are frozen anew before recorded generation. Detailed failed
 hypotheses, conventions, acceptance criteria and the numerical-bridge planning
 checkpoint are in `RESEARCH.md`. Actual results and delivery gates will follow.
 
+Frozen cohort A now provides actual evidence:11/12 records pass the shared
+final1e-8 criterion, and all three physical solvers pass. The retained sparse-ir
+cutoff10 failure has frequency error1.208646949e-8 despite passing calibration;
+an independent95-digit pole calculation confirms it. Native truncation eps and
+finite calibration samples do not establish an external absolute-error bound.
+Both runs agree on numerical fields, including the failure. Protocol B strengthens
+calibration and reserves new validation points; no target is loosened and no
+claim of fully matched success is made from A alone.
+
 ## Run provenance
 
 Agent model/mode metadata, elapsed time, aggregate token usage, and the

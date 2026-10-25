@@ -10467,3 +10467,56 @@ final validation. The final accuracy criterion remains `1e-8` in both domains;
 solver convergence, heldout accuracy and observed-grid independent-truth accuracy
 are separate required flags. Canonical generation follows a clean source/config
 freeze; failure on the fresh points is retained, not repaired by tuning them.
+
+### DV cohort A and stronger calibration protocol B
+
+Frozen cohort A generation `bc8f00a9bc05a1676e58c66f74cb65abdad199a9` runs twice
+to successful process exit (65.46/63.45 seconds); every numerical field agrees
+after recursively excluding measurements. Eleven of twelve overall records
+pass. All three physical solvers converge and pass their distinct time,
+heldout-frequency and observed-grid independent-truth checks. Sparse-ir at
+beta10/wmax1 selects native eps1e-8 from calibration, but the central-pole
+final frequency error is `1.2086469491912093e-8`, exceeding the unchanged1e-8
+target. This failure is retained, not omitted from the matched comparison.
+
+An independent95-decimal-digit audit imports no repository truth helpers,
+lifts actual binary64 physical inputs exactly and checks all36forward
+workloads/72domain errors plus all solver frequency values/defects and18selected
+time energy integrals. It confirms the failure at `1.2086469488550613e-8`,
+all flags and43Git source blobs, configuration and742array hashes. Maximum
+stored-truth discrepancy is1.658e-16, maximum reported-error discrepancy8.512e-17.
+The canonical compressed A artifact is
+`experiments/data/dlr_applications_cohort_a.json.gz`, SHA256
+`42610f175b2e358137052c50461046154ea3846128c4092b6a682b1b89138128`;
+its exact uncompressed payload SHA256 is
+`2e686d01aad5b899e658ad28c6793027846d2f653552aa2c831a97fbb2691740`.
+The numerical-only repeat digest is
+`0e9ae55493740dd59ea1eb7317905cb4425d261783dad0c1dc31ae05d7267687`.
+Gzip is only storage compression; the original payload and source provenance
+are unchanged. A is recorded evidence with a failed case, not a fully matched
+success cohort or a universal performance conclusion.
+
+The failure motivates a stricter predeclared B calibration rather than relaxing
+the final target: use `calibration_fraction=0.1` (calibration target1e-9 for final
+target1e-8) and dense ordinary calibration frequencies[-32,31] plus fixed tail
+samples, excluding new final indices. This is a sampling guardband, not a
+continuous error certificate. All A validation values are now development/
+calibration evidence. Before consulting B final truth, fix new time holdouts
+at1/5and4/5 of each interval and new forward final indices
+`[-801,-401,-171,-71,-38,-22,-9,-7,6,8,21,37,70,170,400,800]`.
+Calibration adds[-256,-128,-64,63,127,255] to the dense grid. The solver again
+reserves only the final subset with `abs(2*n+1)>=37`, retaining essential low
+modes and checking their independent truth separately. The final accuracy
+target remains1e-8 in both physical domains, for every provider and solver.
+Freeze B source/configuration, repeat fresh workers and audit independently;
+do not tune B final values if they fail.
+
+On2026-10-25 EDT, the independent auditor is promoted to the reusable
+`scripts/audit_dlr_applications.py`, with numeric/shape/flag/hash/provenance
+rejection tests and support for compressed containers. It verifies the retained
+A artifact successfully before the B source freeze. This is independent
+physical numerical checking, not Lean/interval certification. The script reports
+that actual historical OS thread counts are unavailable; it checks recorded
+environment controls and their frozen propagation rather than inventing that
+measurement. The release plan remains preparatory, with no tag, workflow,
+environment or upload created during this phase.
