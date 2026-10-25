@@ -10,17 +10,17 @@ DU's revision-specific root/CI/install and authorized delivery receipt is
 
 | Requirement | Current evidence | State |
 | --- | --- | --- |
-| Compare with pydlr and sparse-ir using shared observations and external accuracy criteria | DT pilot, PR #126 | partial: pilot only |
-| Separate construction, repeated fit/evaluation, time, process memory, rank and conditioning | DT measurement schema and pilot | delivered pilot; production comparison pending |
-| Independently check both time and Matsubara frequency errors | DT independent time checks | frequency checks open |
-| Include a small physical solver loop | none | open |
+| Compare with pydlr and sparse-ir using shared observations and external accuracy criteria | DV frozen A retained failure; B12/12 passing, independent audit | implemented and checked; phase delivery pending |
+| Separate construction, repeated fit/evaluation, time, process memory, rank and conditioning | DV two-worker matched cohort B and explicit scopes | implemented and checked; single-machine evidence |
+| Independently check both time and Matsubara frequency errors | DV95-digit all-forward and solver frequency/direct-integral checks | delivered numerical evidence; not a continuous certificate |
+| Include a small physical solver loop | DV Bethe loop passes with all three providers | implemented and checked; noninteracting scope |
 | Public reusable basis and cached factors | DU FermionicBasis/LeastSquaresPlan, merged PR #127 | delivered |
 | Batching and complex/matrix-valued coefficients | DU arbitrary-axis public tests and tutorial, merged PR #127 | delivered |
 | Explicit physical conventions and accuracy/precision contracts | DU API/guide and time/frequency analytic checks | implemented; continuous/rounding bridge open |
 | Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
-| Same-workload interoperability demo with an existing DLR/IR implementation | DT comparison adapters | full demo open |
-| Concrete upstream proposal and actual adoption outreach | research only | open |
+| Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example passes | implemented and checked; phase delivery pending |
+| Concrete upstream proposal and actual adoption outreach | UPSTREAM_PROPOSAL.md plus tested standalone Sparse-IR recipe | proposal prepared; actual outreach open |
 | Profile and prototype the measured Rust bottleneck | DT setup/reuse timings, no Rust prototype | open |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | none | open; rejection is valid only after measurement |
 | Cross-platform built-wheel and outside-checkout install CI | DU main CI40143517992: six platform/version jobs pass | delivered; repeat for final release |

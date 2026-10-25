@@ -2899,7 +2899,8 @@ This annotation records delivered identifiers without changing the goals above.
   pending PyPI publisher is configured after user confirmation, but no package
   upload or completed full application goal is claimed.
 
-- **Phase DV application extension (implementation in progress):** extends
+- **Phase DV application extension (final verification/delivery in
+  [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128)):** extends
   §§23–29 with physical Matsubara adapters, matched-accuracy calibration,
   separately measured fresh-worker construction/reuse, complex matrix workloads
   and a small noninteracting Bethe self-consistency loop. The failed low-frequency
@@ -2908,3 +2909,13 @@ This annotation records delivered identifiers without changing the goals above.
   before canonical generation. Original mathematical goals, proved theorems and
   historical evidence are unchanged. `PRODUCTIZATION.md` keeps Rust evaluation,
   the numerical error bridge, release/publication and upstream adoption open.
+
+  Frozen cohort A preserves an independently confirmed calibration miss;
+  cohort B strengthens calibration, reserves fresh validation and passes all
+  12 method/case records and three physical solver loops. Two runs have identical
+  numerical fields; independent 95-digit pole/root/integral checks confirm the
+  reported outcomes. Constructor/reuse/RSS scopes and different native eps/ranks
+  remain explicit. A three-provider example and small standalone Sparse-IR recipe
+  execute actual installed libraries. The concrete upstream proposal has not
+  been submitted or accepted. No new theorem, Rust speedup or publication is
+  claimed by this phase.

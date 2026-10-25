@@ -2162,12 +2162,29 @@ checkpoint are in `RESEARCH.md`. Actual results and delivery gates will follow.
 
 Frozen cohort A now provides actual evidence:11/12 records pass the shared
 final1e-8 criterion, and all three physical solvers pass. The retained sparse-ir
-cutoff10 failure has frequency error1.208646949e-8 despite passing calibration;
-an independent95-digit pole calculation confirms it. Native truncation eps and
+cutoff 10 failure has frequency error1.208646949e-8 despite passing calibration;
+an independent 95-digit pole calculation confirms it. Native truncation eps and
 finite calibration samples do not establish an external absolute-error bound.
 Both runs agree on numerical fields, including the failure. Protocol B strengthens
 calibration and reserves new validation points; no target is loosened and no
 claim of fully matched success is made from A alone.
+
+Cohort B now supplies the matched success: all 12 records,36 complex matrix
+forward workloads and three physical solver loops pass the unchanged1e-8
+target on fresh validation. Independent 95-digit checking confirms every forward
+error/flag, all solver frequencies and selected time integrals. Both runs match
+numerical fields, not machine-dependent timings. Maximum forward time/frequency
+errors are 5.45e-10/7.97e-10; solver time error is at most 5.74e-10. Details,
+source/measurement scopes and rank/native-eps differences are in
+`APPLICATION.md` and `RESEARCH.md`.
+
+This establishes bounded practical comparative evidence, not a performance
+advantage: the cutoff 1,000 GECP reference constructor takes about19.7 seconds
+in the recorded run, versus0.0194/1.337 seconds for pydlr/sparse-ir. The methods
+meet one external ceiling but do not have identical errors or native arithmetic.
+The next optimization must be measured, and any Rust prototype must preserve
+numerical behavior. A standalone native-Sparse-IR recipe and concrete upstream
+proposal are present; external adoption and publication remain unperformed.
 
 ## Run provenance
 

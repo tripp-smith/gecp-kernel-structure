@@ -10443,7 +10443,7 @@ complex pilot is preserved as explicit failed evidence before the final freeze.
 
 The useful related-field insight is observability/experimental design: removing
 the highest-information low-frequency rows makes the projection almost singular.
-For GECP at beta10/wmax2/native eps1e-10, retaining the complete low-frequency
+For GECP at beta 10/wmax 2/native eps 1e-10, retaining the complete low-frequency
 grid changes its design condition from roughly `1e10` to `13`; all three methods
 then achieve approximately `5e-10` independent time error on a pilot. These are
 scouting observations, not final validation or comparative timing evidence.
@@ -10475,16 +10475,16 @@ to successful process exit (65.46/63.45 seconds); every numerical field agrees
 after recursively excluding measurements. Eleven of twelve overall records
 pass. All three physical solvers converge and pass their distinct time,
 heldout-frequency and observed-grid independent-truth checks. Sparse-ir at
-beta10/wmax1 selects native eps1e-8 from calibration, but the central-pole
+beta 10/wmax 1 selects native eps 1e-8 from calibration, but the central-pole
 final frequency error is `1.2086469491912093e-8`, exceeding the unchanged1e-8
 target. This failure is retained, not omitted from the matched comparison.
 
-An independent95-decimal-digit audit imports no repository truth helpers,
-lifts actual binary64 physical inputs exactly and checks all36forward
-workloads/72domain errors plus all solver frequency values/defects and18selected
+An independent 95-decimal-digit audit imports no repository truth helpers,
+lifts actual binary64 physical inputs exactly and checks all 36 forward
+workloads/72 domain errors plus all solver frequency values/defects and 18 selected
 time energy integrals. It confirms the failure at `1.2086469488550613e-8`,
-all flags and43Git source blobs, configuration and742array hashes. Maximum
-stored-truth discrepancy is1.658e-16, maximum reported-error discrepancy8.512e-17.
+all flags and 43 Git source blobs, configuration and 742 array hashes. Maximum
+stored-truth discrepancy is 1.658e-16, maximum reported-error discrepancy8.512e-17.
 The canonical compressed A artifact is
 `experiments/data/dlr_applications_cohort_a.json.gz`, SHA256
 `42610f175b2e358137052c50461046154ea3846128c4092b6a682b1b89138128`;
@@ -10497,12 +10497,12 @@ are unchanged. A is recorded evidence with a failed case, not a fully matched
 success cohort or a universal performance conclusion.
 
 The failure motivates a stricter predeclared B calibration rather than relaxing
-the final target: use `calibration_fraction=0.1` (calibration target1e-9 for final
-target1e-8) and dense ordinary calibration frequencies[-32,31] plus fixed tail
+the final target: use `calibration_fraction=0.1` (calibration target 1e-9 for final
+target 1e-8) and dense ordinary calibration frequencies[-32,31] plus fixed tail
 samples, excluding new final indices. This is a sampling guardband, not a
 continuous error certificate. All A validation values are now development/
 calibration evidence. Before consulting B final truth, fix new time holdouts
-at1/5and4/5 of each interval and new forward final indices
+at 1/5 and 4/5 of each interval and new forward final indices
 `[-801,-401,-171,-71,-38,-22,-9,-7,6,8,21,37,70,170,400,800]`.
 Calibration adds[-256,-128,-64,63,127,255] to the dense grid. The solver again
 reserves only the final subset with `abs(2*n+1)>=37`, retaining essential low
@@ -10511,7 +10511,7 @@ target remains1e-8 in both physical domains, for every provider and solver.
 Freeze B source/configuration, repeat fresh workers and audit independently;
 do not tune B final values if they fail.
 
-On2026-10-25 EDT, the independent auditor is promoted to the reusable
+On 2026-10-25 EDT, the independent auditor is promoted to the reusable
 `scripts/audit_dlr_applications.py`, with numeric/shape/flag/hash/provenance
 rejection tests and support for compressed containers. It verifies the retained
 A artifact successfully before the B source freeze. This is independent
@@ -10520,3 +10520,47 @@ that actual historical OS thread counts are unavailable; it checks recorded
 environment controls and their frozen propagation rather than inventing that
 measurement. The release plan remains preparatory, with no tag, workflow,
 environment or upload created during this phase.
+
+### DV cohort B outcome and phase acceptance
+
+Frozen B generation `8a4dd6bec0d606764667a1721e06469286e82cef` completes twice
+with successful process exits (99.44/95.06 seconds). All numerical fields agree
+after recursively removing measurements; the repeat digest is
+`d26cef434a16f5b30ef8bbe6c4c6b8c852b2e5c1191c1cd2a1615a8dbea2fde5`.
+All 12 method/case records pass the unchanged1e-8 final threshold, including
+all 36 complex matrix forward workloads and three independently checked physical
+solvers. Largest forward time/frequency errors are 5.443e-10/7.970e-10; largest
+solver time/heldout-frequency/observed-grid errors are
+5.739e-10/4.230e-11/4.481e-10. Native eps/ranks differ by method, as recorded
+in APPLICATION.md; no universal rank-minimality or fastest-method claim follows.
+
+Canonical B storage is `experiments/data/dlr_applications_cohort_b.json.gz`,
+SHA256 `0924ff2c6b8bdf6ebd13d27dcf4226ea5d0f8bac32df9fc4ed28fb56055356ba`;
+uncompressed JSON SHA256
+`37945408b42ba99f9e612b288be277d59428911d4179bf82b6238b363c32ff46`.
+The independent audit runs the published helper at hash
+`c6c347fec982f2ca2d83cef7bac1cc4fe93b39d0f482f3d3017cedd4f26a5c22`;
+it confirms all outcomes,43 Git blobs,838 array hashes, complete solver frequency
+truth/defects and 18 selected direct time energy integrals. Maximum forward
+truth/error-report differences are 1.308e-16/5.944e-17. Its recorded report is
+`experiments/data/dlr_applications_cohort_b_audit.json`, SHA256
+`0c284eb07cce227c7345c4209c8bdfb6cb5c553cfb82b4ce8a56db53c2bcaba1`.
+A's corresponding promoted audit report is also retained (hash
+`107fbd33ed09d03646f0380e108bccbfa20c76986dfb71fedefae3dfa4315ede`).
+Recorded controls and matching audit environments are checked; actual historical
+OS thread counts and cross-platform performance are not fabricated.
+
+The three-provider tutorial executes installed pydlr 1.0.1/sparse-ir 2.1.6 and
+passes every matrix/solver check. The actual optional focused suite passes190
+tests before the additional standalone upstream recipe, which independently
+passes with native Sparse-IR matrix sampling. `UPSTREAM_PROPOSAL.md` specifies
+a small self-contained documentation contribution; no upstream message or
+acceptance has occurred yet. Rust remains unprototyped, the numerical bridge
+is planning evidence only, and final publication/methods work remains open.
+
+Final root, exact-head CI/platform/package checks and authorized merge/push/main
+closure are recorded canonically in
+[PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128).
+The next phase should implement the error bridge and profile a genuinely eligible
+Rust bottleneck rather than infer a speedup from a language choice. Exact
+research defaults, mathematical goals and historical generations are preserved.
