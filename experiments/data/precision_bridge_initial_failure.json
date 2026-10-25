@@ -1,0 +1,23 @@
+{
+  "audit_precision_bits": 384,
+  "canonical_output_created": false,
+  "config_sha256": "531c4fd13adf6a4fd564c8311d2c5718fb3afb870ff822b0da7fcb84cee3fdfb",
+  "generation_source": "0dbd60c3aba109d70879287b1ad5a35a3defd40e",
+  "later_pilot_diagnosis": "Selected-node exact reproduction has zero coefficient error in a component. A 384-bit QR oracle introduces about 2.538e-116 error against a 1.169e-137 interval budget; 1024-bit QR and exact cardinal reproduction pass. Bounds unchanged.",
+  "logs": [
+    {
+      "exit_code": 1,
+      "log": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/experiments/precision_bridge.py\", line 74, in <module>\n    main()\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/experiments/precision_bridge.py\", line 51, in main\n    records = [audited_case(**case) for case in raw[\"cases\"]]\n               ^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/examples/precision_bridge.py\", line 139, in audited_case\n    raise AssertionError(\"independent QR exceeds coefficient enclosure\")\nAssertionError: independent QR exceeds coefficient enclosure\nreal 78.28\nuser 77.02\nsys 0.74\n",
+      "run": 1,
+      "sha256": "96f1a031cc611e889a59aecc388089bec3e30be509f885f96e76a6d323a764f2"
+    },
+    {
+      "exit_code": 1,
+      "log": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/experiments/precision_bridge.py\", line 74, in <module>\n    main()\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/experiments/precision_bridge.py\", line 51, in main\n    records = [audited_case(**case) for case in raw[\"cases\"]]\n               ^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/tripp/Desktop/dev/tripp-smith/gecp-kernel-structure/examples/precision_bridge.py\", line 139, in audited_case\n    raise AssertionError(\"independent QR exceeds coefficient enclosure\")\nAssertionError: independent QR exceeds coefficient enclosure\nreal 78.23\nuser 76.93\nsys 0.76\n",
+      "run": 2,
+      "sha256": "34f753d95735c18b723f36b8a3640e33bb613b747ff20b69540cfaf698f2c4b4"
+    }
+  ],
+  "schema_version": 1,
+  "status": "generation_stopped_on_independent_oracle_check"
+}

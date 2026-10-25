@@ -1,0 +1,22 @@
+{
+  "checked_source": "2ccfd91aa51c27cbdefa79c06e34dadca8f7edd0",
+  "ci_runs": [
+    40169508074,
+    40169505056
+  ],
+  "correction": "Record actual rounded residual/core proxy as data; audit their true bounds without BLAS replay; fetch required Git history.",
+  "failures": [
+    {
+      "reason": "grid content hash mismatch on another BLAS architecture",
+      "test": "test_all_canonical_record_bindings_and_honest_inconclusive_status"
+    },
+    {
+      "reason": "generation Git object unavailable in shallow checkout",
+      "test": "test_generation_provenance_uses_historical_git_blobs"
+    }
+  ],
+  "log_sha256": "875e489d28f1c08e776fb702abeec74f1f5307f5cee030a81aaebf95f9d34c52",
+  "python_outcome": "2 failed, 1427 passed, 8 skipped",
+  "schema_version": 1,
+  "scientific_bounds_changed": false
+}

@@ -119,6 +119,7 @@ import GECPKernelStructure.MathlibReady
 import GECPKernelStructure.PositiveDefinite.KernelGeometryChecks
 import GECPKernelStructure.PositiveDefinite.ContinuousCholesky
 import GECPKernelStructure.PositiveDefinite.ContinuousCholeskyChecks
+import GECPKernelStructure.Discretization.NumericalBridge
 
 /-!
 Public theorem re-exports are added here only after their milestone contract is

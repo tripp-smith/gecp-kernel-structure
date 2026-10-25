@@ -2193,3 +2193,53 @@ non-billing cost estimate are recorded separately in
 [FINAL_HANDOFF.md](FINAL_HANDOFF.md#implementation-run-metadata). They are
 operational provenance and are not mathematical or numerical evidence for any
 claim in this ledger.
+## DW — numerical discrepancy and observation design
+
+Two conditional Lean results now connect explicit numerical budgets to useful
+claims: `Discretization.approxPivot_of_uniform_discrepancy` transfers pivot
+quality on the same domain; `Discretization.dot_error_le_of_component_bounds`
+combines complex design, coefficient and final-dot errors. A sharp exact
+two-point witness attains quality `765/1027`. These theorems do not verify an
+interval arithmetic engine or extend a finite grid to a continuous domain.
+
+The implementation independently encloses exact physical selected-core and
+full-rank time least-squares problems, then compares them to actual public
+fits and outputs. This supplies actual coefficient/core/solve budgets, rather
+than assuming the perturbation hypothesis of a scalar lemma. Independent
+rational, QR and bordered-determinant checks pass in development. Canonical
+frozen generation and final delivery remain the phase's acceptance gates.
+
+A large-cutoff development probe exposed a useful distinction. At beta 20,
+wmax 50, tolerance `1e-9`, the rank-49 basis fitted to 61 uniform time points
+retains only 39 singular directions in the actual SVD. At 256 interval bits,
+the Gram pivot enclosure is inconclusive. At 512 bits it encloses the full-rank
+reference, but that reference has enormous coefficient/frequency discrepancy
+from the deliberately truncated fit. More arithmetic precision cannot turn
+this ill-conditioned full-rank problem into a sensible fitting target.
+
+Resolving endpoint information changes the problem conditioning: the shared
+endpoint mesh retains all 49 directions with an estimated design condition
+about 277, versus about `1.69e16` on the uniform mesh. The selected-node default
+has condition about one. Both alternatives yield useful small numerical budgets
+at 512 interval bits. This connects the bridge to experimental design and
+regularization: a small physical error, a small equation defect and fidelity to
+an exact unregularized least-squares reference answer different questions. The
+frozen six-case protocol retains the inconclusive and large-discrepancy cases
+alongside the useful alternatives; it does not hide them as failed tests.
+The frozen repeat confirms these distinctions. Both complete JSON artifacts
+match exactly. All five completed enclosures pass the independent coefficient
+and prediction audit; one solve remains inconclusive. Large-cutoff endpoint
+sampling gives numerical budgets below `2.50e-14` while physical fixture error
+still reaches `3.38e-8`, above a `1e-8` ceiling. Selected-node fitting gives
+numerical budgets below `9.65e-16` and physical errors below `4.48e-10`.
+The uniform-time full-rank reference remains a valid large-discrepancy case.
+No finite-query arithmetic budget is promoted into a physical or continuous
+error theorem. Source/hash and final delivery evidence are in `RESEARCH.md`
+and [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129).
+
+Cross-platform CI caught an audit portability error: re-executing BLAS cannot
+authenticate another machine's rounded result byte for byte. Cohort C instead
+stores those actual results and audits their mathematical discrepancy directly.
+Its complete repeat agrees, and every prior scientific/numerical result is
+unchanged from B. Historical B artifacts and failed audit/CI evidence remain
+retained. This is a data/provenance correction, not a relaxed accuracy check.

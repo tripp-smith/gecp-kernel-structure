@@ -143,6 +143,47 @@ example {X : Type*} {f : X → ℝ} {candidate upper eta : ℝ}
 
 end Discretization
 
+section NumericalBridge
+
+open GECPKernelStructure.Discretization
+
+example {X : Type*} (R Rhat : X → ℝ) (p : X) {delta L U : ℝ}
+    (hd : 0 ≤ delta) (hsmall : delta < L)
+    (hdiscrepancy : ∀ x, |R x - Rhat x| ≤ delta)
+    (hlower : L ≤ |Rhat p|) (hupper : ∀ x, |Rhat x| ≤ U) :
+    0 < (L - delta) / (U + delta) ∧
+      (L - delta) / (U + delta) ≤ 1 ∧
+      ∀ x, (L - delta) / (U + delta) * |R x| ≤ |R p| :=
+  approxPivot_of_uniform_discrepancy R Rhat p hd hsmall hdiscrepancy hlower hupper
+
+example {ι : Type*} (s : Finset ι) (a ahat c chat : ι → ℂ) (computed : ℂ)
+    (design_error coefficient_error : ι → ℝ) (dot_error : ℝ)
+    (ha : ∀ i ∈ s, ‖ahat i - a i‖ ≤ design_error i)
+    (hc : ∀ i ∈ s, ‖chat i - c i‖ ≤ coefficient_error i)
+    (hdot : ‖computed - ∑ i ∈ s, ahat i * chat i‖ ≤ dot_error) :
+    ‖computed - ∑ i ∈ s, a i * c i‖ ≤ dot_error +
+      ∑ i ∈ s, (design_error i * ‖chat i‖ + ‖a i‖ * coefficient_error i) :=
+  dot_error_le_of_component_bounds s a ahat c chat computed
+    design_error coefficient_error dot_error ha hc hdot
+
+-- Exact two-point witness: both discrepancy extremes are attained, so the
+-- transfer factor cannot be increased from these hypotheses alone.
+example :
+    let R : Bool → ℝ := fun x => if x then 1 / 3 + 1 / 1024 else 1 / 4 - 1 / 1024
+    let Rhat : Bool → ℝ := fun x => if x then 1 / 3 else 1 / 4
+    (∀ x, |R x - Rhat x| ≤ 1 / 1024) ∧
+      (∀ x, (765 / 1027 : ℝ) * |R x| ≤ |R false|) ∧
+      (765 / 1027 : ℝ) * |R true| = |R false| := by
+  dsimp
+  refine ⟨?_, ?_, ?_⟩
+  · intro x
+    cases x <;> norm_num
+  · intro x
+    cases x <;> norm_num
+  · norm_num
+
+end NumericalBridge
+
 example : GECP.exactTwoPivotRealRun.CompleteOn (fun _ => True) (fun _ => True) :=
   GECP.exactTwoPivotRealRun_complete
 

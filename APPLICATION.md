@@ -1282,3 +1282,120 @@ estimate are documented in
 the historical v1 implementation, completed original-SPEC research goal and
 later documentation-only task boundary, not package runtime requirements,
 phase-only costs or benchmark performance.
+## Finite-query numerical certificates
+
+`certify_fit_precision(fit, values, tau, query_tau=..., matsubara_indices=...)`
+independently encloses the difference between an actual `FermionicFit` and the
+unique full-column-rank least-squares fit on the supplied time samples. Every
+stored binary64 input denotes its exact binary rational value; the ideal kernel
+uses exact physical `tau/beta`. This encloses normalization, kernel/core solve,
+coefficient fit, design export and final output arithmetic effects. It does not
+assume that a working precision or a small backward residual guarantees a small
+forward error.
+
+```python
+from kernelgecp import certify_fit_precision, certify_grid_pivot_precision
+
+report = certify_fit_precision(
+    fit, values, tau, query_tau=queries, matsubara_indices=[-1, 0, 4]
+)
+if report.certified:
+    assert report.coefficients is not None
+    assert report.time is not None and report.matsubara is not None
+    print(report.coefficients.max_error)
+    print(report.time.max_error, report.matsubara.max_error)
+else:
+    print(report.termination_reason)
+
+pivot = certify_grid_pivot_precision(basis, queries, [-2.3, -0.3, 1.7])
+print(pivot.certified, pivot.eta, pivot.objective_scope)
+```
+
+An enclosed report is not an accuracy-tolerance pass. A truncated SVD fit can
+differ greatly from the ideal full-rank fit, especially when observations omit
+endpoint information. Compare the reported budget to the application's error
+allowance. Physical spectral-model and observation uncertainty are separate;
+the exact-data least-squares reference need not be a good physical model.
+Supplying `tau=None` uses the selected physical nodes, matching `fit_tau`.
+The observation axis is `fit.axis`; complex matrix batches are preserved.
+
+`report.core` distinguishes exact physical versus rounded normalization and a
+reconstructed binary64 kernel proxy. The proxy is not the internal reference
+factorization; its error already includes normalization and is not an additional
+disjoint stage. Training/query design bounds compare the actual facade exports
+to independent interval core solves and include true-core backward residuals.
+Coefficient enclosures use interval Gram solves solely for certification; the
+ordinary public fitter still uses its cached SVD. Query reports contain a direct
+prediction enclosure and the separately valid coefficient/design/final-dot
+triangle budget. The final BLAS result is compared to an exact rational dot of
+the actual exported design and computed coefficients, so no vendor-specific
+reduction-order assumption is needed.
+
+Reports and bound arrays are immutable and hash all numerical inputs plus the
+actual designs/outputs. Default interval precision is 256 bits, with binary64
+outward bound exports; rank/work budgets are explicit. Zero-containing interval
+pivots, underdetermined data, export overflow and budget exhaustion produce
+uncertified reports with missing bounds, not zero error or a singularity proof.
+Higher precision can resolve interval overestimation but cannot repair an
+ill-conditioned exact fitting problem. Successful pivot gates establish
+regularity, not a rigorous norm condition number.
+
+The grid certificate bounds the discrepancy between the actual rounded selected
+cross and the exact physical selected cross on exactly the supplied Cartesian
+grid. It transfers the first row-major rounded maximum into a positive true
+pivot quality when the discrepancy is small enough; ties are explicit. It
+does not cover points between grid samples or identify an inexact trajectory
+with an exact complete-pivot run. An exactly zero enclosed grid is labeled
+separately and has trivial quality one.
+
+The conditional pivot-transfer and complex finite-dot budget theorems are
+kernel-checked Lean results. The interval LU/Gram implementation trusts the
+mpmath interval engine and is independently checked with rational/Cramer,
+high-precision QR and bordered-determinant formulations; the numerical program
+itself has not been verified in Lean. mpmath documents interval containment and
+the experimental scope of its engine in its [context documentation](https://mpmath.org/doc/current/contexts.html).
+
+Run `uv run python -m examples.precision_bridge` for a complex matrix example
+with an independent QR audit. The frozen experiment uses
+`experiments/precision_bridge.toml` and the module
+`experiments.precision_bridge`; its source must be committed and tracked-clean
+before generation. Final canonical results and phase delivery are recorded in
+the current README receipt.
+
+DW's canonical six-case artifact is
+`experiments/data/precision_bridge.json.gz`, generated twice from `a4995b4`
+with identical complete JSON bytes. Five enclosures complete and one remains
+inconclusive; a completed enclosure can have a large valid discrepancy.
+At cutoff 1000 the endpoint-resolved numerical budget is below `2.50e-14`,
+but its sampled physical error reaches `3.38e-8`. Selected-node fitting gives
+a numerical budget below `9.65e-16` and physical error below `4.48e-10`.
+The uniform-time truncated fit has a frequency discrepancy around `1.10e15`
+from the ill-conditioned exact full-rank target. These outcomes are retained;
+they illustrate why an arithmetic certificate and physical accuracy need
+separate acceptance criteria. See `RESEARCH.md` for source/container/payload
+hashes and [PR #129](https://github.com/tripp-smith/gecp-kernel-structure/pull/129)
+for final revision, platform/install and authorized delivery checks.
+
+Recheck the immutable data independently, without importing the implementation:
+
+```bash
+uv run python scripts/audit_precision_bridge.py \
+  --source experiments/data/precision_bridge.json.gz \
+  --output experiments/scratch/precision_bridge_audit.json \
+  --generation-commit a4995b471506fe043f3102114d42620c3c645d76 \
+  --expected-sha256 b88c47735487433a482620a60577485cb1749e652ccfde201db2145112f9d09a \
+  --expected-payload-sha256 b77e38e42aad25082d14fbafb9d767525f61c302942b7ecca607c54df5631782
+```
+
+This checks the generation-era Git/config/dependency manifests, complete arrays,
+all grid points by 1280-bit bordered determinants, exact selected-node
+coefficients, selected-node predictions and all physical pole checks. It
+preserves inconclusive/large-error cases and states which other LS checks were
+performed by the generation-time QR audit rather than this separate tool.
+Schema 2 stores all 90 complete numerical arrays, including the actual rounded
+grid residuals and binary64 core proxies. Auditing checks these observed values
+directly and does not require a different machine to reproduce BLAS or exp
+rounding bit for bit. A separate small guard checks physical fixture identity;
+the certificate error bounds retain their strict checks. Historical cohort B
+and its generation-platform audit remain in the `precision_bridge_cohort_b*`
+files. CI fetches the Git history required by the provenance test.
