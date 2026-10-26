@@ -1,0 +1,23 @@
+{
+  "schema": "kernelgecp.green-sources.v1",
+  "release": "1.0.0",
+  "sources": [
+    {"name": "green-mbpt", "repository": "https://github.com/Green-Phys/green-mbpt.git", "revision": "d593a9c970194dea5855ca38e71f9cd6ac550cbf"},
+    {"name": "green-utils", "repository": "https://github.com/Green-Phys/green-utils.git", "revision": "440f1d521e25c754c1bcbf0df74f9fc6abd889dc"},
+    {"name": "green-ndarray", "repository": "https://github.com/Green-Phys/green-ndarray.git", "revision": "17d9805aed28d30c345875901de0b2cd944134ef"},
+    {"name": "green-h5pp", "repository": "https://github.com/Green-Phys/green-h5pp.git", "revision": "ec30bfefbc4968d3f0df135dde0db20a9d5a6f51"},
+    {"name": "green-params", "repository": "https://github.com/Green-Phys/green-params.git", "revision": "b40eae5b78e18d560c8b7aaf8698a1f124d83dbf"},
+    {"name": "green-grids", "repository": "https://github.com/Green-Phys/green-grids.git", "revision": "e9e4b144e72307640de5bd1192f02a8cb5a7a2e3"},
+    {"name": "green-symmetry", "repository": "https://github.com/Green-Phys/green-symmetry.git", "revision": "1dac18d4baac2494daec359b40bedc7bc8b63720"},
+    {"name": "green-sc", "repository": "https://github.com/Green-Phys/green-sc.git", "revision": "2a14dc26c48d68f936421f1a8c263a378bbf0bfb"},
+    {"name": "green-opt", "repository": "https://github.com/Green-Phys/green-opt.git", "revision": "f76d8d98cfe945c1d14d49624515d20fe3d0afef"},
+    {"name": "green-impurity", "repository": "https://github.com/Green-Phys/green-impurity.git", "revision": "9e1e566efa0754a6d1ae0a46ff672a07b9294bbc"},
+    {"name": "green-mbtools", "repository": "https://github.com/Green-Phys/green-mbtools.git", "revision": "cb719742880e41970db264b9af35c47b46c99b84"}
+  ],
+  "python_provider": {
+    "name": "green-mbtools",
+    "version": "1.0.0",
+    "distribution": "hash-locked PyPI wheel; not rebuilt from the source checkout",
+    "source_checkout_role": "release provenance and native input-generation script inspection"
+  }
+}

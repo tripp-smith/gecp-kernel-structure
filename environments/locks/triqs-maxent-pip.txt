@@ -1,0 +1,2 @@
+# Install after the platform conda lock, using --no-deps --require-hashes.
+triqs-maxent==4.0.1 --hash=sha256:74c0fb1a4ec4abbc0ee8b46d11f9f01781687d4bfbe74982c0100c0887b4fcac

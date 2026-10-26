@@ -1,0 +1,7 @@
+# This is the complete provider environment, not kernelgecp's runtime dependencies.
+green-mbtools==1.0.0
+pyscf==2.14.0
+numpy==2.2.6
+scipy==1.15.3
+h5py==3.13.0
+numba==0.61.2

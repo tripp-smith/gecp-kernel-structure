@@ -6,7 +6,7 @@ An unchecked requirement remains open even when a related phase or test passes.
 DU's revision-specific receipt is [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127);
 DV's full root/platform/install and merged-main closure is in
 [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128).
-All controlled functional requirements are now delivered in
+All controlled requirements of the completed DU–EA application scope are delivered in
 [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and the
 [GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0).
 The [release receipt](RELEASE_RECEIPT.md) records the immutable source, tested
@@ -16,6 +16,8 @@ The maintainer-invited [executable notebook PR #10](https://github.com/SpM-lab/s
 is submitted and locally verified; [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)
 owns this repository's final adoption-record acceptance. Current upstream
 review, CI approval and merge decisions remain with its maintainers.
+The separately authorized [production integration extension](#production-integrations-12)
+is in progress; its required 1.2.0 capabilities are not delivered by 1.1.0.
 
 ## Required end state
 

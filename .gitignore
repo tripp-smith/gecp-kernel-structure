@@ -10,6 +10,7 @@ __pycache__/
 .ruff_cache/
 .hypothesis/
 dist/
+/artifacts/
 build/
 *.egg-info/
 kernelgecp/_native*.so

@@ -1,0 +1,11 @@
+**
+!environments/
+!environments/green/
+!environments/green/**
+!environments/epw/
+!environments/epw/**
+!scripts/
+!scripts/providers/
+!scripts/providers/**
+**/__pycache__/
+**/.venv/
