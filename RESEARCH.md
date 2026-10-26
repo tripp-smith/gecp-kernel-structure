@@ -11042,7 +11042,7 @@ link current final-handoff status to PR #132. Do not weaken the documentation
 gate or claim that the initial documentation head passed. Final exact-head
 verification follows the repair; the public release is unaffected.
 
-## Phase EA — invited executable upstream recipe (in progress)
+## Phase EA — invited executable upstream recipe (acceptance: PR #133)
 
 The release and repository closure are delivered at `1f6e010` in PR #132:
 exact-main root and source/pure/native checks all pass; the published 1.1.0 tag
@@ -11078,3 +11078,42 @@ validation in this repository's adoption documents; final root/CI, authorized
 own-repository PR merge/push and exact-main closure govern those handoff edits.
 No published artifact, scientific theorem, benchmark or original research
 accounting changes in this phase.
+
+### EA submitted source and validation
+
+Actual upstream [PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10) is
+submitted from `tripp-smith/sparse-ir-doc:codex/physical-matrix-accuracy`, commit
+`bc4659e14c1a5f319fd6dcc7fa42796c7b29e2bd`, against upstream base
+`c94bf6ae3d3953ca9e2081a8be9998db348cdd24`. Its sole changed file is
+`src/sparse_sampling_py.ipynb`: 87 insertions, three added cells, with all eight
+original cells, notebook metadata and output-free source style preserved.
+Notebook SHA-256 is
+`c93d98bcea0d0e1ef0b695931a78eda1001f6284d9986db20e1b2ecd94f0e16f`.
+
+Upstream's frozen environment uses Python 3.13.2, NumPy 2.3.5, sparse-ir 2.1.4,
+pylibsparseir 0.9.0 and Jupyter Book 1.0.4.post1. Schema checks and isolated/full
+notebook execution pass identically: rank 14, coefficient shape `(14,2,2)`,
+condition number `1.4879233344863665`, 73 disjoint time rows and 64 frequency
+rows of both signs. Sampled time error is `2.7616964271004463e-11` and frequency
+error `4.94080361244419e-11`, both below the unchanged `1e-8` target. Independent
+96-node Fourier quadrature differs by at most `4.775861023594468e-15`; a second
+read-only review checks normalization, indices and adjoint symmetry.
+
+The documented `uv run jupyter book build --all .` exits zero and the rendered
+new section is inspected. Its sole warning is the unchanged README missing
+from the unchanged toctree; no notebook execution warning/error is hidden.
+Build log SHA-256:
+`2f266a82c2bc49e2206cc73abbec1720847d5b6896ecce6c82646f443fe39dff`.
+Validation JSON SHA-256:
+`90444d0d2d0a37104fbbf4434b8e5aea1a46e4affe5bb2307be10ffa232f803f`.
+An initial disposable validator failed before execution because raw JSON
+list-valued sources were not normalized; `nbformat.reads` repairs that harness,
+without changing notebook source. Its failure log is retained with SHA-256
+`3dd0ae5cc9de3d2f25eeacccb5db48d6e40b3f764aa62525e00ef96e39a4c075`.
+
+At submission, upstream [workflow 40248110146](https://github.com/SpM-lab/sparse-ir-doc/actions/runs/40248110146)
+reports `action_required` and no jobs: maintainers must approve fork CI. This is
+not an upstream CI pass or source-execution failure. Current review/CI/merge
+state is linked at the PR; no adoption or merger is inferred. All controlled
+contribution work is delivered, with this repository's exact final branch/main
+verification and authorized delivery recorded externally in PR #133.

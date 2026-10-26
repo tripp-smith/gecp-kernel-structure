@@ -11,8 +11,11 @@ All controlled functional requirements are now delivered in
 [GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0).
 The [release receipt](RELEASE_RECEIPT.md) records the immutable source, tested
 file hashes and actual publication checks. Final repository handoff acceptance
-is recorded separately in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132).
-Upstream maintainer acceptance remains an external follow-up.
+is recorded in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132).
+The maintainer-invited [executable notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10)
+is submitted and locally verified; [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)
+owns this repository's final adoption-record acceptance. Current upstream
+review, CI approval and merge decisions remain with its maintainers.
 
 ## Required end state
 
@@ -28,7 +31,7 @@ Upstream maintainer acceptance remains an external follow-up.
 | Safe versioned serialization and short runnable tutorials | DU bounded NPZ/JSON, corruption tests and example, PR #127 | delivered |
 | Preserve existing research API defaults | unchanged through DU | ongoing invariant |
 | Same-workload interoperability demo with an existing DLR/IR implementation | DV three-provider executable example, merged PR #128 | delivered |
-| Concrete upstream proposal and actual adoption outreach | [Public tested complex-matrix recipe proposal](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382), exact text verified | outreach delivered; maintainer acceptance pending |
+| Concrete upstream proposal and actual adoption outreach | proposal, maintainer invitation and [actual executable notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10); source/schema/execution/full-book checks pass under upstream lock | contribution submitted; upstream review/CI approval/merge externally controlled |
 | Profile and prototype the measured Rust bottleneck | profiling, actual pilot, DX optional backend and exact-main platform acceptance in PR #130 | delivered |
 | Keep Rust only with demonstrated end-to-end gain and numerical parity | DX frozen six-process cohort: 50.15% application, 47.76% process-wall reduction; paired differences <4.26e-15, physical <2.57e-11 | delivered for streaming workload; small reuse/cache-hit limits explicit |
 | Cross-platform built-wheel and outside-checkout install CI | DY exact-main producer and six public OS/Python install lanes plus public sdist installation; release receipt | delivered for the recorded platform matrix |
@@ -37,7 +40,7 @@ Upstream maintainer acceptance remains an external follow-up.
 | Publish a tested versioned release and installable distributions | public v1.1.0 release from exact-main source 9a679930db326bda2456bfa91b3256f37359e4ce; three wheels and original sdist | delivered |
 | PyPI publication for the practical Python module | four public files match the tested manifest; workflow 40244470229 attempt 2 passes all public installs | delivered |
 | Finite-precision/inexact-pivot bridge including coefficient and solve errors | DW portable repeated six-case artifact, actual finite-query fit and finite-grid true-pivot budgets, two conditional Lean theorems, merged PR #129 | delivered bounded bridge; continuous inexact rate remains a research extension |
-| Implementation validated, committed, PR-merged and pushed | DT through DY delivered; PR #131 exact-main root/CI/producer and publication receipts | delivered release; final handoff acceptance in PR #132 |
+| Implementation validated, committed, PR-merged and pushed | DT through DZ delivered, PR #131 publication and PR #132 exact-main closure; invited upstream PR submitted | release/handoff delivered; final adoption-record acceptance in PR #133 |
 
 ## Delivery order and gates
 

@@ -2970,3 +2970,12 @@ This annotation records delivered identifiers without changing the goals above.
   original mathematical goals, proved claims and frozen numerical evidence
   remain unchanged. Final exact-head root/CI and merged-main delivery evidence
   belong to the external PR receipt rather than a self-referential source hash.
+- **Phase EA invited upstream contribution (final acceptance in
+  [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)):** delivers
+  the maintainer-invited [Sparse-IR notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10),
+  preserving existing cells/metadata and adding normalized complex-matrix
+  physical checks without a kernelgecp dependency. Isolated/full execution and
+  the documented full book build pass under the upstream lock. Submission-time
+  fork CI requires maintainer approval and is not claimed successful; current
+  review/merge status is linked at the upstream PR. Published 1.1.0 assets,
+  original mathematical goals and frozen scientific evidence are unchanged.
