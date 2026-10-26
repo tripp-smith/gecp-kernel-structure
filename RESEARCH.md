@@ -11150,3 +11150,14 @@ all exact-head source/distribution/native/provider CI, then exact-main checks.
 Preserve failed setup attempts and clearly distinguish build/import/smoke success
 from the later domain-specific numerical acceptance. Final source and delivery
 receipts belong in the phase PR, avoiding self-referential commit hashes.
+
+The draft phase PR is [#134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134).
+Local pre-freeze TRIQS/CT-HYB/MaxEnt and CPU GP calculations pass, with exact
+provider versions and independent numerical checks. The initial TRIQS namespace
+failure is retained in environments/TRIQS.md. An initial GP invocation carried
+an incorrect revision argument; its unaccepted pilot receipt is not canonical
+evidence and was rerun with the actual Git HEAD. Receipt-gate review also found
+that generic import/numerical booleans omitted the domain's quantitative
+evidence; provider-specific checks and rejection regressions now prevent that
+false-pass path. Native Green/EPW execution and final-source verification remain
+pending; nothing in this opening record closes those gates.

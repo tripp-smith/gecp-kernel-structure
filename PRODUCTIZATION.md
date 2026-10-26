@@ -98,7 +98,7 @@ remain native. Upstream acceptance is not a delivery gate.
 
 | Phase | Mandatory output | Current acceptance |
 | --- | --- | --- |
-| EB | Locked optional runtimes; actual provider imports and minimal calculations | in progress; no execution acceptance yet |
+| EB | Locked optional runtimes; actual provider imports and minimal calculations | in progress in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134); actual macOS TRIQS/CT-HYB/MaxEnt and GP pilots passed; Linux native/final gates pending |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | pending EB |
 | ED | Deterministic interacting Bethe IPT with independent references | pending EC |
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | pending ED |
