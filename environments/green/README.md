@@ -29,7 +29,8 @@ path and does not create a new `status="passed"` receipt.
 
 - The Ubuntu 24.04 OCI base manifest is fixed by digest in the Dockerfile.
 - `sources.json` fixes all eleven Green repositories, including transitive
-  `green-opt`, to full Git revisions of the 1.0.0 release. The builder checks
+  `green-opt`, to full Git revisions of the 1.0.0 release, and fixes Green's
+  `magic_enum` dependency to its v0.9.3 commit. The builder checks
   each actual checkout and passes explicit FetchContent source-directory
   overrides with downloads/updates disabled during CMake configuration.
 - `requirements.in` specifies the provider dependencies; `requirements.lock`
@@ -46,6 +47,13 @@ CMake must be at least 3.27 because the pinned green-grids/green-opt components
 require it. The Ubuntu 24.04 environment supplies this. Compilation uses two
 jobs; the molecular run uses one MPI process and one numerical-library thread.
 No GPU or unrelated upstream large-system test suite is required by this gate.
+
+The first native build at source `be38fce` failed during CMake generation because
+`green-params` declares `magic_enum` through a nested FetchContent call. With
+network fetching deliberately disabled, omitting that source left its target
+undefined. The source lock now includes it and the builder supplies the matching
+`FETCHCONTENT_SOURCE_DIR_MAGIC_ENUM` override. This repair keeps the disconnected
+configuration policy; it is not evidence of a successful native GF2 run.
 
 ## Native calculation and acceptance
 
