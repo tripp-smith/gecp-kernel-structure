@@ -80,7 +80,21 @@ Actions history; attempt 2 does not imply an initially all-green run. Final DZ
 documentation and verification leave the released tag and artifact bytes
 unchanged. The functional practical release/publication objective is complete.
 [Actual upstream outreach](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382)
-offers an independently useful tested recipe; acceptance remains pending.
+led to a [maintainer invitation](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6405100346)
+and [Sparse-IR documentation PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10),
+submitted as `bc4659e14c1a5f319fd6dcc7fa42796c7b29e2bd`. It adds three
+executable cells after the conditioning example while preserving the original
+eight cells and metadata. With the upstream lock, isolated and full-notebook
+execution agree at rank 14: sampled time/frequency errors are
+`2.7616964271004463e-11` / `4.94080361244419e-11` against `1e-8`. The full book
+build and independent quadrature/content review pass. The
+[contribution record](UPSTREAM_PROPOSAL.md) gives exact notebook/dependency
+identities and preserves the corrected disposable-harness failure.
+Submission-time upstream CI required permission and executed no jobs; the live
+PR records subsequent review/check/merge state. Local checks and submission
+do not establish maintainer acceptance. Local final delivery is recorded in
+[PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133), separately
+from the immutable 1.1.0 publication.
 The original research's 100% scope estimate and this later product's measured
 release gates retain their separate scopes.
 

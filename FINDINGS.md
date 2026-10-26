@@ -2297,8 +2297,9 @@ contains a normalized two-pole complex matrix recipe with disjoint time checks,
 both frequency signs and native Sparse-IR fitting. Its sampled time/frequency
 errors are `2.76169e-11` and `4.94085e-11` against `1e-8`; canonical spectral
 normalization and independent Fourier quadrature tests pass. The earlier
-single-atom recipe remains historical development evidence. Outreach has
-occurred; maintainer acceptance remains pending.
+single-atom recipe remains historical development evidence. This records the
+initial outreach; EA below records the invited notebook submission and links
+the live upstream review/merge state.
 
 [Publication workflow 40244470229](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229)
 attempt 2 passes all six Linux/macOS/Windows × Python 3.12/3.13 clean public
@@ -2318,6 +2319,37 @@ availability from JSON metadata readiness. DZ records that outcome and a
 bounded readiness correction; its final repository acceptance is in
 [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132).
 The controlled application and publication requirements are delivered at
-their recorded workload, arithmetic and platform boundaries. Upstream
-acceptance, broader platform support and a continuous inexact-trajectory
-theorem remain separate extensions.
+their recorded workload, arithmetic and platform boundaries. Subsequent
+upstream review/merge decisions, broader platform support and a continuous
+inexact-trajectory theorem have separate evidence requirements.
+
+## EA — invited upstream notebook submission
+
+The [initial physical-accuracy offer](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6400741382)
+received a [maintainer invitation](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6405100346)
+to add the example after the conditioning plot. The resulting
+[Sparse-IR documentation PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10)
+submits commit `bc4659e14c1a5f319fd6dcc7fa42796c7b29e2bd` against
+`c94bf6ae3d3953ca9e2081a8be9998db348cdd24`. One notebook changes by 87 inserted
+lines and three new cells; its original eight cells, metadata and cleared
+source-output policy are preserved. The notebook SHA-256 is
+`c93d98bcea0d0e1ef0b695931a78eda1001f6284d9986db20e1b2ecd94f0e16f`.
+
+The upstream locked environment uses Python 3.13.2, NumPy 2.3.5, sparse-ir 2.1.4
+and pylibsparseir 0.9.0. Isolated and full-notebook executions agree exactly:
+rank 14, time error `2.7616964271004463e-11` and frequency error
+`4.94080361244419e-11`, below the fixed `1e-8` sampled ceiling. Independent
+Fourier quadrature, spectral normalization, matrix/index conventions and
+read-only content review pass. The full book build exits zero with one
+unchanged README-toctree warning. An initial local harness error came from
+unnormalized list-valued notebook sources; `nbformat.reads` repaired the
+validator without changing the submitted notebook.
+
+This delivers a tested upstream submission, not upstream acceptance or a new
+IR method. At submission, upstream workflow 40248110146 was `action_required`
+with no jobs; [the live PR](https://github.com/SpM-lab/sparse-ir-doc/pull/10)
+records later CI, review and merge decisions. The detailed contribution scope
+is in [UPSTREAM_PROPOSAL.md](UPSTREAM_PROPOSAL.md), and local final delivery is
+tracked in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133).
+The published kernelgecp 1.1.0 tag/assets and frozen research evidence are
+unchanged.

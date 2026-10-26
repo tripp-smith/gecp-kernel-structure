@@ -203,9 +203,19 @@ properly produces different provenance. Source, payload and repeat hashes are
 centralized in `RESEARCH.md`.
 
 The separately tested [standalone Sparse-IR recipe](examples/sparse_ir_physical_recipe.py)
-requires no kernelgecp import and uses native sampling; its proposed documentation
-contribution is described in [UPSTREAM_PROPOSAL.md](UPSTREAM_PROPOSAL.md).
-No upstream acceptance or package publication is implied by these local results.
+requires no kernelgecp import and uses native sampling. Following a
+[maintainer invitation](https://github.com/SpM-lab/sparse-ir-doc/issues/6#issuecomment-6405100346),
+[upstream PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10) adds three
+executable cells to its sparse-sampling notebook. With the upstream lock
+(Python 3.13.2, NumPy 2.3.5, sparse-ir 2.1.4, pylibsparseir 0.9.0), isolated
+and full-notebook execution agree: rank 14, sampled time/frequency errors
+`2.76170e-11` / `4.94081e-11` against `1e-8`. The full book builds successfully;
+independent Fourier quadrature and content/convention review pass. The
+[contribution record](UPSTREAM_PROPOSAL.md) preserves exact source/hash,
+validation scope and the corrected local harness failure. Submission-time
+upstream CI required permission and ran no jobs; the live PR owns later
+checks, review and merge status. These local results do not establish upstream
+acceptance or change the separate package-publication evidence.
 
 Sampling matters. An explicitly retained pilot removes important low Matsubara
 rows and reaches a tiny sampled defect while predicting unseen values poorly.
@@ -1501,5 +1511,6 @@ preserves the first attempt: five postchecks exhausted a short PyPI-JSON HTTP
 404 readiness window after successful upload. Only those five verification
 jobs were rerun once the exact public hashes were visible; no upload or source
 job was repeated. These release checks leave the finite-fixture, conditional
-certificate and exact-theorem scopes above unchanged. Upstream outreach is
-public; maintainer acceptance remains pending.
+certificate and exact-theorem scopes above unchanged. Upstream outreach now
+includes the maintainer-invited [notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10);
+its live page owns subsequent review, check and merge status.
