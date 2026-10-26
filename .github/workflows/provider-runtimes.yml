@@ -50,7 +50,9 @@ jobs:
             --provider triqs --source-revision "$(git rev-parse HEAD)"
       - name: Record actually executed runtime locks
         run: |
-          micromamba list --explicit -n kernelgecp-triqs > artifacts/triqs-conda-explicit.txt
+          python scripts/providers/export_conda_lock.py \
+            --explicit artifacts/triqs-conda-explicit.txt \
+            --inventory artifacts/triqs-conda-inventory.json
           python -m pip freeze --all > artifacts/triqs-pip-freeze.txt
       - uses: actions/upload-artifact@v4
         if: always()
