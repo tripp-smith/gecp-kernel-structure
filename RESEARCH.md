@@ -11161,3 +11161,38 @@ that generic import/numerical booleans omitted the domain's quantitative
 evidence; provider-specific checks and rejection regressions now prevent that
 false-pass path. Native Green/EPW execution and final-source verification remain
 pending; nothing in this opening record closes those gates.
+
+## Phase EC — frequency fitting and TRIQS interoperability contract
+
+Implement the EC obligation in PRODUCTION_INTEGRATIONS.md after the accepted
+EB runtime contract; isolated development may proceed while EB native gates
+run, but EC delivery requires the verified EB merge. Preserve all original
+SPEC theorem statements and exact public theorem consumers. No new Lean or
+physical convergence theorem is claimed by these numerical interfaces.
+
+Named public additions are FermionicBasis.prepare_matsubara and
+FermionicBasis.fit_matsubara, FitDiagnostics.observation_domain, version-2
+safe archives with version-1 loading, and optional
+kernelgecp.integrations.triqs.fit_triqs_tau/to_triqs_tau/to_triqs_iw.
+Reuse LeastSquaresPlan's complex SVD and min-norm/rank-truncation diagnostics;
+do not infer negative-frequency symmetry, alter arbitrary matrix axes,
+conjugate supplied values, subtract static terms or repair moments.
+FitDiagnostics.observation_domain is tau or matsubara and v1 restores tau.
+
+TRIQS support initially targets the actual EB-tested 4.0.2 interface
+(triqs.gfs and triqs.mesh). Read actual mesh coordinates, preserve 0+ and
+beta- and actual signed-frequency storage order, verify statistics/beta/shape,
+and return owning copies. BlockGf recipes preserve the caller's ordered block
+names and unequal target sizes; a single-Gf adapter remains the public unit.
+Ordinary package imports require no optional TRIQS modules.
+
+Acceptance: analytic scalar/complex-matrix pole fits agree in both domains
+to 1e-8 at disjoint queries; independent Gauss-Legendre Fourier and high-
+precision QR checks verify signs, indices and coefficient solves. Test
+positive-only/signed frequencies, unusual axes, rank deficiency, source/output
+mutation, cache isolation between domains, empty/nonfinite/invalid coordinates,
+beta/statistics/mesh mismatch, strict archive v1/v2/rejection/ownership behavior,
+and actual pinned TRIQS execution. Training evidence is not a certificate.
+Update API/README/claim docs and preserve 1.1.0 release artifacts. Full root,
+source/distribution/native/provider CI, exact checked revision receipt, merge
+and pushed-main verification remain mandatory; no external CI skip closes EC.
