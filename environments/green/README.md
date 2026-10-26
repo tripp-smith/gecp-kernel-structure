@@ -55,6 +55,14 @@ undefined. The source lock now includes it and the builder supplies the matching
 `FETCHCONTENT_SOURCE_DIR_MAGIC_ENUM` override. This repair keeps the disconnected
 configuration policy; it is not evidence of a successful native GF2 run.
 
+The repaired build at `b29281d` compiled successfully and generated actual
+molecular input, then native GF2 startup failed because its default `df_int`
+directory did not exist. The molecular generator writes the shared bare
+Coulomb integrals to `df_hf_int`; the probe now names that directory explicitly
+for both `--dfintegral_hf_file` and `--dfintegral_file`, matching the upstream
+molecular/GF2 input contract. Native self-consistency still requires a separate
+successful execution of the repaired probe.
+
 ## Native calculation and acceptance
 
 The smoke run generates new molecular input with the actual installed
