@@ -2979,3 +2979,13 @@ This annotation records delivered identifiers without changing the goals above.
   fork CI requires maintainer approval and is not claimed successful; current
   review/merge status is linked at the upstream PR. Published 1.1.0 assets,
   original mathematical goals and frozen scientific evidence are unchanged.
+
+- **Accepted production integration extension EB–EJ (implementation requested):**
+  the [five-field contract](PRODUCTION_INTEGRATIONS.md) adds supported optional
+  TRIQS/CT-HYB, molecular Green GF2, EPW, MaxEnt and SciPy/GPyTorch workflows,
+  frequency fitting and archive compatibility, realistic provider evidence,
+  and a separately verified 1.2.0 release. The current EB contract is in
+  RESEARCH.md and the acceptance ledger extends PRODUCTIZATION.md. All domain
+  gates remain pending until their actual computations pass. This status
+  annotation does not rewrite the original mathematical goals, strengthen
+  certificates, or replace frozen 1.1.0 evidence.

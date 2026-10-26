@@ -11117,3 +11117,36 @@ not an upstream CI pass or source-execution failure. Current review/CI/merge
 state is linked at the PR; no adoption or merger is inferred. All controlled
 contribution work is delivered, with this repository's exact final branch/main
 verification and authorized delivery recorded externally in PR #133.
+
+## Phase EB — production integration environments and program contract
+
+The user requested implementation of all five application areas, including
+production provider adapters and both deterministic and Monte Carlo DMFT.
+The accepted detailed contract is [PRODUCTION_INTEGRATIONS.md](PRODUCTION_INTEGRATIONS.md);
+the acceptance ledger remains [PRODUCTIZATION.md](PRODUCTIZATION.md#production-integrations-12).
+Existing original-SPEC results and the immutable 1.1.0 release are prerequisites,
+not reopened obligations. No new Lean statement is required for this runtime
+phase; all existing public theorem consumers and axiom gates remain required.
+
+EB outputs are isolated provider specifications/locks, native environment build
+recipes, minimal calculation probes, a fail-closed provider CI workflow,
+execution receipts with exact source/environment identity, and installation
+instructions. Providers are TRIQS 4.0.2/CT-HYB 4.0.1/MaxEnt 4.0.1,
+Green 1.0.0/PySCF 2.14.0, qe-7.5/EPW 6.0, and CPU GPyTorch. Only actual imports
+and numerical/native smoke execution establish provider acceptance. Solvable
+metadata, a compiled executable, or fixture presence alone is insufficient.
+
+Use Linux x86_64 as the canonical native-solver target and record local macOS
+arm64 checks separately. Keep optional stacks out of the default pip environment;
+limit local native builds to two jobs, one MPI rank and one BLAS/OpenMP thread.
+Hosted jobs are limited to 330 minutes. The base public API and release version
+remain unchanged in EB. No internal Green/EPW acceleration, physical accuracy,
+domain phase completion, continuous numerical certificate, or new performance
+result is claimed by this phase.
+
+Verification: focused probe/receipt rejection tests, actual native/provider
+calculation logs with package/source/build identities, `./scripts/verify.sh`,
+all exact-head source/distribution/native/provider CI, then exact-main checks.
+Preserve failed setup attempts and clearly distinguish build/import/smoke success
+from the later domain-specific numerical acceptance. Final source and delivery
+receipts belong in the phase PR, avoiding self-referential commit hashes.

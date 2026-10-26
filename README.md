@@ -10,8 +10,8 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EA — invited executable upstream recipe<br>
-> **Phase state:** release/handoff complete in [PR #132](https://github.com/tripp-smith/gecp-kernel-structure/pull/132); invited [upstream notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10) submitted. Final adoption-record acceptance is in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133); upstream review/CI approval remains with its maintainers<br>
+> **Current phase:** EB — production integration runtimes and contract<br>
+> **Phase state:** in progress; the accepted [five-field implementation contract](PRODUCTION_INTEGRATIONS.md) and [acceptance ledger](PRODUCTIZATION.md#production-integrations-12) define EB–EJ. No new provider or application is verified merely by dependency resolution<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
 > **Last verification:** Repository handoff source `1f6e010` passes 1,727 tests, eight optional skips, 878 allowed axiom reports and full source/pure/native CI. Release source/tag `9a67993` passes all seven public-install lanes in [publication 40244470229, attempt 2](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40244470229/attempts/2). The upstream notebook executes and its full book builds locally under the upstream lock; final EA revisions/checks are recorded in PR #133<br>

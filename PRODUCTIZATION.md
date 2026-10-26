@@ -84,3 +84,30 @@ public JSON/simple-index hashes match all four tested distributions. Final
 handoff and a bounded readiness-backoff correction are tracked in PR #132;
 released assets remain unchanged. The public upstream proposal is delivered,
 while maintainer acceptance remains pending.
+
+## Production integrations 1.2
+
+The user authorized implementation of the complete [production integration
+contract](PRODUCTION_INTEGRATIONS.md). This is additional application scope;
+the original mathematical goals and published 1.1.0 acceptance above remain
+frozen. Production support means tested public adapters and real-provider
+workflows, with a closed-loop DMFT integration. Green and EPW internal solvers
+remain native. Upstream acceptance is not a delivery gate.
+
+| Phase | Mandatory output | Current acceptance |
+| --- | --- | --- |
+| EB | Locked optional runtimes; actual provider imports and minimal calculations | in progress; no execution acceptance yet |
+| EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | pending EB |
+| ED | Deterministic interacting Bethe IPT with independent references | pending EC |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | pending ED |
+| EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
+| EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
+| EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | pending EB |
+| EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
+
+Completion starts at 0% of this new contract. Each phase requires its named
+acceptance evidence, root verification, exact-revision CI, authorized merge,
+and pushed-main verification. A runtime lane that skips because its promised
+provider is missing does not close EB or its dependent application. Failed
+mandatory cases remain open; no universal speedup is required.
