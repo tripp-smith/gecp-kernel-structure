@@ -3035,3 +3035,10 @@ This annotation records delivered identifiers without changing the goals above.
   and source Git blobs. All scientific commands use the same locked GP
   runtime. Full real-data, root/CI and delivery gates remain mandatory;
   no synthetic/pilot result closes this extension or changes an original goal.
+- **Phase EI frozen numerical evidence:** generation `203e58a` passes the
+  six-cohort, three-repeat attributed UCI campaign, actual Mac CPU provider
+  comparison and independently recomputed Git/blob/array gates. Public APIs
+  and the dense interface remain distinct. [COVARIANCE.md](COVARIANCE.md)
+  records finite representation errors, measured resource/timing scopes and
+  non-claims. Final native/root, exact-head CI and delivery are still required;
+  no continuous certificate or original mathematical statement changes.

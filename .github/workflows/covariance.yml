@@ -76,5 +76,6 @@ jobs:
         if: always()
         with:
           name: real-data-covariance
+          retention-days: 14
           path: artifacts/covariance/
           if-no-files-found: error

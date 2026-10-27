@@ -2448,4 +2448,14 @@ calibration: a likelihood-favored narrow kernel can miss dense predictions
 at the allowed rank, while a slightly smoother candidate can meet the same
 fixed error budget. Rejected candidates are retained. The accepted runtime,
 all six real-data sizes, three fresh repeats, provider parity and delivery
-gates are still pending; pilot/default-environment results close no EI gate.
+gates were pending at that pilot; default-environment results close no EI gate.
+
+The subsequent locked-runtime generation `203e58a` now passes all 18 real-data
+trials, actual Mac GPyTorch parity and independent source/blob/array auditing.
+At n16384 the method retains 69.37 MiB and uses at most 321.75 MiB fresh RSS;
+the original-kernel CG residual is independently recomputed, separate from
+the approximate solve. Maximum small-case normalized mean RMS error is
+1.25e-4 and observation-standard-deviation RMS error 1.46e-5. [The report](COVARIANCE.md)
+retains slower 512/1024 timing cases and large physical prediction error;
+representation fidelity does not establish a competitive forecaster. Full
+native/root/CI and delivery remain separate open obligations.

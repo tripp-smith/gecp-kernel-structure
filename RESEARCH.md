@@ -11446,3 +11446,22 @@ Explicit scopes, an application timer and parent-measured fresh-process wall
 time are added; this instrumentation revision requires renewed calibration
 source binding and final root verification. The numerical kernel, budgets
 and selected model are not retuned against test data.
+
+The final timing source `00f4356` recalibrates under the locked GP runtime
+without changing any selected parameter/rank. Calibration metadata is committed
+at `203e58a` before first test evaluation. All 18 fresh-process tests, actual
+Mac CPU GPyTorch parity and independent Git/blob/array audit pass at that
+generation. [COVARIANCE.md](COVARIANCE.md) and data/covariance retain exact
+artifacts/hashes, timing scopes and slower small cases. Maximum mean/std RMS
+errors are 1.25e-4/1.46e-5, approximate residual 1.62e-11 and original-kernel
+CG residual 1.03e-10. At n16384 the retained numerical state is 69.37 MiB and
+worst fresh RSS 321.75 MiB. The same arrays repeat exactly three times per
+cohort. No selection or budget changes follow final test observations.
+
+Large raw factors/receipts/logs are retained outside Git; the full workflow
+rerun uploads its own raw details. The committed summary includes every raw
+filename, byte count and SHA256. Final exact-source ignored native build,
+full root, Linux CI/domain replay, PR and merged-main delivery remain open.
+ED is now independently closed on main `7530ec7` in its canonical PR #136
+receipt; the new integration program remains approximately 30% delivered
+until another phase passes all its delivery gates.

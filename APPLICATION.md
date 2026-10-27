@@ -405,9 +405,10 @@ and scalar histories, excluding Python overhead; the shifted object's count
 includes the shared factor once. Global symmetry/PSD is an explicit callback
 assumption: only requested columns are checked. Diagonal convergence and
 small synthetic prediction errors are numerical evidence, not a continuous
-certificate. The mandatory attributed UCI accuracy/memory/performance campaign,
-Linux provider execution, full root and delivery gates remain pending under
-PRODUCTION_INTEGRATIONS.md; this API section does not close EI.
+certificate. The [frozen attributed UCI campaign](COVARIANCE.md) passes its
+18 local trials, actual Mac provider and independent artifact audit. Linux
+provider CI, final native/root and delivery gates remain pending under
+PRODUCTION_INTEGRATIONS.md; numerical acceptance alone does not close EI.
 
 The [real-data campaign guide](experiments/COVARIANCE.md) defines attributed
 data hashes, calibration isolation and independent receipts. Its predictive
