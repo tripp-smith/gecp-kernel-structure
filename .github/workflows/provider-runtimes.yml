@@ -69,6 +69,7 @@ jobs:
           python -m pip install pytest==9.0.3
       - name: Test actual installed TRIQS interoperability outside the checkout
         run: |
+          python -m pytest tests/test_cthyb_dmft.py -q
           project_root="$PWD"
           checked_revision="$(git rev-parse HEAD)"
           cd "$RUNNER_TEMP"
@@ -82,6 +83,9 @@ jobs:
           python "$project_root/scripts/providers/dmft_smoke.py" \
             --require-installed --source-revision "$checked_revision" \
             --output "$project_root/artifacts/dmft-native.json"
+          python "$project_root/scripts/providers/cthyb_smoke.py" \
+            --require-installed --source-revision "$checked_revision" \
+            --output "$project_root/artifacts/cthyb.json"
       - name: Run the frozen interacting three-provider campaign and independent audit
         run: |
           python -m experiments.interacting_dmft --output-dir artifacts/interacting-dmft

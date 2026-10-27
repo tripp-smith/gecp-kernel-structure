@@ -2426,3 +2426,15 @@ unfavorable timing: native Fourier is faster than all three compressed methods
 on this small beta=10 workload, and Python reference GECP setup dominates.
 No universal or interacting-workflow speed advantage follows. Full root,
 exact-revision CI, merge and main verification remain separate delivery gates.
+
+### EE actual CT-HYB preparation
+
+The pinned native solver executes fresh density-matrix measurements and
+time-to-frequency Bethe feedback through GECP. Native moment identities,
+measured-row isolation, array ownership and same-seed fresh-chain repetition
+pass focused checks; GECP, pydlr and sparse-ir replay one identical native
+measurement in the fast probe. These are implementation checks, not a
+canonical Monte Carlo uncertainty result. The reduced-budget full pilot is
+retained as inconclusive because its independent fixed-bath equation/refinement
+checks miss. No canonical budget, physical-agreement or completion claim is
+inferred from that pilot; frozen independent sampling is still required.

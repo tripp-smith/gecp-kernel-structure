@@ -11427,3 +11427,13 @@ audit receipts remain available in the phase's verification log record.
 All numerical generation source remains identified as its frozen ancestor;
 the later CLI/auditor/documentation changes require their own final root and
 exact-head CI before delivery.
+
+EE now incorporates ED accepted main `7530ec7`. Focused checks pass 28 base
+tests (three optional native skips) and 31 under the pinned actual runtime.
+The fast provider probe executes measured feedback and three identical-data
+replays. A reduced 1000/4000/16000-cycle pilot returns inconclusive because
+fresh fixed-bath self-consistency and doubled-grid checks miss; its retained
+raw archives are tuning evidence only. Canonical calibration/final seeds are
+disjoint, as are Green calibration indices [1,2,5,11] and final indices
+[0,3,7,15,23,31]. Density and double-occupancy functionals remain the same
+physical observables, estimated from fresh independent final chains.

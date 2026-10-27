@@ -1,0 +1,43 @@
+# Actual CPU CT-HYB; calibration and final seeds are disjoint.
+schema_version = 1
+beta = 10.0
+interaction = 2.0
+hopping = 1.0
+n_iw = 256
+n_tau = 3073
+mixing = 0.5
+warmup_cycles = 10000
+length_cycle = 50
+tail_fraction = 0.2
+rcond = 1e-10
+cycle_budgets = [100000, 400000, 1600000]
+calibration_replicas = 8
+final_replicas = 16
+refinement_replicas = 8
+calibration_loop_cycles = 100000
+calibration_loop_iterations = 16
+max_iterations = 32
+min_iterations = 12
+consecutive_passes = 2
+loop_tolerance = 0.0025
+final_bath_average = 4
+calibration_indices = [1, 2, 5, 11]
+selected_indices = [0, 3, 7, 15, 23, 31]
+max_standard_error = 0.0003
+agreement_absolute = 0.001
+agreement_sigma = 3.0
+self_consistency_absolute = 0.001
+replay_selected_target = 0.001
+cutoffs = [8.0, 16.0]
+native_eps = 1e-8
+grid_order = 48
+max_rank = 64
+precision_bits = 128
+fit_holdout_modulus = 16
+fit_holdout_remainder = 7
+seed_base = 27100000
+# Allocation: calibration-loop 0..99; calibration replica 1000..3999;
+# final dense loop 10000..10099, GECP loop 20000..20099;
+# final dense replicas 30000..30999, GECP 40000..40999; refinement 50000..50999.
+memory_limit_bytes = 4294967296
+canonical = true
