@@ -1,0 +1,53 @@
+name: EPW anisotropic interoperability
+
+on:
+  push:
+    branches: [main, "codex/phase-eg-epw-nambu"]
+    paths:
+      - .github/workflows/epw-interoperability.yml
+      - environments/epw/**
+      - scripts/providers/epw_anisotropic_fixture.py
+      - kernelgecp/integrations/epw.py
+      - experiments/epw*
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epw-interoperability-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the pinned unmodified native solver
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/epw/Dockerfile
+          tags: kernelgecp-epw:eg
+          load: true
+          push: false
+          cache-from: type=gha,scope=provider-epw
+          cache-to: type=gha,mode=min,scope=provider-epw
+      - name: Generate actual official anisotropic files
+        run: |
+          mkdir -p artifacts
+          docker image inspect kernelgecp-epw:eg --format '{{.Id}}' > artifacts/epw-image-id.txt
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" kernelgecp-epw:eg \
+            /opt/venv/bin/python /workspace/scripts/providers/epw_anisotropic_fixture.py \
+            --source-revision "$(git rev-parse HEAD)" --output /artifacts/epw-anisotropic.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: epw-anisotropic-native-linux
+          path: artifacts/
+          if-no-files-found: error
