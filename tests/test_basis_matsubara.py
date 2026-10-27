@@ -105,8 +105,13 @@ def test_positive_only_training_success_is_not_cross_domain_accuracy(basis):
 def test_repeated_observations_have_direct_rank_one_minimum_norm_solution(basis):
     indices = np.array([3, 3, 3, 3])
     values = np.array([1 + 2j, 2 - 1j, -3 + 0.5j, 4 - 2j])
+    plan = basis.prepare_matsubara(indices, rcond=1e-12)
     fit = basis.fit_matsubara(values, indices, rcond=1e-12)
-    row = basis.design_matsubara([3])[0]
+    # The independent rank-one formula applies to the actual factored operator.
+    # A separate one-row float64 core solve can round differently from a batch
+    # on an ill-conditioned cardinal basis; that is a distinct numerical input.
+    row = plan.design[0]
+    np.testing.assert_array_equal(plan.design, np.tile(row, (4, 1)))
     expected = row.conj() * np.mean(values) / np.sum(np.abs(row) ** 2)
     np.testing.assert_allclose(fit.coefficients, expected, atol=1e-13, rtol=1e-13)
     assert fit.diagnostics.least_squares.effective_rank == 1
