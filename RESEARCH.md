@@ -11238,3 +11238,8 @@ Fourier discrepancy `1.79e-15`. This is not final phase acceptance: the first
 full root run passed all 3,635 Lean jobs and the axiom audit but stopped at
 Markdown code-block formatting before Python tests. The example spacing is
 repaired; final exact-source root/CI and EB/main integration remain required.
+
+The source was reconciled with the actual EB merge `4f37638`, preserving both
+phase histories and runtime locks. EC's draft [PR #135](https://github.com/tripp-smith/gecp-kernel-structure/pull/135)
+owns final revision-specific acceptance and delivery. No older installed test
+receipt is presented as a check of later metadata or merge content.

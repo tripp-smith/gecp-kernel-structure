@@ -99,7 +99,7 @@ remain native. Upstream acceptance is not a delivery gate.
 | Phase | Mandatory output | Current acceptance |
 | --- | --- | --- |
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
-| EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | implementation and installed-provider checks pass at `2e2f1b2`; final root/CI/merge acceptance pending |
+| EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | implementation and installed-provider checks pass at `2e2f1b2`; final root/CI/merge acceptance in [PR #135](https://github.com/tripp-smith/gecp-kernel-structure/pull/135) |
 | ED | Deterministic interacting Bethe IPT with independent references | pending EC |
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | pending ED |
 | EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
