@@ -11244,6 +11244,17 @@ phase histories and runtime locks. EC's draft [PR #135](https://github.com/tripp
 owns final revision-specific acceptance and delivery. No older installed test
 receipt is presented as a check of later metadata or merge content.
 
+Full local root verification passes at `41cb550` (1,929 tests, 18 optional
+skips), and installed-provider/native/distribution CI passes. Ordinary Linux
+CI exposed a test-oracle mismatch: the rank-one minimum-norm test recomputed
+a single-row float64 design instead of using the repeated-row operator that
+was actually factored. On an ill-conditioned cardinal core, differently
+batched solves round differently, producing a distinct row by about 1e-8.
+The independent closed-form minimum-norm oracle now uses the actual factored
+row and explicitly checks that all four rows agree. Its strict tolerance is
+unchanged; no production algorithm or physical accuracy target is relaxed.
+The failed exact-source CI log is retained and final root/CI must pass again.
+
 ## Phase ED — deterministic interacting Bethe IPT contract
 
 Implement the ED obligation from PRODUCTION_INTEGRATIONS.md. Isolated
