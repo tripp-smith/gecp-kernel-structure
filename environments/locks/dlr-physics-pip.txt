@@ -1,0 +1,5 @@
+# Optional ED DLR/IR wheels for the pinned Python 3.12 TRIQS environment.
+# Install --no-deps --require-hashes --only-binary=:all:; NumPy/SciPy come from conda.
+pydlr==1.0.1 --hash=sha256:98ee045d74fbfc917cf4813553087b70c8ca8b5aeadee30d114fcc4c762b38e5
+sparse-ir==2.1.6 --hash=sha256:cb54000d2a046da892ae48687021f499b084a9df9375890870dd5743e201ba71
+pylibsparseir==0.12.0 --hash=sha256:f98bd46f717655691b2af191e057329610ddca1f03cbb61bc9afe70fbc673b1a --hash=sha256:671a84ddd00d08ebc3080709247b1421a133c2e1efa1c358bd7b6b1f42ba4444

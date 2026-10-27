@@ -1,0 +1,33 @@
+schema_version = 1
+methods = ["kernelgecp", "pydlr", "sparse_ir"]
+beta = 10.0
+hopping = 1.0
+interactions = [0.0, 1.0, 2.0]
+n_iw = 512
+n_tau = 6145
+reference_n_iw = 1024
+reference_n_tau = 12289
+mixing = 0.5
+max_iterations = 200
+iteration_tolerance = 1e-8
+fit_rcond = 1e-13
+target = 1e-6
+calibration_target = 1e-7
+reference_refinement_target = 1e-7
+green_cutoffs = [4.0, 8.0, 16.0, 32.0]
+selfenergy_cutoff_multiplier = 3.0
+native_eps_candidates = [1e-6, 1e-8, 1e-10, 1e-12]
+grid_order = 8
+max_rank = 128
+precision_bits = 128
+reference_backend = "python"
+repeats = 3
+worker_timeout_seconds = 1200.0
+calibration_indices = [-384, -192, -96, -48, 47, 95, 191, 383]
+validation_indices = [-947, -829, -613, -577, 576, 612, 828, 946]
+
+# Uniform primary time rows are observed. Odd refined rows are disjoint;
+# calibration uses index modulo four 1. Final validation uses 64 off-grid
+# Gauss-Legendre time points and frequencies outside every primary grid.
+calibration_tau_modulo = 1
+validation_tau_rule = "gauss_legendre_64"

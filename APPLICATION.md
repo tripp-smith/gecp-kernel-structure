@@ -1557,7 +1557,72 @@ x86_64 (glibc 2.28+) and macOS arm64 (11+) on Python 3.12/3.13. Windows, Intel
 macOS, Linux ARM and other unbuilt native targets use the universal Python
 fallback; no native support is inferred from that fallback.
 
-## Versioned practical release
+## Interacting Bethe IPT (unreleased, targeting 1.2.0)
+
+`kernelgecp.dmft` supplies a deterministic scalar half-filled paramagnetic
+Bethe IPT loop. It cancels the Hartree term analytically and fits the dynamic
+self-energy separately. IPT is an approximate impurity solver; compression
+accuracy is checked against the same IPT model rather than exact Hubbard
+physics. The canonical supported cases are t=1, beta=10 and U=0/1/2.
+
+```python
+from kernelgecp import FermionicBasis
+from kernelgecp.dmft import IPTConfig, IPTPlan
+
+cfg = IPTConfig(interaction=2.0)
+green = FermionicBasis(10, 4, 1e-8, precision="reference", reference_backend="python")
+sigma = FermionicBasis(10, 12, 1e-8, precision="reference", reference_backend="python")
+plan = IPTPlan(green, sigma, config=cfg)
+result = plan.solve()
+assert result.converged, (result.stop_reason, result.failure_detail)
+```
+
+Run `uv run python -m examples.interacting_dmft`. `IPTPlan.update(bath_iw)`
+exposes a single unmixed update. `solve(initial_bath=None,
+record_trajectory=False)` returns immutable arrays, coefficients, projection
+and SVD diagnostics, iteration history, and a stop reason. A numerical failure
+retains the last valid candidate and failed bath; first-update failure has no
+substitute numerical solution. Iteration-budget exhaustion is unconverged.
+
+The reflected diagram is `U**2 * G0(tau)**2 * G0(beta - tau)`. Its cube is
+equivalent only under the declared particle-hole symmetry. This is not a
+doped IPT solver. Green and self-energy bases must share beta, with the latter
+cutoff at least three times the former. That finite-basis requirement is not
+a compact-support theorem about the infinite interacting spectrum. Designs
+and SVDs are cached; fitted complex arithmetic is binary64 even when GECP
+construction/evaluation uses reference precision. Generic bases implementing
+`PhysicalBasis` must retain stable parameters throughout a plan's lifetime.
+
+The stop criterion is an unmixed Bethe equation defect below tolerance for
+two consecutive updates. `frequency_fit_indices` can select observations;
+omitted modes influence neither the SVD nor stopping. Full-grid defects remain
+separate diagnostics. `g_iw` is the raw Dyson candidate; `g_tau` and
+`g_coefficients` describe the fitted representation. Predict unseen modes from
+`green.design_matsubara(indices) @ result.g_coefficients`. The returned bath is
+the actual input that produced the final candidate, not an unused mixed step.
+
+`kernelgecp.integrations.triqs_dmft.DenseIPTPlan` is the optional native
+TRIQS 4.0.2 Fourier reference. It applies explicit half-filled model moments;
+the compressed loop does not repair moments or impose symmetry. Native
+interpolation requires independent grid refinement. `kernelgecp.lehmann`
+contains bounded exact atom/one-bath Fock references and finite-pole IPT
+triples with independent matrix-exponential/Fourier tests.
+
+The optional source campaign is `python -m experiments.interacting_dmft
+--output-dir <new-directory>` inside the pinned TRIQS environment with
+`environments/locks/dlr-physics-pip.txt` installed. Its TOML freezes all
+observations, cutoffs, native tolerances, reference refinement and three fresh
+process repetitions. Pilots use `--pilot` and cannot pass canonical acceptance.
+Calibration, independent closed-loop validation and common-trajectory replay
+are distinct records. Final frequencies lie outside the primary mesh; final
+time queries use an off-grid Gauss rule. Interpolated points are evaluation
+queries, not additional observations. Run the separate artifact auditor before
+interpreting a campaign. Tail-window fits are diagnostics without interacting
+remainder certificates. Loop RSS excludes later validation/replay; full-worker
+wall/RSS includes them. Coefficient and output-array sizes have distinct scopes
+and do not imply a total-memory or universal performance advantage.
+
+## Published release evidence
 
 Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and
 [GitHub](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0),
