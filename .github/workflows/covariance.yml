@@ -57,8 +57,10 @@ jobs:
             --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
             --source-revision "$(git rev-parse HEAD)" \
             --output artifacts/covariance/small-audit.json
-      - name: Execute the full frozen campaign when explicitly dispatched
-        if: github.event_name == 'workflow_dispatch' && inputs.full_campaign
+      - name: Execute the full frozen EI branch or explicitly dispatched campaign
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky')
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |

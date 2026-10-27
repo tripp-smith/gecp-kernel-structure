@@ -105,7 +105,8 @@ fresh-child launch through complete exit. These scopes remain explicit and
 are not treated as automatic speedup claims.
 
 The dedicated covariance workflow runs a small attributed case and actual CPU
-provider on PRs. Explicit workflow dispatch can rerun the complete campaign
-within the 330-minute job budget. A small-case CI pass is not the full domain
-gate. Phase closure also requires ./scripts/verify.sh, exact-source CI,
+provider on PRs and all 18 cases on EI branch pushes. Explicit workflow
+dispatch can rerun the complete campaign within the 330-minute job budget.
+A small-case CI pass is not the full domain gate. Phase closure also requires
+./scripts/verify.sh, exact-source CI,
 reviewed documentation, authorized merge and confirmed pushed-main state.
