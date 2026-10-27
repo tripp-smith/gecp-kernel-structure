@@ -3010,3 +3010,11 @@ This annotation records delivered identifiers without changing the goals above.
   common-trajectory replay and independent closed-loop comparisons retain
   model/representation/convergence/certification distinctions. Exact-source
   acceptance and delivery remain required; no original theorem goal changes.
+- **Phase EC delivered acceptance:** source `d0b21ca` and merged main `64e9f34`
+  pass root verification, actual installed-provider tests and all applicable
+  exact-revision workflows; PR #135 owns canonical branch/main receipts.
+  Frequency fits and v2 archives target 1.2.0; public 1.1.0 remains immutable.
+- **Phase ED implemented identifiers:** `IPTConfig`, `PhysicalBasis`, `IPTPlan`,
+  immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
+  Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
+  full campaign, root verification and delivery remain pending.

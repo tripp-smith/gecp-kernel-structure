@@ -2389,3 +2389,29 @@ observations and exposes rank/conditioning rather than silently enforcing a
 symmetry. Real-provider exports from a validated time fit remain a separate
 operation. Neither a training residual nor the existing time-fit precision
 certificate becomes a frequency-fit physical certificate.
+
+## ED development: interacting transforms and validation isolation
+
+The deterministic scalar Bethe IPT implementation uses the reflected product
+`U**2 * G0(tau)**2 * G0(beta - tau)`. An asymmetric finite-pole fixture differs
+from the naive cube by more than one, while direct thermal/Fourier checks
+agree near binary64 precision. Exact interacting finite-bath data differ from
+IPT, as expected for an approximate impurity model; that disagreement is not
+a compression error. Static Hartree cancellation and moment assumptions are
+explicit in the native reference.
+
+Controller tests separate a small mixed step, an observed unmixed defect,
+and full-grid accuracy. In particular, a subset can converge while its
+unobserved full-grid defect remains large. This is retained as a regression,
+and final predictions are therefore evaluated from fitted coefficients on
+untouched queries. Two consecutive observed defects below tolerance remain
+necessary. Cached plan identities and numerical results have owning immutable
+state, including failure and terminal-bath semantics.
+
+Unfrozen pilots found passing calibration choices for GECP, pydlr and sparse-ir;
+they do not establish final acceptance or a speed advantage. Independent review
+identified asymmetric import timing, replay-inclusive RSS, empty-replay false
+passes and pilot holdout reuse. The campaign distinguishes those scopes and
+reserves new outside-primary frequencies and off-grid final times. Actual
+native tests and exact finite-model unit checks pass; the canonical frozen
+campaign, root command and exact-source delivery remain required.

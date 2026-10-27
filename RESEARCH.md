@@ -11288,7 +11288,9 @@ and dense TRIQS Fourier loops with explicit known moments. Dense refinement
 must change G and dynamic Sigma by <1e-7 before provider accuracy is judged.
 Required sampled provider G/Sigma errors are <=1e-6 in both domains at final
 queries not used to select cutoffs/eps/stop iterations. Record particle count,
-particle-hole symmetry, causality and tail moments with justified remainders.
+particle-hole symmetry, causality and tail moments. Finite-pole fixtures admit
+explicit geometric-series remainder checks; interacting numerical tail fits
+carry window sensitivity diagnostics without a claimed remainder bound.
 Exact finite-bath data do not turn approximate IPT into exact impurity physics.
 
 Benchmark dense TRIQS, kernelgecp, pydlr and sparse-ir on frozen common
@@ -11300,3 +11302,23 @@ performance claims. Preserve misses and slower cases; no required speedup.
 Actual provider jobs and independent audit artifacts, full root, exact-head CI,
 authorized merge and pushed-main checks are mandatory. EE Monte Carlo and
 later chemistry/superconductivity/spectroscopy/GP gates remain open.
+
+The initial pilot used reserved middle/high primary-grid frequencies and odd
+refined time rows. It exposed a complex-scalar JSON reporting bug and motivated
+independent review of timing/RSS scopes, replay completeness and holdout reuse.
+Those unfrozen pilots are tuning evidence only. The frozen campaign instead
+reserves final frequencies outside the entire primary grid and 64 off-grid
+Gauss-Legendre times; calibration remains on excluded primary frequencies and
+modulo-four-one refined times. Pilots use only calibration truth and disable
+replay. Final predictions use represented coefficients, not raw Dyson values.
+Native reference grids are full; compressed SVDs and stopping use only
+frequency_fit_indices. Low modes remain observed. Altering unobserved bath
+entries must not alter the observed fit/controller. The explicit lists and
+budgets live in experiments/interacting_dmft.toml. Full-grid defects never
+control stopping or selection; convergence is an observed-grid statement.
+
+EC is now merged and verified at main `64e9f34` with its canonical receipt in
+PR #135. ED exact-model helpers pass 62 independent CAR/Fock/expm/finite-pole
+checks; the solver passes 57 pole/QR/quadrature/controller/ownership checks.
+The actual pinned native reference passes 15 tests. These focused checks do
+not close ED's canonical campaign, full root or delivery obligations.
