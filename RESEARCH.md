@@ -11356,3 +11356,58 @@ audit receipts remain available in the phase's verification log record.
 All numerical generation source remains identified as its frozen ancestor;
 the later CLI/auditor/documentation changes require their own final root and
 exact-head CI before delivery.
+
+## Phase EG — EPW Nambu/native-restart interoperability contract
+
+Implement the accepted EG obligation using unmodified qe-7.5/EPW 6.0 and
+the official coarse MgB2 epw_super workflow. This is downstream compression,
+archival, evaluation and native anisotropic restart interchange. It is not
+an internal EPW transform replacement, a special EPW IR-object implementation
+or a converged experimental prediction. Original Lean scope is unchanged.
+
+First execute the official epw6.in anisotropic full-bandwidth calculation at
+17/20/30 K after the native SCF/DFPT/Wannier baseline. Retain source/PSP/input/
+executable/log/output hashes, thread settings, actual convergence and native
+file identities. The source-backed format is one header then frequency-major
+state-ordinal rows of four ES20.10 values, or five for full-bandwidth shifts.
+Never identify states by energy: distinct states may be degenerate. Preserve
+row order, ordinary Matsubara labels, temperature, eV units and the original
+one-sided/signed mesh. Use the actual provider Boltzmann conversion constant.
+An application manifest is mandatory because temperature and chemical-potential
+conventions are not fully represented by the native numeric columns.
+
+Public optional integration kernelgecp.integrations.epw will supply immutable
+EPWAnisotropicData, read/write native anisotropic files, construct physical
+2-by-2 Nambu Green matrices, frequency-fit them with existing FermionicBasis,
+archive them with v2 FermionicFit plus a hash-bound versioned JSON manifest,
+reconstruct on the declared native mesh and export supported restart files.
+Lossless unchanged replay preserves original bytes/rounding. Reconstructed
+export uses the same fixed-width format and native state/frequency order.
+Chemical-potential offsets are explicit, particularly when the native mu
+changes; unsupported or omitted conventions fail. Missing non-FBW shifts
+are zero only under that explicitly declared native convention. Any adjoint
+completion of a positive-only mesh must be requested explicitly in the adapter;
+the shared fitter remains unconstrained complex linear least squares.
+
+Nambu construction uses the real scalar Eliashberg convention with dynamic
+Z, Delta and chi. Recover Z, Delta and chi with solves and explicit numerical
+conditioning/amplification diagnostics. Reject nonfinite/singular/unsafe data
+or reconstruction that misses the declared budgets. Keep full basis precision,
+binary64 fit arithmetic, retained SVD rank and conditioning visible.
+
+Calibrate only on reserved source rows, then freeze the basis/cutoff/rcond/
+rank/holdouts before final validation. Require scaled held-out Nambu error
+<=1e-6, Z error <=1e-5, gap and energy-shift errors <=1e-6 eV. Check analytic
+scalar/complex matrix pole and BCS limits independently; parser invalid/order/
+temperature/shape/ownership and archive corruption cases must fail clearly.
+After reconstruction, unmodified EPW must read the exported anisotropic files
+and pass a bounded restart comparison against the same native unchanged-file
+restart. Resource or convergence exhaustion is failed/inconclusive, not a
+silent method switch. Coarse-grid evidence remains interoperability only.
+
+Use one MPI rank/thread and pinned Linux native CI, with jobs <=330 minutes
+and checkpoint artifacts. Default package dependencies stay unchanged. Every
+public adapter needs an actual provider case; a synthetic parser cannot close
+EG. Update README/API/claim docs, pass full root and exact-head provider CI,
+merge/push/synchronize main and verify its checks before delivery. EE/EF/EH/EI
+and 1.2.0 publication remain independent mandatory gates.

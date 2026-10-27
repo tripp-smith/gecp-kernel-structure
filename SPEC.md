@@ -3018,3 +3018,8 @@ This annotation records delivered identifiers without changing the goals above.
   immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
   Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
   full campaign, root verification and delivery remain pending.
+- **Phase EG implementation contract:** source-backed anisotropic EPW output,
+  explicit Nambu/frequency-fit/archive/reconstruction and native restart
+  interchange, with physical error/conditioning gates and authentic coarse
+  MgB2 evidence. Scientific/root/CI/merge/main acceptance remains pending;
+  no EPW internal acceleration or original mathematical claim is added.
