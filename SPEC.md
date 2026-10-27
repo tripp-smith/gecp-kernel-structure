@@ -3030,3 +3030,9 @@ This annotation records delivered identifiers without changing the goals above.
   binds the inherited frozen campaign, independent audit and final delivery.
   New production integration scope is approximately 30% complete by its
   acceptance obligations. No original mathematical goal changes.
+- **Phase EE revalidation annotation:** the original 16-replica campaign is
+  retained as inconclusive because dense density SEM=3.53984248e-4 exceeds the
+  unchanged 3e-4 target. RESEARCH.md predeclares new loops and 64 entirely new
+  replicas per path, inheriting calibrated 400000 cycles/wmax=8 and preserving
+  all physical/error gates. No old final chains are pooled into or relabeled
+  as the new validation. Local/Linux scientific and delivery gates stay open.

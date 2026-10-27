@@ -11437,3 +11437,40 @@ raw archives are tuning evidence only. Canonical calibration/final seeds are
 disjoint, as are Green calibration indices [1,2,5,11] and final indices
 [0,3,7,15,23,31]. Density and double-occupancy functionals remain the same
 physical observables, estimated from fresh independent final chains.
+
+### EE untouched 64-replica revalidation contract
+
+The frozen 45d42c7 campaign completed with an inconclusive result, retained
+unchanged at result SHA256
+`8051f86e5038f109c66b02c6bf1df2728ee95cb1c3f50d70864c4bcd8eb7e462`.
+Its controllers, density/double-occupancy/selected-G agreement, independent
+fixed-bath equations, all-provider replay, native-grid and cutoff gates pass.
+The dense density standard error is 3.53984248e-4 and misses the unchanged
+3e-4 gate; GECP's maximum is 2.81577605e-4. This completed validation is now
+tuning evidence for a new experiment and is never relabeled successful.
+
+Predeclare a fresh experiment in `experiments/cthyb_revalidation.toml` with
+64 independent fixed-bath chains per path, 16 new native-refinement chains,
+new dense/GECP loops from the analytic initial bath, and seed base 28100000.
+Use entirely new seed families; do not pool the original 16 with another 48.
+Inherit the already calibrated 400000 cycles and wmax=8, beta=10, U=2,
+hopping=1, grids, fit/mixing/controller settings and acceptance thresholds.
+The original calibration's 100000/400000/1600000 ladder remains immutable
+parent evidence. Changing ensemble size is experimental design informed by
+the old miss, not a relaxation of the actual final standard-error test.
+
+The new runner binds original manifest/freeze/result and every parent raw-file
+hash, preserves the parent's 45d sampling identities, and records its own
+protocol/source identity separately. It creates its freeze before the first
+new chain and resumes only matching source/config/environment. New final
+replicas and every physical/error gate remain untouched until this freeze;
+no further retuning is permitted from their intermediate values. Preserve
+explicit inconclusive outcomes if any fresh gate misses. The independent
+auditor recomputes both the parent negative and new-chain equations/statistics
+without trusting stored acceptance booleans. Record covariance of the ensemble
+mean explicitly for EH; its empirical rank is at most 63.
+
+Require both actual local and full Linux scientific execution, with one
+MPI/BLAS/OpenMP thread, bounded CPU memory and a checkpointed job cap no larger
+than 330 minutes. A fast native CI probe remains a separate wiring gate.
+Full root, exact-source CI, merge and pushed-main acceptance remain required.
