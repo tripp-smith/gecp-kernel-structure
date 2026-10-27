@@ -95,7 +95,7 @@ integer indices, preserving order, complex values and every other array axis.
 
 ```python
 n = np.arange(-24, 24)
-observations = 1 / (1j * (2*n + 1) * np.pi / beta - energy)
+observations = 1 / (1j * (2 * n + 1) * np.pi / beta - energy)
 frequency_fit = basis.fit_matsubara(observations, n)
 assert frequency_fit.observation_domain == "matsubara"
 print(frequency_fit.evaluate_tau([0.2, 1.0, 3.8]))

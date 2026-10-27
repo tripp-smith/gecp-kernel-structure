@@ -11196,3 +11196,17 @@ and actual pinned TRIQS execution. Training evidence is not a certificate.
 Update API/README/claim docs and preserve 1.1.0 release artifacts. Full root,
 source/distribution/native/provider CI, exact checked revision receipt, merge
 and pushed-main verification remain mandatory; no external CI skip closes EC.
+
+Independent actual-provider review found that Gf construction retains a mutable
+mesh reference. Two mutation regressions failed before exports switched to a
+copied mesh; both time/frequency directions now pass, and the installed-wheel
+smoke includes mesh ownership. The installed guard also binds imports to actual
+distribution/RECORD membership and rejects editable or shadowed imports, rather
+than treating any outside-checkout path as an installed wheel.
+
+At code source `2e2f1b2`, 35 actual-provider tests and fresh outside-checkout
+installed-wheel smoke pass, with physical errors below `9.25e-14` and independent
+Fourier discrepancy `1.79e-15`. This is not final phase acceptance: the first
+full root run passed all 3,635 Lean jobs and the axiom audit but stopped at
+Markdown code-block formatting before Python tests. The example spacing is
+repaired; final exact-source root/CI and EB/main integration remain required.
