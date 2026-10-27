@@ -11436,3 +11436,13 @@ provider evidence; all choices must be regenerated under the locked GP stack.
 The independent test block remains untouched at this source-freeze opening.
 The accepted observation standard deviation includes noise and uses training-
 target normalization. Full real-data/root/CI/delivery acceptance remains open.
+
+Full root verification at `3cac5a9` passes all 3,635 Lean jobs, the axiom audit,
+2,086 default-environment tests (33 optional skips), type/style and security
+checks. The locked GP calibration passes all nine candidates/30 rank cases
+at that clean source. Before final test evaluation, timing review identified
+that the compute timer excludes loading/imports and includes dense/CG checks.
+Explicit scopes, an application timer and parent-measured fresh-process wall
+time are added; this instrumentation revision requires renewed calibration
+source binding and final root verification. The numerical kernel, budgets
+and selected model are not retuned against test data.

@@ -58,6 +58,17 @@ STD_DEFINITION = {
     "includes_observation_noise": True,
     "noise_parameter_is_variance": True,
 }
+TIMING_SCOPES = {
+    "application_workflow": (
+        "normalization_factorization_prediction_excludes_imports_and_data_loading"
+    ),
+    "full_workflow": (
+        "compute_dense_CG_validation_NPZ_writing_excludes_imports_loading_final_receipt"
+    ),
+    "process_wall_seconds": (
+        "parent_measured_fresh_child_launch_through_complete_exit_in_manifest"
+    ),
+}
 THREADS = (
     "OMP_NUM_THREADS",
     "OPENBLAS_NUM_THREADS",
@@ -343,6 +354,7 @@ def calibration(data: dict[str, Any], sizes: tuple[int, ...]) -> dict[str, Any]:
         "sizes": list(sizes),
         "ranks": list(RANKS),
         "standard_deviation_definition": STD_DEFINITION,
+        "timing_scopes": TIMING_SCOPES,
         "stochastic_operations": False,
         "random_seed": None,
         "hyperparameter_candidates": candidates,
@@ -471,6 +483,8 @@ def validate_frozen(frozen: dict[str, Any], *, canonical: bool) -> None:
         raise ValueError("benchmark requires the locked GP NumPy/SciPy runtime")
     if frozen.get("standard_deviation_definition") != STD_DEFINITION:
         raise ValueError("ambiguous predictive standard-deviation convention")
+    if frozen.get("timing_scopes") != TIMING_SCOPES:
+        raise ValueError("ambiguous scientific timing conventions")
     if canonical:
         if not current["source_clean_and_tracked"]:
             raise ValueError("canonical cases require a clean committed implementation")
@@ -509,6 +523,7 @@ def run_case(data, frozen, size, repeat, output: Path, *, canonical: bool):
     start = time.perf_counter()
     mean, std, shifted, solved = predictions(factor, split, lengthscale, noise)
     prediction_seconds = time.perf_counter() - start
+    application_seconds = time.perf_counter() - begin
     expected_mean = expected_std = np.array([], dtype=np.float64)
     metrics = None
     dense_seconds = None
@@ -623,7 +638,9 @@ def run_case(data, frozen, size, repeat, output: Path, *, canonical: bool):
         "retained_components_bytes": retained_components,
         "peak_rss_bytes": rss_bytes,
         "factor_metadata": factor.metadata.as_dict(),
+        "timing_scopes": TIMING_SCOPES,
         "timing_seconds": {
+            "application_workflow": application_seconds,
             "construction": construction_seconds,
             "prediction": prediction_seconds,
             "dense_reference": dense_seconds,
@@ -815,6 +832,7 @@ def main() -> None:
                             str(repeat),
                         ]
                         print(f"running n={size} repeat={repeat}", flush=True)
+                        process_start = time.perf_counter()
                         with path.with_suffix(".log").open("w") as log:
                             completed = subprocess.run(
                                 command,
@@ -827,6 +845,8 @@ def main() -> None:
                             {
                                 "path": path.name,
                                 "exit_code": completed.returncode,
+                                "process_wall_seconds": time.perf_counter()
+                                - process_start,
                                 "sha256": sha256(path.read_bytes())
                                 if path.exists()
                                 else None,

@@ -97,8 +97,12 @@ kernel CG residual <=1e-8, retained numerical state <=128 MiB and fresh-process
 RSS <=4 GiB. Memory components include the factor/solver, source observations,
 normalization split and result arrays; RSS includes the complete process.
 Slower and failed cases remain evidence. Timing is reported per construction,
-prediction, dense reference, true-kernel CG and complete workflow, rather than
-treated as an automatic speedup claim.
+prediction, dense reference and true-kernel CG. The application timer includes
+normalization, factorization and prediction; the compute/validation timer also
+includes reference checks and NPZ serialization. Both exclude interpreter
+startup/data loading/final receipt processing. The parent separately measures
+fresh-child launch through complete exit. These scopes remain explicit and
+are not treated as automatic speedup claims.
 
 The dedicated covariance workflow runs a small attributed case and actual CPU
 provider on PRs. Explicit workflow dispatch can rerun the complete campaign

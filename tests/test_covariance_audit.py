@@ -53,6 +53,7 @@ def _case():
     import json
 
     receipt = {
+        "timing_scopes": benchmark.TIMING_SCOPES,
         "standard_deviation_definition": benchmark.STD_DEFINITION,
         "schema": "kernelgecp.covariance-case.v1",
         "status": "passed",
@@ -99,6 +100,7 @@ def _case():
         "retained_components_bytes": {"state": 10000},
         "peak_rss_bytes": 100000000,
         "timing_seconds": {
+            "application_workflow": 0.2,
             "construction": 0.1,
             "prediction": 0.1,
             "dense_reference": 0.2,

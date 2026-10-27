@@ -366,6 +366,22 @@ def audit_case(receipt, arrays, frozen, data, revision, *, previous=None):
         0 < finite_number(receipt["peak_rss_bytes"], "RSS") <= 4 * 1024**3,
         "RSS gate failed",
     )
+    require(
+        receipt.get("timing_scopes") == benchmark.TIMING_SCOPES,
+        "ambiguous benchmark timing scopes",
+    )
+    require(
+        set(receipt["timing_seconds"])
+        == {
+            "application_workflow",
+            "construction",
+            "prediction",
+            "dense_reference",
+            "original_kernel_cg",
+            "full_workflow",
+        },
+        "missing timing measurements",
+    )
     for name, value in receipt["timing_seconds"].items():
         if name == "dense_reference" and size > 2048:
             require(value is None, "unexpected large dense timing")
@@ -428,6 +444,10 @@ def audit_campaign(
     )
     checked, previous, summaries = set(), {}, []
     for item in manifest["cases"]:
+        require(
+            finite_number(item.get("process_wall_seconds"), "fresh process wall") > 0,
+            "missing fresh-process wall measurement",
+        )
         require(
             type(item["exit_code"]) is int and item["exit_code"] == 0,
             "failed child process",
