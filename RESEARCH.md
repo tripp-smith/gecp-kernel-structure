@@ -11333,3 +11333,105 @@ PR #135. ED exact-model helpers pass 62 independent CAR/Fock/expm/finite-pole
 checks; the solver passes 57 pole/QR/quadrature/controller/ownership checks.
 The actual pinned native reference passes 15 tests. These focused checks do
 not close ED's canonical campaign, full root or delivery obligations.
+
+## Phase EF — molecular Green GF2 interoperability contract
+
+This isolated implementation follows PRODUCTION_INTEGRATIONS.md's full EF
+scope. Preparation starts from ED source `a3a64ba`; delivery requires ED's
+independent canonical acceptance and verified merge. No original mathematical
+goal, Lean interface or published 1.1.0 artifact changes. The existing native
+0.74-Angstrom Green output is an attributed development fixture, not evidence
+that the complete two-geometry/refinement obligation has passed.
+
+The supported production input is Green 1.0.0 molecular restricted GF2 with
+declared symmetric Lowdin orthonormal storage. The bounded acceptance model is
+H2/STO-3G at bond lengths 0.74 and 1.5 Angstrom, beta=20 inverse Hartree, two
+spatial orbitals and four spin modes. Actual native execution uses the pinned
+Green image, one MPI process/thread, two build jobs, sigma mixing 0.5, energy
+change threshold 1e-10 Hartree and a disclosed finite iteration budget. The
+second geometry and both native grids must actually converge; changing budgets
+after a miss is a recorded new pilot, not a hidden successful retry.
+
+Public `kernelgecp.integrations.green.read_green_tau(input_path, results_path,
+run_manifest, *, iteration=None)` returns an immutable molecular record with
+time-first `[tau,spin,k,orbital,orbital]` Green/dynamic-Sigma arrays; the time
+mesh; overlap, one-body and initial HF matrices; static Sigma; chemical
+potential; selected/source iteration; energy decomposition; units; geometry;
+provider/source identity; and actual file hashes. Importing kernelgecp or this
+adapter must not import optional h5py/PySCF. The reader never unpickles `Cell`,
+repairs Hermiticity, conjugates observations or subtracts static Sigma. Static
+terms remain separate from decaying quantities passed to fermionic fits.
+
+Use a versioned JSON manifest to bind the HDF5 files, native log and provider
+source/build provenance by SHA256, identify atomic units, geometry, basis,
+method, beta, native grid and actual command/convergence settings. A manifest
+enrichment recipe binds the already attributed EB fixture to its retained
+provider receipt; absent metadata are not invented from HDF5. Validate the
+input `__green_version__`, result `__grids_version__`, scalar and array dtypes,
+all dimensions/meshes, finite data, overlap positive definiteness and the
+declared Lowdin convention. Decode the input HF matrices' marked trailing
+real/imaginary axis; preserve output complex128 arrays directly. Never load
+serialized `Cell` objects. `/iter` is written before the chosen iteration's
+datasets: reject an incomplete selected checkpoint, with no automatic older
+fallback. An explicitly requested complete historical iteration retains its
+identity and does not inherit the final checkpoint's convergence claim.
+
+Files planned: the public adapter and `green` h5py extra; focused lazy-import,
+ownership, malformed-manifest/HDF5 and actual-fixture tests; a molecular example
+and API guide; independent PySCF/finite-Fock reference code; a frozen source
+campaign and independent auditor; and a dedicated cached Linux native workflow.
+Normal CI uses small attributed actual native HDF5 datasets with provenance;
+provider/release CI repeats the actual scientific calculations. Do not embed
+temporary absolute paths or rely on local Docker availability.
+
+Independent references reconstruct the same geometry in PySCF 2.14.0, verify
+overlap/Lowdin transformations and one-body integrals, build the complete
+16-state second-quantized electronic Hamiltonian, and compare fixed-particle
+sector ground energies with independently invoked PySCF FCI. Reuse ED's four-
+mode CAR helpers; validate matrix Lehmann time data by a separate thermal
+matrix-exponential trace. Preserve nuclear energy and the grand-canonical
+chemical-potential convention. Record Green's density-fitting versus exact
+integral/HF differences separately, so a Hamiltonian mismatch is not silently
+ascribed to representation or GF2 alone. Finite-temperature Lehmann data are
+exact only for the declared finite Hamiltonian, not the continuum molecule.
+
+Native-grid refinement uses the shipped Lambda=1e4 and 1e5 IR grids at both
+geometries, retaining the actual grids/transform data and all native manifests.
+The IR Lambda is a native discretization parameter, not a proven physical
+spectral cutoff. Compare native solutions and evaluate the matrix Dyson
+residual `[((iw+mu)S-H-Sigma_static-Sigma_dynamic(iw))G(iw)-I]` independently
+using the saved native transform data. Use factorization/solves, never an
+explicit matrix inverse. Declare sampled indices, normalization and numerical
+budgets before final generation; preserve refinement/budget failures.
+
+For same-solution compression, fit all matrix components through the shared
+time/frequency coefficient interface. Calibrate physical Green cutoffs 4/8/16
+Hartree, dynamic-Sigma cutoff three times each Green cutoff, native tolerances
+1e-6/1e-8/1e-10/1e-12 and common SVD rcond=1e-13 using declared calibration
+samples only. Retain doubled physical-cutoff controls. Reserve final native
+time rows and independent off-grid/frequency queries before selection, keep
+static Sigma analytic, and require sampled absolute Green/dynamic-Sigma
+representation errors <=1e-6 in both domains against the same native GF2
+solution. The native refinement and Dyson budgets will be frozen by the
+calibration-only pilot before canonical generation. A miss remains visible;
+it never becomes proof that the interacting spectrum has compact support.
+
+Record GF2-versus-FCI Green functions, density and total-energy differences as
+physical/model diagnostics separately from same-solution compression error,
+native discretization and density-fitting discrepancies. No exact GF2 model
+accuracy or solver acceleration is presumed. For comparative timing claims,
+use three fresh alternating processes with provider imports warmed equally,
+separate construction/preparation/application/evaluation timings and total
+process RSS; coefficient storage is not total algorithm memory.
+
+Required closure: focused negative and actual-fixture tests; actual two-bond,
+two-native-grid scientific runs in the bounded Linux image; frozen source,
+configuration, environment and artifact hashes; independent numerical audit;
+full `./scripts/verify.sh`; final source-specific CI; installed-package checks;
+authorized PR/merge and pushed-main checks. Root owns delivery coordination.
+Preparation, a passing parser or one historical native fixture cannot close EF.
+
+Primary references: Green's [1.0 output format](https://green-phys.org/docs/components/data-formats/output-files/)
+and [molecular execution example](https://green-phys.org/docs/getting-started/examples/n2/).
+The output contract confirms that unit/convergence/method snapshots require
+external provenance and that static Sigma and dynamic time data are distinct.

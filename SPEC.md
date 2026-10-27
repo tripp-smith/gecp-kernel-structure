@@ -3018,3 +3018,9 @@ This annotation records delivered identifiers without changing the goals above.
   immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
   Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
   full campaign, root verification and delivery remain pending.
+- **Phase EF implementation contract:** supported molecular Green GF2 HDF5
+  import with bound manifests, immutable matrix axes/static terms and complete
+  iteration validation; actual H2/STO-3G two-geometry/native-grid refinement,
+  independent finite-Fock/PySCF references and same-solution compression checks.
+  Preparation follows the bounded contract in RESEARCH.md; scientific/root/CI
+  acceptance and delivery remain open. Original mathematical goals are unchanged.
