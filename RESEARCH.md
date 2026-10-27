@@ -11162,6 +11162,34 @@ evidence; provider-specific checks and rejection regressions now prevent that
 false-pass path. Native Green/EPW execution and final-source verification remain
 pending; nothing in this opening record closes those gates.
 
+### EB actual provider execution and replay closure
+
+All six platform/provider jobs pass on source `d5f58a1` in workflow 40403723259.
+TRIQS/CT-HYB/MaxEnt and CPU GP execute on Linux and macOS; native Linux Green
+and EPW perform actual calculations. The H2 GF2 run converges in 83 iterations,
+with summed energy change `9.79260735e-11` and final Green change
+`4.46208903e-11`, below the fixed `1e-10`/`1e-6` gates. Coarse native MgB2
+executes SCF, DFPT and the isotropic 15 K Eliashberg solve, producing 62 native
+frequencies and a positive gap; this is runtime evidence, not a converged
+experimental prediction or EG restart acceptance.
+
+Failed Green runs are preserved: the disconnected source lock initially
+omitted nested magic_enum, then the actual GF2 startup looked for an integral
+directory not produced by the molecular generator. Both repairs retain fixed
+source identities and the unmodified native solver. The initial common gate
+also required stronger provider-specific quantitative evidence, and initial
+micromamba listing output was not a replayable explicit file. Regression gates
+now reject those false-pass/incomplete-lock paths.
+
+The actual Mac 131-package conda environment is replayed into a fresh isolated
+environment; exported lock/inventory bytes match and a native resolvent passes.
+Official micromamba 2.9.0-0 consumes the SHA256 explicit format correctly. Linux
+locks/inventories originate from successful actual Linux CI execution. MaxEnt
+has a separate hash-pinned pip lock; no unrecorded inference treats it as part
+of the conda replay. Pinned license/notice observations and source-header
+limitations are in environments/provider-licenses.json. Final checked source,
+full root/CI, merge and exact-main receipt remain external in PR #134.
+
 ## Phase EC — frequency fitting and TRIQS interoperability contract
 
 Implement the EC obligation in PRODUCTION_INTEGRATIONS.md after the accepted

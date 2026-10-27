@@ -19,7 +19,7 @@ def main() -> None:
     source_overrides = []
     for source in lock["sources"]:
         name, revision = source["name"], source["revision"]
-        if not re.fullmatch(r"green-[a-z0-9-]+", name) or not re.fullmatch(
+        if not re.fullmatch(r"green-[a-z0-9-]+|magic_enum", name) or not re.fullmatch(
             r"[0-9a-f]{40}", revision
         ):
             raise ValueError("invalid source lock entry")

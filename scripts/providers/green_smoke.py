@@ -221,6 +221,12 @@ def main() -> None:
         "sim.h5",
         "--scf_type",
         "GF2",
+        # The molecular generator writes the bare Coulomb vertices once.
+        # Both HF and GF2 consume that same df_hf_int directory.
+        "--dfintegral_hf_file",
+        "df_hf_int",
+        "--dfintegral_file",
+        "df_hf_int",
         "--BETA",
         "20",
         "--grid_file",

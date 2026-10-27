@@ -1,5 +1,9 @@
 # Application guide
 
+The [production provider environment guide](environments/README.md) describes
+the optional EB–EJ development runtimes. Actual provider availability does not
+make the planned domain interfaces part of the public 1.1.0 package below.
+
 [kernelgecp 1.1.0 is available on PyPI](https://pypi.org/project/kernelgecp/1.1.0/):
 
 ```bash

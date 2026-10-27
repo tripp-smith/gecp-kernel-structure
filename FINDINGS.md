@@ -2354,6 +2354,23 @@ tracked in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/1
 The published kernelgecp 1.1.0 tag/assets and frozen research evidence are
 unchanged.
 
+## EB production-runtime baseline
+
+The optional provider baseline has actual Linux/macOS TRIQS, CT-HYB, MaxEnt
+and CPU GP calculations, plus native Linux interacting H2 GF2 and coarse MgB2
+QE/EPW calculations. All six execution lanes pass at `d5f58a1`; final-source
+and merged-main acceptance is recorded in PR #134. Executed environments have
+source/artifact identity records and actual-platform conda locks, with a fresh
+Mac replay and independent native resolvent check. The observed-notice catalog
+retains missing-license-file limitations rather than inventing classifications.
+
+These establish runtime availability, not interacting DMFT, molecular
+compression, EPW restart, covariance-aware continuation, large-GP accuracy,
+whole-solver acceleration or publication of 1.2.0. Those are separate EC–EJ
+gates. Setup/build/native startup failures and receipt/exporter omissions are
+retained in the environment guides and phase receipt; no failed attempt was
+counted as a successful provider calculation.
+
 ## EC development: observation domain and interoperability boundaries
 
 The new source API fits supplied ordinary-index Matsubara observations with
