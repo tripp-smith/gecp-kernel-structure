@@ -33,6 +33,7 @@ def validate_convergence(
     iteration: int,
     energy_change_sum: float,
     green_change: float,
+    max_iterations: int = MAX_ITERATIONS,
 ) -> None:
     """Reject native exit-zero/max-iteration and inconsistent convergence claims."""
     if (
@@ -43,7 +44,8 @@ def validate_convergence(
     if (
         isinstance(iteration, bool)
         or not isinstance(iteration, int)
-        or not 2 <= iteration <= MAX_ITERATIONS
+        or type(max_iterations) is not int
+        or not 2 <= iteration <= max_iterations
     ):
         raise RuntimeError("a converged pair of native iterations is required")
     for value in (energy_change_sum, green_change):
@@ -82,7 +84,9 @@ def _run(command: list[str], work: Path, name: str, *, timeout: int) -> str:
     return log_path.read_text()
 
 
-def _inspect_result(path: Path, log: str) -> dict[str, Any]:
+def _inspect_result(
+    path: Path, log: str, *, max_iterations: int = MAX_ITERATIONS
+) -> dict[str, Any]:
     import h5py
     import numpy as np
 
@@ -130,6 +134,7 @@ def _inspect_result(path: Path, log: str) -> dict[str, Any]:
             iteration=iteration,
             energy_change_sum=energy_change,
             green_change=green_change,
+            max_iterations=max_iterations,
         )
         correlation = float(current["Energy_2b"][()])
         dynamic_max = float(np.max(np.abs(selfenergy)))

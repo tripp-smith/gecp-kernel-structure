@@ -1,0 +1,72 @@
+name: Molecular Green GF2
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "kernelgecp/integrations/green.py"
+      - "experiments/molecular_*.py"
+      - "scripts/providers/green_molecular_runs.py"
+      - "scripts/providers/bind_green_manifest.py"
+      - "environments/green/**"
+      - "environments/green-science/**"
+      - ".github/workflows/molecular-green.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: molecular-green-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+
+jobs:
+  actual-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the pinned native molecular provider
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/green/Dockerfile
+          tags: kernelgecp-green:ef
+          load: true
+          push: false
+          cache-from: type=gha,scope=provider-green
+          cache-to: type=gha,mode=min,scope=provider-green
+      - name: Execute both molecular geometries on both native grids
+        run: |
+          mkdir -p artifacts
+          docker image inspect kernelgecp-green:ef --format '{{.Id}}' > artifacts/green-image-id.txt
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" kernelgecp-green:ef \
+            /opt/venv/bin/python /workspace/scripts/providers/green_molecular_runs.py \
+            --output-dir /artifacts/native --source-revision "$(git rev-parse HEAD)"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.13.5"
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: environments/green-science/uv.lock
+      - name: Check actual HDF5 interoperability and independent FCI references
+        run: |
+          uv sync --project environments/green-science --frozen
+          uv run --project environments/green-science --frozen python -m pytest -q \
+            tests/test_green_integration.py tests/test_molecular_reference.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: molecular-green-native-linux
+          path: artifacts/
+          if-no-files-found: error

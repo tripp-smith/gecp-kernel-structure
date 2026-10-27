@@ -1,0 +1,148 @@
+{
+  "beta_inverse_hartree": 20.0,
+  "convergence": {
+    "energy_change_threshold_hartree": 1e-10,
+    "green_change_threshold": 1e-06,
+    "iteration": 83
+  },
+  "derivation": {
+    "copied_paths": [
+      "/iter",
+      "/iter82",
+      "/iter83"
+    ],
+    "kind": "selected_native_checkpoint_extract",
+    "note": "Native datasets and root grid-version attribute copied exactly; this is a compact attributed extract, not the original full checkpoint file.",
+    "numeric_dataset_equality_checked": true,
+    "original_results_sha256": "a97dae0142eb962cd4836babda5231b871f2b2d0948038aa46aea8195a375536",
+    "retained_iterations": [
+      82,
+      83
+    ]
+  },
+  "files": {
+    "build_provenance": {
+      "path": "build-provenance.json",
+      "sha256": "d989bfab7eb602ad6df836f072843f2fad84caa4a42266c51ce9d953748d6f62"
+    },
+    "input": {
+      "path": "input.h5",
+      "sha256": "47a42923eb5d394e53b5f029fb749a8cbf33ca2a9abf8ceac3d0ed0b3594d14e"
+    },
+    "native_log": {
+      "path": "gf2.log",
+      "sha256": "513d02a0cce58ec3f9475fd2a2f6d105b8a7243d19d174d92d6ff0b2a07ed5de"
+    },
+    "provider_receipt": {
+      "path": "provider-receipt.json",
+      "sha256": "54e6800e551b709694c004401d7769c42ba55cef7f798dfef3e655b6694588f0"
+    },
+    "results": {
+      "path": "sim.h5",
+      "sha256": "98043b1be8a1b65e8b0f3cd009845add8def403f72c29711300e2bd666e92af5"
+    },
+    "run_settings": {
+      "path": "run-manifest.json",
+      "sha256": "9c52c6059d6ec8d3e48c76d623be4248420028c2a71233bc96a5ef97896df020"
+    }
+  },
+  "geometry": [
+    {
+      "element": "H",
+      "xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "element": "H",
+      "xyz": [
+        0.0,
+        0.0,
+        0.74
+      ]
+    }
+  ],
+  "input_command": [
+    "/opt/venv/bin/python",
+    "/opt/green-src/green-mbpt/python/init_data_mol_df.py",
+    "--atom",
+    "atom.dat",
+    "--basis",
+    "sto-3g",
+    "--restricted",
+    "true",
+    "--orth",
+    "symmetric_lowdin",
+    "--memory",
+    "512"
+  ],
+  "method": "GF2",
+  "molecule": "H2",
+  "native_command": [
+    "/opt/green/bin/mbpt.exe",
+    "--input_file",
+    "input.h5",
+    "--results_file",
+    "sim.h5",
+    "--scf_type",
+    "GF2",
+    "--dfintegral_hf_file",
+    "df_hf_int",
+    "--dfintegral_file",
+    "df_hf_int",
+    "--BETA",
+    "20",
+    "--grid_file",
+    "/opt/green-src/green-grids/data/ir/1e4.h5",
+    "--itermax",
+    "100",
+    "--E_thr",
+    "1e-10",
+    "--mixing_type",
+    "SIGMA_MIXING",
+    "--mixing_weight",
+    "0.5",
+    "--jobs",
+    "SC"
+  ],
+  "native_grid_lambda": 10000.0,
+  "orbital_basis": "sto-3g",
+  "provider": {
+    "green": "1.0.0",
+    "green-grids": "0.3.0",
+    "green-mbtools": "1.0.0",
+    "h5py": "3.13.0",
+    "native_executable_sha256": "43b126026526933c4206c2b244689b3357a669e6171815ec875fe44fb5cc503b",
+    "numpy": "2.2.6",
+    "pyscf": "2.14.0",
+    "python": "3.12.3",
+    "source_revisions": {
+      "green-grids": "e9e4b144e72307640de5bd1192f02a8cb5a7a2e3",
+      "green-h5pp": "ec30bfefbc4968d3f0df135dde0db20a9d5a6f51",
+      "green-impurity": "9e1e566efa0754a6d1ae0a46ff672a07b9294bbc",
+      "green-mbpt": "d593a9c970194dea5855ca38e71f9cd6ac550cbf",
+      "green-mbtools": "cb719742880e41970db264b9af35c47b46c99b84",
+      "green-ndarray": "17d9805aed28d30c345875901de0b2cd944134ef",
+      "green-opt": "f76d8d98cfe945c1d14d49624515d20fe3d0afef",
+      "green-params": "b40eae5b78e18d560c8b7aaf8698a1f124d83dbf",
+      "green-sc": "2a14dc26c48d68f936421f1a8c263a378bbf0bfb",
+      "green-symmetry": "1dac18d4baac2494daec359b40bedc7bc8b63720",
+      "green-utils": "440f1d521e25c754c1bcbf0df74f9fc6abd889dc",
+      "magic_enum": "e1ea11a93d0bdf6aae415124ded6126220fa4f28"
+    }
+  },
+  "restricted": true,
+  "schema": "kernelgecp.green-molecular-run.v1",
+  "scope": "native_run_provenance_without_GF2_model_accuracy_certificate",
+  "source_revision": "25220c63e46289cd6096205389974546fb614467",
+  "storage_basis": "symmetric_lowdin",
+  "units": {
+    "dynamic_selfenergy_tau": "hartree^2",
+    "energy": "hartree",
+    "geometry": "angstrom",
+    "green_tau": "dimensionless",
+    "imaginary_time": "hartree^-1"
+  }
+}
