@@ -3004,3 +3004,9 @@ This annotation records delivered identifiers without changing the goals above.
   Numerical fits preserve supplied observations without implicit symmetry and
   do not strengthen the exact-GECP theorem or time-fit certificate scope.
   Root/provider/exact-head/main delivery remains required after EB acceptance.
+- **Phase ED implementation contract:** deterministic interacting half-filled
+  Bethe IPT, independent atom/finite-bath/finite-pole references and dense
+  native Fourier refinement. Public numerical solver interfaces, frozen
+  common-trajectory replay and independent closed-loop comparisons retain
+  model/representation/convergence/certification distinctions. Exact-source
+  acceptance and delivery remain required; no original theorem goal changes.

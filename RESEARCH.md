@@ -11243,3 +11243,60 @@ The source was reconciled with the actual EB merge `4f37638`, preserving both
 phase histories and runtime locks. EC's draft [PR #135](https://github.com/tripp-smith/gecp-kernel-structure/pull/135)
 owns final revision-specific acceptance and delivery. No older installed test
 receipt is presented as a check of later metadata or merge content.
+
+## Phase ED — deterministic interacting Bethe IPT contract
+
+Implement the ED obligation from PRODUCTION_INTEGRATIONS.md. Isolated
+preparation may proceed while EC closes; delivery requires verified EC/main.
+The target is half-filled paramagnetic single-band Bethe IPT, not an exact
+interacting Hubbard solution. Original Lean theorem scope is unchanged; no
+new continuous rate or physical-model theorem is claimed by this phase.
+
+Public NumPy/SciPy components are kernelgecp.dmft.IPTConfig, IPTPlan,
+IPTUpdate, IPTIteration and IPTResult, plus exact finite-model references in
+kernelgecp.lehmann. IPTPlan accepts independent Green/self-energy bases with
+rank, beta, wmax, design_tau and design_matsubara, caches common SVD plans,
+and exposes update(bath_iw) and solve(initial_bath=None). Results retain
+immutable arrays, coefficients, iteration history, conditioning, projection
+residuals, convergence and stop reason. Optional dense native Fourier
+reference lives in kernelgecp.integrations.triqs_dmft and is imported lazily.
+DLR/IR construction remains in the optional source benchmark harness; public
+solver modules must never import the experiments package.
+
+Use t=1, beta=10, U=0/1/2, mixing=0.5 and max_iterations=200. The primary
+shared native grid has n_iw=512 (1024 signed ordinary-index rows), n_tau=6145;
+refinement is 1024/12289. Cancel mu=U/2 against Hartree analytically. Apply
+Sigma_tau=U^2*G0(tau)^2*G0(beta-tau), equivalent to the cube only under the
+explicit particle-hole model. Keep Green and dynamic-Sigma cutoffs separate;
+calibrate Green wmax on 4/8/16/32 and Sigma at three times that bound, retaining
+cutoff-refinement records instead of assuming an infinite interacting spectrum
+has proven compact support. Native eps ladder is 1e-6/1e-8/1e-10/1e-12,
+common fit rcond=1e-13, accuracy target 1e-6 and calibration target 1e-7.
+
+The compressed update fits the same supplied G0 frequency observations for
+all providers, evaluates G0 on the common time mesh, forms the reflected
+physical product, fits Sigma on that mesh, and evaluates Sigma on the common
+frequency mesh before Dyson and bath mixing. Record unprojected equation
+defect max(abs(t^2*Gnew-Delta)) separately from projection and mixed-step
+residuals; require defect<1e-8 twice consecutively. Initial bath is the
+independently known noninteracting semicircle. Static terms remain analytic.
+
+Independent references: exact atomic/four-mode finite-bath Fock-space
+Lehmann functions (CAR/thermal-trace checks), a finite-pole second-order
+triple sum (including asymmetric fixture to catch omitted beta-tau reflection),
+and dense TRIQS Fourier loops with explicit known moments. Dense refinement
+must change G and dynamic Sigma by <1e-7 before provider accuracy is judged.
+Required sampled provider G/Sigma errors are <=1e-6 in both domains at final
+queries not used to select cutoffs/eps/stop iterations. Record particle count,
+particle-hole symmetry, causality and tail moments with justified remainders.
+Exact finite-bath data do not turn approximate IPT into exact impurity physics.
+
+Benchmark dense TRIQS, kernelgecp, pydlr and sparse-ir on frozen common
+trajectory replay and independent closed loops, explicitly distinct scopes.
+Share inputs/mixing/iteration limits/accuracy budgets and freeze calibration
+before final holdouts. Include setup, construction, fit/evaluation, loop,
+process wall/RSS and rank/conditioning, three fresh alternating processes for
+performance claims. Preserve misses and slower cases; no required speedup.
+Actual provider jobs and independent audit artifacts, full root, exact-head CI,
+authorized merge and pushed-main checks are mandatory. EE Monte Carlo and
+later chemistry/superconductivity/spectroscopy/GP gates remain open.
