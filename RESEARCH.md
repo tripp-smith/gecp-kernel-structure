@@ -11403,3 +11403,27 @@ and the official [density-matrix measurement documentation](https://triqs.github
 and [CT-HYB convergence guide](https://triqs.github.io/cthyb/latest/guide/cthyb_convergence_tests.html).
 The density matrix requires both measure_density_matrix and use_norm_as_weight;
 native density-matrix moments are recorded rather than fitted from noisy tails.
+## Phase ED — inherited frozen campaign acceptance
+
+The clean tracked generation `a3a64ba` now passes all 27 compressed and nine
+native independent closed-loop trials, nine doubled-cutoff controls and
+complete common-native-trajectory replays. All 12 method/U records repeat
+their numerical arrays identically across three fresh processes. An independent
+artifact auditor recomputes final errors and equations and passes; the full
+report and audit are archived in experiments/data and summarized in
+INTERACTING_DMFT.md. Maximum closed-loop error is 6.87e-8, replay 8.15e-8,
+native refinement 7.15e-11 and density error 8.14e-8. Finite representation
+fixtures pass the 1e-6 budget. Native Fourier is faster on this small workload;
+reference-GECP setup dominates, and no performance advantage is claimed.
+
+Negative gate testing preserved a zero-exit CLI bug when only repetition
+acceptance failed (log SHA256 6928467dcb5a343267d29b6197813a0926b920716b5e6238e3d8aea571466d4e).
+The CLI now respects canonical acceptance separately from pilot checks.
+Actual-data audit integration also exposed a mocked dense stop string that
+differed from native `tolerance`, and cross-NumPy Gauss-node rounding by a few
+ulps. Both oracle mismatches are repaired without relaxing physical budgets;
+actual saved query arrays still require exact equality. The first failing
+audit receipts remain available in the phase's verification log record.
+All numerical generation source remains identified as its frozen ancestor;
+the later CLI/auditor/documentation changes require their own final root and
+exact-head CI before delivery.

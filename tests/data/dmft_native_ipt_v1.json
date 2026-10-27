@@ -1,0 +1,24 @@
+{
+  "archive_sha256": "f7d57e9589e292acc48fed433c955e311d49d613334d0763d74c5c51d07bf9aa",
+  "beta": 10.0,
+  "chemical_potential_convention": "mu_U_over_2_cancels_static_Hartree",
+  "energy_unit": "hopping_t",
+  "fixture_version": 1,
+  "hopping": 1.0,
+  "input_sha256": {
+    "U2_0/reference/validation.npz": "350666b6d07bde883a4057f8e0c7d4d08be53e243e2f705b290dc3288d2f9df3",
+    "dense-validation/repeat-0-U2.0/result.npz": "89e2bea62e940cce581009112bcc68e7bbfb13ba79bfece9aeb7cfe818811572",
+    "report.json": "6658b543a252a4150757e632386639d373254e0f4c12d30a8022ab67defc3223"
+  },
+  "interaction": 2.0,
+  "model": "half_filled_paramagnetic_Bethe_IPT",
+  "provider": "TRIQS",
+  "provider_version": "4.0.2",
+  "scope": "actual_refined_native_IPT_fixture_not_exact_Hubbard_physics",
+  "source_revision": "a3a64baa4f48a7627a7f7bd9edf2410c327c92f7",
+  "source_url": "https://triqs.github.io/triqs/latest/userguide/python/tutorials/ModelDMFT/solutions/01s-IPT_and_DMFT.html",
+  "state_ordering": "scalar_per_spin",
+  "time_unit": "inverse_hopping_t",
+  "training_selection": "every_48th_primary_native_time_row_including_endpoints",
+  "validation_selection": "separate_refined_native_offgrid_Gauss64_and_outside_primary_frequencies"
+}

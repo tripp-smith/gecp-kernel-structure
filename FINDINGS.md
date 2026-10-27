@@ -2415,3 +2415,14 @@ passes and pilot holdout reuse. The campaign distinguishes those scopes and
 reserves new outside-primary frequencies and off-grid final times. Actual
 native tests and exact finite-model unit checks pass; the canonical frozen
 campaign, root command and exact-source delivery remain required.
+
+The frozen `a3a64ba` campaign now passes all 27 compressed and nine native
+closed loops across three fresh repetitions, with byte-identical numerical
+arrays per method/U. Independent artifact auditing recomputes actual equations
+and final errors. Maximum independent G/Sigma error is 6.87e-8 and common-bath
+replay error is 8.15e-8; native refinement changes by at most 7.15e-11.
+Actual finite fixtures also pass. [The report](INTERACTING_DMFT.md) retains
+unfavorable timing: native Fourier is faster than all three compressed methods
+on this small beta=10 workload, and Python reference GECP setup dominates.
+No universal or interacting-workflow speed advantage follows. Full root,
+exact-revision CI, merge and main verification remain separate delivery gates.
