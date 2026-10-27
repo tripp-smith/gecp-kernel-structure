@@ -11302,3 +11302,35 @@ coordinate this campaign after implementation; no concurrent >512 MiB local
 workload, real-data pass, universal speedup, optimal sensor placement or phase
 completion is inferred from synthetic unit tests. Final API/docs/claim updates,
 full root, exact-head CI, authorized merge and pushed-main checks remain open.
+
+### EI implementation and calibration route
+
+The core implementation is kernelgecp/kernel_cholesky.py, with immutable
+public factors/extensions/solve records, column consistency checks,
+out-of-sample triangular extension, SciPy operators and preconditioners, and
+lazy CPU float64 provider conversion. A returned factor's actual diagonal
+reconstruction error controls convergence; clipping a small negative residual
+cannot establish a tighter tolerance. Tiny-noise cancellation and final
+subnormal RHS rescaling have explicit failure/fallback regressions.
+
+The real-data runner and independent auditor are
+experiments/covariance_benchmark.py and scripts/audit_covariance.py. The latter
+binds every scientific source/lock hash to its declared Git commit's actual
+blobs for both calibration and generation. Numerical arrays, source/data
+identity, chronology, repeat coverage, all process exits, retained memory,
+RSS, full true-kernel CG, dense small predictions and real provider parity
+are checked separately. All calibration/campaign/provider runs use the same
+locked GP runtime (NumPy 2.2.6/SciPy 1.18.1); default-environment tests alone
+do not establish that runtime.
+
+Initial unconstrained calibration exhausted the n=2048 rank budget at the
+tenfold safety margin. Before any test evaluation, resource-aware calibration
+was made explicit: choose calibration predictive likelihood among nine
+predeclared RBF lengthscale/noise candidates that meet the rank-512 safety
+margin, preserving every rejected candidate. An unaccepted base-environment
+pilot suggested lengthscale 3 and noise variance 0.8, with ranks 128/256/256
+at the three small sizes. It used a different NumPy runtime and is not frozen
+provider evidence; all choices must be regenerated under the locked GP stack.
+The independent test block remains untouched at this source-freeze opening.
+The accepted observation standard deviation includes noise and uses training-
+target normalization. Full real-data/root/CI/delivery acceptance remains open.

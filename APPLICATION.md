@@ -346,6 +346,77 @@ For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
 diagonal-preferring lexicographic tie rule; the recursive equivalence of those
 pivot policies is separately proved in Lean.
 
+## Column-oracle covariance factors (EI implementation)
+
+`KernelCholeskyFactor.from_columns(diagonal, column, max_rank=256, atol=1e-10,
+rtol=0)` approximates a finite real symmetric PSD covariance from its diagonal
+and one full length-n callback column per selected pivot. It stores an owning,
+immutable float64 root `factor` with shape `(n, rank)` and the original and
+residual diagonals; it never constructs a full covariance or residual matrix.
+The callback is not retained. The existing dense `pivoted_cholesky` is unchanged.
+
+```python
+import numpy as np
+
+from kernelgecp import KernelCholeskyFactor
+
+points = np.linspace(-2, 2, 101)
+factor = KernelCholeskyFactor.from_columns(
+    np.ones(points.size),
+    lambda j: np.exp(-((points - points[j]) ** 2)),
+    max_rank=20,
+)
+system = factor.shifted(0.01)
+solution = system.solve_with_diagnostics(np.sin(points))
+print(factor.rank, factor.stop_reason, solution.relative_residual)
+```
+
+`factor.indices` gives the pivot order. `extend(cross_columns, diagonal=None)`
+expects only `K[new, selected pivots]`, with exactly that column order, and
+returns immutable `features` plus an optional checked `residual_diagonal`.
+It uses a triangular solve with the selected root. An approximate cross
+covariance is `extension.features @ factor.factor.T`; no training/test
+covariance is built implicitly. Supply a new diagonal to check the extension's
+PSD residual constraint. A caller-supplied kernel remains responsible for
+consistent physical units, row order and hyperparameters.
+
+`as_linear_operator(shift=0)` implements `L @ L.T + diag(shift)` as a SciPy
+operator. Positive scalar/vector noise is prepared once with `shifted(shift)`;
+its `solve`, `solve_with_diagnostics` and `as_preconditioner` reuse a small
+rank-by-rank Cholesky system. The preconditioner is passed as `M` to SciPy CG
+on the original kernel operator. A successful approximate solve does not
+establish the original-kernel CG residual. Woodbury refinement is checked
+against the approximate system; a temporary implicit Householder QR/SVD
+fallback handles subtraction loss for tiny noise without forming a complete
+orthogonal matrix. Unresolved or unrepresentable solves raise
+`NumericalBreakdownError`, including loss during final RHS rescaling.
+
+`to_gpytorch(shift=0)` copies the identical frozen root into a CPU float64
+`linear_operator` object usable by GPyTorch. It imports optional providers
+only on that call and owns its tensor storage. Pivot selection is outside
+autograd. The supported runtime starts with EB's pinned torch 2.14.1,
+GPyTorch 1.15.2 and linear_operator 0.6.1; no GPU or alternate runtime is
+claimed by the small actual-provider check.
+
+`factor.diagnostics` and its fresh `metadata` snapshot report convergence,
+stop reason, selected-root SVD conditioning, tie counts, roundoff slack and
+actual float64 precision. `storage_nbytes` counts retained numerical arrays
+and scalar histories, excluding Python overhead; the shifted object's count
+includes the shared factor once. Global symmetry/PSD is an explicit callback
+assumption: only requested columns are checked. Diagonal convergence and
+small synthetic prediction errors are numerical evidence, not a continuous
+certificate. The mandatory attributed UCI accuracy/memory/performance campaign,
+Linux provider execution, full root and delivery gates remain pending under
+PRODUCTION_INTEGRATIONS.md; this API section does not close EI.
+
+The [real-data campaign guide](experiments/COVARIANCE.md) defines attributed
+data hashes, calibration isolation and independent receipts. Its predictive
+standard deviation includes the declared observation-noise variance and is
+normalized by the training target standard deviation. The same convention is
+used for dense and approximate comparisons; the acceptance thresholds are
+unchanged. This is an assumed Gaussian observation model, not a calibrated
+environmental forecasting or uncertainty-coverage claim.
+
 ## Certified pivots
 
 `certified_pivot` performs deterministic float64 cell subdivision from a

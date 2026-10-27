@@ -2389,3 +2389,26 @@ observations and exposes rank/conditioning rather than silently enforcing a
 symmetry. Real-provider exports from a validated time fit remain a separate
 operation. Neither a training residual nor the existing time-fit precision
 certificate becomes a frequency-fit physical certificate.
+
+## EI development: column observations and independent covariance checks
+
+Column-oracle Cholesky separates scalable factor state from a dense covariance
+matrix. Consistency checks on selected columns cannot establish positivity or
+symmetry of unobserved entries, so those remain explicit callback assumptions.
+An immutable factor's convergence uses its actual returned diagonal
+reconstruction error, including small negative values before clipping.
+
+Tiny diagonal noise can destroy a subtraction-based Woodbury solution even
+for a well-behaved shifted system. A temporary implicit Householder/SVD path
+avoids that subtraction without retaining a second full factor or building a
+complete orthogonal matrix. The actual approximate-system residual, including
+final RHS rescaling, must pass; this does not establish the original-kernel
+CG residual. Independent dense prediction and true-kernel CG gates remain
+separate from factor stopping.
+
+Pre-validation UCI pilots show why a representation budget belongs in model
+calibration: a likelihood-favored narrow kernel can miss dense predictions
+at the allowed rank, while a slightly smoother candidate can meet the same
+fixed error budget. Rejected candidates are retained. The accepted runtime,
+all six real-data sizes, three fresh repeats, provider parity and delivery
+gates are still pending; pilot/default-environment results close no EI gate.
