@@ -85,6 +85,72 @@ signed scientific certificates; validate accuracy again after transfer.
 The runnable [matrix-valued tutorial](examples/reusable_basis.py) checks time
 and frequency signs, reuse and persistence on an independent analytic pole.
 
+## Frequency fitting and TRIQS interoperability (unreleased EC source)
+
+These additions target 1.2.0 and currently require this checkout; the immutable
+1.1.0 public release does not include them. `prepare_matsubara(indices,
+rcond=None)` caches a `LeastSquaresPlan` just as `prepare_tau` does.
+`fit_matsubara(values, indices, axis=0, rcond=None)` uses the supplied ordinary
+integer indices, preserving order, complex values and every other array axis.
+
+```python
+n = np.arange(-24, 24)
+observations = 1 / (1j * (2*n + 1) * np.pi / beta - energy)
+frequency_fit = basis.fit_matsubara(observations, n)
+assert frequency_fit.observation_domain == "matsubara"
+print(frequency_fit.evaluate_tau([0.2, 1.0, 3.8]))
+print(frequency_fit.diagnostics.least_squares.retained_condition_number)
+```
+
+Coefficients retain the same cardinal-time basis meaning in both fitting
+domains; `observation_domain` describes their source observations. Both fit
+paths use binary64/complex128 truncated SVD and expose rank/conditioning and
+training residual. An underdetermined or truncated fit is a minimum-norm fit,
+not an independent accuracy claim. Positive-only frequency observations are
+used exactly as supplied: no negative-frequency completion, transpose,
+conjugation, moment repair or static-term removal is inferred. Such designs
+can be very ill-conditioned and fit their positive observations while giving
+poor time/negative-frequency predictions. Validate both domains independently.
+The existing finite-query time-fit certificate does not become a frequency-fit
+certificate through this API addition.
+
+New source archives use format version 2 and retain the fit observation domain.
+Readers accept v1/v2; v1 fits receive the historical default `tau` domain.
+Training diagnostics are still not restored as fresh evidence. Loading and
+resaving a v1 fit preserves coefficients/predictions and writes v2. Public
+1.1.0 readers reject v2, so preserve original files when exchanging with 1.1.0.
+The regression fixture was produced by an actual installed public 1.1.0 wheel,
+with its wheel/archive hashes recorded in `tests/data`.
+
+The optional `kernelgecp.integrations.triqs` module supplies
+`fit_triqs_tau(basis, gf, rcond=None)`, `to_triqs_tau(fit, mesh)` and
+`to_triqs_iw(fit, mesh)`. It imports the pinned TRIQS 4.0.2 provider only when
+called; ordinary kernelgecp imports need no TRIQS. It reads actual mesh
+coordinates, validates fermionic statistics and beta, preserves 0+/beta-
+endpoints and native frequency storage order, and returns owning Gf objects.
+TRIQS 4's actual modules are `triqs.gfs` and `triqs.mesh`.
+
+```python
+from triqs.gfs import BlockGf
+from kernelgecp.integrations.triqs import fit_triqs_tau, to_triqs_iw
+
+# source_tau is a BlockGf; iw_mesh is an actual fermionic MeshImFreq.
+names = [name for name, _ in source_tau]
+fits = [fit_triqs_tau(basis, block) for _, block in source_tau]
+converted = BlockGf(
+    name_list=names,
+    block_list=[to_triqs_iw(fit, iw_mesh) for fit in fits],
+    make_copies=True,
+)
+```
+
+The public unit is a single Gf; this explicit recipe preserves ordered block
+names and unequal matrix sizes. The adapter does not infer spectral positivity,
+normalization, physical symmetry or high-frequency tails. Consult
+[the isolated runtime instructions](environments/TRIQS.md). Actual provider
+tests and the installed-wheel smoke gate are separate from optional skips in
+the ordinary base environment. No interacting DMFT claim follows from EC.
+
 ## DLR/IR interoperability and a physical solver loop
 
 From a checkout with optional providers, run the same complex matrix workload

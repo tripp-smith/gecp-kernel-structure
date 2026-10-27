@@ -36,6 +36,7 @@ from .kernels import FermionicKernel
 from .types import FloatArray, GECPConfig, GECPResult, NumericalBreakdownError
 
 type PrecisionPolicy = Literal["auto", "float64", "reference"]
+type ObservationDomain = Literal["tau", "matsubara"]
 type ArchivePath = str | PathLike[str]
 
 _CONVENTIONS: dict[str, object] = {
@@ -101,6 +102,7 @@ class FitDiagnostics:
     least_squares: LeastSquaresDiagnostics | None
     evidence_status: str = "computed_on_supplied_training_samples"
     certification_status: str = "not_certified"
+    observation_domain: ObservationDomain = "tau"
 
 
 def _positive_real(value: object, name: str) -> float:
@@ -161,6 +163,12 @@ def _mapping(value: object, name: str) -> dict[str, object]:
     if not isinstance(value, dict) or not all(isinstance(k, str) for k in value):
         raise ValueError(f"invalid archive {name}")
     return cast(dict[str, object], value)
+
+
+def _observation_domain(value: object) -> ObservationDomain:
+    if not isinstance(value, str) or value not in ("tau", "matsubara"):
+        raise ValueError("observation_domain must be 'tau' or 'matsubara'")
+    return cast(ObservationDomain, value)
 
 
 def _json_record(value: object) -> object:
@@ -434,6 +442,31 @@ class FermionicBasis:
     ) -> LeastSquaresPlan:
         """Prepare or reuse one SVD for a physical observation grid."""
         nodes = self.tau_nodes if tau is None else _tau_array(tau, self.beta)
+        return self._prepare("tau", nodes, rcond=rcond)
+
+    def prepare_matsubara(
+        self, indices: npt.ArrayLike, *, rcond: float | None = None
+    ) -> LeastSquaresPlan:
+        """Prepare or reuse a complex SVD at ordinary fermionic indices.
+
+        Only the supplied observations are used. Positive-only meshes do not
+        imply conjugate completion or real coefficients. Repeated indices are
+        repeated observations, as repeated times are in ``prepare_tau``.
+        Rank-deficient or underdetermined designs retain the shared SVD
+        truncation and minimum-norm semantics.
+        """
+        nodes = _indices_array(indices)
+        if not nodes.size:
+            raise ValueError("Matsubara fitting requires nonempty indices")
+        return self._prepare("matsubara", nodes, rcond=rcond)
+
+    def _prepare(
+        self,
+        domain: ObservationDomain,
+        nodes: npt.NDArray[np.generic],
+        *,
+        rcond: float | None,
+    ) -> LeastSquaresPlan:
         # Validate rcond even on a cache hit; bool hashes like zero/one.
         if rcond is not None:
             if isinstance(rcond, (bool, np.bool_)) or not isinstance(rcond, Real):
@@ -444,11 +477,11 @@ class FermionicBasis:
                 raise ValueError("rcond must be finite in binary64") from error
             if not np.isfinite(rcond) or rcond < 0:
                 raise ValueError("rcond must be a finite nonnegative real number")
-        key = _cache_key("tau", nodes, rcond)
+        key = _cache_key(domain, nodes, rcond)
         if key in self._plan_cache:
             self._plan_cache.move_to_end(key)
             return self._plan_cache[key]
-        plan = LeastSquaresPlan(self.design_tau(nodes), rcond=rcond)
+        plan = LeastSquaresPlan(self._design(domain, nodes), rcond=rcond)
         self._plan_cache[key] = plan
         while len(self._plan_cache) > self._cache_size:
             self._plan_cache.popitem(last=False)
@@ -468,6 +501,35 @@ class FermionicBasis:
         axes are preserved. Supplying tau=None means selected tau_nodes.
         """
         plan = self.prepare_tau(tau, rcond=rcond)
+        return self._fit(values, plan, axis=axis, observation_domain="tau")
+
+    def fit_matsubara(
+        self,
+        values: npt.ArrayLike,
+        indices: npt.ArrayLike,
+        *,
+        axis: int = 0,
+        rcond: float | None = None,
+    ) -> FermionicFit:
+        """Fit physical frequency observations with the cached complex SVD.
+
+        ``indices`` are ordinary integers n for (2*n+1)*pi/beta. The observation
+        axis is replaced by the coefficient axis, preserving all other axes.
+        No sign, conjugation, symmetry completion or tail correction is added.
+        Training residual and rank diagnostics concern only supplied samples;
+        in particular, positive-only fits need independent accuracy checks.
+        """
+        plan = self.prepare_matsubara(indices, rcond=rcond)
+        return self._fit(values, plan, axis=axis, observation_domain="matsubara")
+
+    def _fit(
+        self,
+        values: npt.ArrayLike,
+        plan: LeastSquaresPlan,
+        *,
+        axis: int,
+        observation_domain: ObservationDomain,
+    ) -> FermionicFit:
         coefficients = plan.fit(values, axis=axis)
         residual = plan.residual(values, coefficients, axis=axis)
         normalized_axis = _normalize_axis(axis, coefficients.ndim)
@@ -475,10 +537,12 @@ class FermionicBasis:
             self,
             coefficients,
             axis=normalized_axis,
+            observation_domain=observation_domain,
             diagnostics=FitDiagnostics(
                 observation_axis=normalized_axis,
                 training_residual_max=float(np.max(np.abs(residual), initial=0)),
                 least_squares=plan.diagnostics,
+                observation_domain=observation_domain,
             ),
         )
 
@@ -520,7 +584,7 @@ class FermionicBasis:
     ) -> tuple[dict[str, object], dict[str, npt.NDArray[np.generic]]]:
         metadata: dict[str, object] = {
             "format": "kernelgecp.fermionic_basis",
-            "version": 1,
+            "version": 2,
             "kind": kind,
             "conventions": dict(_CONVENTIONS),
             "parameters": {
@@ -569,7 +633,7 @@ class FermionicBasis:
             or metadata.get("kind") not in ("basis", "fit")
             or metadata.get("format") != "kernelgecp.fermionic_basis"
             or type(metadata.get("version")) is not int
-            or metadata["version"] != 1
+            or metadata["version"] not in (1, 2)
             or metadata.get("conventions") != _CONVENTIONS
         ):
             raise ValueError("unsupported or incompatible fermionic basis archive")
@@ -729,7 +793,15 @@ class FermionicFit:
         *,
         axis: int = 0,
         diagnostics: FitDiagnostics | None = None,
+        observation_domain: ObservationDomain = "tau",
     ) -> None:
+        self._observation_domain = _observation_domain(observation_domain)
+        if (
+            diagnostics is not None
+            and _observation_domain(diagnostics.observation_domain)
+            != self._observation_domain
+        ):
+            raise ValueError("fit and diagnostics observation domains must agree")
         array = _numeric_array(coefficients, "coefficients")
         if array.ndim == 0:
             raise ValueError("coefficients must have a coefficient axis")
@@ -760,6 +832,11 @@ class FermionicFit:
         """Training diagnostics, absent for manually supplied coefficients."""
         return self._diagnostics
 
+    @property
+    def observation_domain(self) -> ObservationDomain:
+        """Declared input domain, retained separately from unverified history."""
+        return self._observation_domain
+
     def evaluate_tau(self, tau: npt.ArrayLike) -> NumericArray:
         """Evaluate physical imaginary time with the stored batch layout."""
         return self.basis.evaluate_tau(self.coefficients, tau, axis=self.axis)
@@ -769,10 +846,11 @@ class FermionicFit:
         return self.basis.evaluate_matsubara(self.coefficients, indices, axis=self.axis)
 
     def save(self, path: ArchivePath) -> None:
-        """Persist the basis and complex coefficients without executable data."""
+        """Persist the basis, domain and coefficients without executable data."""
         metadata, arrays = self.basis._payload("fit")
         metadata["fit"] = {
             "axis": self.axis,
+            "observation_domain": self.observation_domain,
             "diagnostics": (
                 _json_record(asdict(self.diagnostics)) if self.diagnostics else None
             ),
@@ -784,20 +862,35 @@ class FermionicFit:
     def load(
         cls, path: ArchivePath, *, reference_backend: ReferenceBackend = "python"
     ) -> FermionicFit:
-        """Restore coefficients and factors, without rerunning GECP or SVD.
+        """Restore factors and coefficients without selecting pivots or refitting.
 
         Historical training diagnostics are not independently revalidated and
         are intentionally not restored as current evidence.
         Python is the default backend regardless of archived backend history.
+        Version 1 fits retain their original tau-observation interpretation;
+        version 2 explicitly records the observation domain.
         """
         metadata, arrays = read_archive(path)
         if metadata.get("kind") != "fit" or "coefficients" not in arrays:
             raise ValueError("archive does not contain a fitted function")
         fit = _mapping(metadata.get("fit"), "fit")
-        if set(fit) != {"axis", "diagnostics"}:
+        expected_fit = {"axis", "diagnostics"}
+        if metadata.get("version") == 2:
+            expected_fit.add("observation_domain")
+        if set(fit) != expected_fit:
             raise ValueError("invalid fitted-function archive envelope")
+        observation_domain = (
+            _observation_domain(fit.get("observation_domain"))
+            if metadata.get("version") == 2
+            else "tau"
+        )
         axis = _integer(fit.get("axis"), "axis", 0)
         basis = FermionicBasis._restore(
             metadata, arrays, reference_backend=reference_backend
         )
-        return cls(basis, arrays["coefficients"], axis=axis)
+        return cls(
+            basis,
+            arrays["coefficients"],
+            axis=axis,
+            observation_domain=observation_domain,
+        )

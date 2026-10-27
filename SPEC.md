@@ -2989,3 +2989,9 @@ This annotation records delivered identifiers without changing the goals above.
   gates remain pending until their actual computations pass. This status
   annotation does not rewrite the original mathematical goals, strengthen
   certificates, or replace frozen 1.1.0 evidence.
+- **Phase EC implementation contract:** adds cached ordinary-index Matsubara
+  fitting, observation-domain diagnostics, v2 archives with actual public-v1
+  compatibility checks, and optional actual TRIQS 4.0.2 single-Gf/block recipes.
+  Numerical fits preserve supplied observations without implicit symmetry and
+  do not strengthen the exact-GECP theorem or time-fit certificate scope.
+  Root/provider/exact-head/main delivery remains required after EB acceptance.
