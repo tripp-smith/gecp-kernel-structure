@@ -2989,3 +2989,11 @@ This annotation records delivered identifiers without changing the goals above.
   gates remain pending until their actual computations pass. This status
   annotation does not rewrite the original mathematical goals, strengthen
   certificates, or replace frozen 1.1.0 evidence.
+- **Phase EB delivered identifiers (final acceptance in PR #134):** isolated
+  provider specifications/build recipes, actual numerical probes under
+  scripts/providers, fail-closed version/source/domain-evidence validation,
+  export_conda_lock, platform-specific actual-package SHA256 locks/inventories,
+  observed pinned source notices and the production-provider CI workflow.
+  Six actual platform/provider executions pass at `d5f58a1`; final locked
+  revision/main acceptance is recorded in the PR. This closes no EC–EJ
+  scientific application gate and changes no original theorem or 1.1.0 asset.

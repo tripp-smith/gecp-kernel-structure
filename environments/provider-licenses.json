@@ -1,0 +1,695 @@
+{
+  "artifact_relationship": "Source files are observed at exact Git commits. Python wheels and conda artifacts are independently locked; source license observations do not attest that every distribution contains identical notices.",
+  "observed_date_utc": "2026-10-26",
+  "retrieval_notes": "Initial direct raw-file and API lookups encountered transient DNS or HTTP retrieval failures. GitHub contents API reads recovered the GitHub entries. devXlib was inspected in memory from its size- and SHA256-verified source archive; the absent standalone license and observed source-header notice are retained explicitly. These retrieval/inspection issues were not provider execution failures.",
+  "schema": "kernelgecp.provider-source-licenses.v1",
+  "scope": "Top-level pinned provider source license/notice identities for isolated EB runtime environments. Not a legal opinion, a complete transitive license inventory, or approval to redistribute a combined binary.",
+  "sources": [
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-mbpt/contents/LICENSE?ref=d593a9c970194dea5855ca38e71f9cd6ac550cbf",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-mbpt/d593a9c970194dea5855ca38e71f9cd6ac550cbf/LICENSE"
+        }
+      ],
+      "name": "green-mbpt",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-mbpt",
+      "revision": "d593a9c970194dea5855ca38e71f9cd6ac550cbf",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-utils/contents/LICENSE?ref=440f1d521e25c754c1bcbf0df74f9fc6abd889dc",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-utils/440f1d521e25c754c1bcbf0df74f9fc6abd889dc/LICENSE"
+        }
+      ],
+      "name": "green-utils",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-utils",
+      "revision": "440f1d521e25c754c1bcbf0df74f9fc6abd889dc",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1079,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 University of Michigan",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-ndarray/contents/LICENSE?ref=17d9805aed28d30c345875901de0b2cd944134ef",
+          "sha256": "1b513ae6f500a1fb3630360dc5e6396af61769c448a9264bfa53b599ccba2661",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-ndarray/17d9805aed28d30c345875901de0b2cd944134ef/LICENSE"
+        }
+      ],
+      "name": "green-ndarray",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-ndarray",
+      "revision": "17d9805aed28d30c345875901de0b2cd944134ef",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1079,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 University of Michigan",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-h5pp/contents/LICENSE?ref=ec30bfefbc4968d3f0df135dde0db20a9d5a6f51",
+          "sha256": "1b513ae6f500a1fb3630360dc5e6396af61769c448a9264bfa53b599ccba2661",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-h5pp/ec30bfefbc4968d3f0df135dde0db20a9d5a6f51/LICENSE"
+        }
+      ],
+      "name": "green-h5pp",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-h5pp",
+      "revision": "ec30bfefbc4968d3f0df135dde0db20a9d5a6f51",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-params/contents/LICENSE?ref=b40eae5b78e18d560c8b7aaf8698a1f124d83dbf",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-params/b40eae5b78e18d560c8b7aaf8698a1f124d83dbf/LICENSE"
+        }
+      ],
+      "name": "green-params",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-params",
+      "revision": "b40eae5b78e18d560c8b7aaf8698a1f124d83dbf",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-grids/contents/LICENSE?ref=e9e4b144e72307640de5bd1192f02a8cb5a7a2e3",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-grids/e9e4b144e72307640de5bd1192f02a8cb5a7a2e3/LICENSE"
+        }
+      ],
+      "name": "green-grids",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-grids",
+      "revision": "e9e4b144e72307640de5bd1192f02a8cb5a7a2e3",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-symmetry/contents/LICENSE?ref=1dac18d4baac2494daec359b40bedc7bc8b63720",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-symmetry/1dac18d4baac2494daec359b40bedc7bc8b63720/LICENSE"
+        }
+      ],
+      "name": "green-symmetry",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-symmetry",
+      "revision": "1dac18d4baac2494daec359b40bedc7bc8b63720",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-sc/contents/LICENSE?ref=2a14dc26c48d68f936421f1a8c263a378bbf0bfb",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-sc/2a14dc26c48d68f936421f1a8c263a378bbf0bfb/LICENSE"
+        }
+      ],
+      "name": "green-sc",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-sc",
+      "revision": "2a14dc26c48d68f936421f1a8c263a378bbf0bfb",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-opt/contents/LICENSE?ref=f76d8d98cfe945c1d14d49624515d20fe3d0afef",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-opt/f76d8d98cfe945c1d14d49624515d20fe3d0afef/LICENSE"
+        }
+      ],
+      "name": "green-opt",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-opt",
+      "revision": "f76d8d98cfe945c1d14d49624515d20fe3d0afef",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1067,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-impurity/contents/LICENSE?ref=9e1e566efa0754a6d1ae0a46ff672a07b9294bbc",
+          "sha256": "63be3776f2bf270ae421da5983d159dd76cbdbbdc8829ca3dce2976e1be20e40",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-impurity/9e1e566efa0754a6d1ae0a46ff672a07b9294bbc/LICENSE"
+        }
+      ],
+      "name": "green-impurity",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-impurity",
+      "revision": "9e1e566efa0754a6d1ae0a46ff672a07b9294bbc",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1068,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2023 Green-Phys",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Green-Phys/green-mbtools/contents/LICENSE?ref=cb719742880e41970db264b9af35c47b46c99b84",
+          "sha256": "a89f4755adf164ebccdec7fae80ca7851308c796291c91cee0bf613af3454f3b",
+          "url": "https://raw.githubusercontent.com/Green-Phys/green-mbtools/cb719742880e41970db264b9af35c47b46c99b84/LICENSE"
+        }
+      ],
+      "name": "green-mbtools",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Green-Phys/green-mbtools",
+      "revision": "cb719742880e41970db264b9af35c47b46c99b84",
+      "status": "source_license_files_observed",
+      "version": "1.0.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1080,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2019 - 2023 Daniil Goncharov",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/Neargye/magic_enum/contents/LICENSE?ref=e1ea11a93d0bdf6aae415124ded6126220fa4f28",
+          "sha256": "cf451c612ef409b7692b51aa74eeb2b8df1ec9be38e6f7f72b8740f489ca1387",
+          "url": "https://raw.githubusercontent.com/Neargye/magic_enum/e1ea11a93d0bdf6aae415124ded6126220fa4f28/LICENSE"
+        }
+      ],
+      "name": "magic_enum",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/Neargye/magic_enum",
+      "revision": "e1ea11a93d0bdf6aae415124ded6126220fa4f28",
+      "status": "source_license_files_observed",
+      "version": "0.9.3"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 18009,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 2, June 1991",
+            "Copyright (C) 1989, 1991 Free Software Foundation, Inc."
+          ],
+          "path": "License",
+          "retrieved_via": "https://api.github.com/repos/QEF/q-e/contents/License?ref=770a0b2d12928a67048e2f3da8d10d057e52179e",
+          "sha256": "204d8eff92f95aac4df6c8122bc1505f468f3a901e5a4cc08940e0ede1938994",
+          "url": "https://raw.githubusercontent.com/QEF/q-e/770a0b2d12928a67048e2f3da8d10d057e52179e/License"
+        }
+      ],
+      "name": "qe",
+      "providers": [
+        "epw"
+      ],
+      "repository": "https://github.com/QEF/q-e",
+      "revision": "770a0b2d12928a67048e2f3da8d10d057e52179e",
+      "status": "source_license_files_observed",
+      "version": "7.5"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 17990,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 2, June 1991",
+            "Copyright (C) 1989, 1991 Free Software Foundation, Inc."
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/wannier-developers/wannier90/contents/LICENSE?ref=1d6b187374a2d50b509e5e79e2cab01a79ff7ce1",
+          "sha256": "ddb9db7630752f8fdc6898f7c99a99eaeeac5213627ecb093df9c82f56175dc7",
+          "url": "https://raw.githubusercontent.com/wannier-developers/wannier90/1d6b187374a2d50b509e5e79e2cab01a79ff7ce1/LICENSE"
+        }
+      ],
+      "name": "wannier90",
+      "providers": [
+        "epw"
+      ],
+      "repository": "https://github.com/wannier-developers/wannier90",
+      "revision": "1d6b187374a2d50b509e5e79e2cab01a79ff7ce1",
+      "status": "source_license_files_observed",
+      "version": "pinned upstream submodule"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 16726,
+          "header_lines": [
+            "Mozilla Public License Version 2.0",
+            "==================================",
+            "1. Definitions"
+          ],
+          "path": "LICENSE",
+          "retrieved_via": "https://api.github.com/repos/libmbd/libmbd/contents/LICENSE?ref=89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd",
+          "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+          "url": "https://raw.githubusercontent.com/libmbd/libmbd/89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd/LICENSE"
+        }
+      ],
+      "name": "mbd",
+      "providers": [
+        "epw"
+      ],
+      "repository": "https://github.com/libmbd/libmbd",
+      "revision": "89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd",
+      "status": "source_license_files_observed",
+      "version": "pinned upstream submodule"
+    },
+    {
+      "license_files": [],
+      "name": "devxlib",
+      "providers": [
+        "epw"
+      ],
+      "repository": "https://gitlab.com/max-centre/components/devicexlib",
+      "revision": "a6b89ef77b1ceda48e967921f1f5488d2df9226d",
+      "source_archive_bytes": 5322036,
+      "source_archive_sha256": "39d55ae63168f9692ab649e7cededb3bc181580f450d30d5d4deeb008ea4a29c",
+      "source_notice_files": [
+        {
+          "bytes": 630,
+          "header_lines": [
+            "!",
+            "! Copyright (C) 2002-2018 Quantum ESPRESSO group",
+            "! This file is distributed under the terms of the",
+            "! GNU General Public License. See the file `License'",
+            "! in the root directory of the present distribution,",
+            "! or http://www.gnu.org/copyleft/gpl.txt ."
+          ],
+          "path": "src/deviceXlib_mod.f90",
+          "retrieved_via": "https://gitlab.com/max-centre/components/devicexlib/-/archive/a6b89ef77b1ceda48e967921f1f5488d2df9226d/devicexlib-a6b89ef77b1ceda48e967921f1f5488d2df9226d.tar.gz",
+          "sha256": "d9823f37305ce83e5a7ed874936030d7e697cd41c6a363c7c0ded13ba6f74434",
+          "source_archive_member": "devicexlib-a6b89ef77b1ceda48e967921f1f5488d2df9226d/src/deviceXlib_mod.f90",
+          "source_archive_sha256": "39d55ae63168f9692ab649e7cededb3bc181580f450d30d5d4deeb008ea4a29c",
+          "url": "https://gitlab.com/max-centre/components/devicexlib/-/blob/a6b89ef77b1ceda48e967921f1f5488d2df9226d/src/deviceXlib_mod.f90"
+        }
+      ],
+      "status": "source_notices_observed_without_standalone_license_file",
+      "unavailable_reason": "The size- and SHA256-verified pinned archive contains no standalone LICENSE/COPYING/NOTICE file. The recorded source-file header declares its terms and references a root License file that is not present. No repository-wide SPDX expression is inferred.",
+      "version": "pinned upstream submodule"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 35149,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 3, 29 June 2007",
+            "Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>"
+          ],
+          "path": "LICENSE.txt",
+          "retrieved_via": "https://api.github.com/repos/TRIQS/triqs/contents/LICENSE.txt?ref=1bf7660fb1cc0316b70e1c93e37680b71c890e7b",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "url": "https://raw.githubusercontent.com/TRIQS/triqs/1bf7660fb1cc0316b70e1c93e37680b71c890e7b/LICENSE.txt"
+        }
+      ],
+      "name": "triqs",
+      "providers": [
+        "triqs"
+      ],
+      "repository": "https://github.com/TRIQS/triqs",
+      "revision": "1bf7660fb1cc0316b70e1c93e37680b71c890e7b",
+      "status": "source_license_files_observed",
+      "version": "4.0.2"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 35147,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 3, 29 June 2007",
+            "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
+          ],
+          "path": "COPYING.txt",
+          "retrieved_via": "https://api.github.com/repos/TRIQS/cthyb/contents/COPYING.txt?ref=a6af36188c0d476a6db03fa6423509a01d36e13b",
+          "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+          "url": "https://raw.githubusercontent.com/TRIQS/cthyb/a6af36188c0d476a6db03fa6423509a01d36e13b/COPYING.txt"
+        },
+        {
+          "bytes": 766,
+          "header_lines": [
+            "TRIQS: a Toolbox for Research in Interacting Quantum Systems",
+            "Copyright (C) 2014 by P. Seth, I. Krivenko, M. Ferrero, O. Parcollet",
+            "TRIQS is free software: you can redistribute it and/or modify it under the"
+          ],
+          "path": "LICENSE.txt",
+          "retrieved_via": "https://api.github.com/repos/TRIQS/cthyb/contents/LICENSE.txt?ref=a6af36188c0d476a6db03fa6423509a01d36e13b",
+          "sha256": "e9966088422636dd0f6df89656424cde4f30ba075ec3eabfc491604f3adb6afa",
+          "url": "https://raw.githubusercontent.com/TRIQS/cthyb/a6af36188c0d476a6db03fa6423509a01d36e13b/LICENSE.txt"
+        }
+      ],
+      "name": "cthyb",
+      "providers": [
+        "triqs"
+      ],
+      "repository": "https://github.com/TRIQS/cthyb",
+      "revision": "a6af36188c0d476a6db03fa6423509a01d36e13b",
+      "status": "source_license_files_observed",
+      "version": "4.0.1"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 35147,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 3, 29 June 2007",
+            "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
+          ],
+          "path": "COPYING.txt",
+          "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+          "url": "https://raw.githubusercontent.com/TRIQS/maxent/7395be38079271f9cf16ddf4821e94268f0341cf/COPYING.txt"
+        },
+        {
+          "bytes": 35149,
+          "header_lines": [
+            "GNU GENERAL PUBLIC LICENSE",
+            "Version 3, 29 June 2007",
+            "Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>"
+          ],
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "url": "https://raw.githubusercontent.com/TRIQS/maxent/7395be38079271f9cf16ddf4821e94268f0341cf/LICENSE"
+        },
+        {
+          "bytes": 864,
+          "header_lines": [
+            "triqs_maxent - An example application using triqs",
+            "Copyright (C) 2017-2018, N. Wentzell, O. Parcollet",
+            "Copyright (C) 2018-2019, The Simons Foundation"
+          ],
+          "path": "LICENSE.txt",
+          "sha256": "fc4e4391949ff2902fa1ca66cc96bcdcd4330c62cfce557ccc1998eaa25ad11d",
+          "url": "https://raw.githubusercontent.com/TRIQS/maxent/7395be38079271f9cf16ddf4821e94268f0341cf/LICENSE.txt"
+        }
+      ],
+      "name": "maxent",
+      "providers": [
+        "triqs"
+      ],
+      "repository": "https://github.com/TRIQS/maxent",
+      "revision": "7395be38079271f9cf16ddf4821e94268f0341cf",
+      "status": "source_license_files_observed",
+      "version": "4.0.1"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 11357,
+          "header_lines": [
+            "Apache License",
+            "Version 2.0, January 2004",
+            "http://www.apache.org/licenses/"
+          ],
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "url": "https://raw.githubusercontent.com/pyscf/pyscf/c63a953ba603a5ad8c1d65d88da72aaf05ede4d8/LICENSE"
+        },
+        {
+          "bytes": 3875,
+          "header_lines": [
+            "Copyright 2014-2024 The PySCF Developers.",
+            "PySCF (www.pyscf.org) was developed by:",
+            "Qiming Sun"
+          ],
+          "path": "NOTICE",
+          "sha256": "10b87562de7f230776061516b13c0ad6531fb8bb365fbae20390da0c22b6739e",
+          "url": "https://raw.githubusercontent.com/pyscf/pyscf/c63a953ba603a5ad8c1d65d88da72aaf05ede4d8/NOTICE"
+        }
+      ],
+      "name": "pyscf",
+      "providers": [
+        "green"
+      ],
+      "repository": "https://github.com/pyscf/pyscf",
+      "revision": "c63a953ba603a5ad8c1d65d88da72aaf05ede4d8",
+      "status": "source_license_files_observed",
+      "version": "2.14.0"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 3464,
+          "header_lines": [
+            "From PyTorch:",
+            "Copyright (c) 2016-     Facebook, Inc            (Adam Paszke)",
+            "Copyright (c) 2014-     Facebook, Inc            (Soumith Chintala)"
+          ],
+          "path": "LICENSE",
+          "sha256": "bd018feef8825e88181c84eb7e3aa4eafb8f08a20d9fd6ef948569610c4a3e43",
+          "url": "https://raw.githubusercontent.com/pytorch/pytorch/5c4886908584029761b579af026dcfb627c84070/LICENSE"
+        },
+        {
+          "bytes": 23632,
+          "header_lines": [
+            "=======================================================================",
+            "Software under third_party",
+            "======================================================================="
+          ],
+          "path": "NOTICE",
+          "sha256": "c2cc7bf0caec7652c2b460a8a470bea1677f241e4ab8e431df34cf17f5a9fec0",
+          "url": "https://raw.githubusercontent.com/pytorch/pytorch/5c4886908584029761b579af026dcfb627c84070/NOTICE"
+        }
+      ],
+      "name": "pytorch",
+      "providers": [
+        "gp"
+      ],
+      "repository": "https://github.com/pytorch/pytorch",
+      "revision": "5c4886908584029761b579af026dcfb627c84070",
+      "status": "source_license_files_observed",
+      "version": "2.14.1"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1069,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2017 Jake Gardner",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "sha256": "56de43b0c207a90111c081397829a0ff00c941b79395e250fe56108267dc2cf3",
+          "url": "https://raw.githubusercontent.com/cornellius-gp/gpytorch/82adcaa8377790dafc1482c3bbe2a555a46f3ff4/LICENSE"
+        }
+      ],
+      "name": "gpytorch",
+      "providers": [
+        "gp"
+      ],
+      "repository": "https://github.com/cornellius-gp/gpytorch",
+      "revision": "82adcaa8377790dafc1482c3bbe2a555a46f3ff4",
+      "status": "source_license_files_observed",
+      "version": "1.15.2"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1069,
+          "header_lines": [
+            "MIT License",
+            "Copyright (c) 2017 Jake Gardner",
+            "Permission is hereby granted, free of charge, to any person obtaining a copy"
+          ],
+          "path": "LICENSE",
+          "sha256": "56de43b0c207a90111c081397829a0ff00c941b79395e250fe56108267dc2cf3",
+          "url": "https://raw.githubusercontent.com/cornellius-gp/linear_operator/b0a4312ec49e645d79e68cc1b32a37047baaae8b/LICENSE"
+        }
+      ],
+      "name": "linear_operator",
+      "providers": [
+        "gp"
+      ],
+      "repository": "https://github.com/cornellius-gp/linear_operator",
+      "revision": "b0a4312ec49e645d79e68cc1b32a37047baaae8b",
+      "status": "source_license_files_observed",
+      "version": "0.6.1"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1543,
+          "header_lines": [
+            "Copyright (c) 2005-2024, NumPy Developers.",
+            "All rights reserved.",
+            "Redistribution and use in source and binary forms, with or without"
+          ],
+          "path": "LICENSE.txt",
+          "sha256": "01fb016849aa427edb1bbbbd55f91c26ca6cadb32a5b20e7f000655dd05b0760",
+          "url": "https://raw.githubusercontent.com/numpy/numpy/2b686f659642080e2fc708719385de6e8be0955f/LICENSE.txt"
+        }
+      ],
+      "name": "numpy",
+      "providers": [
+        "gp",
+        "green",
+        "triqs"
+      ],
+      "repository": "https://github.com/numpy/numpy",
+      "revision": "2b686f659642080e2fc708719385de6e8be0955f",
+      "status": "source_license_files_observed",
+      "version": "2.2.6"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1531,
+          "header_lines": [
+            "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.",
+            "All rights reserved.",
+            "Redistribution and use in source and binary forms, with or without"
+          ],
+          "path": "LICENSE.txt",
+          "sha256": "221e59f5e910fd7f94e44f0dac77436a11338c285c6346232e4a850a50da0e94",
+          "url": "https://raw.githubusercontent.com/scipy/scipy/e4e854eaa8f18d807cd3496028e257e36caa93cc/LICENSE.txt"
+        }
+      ],
+      "name": "scipy",
+      "providers": [
+        "gp",
+        "triqs"
+      ],
+      "repository": "https://github.com/scipy/scipy",
+      "revision": "e4e854eaa8f18d807cd3496028e257e36caa93cc",
+      "status": "source_license_files_observed",
+      "version": "1.18.1"
+    },
+    {
+      "license_files": [
+        {
+          "bytes": 1537,
+          "header_lines": [
+            "Copyright (c) 2005-2021 Fredrik Johansson and mpmath contributors",
+            "All rights reserved.",
+            "Redistribution and use in source and binary forms, with or without"
+          ],
+          "path": "LICENSE",
+          "sha256": "c26cae81da4508e5e249985777a33821f183223ebb74d7f8cfbf90fe7eef2fb7",
+          "url": "https://raw.githubusercontent.com/mpmath/mpmath/b5c04506ef0cd4a1f1213f8389ee21c9c3551582/LICENSE"
+        }
+      ],
+      "name": "mpmath",
+      "providers": [
+        "gp",
+        "triqs"
+      ],
+      "repository": "https://github.com/mpmath/mpmath",
+      "revision": "b5c04506ef0cd4a1f1213f8389ee21c9c3551582",
+      "status": "source_license_files_observed",
+      "version": "1.3.0"
+    }
+  ],
+  "transitive_status": "Executed conda inventory sidecars record available declared package license metadata; uv/requirements locks retain Python distribution identities. This source-file inventory does not enumerate every OS/Python transitive or vendored notice and is not EJ's complete release notice/corresponding-source package."
+}
