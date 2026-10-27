@@ -41,6 +41,11 @@ Matsubara inputs are **ordinary integer indices** `n`, giving frequencies
 supported; `axis=` selects the observation axis. The basis caches factorizations
 and evaluation designs for reuse.
 
+The development checkout additionally supports Matsubara observation fitting
+and optional TRIQS 4.0.2 interoperability, targeting 1.2.0. These are not part of
+the immutable 1.1.0 package installed above. See the
+[development API and archive migration notes](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/APPLICATION.md#frequency-fitting-and-triqs-interoperability-unreleased-ec-source).
+
 ## Optional reference acceleration
 
 ```python

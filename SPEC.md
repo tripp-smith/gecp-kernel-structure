@@ -2997,3 +2997,10 @@ This annotation records delivered identifiers without changing the goals above.
   Six actual platform/provider executions pass at `d5f58a1`; final locked
   revision/main acceptance is recorded in the PR. This closes no EC–EJ
   scientific application gate and changes no original theorem or 1.1.0 asset.
+
+- **Phase EC implementation contract:** adds cached ordinary-index Matsubara
+  fitting, observation-domain diagnostics, v2 archives with actual public-v1
+  compatibility checks, and optional actual TRIQS 4.0.2 single-Gf/block recipes.
+  Numerical fits preserve supplied observations without implicit symmetry and
+  do not strengthen the exact-GECP theorem or time-fit certificate scope.
+  Root/provider/exact-head/main delivery remains required after EB acceptance.

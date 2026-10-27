@@ -58,6 +58,21 @@ jobs:
             --source-revision "$(git rev-parse HEAD)"
           python scripts/providers/verify_receipt.py artifacts/triqs.json \
             --provider triqs --source-revision "$(git rev-parse HEAD)"
+      - name: Build and install the source adapter candidate
+        run: |
+          python -m pip wheel --no-deps . --wheel-dir artifacts/adapter-dist
+          python -m pip install --no-deps --force-reinstall artifacts/adapter-dist/*.whl
+          python -m pip install pytest==9.0.3
+      - name: Test actual installed TRIQS interoperability outside the checkout
+        run: |
+          project_root="$PWD"
+          checked_revision="$(git rev-parse HEAD)"
+          cd "$RUNNER_TEMP"
+          python -m pytest "$project_root/tests/test_triqs_integration.py" \
+            --import-mode=importlib -q
+          python "$project_root/scripts/providers/triqs_adapter_smoke.py" \
+            --require-installed --source-revision "$checked_revision" \
+            --output "$project_root/artifacts/triqs-adapter.json"
       - name: Record actually executed runtime locks
         run: |
           python scripts/providers/export_conda_lock.py \

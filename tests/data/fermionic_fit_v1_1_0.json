@@ -1,0 +1,65 @@
+{
+  "archive_sha256": "e04197a961212b785d694062080bd67e0af9a6d5e8190709094ccc939da643cd",
+  "beta": 4.0,
+  "energies": [
+    -0.4,
+    0.25
+  ],
+  "generator_version": "1.1.0",
+  "installed_module_outside_checkout": true,
+  "installed_wheel_tags": [
+    "cp312-abi3-macosx_11_0_arm64"
+  ],
+  "numpy_version": "2.5.4",
+  "public_wheel_filename": "kernelgecp-1.1.0-cp312-abi3-macosx_11_0_arm64.whl",
+  "public_wheel_sha256": "461bb3fab23898f30ad8658d0fa095edc492bd525c440500971c14a4b956b0ae",
+  "rank": 10,
+  "residues_imag": [
+    [
+      [
+        0.0,
+        0.1
+      ],
+      [
+        -0.1,
+        0.0
+      ]
+    ],
+    [
+      [
+        0.0,
+        -0.1
+      ],
+      [
+        0.1,
+        0.0
+      ]
+    ]
+  ],
+  "residues_real": [
+    [
+      [
+        0.6,
+        0.0
+      ],
+      [
+        -0.0,
+        0.3
+      ]
+    ],
+    [
+      [
+        0.4,
+        -0.0
+      ],
+      [
+        0.0,
+        0.7
+      ]
+    ]
+  ],
+  "scope": "actual_PyPI_1.1.0_writer_legacy_archive_fixture",
+  "tol": 1e-08,
+  "training_count": 81,
+  "wmax": 1.0
+}

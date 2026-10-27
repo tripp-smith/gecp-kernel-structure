@@ -2370,3 +2370,22 @@ whole-solver acceleration or publication of 1.2.0. Those are separate EC–EJ
 gates. Setup/build/native startup failures and receipt/exporter omissions are
 retained in the environment guides and phase receipt; no failed attempt was
 counted as a successful provider calculation.
+
+## EC development: observation domain and interoperability boundaries
+
+The new source API fits supplied ordinary-index Matsubara observations with
+the same cached complex SVD machinery as time observations, retaining explicit
+observation-domain metadata. Coefficients remain cardinal-time coefficients.
+Format-v2 archives retain that domain and the reader preserves v1 predictions;
+an actual public 1.1.0 wheel generated the frozen compatibility fixture.
+Source implementation and domain/provider tests are distinct from pending
+phase acceptance and publication of 1.2.0.
+
+Positive-only unconstrained complex least squares does not imply a reliable
+time-domain continuation or negative-frequency prediction. A pilot design
+with condition number around 1e12 fits positive observations well while its
+time prediction misses by around 1e-3. The fitter therefore preserves explicit
+observations and exposes rank/conditioning rather than silently enforcing a
+symmetry. Real-provider exports from a validated time fit remain a separate
+operation. Neither a training residual nor the existing time-fit precision
+certificate becomes a frequency-fit physical certificate.
