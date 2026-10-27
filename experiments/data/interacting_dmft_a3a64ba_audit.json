@@ -1,0 +1,52 @@
+{
+  "audited_records": {
+    "compressed": 27,
+    "dense": 9
+  },
+  "auditor_source_sha256": "13f43d3ca725641bace2de7dc02dbc5ee301b56f88aec9968b22f1c60336c9bf",
+  "campaign_report_sha256": "6658b543a252a4150757e632386639d373254e0f4c12d30a8022ab67defc3223",
+  "certification_status": "not_certified",
+  "checks": {
+    "finite_pole_oracle": true,
+    "records": true,
+    "reference": true,
+    "repetitions": true,
+    "selection_and_environment": true,
+    "source_bindings": true
+  },
+  "failures": [],
+  "finite_pole_oracle": {
+    "frequency_error_max": 1.413113085178966e-16,
+    "passed": true,
+    "quadrature_decimal_digits": 70,
+    "scope": "positive_finite_pole_fixture_only_not_interacting_DMFT_tail_bound",
+    "spectral_mass_error": 1.194313531896221e-16,
+    "tail_index": 64,
+    "tail_remainder": 1.415725667129044e-08,
+    "tail_remainder_bound": 2.3450335806691504e-07,
+    "tail_terms": 6
+  },
+  "passed": true,
+  "repetition_array_sha256": {
+    "dense_triqs-U0.0": "f27d1db1eff22936f0c1ed1b42e4251e0a5a0b0b87cce966681513a196c6b7a3",
+    "dense_triqs-U1.0": "1162fd2ae13f5fbd2ca6225d71eab4515d86aef52552a7b8f6680ce32e63e31e",
+    "dense_triqs-U2.0": "f1e0702514563960cdd5fd15c00e73d0010138ac0b3b1b06db8037a1b0d58531",
+    "kernelgecp-U0.0": "61ab3d3ff97d6fb193ed807c5d20b3ee5c760ac787ab33013f7c41be545a35be",
+    "kernelgecp-U1.0": "5536644acac201a5e95854360a156d70025432ee652aec473a44c99861560c42",
+    "kernelgecp-U2.0": "2ad734acdb0bc90bd092bf0c160ef73e2478ce7486632e0165c7ba7aeffeb792",
+    "pydlr-U0.0": "6f808821c307255a2b12246b6e4e75608d8f5491ee3ff09d4f857feeb923e9c9",
+    "pydlr-U1.0": "bcbfa2b8bbb360fbcabcf2294452314fe8625b6b5c432fc7de9cbf1998c21ee6",
+    "pydlr-U2.0": "2ad2a3ccda6b3a87c1a992f58a3e0a2dd23be1dced7940a832e1b42fcac61bc4",
+    "sparse_ir-U0.0": "c6eb7167df2d8ee6b873385e19059ff1338e005ad6c4dd28915b1c28937def7e",
+    "sparse_ir-U1.0": "be5715bbf49535fa975c5e07279fbb9b822020dc7f0cbc492edd9ee5a909a97b",
+    "sparse_ir-U2.0": "036cfa2dfe4f8d3ab55b9ff8c3bd7cbdccb5c51544b377101ed2636247c49e50"
+  },
+  "saved_equation_residual_maxima": {
+    "dyson_equation": 3.3306690738754696e-16,
+    "reflected_product": 8.326672684688674e-16,
+    "weiss_equation": 3.3306690738754696e-16
+  },
+  "schema": "kernelgecp.interacting-dmft-audit.v1",
+  "scope": "saved_equations_sampled_native_reference_and_finite_fixture_bound",
+  "source_revision": "a3a64baa4f48a7627a7f7bd9edf2410c327c92f7"
+}

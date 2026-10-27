@@ -1032,7 +1032,12 @@ def main() -> None:
             }
         )
     )
-    if not result["campaign_checks_passed"]:
+    accepted = (
+        result["campaign_checks_passed"]
+        if args.pilot
+        else result["all_mandatory_passed"]
+    )
+    if not accepted:
         raise SystemExit(1)
 
 

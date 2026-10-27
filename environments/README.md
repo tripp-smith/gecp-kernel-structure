@@ -49,6 +49,14 @@ their apt package manifests are observations, not a bitwise-hermetic OS claim.
 
 ## Scope, notices and resource limits
 
+ED additionally installs pydlr 1.0.1, sparse-ir 2.1.6 and pylibsparseir 0.12.0
+with `--no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt`.
+The lock admits the actual Python 3.12 Linux x86_64/macOS arm64 wheels and
+keeps the conda NumPy/SciPy/mpmath unchanged. The companion
+`dlr-physics-inventory.json` records observed installed wheel license files;
+the campaign separately records the complete actual Python environment and
+provider versions. Missing providers fail the dedicated scientific lane.
+
 [provider-licenses.json](provider-licenses.json) records observed license/notice
 files at exact source revisions. It explicitly records devXlib's missing
 standalone license file and observed source-header notice. It does not infer

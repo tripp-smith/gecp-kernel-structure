@@ -2,6 +2,16 @@ name: Molecular Green GF2
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main, "codex/**"]
+    paths:
+      - "kernelgecp/integrations/green.py"
+      - "experiments/molecular_*.py"
+      - "scripts/providers/green_molecular_runs.py"
+      - "scripts/providers/bind_green_manifest.py"
+      - "environments/green/**"
+      - "environments/green-science/**"
+      - ".github/workflows/molecular-green.yml"
   pull_request:
     paths:
       - "kernelgecp/integrations/green.py"
