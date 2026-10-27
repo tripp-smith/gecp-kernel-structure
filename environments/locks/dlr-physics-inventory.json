@@ -1,0 +1,63 @@
+{
+  "packages": [
+    {
+      "distribution": "pydlr",
+      "installed_license_files": [],
+      "metadata_license_expression": null,
+      "project_urls": [
+        "Documentation, https://libdlr.readthedocs.io"
+      ],
+      "version": "1.0.1"
+    },
+    {
+      "distribution": "sparse-ir",
+      "installed_license_files": [
+        {
+          "bytes": 1079,
+          "header_lines": [
+            "Copyright (c) 2020-2021 Markus Wallerberger and others",
+            "",
+            "Permission is hereby granted, free of charge, to any person obtaining",
+            "a copy of this software and associated documentation files (the"
+          ],
+          "path": "sparse_ir-2.1.6.dist-info/licenses/LICENSE.txt",
+          "sha256": "ded1a503440d62c7e3113690a893b42319dee4f435e8f3552620dc1ac807111d"
+        }
+      ],
+      "metadata_license_expression": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/SpM-lab/sparse-r",
+        "Repository, https://github.com/SpM-lab/sparse-r",
+        "Bug Tracker, https://github.com/SpM-lab/sparse-r/issues"
+      ],
+      "version": "2.1.6"
+    },
+    {
+      "distribution": "pylibsparseir",
+      "installed_license_files": [
+        {
+          "bytes": 1064,
+          "header_lines": [
+            "MIT License",
+            "",
+            "Copyright (c) 2024 SpM-lab",
+            ""
+          ],
+          "path": "pylibsparseir-0.12.0.dist-info/licenses/LICENSE",
+          "sha256": "7fb3bf0a848f256f5f9accd3381702b4a0c1d9031f3ecad8c8be359f213723ea"
+        }
+      ],
+      "metadata_license_expression": null,
+      "project_urls": [
+        "Homepage, https://github.com/SpM-lab/sparse-ir-rs",
+        "Documentation, https://github.com/SpM-lab/sparse-ir-rs",
+        "Repository, https://github.com/SpM-lab/sparse-ir-rs",
+        "Issues, https://github.com/SpM-lab/sparse-ir-rs/issues"
+      ],
+      "version": "0.12.0"
+    }
+  ],
+  "platform": "macOS_arm64_Python3.12",
+  "schema": "kernelgecp.dlr-physics-wheel-inventory.v1",
+  "scope": "observed_pinned_optional_wheel_license_files_not_combined_binary_redistribution"
+}
