@@ -3018,3 +3018,9 @@ This annotation records delivered identifiers without changing the goals above.
   immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
   Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
   full campaign, root verification and delivery remain pending.
+- **Phase EE implementation contract:** actual CT-HYB measured-time feedback
+  through native Fourier and GECP representations, independent cycle-budget
+  calibration/final replicas, observable covariance and three-provider frozen
+  measurement replay. RESEARCH.md records the bounded protocol and explicit
+  inconclusive outcomes. No original mathematical goal, 1.1.0 artifact or
+  EE uncertainty/physical-agreement target is rewritten.

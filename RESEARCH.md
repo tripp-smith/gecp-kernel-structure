@@ -11333,3 +11333,73 @@ PR #135. ED exact-model helpers pass 62 independent CAR/Fock/expm/finite-pole
 checks; the solver passes 57 pole/QR/quadrature/controller/ownership checks.
 The actual pinned native reference passes 15 tests. These focused checks do
 not close ED's canonical campaign, full root or delivery obligations.
+
+## Phase EE — measured CT-HYB Bethe DMFT implementation contract
+
+Implement the unchanged EE obligation in PRODUCTION_INTEGRATIONS.md, using
+the actual pinned TRIQS 4.0.2/CT-HYB 4.0.1 solver, beta=10, U=2, hopping=1,
+mu=U/2 and the explicitly paramagnetic single-band Bethe bath. This worktree
+starts from ED implementation `a3a64ba`; ED acceptance and delivery remain a
+separate root-owned gate. No new Lean theorem or exact-Hubbard-model claim is
+proposed. The published 1.1.0 release and its historical evidence are unchanged.
+
+Named outputs are the optional public module
+`kernelgecp.integrations.cthyb_dmft`, actual-provider tests and smoke probe,
+and `experiments.cthyb_dmft` with a frozen TOML protocol and independently
+auditable measurement archives. Imports stay lazy. An impurity measurement
+retains both spin blocks of native G_tau/G_iw, native density-matrix Green and
+Sigma moments, occupancies, double occupancy, sign, solve status, input bath,
+cycle/thermalization/seed settings and package/source identities. Safe immutable
+arrays and finite, shape, physical-domain and resume/provenance validation are
+required. No operator or spin axis is inferred from file names.
+
+Each dense update uses native CT-HYB postprocessing; each GECP update fits
+the actual measured G_tau and reconstructs G_iw before mixing the new Bethe
+bath. Spin averaging explicitly enforces the declared paramagnetic bath; it
+does not replace or erase the measured spin-resolved data. Both paths apply
+the same native moment/tail-window handling. Static Hartree and mu conventions
+remain explicit. Replay GECP, pydlr and sparse-ir on identical frozen time
+measurements and the same least-squares observations/rcond; reserve time rows
+for representation validation. Record residuals, retained ranks, conditioning,
+tail changes and low-frequency/final observable differences. Native tolerance
+is not interpreted as a physical error certificate.
+
+Canonical sampling calibrates the prescribed cycle ladder 100000, 400000,
+1600000, each with independent seeds and recorded warmup and length_cycle.
+Choose and freeze the lowest passing budget using calibration replicas only;
+do not retry or tune on final replicas. The configured replica count, warmup,
+loop cap, stopping threshold and validation indices are frozen before final
+generation. Final dense and GECP loops use disjoint seeds. Once baths diverge,
+matching seeds would not establish paired Monte Carlo paths. Final fixed-bath
+replicas are fresh and independent of loop/calibration samples, preserve the
+raw measurements for EH, and estimate standard errors across independent
+replica means with sample variance (not raw time-bin scatter). Retain full
+observable covariance and distinguish Monte Carlo uncertainty, measured-data
+representation discrepancy and stochastic self-consistency defect. A finite
+stochastic controller threshold is not ED's deterministic 1e-8 criterion.
+
+Acceptance is the existing EE requirement: density, double occupancy and
+predeclared selected Green values agree between the independently converged
+dense and GECP baths within 1e-3 plus three combined standard errors, with
+observable standard errors <=3e-4. Add independent fresh fixed-bath residual
+checks and explicit iteration/budget exhaustion. Calibration may not raise
+the maximum 1600000-cycle budget or silently relax the uncertainty target;
+an exhausted campaign is inconclusive. Native-grid/cutoff sensitivity and
+the three-provider frozen replay are separate recorded gates, not substitutes
+for stochastic closed-loop evidence. No required speedup is claimed.
+
+Execute with one MPI rank and one BLAS/OpenMP thread on bounded CPU memory;
+no paid compute. The campaign writes atomic per-measurement checkpoints,
+detects source/config/hash mismatches and resumes completed verified work.
+A fast actual-provider CI case proves native execution, moments, measured
+feedback and replay wiring but cannot close the canonical uncertainty gate.
+Require independent archive/acceptance checks, focused negative tests, actual
+provider execution, the full `./scripts/verify.sh`, exact-revision CI and
+authorized delivery. This branch is not pushed or merged during preparation.
+
+Primary provider behavior is checked against installed 4.0.1 solver source
+and the official [density-matrix measurement documentation](https://triqs.github.io/cthyb/latest/basicnotions/measurements.html),
+[native moments guide](https://triqs.github.io/cthyb/latest/guide/static_observables_notebook.html)
+and [CT-HYB convergence guide](https://triqs.github.io/cthyb/latest/guide/cthyb_convergence_tests.html).
+The density matrix requires both measure_density_matrix and use_norm_as_weight;
+native density-matrix moments are recorded rather than fitted from noisy tails.
