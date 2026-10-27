@@ -3024,3 +3024,9 @@ This annotation records delivered identifiers without changing the goals above.
   measurement replay. RESEARCH.md records the bounded protocol and explicit
   inconclusive outcomes. No original mathematical goal, 1.1.0 artifact or
   EE uncertainty/physical-agreement target is rewritten.
+- **Phase ED delivered acceptance:** PR #136 is merged and pushed as main
+  `7530ec7`; full root (2,109 passed, 27 optional skips) and all four exact-main
+  workflows pass. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)
+  binds the inherited frozen campaign, independent audit and final delivery.
+  New production integration scope is approximately 30% complete by its
+  acceptance obligations. No original mathematical goal changes.

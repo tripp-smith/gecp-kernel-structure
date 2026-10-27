@@ -1676,6 +1676,9 @@ representation to inspect the actual compressed output. `estimate_replicas`
 uses sample covariance across at least two independent fixed-bath chain means;
 the caller must establish independence with distinct seeds and fresh chains.
 Time-bin scatter and loop-iteration scatter are not standard-error estimates.
+The returned covariance is the sample covariance of chain means; covariance
+of the final ensemble average is that matrix divided by the replica count.
+The independent saved-chain audit stores both explicitly for later EH use.
 
 The source campaign `python -m experiments.cthyb_dmft all --output PATH` uses
 the frozen protocol in `experiments/cthyb_dmft.toml`. Calibration/final seeds

@@ -8,6 +8,9 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
+import subprocess
+import sys
 import zipfile
 from pathlib import Path
 
@@ -237,6 +240,11 @@ def test_actual_measured_feedback_and_unobserved_rows(
     second = plan.represent(modified)
     np.testing.assert_array_equal(rep.coefficients, second.coefficients)
     assert second.validation_residual > 99
+    expected_green = rep.g_iw[plan.config.n_iw].mean()
+    np.testing.assert_allclose(
+        plan.observables(m, [0], representation=rep)[2:],
+        [expected_green.real, expected_green.imag],
+    )
     for array in (rep.g_tau, rep.g_iw, rep.coefficients, bath, plan.indices, plan.tau):
         with pytest.raises(ValueError):
             array.setflags(write=True)
@@ -324,3 +332,52 @@ def test_resume_checks_seed_cycles_and_actual_bath(tmp_path: Path) -> None:
             _sample(Plan(), bath, cycles, seed, stem, {})
     result = _sample(Plan(), m.bath_iw, 100, 123, stem, {})
     assert result.seed == 123
+
+
+@pytest.mark.parametrize("mode", ["wrong_revision", "checkout_import"])
+def test_native_smoke_rejects_wrong_provenance_with_nonzero_exit(
+    tmp_path: Path, mode: str
+) -> None:
+    root = Path(__file__).resolve().parents[1]
+    revision = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=root, text=True
+    ).strip()
+    output = tmp_path / "rejected.json"
+    command = [
+        sys.executable,
+        str(root / "scripts/providers/cthyb_smoke.py"),
+        "--output",
+        str(output),
+        "--source-revision",
+        "0" * 40 if mode == "wrong_revision" else revision,
+    ]
+    if mode == "checkout_import":
+        command.append("--require-installed")
+    environment = {
+        **os.environ,
+        "PYTHONPATH": str(root),
+        **{
+            name: "1"
+            for name in (
+                "OMP_NUM_THREADS",
+                "OPENBLAS_NUM_THREADS",
+                "MKL_NUM_THREADS",
+                "VECLIB_MAXIMUM_THREADS",
+                "NUMEXPR_NUM_THREADS",
+                "BLIS_NUM_THREADS",
+            )
+        },
+    }
+    result = subprocess.run(
+        command, cwd=tmp_path, env=environment, capture_output=True, text=True
+    )
+    assert result.returncode != 0
+    receipt = json.loads(output.read_text())
+    assert receipt["status"] == "failed"
+    assert (
+        "revision" in receipt["error"]
+        if mode == "wrong_revision"
+        else any(
+            word in receipt["error"] for word in ("editable", "wheel", "installed")
+        )
+    )
