@@ -6,7 +6,7 @@ An unchecked requirement remains open even when a related phase or test passes.
 DU's revision-specific receipt is [PR #127](https://github.com/tripp-smith/gecp-kernel-structure/pull/127);
 DV's full root/platform/install and merged-main closure is in
 [PR #128](https://github.com/tripp-smith/gecp-kernel-structure/pull/128).
-All controlled functional requirements are now delivered in
+All controlled requirements of the completed DU–EA application scope are delivered in
 [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and the
 [GitHub release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0).
 The [release receipt](RELEASE_RECEIPT.md) records the immutable source, tested
@@ -16,6 +16,8 @@ The maintainer-invited [executable notebook PR #10](https://github.com/SpM-lab/s
 is submitted and locally verified; [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)
 owns this repository's final adoption-record acceptance. Current upstream
 review, CI approval and merge decisions remain with its maintainers.
+The separately authorized [production integration extension](#production-integrations-12)
+is in progress; its required 1.2.0 capabilities are not delivered by 1.1.0.
 
 ## Required end state
 
@@ -84,3 +86,31 @@ public JSON/simple-index hashes match all four tested distributions. Final
 handoff and a bounded readiness-backoff correction are tracked in PR #132;
 released assets remain unchanged. The public upstream proposal is delivered,
 while maintainer acceptance remains pending.
+
+## Production integrations 1.2
+
+The user authorized implementation of the complete [production integration
+contract](PRODUCTION_INTEGRATIONS.md). This is additional application scope;
+the original mathematical goals and published 1.1.0 acceptance above remain
+frozen. Production support means tested public adapters and real-provider
+workflows, with a closed-loop DMFT integration. Green and EPW internal solvers
+remain native. Upstream acceptance is not a delivery gate.
+
+| Phase | Mandatory output | Current acceptance |
+| --- | --- | --- |
+| EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
+| EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | pending EB |
+| ED | Deterministic interacting Bethe IPT with independent references | pending EC |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | pending ED |
+| EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
+| EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
+| EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | pending EB |
+| EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
+
+Completion starts at 0% of this new contract; EB runtime execution now has real
+evidence, while EC–EJ domain/release acceptance remains open. Each phase requires its named
+acceptance evidence, root verification, exact-revision CI, authorized merge,
+and pushed-main verification. A runtime lane that skips because its promised
+provider is missing does not close EB or its dependent application. Failed
+mandatory cases remain open; no universal speedup is required.

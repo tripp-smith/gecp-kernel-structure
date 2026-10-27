@@ -11117,3 +11117,75 @@ not an upstream CI pass or source-execution failure. Current review/CI/merge
 state is linked at the PR; no adoption or merger is inferred. All controlled
 contribution work is delivered, with this repository's exact final branch/main
 verification and authorized delivery recorded externally in PR #133.
+
+## Phase EB — production integration environments and program contract
+
+The user requested implementation of all five application areas, including
+production provider adapters and both deterministic and Monte Carlo DMFT.
+The accepted detailed contract is [PRODUCTION_INTEGRATIONS.md](PRODUCTION_INTEGRATIONS.md);
+the acceptance ledger remains [PRODUCTIZATION.md](PRODUCTIZATION.md#production-integrations-12).
+Existing original-SPEC results and the immutable 1.1.0 release are prerequisites,
+not reopened obligations. No new Lean statement is required for this runtime
+phase; all existing public theorem consumers and axiom gates remain required.
+
+EB outputs are isolated provider specifications/locks, native environment build
+recipes, minimal calculation probes, a fail-closed provider CI workflow,
+execution receipts with exact source/environment identity, and installation
+instructions. Providers are TRIQS 4.0.2/CT-HYB 4.0.1/MaxEnt 4.0.1,
+Green 1.0.0/PySCF 2.14.0, qe-7.5/EPW 6.0, and CPU GPyTorch. Only actual imports
+and numerical/native smoke execution establish provider acceptance. Solvable
+metadata, a compiled executable, or fixture presence alone is insufficient.
+
+Use Linux x86_64 as the canonical native-solver target and record local macOS
+arm64 checks separately. Keep optional stacks out of the default pip environment;
+limit local native builds to two jobs, one MPI rank and one BLAS/OpenMP thread.
+Hosted jobs are limited to 330 minutes. The base public API and release version
+remain unchanged in EB. No internal Green/EPW acceleration, physical accuracy,
+domain phase completion, continuous numerical certificate, or new performance
+result is claimed by this phase.
+
+Verification: focused probe/receipt rejection tests, actual native/provider
+calculation logs with package/source/build identities, `./scripts/verify.sh`,
+all exact-head source/distribution/native/provider CI, then exact-main checks.
+Preserve failed setup attempts and clearly distinguish build/import/smoke success
+from the later domain-specific numerical acceptance. Final source and delivery
+receipts belong in the phase PR, avoiding self-referential commit hashes.
+
+The draft phase PR is [#134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134).
+Local pre-freeze TRIQS/CT-HYB/MaxEnt and CPU GP calculations pass, with exact
+provider versions and independent numerical checks. The initial TRIQS namespace
+failure is retained in environments/TRIQS.md. An initial GP invocation carried
+an incorrect revision argument; its unaccepted pilot receipt is not canonical
+evidence and was rerun with the actual Git HEAD. Receipt-gate review also found
+that generic import/numerical booleans omitted the domain's quantitative
+evidence; provider-specific checks and rejection regressions now prevent that
+false-pass path. Native Green/EPW execution and final-source verification remain
+pending; nothing in this opening record closes those gates.
+
+### EB actual provider execution and replay closure
+
+All six platform/provider jobs pass on source `d5f58a1` in workflow 40403723259.
+TRIQS/CT-HYB/MaxEnt and CPU GP execute on Linux and macOS; native Linux Green
+and EPW perform actual calculations. The H2 GF2 run converges in 83 iterations,
+with summed energy change `9.79260735e-11` and final Green change
+`4.46208903e-11`, below the fixed `1e-10`/`1e-6` gates. Coarse native MgB2
+executes SCF, DFPT and the isotropic 15 K Eliashberg solve, producing 62 native
+frequencies and a positive gap; this is runtime evidence, not a converged
+experimental prediction or EG restart acceptance.
+
+Failed Green runs are preserved: the disconnected source lock initially
+omitted nested magic_enum, then the actual GF2 startup looked for an integral
+directory not produced by the molecular generator. Both repairs retain fixed
+source identities and the unmodified native solver. The initial common gate
+also required stronger provider-specific quantitative evidence, and initial
+micromamba listing output was not a replayable explicit file. Regression gates
+now reject those false-pass/incomplete-lock paths.
+
+The actual Mac 131-package conda environment is replayed into a fresh isolated
+environment; exported lock/inventory bytes match and a native resolvent passes.
+Official micromamba 2.9.0-0 consumes the SHA256 explicit format correctly. Linux
+locks/inventories originate from successful actual Linux CI execution. MaxEnt
+has a separate hash-pinned pip lock; no unrecorded inference treats it as part
+of the conda replay. Pinned license/notice observations and source-header
+limitations are in environments/provider-licenses.json. Final checked source,
+full root/CI, merge and exact-main receipt remain external in PR #134.

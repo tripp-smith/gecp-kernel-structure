@@ -1,0 +1,65 @@
+{
+  "schema": "kernelgecp.epw-sources.v1",
+  "provider": "epw",
+  "qe_version": "7.5",
+  "epw_version": "6.0",
+  "base_image": "ubuntu:24.04@sha256:a2d43bffc46670d7108bb3c0468c67c5557c4c92e83e1e34cbff1322ad1b94dc",
+  "sources": [
+    {
+      "name": "qe",
+      "commit": "770a0b2d12928a67048e2f3da8d10d057e52179e",
+      "tag": "qe-7.5",
+      "url": "https://codeload.github.com/QEF/q-e/tar.gz/770a0b2d12928a67048e2f3da8d10d057e52179e",
+      "sha256": "482396b72a46e5e7b3fd67049b35ec5177c0dd176010a343358da06a825a7185",
+      "bytes": 72502140,
+      "destination": "."
+    },
+    {
+      "name": "wannier90",
+      "commit": "1d6b187374a2d50b509e5e79e2cab01a79ff7ce1",
+      "url": "https://codeload.github.com/wannier-developers/wannier90/tar.gz/1d6b187374a2d50b509e5e79e2cab01a79ff7ce1",
+      "sha256": "e5936d20c4e19f458335a53a1ec94ac993e54b09ee0e44b3184ac13c0f2758ad",
+      "bytes": 101226267,
+      "destination": "external/wannier90"
+    },
+    {
+      "name": "mbd",
+      "commit": "89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd",
+      "url": "https://codeload.github.com/libmbd/libmbd/tar.gz/89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd",
+      "sha256": "956eaa8659a24e59573a64e78372cee9f299b4bf0a89a82f6bf98685034c7736",
+      "bytes": 97594,
+      "destination": "external/mbd"
+    },
+    {
+      "name": "devxlib",
+      "commit": "a6b89ef77b1ceda48e967921f1f5488d2df9226d",
+      "url": "https://gitlab.com/max-centre/components/devicexlib/-/archive/a6b89ef77b1ceda48e967921f1f5488d2df9226d/devicexlib-a6b89ef77b1ceda48e967921f1f5488d2df9226d.tar.gz",
+      "sha256": "39d55ae63168f9692ab649e7cededb3bc181580f450d30d5d4deeb008ea4a29c",
+      "bytes": 5322036,
+      "destination": "external/devxlib"
+    }
+  ],
+  "pseudopotentials": [
+    {
+      "name": "Mg.pz-n-vbc.UPF",
+      "url": "https://pseudopotentials.quantum-espresso.org/upf_files/Mg.pz-n-vbc.UPF",
+      "sha256": "2e3c634dd5e71bde760e089882cfcf8d4ff1f166880d012dc3d6061d8f21816c",
+      "bytes": 34575
+    },
+    {
+      "name": "B.pz-vbc.UPF",
+      "url": "https://pseudopotentials.quantum-espresso.org/upf_files/B.pz-vbc.UPF",
+      "sha256": "4011d1208df59cb001850b5f5ad45636059e3e6ae9d528d7dc78240b5218d833",
+      "bytes": 25092
+    }
+  ],
+  "calculation": {
+    "upstream_directory": "test-suite/epw_super",
+    "inputs": ["scf.in", "ph.in", "scf_epw.in", "nscf_epw.in", "epw1.in"],
+    "material": "MgB2",
+    "scope": "official_coarse_native_runtime_smoke_not_converged_material_prediction",
+    "mpi_ranks": 1,
+    "openmp_threads": 1,
+    "build_jobs": 2
+  }
+}
