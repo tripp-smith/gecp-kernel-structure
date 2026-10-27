@@ -3004,3 +3004,12 @@ This annotation records delivered identifiers without changing the goals above.
   Numerical fits preserve supplied observations without implicit symmetry and
   do not strengthen the exact-GECP theorem or time-fit certificate scope.
   Root/provider/exact-head/main delivery remains required after EB acceptance.
+
+- **Phase EI implementation contract:** isolated scalable covariance work adds
+  an immutable column-oracle KernelCholeskyFactor, out-of-sample triangular
+  extension, SciPy operators/shifted solves and optional frozen CPU float64
+  GPyTorch conversion while preserving dense pivoted_cholesky. The contract
+  in RESEARCH.md retains all UCI real-data, accuracy, memory, provider and
+  exact-revision delivery gates in PRODUCTION_INTEGRATIONS.md. Implementation
+  and domain acceptance are in progress; no original mathematical goal or
+  published 1.1.0 evidence is changed.

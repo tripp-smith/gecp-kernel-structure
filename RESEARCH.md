@@ -11254,3 +11254,51 @@ The independent closed-form minimum-norm oracle now uses the actual factored
 row and explicitly checks that all four rows agree. Its strict tolerance is
 unchanged; no production algorithm or physical accuracy target is relaxed.
 The failed exact-source CI log is retained and final root/CI must pass again.
+
+## Phase EI — scalable covariance and GP contract
+
+Implement the EI obligation in PRODUCTION_INTEGRATIONS.md on an isolated
+branch based on merged EC `64e9f34`. Original SPEC mathematical statements,
+the dense pivoted_cholesky interface and immutable 1.1.0 releases are unchanged.
+No new Lean result or numerical PSD certificate is claimed.
+
+Add kernelgecp.kernel_cholesky.KernelCholeskyFactor.from_columns for an explicit
+finite diagonal and a scalar-index column callback. Own immutable float64
+factor/pivot/residual arrays and record stopping, deterministic tie selection,
+roundoff allowances, callback consistency checks and the unverified global PSD
+assumption. Construction may request one length-n column per selected pivot
+and retain O(n*r) numerical state; it must not form a full n-by-n kernel or
+residual matrix. Preserve exact zero-rank, duplicate and rank-deficient cases.
+Reject nonfinite, boolean, wrongly shaped or inconsistent callback data and
+material negative residuals; callback checks do not establish unseen symmetry
+or positive semidefiniteness.
+
+Out-of-sample extension accepts only cross-kernel entries against selected
+pivots and uses triangular solves. Expose SciPy LinearOperator multiplication,
+strictly positive scalar/diagonal shifted solves and preconditioners, plus
+optional lazy CPU float64 GPyTorch conversion of the identical frozen factor.
+No autograd through pivot selection or provider-dependent dense fallback is
+supported. Use a stable solve formulation, retain conditioning/residual
+diagnostics and fail explicitly on unrepresentable or inaccurate solves.
+
+Meaningful focused checks compare small factors and predictions with independent
+dense SciPy factorizations; exercise duplicate sites, low rank, canonical ties,
+empty/rank-zero inputs, callbacks, ownership, out-of-sample points, tiny noise,
+shifted operator/solve/preconditioner agreement and actual locked CPU GPyTorch.
+Default imports must not require torch/gpytorch. Focused Python tests, Ruff and
+strict mypy precede the full ./scripts/verify.sh and exact-source provider CI.
+
+The mandatory real-data campaign uses hash-pinned attributed UCI Beijing
+Aotizhongxin PM2.5/meteorology observations with chronological
+train/calibration/test partitions and training-only normalization. Sizes are
+512 through 16384, with ranks 32/64/128/256/512. At n<=2048 the normalized RMS
+mean and standard-deviation discrepancy against dense SciPy must be <=1e-3
+and maxima <=1e-2. Approximate-system solve residual is <=1e-10 and original-
+kernel preconditioned CG residual <=1e-8. At n=16384 retained numerical state
+is <=128 MiB and fresh-process RSS <=4 GiB. Freeze sources/configuration and
+keep calibration separate from untouched validation; three fresh repeats are
+required for performance claims. Preserve failed/slower cases. Root will
+coordinate this campaign after implementation; no concurrent >512 MiB local
+workload, real-data pass, universal speedup, optimal sensor placement or phase
+completion is inferred from synthetic unit tests. Final API/docs/claim updates,
+full root, exact-head CI, authorized merge and pushed-main checks remain open.
