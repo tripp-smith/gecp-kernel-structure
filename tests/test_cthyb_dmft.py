@@ -385,6 +385,7 @@ def test_native_smoke_rejects_wrong_provenance_with_nonzero_exit(
 
 def test_duplicate_raw_measurements_fail_closed(tmp_path: Path) -> None:
     import json
+
     from experiments.cthyb_dmft import _require_distinct_replica_arrays
 
     for index, digest in enumerate(("a", "a")):

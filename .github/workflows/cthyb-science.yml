@@ -1,0 +1,94 @@
+name: CT-HYB scientific campaign
+
+on:
+  push:
+    branches: ['codex/phase-ee-cthyb-dmft']
+  pull_request:
+    paths:
+      - '.github/workflows/cthyb-science.yml'
+      - 'experiments/cthyb*'
+      - 'experiments/audit_cthyb_dmft.py'
+      - 'kernelgecp/integrations/cthyb_dmft.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  VECLIB_MAXIMUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  BLIS_NUM_THREADS: '1'
+
+jobs:
+  calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: '2.9.0-0'
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-triqs
+          cache-environment: true
+          post-cleanup: all
+      - name: Install locked scientific providers and package
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install --no-deps .
+      - name: Calibrate only on new odd-seed streams
+        run: |
+          mkdir -p artifacts
+          python -m experiments.cthyb_dmft calibrate --config experiments/cthyb_fresh_odd.toml --output artifacts/cthyb-science
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cthyb-calibration-${{ github.run_id }}
+          path: artifacts/cthyb-science
+          if-no-files-found: error
+          retention-days: 14
+  validation:
+    needs: calibration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: '2.9.0-0'
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-triqs
+          cache-environment: true
+          post-cleanup: all
+      - name: Install locked scientific providers and package
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install --no-deps .
+      - uses: actions/download-artifact@v4
+        with:
+          name: cthyb-calibration-${{ github.run_id }}
+          path: artifacts/cthyb-science
+      - name: Run fresh fixed-bath validation and independent audit
+        run: |
+          python -m experiments.cthyb_dmft final --config experiments/cthyb_fresh_odd.toml --output artifacts/cthyb-science
+          python -m experiments.audit_cthyb_dmft artifacts/cthyb-science --output artifacts/cthyb-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cthyb-validation-${{ github.run_id }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
