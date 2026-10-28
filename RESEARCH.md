@@ -11449,3 +11449,32 @@ and expose only workflows meeting all stated physical/restart gates. Public
 fitting remains a downstream representation; it does not create EPW IR objects
 or accelerate the internal solver. Native unchanged/reconstructed restart
 controls and a last-state wrong-frequency negative control are mandatory.
+
+
+### EG calibration checkpoint (in progress, not an acceptance)
+
+The source-backed adapter has independent BCS/eigensystem, native byte replay,
+ordinal, invalid-input, archive integrity and recovery-sensitivity tests. The
+positive-frequency adapter can explicitly request adjoint completion, and now
+rejects undersampled designs or retained conditioning above its caller-set cap.
+These are preliminary implementation checks; neither the original native restart
+nor final held-out physical budgets have been met.
+
+A reproducible scouting run is `OPENBLAS_NUM_THREADS=1 uv run python
+experiments/epw_calibration.py --tol 1e-5`. It uses the actual 17 K provider
+fixture, cutoff 13 eV, calibration rows 36, 40, 44 and reserved final rows
+45, 49, 53. The remaining rows are observations. At rank 45, rcond 1e-12,
+retained condition 3.69e11, calibration errors were 4.83e-6 scaled Nambu,
+4.24e-5 Z, 2.99e-8 eV gap and 2.23e-5 eV chi. These miss the 1e-6, 1e-5,
+1e-6 eV and 1e-6 eV respective budgets. The separate 1e-3 rank 30 run also
+missed them. The script's 1e15 condition cap and 0.1 recovery real-tolerance
+are explicitly exploratory, not accepted export settings. Final rows were not
+used to select settings or report acceptance. Restart comparison, negative
+control, exact-head provider CI and full verification remain open.
+
+A separately piloted subtraction of the explicitly known bare Nambu resolvent
+before the shared fit did not resolve this miss: with the same rank 45 and
+rcond 1e-12, calibration errors were 5.80e-6 scaled Nambu, 4.24e-5 Z,
+2.76e-8 eV gap and 2.23e-5 eV chi. This alternative has not been exposed as a
+supported adapter method. Its result does not establish impossibility for other
+bases or observation designs.
