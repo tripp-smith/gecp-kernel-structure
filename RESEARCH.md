@@ -11478,3 +11478,11 @@ rcond 1e-12, calibration errors were 5.80e-6 scaled Nambu, 4.24e-5 Z,
 2.76e-8 eV gap and 2.23e-5 eV chi. This alternative has not been exposed as a
 supported adapter method. Its result does not establish impossibility for other
 bases or observation designs.
+
+The denser-frequency native scout retains the same official coarse MgB2 input
+and solver, changing only `wscut` from 0.5 to 1.0 eV. The original input SHA256
+is `a67e51f747674319d3c5659e402529bcdf3d571b54f12d2802f2531d74ba8a82`;
+the changed input SHA256 is
+`7a74f36be9a1604ec8b4184e1bb985f14d237835ec43b19c6ac7e9f4dc2937e1`.
+This configuration is a scout and is not yet a successful provider run or
+final validation. Its execution manifest records both hashes and the change.

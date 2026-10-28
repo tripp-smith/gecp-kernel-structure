@@ -25,6 +25,7 @@ UPSTREAM_INPUT_SHA256 = (
     "a67e51f747674319d3c5659e402529bcdf3d571b54f12d2802f2531d74ba8a82"
 )
 UPSTREAM_IO_SHA256 = "416ee21c65fd49b2a04894c2d5e18ffb1a5e8f7c223cab950a28f760cf56ec36"
+SCOUT_INPUT_SHA256 = "7a74f36be9a1604ec8b4184e1bb985f14d237835ec43b19c6ac7e9f4dc2937e1"
 
 
 def _sha(path: Path) -> str:
@@ -76,9 +77,13 @@ def inspect_native_file(path: Path) -> dict[str, Any]:
     }
 
 
-def run(output: Path, revision: str, qe_root: Path) -> dict[str, Any]:
+def run(
+    output: Path, revision: str, qe_root: Path, wscut_ev: float = 0.5
+) -> dict[str, Any]:
     if re.fullmatch(r"[0-9a-f]{40}", revision) is None:
         raise ValueError("a full source revision is required")
+    if wscut_ev not in (0.5, 1.0):
+        raise ValueError("supported native frequency cutoffs are 0.5 and 1.0 eV")
     output.parent.mkdir(parents=True, exist_ok=True)
     baseline = native.run(output.parent / "epw-baseline.json", revision, qe_root)
     (output.parent / "epw-baseline.json").write_text(
@@ -90,8 +95,20 @@ def run(output: Path, revision: str, qe_root: Path) -> dict[str, Any]:
         raise ValueError("anisotropic source/input differs from pinned qe-7.5")
     work = output.parent / "epw-native/test-suite/epw_super"
     shutil.copy2(upstream, work / "epw6.in")
+    if wscut_ev != 0.5:
+        input_text = (work / "epw6.in").read_text()
+        input_text, substitutions = re.subn(
+            r"(?m)^(\s*wscut\s*=\s*)0\.5(?=\s|!)",
+            rf"\g<1>{wscut_ev:.1f}",
+            input_text,
+        )
+        if substitutions != 1:
+            raise ValueError("expected exactly one official wscut setting")
+        (work / "epw6.in").write_text(input_text)
+        if _sha(work / "epw6.in") != SCOUT_INPUT_SHA256:
+            raise ValueError("modified frequency-scout input hash mismatched")
     text, execution = native._run_native(
-        qe_root / "EPW/bin/epw.x", "epw6.in", work, 7200
+        qe_root / "EPW/bin/epw.x", "epw6.in", work, 14400
     )
     if len(re.findall("Convergence was reached in nsiter", text)) < 3:
         raise RuntimeError("all three official anisotropic temperatures must converge")
@@ -109,6 +126,9 @@ def run(output: Path, revision: str, qe_root: Path) -> dict[str, Any]:
         "native_anisotropic_execution": execution,
         "files": files,
         "upstream_input_sha256": UPSTREAM_INPUT_SHA256,
+        "executed_input_sha256": _sha(work / "epw6.in"),
+        "wscut_ev": wscut_ev,
+        "input_changes": [] if wscut_ev == 0.5 else ["wscut: 0.5 to 1.0 eV"],
         "upstream_io_sha256": UPSTREAM_IO_SHA256,
         "chemical_potential_offset_status": "explicit_offset_required_before_Nambu",
         "scope": "actual_coarse_MgB2_fixture_generation_not_full_EG_acceptance",
@@ -120,11 +140,12 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-revision", required=True)
     parser.add_argument("--qe-root", type=Path, default=Path("/opt/qe"))
+    parser.add_argument("--wscut-ev", type=float, choices=(0.5, 1.0), default=0.5)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.unlink(missing_ok=True)
     try:
-        result = run(args.output, args.source_revision, args.qe_root)
+        result = run(args.output, args.source_revision, args.qe_root, args.wscut_ev)
     except Exception as error:
         args.output.write_text(
             json.dumps(

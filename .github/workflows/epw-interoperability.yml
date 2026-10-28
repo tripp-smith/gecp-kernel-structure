@@ -37,14 +37,14 @@ jobs:
           push: false
           cache-from: type=gha,scope=provider-epw
           cache-to: type=gha,mode=min,scope=provider-epw
-      - name: Generate actual official anisotropic files
+      - name: Generate denser native anisotropic frequency scout
         run: |
           mkdir -p artifacts
           docker image inspect kernelgecp-epw:eg --format '{{.Id}}' > artifacts/epw-image-id.txt
           docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
             -v "$PWD/artifacts:/artifacts" kernelgecp-epw:eg \
             /opt/venv/bin/python /workspace/scripts/providers/epw_anisotropic_fixture.py \
-            --source-revision "$(git rev-parse HEAD)" --output /artifacts/epw-anisotropic.json
+            --source-revision "$(git rev-parse HEAD)" --wscut-ev 1.0 --output /artifacts/epw-anisotropic.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

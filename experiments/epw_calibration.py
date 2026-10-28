@@ -25,6 +25,7 @@ from kernelgecp.integrations.epw import (
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tol", type=float, default=1e-3)
+    parser.add_argument("--wmax", type=float, default=13.0)
     args = parser.parse_args()
     fixture = Path(__file__).resolve().parents[1] / "tests/data/epw"
     records = json.loads((fixture / "manifest.json").read_text())
@@ -40,7 +41,9 @@ def main() -> None:
     calibration = np.array([36, 40, 44])
     final = {45, 49, 53}
     rows = np.array([i for i in range(54) if i not in set(calibration) | final])
-    basis = FermionicBasis(beta=data.beta, wmax=13, tol=args.tol, precision="auto")
+    basis = FermionicBasis(
+        beta=data.beta, wmax=args.wmax, tol=args.tol, precision="auto"
+    )
     truth = nambu_green(data)
     print(
         json.dumps(
@@ -50,7 +53,7 @@ def main() -> None:
                 "reserved_final_rows": sorted(final),
                 "fit_rows": rows.tolist(),
                 "basis_tolerance": args.tol,
-                "spectral_cutoff_ev": 13,
+                "spectral_cutoff_ev": args.wmax,
             }
         )
     )
