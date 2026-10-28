@@ -1674,14 +1674,15 @@ no finite-Monte-Carlo density or particle-hole symmetry is silently imposed.
 spin-mean Green values at ordinary signed integer indices. Pass the optional
 representation to inspect the actual compressed output. `estimate_replicas`
 uses sample covariance across at least two independent fixed-bath chain means;
-the caller must establish independence with distinct seeds and fresh chains.
+the caller must establish independence with noncolliding RNG states and fresh chains. In the pinned native default RNG, even seed `2k` and odd seed `2k+1` map to the same state; distinct seed labels alone are insufficient. Use distinct odd seeds and independently reject repeated raw measurements.
 Time-bin scatter and loop-iteration scatter are not standard-error estimates.
 The returned covariance is the sample covariance of chain means; covariance
 of the final ensemble average is that matrix divided by the replica count.
 The independent saved-chain audit stores both explicitly for later EH use.
 
 The source campaign `python -m experiments.cthyb_dmft all --output PATH` uses
-the frozen protocol in `experiments/cthyb_dmft.toml`. Calibration/final seeds
+the frozen protocol in `experiments/cthyb_dmft.toml`; the fresh scientific
+campaign uses `experiments/cthyb_fresh_odd.toml`. Calibration/final seeds
 and Green query sets are disjoint. It retains hash-bound numeric archives,
 refuses changed source/config/runtime on resume, freezes the required cycle
 ladder before final data, and returns nonzero for inconclusive uncertainty,

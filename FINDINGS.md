@@ -2438,3 +2438,11 @@ canonical Monte Carlo uncertainty result. The reduced-budget full pilot is
 retained as inconclusive because its independent fixed-bath equation/refinement
 checks miss. No canonical budget, physical-agreement or completion claim is
 inferred from that pilot; frozen independent sampling is still required.
+
+
+The original canonical and 64-chain revalidation cohorts used adjacent even
+and odd native seeds, which the pinned RNG maps to identical internal states.
+Their reported nominal standard errors and inherited budget selection are
+invalid; the parent 400k budget also fails the SEM gate when recomputed from
+four unique streams. Fresh odd-stride calibration and held-out validation are
+in progress. A duplicate raw-measurement check now fails closed.
