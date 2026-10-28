@@ -930,7 +930,13 @@ def audit(folder: Path, native_root: Path) -> dict[str, Any]:
                 )
 
                 def check_worker(
-                    row: dict[str, Any], directory: str, actual_cutoff: float
+                    row: dict[str, Any],
+                    directory: str,
+                    actual_cutoff: float,
+                    case: str = case,
+                    method: str = method,
+                    eps: float = eps,
+                    native: RawNative = native,
                 ) -> dict[str, Any] | None:
                     worker = relative(folder, directory)
                     for name, digest in row["artifacts"].items():
