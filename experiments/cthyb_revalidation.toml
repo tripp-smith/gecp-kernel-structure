@@ -1,7 +1,6 @@
 # Original 16-chain validation remains inconclusive and is tuning evidence.
 # This is a new, predeclared validation, with no old/new pooling.
 schema_version = 1
-seed_mapping = "odd_stride_2_v1"
 cycles = 400000
 cutoff = 8.0
 final_replicas = 64
