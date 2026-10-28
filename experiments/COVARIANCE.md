@@ -117,3 +117,5 @@ dispatch can rerun the complete campaign within the 330-minute job budget.
 A small-case CI pass is not the full domain gate. Phase closure also requires
 ./scripts/verify.sh, exact-source CI,
 reviewed documentation, authorized merge and confirmed pushed-main state.
+
+The scientific-binding migration repeats the same controls and previously consumed test rows without retuning; it is reproducibility evidence, not a new blind validation. The prior calibration is preserved in `data/covariance/calibration-before-binding.json`, and [the receipt](../data/covariance/binding-reproduction.json) records the clean source and raw-output hashes. The development lock hash is context only; scientific binding covers the executed source files and isolated GP runtime.

@@ -11730,3 +11730,7 @@ the original process outputs. Their generation revisions are
 bindings are unchanged. Stored request paths describe the original generation
 host and are provenance, not portable inputs. Native input files are retained
 separately in the attributed native workflow artifact and fixture.
+
+### EI scientific binding reproduction
+
+Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.

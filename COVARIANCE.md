@@ -85,3 +85,5 @@ were previously consumed: this is reproducibility without retuning, not a new
 blind validation. The original performance measurements above retain their
 historical generation identity and are not replaced by timings under concurrent
 verification workloads.
+
+The [scientific-binding reproduction](data/covariance/binding-reproduction.json) at clean generation source `3b8e4a51f8ff980176b58af252e6f81c7de10778` passes all 18 fresh processes, actual GPyTorch and independent audit. Every saved scientific array exactly matches the security reproduction, and calibration controls and numerical values match exactly. Previously consumed test rows were reproduced without physics, rank or noise selection retuning; this is not new blind validation. Original historical results and timings remain unchanged.
