@@ -52,6 +52,7 @@ SOURCES = (
     "kernelgecp/fitting.py",
     "kernelgecp/dmft.py",
     "experiments/cthyb_dmft.py",
+    "experiments/cthyb_fresh_odd.toml",
     "experiments/dlr_adapters.py",
     "environments/locks/dlr-physics-pip.txt",
 )
@@ -137,6 +138,8 @@ def _read(path: Path) -> dict[str, Any]:
 
 def load_config(path: Path) -> dict[str, Any]:
     data = tomllib.loads(path.read_text())
+    if data.get("seed_mapping") != "odd_stride_2_v1" or data.get("seed_base", 1) % 2:
+        raise ValueError("seed mapping requires an even base and odd stride-2 streams")
     if data.get("schema_version") != 1:
         raise ValueError("CT-HYB campaign requires schema_version=1")
     CTHYBConfig(
@@ -516,6 +519,16 @@ def _plans(data: dict[str, Any], cutoff: float) -> dict[str, CTHYBPlan]:
     }
 
 
+def _require_distinct_replica_arrays(folder: Path, count: int) -> None:
+    fingerprints = [
+        _read(folder / f"replica-{i:02d}.json")["arrays_sha256"] for i in range(count)
+    ]
+    if len(set(fingerprints)) != count:
+        raise ValueError(
+            "duplicate native measurement arrays invalidate independent replicas"
+        )
+
+
 def _replicas(
     plan: CTHYBPlan,
     bath: np.ndarray,
@@ -529,9 +542,12 @@ def _replicas(
     represented: bool = False,
 ) -> tuple[list[CTHYBMeasurement], Any]:
     measurements = [
-        _sample(plan, bath, cycles, seed + i, folder / f"replica-{i:02d}", identity)
+        _sample(
+            plan, bath, cycles, seed + 2 * i + 1, folder / f"replica-{i:02d}", identity
+        )
         for i in range(count)
     ]
+    _require_distinct_replica_arrays(folder, count)
     estimate = estimate_replicas(
         np.array(
             [
@@ -568,7 +584,7 @@ def _loop(
             plan,
             bath,
             cycles,
-            seed + iteration,
+            seed + 2 * iteration + 1,
             folder / f"iteration-{iteration:02d}",
             identity,
         )
@@ -934,7 +950,7 @@ def run_final(
         "observables": ["density_total", "double_occupancy"]
         + [f"G_real_n{x}" for x in data["selected_indices"]]
         + [f"G_imag_n{x}" for x in data["selected_indices"]],
-        "seed_policy": "disjoint_calibration_loop_final_and_replica_families",
+        "seed_policy": "disjoint_families_odd_stride_2_native_seed_mapping",
         "uncertainty_scope": "independent_fixed_bath_chains_not_DMFT_trajectory_error",
         "native_grid_refinement_status": (
             "independent_fixed_bath_replicas_with_declared_tail_extension"

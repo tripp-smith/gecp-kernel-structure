@@ -11485,3 +11485,26 @@ Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
 provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
+
+### EE RNG collision invalidates nominal chain counts
+
+Independent audit found byte-identical raw arrays for every adjacent even/odd
+seed pair in both 45d42c7 and 8818c3a. The actual pinned TRIQS legacy
+Mersenne initializer computes `seed | 1U`, so consecutive even and odd seeds
+select the same state. The reported N=8/16/64 standard errors and claimed
+independence are invalid. In the original calibration, recomputation from
+one chain per unique pair gives N=4 maximum SEMs 0.00216963, 0.000389928,
+and 0.000279354 at 100k, 400k, and 1.6m cycles: 400k fails the 0.0003
+gate. The 8818c3a final outcome is consumed, invalid independence evidence,
+not acceptance, regardless of its printed gate status.
+
+Predeclare a fresh campaign using `experiments/cthyb_fresh_odd.toml`, seed
+base 29100000, with separately thermalized odd seeds allocated at stride two
+within disjoint families. Recalibrate the entire unchanged 100k/400k/1.6m
+ladder on eight distinct streams and retain all failures. Freeze the first
+passing budget and cutoff before new independent loops, 64 final chains per
+path and 16 refinement chains. Fail closed if any fixed-bath replica array
+fingerprints coincide, even with distinct seed labels. Raw evidence, observed
+equation defect, Monte Carlo uncertainty and covariance of the mean remain
+separate. This does not make probabilistic independence a mathematical proof.
+Full native scientific verification and independent audit remain mandatory.
