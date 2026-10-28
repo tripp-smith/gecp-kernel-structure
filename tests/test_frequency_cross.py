@@ -115,3 +115,60 @@ def test_rejections_and_condition_limit():
     )
     with pytest.raises(NumericalBreakdownError):
         plan.design([2.5])
+
+
+def test_portable_load_does_not_reselect(monkeypatch):
+    plan = CauchyFrequencyPlan([1.0, 2.0, 4.0, 8.0], rank=3, dictionary_size=8)
+    metadata, arrays = plan.to_payload()
+    pole = next(i for i, p in enumerate(arrays["poles"]) if p < 0)
+    arrays["poles"][pole] = np.nextafter(arrays["poles"][pole], 0.0)
+    with mp.workprec(metadata["precision_bits"]):
+        nodes = [mp.mpf(float(v)) for v in arrays["nodes"]]
+        poles = [mp.mpf(float(v)) for v in arrays["poles"]]
+        arrays["weights"] = np.array(
+            [
+                float(
+                    mp.fprod(z - p for p in poles)
+                    / mp.fprod(z - v for i, v in enumerate(nodes) if i != j)
+                )
+                for j, z in enumerate(nodes)
+            ]
+        )
+    monkeypatch.setattr(np, "geomspace", lambda *a, **k: pytest.fail("reselected"))
+    loaded = CauchyFrequencyPlan.from_payload(metadata, arrays)
+    assert np.array_equal(loaded.poles, arrays["poles"])
+    assert np.array_equal(loaded.weights, arrays["weights"])
+
+
+def test_sealed_parameters_immutable_results_and_bounded_cache():
+    plan = CauchyFrequencyPlan([1.0, 2.0, 4.0, 8.0], rank=3, dictionary_size=8)
+    for name, value in (
+        ("rank", 1),
+        ("weights", np.ones(3)),
+        ("nodes", np.ones(3)),
+        ("max_evaluation_condition", 1),
+    ):
+        with pytest.raises(AttributeError):
+            setattr(plan, name, value)
+    with pytest.raises(AttributeError):
+        del plan.rank
+    for array in (plan.design([1.5]), plan.fit([1, 2, 3, 4])):
+        with pytest.raises(ValueError):
+            array.setflags(write=True)
+    for i in range(12):
+        plan.prepare(rcond=i * 1e-8)
+    assert len(plan._plans) <= 8
+    assert plan.prepare(rcond=11e-8) is plan.prepare(rcond=11e-8)
+
+
+def test_reject_bad_saved_model():
+    plan = CauchyFrequencyPlan([1.0, 2.0, 4.0, 8.0], rank=3, dictionary_size=8)
+    for key, bad in (("nodes", -1.0), ("poles", 1.0), ("weights", 0.0)):
+        meta, arrays = plan.to_payload()
+        arrays[key][0] = bad
+        with pytest.raises(ValueError):
+            CauchyFrequencyPlan.from_payload(meta, arrays)
+    meta, arrays = plan.to_payload()
+    meta["near_tie_counts"][0] = 0
+    with pytest.raises(ValueError):
+        CauchyFrequencyPlan.from_payload(meta, arrays)

@@ -62,6 +62,34 @@ class CauchyFrequencyPlan:
     its condition limit is a pointwise numerical guard, not a certificate.
     """
 
+    __slots__ = (
+        "rank",
+        "precision_bits",
+        "pole_cutoff_ev",
+        "max_evaluation_condition",
+        "dictionary_size",
+        "observation_x",
+        "pivot_rows",
+        "nodes",
+        "poles",
+        "log_residual_history",
+        "tie_counts",
+        "near_tie_counts",
+        "weights",
+        "_plans",
+        "_sealed",
+    )
+
+    def __setattr__(self, name: str, value: object) -> None:
+        if getattr(self, "_sealed", False):
+            raise AttributeError("CauchyFrequencyPlan is immutable")
+        object.__setattr__(self, name, value)
+
+    def __delattr__(self, name: str) -> None:
+        if getattr(self, "_sealed", False):
+            raise AttributeError("CauchyFrequencyPlan is immutable")
+        object.__delattr__(self, name)
+
     def __init__(
         self,
         observation_x: npt.ArrayLike,
@@ -130,6 +158,7 @@ class CauchyFrequencyPlan:
         self.near_tie_counts = tuple(near_tie_counts)
         self.weights = self._weights()
         self._plans: dict[float | None, LeastSquaresPlan] = {}
+        self._sealed = True
 
     def _weights(self) -> FloatArray:
         with mp.workprec(self.precision_bits):
@@ -179,6 +208,16 @@ class CauchyFrequencyPlan:
                     "cardinal denominator is zero or nonfinite"
                 )
             condition = numerator / abs(denominator)
+            if constant == 0:
+                # The omitted positive constant is less than one subnormal ULP.
+                # Reject only if its conservative effect could cross the cap.
+                tiny = float(np.nextafter(0.0, 1.0))
+                lower = float(np.nextafter(abs(denominator) - tiny, 0.0))
+                upper = float(np.nextafter(numerator + tiny, np.inf))
+                if lower <= 0 or upper / lower > self.max_evaluation_condition:
+                    raise NumericalBreakdownError(
+                        "underflow prevents conditioning assessment"
+                    )
             if (
                 not math.isfinite(condition)
                 or condition > self.max_evaluation_condition
@@ -190,7 +229,7 @@ class CauchyFrequencyPlan:
             if not np.all(np.isfinite(result[i])):
                 raise NumericalBreakdownError("cardinal evaluation is nonfinite")
             conditions.append(condition)
-        return result, {
+        return cast(FloatArray, _immutable_copy(result)), {
             "condition_max": max(conditions),
             "conditions": tuple(conditions),
             "precision_bits": 53,
@@ -211,15 +250,16 @@ class CauchyFrequencyPlan:
             if not math.isfinite(rcond) or rcond < 0:
                 raise ValueError("rcond must be a finite nonnegative real number")
         if rcond not in self._plans:
-            self._plans[rcond] = LeastSquaresPlan(
-                self.design(self.observation_x), rcond=rcond
-            )
+            plan = LeastSquaresPlan(self.design(self.observation_x), rcond=rcond)
+            if len(self._plans) >= 8:
+                del self._plans[next(iter(self._plans))]
+            self._plans[rcond] = plan
         return self._plans[rcond]
 
     def fit(
         self, values: npt.ArrayLike, *, axis: int = 0, rcond: float | None = None
     ) -> NumericArray:
-        return self.prepare(rcond=rcond).fit(values, axis=axis)
+        return _immutable_copy(self.prepare(rcond=rcond).fit(values, axis=axis))
 
     def to_payload(self) -> tuple[dict[str, Any], dict[str, npt.NDArray[Any]]]:
         metadata = {
@@ -267,25 +307,80 @@ class CauchyFrequencyPlan:
             or metadata["version"] != 1
         ):
             raise ValueError("invalid Cauchy payload keys or version")
-        obj = cls(
-            arrays["observation_x"],
-            pole_cutoff_ev=metadata["pole_cutoff_ev"],
-            rank=metadata["rank"],
-            dictionary_size=metadata["dictionary_size"],
-            precision_bits=metadata["precision_bits"],
-            max_evaluation_condition=metadata["max_evaluation_condition"],
+        if metadata["certification_status"] != "not_certified":
+            raise ValueError("invalid certification status")
+        for key, value in arrays.items():
+            if not isinstance(value, np.ndarray) or value.dtype != np.float64:
+                raise ValueError(f"Cauchy payload {key} must be a binary64 array")
+        x = _points(arrays["observation_x"], "observation_x", unique=True)
+        n = x.size
+        size = _integer(metadata["dictionary_size"], "dictionary_size", 2, 10000)
+        rank = _integer(metadata["rank"], "rank", 1, min(n, size, 256))
+        bits = _integer(metadata["precision_bits"], "precision_bits", 53, 4096)
+        if n > 10000 or n * size > 5_000_000:
+            raise ValueError("observation/dictionary resource limit exceeded")
+        cutoff = _positive(metadata["pole_cutoff_ev"], "pole_cutoff_ev")
+        limit = _positive(
+            metadata["max_evaluation_condition"], "max_evaluation_condition"
         )
-        reference_meta, reference_arrays = obj.to_payload()
-        if metadata != reference_meta:
-            raise ValueError("Cauchy payload metadata inconsistent with selected plan")
-        for key, reference in reference_arrays.items():
-            raw = np.asarray(arrays[key])
-            if (
-                raw.dtype != np.float64
-                or raw.shape != reference.shape
-                or not np.array_equal(raw, reference)
-            ):
-                raise ValueError(
-                    f"Cauchy payload {key} inconsistent with selected plan"
-                )
+        cutoff2 = cutoff * cutoff
+        if not math.isfinite(cutoff2) or cutoff2 <= 1e-10 or limit < 1:
+            raise ValueError("invalid cutoff or condition limit")
+        for key in ("nodes", "poles", "weights"):
+            if arrays[key].shape != (rank,) or not np.all(np.isfinite(arrays[key])):
+                raise ValueError(f"invalid Cauchy payload {key}")
+        nodes = _points(arrays["nodes"], "nodes", unique=True)
+        poles, weights = arrays["poles"], arrays["weights"]
+        if (
+            np.any(poles > 0)
+            or np.any(poles < -cutoff2)
+            or np.unique(poles).size != rank
+            or np.any(weights == 0)
+        ):
+            raise ValueError("invalid Cauchy payload poles or weights")
+        rows_raw = metadata["pivot_rows"]
+        logs_raw = metadata["log_residual_history"]
+        ties_raw = metadata["tie_counts"]
+        near_raw = metadata["near_tie_counts"]
+        for field in (rows_raw, logs_raw, ties_raw, near_raw):
+            if not isinstance(field, list) or len(field) != rank:
+                raise ValueError("invalid Cauchy payload history")
+        rows = tuple(_integer(v, "pivot row", 0, n - 1) for v in rows_raw)
+        if len(set(rows)) != rank or not np.array_equal(nodes, x[list(rows)]):
+            raise ValueError("Cauchy payload nodes do not match pivot rows")
+        logs: list[float] = []
+        for value in logs_raw:
+            if isinstance(value, (bool, np.bool_)) or not isinstance(value, Real):
+                raise ValueError("invalid Cauchy log residual")
+            converted = float(value)
+            if not math.isfinite(converted):
+                raise ValueError("invalid Cauchy log residual")
+            logs.append(converted)
+        ties = tuple(_integer(v, "tie count", 1, n * size) for v in ties_raw)
+        near = tuple(_integer(v, "near-tie count", 1, n * size) for v in near_raw)
+        if any(a > b for a, b in zip(ties, near, strict=True)):
+            raise ValueError("invalid Cauchy tie counts")
+        obj = cls.__new__(cls)
+        obj.rank = rank
+        obj.precision_bits = bits
+        obj.pole_cutoff_ev = cutoff
+        obj.max_evaluation_condition = limit
+        obj.dictionary_size = size
+        obj.observation_x = cast(FloatArray, _immutable_copy(x))
+        obj.pivot_rows = rows
+        obj.nodes = cast(FloatArray, _immutable_copy(nodes))
+        obj.poles = cast(FloatArray, _immutable_copy(poles))
+        obj.log_residual_history = tuple(logs)
+        obj.tie_counts = ties
+        obj.near_tie_counts = near
+        expected = obj._weights()
+        if not np.all(
+            np.isclose(weights, expected, rtol=8 * np.finfo(float).eps, atol=0)
+        ):
+            raise ValueError(
+                "Cauchy payload weights inconsistent with stored nodes/poles"
+            )
+        obj.weights = cast(FloatArray, _immutable_copy(weights))
+        obj._plans = {}
+        obj._sealed = True
         return obj
