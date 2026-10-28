@@ -3036,3 +3036,9 @@ This annotation records delivered identifiers without changing the goals above.
   replicas per path, inheriting calibrated 400000 cycles/wmax=8 and preserving
   all physical/error gates. No old final chains are pooled into or relabeled
   as the new validation. Local/Linux scientific and delivery gates stay open.
+- **Phase EH implementation contract:** immutable covariance-aware positive
+  spectral data, complete linear-projection covariance, actual TauMaxEnt,
+  independent noisy/smooth/atomic/CT-HYB forward checks and declared effective
+  ranks. Bootstrap/default-model sensitivity is evidence, not unique peak or
+  complete uncertainty coverage. EE data and all scientific/delivery gates
+  remain required; original mathematical goals are unchanged.

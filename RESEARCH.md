@@ -11474,3 +11474,55 @@ Require both actual local and full Linux scientific execution, with one
 MPI/BLAS/OpenMP thread, bounded CPU memory and a checkpointed job cap no larger
 than 330 minutes. A fast native CI probe remains a separate wiring gate.
 Full root, exact-source CI, merge and pushed-main acceptance remain required.
+
+## Phase EH — covariance-aware actual MaxEnt contract
+
+Implement EH from PRODUCTION_INTEGRATIONS.md, retaining model, numerical,
+statistical and nonuniqueness boundaries. Public kernelgecp.integrations.maxent
+will supply immutable scalar/ordered-diagonal spectral datasets, declared
+covariance eigenmodes/rank, complete linear projection and actual TauMaxEnt
+continuation. Importing the ordinary package must not import optional TRIQS.
+Do not substitute sparse recovery or another continuation provider silently.
+
+For a fixed real linear observation projection P, propagate both data and
+the full covariance: y_new=P y and C_new=P C P.T. Record P, all source/target
+coordinates, rank/rcond, conditioning and covariance cutoffs. Interpolated
+points remain correlated; their count is not an independent sample count.
+Reject materially indefinite/nonfinite/unsupported covariance. Discard only
+declared small eigenmodes and report effective rank. Empirical covariance of
+an N-chain mean is sample chain covariance divided by N, with rank <=N-1.
+Ordered diagonal channels use explicitly declared marginal continuations;
+do not claim a joint off-diagonal spectral inference or joint uncertainty.
+
+Use actual pinned MaxEnt 4.0.1/TauMaxEnt with scalar positive spectra. Freeze
+omega/alpha meshes, covariance cutoffs, default models, seeds and selection
+policy before final validation. Native provider minimization is mandatory.
+Select an alpha by a declared training-noise discrepancy rule; no held-out
+truth enters regularization/model selection. If spectra are normalized to a
+declared mass, this is an explicit postprocessing operation: retain raw mass
+and re-evaluate forward predictions afterward. A failed fit, failed rank gate
+or missed noise budget remains failed/inconclusive.
+
+Synthetic cases include off-grid atomic and smooth positive spectra with
+independent/correlated noise and independent forward quadrature. Compare raw
+observations and GECP/DLR/IR projections using the same permitted inputs.
+Final EE native measurements provide the actual physical-data case; use fixed
+disjoint chain families for continuation and forward validation and retain the
+full declared covariance model/rank. The old inconclusive EE ensemble may be
+used only as explicitly labeled tuning data, not untouched final acceptance.
+
+Require nonnegative spectra and normalization to1e-6 after any declared mass
+operation. Independent held-out noisy forward predictions require whitened
+RMS<=2 on declared retained covariance modes. Record discarded modes rather
+than silently calling them noise-free constraints. Report spectral-window
+weights, CDF errors where truth is known, bootstrap variation and sensitivity
+to flat/broad alternative default models. Neither bootstrap variation nor a
+single MaxEnt result establishes complete uncertainty coverage or unique peak
+recovery. Existing sparse methods stay separately labeled comparisons.
+
+Keep providers optional, manifests/archives versioned and hash-bound, and
+record actual arithmetic/import/runtime/source/units/state order. No new paid
+compute/GPU; one memory-intensive workload at a time, hosted jobs<=330min.
+Actual provider cases, installed-package checks, full root, exact-head CI,
+authorized merge/push and exact-main checks are required before EH closes.
+1.1.0 artifacts and original mathematical results stay immutable.
