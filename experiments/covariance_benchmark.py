@@ -47,7 +47,6 @@ SOURCE_FILES = (
     "kernelgecp/kernel_cholesky.py",
     "experiments/covariance_benchmark.py",
     "scripts/audit_covariance.py",
-    "uv.lock",
     "environments/gp/uv.lock",
     "environments/gp/pyproject.toml",
 )
@@ -111,6 +110,8 @@ def provenance() -> dict[str, Any]:
         "source_revision": revision,
         "source_hashes": source_hashes,
         "source_clean_and_tracked": tracked and not tracked_dirty,
+        "source_binding_scope": "executed_scientific_sources_and_isolated_gp_runtime",
+        "development_lock_sha256_context_only": sha256((ROOT / "uv.lock").read_bytes()),
         "versions": {
             name: importlib.metadata.version(name) for name in ("numpy", "scipy")
         },

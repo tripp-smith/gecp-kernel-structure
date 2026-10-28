@@ -133,3 +133,55 @@ def test_frozen_validation_refuses_test_contaminated_or_changed_source(monkeypat
     frozen["provenance"] = {"source_hashes": {"source": "changed"}}
     with pytest.raises(ValueError, match="source differs"):
         benchmark.validate_frozen(frozen, canonical=False)
+
+
+def test_scientific_freeze_binds_executed_runtime_not_unrelated_development_lock(
+    tmp_path, monkeypatch
+):
+    import subprocess
+
+    monkeypatch.setattr(benchmark, "ROOT", tmp_path)
+    for name in (*benchmark.SOURCE_FILES, "uv.lock"):
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"frozen {name}")
+    monkeypatch.setattr(
+        benchmark.subprocess,
+        "check_output",
+        lambda args, **kwargs: "a" * 40 if args[1] == "rev-parse" else "",
+    )
+    monkeypatch.setattr(
+        benchmark.subprocess,
+        "run",
+        lambda args, **kwargs: subprocess.CompletedProcess(args, 0),
+    )
+    monkeypatch.setattr(
+        benchmark.importlib.metadata, "version", benchmark.LOCKED_VERSIONS.__getitem__
+    )
+    original = benchmark.provenance()
+    frozen = {
+        "schema": "kernelgecp.covariance-calibration.v1",
+        "status": "calibrated",
+        "test_evaluated": False,
+        "calibration_only": True,
+        "dataset": {
+            "outer_sha256": benchmark.OUTER_SHA256,
+            "csv_sha256": benchmark.CSV_SHA256,
+        },
+        "provenance": original,
+        "standard_deviation_definition": benchmark.STD_DEFINITION,
+        "timing_scopes": benchmark.TIMING_SCOPES,
+    }
+    (tmp_path / "uv.lock").write_text("unrelated development-only update")
+    current = benchmark.provenance()
+    assert current["source_hashes"] == original["source_hashes"]
+    assert (
+        current["development_lock_sha256_context_only"]
+        != original["development_lock_sha256_context_only"]
+    )
+    benchmark.validate_frozen(frozen, canonical=False)
+    (tmp_path / "environments/gp/uv.lock").write_text(
+        "changed executed scientific runtime"
+    )
+    with pytest.raises(ValueError, match="source differs"):
+        benchmark.validate_frozen(frozen, canonical=False)

@@ -26,8 +26,15 @@ def _from_dense(matrix, **kwargs):
 
 
 def test_column_factor_matches_independent_dense_pivoting_and_error():
-    points = np.linspace(-2, 2, 31)
-    matrix = np.exp(-((points[:, None] - points[None, :]) ** 2))
+    # Deliberately asymmetric geometry/amplitude gives resolved pivot margins.
+    # Symmetric near-tie trajectories can differ between binary64 algorithms.
+    points = np.sort(np.random.default_rng(713).uniform(-2, 2, 31))
+    amplitude = np.linspace(0.8, 1.2, points.size)
+    matrix = (
+        amplitude[:, None]
+        * np.exp(-((points[:, None] - points[None, :]) ** 2))
+        * amplitude
+    )
     calls = []
 
     def column(index):
@@ -53,6 +60,31 @@ def test_column_factor_matches_independent_dense_pivoting_and_error():
     assert not factor.diagnostics.converged
     assert factor.metadata.certification_status == "not_certified"
     assert factor.metadata.precision_bits == 53
+
+
+def test_symmetric_roundoff_ties_are_admissible_against_dense_schur_solves():
+    # Linux NumPy and the independent dense implementation select opposite
+    # members of this symmetric pair after nine pivots. Check each choice by
+    # direct principal-block solves rather than requiring bit-identical paths.
+    points = np.linspace(-2, 2, 31)
+    matrix = np.exp(-((points[:, None] - points[None, :]) ** 2))
+    factor = _from_dense(matrix, max_rank=12, atol=1e-12)
+    selected = []
+    for pivot in factor.indices:
+        diagonal = np.diag(matrix).copy()
+        if selected:
+            columns = matrix[:, selected]
+            solved = np.linalg.solve(matrix[np.ix_(selected, selected)], columns.T)
+            diagonal -= np.sum(columns * solved.T, axis=1)
+        diagonal[selected] = -np.inf
+        # Independent Schur subtraction accumulates absolute roundoff relative
+        # to the original matrix; it need not reproduce a tiny residual's ulps.
+        assert np.max(diagonal) - diagonal[pivot] <= 512 * np.finfo(float).eps
+        selected.append(pivot)
+    residual = matrix - factor.factor @ factor.factor.T
+    np.testing.assert_allclose(np.diag(residual), factor.residual_diagonal, atol=5e-16)
+    assert np.linalg.eigvalsh(residual)[0] >= -2e-14
+    assert np.max(np.abs(residual)) <= np.max(factor.residual_diagonal) + 2e-14
 
 
 def test_rank_deficiency_duplicates_and_zero_rank_have_explicit_stopping():

@@ -11495,3 +11495,25 @@ artifact hashes are retained in `data/covariance/security-reproduction.json`;
 the original summary remains historical. Original performance measurements
 are not replaced by timings from concurrent verification workloads. Final
 source/root/exact-head CI and merged-main acceptance still gate delivery.
+
+Linux base CI at `2645ad1` exposed an overconstrained test: a symmetric Gaussian
+fixture made binary64 column and independently computed dense algorithms pick
+different members of a near-tie after nine pivots. The implementation and
+scientific frozen outputs are unchanged. Exact trajectory comparison now uses
+asymmetric geometry/amplitudes; the original symmetric fixture independently
+checks every selected pivot against principal-block Schur solves, the residual
+diagonal, PSD roundoff and entrywise error. Explicit exact/near-tie policy tests
+remain. Numerical acceptance budgets are unchanged. The local full root at
+`2645ad1` passed 2,175 tests/28 skips; the repaired final head requires full root
+and exact CI again.
+
+The final integration review also found that EI's scientific freeze included
+the default development `uv.lock`, although every scientific command executes
+the isolated GP lock. This made unrelated integration/release dependency changes
+invalidate the covariance workflow. Scientific source binding now covers the
+unchanged public factor, runner, independent auditor and complete isolated GP
+runtime locks; the default lock hash remains explicitly contextual metadata.
+The guard still rejects changes to any executed source or runtime dependency.
+This binding migration requires an explicitly labeled calibration/campaign
+reproduction with exactly the same controls and numerical outputs, preserving
+earlier evidence and making no new blind-validation claim.
