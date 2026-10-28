@@ -93,3 +93,17 @@ def test_bundle_rejects_unsafe_members(tmp_path: Path, name: str, kind: str) -> 
     with pytest.raises(ValueError, match="unsafe"):
         extract_parent(bundle, tmp_path / "unpacked", digest)
     assert not (tmp_path / "outside").exists()
+
+
+def test_prepare_rejects_parent_with_colliding_rng_before_freezing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import experiments.revalidate_cthyb_dmft as runner
+
+    monkeypatch.setattr(runner, "validate_parent", lambda *args: {})
+    monkeypatch.setattr(
+        runner, "_read", lambda path: {"config": {"seed_base": 27100000}}
+    )
+    with pytest.raises(ValueError, match="colliding native RNG"):
+        runner.prepare(tmp_path, tmp_path / "audit.json", tmp_path / "output", {})
+    assert not (tmp_path / "output").exists()
