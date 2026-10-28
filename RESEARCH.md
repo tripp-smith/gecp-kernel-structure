@@ -11357,6 +11357,115 @@ All numerical generation source remains identified as its frozen ancestor;
 the later CLI/auditor/documentation changes require their own final root and
 exact-head CI before delivery.
 
+## Phase EI — scalable covariance and GP contract
+
+Implement the EI obligation in PRODUCTION_INTEGRATIONS.md on an isolated
+branch based on merged EC `64e9f34`. Original SPEC mathematical statements,
+the dense pivoted_cholesky interface and immutable 1.1.0 releases are unchanged.
+No new Lean result or numerical PSD certificate is claimed.
+
+Add kernelgecp.kernel_cholesky.KernelCholeskyFactor.from_columns for an explicit
+finite diagonal and a scalar-index column callback. Own immutable float64
+factor/pivot/residual arrays and record stopping, deterministic tie selection,
+roundoff allowances, callback consistency checks and the unverified global PSD
+assumption. Construction may request one length-n column per selected pivot
+and retain O(n*r) numerical state; it must not form a full n-by-n kernel or
+residual matrix. Preserve exact zero-rank, duplicate and rank-deficient cases.
+Reject nonfinite, boolean, wrongly shaped or inconsistent callback data and
+material negative residuals; callback checks do not establish unseen symmetry
+or positive semidefiniteness.
+
+Out-of-sample extension accepts only cross-kernel entries against selected
+pivots and uses triangular solves. Expose SciPy LinearOperator multiplication,
+strictly positive scalar/diagonal shifted solves and preconditioners, plus
+optional lazy CPU float64 GPyTorch conversion of the identical frozen factor.
+No autograd through pivot selection or provider-dependent dense fallback is
+supported. Use a stable solve formulation, retain conditioning/residual
+diagnostics and fail explicitly on unrepresentable or inaccurate solves.
+
+Meaningful focused checks compare small factors and predictions with independent
+dense SciPy factorizations; exercise duplicate sites, low rank, canonical ties,
+empty/rank-zero inputs, callbacks, ownership, out-of-sample points, tiny noise,
+shifted operator/solve/preconditioner agreement and actual locked CPU GPyTorch.
+Default imports must not require torch/gpytorch. Focused Python tests, Ruff and
+strict mypy precede the full ./scripts/verify.sh and exact-source provider CI.
+
+The mandatory real-data campaign uses hash-pinned attributed UCI Beijing
+Aotizhongxin PM2.5/meteorology observations with chronological
+train/calibration/test partitions and training-only normalization. Sizes are
+512 through 16384, with ranks 32/64/128/256/512. At n<=2048 the normalized RMS
+mean and standard-deviation discrepancy against dense SciPy must be <=1e-3
+and maxima <=1e-2. Approximate-system solve residual is <=1e-10 and original-
+kernel preconditioned CG residual <=1e-8. At n=16384 retained numerical state
+is <=128 MiB and fresh-process RSS <=4 GiB. Freeze sources/configuration and
+keep calibration separate from untouched validation; three fresh repeats are
+required for performance claims. Preserve failed/slower cases. Root will
+coordinate this campaign after implementation; no concurrent >512 MiB local
+workload, real-data pass, universal speedup, optimal sensor placement or phase
+completion is inferred from synthetic unit tests. Final API/docs/claim updates,
+full root, exact-head CI, authorized merge and pushed-main checks remain open.
+
+### EI implementation and calibration route
+
+The core implementation is kernelgecp/kernel_cholesky.py, with immutable
+public factors/extensions/solve records, column consistency checks,
+out-of-sample triangular extension, SciPy operators and preconditioners, and
+lazy CPU float64 provider conversion. A returned factor's actual diagonal
+reconstruction error controls convergence; clipping a small negative residual
+cannot establish a tighter tolerance. Tiny-noise cancellation and final
+subnormal RHS rescaling have explicit failure/fallback regressions.
+
+The real-data runner and independent auditor are
+experiments/covariance_benchmark.py and scripts/audit_covariance.py. The latter
+binds every scientific source/lock hash to its declared Git commit's actual
+blobs for both calibration and generation. Numerical arrays, source/data
+identity, chronology, repeat coverage, all process exits, retained memory,
+RSS, full true-kernel CG, dense small predictions and real provider parity
+are checked separately. All calibration/campaign/provider runs use the same
+locked GP runtime (NumPy 2.2.6/SciPy 1.18.1); default-environment tests alone
+do not establish that runtime.
+
+Initial unconstrained calibration exhausted the n=2048 rank budget at the
+tenfold safety margin. Before any test evaluation, resource-aware calibration
+was made explicit: choose calibration predictive likelihood among nine
+predeclared RBF lengthscale/noise candidates that meet the rank-512 safety
+margin, preserving every rejected candidate. An unaccepted base-environment
+pilot suggested lengthscale 3 and noise variance 0.8, with ranks 128/256/256
+at the three small sizes. It used a different NumPy runtime and is not frozen
+provider evidence; all choices must be regenerated under the locked GP stack.
+The independent test block remains untouched at this source-freeze opening.
+The accepted observation standard deviation includes noise and uses training-
+target normalization. Full real-data/root/CI/delivery acceptance remains open.
+
+Full root verification at `3cac5a9` passes all 3,635 Lean jobs, the axiom audit,
+2,086 default-environment tests (33 optional skips), type/style and security
+checks. The locked GP calibration passes all nine candidates/30 rank cases
+at that clean source. Before final test evaluation, timing review identified
+that the compute timer excludes loading/imports and includes dense/CG checks.
+Explicit scopes, an application timer and parent-measured fresh-process wall
+time are added; this instrumentation revision requires renewed calibration
+source binding and final root verification. The numerical kernel, budgets
+and selected model are not retuned against test data.
+
+The final timing source `00f4356` recalibrates under the locked GP runtime
+without changing any selected parameter/rank. Calibration metadata is committed
+at `203e58a` before first test evaluation. All 18 fresh-process tests, actual
+Mac CPU GPyTorch parity and independent Git/blob/array audit pass at that
+generation. [COVARIANCE.md](COVARIANCE.md) and data/covariance retain exact
+artifacts/hashes, timing scopes and slower small cases. Maximum mean/std RMS
+errors are 1.25e-4/1.46e-5, approximate residual 1.62e-11 and original-kernel
+CG residual 1.03e-10. At n16384 the retained numerical state is 69.37 MiB and
+worst fresh RSS 321.75 MiB. The same arrays repeat exactly three times per
+cohort. No selection or budget changes follow final test observations.
+
+Large raw factors/receipts/logs are retained outside Git; the full workflow
+rerun uploads its own raw details. The committed summary includes every raw
+filename, byte count and SHA256. Final exact-source ignored native build,
+full root, Linux CI/domain replay, PR and merged-main delivery remain open.
+ED is now independently closed on main `7530ec7` in its canonical PR #136
+receipt; the new integration program remains approximately 30% delivered
+until another phase passes all its delivery gates.
+
 ## Phase EF — molecular Green GF2 interoperability contract
 
 This isolated implementation follows PRODUCTION_INTEGRATIONS.md's full EF
@@ -11567,6 +11676,47 @@ provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
 
+### EI dependency-only reproduction
+
+Merged security main `cbfe6cf` before final delivery. A clean-source repeat of
+calibration at `7d66197` reproduces every numerical calibration value, selected
+hyperparameter and rank exactly; only pilot timing and provenance differ.
+The original calibration remains in
+`data/covariance/calibration-before-msgpack.json`. The isolated GP environment
+is unchanged. A fresh complete campaign and provider/auditor run will verify
+the new dependency-bound freeze. Its test rows were already consumed by the
+original passing campaign: this is reproducibility after a development-only
+security update, with no retuning, not another blind validation claim.
+
+The dependency-only scientific reproduction at `ee7b2c6` passes all 18 cases,
+actual GPyTorch and independent audit. Full case receipts, provenance and
+artifact hashes are retained in `data/covariance/security-reproduction.json`;
+the original summary remains historical. Original performance measurements
+are not replaced by timings from concurrent verification workloads. Final
+source/root/exact-head CI and merged-main acceptance still gate delivery.
+
+Linux base CI at `2645ad1` exposed an overconstrained test: a symmetric Gaussian
+fixture made binary64 column and independently computed dense algorithms pick
+different members of a near-tie after nine pivots. The implementation and
+scientific frozen outputs are unchanged. Exact trajectory comparison now uses
+asymmetric geometry/amplitudes; the original symmetric fixture independently
+checks every selected pivot against principal-block Schur solves, the residual
+diagonal, PSD roundoff and entrywise error. Explicit exact/near-tie policy tests
+remain. Numerical acceptance budgets are unchanged. The local full root at
+`2645ad1` passed 2,175 tests/28 skips; the repaired final head requires full root
+and exact CI again.
+
+The final integration review also found that EI's scientific freeze included
+the default development `uv.lock`, although every scientific command executes
+the isolated GP lock. This made unrelated integration/release dependency changes
+invalidate the covariance workflow. Scientific source binding now covers the
+unchanged public factor, runner, independent auditor and complete isolated GP
+runtime locks; the default lock hash remains explicitly contextual metadata.
+The guard still rejects changes to any executed source or runtime dependency.
+This binding migration requires an explicitly labeled calibration/campaign
+reproduction with exactly the same controls and numerical outputs, preserving
+earlier evidence and making no new blind-validation claim.
+
 Both complete comparison campaigns are durably retained as deterministic
 relative-path archives under `experiments/data`: the failed
 `molecular-green-6050ddd.tar.gz` SHA256
@@ -11580,3 +11730,7 @@ the original process outputs. Their generation revisions are
 bindings are unchanged. Stored request paths describe the original generation
 host and are provenance, not portable inputs. Native input files are retained
 separately in the attributed native workflow artifact and fixture.
+
+### EI scientific binding reproduction
+
+Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
