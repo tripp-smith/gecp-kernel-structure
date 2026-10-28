@@ -1721,3 +1721,48 @@ job was repeated. These release checks leave the finite-fixture, conditional
 certificate and exact-theorem scopes above unchanged. Upstream outreach now
 includes the maintainer-invited [notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10);
 its live page owns subsequent review, check and merge status.
+## Molecular Green GF2 checkpoints
+
+The 1.2.0 candidate source contains an optional molecular reader for
+Green/green-mbtools 1.0.0 restricted GF2 output in a declared symmetric Lowdin
+basis. Published 1.1.0 files remain unchanged. Install the candidate checkout
+with `python -m pip install '.[green]'` and import it explicitly:
+
+```python
+from kernelgecp.integrations.green import read_green_tau
+
+data = read_green_tau("input.h5", "sim.h5", "bound-manifest.json")
+assert data.g_tau.shape[1:] == data.sigma_tau.shape[1:]
+# Axes: tau, spin, molecular k=1, orbital row, orbital column.
+print(data.iteration, data.mu, data.energies.total_hartree)
+```
+
+The required `kernelgecp.green-molecular-run.v1` JSON manifest binds the actual
+HDF5 files, native convergence log, source/build provenance and provider receipt
+by SHA256. It declares units, geometry and method settings that Green's output
+does not store. For retained native provider outputs, run
+`python scripts/providers/bind_green_manifest.py NATIVE_DIRECTORY PROVIDER_RECEIPT`
+to enrich their original explicit run settings. It refuses files absent from
+the source provider receipt. See the attributed fixture in
+`tests/data/green_h2_074` and the [official output contract](https://green-phys.org/docs/components/data-formats/output-files/).
+
+The reader validates versions, dimensions, finite values, overlap, native log
+and independently recomputed final iteration-pair deltas. It returns owned,
+immutable arrays without collapsing matrix/spin axes, unpickling `Cell`,
+conjugating data or repairing symmetry. `/iter` must identify a complete
+checkpoint matching the converged manifest; incomplete output never triggers
+an implicit older fallback. Explicit historical iterations retain their source
+identity and have `converged=False`.
+
+`data.sigma_static`, `data.h_core`, `data.overlap` and `data.mu` remain explicit.
+Only decaying `g_tau`/dynamic `sigma_tau` belong in the fermionic basis. The
+dynamic time-domain self-energy has Hartree-squared units; energy and static
+self-energy use Hartree, imaginary time inverse Hartree, and geometry Angstrom.
+The total energy is `Energy_HF + Energy_2b`; `Energy_1b` must not be added again.
+The matrix archive recipe is `python -m examples.molecular_green --help`.
+
+EF scientific acceptance remains in progress. Frozen comparison `56c3211`
+passes the declared same-solution sampled compression gates across both
+geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
+This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
+and native commands are documented in `environments/green-science/README.md`.

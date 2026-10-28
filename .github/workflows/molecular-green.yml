@@ -1,0 +1,112 @@
+name: Molecular Green GF2
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, "codex/**"]
+    paths:
+      - "kernelgecp/integrations/green.py"
+      - "experiments/molecular_*.py"
+      - "experiments/molecular_green.toml"
+      - "experiments/audit_molecular_green.py"
+      - "tests/test_molecular_*.py"
+      - "scripts/check_molecular_installed.py"
+      - "scripts/providers/green_molecular_runs.py"
+      - "scripts/providers/bind_green_manifest.py"
+      - "environments/green/**"
+      - "environments/green-science/**"
+      - ".github/workflows/molecular-green.yml"
+  pull_request:
+    paths:
+      - "kernelgecp/integrations/green.py"
+      - "experiments/molecular_*.py"
+      - "experiments/molecular_green.toml"
+      - "experiments/audit_molecular_green.py"
+      - "tests/test_molecular_*.py"
+      - "scripts/check_molecular_installed.py"
+      - "scripts/providers/green_molecular_runs.py"
+      - "scripts/providers/bind_green_manifest.py"
+      - "environments/green/**"
+      - "environments/green-science/**"
+      - ".github/workflows/molecular-green.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: molecular-green-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+
+jobs:
+  actual-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the pinned native molecular provider
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/green/Dockerfile
+          tags: kernelgecp-green:ef
+          load: true
+          push: false
+          cache-from: type=gha,scope=provider-green
+          cache-to: type=gha,mode=min,scope=provider-green
+      - name: Execute both molecular geometries on both native grids
+        run: |
+          mkdir -p artifacts
+          docker image inspect kernelgecp-green:ef --format '{{.Id}}' > artifacts/green-image-id.txt
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" kernelgecp-green:ef \
+            /opt/venv/bin/python /workspace/scripts/providers/green_molecular_runs.py \
+            --output-dir /artifacts/native --source-revision "$(git rev-parse HEAD)"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.13.5"
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: environments/green-science/uv.lock
+      - name: Check actual HDF5 interoperability and independent FCI references
+        run: |
+          uv sync --project environments/green-science --frozen
+          uv run --project environments/green-science --frozen python -m pytest -q \
+            tests/test_green_integration.py tests/test_molecular_reference.py \
+            tests/test_molecular_green_campaign.py tests/test_molecular_green_audit.py
+          GECP_MOLECULAR_NATIVE_ROOT="$PWD/artifacts/native" \
+            uv run --project environments/green-science --frozen python -m pytest -q \
+            tests/test_molecular_native.py
+      - name: Generate the frozen scientific comparison
+        run: |
+          uv run --project environments/green-science --frozen python -m experiments.molecular_green \
+            --native-root "$PWD/artifacts/native" --output-dir "$PWD/artifacts/comparison"
+      - name: Independently audit the comparison
+        run: |
+          uv run --project environments/green-science --frozen python -m experiments.audit_molecular_green \
+            "$PWD/artifacts/comparison" --native-root "$PWD/artifacts/native" \
+            --output "$PWD/artifacts/comparison-audit.json"
+      - name: Check installed molecular reader outside the source tree
+        run: |
+          uv build --wheel --out-dir "$RUNNER_TEMP/molecular-wheel"
+          uv venv "$RUNNER_TEMP/molecular-venv"
+          uv pip install --python "$RUNNER_TEMP/molecular-venv/bin/python" \
+            "$RUNNER_TEMP/molecular-wheel/"*.whl 'h5py>=3.13,<4'
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/molecular-venv/bin/python" "$GITHUB_WORKSPACE/scripts/check_molecular_installed.py" \
+            "$GITHUB_WORKSPACE/tests/data/green_h2_074" "$RUNNER_TEMP/molecular-fit.npz"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: molecular-green-native-linux
+          path: artifacts/
+          if-no-files-found: error

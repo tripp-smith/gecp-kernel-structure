@@ -3042,3 +3042,23 @@ This annotation records delivered identifiers without changing the goals above.
   records finite representation errors, measured resource/timing scopes and
   non-claims. Final native/root, exact-head CI and delivery are still required;
   no continuous certificate or original mathematical statement changes.
+
+- **Phase EF implementation contract:** supported molecular Green GF2 HDF5
+  import with bound manifests, immutable matrix axes/static terms and complete
+  iteration validation; actual H2/STO-3G two-geometry/native-grid refinement,
+  independent finite-Fock/PySCF references and same-solution compression checks.
+  Preparation follows the bounded contract in RESEARCH.md; scientific/root/CI
+  acceptance and delivery remain open. Original mathematical goals are unchanged.
+- **Phase ED delivered acceptance:** merged main `7530ec7` passes full root
+  verification, all four exact-main workflows and canonical native/scientific
+  acceptance in [PR #136](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017).
+  Historical generation remains `a3a64ba`; public 1.1.0 assets and original
+  theorem statements are unchanged.
+- **Phase EF native pilot:** source `a31d048` passes four actual Green GF2
+  calculations (two H2 geometries, two native grids) in run 40527992216.
+  This is distinct from final held-out representation/model/audit and delivery
+  acceptance, which remain open in draft PR #137.
+
+- **Phase EF comparison status:** frozen `56c3211` passes the declared
+  calibration and fresh sampled validation gates; the earlier failed control
+  run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.

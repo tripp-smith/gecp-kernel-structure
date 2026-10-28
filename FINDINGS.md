@@ -2459,3 +2459,13 @@ the approximate solve. Maximum small-case normalized mean RMS error is
 retains slower 512/1024 timing cases and large physical prediction error;
 representation fidelity does not establish a competitive forecaster. Full
 native/root/CI and delivery remain separate open obligations.
+
+The EF molecular comparison at frozen source `56c3211` reports passing
+same-solution sampled compression gates on the two H2 geometries and both
+native grids: 36 fresh trials have maximum component error 1.726e-8. Its
+selection requires both primary and doubled-cutoff controls; the failed
+`6050ddd` run and its consumed validation points remain recorded in
+[RESEARCH.md](RESEARCH.md). Independent QR/Fourier artifact auditing passes all eight declared gates;
+final verification and delivery remain open.
+These sampled results neither certify the continuous domain nor establish GF2
+accuracy against the exact molecular problem.
