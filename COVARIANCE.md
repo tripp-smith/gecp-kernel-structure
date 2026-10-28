@@ -75,3 +75,13 @@ Kernel positivity remains an assumed column-callback property, not a new
 continuous certificate. Large raw factors/logs stay outside Git; the full
 scientific workflow uploads its own rerun artifacts. Small numerical summaries
 and all local canonical raw-artifact hashes are committed here.
+
+The [security-update reproduction](data/covariance/security-reproduction.json)
+passes all 18 fresh-process cases, the actual CPU GPyTorch provider and the
+independent audit at source `ee7b2c6`. Its calibration reproduces every numerical
+value and chosen control exactly with the unchanged scientific environment.
+The default development lock alone incorporates msgpack 1.2.4. These test rows
+were previously consumed: this is reproducibility without retuning, not a new
+blind validation. The original performance measurements above retain their
+historical generation identity and are not replaced by timings under concurrent
+verification workloads.

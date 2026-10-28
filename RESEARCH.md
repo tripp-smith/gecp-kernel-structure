@@ -11488,3 +11488,10 @@ is unchanged. A fresh complete campaign and provider/auditor run will verify
 the new dependency-bound freeze. Its test rows were already consumed by the
 original passing campaign: this is reproducibility after a development-only
 security update, with no retuning, not another blind validation claim.
+
+The dependency-only scientific reproduction at `ee7b2c6` passes all 18 cases,
+actual GPyTorch and independent audit. Full case receipts, provenance and
+artifact hashes are retained in `data/covariance/security-reproduction.json`;
+the original summary remains historical. Original performance measurements
+are not replaced by timings from concurrent verification workloads. Final
+source/root/exact-head CI and merged-main acceptance still gate delivery.

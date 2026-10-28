@@ -82,8 +82,6 @@ the original calibration source identity.
   --source-revision "$(git rev-parse HEAD)" --output /tmp/ei-audit.json
 ```
 
-The campaign launches each selected cohort in three fresh processes. Retain
-
 The current calibration also records a dependency-only reproduction following
 the development msgpack security update. Its numerical calibration values and
 selected controls are exactly identical to the preserved original calibration
