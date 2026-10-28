@@ -11533,3 +11533,24 @@ native rows, GL64 times and frequency indices are retired as regression data;
 fresh final validation uses GL96 times and disjoint Matsubara indices. The
 candidate ladder and all error budgets remain unchanged. A fresh generation
 and independent audit are required before any scientific acceptance.
+
+The fresh process at source `56c3211` reports all mandatory and calibration
+gates passed with unchanged source; its 12 selections retained 14 doubled
+control attempts, including the two failed looser kernelgecp controls. All 36
+fresh validation trials pass, maximum absolute component error 1.726e-8. The
+report SHA256 is `8c0818f0efa2045c2cbbc0dcb6a18be25e29370abdff0d5133ad10b6b3d9d1c0`;
+the selection SHA256 is `a0d7f0de87ad60c849843ac32596d42c30dfc6355291378d2ba2a936b05c21f6`.
+The process and artifacts are retained locally at
+`/tmp/gecp-ef-canonical-56c3211`. A built wheel, installed outside the checkout,
+reads the attributed actual H2 fixture at iteration 83 with correct matrix
+axes. Independent audit, final full-root verification, source-specific CI and
+delivery remain open; sampled errors do not certify a continuous domain.
+
+Independent auditor source `563710e` reprocessed the frozen `56c3211` artifacts
+and passed all eight gates using raw HDF5, pivoted QR and direct Fourier
+quadrature. It checked all 36 final predictions, first passing dual controls,
+source and artifact hashes, and separated finite-model accounting. The largest
+selected doubled-control error is 4.174e-8. Audit receipt
+`/tmp/gecp-ef-audit-56c3211.json` has SHA256
+`7d7f0ff985c38c0412c2b78cebc35bd554f44d17d1792f68f4deb418689eec9f`.
+The auditor's 17 focused tests pass. Full root and exact-source CI still remain.

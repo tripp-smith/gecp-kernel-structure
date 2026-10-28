@@ -7,6 +7,10 @@ on:
     paths:
       - "kernelgecp/integrations/green.py"
       - "experiments/molecular_*.py"
+      - "experiments/molecular_green.toml"
+      - "experiments/audit_molecular_green.py"
+      - "tests/test_molecular_*.py"
+      - "scripts/check_molecular_installed.py"
       - "scripts/providers/green_molecular_runs.py"
       - "scripts/providers/bind_green_manifest.py"
       - "environments/green/**"
@@ -16,6 +20,10 @@ on:
     paths:
       - "kernelgecp/integrations/green.py"
       - "experiments/molecular_*.py"
+      - "experiments/molecular_green.toml"
+      - "experiments/audit_molecular_green.py"
+      - "tests/test_molecular_*.py"
+      - "scripts/check_molecular_installed.py"
       - "scripts/providers/green_molecular_runs.py"
       - "scripts/providers/bind_green_manifest.py"
       - "environments/green/**"
@@ -73,7 +81,29 @@ jobs:
         run: |
           uv sync --project environments/green-science --frozen
           uv run --project environments/green-science --frozen python -m pytest -q \
-            tests/test_green_integration.py tests/test_molecular_reference.py
+            tests/test_green_integration.py tests/test_molecular_reference.py \
+            tests/test_molecular_green_campaign.py tests/test_molecular_green_audit.py
+          GECP_MOLECULAR_NATIVE_ROOT="$PWD/artifacts/native" \
+            uv run --project environments/green-science --frozen python -m pytest -q \
+            tests/test_molecular_native.py
+      - name: Generate the frozen scientific comparison
+        run: |
+          uv run --project environments/green-science --frozen python -m experiments.molecular_green \
+            --native-root "$PWD/artifacts/native" --output-dir "$PWD/artifacts/comparison"
+      - name: Independently audit the comparison
+        run: |
+          uv run --project environments/green-science --frozen python -m experiments.audit_molecular_green \
+            "$PWD/artifacts/comparison" --native-root "$PWD/artifacts/native" \
+            --output "$PWD/artifacts/comparison-audit.json"
+      - name: Check installed molecular reader outside the source tree
+        run: |
+          uv build --wheel --out-dir "$RUNNER_TEMP/molecular-wheel"
+          uv venv "$RUNNER_TEMP/molecular-venv"
+          uv pip install --python "$RUNNER_TEMP/molecular-venv/bin/python" \
+            "$RUNNER_TEMP/molecular-wheel/"*.whl 'h5py>=3.13,<4'
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/molecular-venv/bin/python" "$GITHUB_WORKSPACE/scripts/check_molecular_installed.py" \
+            "$GITHUB_WORKSPACE/tests/data/green_h2_074" "$RUNNER_TEMP/molecular-fit.npz"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

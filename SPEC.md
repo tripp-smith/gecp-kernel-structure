@@ -3033,3 +3033,7 @@ This annotation records delivered identifiers without changing the goals above.
   calculations (two H2 geometries, two native grids) in run 40527992216.
   This is distinct from final held-out representation/model/audit and delivery
   acceptance, which remain open in draft PR #137.
+
+- **Phase EF comparison status:** frozen `56c3211` passes the declared
+  calibration and fresh sampled validation gates; the earlier failed control
+  run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.

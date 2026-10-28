@@ -1689,7 +1689,8 @@ self-energy use Hartree, imaginary time inverse Hartree, and geometry Angstrom.
 The total energy is `Energy_HF + Energy_2b`; `Energy_1b` must not be added again.
 The matrix archive recipe is `python -m examples.molecular_green --help`.
 
-EF scientific acceptance remains in progress: a successful read or one native
-fixture does not establish two-geometry/native-grid refinement, held-out
-compression accuracy or GF2 model accuracy. The separate scientific environment
+EF scientific acceptance remains in progress. Frozen comparison `56c3211`
+passes the declared same-solution sampled compression gates across both
+geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
+This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
