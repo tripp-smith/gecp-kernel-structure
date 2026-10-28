@@ -11458,3 +11458,60 @@ Primary references: Green's [1.0 output format](https://green-phys.org/docs/comp
 and [molecular execution example](https://green-phys.org/docs/getting-started/examples/n2/).
 The output contract confirms that unit/convergence/method snapshots require
 external provenance and that static Sigma and dynamic time data are distinct.
+
+### EF native pilot and comparison freeze preparation
+
+ED's prerequisite is now complete at merged main `7530ec7`: full root passes
+2,109 tests with 27 optional skips and all four exact-main workflows, with
+the canonical closure receipt in PR #136. EF's first source is `ca6075f`;
+its dedicated dispatch returned HTTP 404 because the workflow was absent from
+the default branch, and PR conflicts prevented PR-triggered execution. This is
+nonexecution evidence. Merging main and adding a filtered push trigger creates
+replacement pilot source `a31d048`; the preserved native driver/image code is
+unchanged. Native [run 40527992216](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40527992216)
+passes all four real calculations and actual reader/FCI tests. Artifact
+12745470627 has digest
+`sha256:73cabde461d371dd19e16cc8cebfca0a06188649a9f96b267132c42507b38066`.
+The duplicate push job was canceled; it is not scientific failure evidence.
+
+At 0.74 Angstrom the coarse/refined native runs converge in 81/77 iterations,
+with total energies -1.129672596130/-1.129672596088 Hartree. At 1.5 Angstrom
+both converge in 56 iterations, with -0.947805483310/-0.947805483276 Hartree.
+All actual final-pair, particle-count and endpoint checks pass. These observations
+close native availability for the pilot; they do not close EF's later gates.
+
+Independent native reconstruction solves the retained time tables with LU and
+evaluates separately constructed sparse-ir 2.1.6 functions, checking the actual
+Green source's normalization. Legacy irbasis 2.2.3 has incompatible 104/108
+function counts at Lambda=1e4 and is not substituted for the native basis.
+A second direct exp(+iw*tau) 512-point quadrature checks Fourier sign/units
+without calling the Fourier basis. All five actual-native tests pass. At
+Lambda=1e5, converting native xgrid through physical tau and back moves some
+near-endpoint arguments by one ulp: individual basis columns differ by
+9.59e-10, while native defining-node normalization agrees within 2.66e-13 and
+the actual weighted Green/Sigma reconstructions within 8.82e-14. The rejected
+columnwise round-trip assertion was a checker issue, not a relaxed physical
+accuracy budget. Native Dyson residuals on calibration frequencies stay below
+2.64e-10; calibration two-grid Green differences stay below 9.20e-11.
+
+The failed first unfrozen comparison pilot is retained. A fresh calibration-only
+pilot selects all twelve cases and retains twelve doubled physical-cutoff
+controls: Green/Sigma cutoffs 4/12 Hartree, kernelgecp tolerance 1e-6 and
+pydlr/sparse-ir tolerances 1e-8. Their 1e-6 calibration misses remain in the
+records. Construction uses the production float64 path, with actual basis/SVD
+diagnostics; the conditional reference-precision control is not an MP128 claim.
+All providers fit the same even native time rows plus endpoints. Calibration
+uses remaining modulo-four-one rows and declared frequencies. Final queries
+are still unconsumed: modulo-four-three native rows plus 64 Gauss nodes and
+disjoint frequency indices. Explicit overlap checks fail closed. Source,
+controls and selection are frozen before any final errors are evaluated.
+
+The native DF vertices reproduce their initial restricted HF Fock and energy
+identities to about 1e-15. Their ERIs differ from exact PySCF ERIs by up to
+6.42e-4 Hartree at 0.74 Angstrom and 3.39e-4 at 1.5 Angstrom; the initial HF
+energy differences are -2.40e-5/-7.85e-5 Hartree. Therefore the final report
+will distinguish GF2 versus FCI of that same DF Hamiltonian, DF-FCI versus
+exact-ERI FCI, and overall model differences. This avoids attributing integral
+approximation or GF2 error to the compression layer. Final scientific/source
+acceptance, independent artifact audit, installed-wheel proof and delivery
+remain required.

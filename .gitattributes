@@ -1,2 +1,3 @@
 # Preserve the exact native log bytes bound by its provenance receipt.
+tests/data/green_h2_074/* -text
 tests/data/green_h2_074/gf2.log -whitespace

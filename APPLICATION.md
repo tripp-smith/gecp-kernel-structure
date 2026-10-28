@@ -1651,9 +1651,10 @@ includes the maintainer-invited [notebook PR #10](https://github.com/SpM-lab/spa
 its live page owns subsequent review, check and merge status.
 ## Molecular Green GF2 checkpoints
 
-The optional molecular reader accepts Green/green-mbtools 1.0.0 restricted GF2
-output in a declared symmetric Lowdin basis. Install `kernelgecp[green]` and
-import it explicitly:
+The 1.2.0 candidate source contains an optional molecular reader for
+Green/green-mbtools 1.0.0 restricted GF2 output in a declared symmetric Lowdin
+basis. Published 1.1.0 files remain unchanged. Install the candidate checkout
+with `python -m pip install '.[green]'` and import it explicitly:
 
 ```python
 from kernelgecp.integrations.green import read_green_tau
