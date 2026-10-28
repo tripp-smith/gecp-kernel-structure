@@ -511,6 +511,9 @@ def diagonal_spectral_datasets(
     matrix, _ = covariance_modes(covariance)
     if matrix.shape != (observed.size, observed.size):
         raise ValueError("joint covariance must use complete time-major ordering")
+    caller_provenance = kwargs.pop("provenance", {})
+    if not isinstance(caller_provenance, dict):
+        raise ValueError("provenance must be a JSON object")
     results = []
     for column, label in enumerate(labels):
         indices = np.arange(column, observed.size, len(labels))
@@ -521,6 +524,7 @@ def diagonal_spectral_datasets(
                 observed[:, column],
                 matrix[np.ix_(indices, indices)],
                 provenance={
+                    "source": caller_provenance,
                     "channel": label,
                     "ordering": labels,
                     "operation": "scalar_marginal_no_joint_inference",

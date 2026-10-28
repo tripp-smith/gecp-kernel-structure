@@ -101,11 +101,12 @@ def test_diagonal_channels_extract_declared_time_major_marginals():
     values = np.column_stack((data.values, data.values * 2))
     joint = np.kron(data.covariance, np.array([[1, 0.25], [0.25, 2]]))
     first, second = diagonal_spectral_datasets(
-        3, data.tau, values, joint, ("up", "down")
+        3, data.tau, values, joint, ("up", "down"), provenance={"run": "native"}
     )
     np.testing.assert_array_equal(first.values, data.values)
     np.testing.assert_allclose(second.covariance, 2 * data.covariance)
     assert first.provenance["channel"] == "up"
+    assert first.provenance["source"] == {"run": "native"}
     assert second.provenance["ordering"] == ["up", "down"]
     with pytest.raises(ValueError):
         diagonal_spectral_datasets(3, data.tau, values, joint, ("up", "up"))
