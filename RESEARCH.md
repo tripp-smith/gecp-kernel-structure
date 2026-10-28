@@ -11411,3 +11411,41 @@ public adapter needs an actual provider case; a synthetic parser cannot close
 EG. Update README/API/claim docs, pass full root and exact-head provider CI,
 merge/push/synchronize main and verify its checks before delivery. EE/EF/EH/EI
 and 1.2.0 publication remain independent mandatory gates.
+
+### EG public interface and source-backed format decisions
+
+The authentic first native gate passed at generator `2b60af6`, preserving
+qe-7.5 source `770a0b2d12928a67048e2f3da8d10d057e52179e` and the exact
+official input/io hashes. It produced 140 ordered states at each temperature,
+with 54/46/31 positive frequencies at 17/20/30 K. Native energies span deep
+bands, so neither state deduplication nor a frequency-window-only spectral
+cutoff is acceptable. The log records ef0 and all three chemical potentials
+as 7.6644748482 eV; the actual fixture explicitly declares delta_mu=0.
+
+Implement EPWAnisotropicData, read_epw_anisotropic/write_epw_anisotropic,
+nambu_green, recover_epw_nambu, fit_epw_nambu and EPWNambuFit. Native reads
+require a versioned context manifest with file SHA256, tested provider,
+temperature, eV units, ordinary Matsubara labels/native state ordering,
+full-bandwidth convention, reference Fermi energy and explicit mu offset.
+Use kB=1.380649e-23/1.602176634e-19 eV/K. Keep original bytes for unchanged
+lossless replay; reconstructed output uses fixed ES20.10 fields and a new
+actual-file hash. A four-column file has chi=0 only with its explicit
+non-full-bandwidth convention. Arrays/context are owned and immutable.
+
+The Nambu inverse has diagonals i*omega*Z minus/plus
+(energy_minus_ef0-delta_mu+chi), and off-diagonals -Z*Delta. Construction and
+field recovery use linear solves. Recovery reports matrix condition and
+absolute inversion/Z amplification (deep bands and small omega can amplify
+errors even at condition number one); reject unsafe or materially non-real
+or structurally inconsistent recovery. Small accepted real-export rounding
+defects are explicit diagnostics, not a hidden symmetry repair.
+
+EPWNambuFit reuses FermionicFit v2 and a hash-bound application manifest with
+temperature/energy/state/mesh conventions and source-versus-analysis identity.
+Positive-only adjoint completion is an explicit fit option. Observation,
+calibration and final source-row sets are disjoint and frozen before final
+validation. Begin with actual 17 K data, retain 20/30 K misses/inconclusives,
+and expose only workflows meeting all stated physical/restart gates. Public
+fitting remains a downstream representation; it does not create EPW IR objects
+or accelerate the internal solver. Native unchanged/reconstructed restart
+controls and a last-state wrong-frequency negative control are mandatory.
