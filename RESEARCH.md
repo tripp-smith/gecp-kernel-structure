@@ -11566,3 +11566,17 @@ Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
 provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
+
+Both complete comparison campaigns are durably retained as deterministic
+relative-path archives under `experiments/data`: the failed
+`molecular-green-6050ddd.tar.gz` SHA256
+`6e6ca2408b77fa77d368b59dba02957069678f6fde8d0bba91bbf9572eefb176`
+and passing `molecular-green-56c3211.tar.gz` SHA256
+`ddfd97ee1ba09814186107217e486a83cb1fb3d3b5aab246e197b3a04cbd4ab8`.
+All 282 and 298 archive members respectively were byte-hash checked against
+the original process outputs. Their generation revisions are
+`6050ddd33af30deafe0d99057ea5d8a277c411a9` and
+`56c321119b61259bf1da03d529a30b1b5b48a984`; historical reports and source/lock
+bindings are unchanged. Stored request paths describe the original generation
+host and are provenance, not portable inputs. Native input files are retained
+separately in the attributed native workflow artifact and fixture.

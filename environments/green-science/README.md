@@ -29,3 +29,12 @@ integrals. The top receipt closes only the four actual native executions;
 separate compression, native refinement, Dyson and model-reference gates remain.
 The `Molecular Green GF2` workflow runs this native calculation on Linux and
 retains raw artifacts. A missing local Docker daemon is not scientific evidence.
+
+The complete failed and replacement comparison outputs are retained as
+`experiments/data/molecular-green-6050ddd.tar.gz` and
+`experiments/data/molecular-green-56c3211.tar.gz`. Their source revisions,
+SHA256 values, original native artifact and acceptance boundaries are in
+RESEARCH.md. Members have safe relative paths; saved request paths describe
+the original host and are not portable inputs. The first campaign failed two
+doubled-cutoff controls, and its consumed final queries were retired before
+the second generation. Neither archive is a continuous-domain certificate.
