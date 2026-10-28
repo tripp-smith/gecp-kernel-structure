@@ -1,0 +1,226 @@
+"""Independent covariance/forward checks; actual optional provider is separate."""
+
+from __future__ import annotations
+
+import importlib
+import json
+import subprocess
+import sys
+from dataclasses import FrozenInstanceError
+
+import numpy as np
+import pytest
+from scipy.integrate import quad
+
+from kernelgecp.integrations.maxent import (
+    MaxEntConfig,
+    SpectralDataset,
+    continue_tau_maxent,
+    covariance_modes,
+    diagonal_spectral_datasets,
+    load_spectral_dataset,
+    prepare_spectral_projection,
+    save_spectral_dataset,
+    spectral_forward,
+)
+
+
+class PolynomialDesign:
+    beta = 3.0
+
+    def design_tau(self, tau):
+        return np.polynomial.legendre.legvander(2 * np.asarray(tau) / self.beta - 1, 3)
+
+
+def dataset():
+    tau = np.linspace(0, 3, 9)
+    correlation = np.exp(-np.abs(tau[:, None] - tau) / 0.8)
+    return SpectralDataset(3, tau, -0.5 + 0.1 * np.cos(tau), 1e-6 * correlation)
+
+
+def test_complete_projection_matches_independent_qr_covariance_and_noise_modes():
+    data = dataset()
+    target = np.linspace(0, 3, 17)
+    basis = PolynomialDesign()
+    plan = prepare_spectral_projection(basis, data.tau, target)
+    q, r = np.linalg.qr(basis.design_tau(data.tau))
+    independent = np.linalg.solve(r.T, basis.design_tau(target).T).T @ q.T
+    projected = plan.apply(data)
+    np.testing.assert_allclose(plan.matrix, independent, atol=2e-15)
+    np.testing.assert_allclose(projected.values, independent @ data.values, atol=1e-15)
+    expected = independent @ data.covariance @ independent.T
+    np.testing.assert_allclose(projected.covariance, expected, atol=3e-21)
+    assert projected.modes.effective_rank == 4
+    assert projected.source_fingerprint == data.fingerprint
+    # Treating interpolated points as independent changes the noise model.
+    assert np.linalg.norm(expected - np.diag(np.diag(expected))) > 1e-6
+    residual = np.linspace(-1, 1, target.size) * 1e-4
+    eigen, vectors = np.linalg.eigh(expected)
+    keep = eigen > projected.modes.threshold
+    oracle = np.sqrt(np.mean((vectors[:, keep].T @ residual) ** 2 / eigen[keep]))
+    assert projected.modes.whitened_rms(residual) == pytest.approx(oracle, abs=2e-15)
+
+
+def test_covariance_explicit_rank_rejection_and_roundoff_symmetrization():
+    matrix, modes = covariance_modes(np.diag([1.0, 1e-9, 0.0]), rtol=1e-8)
+    assert modes.effective_rank == 1
+    assert modes.whitened_rms([2, 300, -500]) == 2
+    np.testing.assert_array_equal(matrix, np.diag([1, 1e-9, 0]))
+    for invalid in (np.diag([1, -1e-4]), [[1, 0.1], [0, 1]], np.zeros((2, 2))):
+        with pytest.raises(ValueError):
+            covariance_modes(invalid)
+    for invalid in (0, -1, 1, True, np.nan):
+        with pytest.raises(ValueError):
+            covariance_modes(np.eye(3), rtol=invalid)
+    close = np.array([[1, 0.2 + 1e-15], [0.2, 1]])
+    _, modes = covariance_modes(close)
+    assert modes.symmetry_correction > 0
+
+
+def test_owned_data_projection_and_no_implicit_complex_projection():
+    data = dataset()
+    for array in (data.values, data.tau, data.covariance, data.modes.retained_vectors):
+        with pytest.raises(ValueError):
+            array.setflags(write=True)
+    with pytest.raises(FrozenInstanceError):
+        data.beta = 7
+    with pytest.raises(ValueError, match="real-part"):
+        SpectralDataset(3, data.tau, data.values.astype(complex), data.covariance)
+    for bad in (data.tau[1:], data.tau[::-1], np.zeros(9)):
+        with pytest.raises(ValueError):
+            SpectralDataset(3, bad, data.values, data.covariance)
+    plan = prepare_spectral_projection(PolynomialDesign(), data.tau, data.tau)
+    with pytest.raises(ValueError, match="exact prepared"):
+        plan.apply(
+            SpectralDataset(4, np.linspace(0, 4, 9), data.values, data.covariance)
+        )
+
+
+def test_diagonal_channels_extract_declared_time_major_marginals():
+    data = dataset()
+    values = np.column_stack((data.values, data.values * 2))
+    joint = np.kron(data.covariance, np.array([[1, 0.25], [0.25, 2]]))
+    first, second = diagonal_spectral_datasets(
+        3, data.tau, values, joint, ("up", "down")
+    )
+    np.testing.assert_array_equal(first.values, data.values)
+    np.testing.assert_allclose(second.covariance, 2 * data.covariance)
+    assert first.provenance["channel"] == "up"
+    assert second.provenance["ordering"] == ["up", "down"]
+    with pytest.raises(ValueError):
+        diagonal_spectral_datasets(3, data.tau, values, joint, ("up", "up"))
+
+
+def test_spectral_forward_independent_adaptive_quadrature_and_endpoint_sum_rule():
+    omega = np.linspace(-2, 2, 41)
+    density = np.maximum(1 - np.abs(omega) / 2, 0) / 2
+    beta = 10.0
+    tau = np.array([0, 0.2, 1.7, 5, 8.4, 10])
+    actual = spectral_forward(beta, tau, omega, density)
+    expected = [
+        quad(
+            lambda w, t=t: (
+                -np.exp(-t * w) / (1 + np.exp(-beta * w)) * np.interp(w, omega, density)
+            ),
+            -2,
+            2,
+            points=omega,
+            epsabs=1e-13,
+        )[0]
+        for t in tau
+    ]
+    np.testing.assert_allclose(actual, expected, atol=1e-14)
+    assert actual[0] + actual[-1] == pytest.approx(-np.trapezoid(density, omega))
+    assert np.all(np.isfinite(spectral_forward(1e4, [0, 1e4], omega, density)))
+
+
+def test_archive_safe_roundtrip_and_tamper_rejection(tmp_path):
+    data = prepare_spectral_projection(
+        PolynomialDesign(), dataset().tau, np.linspace(0, 3, 17)
+    ).apply(dataset())
+    target = tmp_path / "observations.npz"
+    manifest = save_spectral_dataset(
+        data,
+        target,
+        units={"tau": "Hartree^-1"},
+        provider={"name": "test", "version": "1"},
+    )
+    result = load_spectral_dataset(target)
+    assert result.fingerprint == data.fingerprint
+    np.testing.assert_array_equal(result.projection, data.projection)
+    with pytest.raises(FileExistsError):
+        save_spectral_dataset(data, target, units={"tau": "1"}, provider={"name": "x"})
+    document = json.loads(manifest.read_text())
+    document["effective_rank"] += 1
+    manifest.write_text(json.dumps(document))
+    with pytest.raises(ValueError, match="rank mismatch"):
+        load_spectral_dataset(target)
+    manifest.write_text('{"schema":1,"schema":2}')
+    with pytest.raises(ValueError, match="duplicate"):
+        load_spectral_dataset(target)
+    document["effective_rank"] -= 1
+    manifest.write_text(json.dumps(document))
+    target.write_bytes(target.read_bytes() + b"tamper")
+    with pytest.raises(ValueError, match="hash mismatch"):
+        load_spectral_dataset(target)
+
+
+@pytest.mark.parametrize(
+    "settings",
+    [
+        dict(n_alpha=True),
+        dict(n_omega=2),
+        dict(alpha_min=2, alpha_max=1),
+        dict(default_model="silent_fallback"),
+        dict(normalize_mass=0),
+    ],
+)
+def test_resource_and_configuration_contract(settings):
+    with pytest.raises(ValueError):
+        MaxEntConfig(**settings)
+
+
+def test_no_optional_provider_needed_and_missing_provider_fails(monkeypatch):
+    subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import kernelgecp; "
+            "import kernelgecp.integrations.maxent; import sys; "
+            "assert 'triqs_maxent' not in sys.modules",
+        ],
+        check=True,
+    )
+    original = importlib.import_module
+
+    def missing(name, *args, **kwargs):
+        if name.startswith("triqs_maxent"):
+            raise ImportError("optional provider absent")
+        return original(name, *args, **kwargs)
+
+    monkeypatch.setattr(importlib, "import_module", missing)
+    with pytest.raises(ImportError, match="optional"):
+        continue_tau_maxent(dataset())
+
+
+def test_actual_tau_maxent_provider_positive_and_rank_aware():
+    pytest.importorskip("triqs_maxent")
+    beta = 10
+    tau = np.linspace(0, beta, 33)
+    pole = 0.7
+    values = -(np.exp(-pole * tau) + np.exp(-pole * (beta - tau))) / (
+        2 * (1 + np.exp(-beta * pole))
+    )
+    data = SpectralDataset(beta, tau, values, 1e-8 * np.eye(33))
+    result = continue_tau_maxent(
+        data, MaxEntConfig(omega_min=-2, omega_max=2, n_omega=81, n_alpha=9)
+    )
+    assert result.diagnostics["version"] == "4.0.1"
+    assert result.effective_rank == 33
+    assert result.converged[result.selected_index]
+    assert np.min(result.density) >= 0
+    assert abs(result.mass - 1) < 1e-12
+    assert abs(result.raw_mass - 1) < 0.002
+    assert result.normalized_training_whitened_rms < 3
+    # This small integration case does not close the independent science gate.
+    assert np.max(np.abs(result.evaluate_tau(beta, tau) - values)) < 1e-3
