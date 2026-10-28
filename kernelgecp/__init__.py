@@ -32,6 +32,13 @@ from .certified import certified_pivot, interval_certified_pivot
 from .cholesky import pivoted_cholesky
 from .fitting import LeastSquaresDiagnostics, LeastSquaresPlan
 from .gecp import cross_approximation, evaluate_residual, gecp, gecp_matrix
+from .kernel_cholesky import (
+    KernelCholeskyDiagnostics,
+    KernelCholeskyExtension,
+    KernelCholeskyFactor,
+    KernelSolveResult,
+    ShiftedKernelCholesky,
+)
 from .kernels import FermionicKernel
 from .precision import (
     CoefficientPrecisionBounds,
@@ -90,6 +97,10 @@ __all__ = [
     "GridPrecisionCertificate",
     "HighPrecisionData",
     "IntervalArray",
+    "KernelCholeskyDiagnostics",
+    "KernelCholeskyExtension",
+    "KernelCholeskyFactor",
+    "KernelSolveResult",
     "LeastSquaresDiagnostics",
     "LeastSquaresPlan",
     "NumericalBreakdownError",
@@ -101,6 +112,7 @@ __all__ = [
     "SeparatedApproximation",
     "SparseRecoveryResult",
     "SparseResult",
+    "ShiftedKernelCholesky",
     "SyntheticApplicationConfig",
     "SyntheticApplicationSuite",
     "analyze_census_file",

@@ -2446,3 +2446,46 @@ Their reported nominal standard errors and inherited budget selection are
 invalid; the parent 400k budget also fails the SEM gate when recomputed from
 four unique streams. Fresh odd-stride calibration and held-out validation are
 in progress. A duplicate raw-measurement check now fails closed.
+
+## EI development: column observations and independent covariance checks
+
+Column-oracle Cholesky separates scalable factor state from a dense covariance
+matrix. Consistency checks on selected columns cannot establish positivity or
+symmetry of unobserved entries, so those remain explicit callback assumptions.
+An immutable factor's convergence uses its actual returned diagonal
+reconstruction error, including small negative values before clipping.
+
+Tiny diagonal noise can destroy a subtraction-based Woodbury solution even
+for a well-behaved shifted system. A temporary implicit Householder/SVD path
+avoids that subtraction without retaining a second full factor or building a
+complete orthogonal matrix. The actual approximate-system residual, including
+final RHS rescaling, must pass; this does not establish the original-kernel
+CG residual. Independent dense prediction and true-kernel CG gates remain
+separate from factor stopping.
+
+Pre-validation UCI pilots show why a representation budget belongs in model
+calibration: a likelihood-favored narrow kernel can miss dense predictions
+at the allowed rank, while a slightly smoother candidate can meet the same
+fixed error budget. Rejected candidates are retained. The accepted runtime,
+all six real-data sizes, three fresh repeats, provider parity and delivery
+gates were pending at that pilot; default-environment results close no EI gate.
+
+The subsequent locked-runtime generation `203e58a` now passes all 18 real-data
+trials, actual Mac GPyTorch parity and independent source/blob/array auditing.
+At n16384 the method retains 69.37 MiB and uses at most 321.75 MiB fresh RSS;
+the original-kernel CG residual is independently recomputed, separate from
+the approximate solve. Maximum small-case normalized mean RMS error is
+1.25e-4 and observation-standard-deviation RMS error 1.46e-5. [The report](COVARIANCE.md)
+retains slower 512/1024 timing cases and large physical prediction error;
+representation fidelity does not establish a competitive forecaster. Full
+native/root/CI and delivery remain separate open obligations.
+
+The EF molecular comparison at frozen source `56c3211` reports passing
+same-solution sampled compression gates on the two H2 geometries and both
+native grids: 36 fresh trials have maximum component error 1.726e-8. Its
+selection requires both primary and doubled-cutoff controls; the failed
+`6050ddd` run and its consumed validation points remain recorded in
+[RESEARCH.md](RESEARCH.md). Independent QR/Fourier artifact auditing passes all eight declared gates;
+final verification and delivery remain open.
+These sampled results neither certify the continuous domain nor establish GF2
+accuracy against the exact molecular problem.

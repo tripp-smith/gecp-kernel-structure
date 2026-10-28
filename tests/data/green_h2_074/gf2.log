@@ -1,0 +1,2808 @@
+Inter-node communicator has 1 cores. Intra-node communicator has 1 cores.
+
+ █▀▀█ █▀▀█ █▀▀ █▀▀ █▀▀▄ 
+ █ ▄▄ █▄▄▀ █▀▀ █▀▀ █  █ 
+ █▄▄█ ▀ ▀▀ ▀▀▀ ▀▀▀ ▀  ▀ 
+
+ █   █ █▀▀ █▀▀█ █ █     █▀▀█ █▀▀█ █  █ █▀▀█ █    ▀  █▀▀▄ █▀▀▀ 
+ █ █ █ █▀▀ █▄▄█ █▀▄ ▀▀  █    █  █ █  █ █  █ █   ▀█▀ █  █ █ ▀█ 
+ █▄▀▄█ ▀▀▀ ▀  ▀ ▀ ▀     █▄▄█ ▀▀▀▀  ▀▀▀ █▀▀▀ ▀▀▀ ▀▀▀ ▀  ▀ ▀▀▀▀
+
+Weak-Coupling Many-Body perturbation solver.
+
+=====================================
+Git hashes:
+mbpt:d593a9c
+utils:440f1d5
+ndarray:17d9805
+h5pp:ec30bfe
+params:b40eae5
+grids:e9e4b14
+symmetry:1dac18d
+sc:2a14dc2
+opt:f76d8d9
+=====================================
+Version: v1.0.0
+                     -?,--help : false
+                     --version : false
+    arg_0(Parameters INI File) : 
+                 --mixing_type : SIGMA_MIXING
+--mixing_weight,--mixing_alpha : 0.5
+                     --damping : null
+                  --diis_start : 2
+                   --diis_size : 3
+                   --diis_file : diis.h5
+                --diis_restart : true
+                --results_file : sim.h5
+                     --verbose : 0
+                     --restart : false
+                     --itermax : 100
+           --E_thr,--threshold : 1e-10
+                    --E_thr_sp : 1e-05
+                  --input_file : input.h5
+               --const_density : true
+             --TNL,--grid_file : /opt/green-src/green-grids/data/ir/1e4.h5
+                        --BETA : 20
+          --dfintegral_hf_file : df_hf_int
+             --dfintegral_file : df_hf_int
+             --tolerance,--tol : 1e-09
+                    --scf_type : GF2
+                        --P_sp : false
+                    --Sigma_sp : false
+   --high_symmetry_output_file : output_hs.h5
+                --q0_treatment : IGNORE_G0
+                        --jobs : SC
+                      --kernel : CPU
+Inter-node communicator has 1 cores. Intra-node communicator has 1 cores.
+       New chemical potential, μ =  4.618835449218750e-02
+Chemical potential difference Δμ =  4.618835449218750e-02
+Leakage of Dyson G: 1.19144e-14
+
+========== Starting iteration 1 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000183      0.000183      0.000183 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000001      0.000001      0.000001 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000069      0.000069      0.000069 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000060      0.000060      0.000060 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000341      0.000341      0.000341 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000003      0.000003      0.000003 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000008      0.000008      0.000008 s.
+  Event 'read' took                                0.000286      0.000286      0.000286 s.
+=====================
+                  One-body Energy: -2.506613745969592e+00
+                        HF Energy: -1.116773960741515e+00
+               Correlation Energy: -2.625189337696437e-02
+                     Total Energy: -1.143025854118479e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.143025854118479e+00  4.618835449218750e-02  2.499990639750989e-01
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.364743939169153e+00
+       New chemical potential, μ =  4.618835449218750e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18271e-14
+
+========== Starting iteration 2 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000154      0.000154      0.000154 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000060      0.000060      0.000060 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000056      0.000056      0.000056 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000357      0.000357      0.000357 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000006      0.000006      0.000006 s.
+  Event 'read' took                                0.000307      0.000307      0.000307 s.
+=====================
+                  One-body Energy: -2.498566449379526e+00
+                        HF Energy: -1.105084046751267e+00
+               Correlation Energy: -2.559603337769645e-02
+                     Total Energy: -1.130680080128963e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.234577398951603e-02  0.000000000000000e+00  1.827935769991394e-03
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.039307057958167e-02
+       New chemical potential, μ =  4.620623588562012e-02
+Chemical potential difference Δμ =  1.788139343261719e-05
+Leakage of Dyson G: 1.18032e-14
+
+========== Starting iteration 3 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000149      0.000149      0.000149 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000058      0.000058      0.000058 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000055      0.000055      0.000055 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000391      0.000391      0.000391 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000042      0.000042      0.000042 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000341      0.000341      0.000341 s.
+=====================
+                  One-body Energy: -2.498734944091707e+00
+                        HF Energy: -1.104725434033123e+00
+               Correlation Energy: -2.545897164504318e-02
+                     Total Energy: -1.130184405678166e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 4.956744507976785e-04  1.788139343261719e-05  3.827378692665127e-05
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  6.641691629785153e-04
+       New chemical potential, μ =  4.621481895446777e-02
+Chemical potential difference Δμ =  8.583068847656250e-06
+Leakage of Dyson G: 1.18233e-14
+
+========== Starting iteration 4 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000174      0.000174      0.000174 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000061      0.000061      0.000061 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000058      0.000058      0.000058 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000347      0.000347      0.000347 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000299      0.000299      0.000299 s.
+=====================
+                  One-body Energy: -2.498799456473123e+00
+                        HF Energy: -1.104530046148379e+00
+               Correlation Energy: -2.540470429698341e-02
+                     Total Energy: -1.129934750445362e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.496552328038436e-04  8.583068847656250e-06  1.465383188862293e-05
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.141676142202864e-04
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  4.053115844726562e-06
+Leakage of Dyson G: 1.17982e-14
+
+========== Starting iteration 5 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000161      0.000161      0.000161 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000058      0.000058      0.000058 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000055      0.000055      0.000055 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000335      0.000335      0.000335 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000286      0.000286      0.000286 s.
+=====================
+                  One-body Energy: -2.498822326767733e+00
+                        HF Energy: -1.104423562750428e+00
+               Correlation Energy: -2.538430586841714e-02
+                     Total Energy: -1.129807868618845e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.268818265167948e-04  4.053115844726562e-06  5.195071921637672e-06
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.497521211264487e-04
+       New chemical potential, μ =  4.622077941894531e-02
+Chemical potential difference Δμ =  1.907348632812500e-06
+Leakage of Dyson G: 1.19205e-14
+
+========== Starting iteration 6 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000337      0.000337      0.000337 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000289      0.000289      0.000289 s.
+=====================
+                  One-body Energy: -2.498829306010266e+00
+                        HF Energy: -1.104365572018086e+00
+               Correlation Energy: -2.537729115839082e-02
+                     Total Energy: -1.129742863176476e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.500544236900593e-05  1.907348632812500e-06  1.585350268284716e-06
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  7.198468490168461e-05
+       New chemical potential, μ =  4.622173309326172e-02
+Chemical potential difference Δμ =  9.536743164062500e-07
+Leakage of Dyson G: 1.18596e-14
+
+========== Starting iteration 7 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000337      0.000337      0.000337 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000289      0.000289      0.000289 s.
+=====================
+                  One-body Energy: -2.498830670716829e+00
+                        HF Energy: -1.104334017144712e+00
+               Correlation Energy: -2.537529843417930e-02
+                     Total Energy: -1.129709315578891e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.354759758533721e-05  9.536743164062500e-07  3.097172531280018e-07
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.491230414819774e-05
+       New chemical potential, μ =  4.622220993041992e-02
+Chemical potential difference Δμ =  4.768371582031250e-07
+Leakage of Dyson G: 1.18505e-14
+
+========== Starting iteration 8 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000145      0.000145      0.000145 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000058      0.000058      0.000058 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000350      0.000350      0.000350 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000301      0.000301      0.000301 s.
+=====================
+                  One-body Energy: -2.498830330903326e+00
+                        HF Energy: -1.104316859221109e+00
+               Correlation Energy: -2.537502838824480e-02
+                     Total Energy: -1.129691887609354e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.742796953686093e-05  4.768371582031250e-07  7.743367093339919e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.776778303952398e-05
+       New chemical potential, μ =  4.622244834899902e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18807e-14
+
+========== Starting iteration 9 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000158      0.000158      0.000158 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000058      0.000058      0.000058 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000055      0.000055      0.000055 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000336      0.000336      0.000336 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000288      0.000288      0.000288 s.
+=====================
+                  One-body Energy: -2.498829664623672e+00
+                        HF Energy: -1.104307534715278e+00
+               Correlation Energy: -2.537524492431383e-02
+                     Total Energy: -1.129682779639592e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 9.107969762174595e-06  2.384185791015625e-07  1.515110282164543e-07
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.020732155394138e-05
+       New chemical potential, μ =  4.622244834899902e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18155e-14
+
+========== Starting iteration 10 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000155      0.000155      0.000155 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000014      0.000014      0.000014 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000339      0.000339      0.000339 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000291      0.000291      0.000291 s.
+=====================
+                  One-body Energy: -2.498829086344342e+00
+                        HF Energy: -1.104302468905141e+00
+               Correlation Energy: -2.537552505260449e-02
+                     Total Energy: -1.129677993957745e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 4.785681846766754e-06  0.000000000000000e+00  1.310869074668956e-07
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  5.924217758239425e-06
+       New chemical potential, μ =  4.622244834899902e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.1902e-14
+
+========== Starting iteration 11 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000058      0.000058      0.000058 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000055      0.000055      0.000055 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000340      0.000340      0.000340 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000042      0.000042      0.000042 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000290      0.000290      0.000290 s.
+=====================
+                  One-body Energy: -2.498828677305917e+00
+                        HF Energy: -1.104299718026313e+00
+               Correlation Energy: -2.537574998658085e-02
+                     Total Energy: -1.129675468012894e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.525944851790307e-06  0.000000000000000e+00  9.297112855755677e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.384851229776276e-06
+       New chemical potential, μ =  4.622244834899902e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19186e-14
+
+========== Starting iteration 12 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000147      0.000147      0.000147 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000347      0.000347      0.000347 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000042      0.000042      0.000042 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000297      0.000297      0.000297 s.
+=====================
+                  One-body Energy: -2.498828412736932e+00
+                        HF Energy: -1.104298224288176e+00
+               Correlation Energy: -2.537590478962529e-02
+                     Total Energy: -1.129674129077802e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.338935092000393e-06  0.000000000000000e+00  6.022287910698789e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.913110165445431e-06
+       New chemical potential, μ =  4.622244834899902e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18559e-14
+
+========== Starting iteration 13 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000145      0.000145      0.000145 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000333      0.000333      0.000333 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000042      0.000042      0.000042 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828250075841e+00
+                        HF Energy: -1.104297413164730e+00
+               Correlation Energy: -2.537600351818563e-02
+                     Total Energy: -1.129673416682916e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.123948858878126e-07  0.000000000000000e+00  3.706102367155109e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.072513097354066e-06
+       New chemical potential, μ =  4.622220993041992e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18791e-14
+
+========== Starting iteration 14 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000155      0.000155      0.000155 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000070      0.000070      0.000070 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000066      0.000066      0.000066 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000332      0.000332      0.000332 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828149959926e+00
+                        HF Energy: -1.104296971992869e+00
+               Correlation Energy: -2.537606372711719e-02
+                     Total Energy: -1.129673035719986e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.809629296955275e-07  2.384185791015625e-07  2.208166338559144e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  6.014967083786682e-07
+       New chemical potential, μ =  4.622220993041992e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18198e-14
+
+========== Starting iteration 15 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000362      0.000362      0.000362 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000003      0.000003      0.000003 s.
+  Event 'nao' took                                 0.000054      0.000054      0.000054 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000299      0.000299      0.000299 s.
+=====================
+                  One-body Energy: -2.498828095153578e+00
+                        HF Energy: -1.104296733526916e+00
+               Correlation Energy: -2.537609939479809e-02
+                     Total Energy: -1.129672832921714e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.027982721614086e-07  0.000000000000000e+00  1.286977528868476e-08
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.289399813401206e-07
+       New chemical potential, μ =  4.622220993041992e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19074e-14
+
+========== Starting iteration 16 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000146      0.000146      0.000146 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000348      0.000348      0.000348 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000299      0.000299      0.000299 s.
+=====================
+                  One-body Energy: -2.498828063597228e+00
+                        HF Energy: -1.104296603749194e+00
+               Correlation Energy: -2.537612010550865e-02
+                     Total Energy: -1.129672723854703e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.090670112731396e-07  0.000000000000000e+00  7.384508105776916e-09
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.820447833346395e-07
+       New chemical potential, μ =  4.622197151184082e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18264e-14
+
+========== Starting iteration 17 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000523      0.000523      0.000523 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000477      0.000477      0.000477 s.
+=====================
+                  One-body Energy: -2.498828042376451e+00
+                        HF Energy: -1.104296532444774e+00
+               Correlation Energy: -2.537613195945435e-02
+                     Total Energy: -1.129672664404229e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.945047381467061e-08  2.384185791015625e-07  4.198348651085521e-09
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.043791414273576e-07
+       New chemical potential, μ =  4.622197151184082e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19304e-14
+
+========== Starting iteration 18 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000146      0.000146      0.000146 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828033868455e+00
+                        HF Energy: -1.104296494790232e+00
+               Correlation Energy: -2.537613867238206e-02
+                     Total Energy: -1.129672633462614e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.094161486055791e-08  0.000000000000000e+00  2.363572638835755e-09
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  5.287546638380047e-08
+       New chemical potential, μ =  4.622197151184082e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18802e-14
+
+========== Starting iteration 19 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000151      0.000151      0.000151 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000014      0.000014      0.000014 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000283      0.000283      0.000283 s.
+=====================
+                  One-body Energy: -2.498828029007997e+00
+                        HF Energy: -1.104296474057199e+00
+               Correlation Energy: -2.537614244327707e-02
+                     Total Energy: -1.129672616500476e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.696213810728486e-08  0.000000000000000e+00  1.319847203203319e-09
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.936438589853929e-08
+       New chemical potential, μ =  4.622173309326172e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.19546e-14
+
+========== Starting iteration 20 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828022985152e+00
+                        HF Energy: -1.104296461977266e+00
+               Correlation Energy: -2.537614454831913e-02
+                     Total Energy: -1.129672606525586e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 9.974890302633099e-09  2.384185791015625e-07  7.859051745124268e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.020781978209762e-08
+       New chemical potential, μ =  4.622173309326172e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18787e-14
+
+========== Starting iteration 21 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000349      0.000349      0.000349 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000302      0.000302      0.000302 s.
+=====================
+                  One-body Energy: -2.498828023047569e+00
+                        HF Energy: -1.104296456495093e+00
+               Correlation Energy: -2.537614571790538e-02
+                     Total Energy: -1.129672602212998e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 4.312587596061457e-09  0.000000000000000e+00  4.470906499474173e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  6.714177252370446e-09
+       New chemical potential, μ =  4.622173309326172e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19157e-14
+
+========== Starting iteration 22 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000331      0.000331      0.000331 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828022985406e+00
+                        HF Energy: -1.104296453242455e+00
+               Correlation Energy: -2.537614636517645e-02
+                     Total Energy: -1.129672599607632e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.605366158925371e-09  0.000000000000000e+00  2.427944287005607e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.962071511154353e-09
+       New chemical potential, μ =  4.622149467468262e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.1865e-14
+
+========== Starting iteration 23 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000332      0.000332      0.000332 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828019634089e+00
+                        HF Energy: -1.104296450662151e+00
+               Correlation Energy: -2.537614672222578e-02
+                     Total Energy: -1.129672597384377e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.223255100852750e-09  2.384185791015625e-07  3.125975236604029e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  6.288671187959505e-09
+       New chemical potential, μ =  4.622149467468262e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19474e-14
+
+========== Starting iteration 24 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000144      0.000144      0.000144 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000332      0.000332      0.000332 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000285      0.000285      0.000285 s.
+=====================
+                  One-body Energy: -2.498828021177501e+00
+                        HF Energy: -1.104296450343519e+00
+               Correlation Energy: -2.537614691886965e-02
+                     Total Energy: -1.129672597262389e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.219879891545261e-10  0.000000000000000e+00  2.001384024949522e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.058688167855260e-09
+       New chemical potential, μ =  4.622149467468262e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18259e-14
+
+========== Starting iteration 25 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000357      0.000357      0.000357 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000309      0.000309      0.000309 s.
+=====================
+                  One-body Energy: -2.498828021933558e+00
+                        HF Energy: -1.104296449898081e+00
+               Correlation Energy: -2.537614702687430e-02
+                     Total Energy: -1.129672596924955e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.374337094463886e-10  0.000000000000000e+00  1.011247522247803e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.309499553930893e-09
+       New chemical potential, μ =  4.622125625610352e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.17878e-14
+
+========== Starting iteration 26 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000145      0.000145      0.000145 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000340      0.000340      0.000340 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000293      0.000293      0.000293 s.
+=====================
+                  One-body Energy: -2.498828019033074e+00
+                        HF Energy: -1.104296448844216e+00
+               Correlation Energy: -2.537614708602393e-02
+                     Total Energy: -1.129672595930240e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 9.947149839928393e-10  2.384185791015625e-07  2.882126790151989e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.013497589827608e-09
+       New chemical potential, μ =  4.622125625610352e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17645e-14
+
+========== Starting iteration 27 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000335      0.000335      0.000335 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000049      0.000049      0.000049 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000279      0.000279      0.000279 s.
+=====================
+                  One-body Energy: -2.498828020824361e+00
+                        HF Energy: -1.104296449355751e+00
+               Correlation Energy: -2.537614711854023e-02
+                     Total Energy: -1.129672596474291e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.440507419574026e-10  0.000000000000000e+00  1.885584259260045e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.335336896086559e-09
+       New chemical potential, μ =  4.622125625610352e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19572e-14
+
+========== Starting iteration 28 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000151      0.000151      0.000151 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000069      0.000069      0.000069 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000066      0.000066      0.000066 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000326      0.000326      0.000326 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000279      0.000279      0.000279 s.
+=====================
+                  One-body Energy: -2.498828021716471e+00
+                        HF Energy: -1.104296449361883e+00
+               Correlation Energy: -2.537614713631146e-02
+                     Total Energy: -1.129672596498194e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.390317804801256e-11  0.000000000000000e+00  9.418688341705997e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.160136052455137e-10
+       New chemical potential, μ =  4.622101783752441e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.19329e-14
+
+========== Starting iteration 29 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000138      0.000138      0.000138 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828018890562e+00
+                        HF Energy: -1.104296448553691e+00
+               Correlation Energy: -2.537614714593785e-02
+                     Total Energy: -1.129672595699629e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.985648114994248e-10  2.384185791015625e-07  2.875504595959589e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.643726070867714e-09
+       New chemical potential, μ =  4.622101783752441e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18707e-14
+
+========== Starting iteration 30 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000346      0.000346      0.000346 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000299      0.000299      0.000299 s.
+=====================
+                  One-body Energy: -2.498828020722681e+00
+                        HF Energy: -1.104296449198902e+00
+               Correlation Energy: -2.537614715131164e-02
+                     Total Energy: -1.129672596350214e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.505850164151283e-10  0.000000000000000e+00  1.882156518009787e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.482703022332888e-09
+       New chemical potential, μ =  4.622101783752441e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19569e-14
+
+========== Starting iteration 31 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000327      0.000327      0.000327 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828021637127e+00
+                        HF Energy: -1.104296449277782e+00
+               Correlation Energy: -2.537614715422334e-02
+                     Total Energy: -1.129672596432006e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 8.179169147526366e-11  0.000000000000000e+00  9.398191592567042e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.962384597828056e-10
+       New chemical potential, μ =  4.622077941894531e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.19518e-14
+
+========== Starting iteration 32 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828018823430e+00
+                        HF Energy: -1.104296448509186e+00
+               Correlation Energy: -2.537614715572203e-02
+                     Total Energy: -1.129672595664908e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.670977464346862e-10  2.384185791015625e-07  2.875387048634455e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.583792929084950e-09
+       New chemical potential, μ =  4.622077941894531e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18521e-14
+
+========== Starting iteration 33 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000138      0.000138      0.000138 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000329      0.000329      0.000329 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828020662218e+00
+                        HF Energy: -1.104296449175952e+00
+               Correlation Energy: -2.537614715665352e-02
+                     Total Energy: -1.129672596332605e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.676973141050979e-10  0.000000000000000e+00  1.882028786003614e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.506485918124524e-09
+       New chemical potential, μ =  4.622077941894531e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17479e-14
+
+========== Starting iteration 34 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000344      0.000344      0.000344 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000297      0.000297      0.000297 s.
+=====================
+                  One-body Energy: -2.498828021580307e+00
+                        HF Energy: -1.104296449266566e+00
+               Correlation Energy: -2.537614715713865e-02
+                     Total Energy: -1.129672596423705e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 9.109942314400321e-11  0.000000000000000e+00  9.397445252375948e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.009188690948015e-09
+       New chemical potential, μ =  4.622054100036621e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.1941e-14
+
+========== Starting iteration 35 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000392      0.000392      0.000392 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000343      0.000343      0.000343 s.
+=====================
+                  One-body Energy: -2.498828018768598e+00
+                        HF Energy: -1.104296448504359e+00
+               Correlation Energy: -2.537614715731248e-02
+                     Total Energy: -1.129672595661671e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.620336549274409e-10  2.384185791015625e-07  2.875397000932337e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.574090776808925e-09
+       New chemical potential, μ =  4.622054100036621e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19685e-14
+
+========== Starting iteration 36 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000168      0.000168      0.000168 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000062      0.000062      0.000062 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000059      0.000059      0.000059 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000337      0.000337      0.000337 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000288      0.000288      0.000288 s.
+=====================
+                  One-body Energy: -2.498828020608473e+00
+                        HF Energy: -1.104296449174603e+00
+               Correlation Energy: -2.537614715752090e-02
+                     Total Energy: -1.129672596332124e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.704531652079737e-10  0.000000000000000e+00  1.882020433812944e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.510328084293079e-09
+       New chemical potential, μ =  4.622054100036621e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19189e-14
+
+========== Starting iteration 37 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000336      0.000336      0.000336 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000287      0.000287      0.000287 s.
+=====================
+                  One-body Energy: -2.498828021527153e+00
+                        HF Energy: -1.104296449267112e+00
+               Correlation Energy: -2.537614715761153e-02
+                     Total Energy: -1.129672596424724e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 9.259926159188581e-11  0.000000000000000e+00  9.397386464427294e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.011279983365032e-09
+       New chemical potential, μ =  4.622054100036621e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17972e-14
+
+========== Starting iteration 38 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000335      0.000335      0.000335 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000287      0.000287      0.000287 s.
+=====================
+                  One-body Energy: -2.498828021989320e+00
+                        HF Energy: -1.104296449192965e+00
+               Correlation Energy: -2.537614715763708e-02
+                     Total Energy: -1.129672596350602e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.412163244291392e-11  0.000000000000000e+00  4.727519100537072e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  5.363389871115842e-10
+       New chemical potential, μ =  4.622030258178711e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18959e-14
+
+========== Starting iteration 39 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000144      0.000144      0.000144 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000352      0.000352      0.000352 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000305      0.000305      0.000305 s.
+=====================
+                  One-body Energy: -2.498828018949989e+00
+                        HF Energy: -1.104296448408663e+00
+               Correlation Energy: -2.537614715756670e-02
+                     Total Energy: -1.129672595566229e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.843726154699304e-10  2.384185791015625e-07  3.108574834981759e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.823703118022159e-09
+       New chemical potential, μ =  4.622030258178711e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19699e-14
+
+========== Starting iteration 40 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000144      0.000144      0.000144 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000054      0.000054      0.000054 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000334      0.000334      0.000334 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000287      0.000287      0.000287 s.
+=====================
+                  One-body Energy: -2.498828020675372e+00
+                        HF Energy: -1.104296449097783e+00
+               Correlation Energy: -2.537614715764823e-02
+                     Total Energy: -1.129672596255431e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.892015222415004e-10  0.000000000000000e+00  1.764721120323752e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.414584567012046e-09
+       New chemical potential, μ =  4.622030258178711e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18059e-14
+
+========== Starting iteration 41 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000334      0.000334      0.000334 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000286      0.000286      0.000286 s.
+=====================
+                  One-body Energy: -2.498828021536037e+00
+                        HF Energy: -1.104296449214692e+00
+               Correlation Energy: -2.537614715767413e-02
+                     Total Energy: -1.129672596372366e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.169350311025497e-10  0.000000000000000e+00  8.802954965984666e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.776003687123058e-10
+       New chemical potential, μ =  4.622030258178711e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18185e-14
+
+========== Starting iteration 42 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000146      0.000146      0.000146 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000057      0.000057      0.000057 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000508      0.000508      0.000508 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000460      0.000460      0.000460 s.
+=====================
+                  One-body Energy: -2.498828021968593e+00
+                        HF Energy: -1.104296449160282e+00
+               Correlation Energy: -2.537614715766724e-02
+                     Total Energy: -1.129672596317950e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.441649214565913e-11  0.000000000000000e+00  4.424116249923259e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.869718100986020e-10
+       New chemical potential, μ =  4.622006416320801e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18697e-14
+
+========== Starting iteration 43 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000283      0.000283      0.000283 s.
+=====================
+                  One-body Energy: -2.498828018914051e+00
+                        HF Energy: -1.104296448389674e+00
+               Correlation Energy: -2.537614715758085e-02
+                     Total Energy: -1.129672595547255e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.706946261731851e-10  2.384185791015625e-07  3.124160750046853e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.825236585819347e-09
+       New chemical potential, μ =  4.622006416320801e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19413e-14
+
+========== Starting iteration 44 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000343      0.000343      0.000343 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000295      0.000295      0.000295 s.
+=====================
+                  One-body Energy: -2.498828020631563e+00
+                        HF Energy: -1.104296449087596e+00
+               Correlation Energy: -2.537614715765462e-02
+                     Total Energy: -1.129672596245250e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.979952241192855e-10  0.000000000000000e+00  1.756655947444102e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.415507183162191e-09
+       New chemical potential, μ =  4.622006416320801e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17834e-14
+
+========== Starting iteration 45 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828021488133e+00
+                        HF Energy: -1.104296449209911e+00
+               Correlation Energy: -2.537614715767685e-02
+                     Total Energy: -1.129672596367588e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.223372028680281e-10  0.000000000000000e+00  8.761002090434163e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.789071983568043e-10
+       New chemical potential, μ =  4.622006416320801e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18292e-14
+
+========== Starting iteration 46 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828021918547e+00
+                        HF Energy: -1.104296449158726e+00
+               Correlation Energy: -2.537614715766822e-02
+                     Total Energy: -1.129672596316394e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.119356327742963e-11  0.000000000000000e+00  4.402180097113339e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.816078265357238e-10
+       New chemical potential, μ =  4.621982574462891e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18888e-14
+
+========== Starting iteration 47 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000332      0.000332      0.000332 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000285      0.000285      0.000285 s.
+=====================
+                  One-body Energy: -2.498828018862878e+00
+                        HF Energy: -1.104296448390001e+00
+               Correlation Energy: -2.537614715758107e-02
+                     Total Energy: -1.129672595547582e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.688124546711972e-10  2.384185791015625e-07  3.125315356814560e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.824481953351722e-09
+       New chemical potential, μ =  4.621982574462891e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18799e-14
+
+========== Starting iteration 48 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000145      0.000145      0.000145 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000344      0.000344      0.000344 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000297      0.000297      0.000297 s.
+=====================
+                  One-body Energy: -2.498828020579796e+00
+                        HF Energy: -1.104296449089006e+00
+               Correlation Energy: -2.537614715765450e-02
+                     Total Energy: -1.129672596246660e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.990785762772678e-10  0.000000000000000e+00  1.756047929129710e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.415997114174617e-09
+       New chemical potential, μ =  4.621982574462891e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.1866e-14
+
+========== Starting iteration 49 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000283      0.000283      0.000283 s.
+=====================
+                  One-body Energy: -2.498828021436050e+00
+                        HF Energy: -1.104296449211937e+00
+               Correlation Energy: -2.537614715767658e-02
+                     Total Energy: -1.129672596369614e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.229537166524963e-10  0.000000000000000e+00  8.757769662422454e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.792074789904959e-10
+       New chemical potential, μ =  4.621982574462891e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18614e-14
+
+========== Starting iteration 50 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000138      0.000138      0.000138 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000512      0.000512      0.000512 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000465      0.000465      0.000465 s.
+=====================
+                  One-body Energy: -2.498828021866294e+00
+                        HF Energy: -1.104296449161099e+00
+               Correlation Energy: -2.537614715766792e-02
+                     Total Energy: -1.129672596318767e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.084691001577823e-11  0.000000000000000e+00  4.400439257197427e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.810911703734266e-10
+       New chemical potential, μ =  4.621958732604980e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18626e-14
+
+========== Starting iteration 51 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000331      0.000331      0.000331 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828018810538e+00
+                        HF Energy: -1.104296448392570e+00
+               Correlation Energy: -2.537614715758073e-02
+                     Total Energy: -1.129672595550151e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.686160839737166e-10  2.384185791015625e-07  3.125405637140336e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.824372516586516e-09
+       New chemical potential, μ =  4.621958732604980e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19329e-14
+
+========== Starting iteration 52 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000341      0.000341      0.000341 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000294      0.000294      0.000294 s.
+=====================
+                  One-body Energy: -2.498828020527406e+00
+                        HF Energy: -1.104296449091684e+00
+               Correlation Energy: -2.537614715765416e-02
+                     Total Energy: -1.129672596249338e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.991870485362206e-10  0.000000000000000e+00  1.755997686171448e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.416055949056028e-09
+       New chemical potential, μ =  4.621958732604980e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18921e-14
+
+========== Starting iteration 53 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000329      0.000329      0.000329 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828021383636e+00
+                        HF Energy: -1.104296449214676e+00
+               Correlation Energy: -2.537614715767625e-02
+                     Total Energy: -1.129672596372353e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.230144562602842e-10  0.000000000000000e+00  8.757510596962473e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.792436791999926e-10
+       New chemical potential, μ =  4.621958732604980e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.1841e-14
+
+========== Starting iteration 54 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000142      0.000142      0.000142 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828021813869e+00
+                        HF Energy: -1.104296449163872e+00
+               Correlation Energy: -2.537614715766759e-02
+                     Total Energy: -1.129672596321539e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.081326678868514e-11  0.000000000000000e+00  4.400317574986469e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.810460883797330e-10
+       New chemical potential, μ =  4.621934890747070e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.1783e-14
+
+========== Starting iteration 55 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828018758102e+00
+                        HF Energy: -1.104296448395360e+00
+               Correlation Energy: -2.537614715758042e-02
+                     Total Energy: -1.129672595552940e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.685988789862819e-10  2.384185791015625e-07  3.125414861427482e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.824365622795423e-09
+       New chemical potential, μ =  4.621934890747070e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18398e-14
+
+========== Starting iteration 56 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000340      0.000340      0.000340 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000293      0.000293      0.000293 s.
+=====================
+                  One-body Energy: -2.498828020474966e+00
+                        HF Energy: -1.104296449094483e+00
+               Correlation Energy: -2.537614715765383e-02
+                     Total Energy: -1.129672596252137e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.991966935987470e-10  0.000000000000000e+00  1.755993172156903e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.416061045673601e-09
+       New chemical potential, μ =  4.621934890747070e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18781e-14
+
+========== Starting iteration 57 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000153      0.000153      0.000153 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000327      0.000327      0.000327 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828021331194e+00
+                        HF Energy: -1.104296449217481e+00
+               Correlation Energy: -2.537614715767591e-02
+                     Total Energy: -1.129672596375157e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.230203369728677e-10  0.000000000000000e+00  8.757498821338564e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.792483386672490e-10
+       New chemical potential, μ =  4.621934890747070e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18795e-14
+
+========== Starting iteration 58 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000137      0.000137      0.000137 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000054      0.000054      0.000054 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000338      0.000338      0.000338 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000291      0.000291      0.000291 s.
+=====================
+                  One-body Energy: -2.498828021761424e+00
+                        HF Energy: -1.104296449166680e+00
+               Correlation Energy: -2.537614715766727e-02
+                     Total Energy: -1.129672596324347e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 5.081026918651865e-11  0.000000000000000e+00  4.400288135897298e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.810403048116640e-10
+       New chemical potential, μ =  4.621934890747070e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17612e-14
+
+========== Starting iteration 59 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000329      0.000329      0.000329 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828021979209e+00
+                        HF Energy: -1.104296449085199e+00
+               Correlation Energy: -2.537614715764701e-02
+                     Total Energy: -1.129672596242846e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 8.150106631243936e-11  0.000000000000000e+00  2.227335147905060e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.992859814143767e-10
+       New chemical potential, μ =  4.621911048889160e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.19089e-14
+
+========== Starting iteration 60 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000147      0.000147      0.000147 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000343      0.000343      0.000343 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000296      0.000296      0.000296 s.
+=====================
+                  One-body Energy: -2.498828018816695e+00
+                        HF Energy: -1.104296448329214e+00
+               Correlation Energy: -2.537614715755896e-02
+                     Total Energy: -1.129672595486773e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.560729681221900e-10  2.384185791015625e-07  3.234596343368688e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.918586680834446e-09
+       New chemical potential, μ =  4.621911048889160e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19155e-14
+
+========== Starting iteration 61 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000329      0.000329      0.000329 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000283      0.000283      0.000283 s.
+=====================
+                  One-body Energy: -2.498828020479527e+00
+                        HF Energy: -1.104296449048517e+00
+               Correlation Energy: -2.537614715763591e-02
+                     Total Energy: -1.129672596206153e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.193800173610487e-10  0.000000000000000e+00  1.700729842855936e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.382211653634281e-09
+       New chemical potential, μ =  4.621911048889160e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18405e-14
+
+========== Starting iteration 62 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000332      0.000332      0.000332 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000284      0.000284      0.000284 s.
+=====================
+                  One-body Energy: -2.498828021308204e+00
+                        HF Energy: -1.104296449188605e+00
+               Correlation Energy: -2.537614715766249e-02
+                     Total Energy: -1.129672596346267e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.401141563883712e-10  0.000000000000000e+00  8.475743769586629e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.687907663591400e-10
+       New chemical potential, μ =  4.621911048889160e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18483e-14
+
+========== Starting iteration 63 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000333      0.000333      0.000333 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000286      0.000286      0.000286 s.
+=====================
+                  One-body Energy: -2.498828021724294e+00
+                        HF Energy: -1.104296449149897e+00
+               Correlation Energy: -2.537614715765783e-02
+                     Total Energy: -1.129672596307555e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.871184969805874e-11  0.000000000000000e+00  4.255708132963329e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.548021924344336e-10
+       New chemical potential, μ =  4.621911048889160e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.17801e-14
+
+========== Starting iteration 64 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000349      0.000349      0.000349 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000301      0.000301      0.000301 s.
+=====================
+                  One-body Energy: -2.498828021934773e+00
+                        HF Energy: -1.104296449076274e+00
+               Correlation Energy: -2.537614715764062e-02
+                     Total Energy: -1.129672596233914e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.364102383444759e-11  0.000000000000000e+00  2.152628179565422e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.841197277447804e-10
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.19084e-14
+
+========== Starting iteration 65 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000340      0.000340      0.000340 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000050      0.000050      0.000050 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828018768458e+00
+                        HF Energy: -1.104296448325148e+00
+               Correlation Energy: -2.537614715755474e-02
+                     Total Energy: -1.129672595482703e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.512113570085077e-10  2.384185791015625e-07  3.238482322179668e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.917525588648108e-09
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19136e-14
+
+========== Starting iteration 66 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000145      0.000145      0.000145 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000342      0.000342      0.000342 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000295      0.000295      0.000295 s.
+=====================
+                  One-body Energy: -2.498828020429303e+00
+                        HF Energy: -1.104296449047362e+00
+               Correlation Energy: -2.537614715763315e-02
+                     Total Energy: -1.129672596204995e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.222919137794825e-10  0.000000000000000e+00  1.698700694646684e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.383136608191672e-09
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18846e-14
+
+========== Starting iteration 67 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000041      0.000041      0.000041 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000280      0.000280      0.000280 s.
+=====================
+                  One-body Energy: -2.498828021256937e+00
+                        HF Energy: -1.104296449189156e+00
+               Correlation Energy: -2.537614715766068e-02
+                     Total Energy: -1.129672596346816e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.418213220472087e-10  0.000000000000000e+00  8.465076954159738e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.694553944339379e-10
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18768e-14
+
+========== Starting iteration 68 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000042      0.000042      0.000042 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000279      0.000279      0.000279 s.
+=====================
+                  One-body Energy: -2.498828021672475e+00
+                        HF Energy: -1.104296449151432e+00
+               Correlation Energy: -2.537614715765659e-02
+                     Total Energy: -1.129672596309088e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.772793188971946e-11  0.000000000000000e+00  4.250063650391605e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.532657339739732e-10
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18807e-14
+
+========== Starting iteration 69 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000339      0.000339      0.000339 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000292      0.000292      0.000292 s.
+=====================
+                  One-body Energy: -2.498828021882660e+00
+                        HF Energy: -1.104296449078369e+00
+               Correlation Energy: -2.537614715763975e-02
+                     Total Energy: -1.129672596236009e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.307934465905497e-11  0.000000000000000e+00  2.149633228018786e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.832644917238891e-10
+       New chemical potential, μ =  4.621887207031250e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.1947e-14
+
+========== Starting iteration 70 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000147      0.000147      0.000147 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000374      0.000374      0.000374 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000326      0.000326      0.000326 s.
+=====================
+                  One-body Energy: -2.498828021989746e+00
+                        HF Energy: -1.104296449014590e+00
+               Correlation Energy: -2.537614715762103e-02
+                     Total Energy: -1.129672596172211e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.379791139821123e-11  0.000000000000000e+00  1.095112061486300e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.708833803626408e-10
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18621e-14
+
+========== Starting iteration 71 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000156      0.000156      0.000156 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000070      0.000070      0.000070 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000067      0.000067      0.000067 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000324      0.000324      0.000324 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000278      0.000278      0.000278 s.
+=====================
+                  One-body Energy: -2.498828018771129e+00
+                        HF Energy: -1.104296448281872e+00
+               Correlation Energy: -2.537614715753808e-02
+                     Total Energy: -1.129672595439410e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.328015798335752e-10  2.384185791015625e-07  3.291974194643555e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.951417984482397e-09
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19402e-14
+
+========== Starting iteration 72 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000326      0.000326      0.000326 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000279      0.000279      0.000279 s.
+=====================
+                  One-body Energy: -2.498828020405321e+00
+                        HF Energy: -1.104296449020068e+00
+               Correlation Energy: -2.537614715762055e-02
+                     Total Energy: -1.129672596177689e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.382793577870306e-10  0.000000000000000e+00  1.671443104582231e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.372471646222563e-09
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18589e-14
+
+========== Starting iteration 73 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000340      0.000340      0.000340 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000293      0.000293      0.000293 s.
+=====================
+                  One-body Energy: -2.498828021219282e+00
+                        HF Energy: -1.104296449173288e+00
+               Correlation Energy: -2.537614715765177e-02
+                     Total Energy: -1.129672596330940e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.532507939994154e-10  0.000000000000000e+00  8.325271999417793e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.672117759484955e-10
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18995e-14
+
+========== Starting iteration 74 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000141      0.000141      0.000141 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000326      0.000326      0.000326 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000279      0.000279      0.000279 s.
+=====================
+                  One-body Energy: -2.498828021627758e+00
+                        HF Energy: -1.104296449143030e+00
+               Correlation Energy: -2.537614715765054e-02
+                     Total Energy: -1.129672596300680e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 3.025965589209534e-11  0.000000000000000e+00  4.177849210396275e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.387356068724646e-10
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18861e-14
+
+========== Starting iteration 75 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000137      0.000137      0.000137 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000329      0.000329      0.000329 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828021834275e+00
+                        HF Energy: -1.104296449074599e+00
+               Correlation Energy: -2.537614715763575e-02
+                     Total Energy: -1.129672596232235e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.844544028772326e-11  0.000000000000000e+00  2.112135489705164e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.749624174180898e-10
+       New chemical potential, μ =  4.621863365173340e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18226e-14
+
+========== Starting iteration 76 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000211      0.000211      0.000211 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000062      0.000062      0.000062 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000058      0.000058      0.000058 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000330      0.000330      0.000330 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000005      0.000005      0.000005 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828021939442e+00
+                        HF Energy: -1.104296449013600e+00
+               Correlation Energy: -2.537614715761839e-02
+                     Total Energy: -1.129672596171219e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.101590760421161e-11  0.000000000000000e+00  1.075503561461688e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.661824428067504e-10
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  2.384185791015625e-07
+Leakage of Dyson G: 1.18967e-14
+
+========== Starting iteration 77 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000143      0.000143      0.000143 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000327      0.000327      0.000327 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828018719819e+00
+                        HF Energy: -1.104296448282514e+00
+               Correlation Energy: -2.537614715753632e-02
+                     Total Energy: -1.129672595440051e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.311682440058753e-10  2.384185791015625e-07  3.293002801457063e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  3.950790940926430e-09
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18383e-14
+
+========== Starting iteration 78 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000147      0.000147      0.000147 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000003      0.000003      0.000003 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000056      0.000056      0.000056 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000053      0.000053      0.000053 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000282      0.000282      0.000282 s.
+=====================
+                  One-body Energy: -2.498828020353482e+00
+                        HF Energy: -1.104296449021654e+00
+               Correlation Energy: -2.537614715761936e-02
+                     Total Energy: -1.129672596179274e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 7.392228114355692e-10  0.000000000000000e+00  1.670901618955271e-10
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.372885443691075e-09
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.1947e-14
+
+========== Starting iteration 79 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000140      0.000140      0.000140 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000338      0.000338      0.000338 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000291      0.000291      0.000291 s.
+=====================
+                  One-body Energy: -2.498828021167160e+00
+                        HF Energy: -1.104296449175412e+00
+               Correlation Energy: -2.537614715765091e-02
+                     Total Energy: -1.129672596333063e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 1.537895540082435e-10  0.000000000000000e+00  8.322375178936056e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.674674568416197e-10
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18597e-14
+
+========== Starting iteration 80 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000144      0.000144      0.000144 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000325      0.000325      0.000325 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000278      0.000278      0.000278 s.
+=====================
+                  One-body Energy: -2.498828021575485e+00
+                        HF Energy: -1.104296449145457e+00
+               Correlation Energy: -2.537614715764989e-02
+                     Total Energy: -1.129672596303107e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 2.995614867273844e-11  0.000000000000000e+00  4.176314444926790e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  4.382815360637338e-10
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18266e-14
+
+========== Starting iteration 81 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000326      0.000326      0.000326 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000280      0.000280      0.000280 s.
+=====================
+                  One-body Energy: -2.498828021781922e+00
+                        HF Energy: -1.104296449077197e+00
+               Correlation Energy: -2.537614715763523e-02
+                     Total Energy: -1.129672596234832e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.827448328916574e-11  0.000000000000000e+00  2.111317078873611e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  2.747111566003824e-10
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.19479e-14
+
+========== Starting iteration 82 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000138      0.000138      0.000138 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000328      0.000328      0.000328 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000040      0.000040      0.000040 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000281      0.000281      0.000281 s.
+=====================
+                  One-body Energy: -2.498828021887046e+00
+                        HF Energy: -1.104296449016294e+00
+               Correlation Energy: -2.537614715761793e-02
+                     Total Energy: -1.129672596173912e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 6.092035209626090e-11  0.000000000000000e+00  1.075077673082341e-11
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  1.660451498519677e-10
+       New chemical potential, μ =  4.621839523315430e-02
+Chemical potential difference Δμ =  0.000000000000000e+00
+Leakage of Dyson G: 1.18706e-14
+
+========== Starting iteration 83 out of 100 ==========
+Hartree Fock timing:                                 max          min          avg
+Event 'Hartree-Fock' took                          0.000139      0.000139      0.000139 s.
+  Event 'Reduce Fock' took                         0.000000      0.000000      0.000000 s.
+  Event 'Ewald correction' took                    0.000000      0.000000      0.000000 s.
+  Event 'Exchange' took                            0.000002      0.000002      0.000002 s.
+    Event 'Read Coulomb Exch' took                 0.000000      0.000000      0.000000 s.
+  Event 'Direct' took                              0.000055      0.000055      0.000055 s.
+    Event 'Read Coulomb Low' took                  0.000000      0.000000      0.000000 s.
+    Event 'Reduce Direct' took                     0.000000      0.000000      0.000000 s.
+    Event 'Read Coulomb Up' took                   0.000052      0.000052      0.000052 s.
+=====================
+GF2 timing:                                          max          min          avg
+Event 'GF2 total' took                             0.000510      0.000510      0.000510 s.
+  Event 'correction' took                          0.000000      0.000000      0.000000 s.
+  Event 'reduce' took                              0.000002      0.000002      0.000002 s.
+  Event 'nao' took                                 0.000039      0.000039      0.000039 s.
+  Event 'setup' took                               0.000004      0.000004      0.000004 s.
+  Event 'read' took                                0.000463      0.000463      0.000463 s.
+=====================
+                  One-body Energy: -2.498828021940954e+00
+                        HF Energy: -1.104296448972291e+00
+               Correlation Energy: -2.537614715760287e-02
+                     Total Energy: -1.129672596129894e+00
+====================================================================================
+                   |ΔE_tot|                 |Δμ|                    |Δγ|
+Convergence: 4.401812248033821e-11  0.000000000000000e+00  5.512379458777358e-12
+
+   |ΔE_1b| + |ΔE_HF| + |ΔE_corr| =  9.792607350012084e-11
+============== Simulation Converged ==============
+timing:                                              max          min          avg
+Event 'Read results' took                          0.000010      0.000010      0.000010 s.
+Event 'Self-consistency loop' took                 0.147555      0.147555      0.147555 s.
+  Event 'Iteration mixing' took                    0.012471      0.012471      0.012471 s.
+  Event 'Store results' took                       0.040793      0.040793      0.040793 s.
+  Event 'Check convergence' took                   0.003987      0.003987      0.003987 s.
+  Event 'Diagrammatic solver' took                 0.075649      0.075649      0.075649 s.
+  Event 'Dyson' took                               0.014291      0.014291      0.014291 s.
+    Event 'Chemical potential search' took         0.008681      0.008681      0.008681 s.
+=====================
+Job SC is finished.
+Completed.

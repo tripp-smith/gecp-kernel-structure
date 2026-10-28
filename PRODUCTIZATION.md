@@ -102,14 +102,14 @@ remain native. Upstream acceptance is not a delivery gate.
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
 | ED | Deterministic interacting Bethe IPT with independent references | complete: [frozen campaign and independent audit](INTERACTING_DMFT.md), full root and all main workflows pass at merged main `7530ec7` ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | native sampling/measured feedback and resumable campaign implemented; canonical sampling, independent audit, full root and delivery pending |
-| EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
+| EF | Native molecular GF2 runs and supported Green importer | delivered at merged main `07c4115`; [exact-main receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146) |
 | EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
 | EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
-| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | pending EB |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | merged at main `f6ba348`; exact-main verification pending |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
-EB and EC acceptance is complete, approximately 20% of this new contract;
-EE–EJ domain/release acceptance remains open. Each phase requires its named
+EB, EC, ED and EF acceptance is complete; EI is merged with main verification pending.
+EE, EG, EH and EJ acceptance remains open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed

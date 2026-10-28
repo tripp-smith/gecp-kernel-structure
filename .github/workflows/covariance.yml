@@ -1,0 +1,83 @@
+name: Real-data covariance integration
+
+on:
+  push:
+    branches: [main, "codex/**"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full_campaign:
+        description: Run all six real-data sizes in three fresh processes
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: covariance-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+
+jobs:
+  real-data:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: environments/gp/uv.lock
+      - name: Replay the locked CPU GP environment
+        run: uv sync --project environments/gp --frozen --python 3.12
+      - name: Execute and independently audit a small real-data case
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          mkdir -p artifacts/covariance
+          runtime_python="$PWD/environments/gp/.venv/bin/python"
+          "$runtime_python" -m experiments.covariance_benchmark case \
+            --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
+            --size 512 --repeat 0 --output artifacts/covariance/n512-repeat0.json
+          "$runtime_python" -m experiments.covariance_benchmark provider \
+            --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
+            --output artifacts/covariance/provider.json
+          "$runtime_python" -m scripts.audit_covariance \
+            --single-case artifacts/covariance/n512-repeat0.json \
+            --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
+            --source-revision "$(git rev-parse HEAD)" \
+            --output artifacts/covariance/small-audit.json
+      - name: Execute the full frozen EI branch or explicitly dispatched campaign
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky')
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          runtime_python="$PWD/environments/gp/.venv/bin/python"
+          "$runtime_python" -m experiments.covariance_benchmark campaign \
+            --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
+            --output artifacts/covariance/full
+          "$runtime_python" -m scripts.audit_covariance \
+            --manifest artifacts/covariance/full/campaign.json \
+            --provider artifacts/covariance/provider.json \
+            --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
+            --source-revision "$(git rev-parse HEAD)" \
+            --output artifacts/covariance/full-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-data-covariance
+          retention-days: 14
+          path: artifacts/covariance/
+          if-no-files-found: error
