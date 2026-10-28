@@ -83,8 +83,13 @@ jobs:
           path: artifacts/cthyb-science
       - name: Run fresh fixed-bath validation and independent audit
         run: |
+          set +e
           python -m experiments.cthyb_dmft final --config experiments/cthyb_fresh_odd.toml --output artifacts/cthyb-science
+          campaign_status=$?
           python -m experiments.audit_cthyb_dmft artifacts/cthyb-science --output artifacts/cthyb-audit.json
+          audit_status=$?
+          set -e
+          test "$campaign_status" -eq 0 && test "$audit_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
