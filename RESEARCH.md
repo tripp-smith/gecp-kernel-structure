@@ -11554,3 +11554,15 @@ selected doubled-control error is 4.174e-8. Audit receipt
 `/tmp/gecp-ef-audit-56c3211.json` has SHA256
 `7d7f0ff985c38c0412c2b78cebc35bd554f44d17d1792f68f4deb418689eec9f`.
 The auditor's 17 focused tests pass. Full root and exact-source CI still remain.
+
+## Maintenance — development MessagePack advisory
+
+The final EI development audit detected CVE-2026-114613 in msgpack 1.2.1,
+pulled transitively by audit/cache tooling. The upstream reviewed advisory
+GHSA-j586-36cw-2gc2 identifies 1.2.3 as patched; the maintainer's 1.2.4 release
+also bounds malicious container preallocation (GHSA-j8c6-9vc5-hj6x). The
+default development uv.lock now pins 1.2.4 with its actual distribution hashes.
+Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
+provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
+record is rewritten. Full root and exact-head/main verification are required
+for this maintenance update; later application branches must incorporate it.
