@@ -73,22 +73,33 @@ def test_calibration_never_constructs_reserved_rows(tmp_path, monkeypatch):
 
     def fit(data, rows, rank):
         assert set(rows).isdisjoint(exp.CAL + exp.FINAL)
-        return SimpleNamespace(
-            diagnostics={
-                "rank": rank,
-                "timing_seconds": {
-                    k: 0.0
-                    for k in (
-                        "basis_construction",
-                        "nambu_observation_construction",
-                        "least_squares_preparation",
-                        "coefficient_fit",
-                        "training_replay",
-                    )
-                },
+
+        class FakeModel:
+            def save(self, path):
+                path.write_text("fit manifest")
+                path.with_suffix(".npz").write_bytes(b"fit archive")
+
+            def evaluate_matsubara(self, indices):
+                return np.asarray(indices)
+
+        model = FakeModel()
+        model.diagnostics = {
+            "rank": rank,
+            "timing_seconds": {
+                k: 0.0
+                for k in (
+                    "basis_construction",
+                    "nambu_observation_construction",
+                    "least_squares_preparation",
+                    "coefficient_fit",
+                    "training_replay",
+                )
             },
-            rank=rank,
-        )
+        }
+        model.rank = rank
+        return model
+
+    monkeypatch.setattr(exp.EPWFrequencyCrossFit, "load", lambda path: fit(None, [], 0))
 
     def measure(data, model, rows):
         seen.extend(rows)
@@ -110,6 +121,14 @@ def test_calibration_never_constructs_reserved_rows(tmp_path, monkeypatch):
     assert report["selected_rank"] == 60 and [
         a["passed"] for a in report["attempts"]
     ] == [False, True]
+    for attempt in report["attempts"]:
+        rank = attempt["rank"]
+        assert attempt["fit_json_sha256"] == exp.sha(
+            tmp_path / "out" / f"rank-{rank}-fit.json"
+        )
+        assert attempt["fit_npz_sha256"] == exp.sha(
+            tmp_path / "out" / f"rank-{rank}-fit.npz"
+        )
     assert (
         set(seen).isdisjoint(exp.FINAL)
         and exp.load(tmp_path / "freeze")["selected_rank"] == 60
@@ -124,7 +143,9 @@ def test_no_pass_no_freeze(tmp_path, monkeypatch):
         lambda *a: (SimpleNamespace(indices=np.arange(109)), {}, tmp_path / "native"),
     )
     monkeypatch.setattr(
-        exp, "fit", lambda *a: (_ for _ in ()).throw(ValueError("conditioning"))
+        exp,
+        "fit",
+        lambda *a: (_ for _ in ()).throw(exp.NumericalBreakdownError("conditioning")),
     )
     with pytest.raises(ValueError, match="no rank"):
         exp.calibrate(tmp_path, tmp_path / "out", tmp_path / "freeze", 0)
@@ -217,3 +238,73 @@ def test_repeat_array_disagreement_fails_campaign(tmp_path, monkeypatch):
         and "arrays differ" in result["error"]
         and len(result["children"]) == 3
     )
+
+
+def test_missing_candidate_archive_is_fatal(tmp_path, monkeypatch):
+    monkeypatch.setattr(exp, "source_environment", lambda **kw: {"tracked_clean": True})
+    monkeypatch.setattr(
+        exp,
+        "native_context",
+        lambda *args: (
+            SimpleNamespace(indices=np.arange(109)),
+            {},
+            tmp_path / "native",
+        ),
+    )
+    timings = {
+        k: 0.0
+        for k in (
+            "basis_construction",
+            "nambu_observation_construction",
+            "least_squares_preparation",
+            "coefficient_fit",
+            "training_replay",
+        )
+    }
+
+    class Model:
+        diagnostics = {"timing_seconds": timings}
+
+        def save(self, path):
+            path.write_text("missing archive")
+
+        def evaluate_matsubara(self, indices):
+            return np.asarray(indices)
+
+    monkeypatch.setattr(exp, "fit", lambda *args: Model())
+    monkeypatch.setattr(exp.EPWFrequencyCrossFit, "load", lambda path: Model())
+    monkeypatch.setattr(
+        exp,
+        "measure",
+        lambda *args: (
+            {
+                "green_scaled": 0,
+                "z": 0,
+                "gap_ev": 0,
+                "chi_ev": 0,
+                "imaginary_defect": 0,
+            },
+            {},
+        ),
+    )
+    with pytest.raises(FileNotFoundError):
+        exp.calibrate(tmp_path, tmp_path / "out", tmp_path / "freeze", 0)
+    report = exp.load(tmp_path / "out" / "calibration.json")
+    assert report["status"] == "failed" and len(report["attempts"]) == 1
+    assert (
+        report["attempts"][0]["status"] == "failed"
+        and not (tmp_path / "freeze").exists()
+    )
+
+
+def test_native_validation_failure_records_receipt(tmp_path, monkeypatch):
+    monkeypatch.setattr(exp, "source_environment", lambda **kw: {"tracked_clean": True})
+    monkeypatch.setattr(
+        exp,
+        "native_context",
+        lambda *args: (_ for _ in ()).throw(ValueError("bad input hash")),
+    )
+    with pytest.raises(ValueError, match="bad input hash"):
+        exp.calibrate(tmp_path, tmp_path / "out", tmp_path / "freeze", 0)
+    report = exp.load(tmp_path / "out" / "calibration.json")
+    assert report["status"] == "failed" and "bad input hash" in report["error"]

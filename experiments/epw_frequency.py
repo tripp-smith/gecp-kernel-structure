@@ -28,6 +28,7 @@ from kernelgecp.integrations.epw_frequency import (
     EPWFrequencyCrossFit,
     fit_epw_frequency_cross,
 )
+from kernelgecp.types import NumericalBreakdownError
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_FILES = (
@@ -360,29 +361,43 @@ def calibrate(native_root, output, freeze, offset, pilot=False):
         raise FileExistsError("calibration output exists")
     output.mkdir(parents=True)
     started = time.monotonic()
-    env = source_environment(pilot=pilot)
-    data, context, path = native_context(native_root, offset)
-    parts = partition(len(data.indices))
     attempts = []
     selected = None
     report = {
         "schema": "kernelgecp.epw-frequency-calibration.v1",
         "status": "running",
         "pilot_noncanonical": pilot,
-        "provenance": env,
-        "context": context,
-        "partitions": parts,
+        "native_root": str(Path(native_root).resolve()),
+        "chemical_potential_offset_ev": offset,
         "attempts": attempts,
     }
     try:
+        native_root_path = Path(native_root).resolve()
+        work = native_root_path / "epw-native/test-suite/epw_super"
+        evidence_paths = (
+            native_root_path / "epw-anisotropic.json",
+            work / "epw6.in",
+            work / "epw6.out",
+            work / "MgB2.imag_aniso_017.00",
+        )
+        report["available_native_file_sha256"] = {
+            str(path): sha(path) for path in evidence_paths if path.is_file()
+        }
+        env = source_environment(pilot=pilot)
+        report["provenance"] = env
+        data, context, path = native_context(native_root, offset)
+        parts = partition(len(data.indices))
+        report.update(context=context, partitions=parts)
         for rank in RANKS:
             if time.monotonic() - started >= LIMIT:
                 raise TimeoutError("resource deadline")
             attempt = {"rank": rank}
             attempts.append(attempt)
+            stage = "fit"
             try:
                 t = time.monotonic()
                 model = fit(data, parts["train"], rank)
+                stage = "evaluation_and_archive"
                 attempt["construction_and_fit_seconds"] = time.monotonic() - t
                 attempt["timing_seconds"] = measured_fit_timings(model)
                 attempt["diagnostics"] = model.diagnostics
@@ -390,6 +405,18 @@ def calibrate(native_root, output, freeze, offset, pilot=False):
                 attempt["calibration"], calibration = measure(
                     data, model, parts["calibration"]
                 )
+                fit_path = output / f"rank-{rank}-fit.json"
+                model.save(fit_path)
+                loaded = EPWFrequencyCrossFit.load(fit_path)
+                for rows in (parts["train"], parts["calibration"]):
+                    indices = data.indices[rows]
+                    if not np.array_equal(
+                        model.evaluate_matsubara(indices),
+                        loaded.evaluate_matsubara(indices),
+                    ):
+                        raise ValueError("candidate archive replay mismatch")
+                attempt["fit_json_sha256"] = sha(fit_path)
+                attempt["fit_npz_sha256"] = sha(fit_path.with_suffix(".npz"))
                 arrays = {
                     **{"training_" + k: v for k, v in training.items()},
                     **{"calibration_" + k: v for k, v in calibration.items()},
@@ -399,11 +426,25 @@ def calibrate(native_root, output, freeze, offset, pilot=False):
                 attempt["passed"] = passed(attempt["training"], 0.1) and passed(
                     attempt["calibration"], 0.1
                 )
+                attempt["status"] = "passed" if attempt["passed"] else "failed_margin"
                 if attempt["passed"]:
                     selected = rank
                     break
+            except (NumericalBreakdownError, np.linalg.LinAlgError) as error:
+                attempt.update(
+                    passed=False,
+                    status="inconclusive",
+                    error=f"{type(error).__name__}: {error}",
+                )
+                if stage != "fit":
+                    raise
             except Exception as error:
-                attempt.update(passed=False, error=f"{type(error).__name__}: {error}")
+                attempt.update(
+                    passed=False,
+                    status="failed",
+                    error=f"{type(error).__name__}: {error}",
+                )
+                raise
             finally:
                 write(output / "calibration.json", report)
         if selected is None:
