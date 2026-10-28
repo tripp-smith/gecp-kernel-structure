@@ -11563,3 +11563,15 @@ rank21 and coefficient-versus-projection agreement1.30e-15; it also executes
 two actual bootstrap continuations. Full synthetic freeze/generation/audit,
 fresh accepted EE physical data, installed package, root/CI and delivery gates
 remain open. RNG-collided old EE ensembles cannot establish independent noise.
+
+The first frozen calibration at `6fe118e` passed all24 producer cases but its
+independent audit rejected the DLR projection symmetry: multiplying the design
+by the transposed coefficient solve accumulated about3.07e-8 antisymmetry in
+an ill-scaled basis. The full numerical map and covariance were consistently
+propagated, but the intended same-mesh orthogonal projector can be computed
+more stably. `LeastSquaresPlan.observation_projection` now forms U_r U_r^H
+directly from its cached retained SVD; same-mesh spectroscopy uses that map,
+while different-mesh interpolation retains the explicit evaluation solve.
+The independent symmetry gate and all scientific budgets are unchanged.
+Original calibration/audit artifacts remain failed development evidence;
+repeat calibration from new clean source before any final data are evaluated.

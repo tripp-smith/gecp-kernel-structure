@@ -77,6 +77,25 @@ def test_covariance_explicit_rank_rejection_and_roundoff_symmetrization():
     assert modes.symmetry_correction > 0
 
 
+def test_same_mesh_projection_is_stable_for_an_ill_scaled_coefficient_basis():
+    class BadlyScaledDesign:
+        beta = 3.0
+
+        def design_tau(self, tau):
+            x = np.asarray(tau) / self.beta
+            return np.column_stack((np.ones_like(x), x, 1e-9 * x**2))
+
+    data = dataset()
+    plan = prepare_spectral_projection(
+        BadlyScaledDesign(), data.tau, data.tau, rcond=1e-12
+    )
+    # Independent unscaled QR spans the same polynomial observations.
+    q, _ = np.linalg.qr(np.column_stack((np.ones(9), data.tau, data.tau**2)))
+    np.testing.assert_allclose(plan.matrix, q @ q.T, atol=2e-15)
+    np.testing.assert_allclose(plan.matrix, plan.matrix.T, atol=1e-16)
+    np.testing.assert_allclose(plan.matrix @ plan.matrix, plan.matrix, atol=1e-15)
+
+
 def test_chained_projection_preserves_complete_original_observation_operator():
     data = dataset()
     first = prepare_spectral_projection(

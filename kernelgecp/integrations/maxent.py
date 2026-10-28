@@ -487,9 +487,11 @@ def prepare_spectral_projection(
     rcond: float | None = None,
     metadata: Any = None,
 ) -> SpectralProjection:
-    """Prepare P=A_target A_source^+ through a cached transposed SVD solve.
+    """Prepare the complete linear observation map through a cached SVD.
 
-    No explicit inverse or observation-sized identity is constructed. This is
+    On the same mesh, form U_r U_r^T directly for a stable projector. Otherwise
+    use the transposed solve P=A_target A_source^+. No explicit inverse or
+    observation-sized identity is constructed. This is
     ordinary least squares, not generalized least squares; covariance is then
     propagated through exactly the same complete linear map.
     """
@@ -513,10 +515,11 @@ def prepare_spectral_projection(
         or observed.shape[1] != evaluated.shape[1]
     ):
         raise ValueError("basis designs must have matching trailing coefficient axes")
-    plan = LeastSquaresPlan(observed.T, rcond=rcond)
+    same_mesh = np.array_equal(source, target)
+    plan = LeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
     if plan.diagnostics.effective_rank == 0:
         raise NumericalBreakdownError("projection design has no retained singular mode")
-    matrix = plan.fit(evaluated.T).T
+    matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T
     return SpectralProjection(
         beta,
         source,
