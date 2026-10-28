@@ -11476,3 +11476,15 @@ Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
 provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
+
+### EI dependency-only reproduction
+
+Merged security main `cbfe6cf` before final delivery. A clean-source repeat of
+calibration at `7d66197` reproduces every numerical calibration value, selected
+hyperparameter and rank exactly; only pilot timing and provenance differ.
+The original calibration remains in
+`data/covariance/calibration-before-msgpack.json`. The isolated GP environment
+is unchanged. A fresh complete campaign and provider/auditor run will verify
+the new dependency-bound freeze. Its test rows were already consumed by the
+original passing campaign: this is reproducibility after a development-only
+security update, with no retuning, not another blind validation claim.

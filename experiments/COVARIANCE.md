@@ -83,6 +83,15 @@ the original calibration source identity.
 ```
 
 The campaign launches each selected cohort in three fresh processes. Retain
+
+The current calibration also records a dependency-only reproduction following
+the development msgpack security update. Its numerical calibration values and
+selected controls are exactly identical to the preserved original calibration
+in `data/covariance/calibration-before-msgpack.json`. The GP runtime is
+unchanged. Subsequent repeated test rows verify reproducibility; they are
+previously consumed observations and are not a second blind validation.
+
+The campaign launches each selected cohort in three fresh processes. Retain
 all NPZ factors, JSON receipts and process logs. The auditor verifies hashes,
 actual source blobs at each declared revision, all 18 exits/cases, numerical
 repeat equality, original dataset/normalization, low-rank system residuals,
