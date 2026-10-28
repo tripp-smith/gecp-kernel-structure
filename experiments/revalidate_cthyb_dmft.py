@@ -217,7 +217,8 @@ def prepare(
     parent_manifest = _read(parent / "manifest.json")
     if parent_manifest["config"].get("seed_mapping") != "odd_stride_2_v1":
         raise ValueError(
-            "parent calibration used colliding native RNG streams; fresh calibration required"
+            "parent calibration used colliding native RNG streams; "
+            "fresh calibration required"
         )
     data = dict(parent_manifest["config"])
     for name in ("final_replicas", "refinement_replicas", "seed_base"):
