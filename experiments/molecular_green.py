@@ -83,13 +83,16 @@ def load_config(path: Path) -> dict[str, Any]:
     data = tomllib.loads(path.read_text())
     if (
         type(data.get("schema_version")) is not int
-        or data.get("schema_version") != 1
+        or data.get("schema_version") != 2
         or data.get("methods") != list(METHODS)
         or data.get("bonds_angstrom") != [0.74, 1.5]
         or data.get("native_lambdas") != [1e4, 1e5]
         or data.get("beta") != 20
         or data.get("repeats") != 3
-        or data.get("validation_tau_rule") != "native_mod4_3_plus_gauss64"
+        or data.get("validation_tau_rule") != "gauss_legendre_96"
+        or data.get("regression_tau_rule") != "native_mod4_3_plus_gauss64"
+        or data.get("retired_validation_source")
+        != "6050ddd33af30deafe0d99057ea5d8a277c411a9"
     ):
         raise ValueError("the complete declared EF campaign is required")
     for name in (
@@ -143,7 +146,7 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError("invalid candidate ladder: " + name)
         if len(set(values)) != len(values):
             raise ValueError("candidate ladders must have no duplicates")
-    for name in ("calibration_indices", "validation_indices"):
+    for name in ("calibration_indices", "validation_indices", "regression_indices"):
         values = data.get(name)
         if (
             not isinstance(values, list)
@@ -154,6 +157,8 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError("invalid ordinary-index query list: " + name)
     if set(data["calibration_indices"]) & set(data["validation_indices"]):
         raise ValueError("final and calibration frequency queries must be disjoint")
+    if set(data["validation_indices"]) & set(data["regression_indices"]):
+        raise ValueError("fresh final frequencies must avoid the consumed epoch")
     if any(eps >= 1 for eps in data["native_eps_candidates"]):
         raise ValueError("native representation tolerances must be below one")
     return data
@@ -168,12 +173,19 @@ def split_time_rows(size: int) -> tuple[np.ndarray, np.ndarray]:
 def query_tau(data: Any, role: str) -> np.ndarray:
     if role == "calibration":
         return data.tau[split_time_rows(len(data.tau))[1]]
-    if role != "validation":
-        raise ValueError("role must be calibration or validation")
+    if role not in ("validation", "regression"):
+        raise ValueError("role must be calibration, validation or regression")
     training, calibration = split_time_rows(len(data.tau))
     final_rows = np.setdiff1d(np.arange(3, len(data.tau), 4), training)
     gauss = data.beta * (np.polynomial.legendre.leggauss(64)[0] + 1) / 2
-    final = np.unique(np.r_[data.tau[final_rows], gauss])
+    regression = np.unique(np.r_[data.tau[final_rows], gauss])
+    final = (
+        data.beta * (np.polynomial.legendre.leggauss(96)[0] + 1) / 2
+        if role == "validation"
+        else regression
+    )
+    if role == "validation" and np.any(np.isin(final, regression)):
+        raise ValueError("fresh final times overlap the consumed epoch")
     if np.any(np.isin(final, data.tau[np.r_[training, calibration]])):
         raise ValueError("final time queries overlap fitting or calibration rows")
     return final
@@ -349,7 +361,9 @@ def _worker(request: dict[str, Any], output: Path) -> dict[str, Any]:
     return result
 
 
-def _child(request: dict[str, Any], folder: Path) -> dict[str, Any]:
+def _child(
+    request: dict[str, Any], folder: Path, *, campaign_root: Path | None = None
+) -> dict[str, Any]:
     folder.mkdir(parents=True)
     write(folder / "request.json", request)
     started = time.perf_counter()
@@ -379,6 +393,8 @@ def _child(request: dict[str, Any], folder: Path) -> dict[str, Any]:
     except subprocess.TimeoutExpired:
         result = {"status": "timeout"}
     result.update(case=request["case"], method=request["method"])
+    if campaign_root is not None:
+        result["worker_directory"] = str(folder.relative_to(campaign_root))
     result.setdefault("measurements", {})["process_seconds"] = (
         time.perf_counter() - started
     )
@@ -388,8 +404,10 @@ def _child(request: dict[str, Any], folder: Path) -> dict[str, Any]:
     return result
 
 
-def _passed(result: dict[str, Any], budget: float) -> bool:
-    errors = result.get("errors")
+def _passed(
+    result: dict[str, Any], budget: float, *, error_key: str = "errors"
+) -> bool:
+    errors = result.get(error_key)
     return (
         result.get("status") == "completed"
         and isinstance(errors, dict)
@@ -401,6 +419,38 @@ def _passed(result: dict[str, Any], budget: float) -> bool:
             for value in errors.values()
         )
     )
+
+
+def _select_controls(
+    base_request: dict[str, Any],
+    reference_folder: Path,
+    output: Path,
+    report: dict[str, Any],
+) -> tuple[Any, Any, Any]:
+    """Require both predeclared calibration gates before freezing a candidate."""
+    config, method = base_request["config"], base_request["method"]
+    for cutoff in config["green_cutoffs_hartree"]:
+        for eps in config["native_eps_candidates"]:
+            request = {**base_request, "cutoff": cutoff, "eps": eps}
+            primary = _child(
+                request,
+                reference_folder / method / f"calibration-{cutoff}-{eps}",
+                campaign_root=output,
+            )
+            report["calibration"].append(primary)
+            if not _passed(primary, config["calibration_target"]):
+                write(output / "report.json", report)
+                continue
+            refinement = _child(
+                {**request, "cutoff": 2 * cutoff},
+                reference_folder / method / f"refinement-{cutoff}-{eps}",
+                campaign_root=output,
+            )
+            report["cutoff_refinement_attempts"].append(refinement)
+            write(output / "report.json", report)
+            if _passed(refinement, config["calibration_target"]):
+                return request, primary, refinement
+    return None, None, None
 
 
 def _df_reference(
@@ -497,7 +547,7 @@ def run(
         raise ValueError("all four actual converged native runs are required")
     output.mkdir(parents=True, exist_ok=False)
     report: dict[str, Any] = {
-        "schema": "kernelgecp.molecular-green.v1",
+        "schema": "kernelgecp.molecular-green.v2",
         "pilot": pilot,
         "source_revision": revision,
         "source_hashes": hashes,
@@ -509,8 +559,13 @@ def run(
         "calibration": [],
         "selection": [],
         "cutoff_refinement": [],
+        "cutoff_refinement_attempts": [],
         "validation": [],
         "model_differences": [],
+        "retired_validation_source": config["retired_validation_source"],
+        "regression_scope": (
+            "consumed_native_rows_and_GL64_are_regression_not_untouched_validation"
+        ),
         "reference_artifacts": {},
     }
     solutions, requests = {}, []
@@ -587,45 +642,29 @@ def run(
             }
         )
         for method in METHODS:
-            chosen = None
-            for cutoff in config["green_cutoffs_hartree"]:
-                for eps in config["native_eps_candidates"]:
-                    request = {
-                        "case": key,
-                        "method": method,
-                        "cutoff": cutoff,
-                        "eps": eps,
-                        "config": config,
-                        "native_directory": str(folder.resolve()),
-                        "native_manifest_sha256": data.manifest_sha256,
-                        "reference": str(
-                            (reference_folder / "calibration.npz").resolve()
-                        ),
-                        "role": "calibration",
-                    }
-                    result = _child(
-                        request,
-                        reference_folder / method / f"calibration-{cutoff}-{eps}",
-                    )
-                    report["calibration"].append(result)
-                    write(output / "report.json", report)
-                    if _passed(result, config["calibration_target"]):
-                        chosen = request
-                        break
-                if chosen is not None:
-                    break
+            base_request = {
+                "case": key,
+                "method": method,
+                "config": config,
+                "native_directory": str(folder.resolve()),
+                "native_manifest_sha256": data.manifest_sha256,
+                "reference": str((reference_folder / "calibration.npz").resolve()),
+                "role": "calibration",
+            }
+            chosen, primary, refinement = _select_controls(
+                base_request, reference_folder, output, report
+            )
             if chosen is None:
                 continue
             requests.append(chosen)
             report["selection"].append(
-                {key: chosen[key] for key in ("case", "method", "cutoff", "eps")}
+                {
+                    **{key: chosen[key] for key in ("case", "method", "cutoff", "eps")},
+                    "calibration_directory": primary["worker_directory"],
+                    "refinement_directory": refinement["worker_directory"],
+                }
             )
-            report["cutoff_refinement"].append(
-                _child(
-                    {**chosen, "cutoff": 2 * chosen["cutoff"]},
-                    reference_folder / method / "cutoff-refinement",
-                )
-            )
+            report["cutoff_refinement"].append(refinement)
     if len(solutions) != 4:
         raise ValueError("the complete two-bond/two-grid cohort is missing")
     # No final queries have been evaluated before this immutable selection file.

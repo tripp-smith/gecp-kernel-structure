@@ -152,10 +152,13 @@ def test_observations_calibration_and_final_time_queries_are_disjoint(size):
     assert not np.intersect1d(training, calibration).size
     data = SimpleNamespace(tau=np.linspace(0, 20, size), beta=20)
     final = campaign.query_tau(data, "validation")
-    assert final.ndim == 1 and len(final) > 64
+    assert final.shape == (96,)
     assert not np.any(np.isin(final, data.tau[training]))
     assert not np.any(np.isin(final, data.tau[calibration]))
-    assert np.count_nonzero(~np.isin(final, data.tau)) == 64
+    assert np.count_nonzero(~np.isin(final, data.tau)) == 96
+    regression = campaign.query_tau(data, "regression")
+    assert len(regression) > 64
+    assert not np.any(np.isin(final, regression))
     with pytest.raises(ValueError):
         campaign.query_tau(data, "unknown")
 
@@ -281,3 +284,31 @@ def test_campaign_controls_require_the_full_scope(monkeypatch, attack):
     monkeypatch.setattr(campaign.tomllib, "loads", lambda _: data)
     with pytest.raises(ValueError):
         campaign.load_config(Path(__file__))
+
+
+def test_selection_requires_primary_and_doubled_cutoff_pass(tmp_path, monkeypatch):
+    config = configuration()
+    config["green_cutoffs_hartree"] = [4.0]
+    config["native_eps_candidates"] = [1e-6, 1e-8]
+    calls = []
+
+    def child(request, folder, *, campaign_root):
+        calls.append((request["cutoff"], request["eps"]))
+        error = 1.44e-7 if calls[-1] == (8.0, 1e-6) else 1e-9
+        return {
+            "status": "completed",
+            "errors": dict.fromkeys(
+                ("green_tau", "green_iw", "sigma_tau", "sigma_iw"), error
+            ),
+            "worker_directory": str(folder.relative_to(campaign_root)),
+        }
+
+    monkeypatch.setattr(campaign, "_child", child)
+    report = {"calibration": [], "cutoff_refinement_attempts": []}
+    request, _, control = campaign._select_controls(
+        {"config": config, "method": "kernelgecp"}, tmp_path / "case", tmp_path, report
+    )
+    assert calls == [(4.0, 1e-6), (8.0, 1e-6), (4.0, 1e-8), (8.0, 1e-8)]
+    assert request["eps"] == 1e-8
+    assert not campaign._passed(report["cutoff_refinement_attempts"][0], 1e-7)
+    assert campaign._passed(control, 1e-7)

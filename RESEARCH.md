@@ -11515,3 +11515,21 @@ exact-ERI FCI, and overall model differences. This avoids attributing integral
 approximation or GF2 error to the compression layer. Final scientific/source
 acceptance, independent artifact audit, installed-wheel proof and delivery
 remain required.
+
+### EF comparison failure and revised freeze
+
+The canonical generation at `6050ddd33af30deafe0d99057ea5d8a277c411a9`
+exited 1: although all 36 final compression trials passed (maximum error
+3.57e-8) and their repeated selections agreed, two kernelgecp doubled-cutoff
+controls at 1.5 Angstrom reached 1.44e-7 and 1.45e-7, exceeding the declared
+1e-7 calibration budget. This is a failed campaign, retained at
+`/tmp/gecp-ef-canonical-6050ddd`; those final points are consumed and cannot
+be represented as untouched validation in a subsequent run.
+
+The next frozen configuration selects the first candidate for which both the
+primary and doubled-cutoff calibration controls pass the unchanged budget,
+recording every attempt including failures. The previous modulo-four-three
+native rows, GL64 times and frequency indices are retired as regression data;
+fresh final validation uses GL96 times and disjoint Matsubara indices. The
+candidate ladder and all error budgets remain unchanged. A fresh generation
+and independent audit are required before any scientific acceptance.
