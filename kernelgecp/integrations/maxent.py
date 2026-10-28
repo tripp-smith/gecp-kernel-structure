@@ -166,6 +166,7 @@ class SpectralDataset:
     modes: CovarianceModes
     provenance_json: str
     projection: FloatArray | None
+    projection_source_tau: FloatArray | None
     source_fingerprint: str | None
 
     def __init__(
@@ -179,6 +180,7 @@ class SpectralDataset:
         covariance_atol: float = 1e-18,
         provenance: Any = None,
         projection: npt.ArrayLike | None = None,
+        projection_source_tau: npt.ArrayLike | None = None,
         source_fingerprint: str | None = None,
     ) -> None:
         temperature = _positive_real(beta, "beta")
@@ -204,6 +206,22 @@ class SpectralDataset:
             mapping.ndim != 2 or mapping.shape[0] != points.size
         ):
             raise ValueError("projection rows must match output observations")
+        original_tau = (
+            None
+            if projection_source_tau is None
+            else _tau_array(projection_source_tau, temperature)
+        )
+        if (mapping is None) != (original_tau is None):
+            raise ValueError("projection requires its original source time coordinates")
+        if original_tau is not None and (
+            not 3 <= original_tau.size <= 2048
+            or original_tau[0] != 0
+            or original_tau[-1] != temperature
+            or np.any(np.diff(original_tau) <= 0)
+            or mapping is None
+            or mapping.shape[1] != original_tau.size
+        ):
+            raise ValueError("projection columns must match the ordered source mesh")
         object.__setattr__(self, "beta", temperature)
         object.__setattr__(self, "tau", _owned(points))
         object.__setattr__(self, "values", _owned(observed))
@@ -221,6 +239,11 @@ class SpectralDataset:
         object.__setattr__(
             self, "projection", None if mapping is None else _owned(mapping)
         )
+        object.__setattr__(
+            self,
+            "projection_source_tau",
+            None if original_tau is None else _owned(original_tau),
+        )
         object.__setattr__(self, "source_fingerprint", source_fingerprint)
 
     @property
@@ -230,14 +253,17 @@ class SpectralDataset:
     @property
     def fingerprint(self) -> str:
         digest = hashlib.sha256()
-        for array in (
+        arrays = [
             np.array(
                 [self.beta, self.modes.relative_cutoff, self.modes.absolute_cutoff]
             ),
             self.tau,
             self.values,
             self.covariance,
-        ):
+        ]
+        if self.projection is not None and self.projection_source_tau is not None:
+            arrays.extend((self.projection, self.projection_source_tau))
+        for array in arrays:
             digest.update(str(array.shape).encode())
             digest.update(np.ascontiguousarray(array, dtype="<f8").tobytes())
         return digest.hexdigest()
@@ -280,6 +306,8 @@ def save_spectral_dataset(
     arrays = {"tau": data.tau, "values": data.values, "covariance": data.covariance}
     if data.projection is not None:
         arrays["projection"] = data.projection
+        assert data.projection_source_tau is not None
+        arrays["projection_source_tau"] = data.projection_source_tau
     manifest = {
         "schema": "kernelgecp.spectral-dataset.v1",
         "observation_domain": "imaginary_time",
@@ -346,7 +374,7 @@ def load_spectral_dataset(path: str | Path) -> SpectralDataset:
         raise ValueError("unsupported spectral manifest or archive hash mismatch")
     expected = {"tau", "values", "covariance"}
     if "projection" in manifest.get("arrays", {}):
-        expected.add("projection")
+        expected.update(("projection", "projection_source_tau"))
     if set(manifest.get("arrays", {})) != expected:
         raise ValueError("spectral manifest has unsupported array members")
     with zipfile.ZipFile(target) as archive:
@@ -376,6 +404,7 @@ def load_spectral_dataset(path: str | Path) -> SpectralDataset:
             covariance_atol=manifest["covariance_atol"],
             provenance=manifest["provenance"],
             projection=arrays.get("projection"),
+            projection_source_tau=arrays.get("projection_source_tau"),
             source_fingerprint=manifest["source_fingerprint"],
         )
     if (
@@ -436,8 +465,17 @@ class SpectralProjection:
                 "svd": asdict(self.diagnostics),
                 "independent_interpolated_observations": False,
             },
-            projection=self.matrix,
-            source_fingerprint=data.fingerprint,
+            projection=(
+                self.matrix
+                if data.projection is None
+                else self.matrix @ data.projection
+            ),
+            projection_source_tau=(
+                data.tau
+                if data.projection_source_tau is None
+                else data.projection_source_tau
+            ),
+            source_fingerprint=data.source_fingerprint or data.fingerprint,
         )
 
 
@@ -580,6 +618,7 @@ class MaxEntSpectrum:
     density: FloatArray
     alphas: FloatArray
     chi2: FloatArray
+    trial_spectra: FloatArray
     selected_index: int
     converged: tuple[bool, ...]
     iterations: tuple[int, ...]
@@ -590,7 +629,7 @@ class MaxEntSpectrum:
     diagnostics_json: str
 
     def __post_init__(self) -> None:
-        for name in ("omega", "density", "alphas", "chi2"):
+        for name in ("omega", "density", "alphas", "chi2", "trial_spectra"):
             object.__setattr__(self, name, _owned(getattr(self, name)))
 
     @property
@@ -692,6 +731,18 @@ def continue_tau_maxent(
     default /= np.trapezoid(default, omega)
     solver.D = provider.DataDefaultModel(default, solver.omega)
     solver.set_G_tau_data(data.tau.copy(), data.values.copy())
+    if data.projection is not None:
+        # Apply the same complete observation map to the native physical
+        # forward kernel, before the provider rotates covariance eigenmodes.
+        # Interpolation changes observations, covariance AND the model.
+        kernels = importlib.import_module("triqs_maxent.kernels")
+        assert data.projection_source_tau is not None
+        original_kernel = kernels.TauKernel(
+            data.projection_source_tau.copy(), solver.omega, beta=data.beta
+        )
+        solver.K = kernels.DataKernel(
+            data.tau.copy(), solver.omega, data.projection @ original_kernel.K
+        )
     solver.set_cov(data.modes.retained_covariance.copy())
     if len(solver.err) != data.modes.effective_rank:
         raise NumericalBreakdownError(
@@ -735,14 +786,21 @@ def continue_tau_maxent(
     if settings.normalize_mass is not None:
         density *= settings.normalize_mass / raw_mass
     mass = float(np.trapezoid(density, omega))
-    rms = data.modes.whitened_rms(
-        spectral_forward(data.beta, data.tau, omega, density) - data.values
+    prediction = spectral_forward(
+        data.beta,
+        data.tau if data.projection_source_tau is None else data.projection_source_tau,
+        omega,
+        density,
     )
+    if data.projection is not None:
+        prediction = data.projection @ prediction
+    rms = data.modes.whitened_rms(prediction - data.values)
     return MaxEntSpectrum(
         omega,
         density,
         alphas,
         chi2,
+        spectra,
         selected,
         tuple(entry[0] for entry in history),
         tuple(entry[1] for entry in history),
@@ -761,6 +819,9 @@ def continue_tau_maxent(
                 ),
                 "covariance_threshold": data.modes.threshold,
                 "effective_rank": data.modes.effective_rank,
+                "forward_operator": "native_tau_kernel"
+                if data.projection is None
+                else "complete_projection_times_native_source_tau_kernel",
                 "mass_operation": "none"
                 if settings.normalize_mass is None
                 else "explicit_rescale",

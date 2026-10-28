@@ -36,3 +36,9 @@ def test_seeds_and_observation_query_isolation_are_explicit():
     assert not np.any(np.isin(query, data.tau))
     assert np.linalg.norm(covariance - np.diag(np.diag(covariance))) > 0
     assert data.modes.effective_rank == len(data.tau)
+    final, final_query, _ = observations(
+        "offgrid_atoms_correlated", 1001, query_order=36
+    )
+    assert len(final_query) == 36
+    assert not np.any(np.isin(query, final_query))
+    assert not np.array_equal(final.values, data.values)

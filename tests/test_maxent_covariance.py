@@ -77,6 +77,24 @@ def test_covariance_explicit_rank_rejection_and_roundoff_symmetrization():
     assert modes.symmetry_correction > 0
 
 
+def test_chained_projection_preserves_complete_original_observation_operator():
+    data = dataset()
+    first = prepare_spectral_projection(
+        PolynomialDesign(), data.tau, np.linspace(0, 3, 17)
+    )
+    intermediate = first.apply(data)
+    second = prepare_spectral_projection(PolynomialDesign(), intermediate.tau, data.tau)
+    result = second.apply(intermediate)
+    expected = second.matrix @ first.matrix
+    np.testing.assert_allclose(result.projection, expected, atol=1e-15)
+    np.testing.assert_array_equal(result.projection_source_tau, data.tau)
+    np.testing.assert_allclose(result.values, expected @ data.values, atol=1e-15)
+    np.testing.assert_allclose(
+        result.covariance, expected @ data.covariance @ expected.T, atol=1e-21
+    )
+    assert result.source_fingerprint == data.fingerprint
+
+
 def test_owned_data_projection_and_no_implicit_complex_projection():
     data = dataset()
     for array in (data.values, data.tau, data.covariance, data.modes.retained_vectors):
@@ -225,3 +243,42 @@ def test_actual_tau_maxent_provider_positive_and_rank_aware():
     assert result.normalized_training_whitened_rms < 3
     # This small integration case does not close the independent science gate.
     assert np.max(np.abs(result.evaluate_tau(beta, tau) - values)) < 1e-3
+
+
+def test_actual_provider_projects_forward_kernel_with_complete_observation_map(
+    monkeypatch,
+):
+    provider = pytest.importorskip("triqs_maxent")
+    created = []
+    actual = provider.TauMaxEnt
+
+    def capture(*args, **kwargs):
+        instance = actual(*args, **kwargs)
+        created.append(instance)
+        return instance
+
+    monkeypatch.setattr(provider, "TauMaxEnt", capture)
+    tau = dataset().tau
+    values = -np.exp(-0.7 * tau) / (1 + np.exp(-3 * 0.7))
+    data = SpectralDataset(3, tau, values, 1e-6 * np.eye(len(tau)))
+    plan = prepare_spectral_projection(PolynomialDesign(), tau, np.linspace(0, 3, 17))
+    projected = plan.apply(data)
+    result = continue_tau_maxent(
+        projected, MaxEntConfig(omega_min=-2, omega_max=2, n_omega=81, n_alpha=9)
+    )
+    solver = created[0]
+    independent_kernel = -np.exp(-tau[:, None] * result.omega) / (
+        1 + np.exp(-3 * result.omega)
+    )
+    expected = plan.matrix @ independent_kernel
+    target_kernel = -np.exp(-projected.tau[:, None] * result.omega) / (
+        1 + np.exp(-3 * result.omega)
+    )
+    assert np.max(np.abs(expected - target_kernel)) > 1e-3
+    np.testing.assert_allclose(
+        solver.K.K_delta, expected * solver.omega.delta, atol=1e-16
+    )
+    assert result.effective_rank == 4
+    assert result.diagnostics["forward_operator"] == (
+        "complete_projection_times_native_source_tau_kernel"
+    )

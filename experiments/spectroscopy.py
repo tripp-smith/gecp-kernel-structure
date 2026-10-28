@@ -9,6 +9,7 @@ import importlib.metadata
 import json
 import os
 import platform
+import resource
 import subprocess
 import sys
 import time
@@ -30,6 +31,8 @@ from kernelgecp.integrations.maxent import (
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_FILES = (
+    "experiments/spectroscopy_campaign.py",
+    "experiments/audit_spectroscopy.py",
     "experiments/spectroscopy.py",
     "experiments/dlr_adapters.py",
     "kernelgecp/integrations/maxent.py",
@@ -130,11 +133,15 @@ def true_cdf(case, omega):
     return result
 
 
-def observations(case, seed):
+def observations(case, seed, *, query_order=24):
+    if type(query_order) is not int or query_order not in (24, 36):
+        raise ValueError(
+            "query_order must be24 for calibration or36 for fresh validation"
+        )
     beta = 10.0
     tau = np.linspace(0, beta, 65)
     # The final query nodes are off the observation mesh and do not select alpha.
-    query = (np.polynomial.legendre.leggauss(24)[0] + 1) * beta / 2
+    query = (np.polynomial.legendre.leggauss(query_order)[0] + 1) * beta / 2
     sigma = 1e-4
     correlation = np.eye(tau.size)
     if case.endswith("correlated"):
@@ -194,7 +201,9 @@ def spectrum_metrics(case, result):
     }
 
 
-def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
+def run_case(
+    case, method, seed, eps, config, output, *, pilot, bootstrap=0, query_order=24
+):
     before = provenance()
     if not pilot and (
         not before["tracked_clean"] or any(os.environ.get(v) != "1" for v in THREADS)
@@ -202,12 +211,16 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
         raise ValueError(
             "canonical spectroscopy requires clean source and fixed single threads"
         )
-    data, query, query_covariance = observations(case, seed)
+    data, query, query_covariance = observations(case, seed, query_order=query_order)
     start = time.perf_counter()
     projection = None
+    coefficient_fit = None
+    observation_design = np.eye(data.tau.size)
+    fit_projection_difference = None
     fitted = data
     if method != "raw":
         constructed = basis(method, data.beta, eps)
+        observation_design = constructed.design_tau(data.tau)
         projection = prepare_spectral_projection(
             constructed,
             data.tau,
@@ -216,17 +229,25 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
             metadata={"method": method, "eps": eps},
         )
         fitted = projection.apply(data)
+        if method == "kernelgecp":
+            coefficient_fit = constructed.fit_tau(data.values, data.tau, rcond=1e-10)
+            fit_projection_difference = float(
+                np.max(np.abs(coefficient_fit.evaluate_tau(data.tau) - fitted.values))
+            )
     construction_seconds = time.perf_counter() - start
     config = MaxEntConfig(**config)
     fit_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
     continuation_seconds = time.perf_counter() - fit_start
+    prediction_start = time.perf_counter()
     predicted = spectrum.evaluate_tau(data.beta, query)
+    prediction_seconds = time.perf_counter() - prediction_start
     reference = truth(case, data.beta, query)
     _, modes = covariance_modes(query_covariance)
     rms = modes.whitened_rms(predicted - reference)
     metrics = spectrum_metrics(case, spectrum)
-    bootstrap_weights, bootstrap_cdf = [], []
+    bootstrap_weights, bootstrap_cdf, bootstrap_spectra = [], [], []
+    bootstrap_values, bootstrap_records = [], []
     generator = np.random.default_rng(seed + 100000)
     for _ in range(bootstrap):
         sampled = SpectralDataset(
@@ -238,12 +259,24 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
             data.covariance,
             provenance=data.provenance,
         )
+        bootstrap_values.append(sampled.values)
         if projection is not None:
             sampled = projection.apply(sampled)
         resampled = continue_tau_maxent(sampled, config)
         diagnostic = spectrum_metrics(case, resampled)
         bootstrap_weights.append(diagnostic["window_weights"])
         bootstrap_cdf.append(diagnostic["cdf_max_error"])
+        bootstrap_spectra.append(resampled.density)
+        bootstrap_records.append(
+            {
+                "selected_index": resampled.selected_index,
+                "raw_mass": resampled.raw_mass,
+                "mass": resampled.mass,
+                "converged": resampled.converged,
+                "iterations": resampled.iterations,
+                "effective_rank": resampled.effective_rank,
+            }
+        )
     if bootstrap:
         metrics["bootstrap_window_standard_deviation"] = np.std(
             bootstrap_weights, axis=0, ddof=1
@@ -262,6 +295,8 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
         "normalized": abs(spectrum.mass - 1) <= 1e-6,
         "heldout_whitened_rms": rms <= 2,
         "provider_selected_converged": spectrum.converged[spectrum.selected_index],
+        "coefficient_projection_agreement": fit_projection_difference is None
+        or fit_projection_difference <= 1e-10,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
@@ -274,14 +309,28 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
         projected_values=fitted.values,
         projected_covariance=fitted.covariance,
         projection=np.eye(data.tau.size) if projection is None else projection.matrix,
+        observation_design=observation_design,
         query=query,
         query_covariance=query_covariance,
         prediction=predicted,
         reference=reference,
         alphas=spectrum.alphas,
         chi2=spectrum.chi2,
+        trial_spectra=spectrum.trial_spectra,
         bootstrap_weights=np.array(bootstrap_weights),
+        bootstrap_spectra=np.array(bootstrap_spectra),
+        bootstrap_values=np.array(bootstrap_values),
     )
+    coefficient_archive = None
+    if coefficient_fit is not None:
+        archive_path = output.with_name(output.stem + "-gecp-fit.npz")
+        coefficient_fit.save(archive_path)
+        coefficient_archive = {
+            "path": archive_path.name,
+            "sha256": hashlib.sha256(archive_path.read_bytes()).hexdigest(),
+            "format": "kernelgecp.fit.v2",
+            "observation_domain": "tau",
+        }
     save_spectral_dataset(
         fitted,
         output.with_name(output.stem + "-dataset.npz"),
@@ -297,6 +346,7 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
         "case": case,
         "method": method,
         "seed": seed,
+        "query_order": query_order,
         "eps": eps,
         "config": dataclasses.asdict(config),
         "provenance": before,
@@ -313,7 +363,19 @@ def run_case(case, method, seed, eps, config, output, *, pilot, bootstrap=0):
         "metrics": metrics,
         "construction_seconds": construction_seconds,
         "continuation_seconds": continuation_seconds,
+        "prediction_seconds": prediction_seconds,
+        "workflow_before_final_receipt_seconds": time.perf_counter() - start,
+        "peak_rss_bytes": int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+        * (1 if sys.platform == "darwin" else 1024),
+        "array_storage_bytes": output.with_suffix(".npz").stat().st_size,
+        "projection_svd": None
+        if projection is None
+        else dataclasses.asdict(projection.diagnostics),
+        "coefficient_fit_archive": coefficient_archive,
+        "fit_projection_max_difference": fit_projection_difference,
         "bootstrap_count": bootstrap,
+        "bootstrap_seed": seed + 100000,
+        "bootstrap_records": bootstrap_records,
         "uncertainty_claim": "empirical_bootstrap_variation_not_complete_coverage",
         "array_sha256": hashlib.sha256(
             output.with_suffix(".npz").read_bytes()
@@ -335,6 +397,7 @@ def main():
         "--default-model", choices=["flat", "broad_gaussian"], default="flat"
     )
     parser.add_argument("--bootstrap", type=int, default=0)
+    parser.add_argument("--query-order", type=int, choices=[24, 36], default=24)
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -357,6 +420,7 @@ def main():
             args.output,
             pilot=args.pilot,
             bootstrap=args.bootstrap,
+            query_order=args.query_order,
         )
         if result["status"] != "passed":
             raise RuntimeError("spectroscopy gates failed; retain failed artifacts")

@@ -11526,3 +11526,40 @@ compute/GPU; one memory-intensive workload at a time, hosted jobs<=330min.
 Actual provider cases, installed-package checks, full root, exact-head CI,
 authorized merge/push and exact-main checks are required before EH closes.
 1.1.0 artifacts and original mathematical results stay immutable.
+
+### EH implementation and source-freeze contract
+
+`kernelgecp.integrations.maxent` now provides immutable scalar data, explicit
+ordered diagonal marginals, retained covariance modes and complete linear
+projection. Projection composes its original observation map and propagates
+values, covariance AND the native forward kernel: `P G`, `P C P^T`, `P K`.
+Actual TauMaxEnt 4.0.1 uses its DataKernel and covariance rotation, with no
+continuation surrogate. A poor rank-four polynomial projection regression
+distinguishes this operator from merely evaluating K at the target times.
+The selected provider alpha must have converged; individual failed alpha
+trials stay visible. Spectral mass rescaling is explicit and its forward
+defect is recomputed. Shared GECP fit archives retain coefficient diagnostics;
+application datasets/JSON carry full covariance, units, provider, order and
+hashes. Generic complex observation data are not silently projected to real.
+
+The source-frozen synthetic campaign will calibrate all three declared spectra
+and noise models through raw/GECP/DLR/IR, with flat and broad-Gaussian defaults.
+Use 24 calibration processes, seeds 101--103, GL24 held-out queries; freeze
+omega401/alpha33, representation eps1e-8 and covariance/SVD cutoffs before
+final data. Final validation uses fresh seeds1001--1003 and disjoint GL36
+queries, three fresh processes per case (72 total), and eight parametric
+bootstrap continuations on each first repetition only. An independent auditor
+recomputes projected discrepancy, covariance modes, positivity/mass, adaptive
+forward quadrature, window/CDF/variation metrics, hashes, source blobs and
+repeat inventories. Failed processes, missing manifest bytes, orphan arrays
+and exhausted deadlines cannot produce a passed freeze.
+
+Earlier pilots tune the implementation; they are not final acceptance. The
+initial data/covariance-only projection omitted P on the model kernel, and
+is retained as a corrected prototype history. A smooth-CDF integer-dtype
+pilot failure was corrected before final validation. The current projected
+GECP atomic/broad-default scout passes held-out RMS0.579, with full covariance
+rank21 and coefficient-versus-projection agreement1.30e-15; it also executes
+two actual bootstrap continuations. Full synthetic freeze/generation/audit,
+fresh accepted EE physical data, installed package, root/CI and delivery gates
+remain open. RNG-collided old EE ensembles cannot establish independent noise.
