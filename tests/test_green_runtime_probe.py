@@ -21,6 +21,31 @@ def test_native_marker_and_independent_stored_deltas_are_both_required():
     )
 
 
+def test_scientific_iteration_budget_is_explicit_and_does_not_change_smoke_default():
+    with pytest.raises(RuntimeError, match="converged pair"):
+        validate_convergence(
+            "Simulation Converged",
+            iteration=150,
+            energy_change_sum=1e-12,
+            green_change=1e-8,
+        )
+    validate_convergence(
+        "Simulation Converged",
+        iteration=150,
+        energy_change_sum=1e-12,
+        green_change=1e-8,
+        max_iterations=300,
+    )
+    with pytest.raises(RuntimeError):
+        validate_convergence(
+            "Simulation Converged",
+            iteration=7,
+            energy_change_sum=1e-12,
+            green_change=1e-8,
+            max_iterations=True,
+        )
+
+
 @pytest.mark.parametrize(
     "log",
     [

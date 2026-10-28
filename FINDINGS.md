@@ -2426,3 +2426,13 @@ unfavorable timing: native Fourier is faster than all three compressed methods
 on this small beta=10 workload, and Python reference GECP setup dominates.
 No universal or interacting-workflow speed advantage follows. Full root,
 exact-revision CI, merge and main verification remain separate delivery gates.
+
+The EF molecular comparison at frozen source `56c3211` reports passing
+same-solution sampled compression gates on the two H2 geometries and both
+native grids: 36 fresh trials have maximum component error 1.726e-8. Its
+selection requires both primary and doubled-cutoff controls; the failed
+`6050ddd` run and its consumed validation points remain recorded in
+[RESEARCH.md](RESEARCH.md). Independent QR/Fourier artifact auditing passes all eight declared gates;
+final verification and delivery remain open.
+These sampled results neither certify the continuous domain nor establish GF2
+accuracy against the exact molecular problem.
