@@ -101,11 +101,11 @@ remain native. Upstream acceptance is not a delivery gate.
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
 | ED | Deterministic interacting Bethe IPT with independent references | complete: [frozen campaign and independent audit](INTERACTING_DMFT.md), full root and all main workflows pass at merged main `7530ec7` ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
-| EE | Actual CT-HYB DMFT and independent-replica uncertainty | native sampling/measured feedback and resumable campaign implemented; canonical sampling, independent audit, full root and delivery pending |
-| EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
-| EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
-| EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
-| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | [frozen 18-case real-data campaign](COVARIANCE.md), actual Mac provider and independent Git/blob/array audit pass at `203e58a`; final native/root/exact-head CI/delivery pending |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | corrected unique-seed campaign and independent local audit pass; Linux campaign and delivery remain open in PR #141 |
+| EF | Native molecular GF2 runs and supported Green importer | complete, merged main `07c4115`; root and exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
+| EG | EPW MgB2 native output/compression/restart interoperability | frozen real-parity cross final cases and audit pass; actual native restart, exact-head checks and delivery open in PR #138 |
+| EH | Actual covariance-aware MaxEnt including EE observations | [synthetic evidence](SPECTROSCOPY.md) and independent audit pass; measured CT-HYB validation, Linux CI and delivery remain open |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
 EB/EC/ED/EF/EI acceptance is complete, approximately 55% of this new contract;
@@ -114,3 +114,19 @@ acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
 mandatory cases remain open; no universal speedup is required.
+
+Remaining delivery order follows the current dependencies. Finish the running
+EE Linux campaign and audit, then its exact-head/root/merge/main gates. Finish
+EG's actual unmodified native restart and the same delivery gates. Complete EH's
+frozen measured-data comparison, independent audit and real-provider CI before
+its delivery. EJ then audits every original domain obligation, updates guides,
+compatibility/migration/notices and handoff metadata, tests installed release
+distributions, publishes 1.2.0, verifies public installations and synchronizes
+exact-main checks. Green and EPW internal solver acceleration stays outside scope.
+
+The active goal retains that full end state. Bounded Terra workers own individual
+implementations, independent audits or evidence packages; the primary agent owns
+canonical launches, shared numerical decisions, acceptance and merges. Workers
+return artifact paths, hashes, commands, outcomes and open obligations. Failed
+worker calls do not count as reviews, and completed subsets do not redefine the
+goal. Long scientific runs use durable checkpoints and confirmed live handles.

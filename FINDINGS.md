@@ -2481,3 +2481,27 @@ selection requires both primary and doubled-cutoff controls; the failed
 final verification and delivery remain open.
 These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
+
+## EH observation models and covariance propagation
+
+Spectral continuation after compression requires the complete observation map:
+P G, P C P-transpose and P K. Projecting covariance while retaining a pointwise
+kernel at interpolated times gives a different likelihood. Actual-provider
+regressions distinguish these models and check the full projected kernel.
+Treating interpolated samples as independent observations is unsupported.
+
+An independently audited calibration exposed an ill-scaled pydlr coefficient
+map whose assembled same-mesh projector missed symmetry by about 3.07e-8.
+The failed evidence is preserved. Constructing the retained orthogonal
+projector directly from the cached SVD vectors fixes the numerical mechanism
+without weakening the audit tolerance. Complex QR and zero-rank fixtures
+also check the shared fitter's observation-projection interface.
+
+The corrected actual-MaxEnt campaign has 72 passing fresh-process children:
+24 distinct case/method/default configurations, each repeated three times.
+The independent audit recomputes all 24 distinct final configurations and
+checks the full inventory and repeat equality. Positive mass, held-out noise
+budgets, CDF/window errors, bootstrap variation and default-model sensitivity
+are separate quantities in [SPECTROSCOPY.md](SPECTROSCOPY.md). This closes the
+synthetic evidence obligation only; measured CT-HYB spectroscopy, Linux
+acceptance and delivery remain open.

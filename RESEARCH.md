@@ -11953,3 +11953,45 @@ separately in the attributed native workflow artifact and fixture.
 ### EI scientific binding reproduction
 
 Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
+
+### EH measured-chain calibration and final contract
+
+The corrected EE generation `9d28053` has a passed independent audit and a
+separate content-hash binding for its result, freeze and every measurement.
+The original [audit](data/cthyb/independent-audit-e83d195.json),
+[binding](data/cthyb/audit-binding-e83d195.json) and complete raw campaign
+are retained without rewriting historical provenance. This local acceptance
+does not close EE's running canonical Linux campaign or delivery.
+
+`experiments.cthyb_spectroscopy` explicitly checks the real paramagnetic spin
+average, 64 distinct odd-seed measurements and identical bath within a cohort.
+Calibration uses `kernelgecp-final`; final validation uses `dense-final`.
+Each cohort has 32 training chains and 32 independent validation chains.
+The 65 observation indices are `0,48,...,3072`; the 16 disjoint query indices
+are `24+192*k`. Covariance of a mean is the unbiased sum of residual outer
+products divided by `N*(N-1)`. The declared relative eigenmode cutoff is 1e-4.
+Held-out whitening uses only the independent validation-chain mean covariance,
+conditional on the fitted training data. Training query covariance is not an
+estimate of nonlinear continuation uncertainty and is not added to that budget.
+
+Before any final evaluation, freeze all imported scientific sources, actual
+provider code/native extensions, versions, interpreter, thread settings and
+controls. Calibration requires all eight raw/GECP/DLR/IR by flat/Gaussian-default
+cases plus independent `audit_cthyb_spectroscopy` acceptance. Final runs require
+their exact hashes and run all eight configurations in three fresh processes.
+Repeat zero alone has eight training-chain bootstrap continuations with seed
+193. Process repeats share observations and are not independent data replicas.
+Every child has a bounded deadline, hash-bound job/receipt, unique process ID,
+retained log and explicit exit status; no silent retry or orphan reuse occurs.
+Total time is bounded by 330 minutes. Construction, continuation, prediction,
+bootstrap, total time, peak RSS and serialized sizes have explicit scopes.
+
+The actual provider remains TauMaxEnt 4.0.1, beta 10, omega [-4,4] with 401
+nodes and 33 alpha values. Preserve complete P G/P C P-transpose/P K propagation,
+positivity and mass within 1e-6, and conditional held-out whitened RMS at most 2.
+The independent audit recomputes raw-chain statistics, projection, covariance
+modes, physical forward integrals, native trial defects, window weights,
+bootstrap variation, default sensitivity and numerical repeat equality.
+Native spectra have no known truth CDF; no unique peak or uncertainty-coverage
+claim follows. A failed or exhausted calibration remains unresolved and cannot
+authorize final scoring. All full-root, Linux, merge and main gates remain open.

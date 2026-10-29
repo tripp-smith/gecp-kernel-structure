@@ -3087,3 +3087,15 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase EF comparison status:** frozen `56c3211` passes the declared
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
+
+- **Production delivery update:** EF and EI are delivered with exact-main
+  root and CI acceptance in PR #137 and #139. Their delivery receipts supersede
+  earlier pending annotations; original goals and 1.1.0 artifacts are unchanged.
+- **Phase EH synthetic evidence identifiers:** `SpectralDataset`,
+  `SpectralProjection`, `MaxEntConfig`, `MaxEntSpectrum`,
+  `continue_tau_maxent`, safe dataset archives, cached-SVD
+  `LeastSquaresPlan.observation_projection`, `spectroscopy_campaign` and
+  independent `audit_spectroscopy`. Frozen `dc97680` passes 24 calibration
+  cases and 72 final children, covering 24 independently audited final
+  configurations plus three-repeat equality. Measured CT-HYB spectroscopy,
+  full root, actual Linux CI and delivery remain mandatory and open.

@@ -1694,6 +1694,46 @@ remainder certificates. Loop RSS excludes later validation/replay; full-worker
 wall/RSS includes them. Coefficient and output-array sizes have distinct scopes
 and do not imply a total-memory or universal performance advantage.
 
+## Covariance-aware MaxEnt continuation (1.2 development)
+
+`kernelgecp.integrations.maxent` is an optional, lazy TRIQS MaxEnt 4.0.1
+adapter for real scalar or diagonal positive spectral functions. Ordinary
+`import kernelgecp` requires no TRIQS installation. Calling the provider fails
+clearly when it is unavailable; no sparse-recovery surrogate is substituted.
+
+`SpectralDataset(beta, tau, values, covariance)` owns immutable observations
+and their complete covariance. It preserves the distinct zero-plus and
+beta-minus endpoints and rejects implicit conversion of complex observations.
+Covariance eigenmode selection has declared relative/absolute cutoffs, retained
+rank and discarded-mode diagnostics. `diagonal_spectral_datasets` extracts
+declared marginals from a time-major joint covariance; it does not construct a
+joint posterior or support off-diagonal spectral continuation.
+
+Use `prepare_spectral_projection(basis, source_tau, target_tau, rcond=...)`
+and `projection.apply(dataset)` for compression. The result carries the full
+linear observation map P and the original source mesh. Continuation sends
+P G, P C P-transpose and P K to the actual `TauMaxEnt` provider before its
+covariance rotation. New interpolated points therefore remain correlated.
+For a same-mesh projection, retained SVD vectors form U-r U-r-transpose
+directly, avoiding the cancellation in ill-scaled coefficient maps.
+
+`continue_tau_maxent(dataset, MaxEntConfig(...))` retains each alpha trial,
+its convergence/iteration status and chi-square. The selected converged alpha
+minimizes the declared discrepancy to retained noise rank. Explicit optional
+mass normalization retains both the raw mass and the recomputed normalized
+training defect. `MaxEntSpectrum.evaluate_tau` performs physical forward
+evaluation; it is separate from the projected observation model.
+`save_spectral_dataset`/`load_spectral_dataset` preserve full covariance,
+projection, source mesh and a versioned hash-bound application manifest with
+caller-declared units/provider/state ordering/settings.
+
+The [synthetic campaign](SPECTROSCOPY.md) uses the actual provider, independent
+held-out forward checks and a separate arithmetic audit. Measured CT-HYB
+validation and full phase delivery remain required. Bootstrap variation and
+default-model sensitivity do not establish unique peak recovery or complete
+uncertainty coverage. Existing sparse-recovery experiments remain separately
+labeled comparisons.
+
 ## Published release evidence
 
 Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and
