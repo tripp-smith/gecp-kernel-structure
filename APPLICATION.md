@@ -346,6 +346,78 @@ For PSD matrices, `pivoted_cholesky` and `gecp_matrix` use the same
 diagonal-preferring lexicographic tie rule; the recursive equivalence of those
 pivot policies is separately proved in Lean.
 
+## Column-oracle covariance factors (EI implementation)
+
+`KernelCholeskyFactor.from_columns(diagonal, column, max_rank=256, atol=1e-10,
+rtol=0)` approximates a finite real symmetric PSD covariance from its diagonal
+and one full length-n callback column per selected pivot. It stores an owning,
+immutable float64 root `factor` with shape `(n, rank)` and the original and
+residual diagonals; it never constructs a full covariance or residual matrix.
+The callback is not retained. The existing dense `pivoted_cholesky` is unchanged.
+
+```python
+import numpy as np
+
+from kernelgecp import KernelCholeskyFactor
+
+points = np.linspace(-2, 2, 101)
+factor = KernelCholeskyFactor.from_columns(
+    np.ones(points.size),
+    lambda j: np.exp(-((points - points[j]) ** 2)),
+    max_rank=20,
+)
+system = factor.shifted(0.01)
+solution = system.solve_with_diagnostics(np.sin(points))
+print(factor.rank, factor.stop_reason, solution.relative_residual)
+```
+
+`factor.indices` gives the pivot order. `extend(cross_columns, diagonal=None)`
+expects only `K[new, selected pivots]`, with exactly that column order, and
+returns immutable `features` plus an optional checked `residual_diagonal`.
+It uses a triangular solve with the selected root. An approximate cross
+covariance is `extension.features @ factor.factor.T`; no training/test
+covariance is built implicitly. Supply a new diagonal to check the extension's
+PSD residual constraint. A caller-supplied kernel remains responsible for
+consistent physical units, row order and hyperparameters.
+
+`as_linear_operator(shift=0)` implements `L @ L.T + diag(shift)` as a SciPy
+operator. Positive scalar/vector noise is prepared once with `shifted(shift)`;
+its `solve`, `solve_with_diagnostics` and `as_preconditioner` reuse a small
+rank-by-rank Cholesky system. The preconditioner is passed as `M` to SciPy CG
+on the original kernel operator. A successful approximate solve does not
+establish the original-kernel CG residual. Woodbury refinement is checked
+against the approximate system; a temporary implicit Householder QR/SVD
+fallback handles subtraction loss for tiny noise without forming a complete
+orthogonal matrix. Unresolved or unrepresentable solves raise
+`NumericalBreakdownError`, including loss during final RHS rescaling.
+
+`to_gpytorch(shift=0)` copies the identical frozen root into a CPU float64
+`linear_operator` object usable by GPyTorch. It imports optional providers
+only on that call and owns its tensor storage. Pivot selection is outside
+autograd. The supported runtime starts with EB's pinned torch 2.14.1,
+GPyTorch 1.15.2 and linear_operator 0.6.1; no GPU or alternate runtime is
+claimed by the small actual-provider check.
+
+`factor.diagnostics` and its fresh `metadata` snapshot report convergence,
+stop reason, selected-root SVD conditioning, tie counts, roundoff slack and
+actual float64 precision. `storage_nbytes` counts retained numerical arrays
+and scalar histories, excluding Python overhead; the shifted object's count
+includes the shared factor once. Global symmetry/PSD is an explicit callback
+assumption: only requested columns are checked. Diagonal convergence and
+small synthetic prediction errors are numerical evidence, not a continuous
+certificate. The [frozen attributed UCI campaign](COVARIANCE.md) passes its
+18 local trials, actual Mac provider and independent artifact audit. Linux
+provider CI, final native/root and delivery gates remain pending under
+PRODUCTION_INTEGRATIONS.md; numerical acceptance alone does not close EI.
+
+The [real-data campaign guide](experiments/COVARIANCE.md) defines attributed
+data hashes, calibration isolation and independent receipts. Its predictive
+standard deviation includes the declared observation-noise variance and is
+normalized by the training target standard deviation. The same convention is
+used for dense and approximate comparisons; the acceptance thresholds are
+unchanged. This is an assumed Gaussian observation model, not a calibrated
+environmental forecasting or uncertainty-coverage claim.
+
 ## Certified pivots
 
 `certified_pivot` performs deterministic float64 cell subdivision from a
@@ -1688,3 +1760,49 @@ ladder before final data, and returns nonzero for inconclusive uncertainty,
 representation, self-consistency or refinement. The fast actual-provider CI
 probe proves wiring, not canonical statistical/physical acceptance. No CT-HYB
 speed or exact interacting-model accuracy claim follows from these interfaces.
+
+## Molecular Green GF2 checkpoints
+
+The 1.2.0 candidate source contains an optional molecular reader for
+Green/green-mbtools 1.0.0 restricted GF2 output in a declared symmetric Lowdin
+basis. Published 1.1.0 files remain unchanged. Install the candidate checkout
+with `python -m pip install '.[green]'` and import it explicitly:
+
+```python
+from kernelgecp.integrations.green import read_green_tau
+
+data = read_green_tau("input.h5", "sim.h5", "bound-manifest.json")
+assert data.g_tau.shape[1:] == data.sigma_tau.shape[1:]
+# Axes: tau, spin, molecular k=1, orbital row, orbital column.
+print(data.iteration, data.mu, data.energies.total_hartree)
+```
+
+The required `kernelgecp.green-molecular-run.v1` JSON manifest binds the actual
+HDF5 files, native convergence log, source/build provenance and provider receipt
+by SHA256. It declares units, geometry and method settings that Green's output
+does not store. For retained native provider outputs, run
+`python scripts/providers/bind_green_manifest.py NATIVE_DIRECTORY PROVIDER_RECEIPT`
+to enrich their original explicit run settings. It refuses files absent from
+the source provider receipt. See the attributed fixture in
+`tests/data/green_h2_074` and the [official output contract](https://green-phys.org/docs/components/data-formats/output-files/).
+
+The reader validates versions, dimensions, finite values, overlap, native log
+and independently recomputed final iteration-pair deltas. It returns owned,
+immutable arrays without collapsing matrix/spin axes, unpickling `Cell`,
+conjugating data or repairing symmetry. `/iter` must identify a complete
+checkpoint matching the converged manifest; incomplete output never triggers
+an implicit older fallback. Explicit historical iterations retain their source
+identity and have `converged=False`.
+
+`data.sigma_static`, `data.h_core`, `data.overlap` and `data.mu` remain explicit.
+Only decaying `g_tau`/dynamic `sigma_tau` belong in the fermionic basis. The
+dynamic time-domain self-energy has Hartree-squared units; energy and static
+self-energy use Hartree, imaginary time inverse Hartree, and geometry Angstrom.
+The total energy is `Energy_HF + Energy_2b`; `Energy_1b` must not be added again.
+The matrix archive recipe is `python -m examples.molecular_green --help`.
+
+EF scientific acceptance remains in progress. Frozen comparison `56c3211`
+passes the declared same-solution sampled compression gates across both
+geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
+This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
+and native commands are documented in `environments/green-science/README.md`.

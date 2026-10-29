@@ -11575,3 +11575,381 @@ while different-mesh interpolation retains the explicit evaluation solve.
 The independent symmetry gate and all scientific budgets are unchanged.
 Original calibration/audit artifacts remain failed development evidence;
 repeat calibration from new clean source before any final data are evaluated.
+
+## Phase EI — scalable covariance and GP contract
+
+Implement the EI obligation in PRODUCTION_INTEGRATIONS.md on an isolated
+branch based on merged EC `64e9f34`. Original SPEC mathematical statements,
+the dense pivoted_cholesky interface and immutable 1.1.0 releases are unchanged.
+No new Lean result or numerical PSD certificate is claimed.
+
+Add kernelgecp.kernel_cholesky.KernelCholeskyFactor.from_columns for an explicit
+finite diagonal and a scalar-index column callback. Own immutable float64
+factor/pivot/residual arrays and record stopping, deterministic tie selection,
+roundoff allowances, callback consistency checks and the unverified global PSD
+assumption. Construction may request one length-n column per selected pivot
+and retain O(n*r) numerical state; it must not form a full n-by-n kernel or
+residual matrix. Preserve exact zero-rank, duplicate and rank-deficient cases.
+Reject nonfinite, boolean, wrongly shaped or inconsistent callback data and
+material negative residuals; callback checks do not establish unseen symmetry
+or positive semidefiniteness.
+
+Out-of-sample extension accepts only cross-kernel entries against selected
+pivots and uses triangular solves. Expose SciPy LinearOperator multiplication,
+strictly positive scalar/diagonal shifted solves and preconditioners, plus
+optional lazy CPU float64 GPyTorch conversion of the identical frozen factor.
+No autograd through pivot selection or provider-dependent dense fallback is
+supported. Use a stable solve formulation, retain conditioning/residual
+diagnostics and fail explicitly on unrepresentable or inaccurate solves.
+
+Meaningful focused checks compare small factors and predictions with independent
+dense SciPy factorizations; exercise duplicate sites, low rank, canonical ties,
+empty/rank-zero inputs, callbacks, ownership, out-of-sample points, tiny noise,
+shifted operator/solve/preconditioner agreement and actual locked CPU GPyTorch.
+Default imports must not require torch/gpytorch. Focused Python tests, Ruff and
+strict mypy precede the full ./scripts/verify.sh and exact-source provider CI.
+
+The mandatory real-data campaign uses hash-pinned attributed UCI Beijing
+Aotizhongxin PM2.5/meteorology observations with chronological
+train/calibration/test partitions and training-only normalization. Sizes are
+512 through 16384, with ranks 32/64/128/256/512. At n<=2048 the normalized RMS
+mean and standard-deviation discrepancy against dense SciPy must be <=1e-3
+and maxima <=1e-2. Approximate-system solve residual is <=1e-10 and original-
+kernel preconditioned CG residual <=1e-8. At n=16384 retained numerical state
+is <=128 MiB and fresh-process RSS <=4 GiB. Freeze sources/configuration and
+keep calibration separate from untouched validation; three fresh repeats are
+required for performance claims. Preserve failed/slower cases. Root will
+coordinate this campaign after implementation; no concurrent >512 MiB local
+workload, real-data pass, universal speedup, optimal sensor placement or phase
+completion is inferred from synthetic unit tests. Final API/docs/claim updates,
+full root, exact-head CI, authorized merge and pushed-main checks remain open.
+
+### EI implementation and calibration route
+
+The core implementation is kernelgecp/kernel_cholesky.py, with immutable
+public factors/extensions/solve records, column consistency checks,
+out-of-sample triangular extension, SciPy operators and preconditioners, and
+lazy CPU float64 provider conversion. A returned factor's actual diagonal
+reconstruction error controls convergence; clipping a small negative residual
+cannot establish a tighter tolerance. Tiny-noise cancellation and final
+subnormal RHS rescaling have explicit failure/fallback regressions.
+
+The real-data runner and independent auditor are
+experiments/covariance_benchmark.py and scripts/audit_covariance.py. The latter
+binds every scientific source/lock hash to its declared Git commit's actual
+blobs for both calibration and generation. Numerical arrays, source/data
+identity, chronology, repeat coverage, all process exits, retained memory,
+RSS, full true-kernel CG, dense small predictions and real provider parity
+are checked separately. All calibration/campaign/provider runs use the same
+locked GP runtime (NumPy 2.2.6/SciPy 1.18.1); default-environment tests alone
+do not establish that runtime.
+
+Initial unconstrained calibration exhausted the n=2048 rank budget at the
+tenfold safety margin. Before any test evaluation, resource-aware calibration
+was made explicit: choose calibration predictive likelihood among nine
+predeclared RBF lengthscale/noise candidates that meet the rank-512 safety
+margin, preserving every rejected candidate. An unaccepted base-environment
+pilot suggested lengthscale 3 and noise variance 0.8, with ranks 128/256/256
+at the three small sizes. It used a different NumPy runtime and is not frozen
+provider evidence; all choices must be regenerated under the locked GP stack.
+The independent test block remains untouched at this source-freeze opening.
+The accepted observation standard deviation includes noise and uses training-
+target normalization. Full real-data/root/CI/delivery acceptance remains open.
+
+Full root verification at `3cac5a9` passes all 3,635 Lean jobs, the axiom audit,
+2,086 default-environment tests (33 optional skips), type/style and security
+checks. The locked GP calibration passes all nine candidates/30 rank cases
+at that clean source. Before final test evaluation, timing review identified
+that the compute timer excludes loading/imports and includes dense/CG checks.
+Explicit scopes, an application timer and parent-measured fresh-process wall
+time are added; this instrumentation revision requires renewed calibration
+source binding and final root verification. The numerical kernel, budgets
+and selected model are not retuned against test data.
+
+The final timing source `00f4356` recalibrates under the locked GP runtime
+without changing any selected parameter/rank. Calibration metadata is committed
+at `203e58a` before first test evaluation. All 18 fresh-process tests, actual
+Mac CPU GPyTorch parity and independent Git/blob/array audit pass at that
+generation. [COVARIANCE.md](COVARIANCE.md) and data/covariance retain exact
+artifacts/hashes, timing scopes and slower small cases. Maximum mean/std RMS
+errors are 1.25e-4/1.46e-5, approximate residual 1.62e-11 and original-kernel
+CG residual 1.03e-10. At n16384 the retained numerical state is 69.37 MiB and
+worst fresh RSS 321.75 MiB. The same arrays repeat exactly three times per
+cohort. No selection or budget changes follow final test observations.
+
+Large raw factors/receipts/logs are retained outside Git; the full workflow
+rerun uploads its own raw details. The committed summary includes every raw
+filename, byte count and SHA256. Final exact-source ignored native build,
+full root, Linux CI/domain replay, PR and merged-main delivery remain open.
+ED is now independently closed on main `7530ec7` in its canonical PR #136
+receipt; the new integration program remains approximately 30% delivered
+until another phase passes all its delivery gates.
+
+## Phase EF — molecular Green GF2 interoperability contract
+
+This isolated implementation follows PRODUCTION_INTEGRATIONS.md's full EF
+scope. Preparation starts from ED source `a3a64ba`; delivery requires ED's
+independent canonical acceptance and verified merge. No original mathematical
+goal, Lean interface or published 1.1.0 artifact changes. The existing native
+0.74-Angstrom Green output is an attributed development fixture, not evidence
+that the complete two-geometry/refinement obligation has passed.
+
+The supported production input is Green 1.0.0 molecular restricted GF2 with
+declared symmetric Lowdin orthonormal storage. The bounded acceptance model is
+H2/STO-3G at bond lengths 0.74 and 1.5 Angstrom, beta=20 inverse Hartree, two
+spatial orbitals and four spin modes. Actual native execution uses the pinned
+Green image, one MPI process/thread, two build jobs, sigma mixing 0.5, energy
+change threshold 1e-10 Hartree and a disclosed finite iteration budget. The
+second geometry and both native grids must actually converge; changing budgets
+after a miss is a recorded new pilot, not a hidden successful retry.
+
+Public `kernelgecp.integrations.green.read_green_tau(input_path, results_path,
+run_manifest, *, iteration=None)` returns an immutable molecular record with
+time-first `[tau,spin,k,orbital,orbital]` Green/dynamic-Sigma arrays; the time
+mesh; overlap, one-body and initial HF matrices; static Sigma; chemical
+potential; selected/source iteration; energy decomposition; units; geometry;
+provider/source identity; and actual file hashes. Importing kernelgecp or this
+adapter must not import optional h5py/PySCF. The reader never unpickles `Cell`,
+repairs Hermiticity, conjugates observations or subtracts static Sigma. Static
+terms remain separate from decaying quantities passed to fermionic fits.
+
+Use a versioned JSON manifest to bind the HDF5 files, native log and provider
+source/build provenance by SHA256, identify atomic units, geometry, basis,
+method, beta, native grid and actual command/convergence settings. A manifest
+enrichment recipe binds the already attributed EB fixture to its retained
+provider receipt; absent metadata are not invented from HDF5. Validate the
+input `__green_version__`, result `__grids_version__`, scalar and array dtypes,
+all dimensions/meshes, finite data, overlap positive definiteness and the
+declared Lowdin convention. Decode the input HF matrices' marked trailing
+real/imaginary axis; preserve output complex128 arrays directly. Never load
+serialized `Cell` objects. `/iter` is written before the chosen iteration's
+datasets: reject an incomplete selected checkpoint, with no automatic older
+fallback. An explicitly requested complete historical iteration retains its
+identity and does not inherit the final checkpoint's convergence claim.
+
+Files planned: the public adapter and `green` h5py extra; focused lazy-import,
+ownership, malformed-manifest/HDF5 and actual-fixture tests; a molecular example
+and API guide; independent PySCF/finite-Fock reference code; a frozen source
+campaign and independent auditor; and a dedicated cached Linux native workflow.
+Normal CI uses small attributed actual native HDF5 datasets with provenance;
+provider/release CI repeats the actual scientific calculations. Do not embed
+temporary absolute paths or rely on local Docker availability.
+
+Independent references reconstruct the same geometry in PySCF 2.14.0, verify
+overlap/Lowdin transformations and one-body integrals, build the complete
+16-state second-quantized electronic Hamiltonian, and compare fixed-particle
+sector ground energies with independently invoked PySCF FCI. Reuse ED's four-
+mode CAR helpers; validate matrix Lehmann time data by a separate thermal
+matrix-exponential trace. Preserve nuclear energy and the grand-canonical
+chemical-potential convention. Record Green's density-fitting versus exact
+integral/HF differences separately, so a Hamiltonian mismatch is not silently
+ascribed to representation or GF2 alone. Finite-temperature Lehmann data are
+exact only for the declared finite Hamiltonian, not the continuum molecule.
+
+Native-grid refinement uses the shipped Lambda=1e4 and 1e5 IR grids at both
+geometries, retaining the actual grids/transform data and all native manifests.
+The IR Lambda is a native discretization parameter, not a proven physical
+spectral cutoff. Compare native solutions and evaluate the matrix Dyson
+residual `[((iw+mu)S-H-Sigma_static-Sigma_dynamic(iw))G(iw)-I]` independently
+using the saved native transform data. Use factorization/solves, never an
+explicit matrix inverse. Declare sampled indices, normalization and numerical
+budgets before final generation; preserve refinement/budget failures.
+
+For same-solution compression, fit all matrix components through the shared
+time/frequency coefficient interface. Calibrate physical Green cutoffs 4/8/16
+Hartree, dynamic-Sigma cutoff three times each Green cutoff, native tolerances
+1e-6/1e-8/1e-10/1e-12 and common SVD rcond=1e-13 using declared calibration
+samples only. Retain doubled physical-cutoff controls. Reserve final native
+time rows and independent off-grid/frequency queries before selection, keep
+static Sigma analytic, and require sampled absolute Green/dynamic-Sigma
+representation errors <=1e-6 in both domains against the same native GF2
+solution. The native refinement and Dyson budgets will be frozen by the
+calibration-only pilot before canonical generation. A miss remains visible;
+it never becomes proof that the interacting spectrum has compact support.
+
+Record GF2-versus-FCI Green functions, density and total-energy differences as
+physical/model diagnostics separately from same-solution compression error,
+native discretization and density-fitting discrepancies. No exact GF2 model
+accuracy or solver acceleration is presumed. For comparative timing claims,
+use three fresh alternating processes with provider imports warmed equally,
+separate construction/preparation/application/evaluation timings and total
+process RSS; coefficient storage is not total algorithm memory.
+
+Required closure: focused negative and actual-fixture tests; actual two-bond,
+two-native-grid scientific runs in the bounded Linux image; frozen source,
+configuration, environment and artifact hashes; independent numerical audit;
+full `./scripts/verify.sh`; final source-specific CI; installed-package checks;
+authorized PR/merge and pushed-main checks. Root owns delivery coordination.
+Preparation, a passing parser or one historical native fixture cannot close EF.
+
+Primary references: Green's [1.0 output format](https://green-phys.org/docs/components/data-formats/output-files/)
+and [molecular execution example](https://green-phys.org/docs/getting-started/examples/n2/).
+The output contract confirms that unit/convergence/method snapshots require
+external provenance and that static Sigma and dynamic time data are distinct.
+
+### EF native pilot and comparison freeze preparation
+
+ED's prerequisite is now complete at merged main `7530ec7`: full root passes
+2,109 tests with 27 optional skips and all four exact-main workflows, with
+the canonical closure receipt in PR #136. EF's first source is `ca6075f`;
+its dedicated dispatch returned HTTP 404 because the workflow was absent from
+the default branch, and PR conflicts prevented PR-triggered execution. This is
+nonexecution evidence. Merging main and adding a filtered push trigger creates
+replacement pilot source `a31d048`; the preserved native driver/image code is
+unchanged. Native [run 40527992216](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40527992216)
+passes all four real calculations and actual reader/FCI tests. Artifact
+12745470627 has digest
+`sha256:73cabde461d371dd19e16cc8cebfca0a06188649a9f96b267132c42507b38066`.
+The duplicate push job was canceled; it is not scientific failure evidence.
+
+At 0.74 Angstrom the coarse/refined native runs converge in 81/77 iterations,
+with total energies -1.129672596130/-1.129672596088 Hartree. At 1.5 Angstrom
+both converge in 56 iterations, with -0.947805483310/-0.947805483276 Hartree.
+All actual final-pair, particle-count and endpoint checks pass. These observations
+close native availability for the pilot; they do not close EF's later gates.
+
+Independent native reconstruction solves the retained time tables with LU and
+evaluates separately constructed sparse-ir 2.1.6 functions, checking the actual
+Green source's normalization. Legacy irbasis 2.2.3 has incompatible 104/108
+function counts at Lambda=1e4 and is not substituted for the native basis.
+A second direct exp(+iw*tau) 512-point quadrature checks Fourier sign/units
+without calling the Fourier basis. All five actual-native tests pass. At
+Lambda=1e5, converting native xgrid through physical tau and back moves some
+near-endpoint arguments by one ulp: individual basis columns differ by
+9.59e-10, while native defining-node normalization agrees within 2.66e-13 and
+the actual weighted Green/Sigma reconstructions within 8.82e-14. The rejected
+columnwise round-trip assertion was a checker issue, not a relaxed physical
+accuracy budget. Native Dyson residuals on calibration frequencies stay below
+2.64e-10; calibration two-grid Green differences stay below 9.20e-11.
+
+The failed first unfrozen comparison pilot is retained. A fresh calibration-only
+pilot selects all twelve cases and retains twelve doubled physical-cutoff
+controls: Green/Sigma cutoffs 4/12 Hartree, kernelgecp tolerance 1e-6 and
+pydlr/sparse-ir tolerances 1e-8. Their 1e-6 calibration misses remain in the
+records. Construction uses the production float64 path, with actual basis/SVD
+diagnostics; the conditional reference-precision control is not an MP128 claim.
+All providers fit the same even native time rows plus endpoints. Calibration
+uses remaining modulo-four-one rows and declared frequencies. Final queries
+are still unconsumed: modulo-four-three native rows plus 64 Gauss nodes and
+disjoint frequency indices. Explicit overlap checks fail closed. Source,
+controls and selection are frozen before any final errors are evaluated.
+
+The native DF vertices reproduce their initial restricted HF Fock and energy
+identities to about 1e-15. Their ERIs differ from exact PySCF ERIs by up to
+6.42e-4 Hartree at 0.74 Angstrom and 3.39e-4 at 1.5 Angstrom; the initial HF
+energy differences are -2.40e-5/-7.85e-5 Hartree. Therefore the final report
+will distinguish GF2 versus FCI of that same DF Hamiltonian, DF-FCI versus
+exact-ERI FCI, and overall model differences. This avoids attributing integral
+approximation or GF2 error to the compression layer. Final scientific/source
+acceptance, independent artifact audit, installed-wheel proof and delivery
+remain required.
+
+### EF comparison failure and revised freeze
+
+The canonical generation at `6050ddd33af30deafe0d99057ea5d8a277c411a9`
+exited 1: although all 36 final compression trials passed (maximum error
+3.57e-8) and their repeated selections agreed, two kernelgecp doubled-cutoff
+controls at 1.5 Angstrom reached 1.44e-7 and 1.45e-7, exceeding the declared
+1e-7 calibration budget. This is a failed campaign, retained at
+`/tmp/gecp-ef-canonical-6050ddd`; those final points are consumed and cannot
+be represented as untouched validation in a subsequent run.
+
+The next frozen configuration selects the first candidate for which both the
+primary and doubled-cutoff calibration controls pass the unchanged budget,
+recording every attempt including failures. The previous modulo-four-three
+native rows, GL64 times and frequency indices are retired as regression data;
+fresh final validation uses GL96 times and disjoint Matsubara indices. The
+candidate ladder and all error budgets remain unchanged. A fresh generation
+and independent audit are required before any scientific acceptance.
+
+The fresh process at source `56c3211` reports all mandatory and calibration
+gates passed with unchanged source; its 12 selections retained 14 doubled
+control attempts, including the two failed looser kernelgecp controls. All 36
+fresh validation trials pass, maximum absolute component error 1.726e-8. The
+report SHA256 is `8c0818f0efa2045c2cbbc0dcb6a18be25e29370abdff0d5133ad10b6b3d9d1c0`;
+the selection SHA256 is `a0d7f0de87ad60c849843ac32596d42c30dfc6355291378d2ba2a936b05c21f6`.
+The process and artifacts are retained locally at
+`/tmp/gecp-ef-canonical-56c3211`. A built wheel, installed outside the checkout,
+reads the attributed actual H2 fixture at iteration 83 with correct matrix
+axes. Independent audit, final full-root verification, source-specific CI and
+delivery remain open; sampled errors do not certify a continuous domain.
+
+Independent auditor source `563710e` reprocessed the frozen `56c3211` artifacts
+and passed all eight gates using raw HDF5, pivoted QR and direct Fourier
+quadrature. It checked all 36 final predictions, first passing dual controls,
+source and artifact hashes, and separated finite-model accounting. The largest
+selected doubled-control error is 4.174e-8. Audit receipt
+`/tmp/gecp-ef-audit-56c3211.json` has SHA256
+`7d7f0ff985c38c0412c2b78cebc35bd554f44d17d1792f68f4deb418689eec9f`.
+The auditor's 17 focused tests pass. Full root and exact-source CI still remain.
+
+## Maintenance — development MessagePack advisory
+
+The final EI development audit detected CVE-2026-114613 in msgpack 1.2.1,
+pulled transitively by audit/cache tooling. The upstream reviewed advisory
+GHSA-j586-36cw-2gc2 identifies 1.2.3 as patched; the maintainer's 1.2.4 release
+also bounds malicious container preallocation (GHSA-j8c6-9vc5-hj6x). The
+default development uv.lock now pins 1.2.4 with its actual distribution hashes.
+Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
+provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
+record is rewritten. Full root and exact-head/main verification are required
+for this maintenance update; later application branches must incorporate it.
+
+### EI dependency-only reproduction
+
+Merged security main `cbfe6cf` before final delivery. A clean-source repeat of
+calibration at `7d66197` reproduces every numerical calibration value, selected
+hyperparameter and rank exactly; only pilot timing and provenance differ.
+The original calibration remains in
+`data/covariance/calibration-before-msgpack.json`. The isolated GP environment
+is unchanged. A fresh complete campaign and provider/auditor run will verify
+the new dependency-bound freeze. Its test rows were already consumed by the
+original passing campaign: this is reproducibility after a development-only
+security update, with no retuning, not another blind validation claim.
+
+The dependency-only scientific reproduction at `ee7b2c6` passes all 18 cases,
+actual GPyTorch and independent audit. Full case receipts, provenance and
+artifact hashes are retained in `data/covariance/security-reproduction.json`;
+the original summary remains historical. Original performance measurements
+are not replaced by timings from concurrent verification workloads. Final
+source/root/exact-head CI and merged-main acceptance still gate delivery.
+
+Linux base CI at `2645ad1` exposed an overconstrained test: a symmetric Gaussian
+fixture made binary64 column and independently computed dense algorithms pick
+different members of a near-tie after nine pivots. The implementation and
+scientific frozen outputs are unchanged. Exact trajectory comparison now uses
+asymmetric geometry/amplitudes; the original symmetric fixture independently
+checks every selected pivot against principal-block Schur solves, the residual
+diagonal, PSD roundoff and entrywise error. Explicit exact/near-tie policy tests
+remain. Numerical acceptance budgets are unchanged. The local full root at
+`2645ad1` passed 2,175 tests/28 skips; the repaired final head requires full root
+and exact CI again.
+
+The final integration review also found that EI's scientific freeze included
+the default development `uv.lock`, although every scientific command executes
+the isolated GP lock. This made unrelated integration/release dependency changes
+invalidate the covariance workflow. Scientific source binding now covers the
+unchanged public factor, runner, independent auditor and complete isolated GP
+runtime locks; the default lock hash remains explicitly contextual metadata.
+The guard still rejects changes to any executed source or runtime dependency.
+This binding migration requires an explicitly labeled calibration/campaign
+reproduction with exactly the same controls and numerical outputs, preserving
+earlier evidence and making no new blind-validation claim.
+
+Both complete comparison campaigns are durably retained as deterministic
+relative-path archives under `experiments/data`: the failed
+`molecular-green-6050ddd.tar.gz` SHA256
+`6e6ca2408b77fa77d368b59dba02957069678f6fde8d0bba91bbf9572eefb176`
+and passing `molecular-green-56c3211.tar.gz` SHA256
+`ddfd97ee1ba09814186107217e486a83cb1fb3d3b5aab246e197b3a04cbd4ab8`.
+All 282 and 298 archive members respectively were byte-hash checked against
+the original process outputs. Their generation revisions are
+`6050ddd33af30deafe0d99057ea5d8a277c411a9` and
+`56c321119b61259bf1da03d529a30b1b5b48a984`; historical reports and source/lock
+bindings are unchanged. Stored request paths describe the original generation
+host and are provenance, not portable inputs. Native input files are retained
+separately in the attributed native workflow artifact and fixture.
+
+### EI scientific binding reproduction
+
+Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.

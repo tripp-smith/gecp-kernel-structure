@@ -1,0 +1,144 @@
+{
+  "beta_inverse_hartree": 20.0,
+  "bond_length_angstrom": 0.74,
+  "energy_change_threshold": 1e-10,
+  "green_change_threshold": 1e-06,
+  "input_command": [
+    "/opt/venv/bin/python",
+    "/opt/green-src/green-mbpt/python/init_data_mol_df.py",
+    "--atom",
+    "atom.dat",
+    "--basis",
+    "sto-3g",
+    "--restricted",
+    "true",
+    "--orth",
+    "symmetric_lowdin",
+    "--memory",
+    "512"
+  ],
+  "measurements": {
+    "chemical_potential_hartree": 0.0462183952331543,
+    "correlation_energy_hartree": -0.025376147157602873,
+    "data_shape": [
+      110,
+      1,
+      1,
+      2,
+      2
+    ],
+    "dynamic_selfenergy_max": 0.01911959380249891,
+    "electron_count": 2.000000001940941,
+    "endpoint_normalization_error": 2.5068094325367483e-12,
+    "energy_change_sum": 9.792607350012084e-11,
+    "green_change_max": 4.46208903159849e-11,
+    "iteration": 83,
+    "tau_sample_count": 110,
+    "total_energy_hartree": -1.129672596129894
+  },
+  "method": "GF2",
+  "molecule": "H2",
+  "native_command": [
+    "/opt/green/bin/mbpt.exe",
+    "--input_file",
+    "input.h5",
+    "--results_file",
+    "sim.h5",
+    "--scf_type",
+    "GF2",
+    "--dfintegral_hf_file",
+    "df_hf_int",
+    "--dfintegral_file",
+    "df_hf_int",
+    "--BETA",
+    "20",
+    "--grid_file",
+    "/opt/green-src/green-grids/data/ir/1e4.h5",
+    "--itermax",
+    "100",
+    "--E_thr",
+    "1e-10",
+    "--mixing_type",
+    "SIGMA_MIXING",
+    "--mixing_weight",
+    "0.5",
+    "--jobs",
+    "SC"
+  ],
+  "native_grid_lambda": 10000.0,
+  "orbital_basis": "sto-3g",
+  "scope": "native_provider_readiness_without_physical_accuracy_certificate",
+  "source_lock": {
+    "python_provider": {
+      "distribution": "hash-locked PyPI wheel; not rebuilt from the source checkout",
+      "name": "green-mbtools",
+      "source_checkout_role": "release provenance and native input-generation script inspection",
+      "version": "1.0.0"
+    },
+    "release": "1.0.0",
+    "schema": "kernelgecp.green-sources.v1",
+    "sources": [
+      {
+        "name": "green-mbpt",
+        "repository": "https://github.com/Green-Phys/green-mbpt.git",
+        "revision": "d593a9c970194dea5855ca38e71f9cd6ac550cbf"
+      },
+      {
+        "name": "green-utils",
+        "repository": "https://github.com/Green-Phys/green-utils.git",
+        "revision": "440f1d521e25c754c1bcbf0df74f9fc6abd889dc"
+      },
+      {
+        "name": "green-ndarray",
+        "repository": "https://github.com/Green-Phys/green-ndarray.git",
+        "revision": "17d9805aed28d30c345875901de0b2cd944134ef"
+      },
+      {
+        "name": "green-h5pp",
+        "repository": "https://github.com/Green-Phys/green-h5pp.git",
+        "revision": "ec30bfefbc4968d3f0df135dde0db20a9d5a6f51"
+      },
+      {
+        "name": "green-params",
+        "repository": "https://github.com/Green-Phys/green-params.git",
+        "revision": "b40eae5b78e18d560c8b7aaf8698a1f124d83dbf"
+      },
+      {
+        "name": "green-grids",
+        "repository": "https://github.com/Green-Phys/green-grids.git",
+        "revision": "e9e4b144e72307640de5bd1192f02a8cb5a7a2e3"
+      },
+      {
+        "name": "green-symmetry",
+        "repository": "https://github.com/Green-Phys/green-symmetry.git",
+        "revision": "1dac18d4baac2494daec359b40bedc7bc8b63720"
+      },
+      {
+        "name": "green-sc",
+        "repository": "https://github.com/Green-Phys/green-sc.git",
+        "revision": "2a14dc26c48d68f936421f1a8c263a378bbf0bfb"
+      },
+      {
+        "name": "green-opt",
+        "repository": "https://github.com/Green-Phys/green-opt.git",
+        "revision": "f76d8d98cfe945c1d14d49624515d20fe3d0afef"
+      },
+      {
+        "name": "green-impurity",
+        "repository": "https://github.com/Green-Phys/green-impurity.git",
+        "revision": "9e1e566efa0754a6d1ae0a46ff672a07b9294bbc"
+      },
+      {
+        "name": "green-mbtools",
+        "repository": "https://github.com/Green-Phys/green-mbtools.git",
+        "revision": "cb719742880e41970db264b9af35c47b46c99b84"
+      },
+      {
+        "name": "magic_enum",
+        "repository": "https://github.com/Neargye/magic_enum.git",
+        "revision": "e1ea11a93d0bdf6aae415124ded6126220fa4f28"
+      }
+    ]
+  },
+  "storage_basis": "symmetric_lowdin"
+}

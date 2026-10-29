@@ -105,11 +105,11 @@ remain native. Upstream acceptance is not a delivery gate.
 | EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
 | EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
 | EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
-| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | pending EB |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | [frozen 18-case real-data campaign](COVARIANCE.md), actual Mac provider and independent Git/blob/array audit pass at `203e58a`; final native/root/exact-head CI/delivery pending |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
-EB and EC acceptance is complete, approximately 20% of this new contract;
-EE–EJ domain/release acceptance remains open. Each phase requires its named
+EB/EC/ED/EF/EI acceptance is complete, approximately 55% of this new contract;
+EE/EG/EH/EJ domain/release acceptance remains open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
