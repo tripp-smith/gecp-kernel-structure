@@ -6,9 +6,12 @@ on:
     paths:
       - .github/workflows/epw-interoperability.yml
       - environments/epw/**
-      - scripts/providers/epw_anisotropic_fixture.py
-      - kernelgecp/integrations/epw.py
-      - experiments/epw*
+      - environments/epw-science/**
+      - scripts/providers/epw*.py
+      - kernelgecp/**
+      - experiments/epw*.py
+      - experiments/audit_epw_frequency.py
+      - tests/test_epw*.py
   workflow_dispatch:
 
 permissions:
@@ -22,10 +25,23 @@ jobs:
   native:
     runs-on: ubuntu-24.04
     timeout-minutes: 330
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v5
+      - name: Install isolated locked scientific runtime
+        run: uv sync --project environments/epw-science --frozen
       - uses: docker/setup-buildx-action@v3
       - name: Build the pinned unmodified native solver
         uses: docker/build-push-action@v6
@@ -42,12 +58,44 @@ jobs:
           mkdir -p artifacts
           docker image inspect kernelgecp-epw:eg --format '{{.Id}}' > artifacts/epw-image-id.txt
           docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
-            -v "$PWD/artifacts:/artifacts" kernelgecp-epw:eg \
-            /opt/venv/bin/python /workspace/scripts/providers/epw_anisotropic_fixture.py \
+            -v "$PWD/artifacts:/artifacts" -v "$PWD:/repo:ro" -e PYTHONPATH=/repo kernelgecp-epw:eg \
+            /opt/venv/bin/python -m scripts.providers.epw_anisotropic_fixture \
             --source-revision "$(git rev-parse HEAD)" --wscut-ev 1.0 --output /artifacts/epw-anisotropic.json
+      - name: Calibrate frequency cross on native data
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.epw_frequency calibration \
+            --native-root "$PWD/artifacts" --output "$PWD/artifacts/calibration" \
+            --freeze "$PWD/artifacts/freeze.json" --chemical-potential-offset-ev 0
+      - name: Independently audit calibration
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.audit_epw_frequency \
+            --native-root "$PWD/artifacts" --calibration "$PWD/artifacts/calibration/calibration.json" \
+            --freeze "$PWD/artifacts/freeze.json" --output "$PWD/artifacts/calibration-audit.json"
+      - name: Run three fresh-process final cases
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.epw_frequency campaign \
+            --native-root "$PWD/artifacts" --output "$PWD/artifacts/campaign" \
+            --freeze "$PWD/artifacts/freeze.json" --chemical-potential-offset-ev 0
+      - name: Independently audit final campaign
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.audit_epw_frequency \
+            --native-root "$PWD/artifacts" --calibration "$PWD/artifacts/calibration/calibration.json" \
+            --manifest "$PWD/artifacts/campaign/campaign.json" --freeze "$PWD/artifacts/freeze.json" \
+            --output "$PWD/artifacts/campaign-audit.json"
+      - name: Compare native imag_read and Pade restarts
+        run: |
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" -v "$PWD:/repo:ro" -e PYTHONPATH=/repo kernelgecp-epw:eg \
+            /opt/venv/bin/python -m scripts.providers.epw_restart \
+            --workspace /artifacts/epw-native/test-suite/epw_super \
+            --raw-file /artifacts/campaign/case-0/original-replay.dat \
+            --reconstructed-file /artifacts/campaign/case-0/fitted-native.dat \
+            --source-revision "$(git rev-parse HEAD)" --qe-root /opt/qe \
+            --output /artifacts/restart-comparison.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: epw-anisotropic-native-linux
           path: artifacts/
           if-no-files-found: error
+          retention-days: 14
