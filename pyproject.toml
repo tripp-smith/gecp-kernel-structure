@@ -29,6 +29,9 @@ dev = [
   "maturin==1.15.0",
   "packaging>=24.2,<27",
 ]
+green = [
+    "h5py>=3.13,<4",
+]
 
 [build-system]
 requires = ["hatchling>=1.25"]

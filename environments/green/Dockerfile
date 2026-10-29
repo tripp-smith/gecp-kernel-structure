@@ -25,6 +25,8 @@ COPY environments/green/sources.json environments/green/build_green.py /opt/gree
 RUN /opt/venv/bin/python /opt/green-lock/build_green.py
 
 WORKDIR /workspace
+ENV PYTHONPATH=/workspace
 COPY scripts/providers/green_smoke.py /workspace/scripts/providers/green_smoke.py
+COPY scripts/providers/bind_green_manifest.py scripts/providers/green_molecular_runs.py /workspace/scripts/providers/
 
 CMD ["/opt/venv/bin/python", "/workspace/scripts/providers/green_smoke.py", "--help"]

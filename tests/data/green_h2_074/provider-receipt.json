@@ -1,0 +1,50 @@
+{
+  "artifacts": {
+    "green/build-provenance.json": "d989bfab7eb602ad6df836f072843f2fad84caa4a42266c51ce9d953748d6f62",
+    "green/gf2.log": "513d02a0cce58ec3f9475fd2a2f6d105b8a7243d19d174d92d6ff0b2a07ed5de",
+    "green/input.h5": "47a42923eb5d394e53b5f029fb749a8cbf33ca2a9abf8ceac3d0ed0b3594d14e",
+    "green/input.log": "bf3e47867e860707bb57deba00c59fa423654331fd347f2ea15af8dab8487b1a",
+    "green/run-manifest.json": "9c52c6059d6ec8d3e48c76d623be4248420028c2a71233bc96a5ef97896df020",
+    "green/sim.h5": "a97dae0142eb962cd4836babda5231b871f2b2d0948038aa46aea8195a375536"
+  },
+  "checks": {
+    "endpoint_normalization_and_particle_count": true,
+    "imports": true,
+    "native_gf2_self_consistency": true,
+    "native_molecular_input_generation": true,
+    "nonzero_interacting_selfenergy": true,
+    "numerical": true,
+    "stored_final_energy_and_green_deltas": true
+  },
+  "measurements": {
+    "chemical_potential_hartree": 0.0462183952331543,
+    "correlation_energy_hartree": -0.025376147157602873,
+    "data_shape": [
+      110,
+      1,
+      1,
+      2,
+      2
+    ],
+    "dynamic_selfenergy_max": 0.01911959380249891,
+    "electron_count": 2.000000001940941,
+    "endpoint_normalization_error": 2.5068094325367483e-12,
+    "energy_change_sum": 9.792607350012084e-11,
+    "green_change_max": 4.46208903159849e-11,
+    "iteration": 83,
+    "tau_sample_count": 110,
+    "total_energy_hartree": -1.129672596129894
+  },
+  "provider": "green",
+  "schema": "kernelgecp.provider-smoke.v1",
+  "source_revision": "25220c63e46289cd6096205389974546fb614467",
+  "status": "passed",
+  "versions": {
+    "green": "1.0.0",
+    "green-mbtools": "1.0.0",
+    "h5py": "3.13.0",
+    "numpy": "2.2.6",
+    "pyscf": "2.14.0",
+    "python": "3.12.3"
+  }
+}

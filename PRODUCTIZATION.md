@@ -100,16 +100,16 @@ remain native. Upstream acceptance is not a delivery gate.
 | --- | --- | --- |
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
-| ED | Deterministic interacting Bethe IPT with independent references | [frozen campaign and independent audit](INTERACTING_DMFT.md) pass at generation `a3a64ba`; full root, exact-head CI and delivery pending |
+| ED | Deterministic interacting Bethe IPT with independent references | complete, merged/pushed main `7530ec7`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | pending ED |
 | EF | Native molecular GF2 runs and supported Green importer | pending EB/EC |
 | EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
 | EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |
-| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | pending EB |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | [frozen 18-case real-data campaign](COVARIANCE.md), actual Mac provider and independent Git/blob/array audit pass at `203e58a`; final native/root/exact-head CI/delivery pending |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
-EB and EC acceptance is complete, approximately 20% of this new contract;
-ED–EJ domain/release acceptance remains open. Each phase requires its named
+EB through ED acceptance is complete, approximately 30% of this new contract;
+EE–EJ domain/release acceptance remains open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed

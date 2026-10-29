@@ -3023,3 +3023,48 @@ This annotation records delivered identifiers without changing the goals above.
   interchange, with physical error/conditioning gates and authentic coarse
   MgB2 evidence. Scientific/root/CI/merge/main acceptance remains pending;
   no EPW internal acceleration or original mathematical claim is added.
+
+
+- **Phase EI implementation contract:** isolated scalable covariance work adds
+  an immutable column-oracle KernelCholeskyFactor, out-of-sample triangular
+  extension, SciPy operators/shifted solves and optional frozen CPU float64
+  GPyTorch conversion while preserving dense pivoted_cholesky. The contract
+  in RESEARCH.md retains all UCI real-data, accuracy, memory, provider and
+  exact-revision delivery gates in PRODUCTION_INTEGRATIONS.md. Implementation
+  and domain acceptance are in progress; no original mathematical goal or
+  published 1.1.0 evidence is changed.
+- **Phase EI implementation identifiers (acceptance pending):**
+  `KernelCholeskyFactor`, immutable extension/solve records, shifted SciPy
+  operators/preconditioners and optional CPU provider conversion;
+  experiments/covariance_benchmark.py plus scripts/audit_covariance.py bind
+  attributed real observations, calibration isolation, numerical artifacts
+  and source Git blobs. All scientific commands use the same locked GP
+  runtime. Full real-data, root/CI and delivery gates remain mandatory;
+  no synthetic/pilot result closes this extension or changes an original goal.
+- **Phase EI frozen numerical evidence:** generation `203e58a` passes the
+  six-cohort, three-repeat attributed UCI campaign, actual Mac CPU provider
+  comparison and independently recomputed Git/blob/array gates. Public APIs
+  and the dense interface remain distinct. [COVARIANCE.md](COVARIANCE.md)
+  records finite representation errors, measured resource/timing scopes and
+  non-claims. Final native/root, exact-head CI and delivery are still required;
+  no continuous certificate or original mathematical statement changes.
+
+- **Phase EF implementation contract:** supported molecular Green GF2 HDF5
+  import with bound manifests, immutable matrix axes/static terms and complete
+  iteration validation; actual H2/STO-3G two-geometry/native-grid refinement,
+  independent finite-Fock/PySCF references and same-solution compression checks.
+  Preparation follows the bounded contract in RESEARCH.md; scientific/root/CI
+  acceptance and delivery remain open. Original mathematical goals are unchanged.
+- **Phase ED delivered acceptance:** merged main `7530ec7` passes full root
+  verification, all four exact-main workflows and canonical native/scientific
+  acceptance in [PR #136](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017).
+  Historical generation remains `a3a64ba`; public 1.1.0 assets and original
+  theorem statements are unchanged.
+- **Phase EF native pilot:** source `a31d048` passes four actual Green GF2
+  calculations (two H2 geometries, two native grids) in run 40527992216.
+  This is distinct from final held-out representation/model/audit and delivery
+  acceptance, which remain open in draft PR #137.
+
+- **Phase EF comparison status:** frozen `56c3211` passes the declared
+  calibration and fresh sampled validation gates; the earlier failed control
+  run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
