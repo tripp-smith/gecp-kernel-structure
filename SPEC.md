@@ -3068,3 +3068,14 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase EF comparison status:** frozen `56c3211` passes the declared
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
+
+- **Production delivery status update:** ED, EF and EI are delivered under
+  PR #136, #137 and #139 with exact-main root and CI acceptance. These later
+  receipts supersede their earlier pending-delivery status annotations.
+- **Phase EG implemented identifiers:** `EPWAnisotropicData`,
+  `CauchyFrequencyPlan`, `EPWFrequencyCrossFit`, `fit_epw_frequency_cross`,
+  the frozen `epw_frequency` campaign, independent `audit_epw_frequency`,
+  and native `epw_restart` comparator. The explicit real Nambu parity policy
+  is separate from generic Matsubara fitting and the specialized EPW IR format.
+  Actual native source fixtures, failed routes and calibration are retained;
+  final scientific, root, exact-source CI and delivery gates remain open.

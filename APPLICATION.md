@@ -1694,6 +1694,41 @@ remainder certificates. Loop RSS excludes later validation/replay; full-worker
 wall/RSS includes them. Coefficient and output-array sizes have distinct scopes
 and do not imply a total-memory or universal performance advantage.
 
+## EPW anisotropic frequency interoperability (1.2 development)
+
+`kernelgecp.integrations.epw` reads the tested qe-7.5 / EPW 6.0 anisotropic
+imaginary-axis format. An explicit application context supplies temperature,
+eV units, ordinal state ordering, reference Fermi energy and chemical-potential
+offset. Native printed frequencies and state ordinals are preserved. A changed
+native chemical potential requires its measured offset; it is never inferred
+from the fitted Green function. Lossless parser/writer replay preserves rounding.
+
+`kernelgecp.integrations.epw_frequency.fit_epw_frequency_cross(data,
+real_nambu_parity=True, fit_rows=..., rank=60)` fits the actual channels
+`[Re G11, Im G11/omega, Re G12]` using a shared Cauchy cross at `omega**2`.
+The caller explicitly requests the real Eliashberg Nambu parity needed to
+reconstruct both diagonal and anomalous entries. This real-linear interface
+has a distinct representation schema from the generic complex-linear
+`FermionicFit`; it cannot represent arbitrary complex Nambu matrices.
+
+The returned immutable `EPWFrequencyCrossFit` evaluates ordinary signed
+Matsubara indices, reconstructs native Z/gap/energy-shift fields, and saves or
+loads a bounded numeric NPZ plus a hash-bound JSON manifest. The archive retains
+selected nodes, poles, binary64 cardinal weights, coefficients, native layout,
+channel units and numerical diagnostics. Its shared version-2 transport leaves
+the existing version-1 and version-2 `FermionicFit` readers unchanged. Loading
+reuses the saved basis rather than selecting new pivots. Evaluation and native
+field recovery reject unsafe conditioning instead of substituting another fit.
+
+The 13 eV pole dictionary is a numerical approximation parameter, not a
+certified spectral cutoff. No tail correction or self-energy subtraction is
+implicit. The canonical source workflow is `experiments.epw_frequency` with
+`experiments.audit_epw_frequency` and `scripts.providers.epw_restart`, using
+the isolated locked `environments/epw-science` runtime. Final held-out accuracy
+and actual native restart acceptance remain pending. Coarse MgB2 cases provide
+interoperability evidence, not converged experimental materials predictions or
+EPW solver acceleration. EPW's specialized IR-object format is unsupported.
+
 ## Published release evidence
 
 Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and

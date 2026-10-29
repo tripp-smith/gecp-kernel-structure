@@ -2427,6 +2427,24 @@ on this small beta=10 workload, and Python reference GECP setup dominates.
 No universal or interacting-workflow speed advantage follows. Full root,
 exact-revision CI, merge and main verification remain separate delivery gates.
 
+## EG calibration: frequency-native real-parity cross
+
+Direct time-cardinal frequency fits of authentic coarse MgB2 output missed the
+Z/energy-shift budgets and remain failed evidence. An explicit real Nambu
+parity reduction gives three Green channels in squared Matsubara frequency.
+For this Cauchy kernel, exact Schur-product identities permit log-magnitude
+pivot selection without subtracting nearly equal residuals. High-precision
+cardinal construction followed by guarded binary64 evaluation avoids the
+ill-conditioned time-cardinal continuation observed in the failed pilots.
+
+The rank-60 candidate meets the training/calibration margins on actual EPW
+data. Independent direct-product arithmetic and an analytic finite-pole BCS
+eigensystem check the representation. Archive reload, complex symmetry,
+ownership, corruption and unsafe-conditioning tests pass. These checks do not
+close untouched final-row or native-restart acceptance. The method explicitly
+uses real Eliashberg parity, preserves native solver fields, and adds no generic
+complex-linearity, continuous certificate or universal speedup claim.
+
 ## EI development: column observations and independent covariance checks
 
 Column-oracle Cholesky separates scalable factor state from a dense covariance
