@@ -1,0 +1,307 @@
+{
+  "archive_sha256": "a111f8f8b192a2b9a5e0822008ad86a9662cf01552ec878e65fccc074812144b",
+  "artifacts": {
+    "archive": "experiments/data/epw-frequency-80ea4bd.tar.gz",
+    "calibration_audit": "data/epw/calibration-audit.json",
+    "campaign_audit": "data/epw/campaign-audit.json",
+    "freeze": "data/epw/freeze.json",
+    "native_receipt": "data/epw/native-receipt.json"
+  },
+  "budget": {
+    "chi_ev": 1e-06,
+    "gap_ev": 1e-06,
+    "green_scaled": 1e-06,
+    "z": 1e-05
+  },
+  "calibration_attempts": [
+    {
+      "calibration": {
+        "chi_ev": 4.0724321891116855e-07,
+        "gap_ev": 5.75921622891773e-10,
+        "green_global_scaled": 1.4182019598019781e-08,
+        "green_scaled": 5.219414476477108e-08,
+        "imaginary_defect": 5.287320897070417e-15,
+        "z": 3.340531187223661e-07
+      },
+      "rank": 48,
+      "status": "failed_margin"
+    },
+    {
+      "calibration": {
+        "chi_ev": 1.714504661853855e-08,
+        "gap_ev": 2.751099912115529e-11,
+        "green_global_scaled": 6.770425876270958e-10,
+        "green_scaled": 2.1214548207875127e-09,
+        "imaginary_defect": 5.287320897070417e-15,
+        "z": 4.945377884979507e-09
+      },
+      "rank": 60,
+      "status": "passed"
+    }
+  ],
+  "campaign_process_wall_seconds": 5.589125375030562,
+  "cases": [
+    {
+      "bytes": {
+        "fit_npz_plus_json": 218763,
+        "gzip_ascii": 340551,
+        "raw_ascii": 1541361,
+        "raw_binary_arrays": 368232
+      },
+      "files_sha256": {
+        "fit.json": "9f9f4f55513c902193376019bd23d50865680eacc21ef188320d7d2c4e97a5d6",
+        "fit.npz": "96d48e9205fcb2e7df3a0d5c50c36a3664db970c55dafa2fd9d53a44f1741174",
+        "fitted-native.dat": "f75f42f847808b48bdb3e19fa9b85d760e5ef9574e6a94f7f03af6ab5c165cf5",
+        "original-replay.dat": "14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd",
+        "scientific-arrays.npz": "d146c71b4e2fe65453bb1b973dceb525a3432edda0567cd3ee9414d3f84a5e7c"
+      },
+      "peak_rss_bytes": 104071168,
+      "repeat": 0,
+      "timing_seconds": {
+        "archive_and_export": 0.2668069580104202,
+        "basis_construction": 0.030382125172764063,
+        "coefficient_fit": 0.00030779209919273853,
+        "construction_and_fit": 0.03835604200139642,
+        "evaluation": 0.020562749821692705,
+        "fit_total": 0.0018682079389691353,
+        "least_squares_preparation": 0.0015604158397763968,
+        "nambu_observation_construction": 0.003918624948710203,
+        "total": 1.041722791036591,
+        "training_replay": 0.001784791937097907
+      }
+    },
+    {
+      "bytes": {
+        "fit_npz_plus_json": 218762,
+        "gzip_ascii": 340551,
+        "raw_ascii": 1541361,
+        "raw_binary_arrays": 368232
+      },
+      "files_sha256": {
+        "fit.json": "33036b020aec5df1ae671763832febc46403dd9df53e703c712732fbe5705b8f",
+        "fit.npz": "38123b134afe2de1389e6d4a1aa650becfe932865a514d7a0f6270c8b67bd464",
+        "fitted-native.dat": "f75f42f847808b48bdb3e19fa9b85d760e5ef9574e6a94f7f03af6ab5c165cf5",
+        "original-replay.dat": "14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd",
+        "scientific-arrays.npz": "d146c71b4e2fe65453bb1b973dceb525a3432edda0567cd3ee9414d3f84a5e7c"
+      },
+      "peak_rss_bytes": 102809600,
+      "repeat": 1,
+      "timing_seconds": {
+        "archive_and_export": 0.28122470807284117,
+        "basis_construction": 0.02880566706880927,
+        "coefficient_fit": 0.0001682499423623085,
+        "construction_and_fit": 0.03664879105053842,
+        "evaluation": 0.021160915959626436,
+        "fit_total": 0.0018062919843941927,
+        "least_squares_preparation": 0.0016380420420318842,
+        "nambu_observation_construction": 0.003966832999140024,
+        "total": 1.0737222079187632,
+        "training_replay": 0.0015810830518603325
+      }
+    },
+    {
+      "bytes": {
+        "fit_npz_plus_json": 218761,
+        "gzip_ascii": 340551,
+        "raw_ascii": 1541361,
+        "raw_binary_arrays": 368232
+      },
+      "files_sha256": {
+        "fit.json": "dff9090a1882364460879fb3551c92ddd327879ff78692eaf593e20d6501d848",
+        "fit.npz": "d823632b827d429f00a32aea6776e3eba94d1213895ac92aa73fc1a4700b8bed",
+        "fitted-native.dat": "f75f42f847808b48bdb3e19fa9b85d760e5ef9574e6a94f7f03af6ab5c165cf5",
+        "original-replay.dat": "14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd",
+        "scientific-arrays.npz": "d146c71b4e2fe65453bb1b973dceb525a3432edda0567cd3ee9414d3f84a5e7c"
+      },
+      "peak_rss_bytes": 99483648,
+      "repeat": 2,
+      "timing_seconds": {
+        "archive_and_export": 0.26856441609561443,
+        "basis_construction": 0.02846599998883903,
+        "coefficient_fit": 0.0001334159169346094,
+        "construction_and_fit": 0.035527250031009316,
+        "evaluation": 0.020469375187531114,
+        "fit_total": 0.0016051658894866705,
+        "least_squares_preparation": 0.001471749972552061,
+        "nambu_observation_construction": 0.0036184589844197035,
+        "total": 1.0586264161393046,
+        "training_replay": 0.001421209191903472
+      }
+    }
+  ],
+  "controls": {
+    "dictionary_size": 1201,
+    "max_evaluation_condition": 10000.0,
+    "pole_cutoff_ev": 13,
+    "precision_bits": 256,
+    "rcond": 1e-12
+  },
+  "final_independent_metrics": {
+    "cardinal_condition_max": 5.548358173059743,
+    "metrics": {
+      "chi_ev": 1.256443636632465e-08,
+      "gap_ev": 2.059880239470291e-11,
+      "green_global_scaled": 5.715563358805093e-10,
+      "green_scaled": 1.5534051217667377e-09,
+      "imaginary_defect": 8.326672684688674e-17,
+      "z": 3.5248493013284588e-09
+    },
+    "recovery_condition_max": 1.0000000000000007,
+    "z_derivative_gain_max": 372.47120556046275
+  },
+  "generation_revision": "80ea4bd774842d02ad5c3205af8eebb0577287de",
+  "native_ci_run": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40646021445",
+  "native_executable_sha256": "63409927dc9e36969d525b96ce4f8751d3294179fbaf1cb27b90248c4042d863",
+  "native_generation_revision": "13915c807e3e82cb071af6bd44dd9c3a6bbb640c",
+  "native_input_sha256": "7a74f36be9a1604ec8b4184e1bb985f14d237835ec43b19c6ac7e9f4dc2937e1",
+  "native_log_sha256": "58955a1294db8aa3b87b8463cd9a81e0bd1fa72b535e06b176165fa657be6cb9",
+  "native_restart_ci_run": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40854443322",
+  "native_restart_ci_status": "open",
+  "native_tables": [
+    {
+      "bytes": 1541361,
+      "frequency_count": 109,
+      "sha256": "14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd",
+      "state_count": 140,
+      "temperature_kelvin": 17
+    },
+    {
+      "bytes": 1300981,
+      "frequency_count": 92,
+      "sha256": "c41d954d579ac93094fa601e83c37dee5d10cd941110d1efc1a56c5ec927805c",
+      "state_count": 140,
+      "temperature_kelvin": 20
+    },
+    {
+      "bytes": 876781,
+      "frequency_count": 62,
+      "sha256": "5d9a1178bd519542c7dc8cd01c9fd59407c9eb4936c9bb792b8a2d283ee821a8",
+      "state_count": 140,
+      "temperature_kelvin": 30
+    }
+  ],
+  "partitions": {
+    "calibration": [
+      36,
+      40,
+      44
+    ],
+    "final": [
+      45,
+      49,
+      53
+    ],
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      37,
+      38,
+      39,
+      41,
+      42,
+      43,
+      46,
+      47,
+      48,
+      50,
+      51,
+      52,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108
+    ]
+  },
+  "provider": {
+    "epw": "6.0",
+    "qe": "7.5"
+  },
+  "repeat_arrays_identical": true,
+  "schema": "kernelgecp.epw-frequency-evidence-summary.v1",
+  "scope": "finite native grid; consumed final validation; native restart and delivery open"
+}
