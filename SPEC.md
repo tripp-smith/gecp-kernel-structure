@@ -3099,3 +3099,9 @@ This annotation records delivered identifiers without changing the goals above.
   cases and 72 final children, covering 24 independently audited final
   configurations plus three-repeat equality. Measured CT-HYB spectroscopy,
   full root, actual Linux CI and delivery remain mandatory and open.
+
+- **Phase EH native calibration status:** root at `d507050` passes 2,393
+  tests/40 skips. Measured calibration is incomplete: pydlr/flat RMS 2.058574
+  misses the unchanged bound 2. Failed evidence is archived. A common tighter
+  basis/SVD candidate is declared for all methods; all eight calibration cases
+  and independent audit remain required before untouched final evaluation.

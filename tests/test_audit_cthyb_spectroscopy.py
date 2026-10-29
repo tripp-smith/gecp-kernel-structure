@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pytest
 
@@ -130,11 +132,15 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     stats = samples, train, train_cov, held, held_cov
     result, _ = a.audit_case(case, "raw", "flat", 0, stats)
     assert result["status"] == "passed"
+    altered = {**result, "rcond": 1e-10}
+    case.write_text(json.dumps(altered))
+    with pytest.raises(ValueError, match="solver controls"):
+        a.audit_case(case, "raw", "flat", 0, stats)
+    case.write_text(json.dumps(result))
     with np.load(case.with_suffix(".npz"), allow_pickle=False) as archive:
         arrays = {k: archive[k] for k in archive.files}
     arrays["validation_covariance"] += train_cov[:16, :16]
     np.savez_compressed(case.with_suffix(".npz"), **arrays)
-    import json
 
     result["array_sha256"] = a.sha(case.with_suffix(".npz"))
     case.write_text(json.dumps(result))
@@ -144,7 +150,6 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
 
 def test_24_test_only_workers_and_tampering(tmp_path):
     """Fake worker subprocesses exercise receipt and frozen-input verification."""
-    import json
     import subprocess
     import sys
 

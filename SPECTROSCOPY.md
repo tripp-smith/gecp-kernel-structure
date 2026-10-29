@@ -61,3 +61,10 @@ The [freeze](data/spectroscopy/freeze.json),
 summary are also available separately. Historical runtime paths in receipts
 are provenance, not portable paths. The audit and manifest hashes bind the
 original files; the archive does not rewrite their content.
+
+The first measured-data calibration at `d507050` is retained separately as
+[failed evidence](data/spectroscopy/native-baseline-failure.json). Raw and GECP
+pass both defaults; pydlr/flat has held-out RMS 2.058574 and fails the limit 2.
+The next common calibration candidate tightens basis tolerance and SVD cutoff;
+no noise allowance or mandatory provider is removed. Actual measured-data
+acceptance and untouched final scoring remain open.

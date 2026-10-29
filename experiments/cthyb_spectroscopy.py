@@ -204,7 +204,33 @@ def mode_record(modes):
 PROTOCOL = {
     "methods": list(METHODS),
     "default_models": ["flat", "broad_gaussian"],
-    "eps": 1e-8,
+    # One common native-data candidate for every method and model; the ladder
+    # is a declared history, not an automatic or method-dependent fallback.
+    "basis_control_ladder": [
+        {
+            "name": "baseline",
+            "eps": 1e-8,
+            "rcond": 1e-10,
+            "outcome": "failed_partial_calibration_pydlr_flat",
+            "source_revision": "d5070509b675706e3e18164de96660530ac0489a",
+            "failed_whitened_rms": 2.0585741570745255,
+            "failed_projection_rank": 20,
+            "failed_projected_covariance_rank": 19,
+            "progress_sha256": (
+                "c84df6e1dc8d2b2afce0f5ea7954ebdc8ee444cfac569d2fb803e582e7de1747"
+            ),
+            "failed_result_sha256": (
+                "03c506bc6c864b8acf7c7f88ba9b08b16c3a17c13c67de97cace5ff28bd5739b"
+            ),
+            "failed_array_sha256": (
+                "ebe689065afd27d657047af795710adb373e96bdb3319d05d55273feb339c523"
+            ),
+        },
+        {"name": "candidate1", "eps": 1e-10, "rcond": 1e-12},
+    ],
+    "selected_basis_control": "candidate1",
+    "eps": 1e-10,
+    "rcond": 1e-12,
     "n_omega": 401,
     "n_alpha": 33,
     "covariance_rtol": RTOL,
@@ -215,6 +241,19 @@ PROTOCOL = {
     "final_repeats": 3,
     "validation": "independent_heldout_chain_mean_conditional_on_training_fit",
 }
+
+
+def validate_basis_controls():
+    """Fail closed if the declared candidate and executed controls diverge."""
+    selected = [
+        item
+        for item in PROTOCOL["basis_control_ladder"]
+        if item["name"] == PROTOCOL["selected_basis_control"]
+    ]
+    if len(selected) != 1 or any(
+        selected[0][key] != PROTOCOL[key] for key in ("eps", "rcond")
+    ):
+        raise ValueError("selected native basis controls do not match protocol")
 
 
 def snapshot():
@@ -320,6 +359,7 @@ def snapshot():
 
 
 def verify_calibration(path, digest, snapshot_value, binding_digest):
+    validate_basis_controls()
     if not path or not digest or len(digest) != 64 or sha(path) != digest:
         raise ValueError("final requires pinned passed calibration receipt")
     receipt = json.loads(path.read_text())
@@ -350,7 +390,12 @@ def verify_calibration(path, digest, snapshot_value, binding_digest):
         ):
             raise ValueError("calibration case hash mismatch")
         value = json.loads(case.read_text())
-        if value.get("status") != "passed" or value.get("array_sha256") != sha(archive):
+        if (
+            value.get("status") != "passed"
+            or value.get("array_sha256") != sha(archive)
+            or value.get("eps") != PROTOCOL["eps"]
+            or value.get("rcond") != PROTOCOL["rcond"]
+        ):
             raise ValueError("calibration case failed")
     return receipt
 
@@ -396,7 +441,8 @@ def run(
     *,
     bootstrap=0,
     seed=193,
-    eps=1e-8,
+    eps=1e-10,
+    rcond=1e-12,
     n_omega=401,
     n_alpha=33,
 ):
@@ -414,7 +460,7 @@ def run(
         b = basis(method, data.beta, eps)
         design = b.design_tau(data.tau)
         projection = prepare_spectral_projection(
-            b, data.tau, data.tau, rcond=1e-10, metadata={"method": method, "eps": eps}
+            b, data.tau, data.tau, rcond=rcond, metadata={"method": method, "eps": eps}
         )
     construction_seconds = time.perf_counter() - construction_start
     projection_start = time.perf_counter()
@@ -509,6 +555,7 @@ def run(
         "method": method,
         "config": dataclasses.asdict(config),
         "eps": eps,
+        "rcond": rcond,
         "observation_indices": OBS.tolist(),
         "query_indices": QUERY.tolist(),
         "covariance_estimator": "sum_residual_outer_over_N_times_N_minus_1",
@@ -609,6 +656,7 @@ def launch_worker(command, log_path, timeout, on_started=None):
 
 
 def worker(job_path, job_digest):
+    validate_basis_controls()
     if len(job_digest) != 64 or sha(job_path) != job_digest:
         raise ValueError("worker job hash mismatch")
     job = json.loads(job_path.read_text())
@@ -675,6 +723,7 @@ def worker(job_path, job_digest):
         bootstrap=PROTOCOL["bootstrap_count"] if repeat == 0 else 0,
         seed=PROTOCOL["bootstrap_seed"],
         eps=PROTOCOL["eps"],
+        rcond=PROTOCOL["rcond"],
         n_omega=PROTOCOL["n_omega"],
         n_alpha=PROTOCOL["n_alpha"],
     )
@@ -736,6 +785,7 @@ def campaign(
     calibration_audit_digest=None,
 ):
     started = time.monotonic()
+    validate_basis_controls()
     if stage not in ("calibration", "final"):
         raise ValueError("invalid campaign stage")
     frozen = snapshot()

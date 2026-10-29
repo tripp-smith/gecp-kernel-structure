@@ -203,7 +203,8 @@ def audit_case(path, method, model, repeat, stats):
         "partition",
     )
     require(
-        d.get("eps") == 1e-8
+        d.get("eps") == 1e-10
+        and d.get("rcond") == 1e-12
         and d.get("config")
         == {
             "omega_min": -4.0,
@@ -271,7 +272,7 @@ def audit_case(path, method, model, repeat, stats):
     require(design.ndim == 2 and design.shape[0] == 65, "design")
     if method != "raw":
         u, s, _ = np.linalg.svd(design, full_matrices=False)
-        keep = s > 1e-10 * s[0]
+        keep = s > 1e-12 * s[0]
         close(p, u[:, keep] @ u[:, keep].T, "independent projection", atol=2e-8)
     native_times = t[OBS]
     w0 = np.linspace(-4, 4, 401)
@@ -618,7 +619,34 @@ def campaign_audit(
         == {
             "methods": list(METHODS),
             "default_models": list(MODELS),
-            "eps": 1e-8,
+            "basis_control_ladder": [
+                {
+                    "name": "baseline",
+                    "eps": 1e-8,
+                    "rcond": 1e-10,
+                    "outcome": "failed_partial_calibration_pydlr_flat",
+                    "source_revision": "d5070509b675706e3e18164de96660530ac0489a",
+                    "failed_whitened_rms": 2.0585741570745255,
+                    "failed_projection_rank": 20,
+                    "failed_projected_covariance_rank": 19,
+                    "progress_sha256": (
+                        "c84df6e1dc8d2b2afce0f5ea7954ebdc"
+                        "8ee444cfac569d2fb803e582e7de1747"
+                    ),
+                    "failed_result_sha256": (
+                        "03c506bc6c864b8acf7c7f88ba9b08b1"
+                        "6c3a17c13c67de97cace5ff28bd5739b"
+                    ),
+                    "failed_array_sha256": (
+                        "ebe689065afd27d657047af795710adb"
+                        "373e96bdb3319d05d55273feb339c523"
+                    ),
+                },
+                {"name": "candidate1", "eps": 1e-10, "rcond": 1e-12},
+            ],
+            "selected_basis_control": "candidate1",
+            "eps": 1e-10,
+            "rcond": 1e-12,
             "n_omega": 401,
             "n_alpha": 33,
             "covariance_rtol": 1e-4,

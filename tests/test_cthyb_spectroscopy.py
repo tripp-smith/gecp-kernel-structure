@@ -164,7 +164,14 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
             archive = path.with_suffix(".npz")
             archive.write_bytes(b"finite fixture")
             path.write_text(
-                json.dumps({"status": "passed", "array_sha256": m.sha(archive)})
+                json.dumps(
+                    {
+                        "status": "passed",
+                        "array_sha256": m.sha(archive),
+                        "eps": m.PROTOCOL["eps"],
+                        "rcond": m.PROTOCOL["rcond"],
+                    }
+                )
             )
             cases[path.name] = {
                 "result_sha256": m.sha(path),
@@ -343,6 +350,8 @@ def test_case_propagates_covariance_kernel_and_bootstrap(tmp_path, monkeypatch):
         n_alpha=2,
     )
     assert result["status"] == "passed" and result["bootstrap_count"] == 2
+    assert result["eps"] == m.PROTOCOL["eps"]
+    assert result["rcond"] == result["projection_svd"]["rcond"] == m.PROTOCOL["rcond"]
     with np.load(output.with_suffix(".npz")) as a:
         np.testing.assert_allclose(
             a["projected_covariance"],
@@ -416,3 +425,13 @@ def test_final_requires_freezes_before_any_worker(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="requires"):
         m.campaign(tmp_path, tmp_path, tmp_path, "0" * 64, "final", tmp_path / "output")
     assert not (tmp_path / "output").exists()
+
+
+def test_native_basis_ladder_is_fixed_and_common(monkeypatch):
+    assert m.PROTOCOL["basis_control_ladder"][0]["outcome"] == (
+        "failed_partial_calibration_pydlr_flat"
+    )
+    m.validate_basis_controls()
+    monkeypatch.setitem(m.PROTOCOL, "rcond", 1e-9)
+    with pytest.raises(ValueError, match="basis controls"):
+        m.validate_basis_controls()

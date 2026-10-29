@@ -11995,3 +11995,25 @@ bootstrap variation, default sensitivity and numerical repeat equality.
 Native spectra have no known truth CDF; no unique peak or uncertainty-coverage
 claim follows. A failed or exhausted calibration remains unresolved and cannot
 authorize final scoring. All full-root, Linux, merge and main gates remain open.
+
+### EH native calibration refinement
+
+Full root at `d507050` passes 2,393 tests/40 optional skips and the actual
+provider-focused suite passes 51 cases. Its first measured-data calibration
+passes raw and GECP with both default models, but pydlr/flat misses the fixed
+held-out RMS bound: 2.058574 versus 2. The complete partial campaign and its
+worker artifacts are retained in
+`experiments/data/cthyb-spectroscopy-d507050-failed.tar.gz`, SHA256
+`70740cc4dc44254e484e368391de25deeedaea4b3c6500fa0f32a20d580e84ec`.
+No final dense cohort has been scored. The stop is failed calibration, not
+permission to drop a comparison provider or inflate the validation covariance.
+
+The declared common control ladder preserves baseline eps 1e-8/rcond 1e-10
+and selects candidate1 eps 1e-10/rcond 1e-12 for a new full calibration. This
+keeps more basis information at the lower measured Monte Carlo noise level.
+A noncanonical pydlr/flat pilot has RMS 1.74493, design rank 23, covariance rank
+22 and retained condition about 1.59e10; it is tuning evidence only. All eight
+method/default combinations, bootstrap and independent audit must pass before
+the unchanged final gate. The noise threshold, held-out covariance, spectral
+window, alpha/frequency grids, positivity/mass budget and final-data exclusion
+are unchanged. Synthetic `dc97680` evidence is retained with its original controls.

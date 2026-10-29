@@ -1,0 +1,65 @@
+{
+  "archive": "experiments/data/cthyb-spectroscopy-d507050-failed.tar.gz",
+  "archive_sha256": "70740cc4dc44254e484e368391de25deeedaea4b3c6500fa0f32a20d580e84ec",
+  "cases": {
+    "kernelgecp-broad_gaussian-r0.json": {
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "result_sha256": "4e1a61d889c5f959c3935b46878e2870bc92ee27f21dd218ceaa2d251c49681d",
+      "status": "passed",
+      "whitened_rms": 1.4649305443054361
+    },
+    "kernelgecp-flat-r0.json": {
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "result_sha256": "7b473587a2fb30848ecf7ab761414e9791c6dd7e1fdb8b9ea47342565350b209",
+      "status": "passed",
+      "whitened_rms": 1.4383938122339837
+    },
+    "pydlr-flat-r0.json": {
+      "gates": {
+        "heldout_whitened_rms": false,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "result_sha256": "03c506bc6c864b8acf7c7f88ba9b08b16c3a17c13c67de97cace5ff28bd5739b",
+      "status": "failed",
+      "whitened_rms": 2.0585741570745255
+    },
+    "raw-broad_gaussian-r0.json": {
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "result_sha256": "e8538d51d7449e8130fe928af54f25b94fb60e49257d39f4cc64240212fa721e",
+      "status": "passed",
+      "whitened_rms": 1.7149299560622848
+    },
+    "raw-flat-r0.json": {
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "result_sha256": "8f911373c65d01341ef50a4d75a5f9c542aa1e1ea8764765144f5552b74e3361",
+      "status": "passed",
+      "whitened_rms": 1.692756028263004
+    }
+  },
+  "generation_revision": "d5070509b675706e3e18164de96660530ac0489a",
+  "progress_sha256": "c84df6e1dc8d2b2afce0f5ea7954ebdc8ee444cfac569d2fb803e582e7de1747",
+  "schema": "kernelgecp.cthyb-spectroscopy-failed-calibration.v1",
+  "status": "failed"
+}
