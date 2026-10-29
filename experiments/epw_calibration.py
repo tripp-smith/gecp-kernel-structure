@@ -26,9 +26,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tol", type=float, default=1e-3)
     parser.add_argument("--wmax", type=float, default=13.0)
+    parser.add_argument("--manifest", default="manifest.json")
     args = parser.parse_args()
     fixture = Path(__file__).resolve().parents[1] / "tests/data/epw"
-    records = json.loads((fixture / "manifest.json").read_text())
+    records = json.loads((fixture / args.manifest).read_text())
     entry = next(
         e for e in records["files"] if e["context"]["temperature_kelvin"] == 17
     )
@@ -40,7 +41,9 @@ def main() -> None:
         data = read_epw_anisotropic(source, entry["context"])
     calibration = np.array([36, 40, 44])
     final = {45, 49, 53}
-    rows = np.array([i for i in range(54) if i not in set(calibration) | final])
+    rows = np.array(
+        [i for i in range(len(data.indices)) if i not in set(calibration) | final]
+    )
     basis = FermionicBasis(
         beta=data.beta, wmax=args.wmax, tol=args.tol, precision="auto"
     )

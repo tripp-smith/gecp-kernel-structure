@@ -141,6 +141,9 @@ def _json_object(value: object, name: str) -> str:
 
 
 def _load_json(path: Path) -> dict[str, Any]:
+    if path.stat().st_size > 1024**2:
+        raise ValueError("EPW application manifest exceeds1 MiB")
+
     def pairs(entries: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}
         for key, value in entries:
@@ -453,16 +456,26 @@ def write_epw_anisotropic(
     return result
 
 
-def nambu_green(data: EPWAnisotropicData) -> ComplexArray:
-    """Solve the declared real-Eliashberg 2x2 Nambu system for every native row."""
+def nambu_green(
+    data: EPWAnisotropicData, *, rows: npt.ArrayLike | None = None
+) -> ComplexArray:
+    """Solve the declared real-Eliashberg system on explicit native rows.
+
+    Supplying rows isolates observations from reserved validation values;
+    omitted rows are never used to construct a Green matrix.
+    """
     if not isinstance(data, EPWAnisotropicData):
         raise TypeError("data must be EPWAnisotropicData")
-    matrix = np.zeros((*data.z.shape, 2, 2), dtype=np.complex128)
+    selected = np.arange(len(data.indices)) if rows is None else _indices(rows, "rows")
+    if np.any(selected < 0) or np.any(selected >= len(data.indices)):
+        raise ValueError("rows must select native frequency rows")
+    z, gap, shift = data.z[selected], data.delta_ev[selected], data.chi_ev[selected]
+    matrix = np.zeros((*z.shape, 2, 2), dtype=np.complex128)
     with np.errstate(all="ignore"):
-        iwz = 1j * data.frequencies_ev[:, None] * data.z
-        xi = data.state_energies_ev[None, :] - data._layout.delta_mu_ev + data.chi_ev
+        iwz = 1j * data.frequencies_ev[selected, None] * z
+        xi = data.state_energies_ev[None, :] - data._layout.delta_mu_ev + shift
         matrix[:, :, 0, 0], matrix[:, :, 1, 1] = iwz - xi, iwz + xi
-        matrix[:, :, 0, 1] = matrix[:, :, 1, 0] = -data.z * data.delta_ev
+        matrix[:, :, 0, 1] = matrix[:, :, 1, 0] = -z * gap
     if not np.all(np.isfinite(matrix)):
         raise NumericalBreakdownError("nonfinite Nambu system")
     try:

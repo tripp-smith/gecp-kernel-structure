@@ -198,12 +198,21 @@ def test_archive_roundtrip_and_attacks(tmp_path):
     assert (a / "fit.json").read_bytes() == (b / "fit.json").read_bytes()
     assert (a / "fit.npz").read_bytes() == (b / "fit.npz").read_bytes()
     loaded = EPWFrequencyCrossFit.load(a / "fit.json")
+    record = json.loads((a / "fit.json").read_text())
+    assert record["representation_units"]["channels_and_coefficients"] == [
+        "eV^-1", "eV^-2", "eV^-1"
+    ]
     np.testing.assert_array_equal(loaded.coefficients, fit.coefficients)
     np.testing.assert_array_equal(
         loaded.evaluate_matsubara([1, 3]), fit.evaluate_matsubara([1, 3])
     )
     with pytest.raises(FileExistsError):
         fit.save(a / "fit.json")
+    record["representation_units"]["green_function"] = "eV"
+    _rehash_manifest(a / "fit.json", record)
+    with pytest.raises(ValueError, match="unsupported"):
+        EPWFrequencyCrossFit.load(a / "fit.json")
+    fit.save(a / "fit.json", overwrite=True)
     raw = (a / "fit.npz").read_bytes()
     (a / "fit.npz").write_bytes(raw[:-1] + bytes([raw[-1] ^ 1]))
     with pytest.raises(ValueError):

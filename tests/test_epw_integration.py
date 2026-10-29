@@ -145,6 +145,21 @@ def test_authentic_native_fixture_preserves_bytes_fields_and_all_state_ordinals(
     assert not recovered.data.source_bytes_verified
 
 
+def test_authentic_denser_scout_file_retains_source_order_and_bytes(tmp_path):
+    record = json.loads((FIXTURES / "manifest-scout-wscut1.json").read_text())
+    entry = record["files"][0]
+    context = entry["context"]
+    raw = gzip.decompress((FIXTURES / entry["compressed_file"]).read_bytes())
+    source = tmp_path / context["native_filename"]
+    source.write_bytes(raw)
+    data = read_epw_anisotropic(source, context)
+    assert data.z.shape == (109, 140)
+    assert data.context["chemical_potential_offset_ev"] == 0
+    target = tmp_path / "replayed"
+    write_epw_anisotropic(data, target)
+    assert target.read_bytes() == raw
+
+
 @pytest.mark.parametrize("full", [False, True])
 def test_native_writer_rounding_degenerate_energies_and_explicit_non_fbw_shift(
     tmp_path, full

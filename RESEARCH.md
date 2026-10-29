@@ -11497,3 +11497,64 @@ Focused pip-audit is clean. NumPy/SciPy/mpmath and the isolated scientific
 provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
+
+The denser native scout completed successfully at `13915c807e3e82cb071af6bd44dd9c3a6bbb640c`
+(GitHub Actions run 40646021445). Its 17 K file has 109 positive frequencies,
+140 ordinal states, native SHA256
+`14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd`, and
+native-log Fermi level and chemical potential both 7.6644748416 eV. The frozen
+compressed 17 K file and source manifest are retained under `tests/data/epw`.
+Using the same observation, calibration and untouched final-row split, rank 58,
+13 eV cutoff and rcond 1e-12, the dense calibration produced 2.07e-6 scaled
+Nambu error, 9.14e-5 Z, 6.01e-8 eV gap and 9.29e-6 eV chi; retained condition
+was 2.97e11. Strict recovery rejected the matrix: its maximum imaginary Z
+was about 2.41e-4. The calibration can be repeated with
+`OPENBLAS_NUM_THREADS=1 uv run python experiments/epw_calibration.py --manifest
+manifest-scout-wscut1.json --tol 1e-7`. Positive-only real-coefficient stacked
+least squares yielded essentially the same result; an explicitly labeled
+real-Eliashberg structure projection still missed the physical budgets.
+Static observed-row pole subtraction and the separately piloted two-sided
+`G0^-1 (G-G0) G0^-1` representation with anchors 0, 20, 52 and 108 did not
+close the budgets or strict recovery. These are failed pilots, not supported
+alternate adapter policies. The final rows 45, 49 and 53 were not used to choose
+these settings or validate a final fit. No EPW native-read comparison of an
+accepted reconstruction has been performed.
+
+### EG frequency-native real-parity cross contract
+
+Calibration of the time-cardinal basis remains failed evidence. A separate,
+explicit real-Eliashberg Nambu representation now has promising calibration:
+fit the actual Green channels `[Re G11, Im G11 / omega, Re G12]` with one real
+Cauchy cross basis at `x=omega^2`, `p=-E^2`. Reconstruct `G11=a+i*omega*b`,
+`G22=-a+i*omega*b`, `G12=G21=c`. This uses declared real Nambu parity; it is
+not a change to generic complex-linear `fit_matsubara`, a self-energy fit,
+field interpolation, or EPW's specialized IR-object format.
+
+Implement a bounded frequency cross plan with solve-based cached SVD fitting,
+owning immutable parameters, and shared safe version-2 archive containers plus
+the native application manifest. Select Cauchy rows/poles using the exact
+Schur product evaluated in log magnitude, avoiding subtractive pivot residuals.
+Construct cardinal weights with explicit 256-bit arithmetic; validate the
+deployed serialized binary64 evaluator, denominator condition and near-node
+behavior independently. Preserve failures and reject unrepresentable or
+ill-conditioned evaluations without another method taking over.
+
+The pole dictionary spans 0 through -169 eV^2; 13 eV describes that dictionary,
+not a certified physical spectral support. Calibration uses rows 36/40/44;
+final rows 45/49/53 have not been fitted, predicted or scored. The pilot imported
+the complete native table and constructed its full Green array, so future
+generation must isolate allowed-row construction explicitly. At rank 60,
+calibration scaled Green error is 6.71e-10, Z 4.97e-9, gap 2.76e-11 eV and
+chi 1.72e-8 eV; the SVD condition is 4.82 and calibration barycentric condition
+9.71. Rank 48 passes with less margin; rank 84 exhibits a large evaluation
+condition and must remain a rejection regression. Independent algebra review
+accepts the Cauchy Schur/cardinal identities and explicit parity interpretation;
+its separate binary64 weight/evaluator check differs by at most 6.66e-16 at
+rank-60 calibration queries. These are tuning observations, not final acceptance.
+
+Before adopting this candidate require an independent analytic BCS/finite-pole
+oracle, direct low-rank Schur checks, complete archive reload/ownership tests,
+actual byte accounting including nodes/poles/weights/manifests, frozen source
+and controls, untouched final-row recovery with unchanged budgets, and the
+unmodified EPW native imag_read/Padé restart plus wrong-frequency negative
+control. Full root/exact-head/main delivery gates remain mandatory.
