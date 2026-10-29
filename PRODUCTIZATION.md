@@ -103,7 +103,7 @@ remain native. Upstream acceptance is not a delivery gate.
 | ED | Deterministic interacting Bethe IPT with independent references | complete, merged/pushed main `7530ec7`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | corrected unique-seed campaign and independent audit pass locally; canonical Linux and delivery remain open in PR #141 |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
-| EG | EPW MgB2 native output/compression/restart interoperability | explicit real-parity cross implemented; calibration, untouched final scientific gates, native restart and delivery open in PR #138 |
+| EG | EPW MgB2 native output/compression/restart interoperability | frozen final fit and independent audit pass; actual default-order Padé restart fails unchanged budgets; native conditioning study and delivery remain open in PR #138 |
 | EH | Actual covariance-aware MaxEnt including EE observations | 72 synthetic actual-MaxEnt cases and independent audit pass; measured CT-HYB spectroscopy and delivery remain open |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |

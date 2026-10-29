@@ -40,8 +40,10 @@ print('Total program execution')
 if mode == 'missing': sys.exit(0)
 with (p/'MgB2.pade_aniso_017.00').open('w') as out:
     if mode == 'empty': sys.exit(0)
-    out.write('# w [eV] Enk-Ef [eV] Re[znorm(w)] Im[znorm(w)] '
-              'Re[delta(w)] Im[delta(w)] Re[shift(w)] Im[shift(w)]\\n')
+    header=['# w [eV]', 'Enk-Ef [eV]', 'Re[znorm(w)]', 'Im[znorm(w)]',
+            'Re[delta(w)]', 'Im[delta(w)]', 'Re[shift(w)]', 'Im[shift(w)]']
+    if mode == 'badheader': header[-1]='missing column'
+    out.write(''.join(f'{x:>20}' for x in header)+'\\n')
     for energy in (-1., 1.):
         for iw in range(500):
             if mode == 'truncated' and energy == 1. and iw == 499: break
@@ -127,7 +129,16 @@ def test_fake_process_happy_path_and_corruption(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize(
     "mode",
-    ["missing", "empty", "nonzero", "malformed", "truncated", "badcontrol", "budget"],
+    [
+        "missing",
+        "empty",
+        "nonzero",
+        "malformed",
+        "truncated",
+        "badcontrol",
+        "budget",
+        "badheader",
+    ],
 )
 def test_fake_process_fail_closed(tmp_path, monkeypatch, mode):
     result, _, _ = run_fixture(tmp_path, monkeypatch, mode)

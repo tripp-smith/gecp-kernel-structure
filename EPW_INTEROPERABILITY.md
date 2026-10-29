@@ -6,7 +6,9 @@ and final audits pass locally at source revision
 were generated at `13915c807e3e82cb071af6bd44dd9c3a6bbb640c` in
 [Linux CI run 40646021445](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40646021445).
 The dedicated [native restart run 40854443322](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40854443322)
-and delivery remain open until their outcomes are checked. The root verification
+failed its real-axis comparison. Both native reads and the negative control
+completed as expected. The fitted-restart obligation and delivery remain open.
+The root verification
 at `80ea4bd` stopped at formatting before Python tests; it is not a passing root
 verification. These final rows were first consumed at `80ea4bd`; later formatting
 or documentation does not create fresh blind data.
@@ -74,3 +76,18 @@ summary artifact links are repository-relative. A future audit must supply
 extracted paths and a matching source/runtime instead of interpreting historical
 `/tmp` paths as portable. Prior unsuccessful time-cardinal and deflation
 research routes remain recorded in RESEARCH.md.
+
+The [failed restart comparison](data/epw/lossy-restart-failure.json) retains
+all unchanged channel budgets and counts after repairing only padded-header
+parsing. The [witnesses](data/epw/lossy-restart-witnesses.json) retain each
+channel's worst budget ratio, and the
+[failed-run archive](experiments/data/epw-lossy-restart-80ea4bd.tar.gz) retains
+native inputs, logs, the original receipt and comparison. Its SHA-256 is
+`4a8ee83dffd3e1728acb702416303a63e1769937654cb3f693ccf1513a82f1d6`.
+Full real-axis tables remain in artifact 12888469873, digest
+`07df1620aeda4aed67643dc559e8c268666cb0014d7d7fce77984df15fecbacf`,
+and in the downloaded local artifact; durable release-asset preservation is
+still required. Default-order Padé output is highly sensitive in this case.
+A bounded native order-calibration study is specified in RESEARCH.md;
+20 K is reserved for fresh validation after a successful freeze. No tolerance
+relaxation or lossless fallback closes the failed fitted-restart obligation.

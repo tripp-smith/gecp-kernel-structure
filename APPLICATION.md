@@ -1724,8 +1724,10 @@ The 13 eV pole dictionary is a numerical approximation parameter, not a
 certified spectral cutoff. No tail correction or self-energy subtraction is
 implicit. The canonical source workflow is `experiments.epw_frequency` with
 `experiments.audit_epw_frequency` and `scripts.providers.epw_restart`, using
-the isolated locked `environments/epw-science` runtime. Final held-out accuracy
-and actual native restart acceptance remain pending. Coarse MgB2 cases provide
+the isolated locked `environments/epw-science` runtime. Frozen held-out
+Green/field accuracy passes, but default-order native Padé restart comparison
+fails its unchanged budgets. Export diagnostics do not establish stable
+downstream continuation. Coarse MgB2 cases provide
 interoperability evidence, not converged experimental materials predictions or
 EPW solver acceleration. EPW's specialized IR-object format is unsupported.
 

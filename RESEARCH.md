@@ -11867,6 +11867,47 @@ and controls, untouched final-row recovery with unchanged budgets, and the
 unmodified EPW native imag_read/Padé restart plus wrong-frequency negative
 control. Full root/exact-head/main delivery gates remain mandatory.
 
+### EG native Padé failure and bounded conditioning study
+
+The frozen rank-60 final Green/field representation and independent audit pass
+at `80ea4bd`. All three numerical repeats agree. However actual unmodified
+EPW restart run 40854443322 does not pass the real-axis comparison. Both native
+reads complete and the wrong-frequency negative control rejects as expected.
+The first comparator stopped on the native right-aligned header; after fixing
+that parser defect, the unchanged six-channel comparison fails across the full
+630,000 state/frequency rows. Largest differences include Z 79.91, gap 1.705 eV
+and shift 10.203 eV despite imaginary-axis differences below 4.34e-8. The
+original receipt, complete comparison and worst-row witnesses are retained
+under `data/epw/lossy-restart*`; the failed inputs and native logs are archived
+separately. This is failed scientific evidence, not successful interoperability.
+
+Pinned `supercond_aniso.f90` sets the Padé order directly from `npade` and
+prints a convergence message after evaluation. The message is not an adaptive
+convergence test. The default 90 percent uses 98 points for this fixture.
+The observed sensitivity motivates a development-only native order study,
+without changing any comparison tolerance or replacing the native solver.
+`epw_pade_calibration` predeclares percentages 90/74/58/44/30/22/15, giving
+orders 98/80/64/48/32/24/16. Every candidate runs both raw and fitted inputs
+and compares all real-axis fields under the original absolute 1e-5 and relative
+1e-3 budgets. All failures remain visible. To reject a stable but uninformative
+continuation, omitted positive imaginary frequencies must also meet Z 1e-5
+and gap/shift 1e-6 eV, using the same compiled upstream recurrence.
+
+Before interpreting lower orders, require full native N=98 baseline agreement
+and agreement of an independently compiled diagnostic wrapper with that native
+output. It uses pinned calculation bodies, actual compiled QE constants,
+the exact Kelvin-to-Rydberg-to-eV sequence and native compiler flags. Wrapper
+source/module/compiler hashes are retained. A NumPy port failed this prerequisite
+and supplies no accepted order-selection evidence. Only a candidate passing
+both checks may be frozen; all candidates failing is inconclusive. The study
+uses already consumed 17 K development data only. The 20 K table remains
+unscored for prospective fresh validation after any successful freeze.
+
+Explicit lossless archival is a possible separate interoperability feature;
+it does not establish that the fitted reconstruction satisfies this Padé gate.
+No such payload silently replaces the failed lossy export. Original EG scope,
+scientific budgets, actual native testing and delivery obligations remain open.
+
 ### EI dependency-only reproduction
 
 Merged security main `cbfe6cf` before final delivery. A clean-source repeat of

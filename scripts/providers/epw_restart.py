@@ -212,7 +212,7 @@ def compare_tables(
         )
         require(
             all(
-                h.startswith("#") and all(word in h for word in required)
+                h.lstrip().startswith("#") and all(word in h for word in required)
                 for h in headers
             ),
             "missing real-axis header",

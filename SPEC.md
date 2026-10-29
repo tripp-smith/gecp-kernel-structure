@@ -3079,3 +3079,11 @@ This annotation records delivered identifiers without changing the goals above.
   is separate from generic Matsubara fitting and the specialized EPW IR format.
   Actual native source fixtures, failed routes and calibration are retained;
   final scientific, root, exact-source CI and delivery gates remain open.
+
+- **Phase EG scientific status update:** frozen `80ea4bd` passes final
+  imaginary-axis Green/field accuracy and independent auditing, but actual
+  native default-order Padé comparison fails unchanged real-axis budgets.
+  The failure and a bounded native conditioning study are recorded in RESEARCH.
+  Successful reads alone do not close the fitted-restart obligation. Root at
+  `8b52a3d` passes 2,374 tests/35 skips; later diagnostic changes need their own
+  root and exact-head CI. No mandatory gate or original goal is weakened.

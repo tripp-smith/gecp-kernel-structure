@@ -2445,6 +2445,15 @@ close untouched final-row or native-restart acceptance. The method explicitly
 uses real Eliashberg parity, preserves native solver fields, and adds no generic
 complex-linearity, continuous certificate or universal speedup claim.
 
+The subsequent actual EPW run reads both native exports successfully but its
+default-order real-axis Padé outputs differ far beyond the fixed budgets.
+Small imaginary-axis approximation errors therefore do not establish stable
+downstream continuation. A parser defect had hidden this numerical failure;
+correcting header whitespace preserves the rejection. The failed inputs,
+logs and complete comparison are retained. A bounded native conditioning
+study must pass independent reproduction and omitted-frequency checks before
+any fresh validation. Fitted-restart acceptance remains open.
+
 ## EI development: column observations and independent covariance checks
 
 Column-oracle Cholesky separates scalable factor state from a dense covariance

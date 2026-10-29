@@ -1,0 +1,60 @@
+name: EPW Padé order calibration (development only)
+on:
+  workflow_dispatch:
+  push:
+    branches: ["codex/phase-eg-epw-nambu"]
+    paths:
+      - scripts/providers/epw_pade_calibration.py
+      - tests/test_epw_pade_calibration.py
+      - .github/workflows/epw-pade-calibration.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      VECLIB_MAXIMUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      PYTHONPATH: /repo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Download consumed 17 K development artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: epw-anisotropic-native-linux
+          run-id: 40854443322
+          github-token: ${{ github.token }}
+          path: prior
+      - uses: docker/setup-buildx-action@v3
+      - name: Build pinned unmodified EPW
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/epw/Dockerfile
+          tags: kernelgecp-epw:pade
+          load: true
+          cache-from: type=gha,scope=provider-epw
+          cache-to: type=gha,mode=min,scope=provider-epw
+      - name: Calibrate fixed orders without final data
+        run: |
+          mkdir -p diagnostic
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -e VECLIB_MAXIMUM_THREADS=1 -e NUMEXPR_NUM_THREADS=1 -e PYTHONPATH=/repo \
+            -v "$PWD/prior:/prior:ro" -v "$PWD/diagnostic:/diagnostic" -v "$PWD:/repo:ro" \
+            kernelgecp-epw:pade /opt/venv/bin/python -m scripts.providers.epw_pade_calibration \
+            --artifact /prior --qe-root /opt/qe --output /diagnostic/calibration \
+            --source-revision "$(git rev-parse HEAD)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: epw-pade-development-calibration
+          path: diagnostic/
+          if-no-files-found: error
+          retention-days: 14
