@@ -200,7 +200,9 @@ def test_archive_roundtrip_and_attacks(tmp_path):
     loaded = EPWFrequencyCrossFit.load(a / "fit.json")
     record = json.loads((a / "fit.json").read_text())
     assert record["representation_units"]["channels_and_coefficients"] == [
-        "eV^-1", "eV^-2", "eV^-1"
+        "eV^-1",
+        "eV^-2",
+        "eV^-1",
     ]
     np.testing.assert_array_equal(loaded.coefficients, fit.coefficients)
     np.testing.assert_array_equal(

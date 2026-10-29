@@ -409,7 +409,8 @@ def archive(path, data, rank, parts):
         record.get("schema") == "kernelgecp.epw-parity-cross-application.v1"
         and record.get("representation") == "explicit_real_eliashberg_nambu_parity"
         and record.get("units") == "eV"
-        and record.get("representation_units") == {
+        and record.get("representation_units")
+        == {
             "observation_x_nodes_poles": "eV^2",
             "cardinal_weights": "eV^2",
             "channels_and_coefficients": ["eV^-1", "eV^-2", "eV^-1"],
