@@ -1,0 +1,19 @@
+{
+  "archive": "experiments/data/cthyb-linux-e83d195-incomplete.zip",
+  "artifact_id": 12904212494,
+  "artifact_sha256": "d302a6d5d6d8e55191513af979020268089e8a47cd4e66ec981117db3c28cdbd",
+  "failure": "resumed chain does not match its requested input",
+  "generation_revision": "e83d195cb11ec9e2657c24327e95489edff1c5d6",
+  "new_campaign_policy": "fresh seed family 30100000; exact state persistence; no imported legacy data or relaxed bath equality",
+  "observed_independent_replay": {
+    "compressed_iteration_1_differing_entries": 440,
+    "compressed_iteration_1_max_absolute_difference": 8.807662165992102e-16,
+    "dense_transition_bitwise_equal": true,
+    "qualification": "read-only macOS replay demonstrates drift; failed Linux operand was not logged"
+  },
+  "retained_file_count": 334,
+  "schema": "kernelgecp.cthyb-linux-checkpoint-failure.v1",
+  "scope": "failed cross-host resume; no complete Linux scientific acceptance",
+  "status": "incomplete",
+  "workflow_run": 40853707061
+}

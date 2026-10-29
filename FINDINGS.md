@@ -2489,3 +2489,13 @@ selection requires both primary and doubled-cutoff controls; the failed
 final verification and delivery remain open.
 These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
+
+### EE checkpoint representation and exact inputs
+
+A cross-platform replay of stored compressed measurements changes later bath
+entries at about 8.8e-16. Such a discrepancy is tiny as a numerical error but
+correctly fails exact input identity for a stored Monte Carlo chain. Resumption
+now serializes the accepted state instead of regenerating historical updates.
+The full failed Linux artifact is preserved and the next campaign uses a fresh
+seed family. This changes neither Monte Carlo uncertainty targets nor physical
+agreement budgets, and it adds no numerical determinism theorem across hardware.

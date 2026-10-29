@@ -110,7 +110,7 @@ def main() -> int:
             "experiments.cthyb_dmft",
             "final",
             "--config",
-            "experiments/cthyb_fresh_odd.toml",
+            "experiments/cthyb_exact_state.toml",
             "--output",
             str(args.folder),
         ],

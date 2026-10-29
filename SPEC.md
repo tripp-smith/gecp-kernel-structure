@@ -3082,5 +3082,12 @@ This annotation records delivered identifiers without changing the goals above.
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
 
+- **Phase EE checkpoint status:** the first corrected Linux campaign passed
+  calibration and its first segment but failed exact cross-host trajectory
+  replay. Its complete checkpoint is preserved. New explicit loop-state
+  persistence retains exact input baths and controller state without relaxing
+  sampling equality. A fresh seed family and unchanged scientific budgets are
+  frozen for a clean run; all Linux scientific and delivery gates remain open.
+
 - **Phase EE integration status:** prior nominally independent cohorts are invalid due to native seed collisions. Corrected odd-stride calibration selected 1.6 million cycles; fresh local final validation is in progress. Full physical/statistical gates, independent audit, exact-head CI and delivery remain open. Original scope is unchanged.
 - **Phase EF delivery status:** merged main `07c4115` passed exact-main acceptance ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)). **Phase EI delivery status:** merged main `f6ba348`, exact-main checks pending.

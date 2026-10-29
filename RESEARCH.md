@@ -11879,3 +11879,34 @@ Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the 
 ### EE integration and fresh odd-stride status
 
 The old nominally independent cohorts remain invalid because native RNG seeds collide; their archived evidence is not relabeled. Corrected odd-stride calibration selected 1.6 million cycles. The fresh local final validation from frozen scientific source `9d28053` is in progress and has not passed acceptance. Hosted run `40646031061` completed calibration but its validation was cancelled; both artifacts were retained. The current integration merges EI main `f6ba348`; EF exact-main delivery is recorded in [PR #137](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146). EI merged-main checks are pending. Full EE statistical/physical gates, independent audit, local root, exact-head CI and delivery remain open.
+
+### EE exact-state checkpoint repair and clean Linux campaign
+
+Linux run 40853707061 passes calibration and validation segment A, then segment
+B fails `resumed chain does not match its requested input`. The complete
+334-file artifact is retained unchanged under experiments/data; its digest is
+`d302a6d5d6d8e55191513af979020268089e8a47cd4e66ec981117db3c28cdbd`.
+All 164 measured receipts/arrays, cycle counts and odd-stride seeds pass the
+read-only forensic checks. Compressed cross-platform replay differs by up to
+8.81e-16; dense replay is exact. The missing failing-operand log prevents a
+claim that this independently proves the precise Linux failure. It does show
+why reconstructing a historical floating trajectory is insufficient authority
+for an exact requested bath. No tolerance is added to the sampling check.
+
+New `cthyb_loop_state` persists exact initial/next bath bits, complete history,
+controller counter, model/source identity, measurement hashes and predecessor
+links. The atomic head commits each processed measurement before normal segment
+notification. Completed loops save the exact averaged input bath and report.
+Restoration checks all links and measurements, the initial-bath commitment and
+an exact-rational IEEE rounding allowance for the final mean, then returns saved
+bits. Arbitrary interruptions between measurement/state/head writes fail closed
+as orphans; this is not general crash recovery or cryptographic authentication.
+Portable tests cover interruption windows, completed/partial state, strict
+thresholds, pilot/early/max-iteration outcomes and rebinding/tampering failures.
+
+The old incomplete run is not imported into the repaired source identity.
+`cthyb_exact_state.toml` keeps every physics and numerical budget but predeclares
+fresh disjoint odd streams with seed base 30100000. The three-segment Linux
+campaign starts clean, with all source/locks/configuration frozen before data.
+Both the full scientific result and independent audit remain mandatory before
+root/exact-head/merge/main delivery; local evidence alone does not close EE.

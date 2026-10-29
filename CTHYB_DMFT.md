@@ -77,3 +77,30 @@ rerun the independent audit, use the pinned provider runtime and the audit
 revision's `experiments.audit_cthyb_dmft` against the extracted tree; the
 binding preserves the original command and source/runtime identity. No new
 Monte Carlo execution is needed for such an audit.
+
+## Linux checkpoint failure and new canonical run
+
+Run 40853707061 completed calibration and its first validation segment, then
+failed resuming the compressed loop on another runner. The complete
+[failed checkpoint](experiments/data/cthyb-linux-e83d195-incomplete.zip) and
+[receipt](data/cthyb/linux-checkpoint-failure.json) are retained. Its 164
+measurements are historical evidence and are not imported into the next run.
+Read-only cross-platform replay found compressed bath differences around
+8.8e-16; dense replay was exact. The failed log does not identify its precise
+operand, so that replay is evidence of a failure mechanism rather than proof
+of the exact failing operation.
+
+New runs persist each exact next bath, controller history and consecutive-pass
+counter in a predecessor-bound state chain. A separate atomic head commits the
+step before the normal segment-stop notification. Completed loops retain their
+exact final averaged bath and report. Resume checks configuration, initial bath,
+all measurement hashes/seeds/cycles, every state link and the final mean's
+binary64 rounding allowance; it returns the stored bits without replaying prior
+representation updates. The sampling bath equality check is unchanged.
+
+An arbitrary interruption between measurement, state and head writes remains a
+fail-closed orphan; this is not general crash recovery. Legacy checkpoints
+without state are rejected. Hashes provide content integrity, not signatures.
+`experiments/cthyb_exact_state.toml` declares a fresh disjoint seed family with
+base 30100000 and unchanged physics, cycle ladder, ensemble sizes and numerical
+budgets. A new complete Linux campaign and its independent audit remain required.

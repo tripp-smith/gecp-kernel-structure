@@ -1807,3 +1807,11 @@ passes the declared same-solution sampled compression gates across both
 geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
 This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
+
+EE source campaigns use exact loop-state checkpoints. Normal segmentation
+commits the next bath, controller state and content-bound head before stopping;
+completed loops retain their exact final bath. Legacy folders without that state
+and partial/orphan writes fail clearly. New canonical Linux runs use
+experiments/cthyb_exact_state.toml; the historical failed Linux artifact remains
+separate. This workflow does not relax exact sampling input checks or establish
+physical convergence from a checkpoint alone.
