@@ -4,11 +4,6 @@ on:
   push:
     branches: ['codex/phase-ee-cthyb-dmft']
   pull_request:
-    paths:
-      - '.github/workflows/cthyb-science.yml'
-      - 'experiments/cthyb*'
-      - 'experiments/audit_cthyb_dmft.py'
-      - 'kernelgecp/integrations/cthyb_dmft.py'
   workflow_dispatch:
 
 permissions:
@@ -27,7 +22,31 @@ env:
   BLIS_NUM_THREADS: '1'
 
 jobs:
+  scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      requires_campaign: ${{ steps.scope.outputs.requires_campaign }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Decide whether scientific inputs require a new campaign
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            result=$(python -m experiments.replay_cthyb_acceptance --preflight --force)
+          else
+            result=$(python -m experiments.replay_cthyb_acceptance --preflight)
+          fi
+          echo "$result"
+          value=$(python -c 'import json,sys; print(str(json.load(sys.stdin)["requires_campaign"]).lower())' <<< "$result")
+          echo "requires_campaign=$value" >> "$GITHUB_OUTPUT"
   calibration:
+    needs: scope
+    if: needs.scope.outputs.requires_campaign == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     defaults:
