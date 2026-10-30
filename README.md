@@ -10,7 +10,7 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — bounded fixed-bath covariance-estimation validation<br>
+> **Current phase:** EH — bounded stock-MaxEnt minimizer diagnostic, development only<br>
 > **Phase state:** The normalized-selector Mac synthetic final passes, but the fresh measured GECP/flat case fails RMS 2.0232 against limit 2; its cohort is consumed. [Draft PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142) retains both measured failures. The next predeclared candidate is 256 independent fixed-bath chains split 128/128 with unchanged numerical gates; acquisition cannot start before implementation and provenance verification. The Linux synthetic provider exception remains unresolved. See [contract](RESEARCH.md#eh-bounded-fixed-bath-covariance-estimation-contract), [spectroscopy evidence](SPECTROSCOPY.md) and the [ledger](PRODUCTIZATION.md#production-integrations-12)<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>

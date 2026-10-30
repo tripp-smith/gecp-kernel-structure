@@ -12554,3 +12554,25 @@ The full canonical dispatch must pass calibration before any acquisition,
 then every raw/final audit. No automatic replacement or rerun after acquisition
 begins is allowed. This avoids regenerating expensive science on each draft
 or documentation edit, without removing a mandatory completion gate.
+
+
+### EH stock-minimizer singularity diagnostic contract
+
+The a04a482 installed Linux fixture raises native LinAlgError after eight
+converged trials, at levenberg_minimizer.py:192 while increasing damping.
+The captured e8ac40e synthetic calibration input fails with the same native
+exception. Preserve both failures. Source review identifies absolute mu0=1e-18
+and unguarded linear solves as a hypothesis, not a proven cause.
+
+Run exactly one bounded diagnostic matrix, three Linux repetitions of the
+consumed unit and saved calibration inputs, with stock default mu0, 1e-12 and
+1e-8. All other provider controls, complete alpha grids, covariance, projection,
+positivity/mass/noise gates and objective remain unchanged. The baseline wrapper
+saves a failing matrix/RHS/mu/callsite then rethrows without changing the solve
+or retrying. Restore native classes and solve after every declared preset.
+Prior Mac J-squared and Marquardt scouts have poor physical training fits and
+remain rejected development evidence; the current study adds no such method.
+No preset is accepted from Mac-only success, no future final data or MC is used,
+and no production optimizer setting changes before independent review of the
+Linux evidence and complete calibration. Full native Q is not captured; native
+chi-square and independently evaluated physical discrepancy remain distinct.
