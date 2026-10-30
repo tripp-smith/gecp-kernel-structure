@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import subprocess
 import zipfile
 from pathlib import Path
 
@@ -14,6 +15,53 @@ spec = importlib.util.spec_from_file_location(
 assert spec and spec.loader
 replay = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(replay)
+
+
+def test_new_spectroscopy_file_does_not_change_dmft_inputs(tmp_path, monkeypatch):
+    def git(*args):
+        return subprocess.check_output(["git", *args], cwd=tmp_path, text=True)
+
+    git("init", "-q")
+    (tmp_path / "experiments").mkdir()
+    scientific = tmp_path / "scientific.py"
+    scientific.write_text("unchanged native computation\n")
+    (tmp_path / "kernelgecp").mkdir()
+    transitive = tmp_path / "kernelgecp/precision.py"
+    transitive.write_text("original precision behavior\n")
+    auditor = tmp_path / "experiments/audit_cthyb_dmft.py"
+    auditor.write_text("unchanged independent computation\n")
+    git("add", ".")
+    git(
+        "-c",
+        "user.name=Gate Test",
+        "-c",
+        "user.email=gate@example.invalid",
+        "commit",
+        "-qm",
+        "accepted baseline",
+    )
+    monkeypatch.setattr(replay, "GENERATION", git("rev-parse", "HEAD").strip())
+    monkeypatch.setattr(replay, "AUDITOR_SHA", replay.digest(auditor))
+    (tmp_path / "experiments/cthyb_spectroscopy.py").write_text(
+        "a separate analysis consumes the frozen measurements\n"
+    )
+    git("add", ".")
+    git(
+        "-c",
+        "user.name=Gate Test",
+        "-c",
+        "user.email=gate@example.invalid",
+        "commit",
+        "-qm",
+        "independent spectroscopy addition",
+    )
+    assert replay.sources_unchanged(
+        tmp_path, {"scientific.py": replay.digest(scientific)}
+    )
+    transitive.write_text("changed precision behavior\n")
+    assert not replay.sources_unchanged(
+        tmp_path, {"scientific.py": replay.digest(scientific)}
+    )
 
 
 def valid_audit():

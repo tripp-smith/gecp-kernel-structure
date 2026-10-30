@@ -2527,6 +2527,20 @@ The full failed Linux artifact is preserved and the next campaign uses a fresh
 seed family. This changes neither Monte Carlo uncertainty targets nor physical
 agreement budgets, and it adds no numerical determinism theorem across hardware.
 
+### EE fresh Linux scientific acceptance
+
+The fresh odd-stride campaign at `7200ec0` passes all seven independent
+scientific gates on Linux. Its 208 native measurements and original independent
+audit are preserved with a complete source-bound archive. Final observable
+standard errors are at most 8.43751e-5 against 3e-4; density, double occupancy
+and selected Green values satisfy their individual agreement limits. Native
+refinement, equation checks and identical-data three-provider replay pass.
+These are fixed-bath finite-grid stochastic results; uncertainty conditional
+on the bath does not bound stochastic controller trajectories. Prior invalid
+seed and checkpoint failures remain failures. The new actual-provider replay
+recomputes the independent audit without resampling; final root, CI and
+merged-main delivery remain open in PR #141.
+
 ### EG historical native continuation checkpoint
 
 The following describes the prior checkpoint; see the supported result below.

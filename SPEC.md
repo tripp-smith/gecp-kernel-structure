@@ -3100,6 +3100,12 @@ This annotation records delivered identifiers without changing the goals above.
 
 - **Phase EE Linux scientific status:** fresh run 40928480439 at generation and audit revision `7200ec0e912954c568bedb2092d9ff1c053f9ba7` passes the seven independent finite-grid scientific gates. The source-bound archive and numerical limits are recorded in CTHYB_DMFT.md. Final root verification, exact-head CI and delivery remain open; original scope and prior failure records are unchanged.
 
+- **Phase EG delivery status:** PR #138 and workflow-boundary PR #143 are
+  merged; synchronized main `a268f24` passes native-enabled full root and all
+  five exact-main workflows. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)
+  retains the explicit supported archive route and failed pure-fit routes.
+  Original mathematical goals and published 1.1.0 artifacts are unchanged.
+
 - **Production delivery status update:** ED, EF and EI are delivered under
   PR #136, #137 and #139 with exact-main root and CI acceptance. These later
   receipts supersede their earlier pending-delivery status annotations.

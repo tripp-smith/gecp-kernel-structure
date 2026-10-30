@@ -113,3 +113,27 @@ GitHub Actions run [40928480439](https://github.com/tripp-smith/gecp-kernel-stru
 The audit reports 208 fresh fixed-bath chains and maximum final observable standard error 0.0000843751 against 0.0003. All 14 dense/GECP observable differences meet their individual 0.001 plus three combined standard-error limits; the largest difference is 0.0000999178. Maximum selected fixed-bath defects are 0.000167133 (dense native), 0.000150296 (GECP native), and 0.000131124 (GECP represented); each component passes its own limit. Maximum native-grid refinement discrepancy is 0.000118404 and low-frequency quadrature discrepancy is 0.0000174782. Three provider replays and cutoff checks pass. The same finite-grid, fixed-bath uncertainty and independence limitations above apply; this is not a trajectory-error bound or continuous certificate.
 
 The [complete Linux archive](experiments/data/cthyb-linux-7200ec0-passed.zip) is 20,367,310 bytes, SHA-256 `5fba88be6a6796d29947b5e3bc5bf360e155813dec18d15e506ebe1f51832e77`. The [independent audit](data/cthyb/linux-independent-audit-7200ec0.json), [binding](data/cthyb/linux-audit-binding-7200ec0.json), and [source-bound summary](data/cthyb/linux-summary-7200ec0.json) retain the audit and provenance. The binding SHA-256 is `6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd`. An independent inventory comparison checked every one of 467 archive files against the extracted tree, all 208 bound measurement JSON hashes and their NPZ hashes, the four top-level binding hashes, and all ten manifest source hashes against Git revision `7200ec0`. These integrity checks do not themselves rerun the independent scientific audit or establish signatures.
+
+## Source-bound replay and delivery
+
+With the locked optional TRIQS/DLR/IR runtime active and all six recorded
+thread variables set to one, run:
+
+```sh
+python -m experiments.replay_cthyb_acceptance --output artifacts/cthyb-replay.json
+```
+
+This bounded command verifies the committed archive, binding and complete
+scientific source inventory, then recomputes the independent audit on all
+frozen native measurements. The generation remains `7200ec0`; the receipt
+records the current replay revision separately. Actual local provider replay
+passes all seven gates at `56622e9`. This is a new audit of retained data,
+not a new stochastic final validation. The dedicated Linux CI lane performs
+the same fail-closed check on final heads and main; unavailable providers,
+changed sources, missing gates and altered evidence fail.
+
+The full native campaign remains available by explicit dispatch and required
+when scientific inputs change. A preflight avoids resampling unchanged physics
+for documentation-only delivery changes. Separate spectroscopy analysis is
+not a change to the native DMFT generator. Full root, exact-head CI, merge and
+post-merge verification remain required for EE delivery.

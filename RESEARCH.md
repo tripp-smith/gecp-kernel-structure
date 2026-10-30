@@ -12163,6 +12163,15 @@ replays accepted real-provider data; it is not a new stochastic validation.
 Test digest/source mismatch, unsafe archive and failed/missing gate rejection.
 All full-root, exact-head and post-merge delivery gates remain mandatory.
 
+### EG delivered-main acceptance at EE closure
+
+EG is delivered at synchronized main `a268f24`: native-enabled full root
+passes 2,421 tests with 35 optional skips, and all five exact-main workflows
+pass. PR #143 preserves the failed fit-only study as manual while keeping the
+supported native archive gate automatic. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)
+binds the unchanged scientific evidence, exact main and claim limitations.
+EE integrates this main without changing its accepted scientific sources.
+
 ### EG historical order-study and restart-development checkpoint
 
 The fixed seven-order study run 40859909319 at `942dd85` ends inconclusive:

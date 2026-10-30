@@ -151,7 +151,9 @@ def verify_tree(
 # Additional inputs govern whether the native campaign must be regenerated.
 # Workflow-only edits do not change the scientific computation.
 CAMPAIGN_PATHS = (
-    "experiments/cthyb*",
+    "experiments/cthyb_dmft.py",
+    "experiments/cthyb_loop_state.py",
+    "experiments/cthyb_exact_state.toml",
     "experiments/audit_cthyb_dmft.py",
     "experiments/dlr_adapters.py",
     "environments/locks",
@@ -174,6 +176,33 @@ def sources_unchanged(root: Path, sources: dict[str, str]) -> bool:
             command = ["git", "diff", "--quiet", *revisions, "--", *CAMPAIGN_PATHS]
             if subprocess.run(command, cwd=root, check=False).returncode != 0:
                 return False
+        # Bind transitive package/native sources present at generation, while
+        # allowing separately added optional integrations such as spectroscopy.
+        tracked = subprocess.check_output(
+            [
+                "git",
+                "ls-tree",
+                "-r",
+                "--name-only",
+                GENERATION,
+                "--",
+                "kernelgecp",
+                "native/src",
+            ],
+            cwd=root,
+            text=True,
+        ).splitlines()
+        if tracked:
+            for revisions in ((GENERATION, "HEAD"), ("HEAD",)):
+                if (
+                    subprocess.run(
+                        ["git", "diff", "--quiet", *revisions, "--", *tracked],
+                        cwd=root,
+                        check=False,
+                    ).returncode
+                    != 0
+                ):
+                    return False
     except (OSError, subprocess.CalledProcessError):
         return False
     return True
