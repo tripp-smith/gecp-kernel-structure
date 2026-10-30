@@ -1,17 +1,8 @@
-name: EPW anisotropic interoperability
+# Historical unsupported fit-only experiment; the production native gate is
+# epw-restart-archive.yml. Manual runs preserve failure and diagnostic evidence.
+name: EPW fitted restart study (development only)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/epw-interoperability.yml
-      - environments/epw/**
-      - environments/epw-science/**
-      - scripts/providers/epw*.py
-      - kernelgecp/**
-      - experiments/epw*.py
-      - experiments/audit_epw_frequency.py
-      - tests/test_epw*.py
   workflow_dispatch:
 
 permissions:

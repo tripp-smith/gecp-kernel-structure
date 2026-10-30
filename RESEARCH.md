@@ -12014,3 +12014,13 @@ sensitivity failures remain failures; the zero-copy control passes. Scientific
 acceptance for the original scope passes; root and exact-head CI for this
 updated documentation, merge and main verification remain open. Evidence,
 storage and hashes are in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+### EG delivery workflow boundary
+
+PR #138 merges the original-scope supported archive workflow. Its legacy
+fit-only experiment remains failed and reproducible by manual dispatch; it
+must not automatically run as a production main gate. Keep the supported
+`epw-restart-archive.yml` native comparison automatic on main. This maintenance
+changes workflow activation only, with no numerical code, data, budgets or
+required original scientific gate changes. Verify YAML, full root and exact
+head CI, then merge and verify main under the standing delivery authorization.

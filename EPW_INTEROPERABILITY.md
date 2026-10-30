@@ -204,3 +204,8 @@ objective; neither is supported or silently counted as passed. Accuracy, noise
 and native budgets are unchanged. Full root and exact-head CI passed for
 `1b5d60a`; the documentation revision still requires its own root and CI,
 followed by merge and main verification before delivery.
+
+The historical fit-only workflow is manual and named as a development study.
+The supported native archive workflow remains automatic on main; moving the
+failed experiment out of automatic production checks does not alter its
+recorded failure or the required native archive comparison.
