@@ -3096,3 +3096,11 @@ This annotation records delivered identifiers without changing the goals above.
   sensitivity result or fitted/scored 20/30 K fields exist; required pure
   fitted-restart, root, CI and delivery gates remain open. See
   [EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).
+
+- **Phase EG 20 K checkpoint:** frozen `a9c2c39` producer cases pass fixed
+  model holdout and exact archive replay checks. Their first independent audit
+  fails on adjacent reconstructed binary64 coordinates. A verifier-only
+  operation-order correction retains the independent MP oracle, unchanged
+  conditioning cap and adjacent-point rejection. Corrected audit, unmodified
+  native restart comparison and delivery remain required; no new mathematical
+  goal or fitted-restart success is claimed.

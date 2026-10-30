@@ -11979,3 +11979,16 @@ uses observed truth and has no native result yet. Its fake-provider tests pass;
 the 17 K fitted and raw endpoints were format checked. The candidate 20 K
 roundtrip and auditor do not constitute fitted or scored 20/30 K evidence.
 Full root, cross-platform, required native and delivery gates remain open.
+
+### EG 20 K coordinate boundary and preserved first audit
+
+Frozen `a9c2c39` producer cases meet the fixed pure-model budgets and archive
+round-trip original native bytes. Their first independent audit evaluates
+reconstructed Matsubara coordinates one to six ULP from the declared binary64
+points; at mode zero this changes exact-node condition 1 to about 1.43e17.
+Independent MP256 replay on archived coordinates has maximum condition 10.1618.
+Fix only the verifier's operation order and require bit-identical declared
+coordinates before product replay; retain rejection of unsafe nearby points,
+the original failed receipt, fitted parameters and all budgets. Native restart
+acceptance is untested. The archive candidate includes exact native corrections
+and remains separate from the failed fit-only restart.

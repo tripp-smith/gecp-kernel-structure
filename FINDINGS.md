@@ -2506,3 +2506,10 @@ failing, despite passing baseline and compiled-helper rechecks. A lossless
 archive and truth-assisted sensitivity diagnostic are development work, not a
 proof of fitted restart interoperability; no native sensitivity result or
 20/30 K fitted-field score exists. See the [evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).
+
+The EG 20 K archive checkpoint exposes an arithmetic API boundary: equivalent
+real Matsubara formulas need not give the same binary64 coordinates. Exact-node
+replay is safe here while a three-ULP neighbor fails the unchanged conditioning
+guard. The verifier repair preserves this rejection and does not establish
+continuous-frequency stability or native solver acceptance. See
+[EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md).

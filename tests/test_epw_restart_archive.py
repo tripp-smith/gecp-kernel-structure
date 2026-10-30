@@ -1,6 +1,8 @@
 """Exact restart fields are additional information, not pure-fit evidence."""
 
+import hashlib
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -11,6 +13,34 @@ from kernelgecp.integrations.epw import EPWAnisotropicData, read_epw_anisotropic
 from kernelgecp.integrations.epw_frequency import EPWFrequencyCrossFit
 from kernelgecp.integrations.epw_restart_archive import EPWRestartArchive, _baseline
 from kernelgecp.types import NumericalBreakdownError
+
+
+def test_actual_macos_fixture_decodes_on_the_current_platform(tmp_path):
+    fixture = Path(__file__).parent / "data/epw/restart20-a9c2c39"
+    provenance = json.loads((fixture / "provenance.json").read_text())
+    for name, key in (
+        ("bundle.json", "bundle_json_sha256"),
+        ("bundle.npz", "bundle_npz_sha256"),
+    ):
+        assert (
+            hashlib.sha256((fixture / name).read_bytes()).hexdigest() == provenance[key]
+        )
+    archive = EPWRestartArchive.load(fixture / "bundle.json")
+    native = archive.reconstruct_native()
+    assert native.z.shape == (provenance["frequency_count"], provenance["state_count"])
+    assert (
+        native.context["source_provenance"]["source_revision"]
+        == (provenance["native_generation_revision"])
+    )
+    assert native.temperature_kelvin == 20
+    assert native.context["chemical_potential_offset_ev"] == 0
+    output = tmp_path / "restored-native.dat"
+    archive.write_native_restart(output)
+    assert (
+        hashlib.sha256(output.read_bytes()).hexdigest()
+        == (provenance["original_native_sha256"])
+    )
+    # Byte equality verifies the original native row order and rounding as well.
 
 
 def _archive():

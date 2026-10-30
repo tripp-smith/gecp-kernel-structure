@@ -67,6 +67,12 @@ FIELDS = {
 }
 
 
+def canonical_omega(rows):
+    # Match the declared binary64 beta and frequency operation order.
+    beta = 1 / (KB * CONTROLS["temperature_kelvin"])
+    return (2 * np.asarray(rows) + 1) * (np.pi / beta)
+
+
 def read(path):
     def unique(pairs):
         out = {}
@@ -98,6 +104,16 @@ def digest_json(value):
 
 def bits(a):
     return np.asarray(a, dtype="<f8", order="C").view("<u8")
+
+
+def training_coordinates(observation_x, rows):
+    canonical_x = canonical_omega(rows) ** 2
+    close(observation_x, canonical_x, "training coordinates", rtol=1e-14, atol=0)
+    require(
+        np.array_equal(bits(observation_x), bits(canonical_x)),
+        "training coordinates binary64 mismatch",
+    )
+    return observation_x
 
 
 def hash_bits(a):
@@ -369,8 +385,8 @@ def bundle(path, data):
         and np.all(np.isin(poles, -np.r_[0.0, np.geomspace(1e-10, 169.0, 1200)])),
         "cardinals",
     )
-    x = ((2 * np.array(train) + 1) * (np.pi * KB * 20)) ** 2
-    close(a["observation_x"], x, "training coordinates", rtol=1e-14, atol=0)
+    omega = canonical_omega(train)
+    x = training_coordinates(a["observation_x"], train)
     pivots = plan["pivot_rows"]
     require(
         len(pivots) == len(set(pivots)) == 60
@@ -390,7 +406,6 @@ def bundle(path, data):
     close(weights, expected, "cardinal weights", rtol=1e-14, atol=0)
     design, condition = direct_design(x, nodes, poles, weights)
     green, _, _, _ = truth(data, train)
-    omega = (2 * np.array(train) + 1) * (np.pi * KB * 20)
     channels = np.stack(
         (
             green[..., 0, 0].real,
@@ -432,7 +447,7 @@ def bundle(path, data):
 def metrics(data, a, rows, saved, prefix, report):
     rows = np.asarray(rows, dtype=int)
     actual, z, gap, chi = truth(data, rows)
-    omega = (2 * rows + 1) * (np.pi * KB * 20)
+    omega = canonical_omega(rows)
     design, condition = direct_design(omega**2, a["nodes"], a["poles"], a["weights"])
     c = np.einsum("ij,jsc->isc", design, a["coefficients"])
     pred = np.empty_like(actual)

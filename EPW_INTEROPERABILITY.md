@@ -121,3 +121,35 @@ The full EPW science workflow runs on pushes to main or manually on a frozen
 branch; a separately scoped sensitivity workflow runs on relevant pushes. This
 avoids repeating the known 17 K failure on every development push. The required
 native fitted-restart gate remains mandatory.
+
+## Frozen 20 K archive checkpoint and coordinate audit correction
+
+All three producer cases at `a9c2c39` pass the predeclared pure-model held-out
+budgets and restore the original native file byte for byte. The first independent
+audit fails on cardinal conditioning because it reconstructs coordinates using
+`pi*kB*T`, while the declared binary64 API uses `beta=1/(kB*T)` followed by
+`pi/beta`. At mode zero the former is three ULP away from a selected node and
+has condition approximately 1.43e17; the exact archived node has condition 1.
+The archived full mesh has maximum condition 10.1618 under the independent
+MP256 product check. Nearby queries remain unsafe and must be rejected.
+
+The verifier correction requires bit-identical declared training coordinates,
+retains the independent product formulation and unchanged 1e4 cap, and has a
+regression for both exact-node acceptance and adjacent-coordinate rejection.
+It changes no fitted model, controls, data, or tolerance. Reauditing the consumed
+20 K outputs is a verifier-correction replay, not fresh blind validation. The
+[first failed audit](data/epw/restart20-a9c2c39-first-audit.json) and
+[producer/archive checkpoint](data/epw/restart20-a9c2c39-checkpoint.json)
+preserve this history; the native source corpus is also retained in the original
+frequency evidence archive described above.
+
+The complete 20 K model-plus-XOR payload is 524,604 bytes versus 1,300,981
+bytes ASCII and 291,358 bytes gzip. Corrected native values encode original
+information and are explicitly not fit predictions. The attributed frozen
+fixture in `tests/data/epw/restart20-a9c2c39` checks cross-platform decoding and
+native byte equality; compatibility requires those tests to execute on each
+promised platform. A dedicated native archive workflow now requires independent
+20 K auditing, unmodified EPW raw/restored comparison and the wrong-frequency
+negative control. Those native gates, the corrected audit, final verification,
+exact-head CI and delivery remain open. The failed 17 K fit-only restart claim
+is not replaced by a successful archive decode.

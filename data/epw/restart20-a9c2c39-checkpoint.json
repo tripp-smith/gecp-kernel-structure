@@ -1,0 +1,11 @@
+{
+  "archive": "experiments/data/epw-restart20-a9c2c39.tar.gz",
+  "archive_sha256": "99a36267e765e3b579d778257847c02a647c1651254439ef11396383566fb494",
+  "campaign_sha256": "b89965e39775975fdb6b484c4d985f4b4171cdd5770ff1809d105c87913b29dd",
+  "generation_revision": "a9c2c39c882975ae760650021056253c5e082063",
+  "independent_first_audit_status": "failed",
+  "native_acceptance": "not_tested",
+  "producer_status": "passed",
+  "schema": "kernelgecp.epw-restart20-producer-checkpoint.v1",
+  "scope": "Frozen producer evidence. Original audit failed on reconstructed near-node coordinates. No retuning, fresh-validation or native restart acceptance is implied by a corrected audit replay."
+}

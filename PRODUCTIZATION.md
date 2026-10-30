@@ -113,3 +113,8 @@ acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
 mandatory cases remain open; no universal speedup is required.
+
+EG's 20 K producer/archive checkpoint and first failed coordinate audit are
+recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md). Corrected audit
+replay, actual unmodified native archive restart and exact-source delivery
+remain open; the original fit-only restart failure is preserved.

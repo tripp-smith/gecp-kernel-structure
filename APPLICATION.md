@@ -1813,3 +1813,11 @@ original field bits without silent fallback or refitting. This lossless path is
 separate from the required pure fitted native restart, which has failed. The
 [EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival)
 records size, test scope and remaining native and cross-platform gates.
+
+The candidate EPW frequency-cross interface uses ordinary integer Matsubara
+indices with declared binary64 beta. Its archived coordinates and arithmetic
+order are part of the numerical contract: nearby floating frequency values
+can fail conditioning even when the exact native-index query passes. The
+explicit restart archive retains native correction information separately
+from pure-model predictions; its native readback support remains gated on
+actual provider comparison.

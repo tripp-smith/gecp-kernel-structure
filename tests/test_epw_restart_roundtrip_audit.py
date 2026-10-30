@@ -1,9 +1,34 @@
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
 
 from experiments import audit_epw_restart_roundtrip as audit
+
+
+def test_archived_training_coordinates_and_nearby_condition_boundary():
+    fixture = Path(__file__).parent / "data/epw/restart20-a9c2c39/bundle.npz"
+    with np.load(fixture, allow_pickle=False) as archive:
+        rows = archive["fit_rows"]
+        archived = archive["observation_x"]
+        nodes = archive["nodes"]
+        poles = archive["poles"]
+        weights = archive["weights"]
+
+    checked = audit.training_coordinates(archived, rows)
+    design, condition = audit.direct_design(checked, nodes, poles, weights)
+    assert condition < 1e4
+    assert rows[0] == 0 and archived[0] in nodes
+    assert design[0, np.flatnonzero(nodes == archived[0])[0]] == 1
+    nearby = archived[0]
+    for _ in range(3):
+        nearby = np.nextafter(nearby, 0.0)
+    assert nearby == ((np.pi * audit.KB * 20) ** 2)
+    with pytest.raises(ValueError, match="binary64 mismatch"):
+        audit.training_coordinates(np.array([nearby]), [0])
+    with pytest.raises(ValueError, match="cardinal evaluation condition"):
+        audit.direct_design(np.array([nearby]), nodes, poles, weights)
 
 
 def test_direct_product_interpolates_nodes_and_rejects_duplicate_nodes():
