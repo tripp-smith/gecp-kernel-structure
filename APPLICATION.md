@@ -1694,6 +1694,46 @@ remainder certificates. Loop RSS excludes later validation/replay; full-worker
 wall/RSS includes them. Coefficient and output-array sizes have distinct scopes
 and do not imply a total-memory or universal performance advantage.
 
+## EPW anisotropic frequency interoperability (1.2 development)
+
+`kernelgecp.integrations.epw` reads the tested qe-7.5 / EPW 6.0 anisotropic
+imaginary-axis format. An explicit application context supplies temperature,
+eV units, ordinal state ordering, reference Fermi energy and chemical-potential
+offset. Native printed frequencies and state ordinals are preserved. A changed
+native chemical potential requires its measured offset; it is never inferred
+from the fitted Green function. Lossless parser/writer replay preserves rounding.
+
+`kernelgecp.integrations.epw_frequency.fit_epw_frequency_cross(data,
+real_nambu_parity=True, fit_rows=..., rank=60)` fits the actual channels
+`[Re G11, Im G11/omega, Re G12]` using a shared Cauchy cross at `omega**2`.
+The caller explicitly requests the real Eliashberg Nambu parity needed to
+reconstruct both diagonal and anomalous entries. This real-linear interface
+has a distinct representation schema from the generic complex-linear
+`FermionicFit`; it cannot represent arbitrary complex Nambu matrices.
+
+The returned immutable `EPWFrequencyCrossFit` evaluates ordinary signed
+Matsubara indices, reconstructs native Z/gap/energy-shift fields, and saves or
+loads a bounded numeric NPZ plus a hash-bound JSON manifest. The archive retains
+selected nodes, poles, binary64 cardinal weights, coefficients, native layout,
+channel units and numerical diagnostics. Its shared version-2 transport leaves
+the existing version-1 and version-2 `FermionicFit` readers unchanged. Loading
+reuses the saved basis rather than selecting new pivots. Evaluation and native
+field recovery reject unsafe conditioning instead of substituting another fit.
+
+The 13 eV pole dictionary is a numerical approximation parameter, not a
+certified spectral cutoff. No tail correction or self-energy subtraction is
+implicit. The historical fit-only workflow is `experiments.epw_frequency` with
+`experiments.audit_epw_frequency`; the supported archive workflow is
+`experiments.epw_restart_roundtrip`, `experiments.audit_epw_restart_roundtrip`
+and `scripts.providers.epw_restart`, using
+the isolated locked `environments/epw-science` runtime. Frozen held-out
+Green/field accuracy passes. The supported restart path explicitly combines the
+model with lossless native XOR corrections and exports the restored fields.
+Unmodified EPW passes the 20 K raw/restored comparison; this does not establish
+a pure fitted restart, which failed at 17 K under unchanged budgets. Coarse MgB2 cases provide
+interoperability evidence, not converged experimental materials predictions or
+EPW solver acceleration. EPW's specialized IR-object format is unsupported.
+
 ## Published release evidence
 
 Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and
@@ -1766,3 +1806,50 @@ passes the declared same-solution sampled compression gates across both
 geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
 This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
+
+
+### EPW restart development checkpoint
+
+An explicit model-plus-XOR restart archive and 20 K roundtrip driver/auditor
+are under development. The archive validates its baseline hash and reconstructs
+original field bits without silent fallback or refitting. This lossless path is
+separate from the required pure fitted native restart, which has failed. The
+[EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival)
+records size, test scope and remaining native and cross-platform gates.
+
+The candidate EPW frequency-cross interface uses ordinary integer Matsubara
+indices with declared binary64 beta. Its archived coordinates and arithmetic
+order are part of the numerical contract: nearby floating frequency values
+can fail conditioning even when the exact native-index query passes. The
+explicit restart archive retains native correction information separately
+from pure-model predictions; actual native readback passes for the declared
+20 K workflow. Fit-only restart stability remains unsupported.
+
+### EG supported route and scope
+
+The Cauchy-frequency GECP fit shares the cached `LeastSquaresPlan`, immutable
+helpers and safe NPZ primitives. `EPWRestartArchive` explicitly retains the
+model and lossless native corrections; it does not silently substitute a fit.
+The earlier generic `FermionicBasis`/`FermionicFit` route and a pure-fit native
+restart are unsupported historical approaches, not accepted interfaces for
+this EPW task. Original accuracy, noise and native comparison budgets remain
+unchanged. See [EPW evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance)
+for measured storage and provenance; this is finite-case interoperability, not
+continuous-frequency stability or a universal performance claim.
+
+For a saved supported bundle, the approximate model and exact native data have
+separate public operations:
+
+```python
+from kernelgecp.integrations.epw_restart_archive import EPWRestartArchive
+
+archive = EPWRestartArchive.load("bundle.json")
+green = archive.fit.evaluate_matsubara([0, 1, 2])
+native = archive.reconstruct_native()
+manifest = archive.write_native_restart("MgB2.imag_aniso_020.00")
+```
+
+The bundle carries its declared temperature, units, state order and chemical
+potential offset. The fitted Green values are model predictions; native export
+uses the explicitly stored corrections. This example requires the unreleased
+1.2 implementation or its source checkout, not the published 1.1.0 package.

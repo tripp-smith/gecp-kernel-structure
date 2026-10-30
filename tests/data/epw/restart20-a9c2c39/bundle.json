@@ -1,0 +1,16 @@
+{
+  "archive": {
+    "file": "bundle.npz",
+    "sha256": "8088166f61afe38183c925ecb3d5fec0f3e2e109fbdb047bbe5bf24516b91788"
+  },
+  "extra_encoded_information": "uint64 XOR corrections for all native Z, gap, and chi fields",
+  "policy": "lossless_native_xor_v1",
+  "provider": {
+    "epw": "6.0",
+    "qe": "7.5"
+  },
+  "record_sha256": "af6fac4e6bfffc1c7730b2afdd00ea03090dd8707cf22fc3f2b743803e84379c",
+  "schema": "kernelgecp.epw-restart-xor-application.v1",
+  "state_order": "frequency_major_ik_ibnd_ordinal",
+  "units": "eV"
+}

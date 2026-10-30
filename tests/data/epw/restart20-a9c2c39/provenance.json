@@ -1,0 +1,21 @@
+{
+  "bundle_json_sha256": "3c5ea0bce7b3341046c4f5932127afd63d091bdb8d9236e768db2e652962a0a5",
+  "bundle_npz_sha256": "8088166f61afe38183c925ecb3d5fec0f3e2e109fbdb047bbe5bf24516b91788",
+  "case_sha256": "890247c9dce83a50833486ad404416eef209bb2cacff56ccfe52df74d8201d33",
+  "chemical_potential_offset_ev": 0.0,
+  "frequency_count": 92,
+  "generation_revision": "a9c2c39c882975ae760650021056253c5e082063",
+  "native_generation_revision": "13915c807e3e82cb071af6bd44dd9c3a6bbb640c",
+  "original_native_sha256": "c41d954d579ac93094fa601e83c37dee5d10cd941110d1efc1a56c5ec927805c",
+  "policy": "lossless_native_xor_v1",
+  "provider": {
+    "epw": "6.0",
+    "qe": "7.5"
+  },
+  "restored_native_sha256": "c41d954d579ac93094fa601e83c37dee5d10cd941110d1efc1a56c5ec927805c",
+  "schema": "kernelgecp.epw-frozen-restart-fixture.v1",
+  "scope": "Consumed 20 K actual native archive fixture for cross-platform decode; neither a new blind holdout nor a native restart acceptance.",
+  "state_count": 140,
+  "temperature_kelvin": 20,
+  "units": "eV"
+}

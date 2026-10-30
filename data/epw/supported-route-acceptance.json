@@ -1,0 +1,59 @@
+{
+  "contract": "PRODUCTION_INTEGRATIONS.md#eg--epw-superconductivity",
+  "delivery_status": "pending_final_head_and_main",
+  "evidence_archive": "experiments/data/epw-restart20-linux-1b5.tar.gz",
+  "evidence_archive_sha256": "bdf9b9b581ce39c96df99bc589d8c0bc3ec0be450aa83e57f3e47fb15788cc67",
+  "failed_engineering_routes": [
+    "generic_FermionicBasis_EPWNambuFit_for_production_restart",
+    "pure_fit_only_native_Pade_restart",
+    "all_seven_native_order_candidates",
+    "all_four_nonzero_residual_sensitivity_scales"
+  ],
+  "full_artifact": {
+    "bytes": 73163061,
+    "id": 12944763024,
+    "public_release_asset_pending": true,
+    "sha256": "5b5449aa21f40f40feb2e6a00672b6078c51075824943b828b16dea4cfb2811f"
+  },
+  "independent_audit_sha256": "0d6c08a369bf22708d127f2f344ca9babb15ff3431bced6797d4851480b8f03b",
+  "installed_package_tests": {
+    "outside_checkout": true,
+    "public_1_1_0_unchanged": true,
+    "tests_passed": 56,
+    "version": "1.1.0-unpublished-prototype"
+  },
+  "native_receipt_sha256": "a1abe291a8067890b2dd9b2f958614201ca4a2d09b1e37c984d2c2cd618709ce",
+  "nonclaims": [
+    "pure_fit_Pade_stability",
+    "gzip_storage_advantage",
+    "internal_solver_acceleration",
+    "continuous_frequency_certificate",
+    "fresh_blind_validation_of_reproduced_20K_data"
+  ],
+  "original_gates": {
+    "explicit_units_and_chemical_potential": true,
+    "independent_pure_model_heldout_budgets": true,
+    "native_all_six_channel_comparison": true,
+    "native_order_and_rounding": true,
+    "no_solver_or_IR_object_replacement": true,
+    "three_fresh_process_repetitions": true,
+    "unchanged_conditioning_limit_and_unsafe_query_rejection": true,
+    "wrong_frequency_negative_control": true
+  },
+  "reviews": {
+    "independent": "Terra read-only original-contract review; noted the stricter historical implementation commitments and required explicit disposition",
+    "primary": "original-contract mapping and inspected native/independent receipts"
+  },
+  "route_disposition": "The original accepted adapter/archive/interchange boundary is fulfilled by the disclosed archive route. Later implementation-specific generic-fit and pure-fit-only commitments are retained as failed approaches, not counted as successful or added as new original requirements.",
+  "schema": "kernelgecp.epw-original-contract-acceptance.v1",
+  "scientific_revision": "1b5d60a1d369dcc0fe2806fd314699411afd324a",
+  "scientific_status": "passed",
+  "supported_route": [
+    "explicit_real_parity_Nambu_frequency_fit",
+    "cached_shared_LeastSquaresPlan_and_immutable_coefficients",
+    "versioned_safe_NPZ_plus_JSON_manifest",
+    "explicit_model_plus_lossless_native_XOR_corrections",
+    "unmodified_native_anisotropic_restart_export"
+  ],
+  "workflow_run_id": 40979924989
+}

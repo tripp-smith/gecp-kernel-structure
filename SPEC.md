@@ -3018,6 +3018,12 @@ This annotation records delivered identifiers without changing the goals above.
   immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
   Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
   full campaign, root verification and delivery remain pending.
+- **Phase EG implementation contract:** source-backed anisotropic EPW output,
+  explicit Nambu/frequency-fit/archive/reconstruction and native restart
+  interchange, with physical error/conditioning gates and authentic coarse
+  MgB2 evidence. Scientific/root/CI/merge/main acceptance remains pending;
+  no EPW internal acceleration or original mathematical claim is added.
+
 
 - **Phase EI implementation contract:** isolated scalable covariance work adds
   an immutable column-oracle KernelCholeskyFactor, out-of-sample triangular
@@ -3062,3 +3068,49 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase EF comparison status:** frozen `56c3211` passes the declared
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
+
+- **Production delivery status update:** ED, EF and EI are delivered under
+  PR #136, #137 and #139 with exact-main root and CI acceptance. These later
+  receipts supersede their earlier pending-delivery status annotations.
+- **Phase EG implemented identifiers:** `EPWAnisotropicData`,
+  `CauchyFrequencyPlan`, `EPWFrequencyCrossFit`, `fit_epw_frequency_cross`,
+  the frozen `epw_frequency` campaign, independent `audit_epw_frequency`,
+  and native `epw_restart` comparator. The explicit real Nambu parity policy
+  is separate from generic Matsubara fitting and the specialized EPW IR format.
+  Actual native source fixtures, failed routes and calibration are retained;
+  final scientific, root, exact-source CI and delivery gates remain open.
+
+- **Phase EG scientific status update:** frozen `80ea4bd` passes final
+  imaginary-axis Green/field accuracy and independent auditing, but actual
+  native default-order Padé comparison fails unchanged real-axis budgets.
+  The failure and a bounded native conditioning study are recorded in RESEARCH.
+  Successful reads alone do not close the fitted-restart obligation. Root at
+  `8b52a3d` passes 2,374 tests/35 skips; later diagnostic changes need their own
+  root and exact-head CI. No mandatory gate or original goal is weakened.
+
+
+- **Phase EG development status:** the fixed seven-order native study is
+  inconclusive with all candidates failing; native baseline and compiled-helper
+  rechecks pass. Explicit lossless archive, 20 K roundtrip/auditor and a
+  truth-assisted sensitivity diagnostic are developmental. No native
+  sensitivity result or fitted/scored 20/30 K fields exist; required pure
+  fitted-restart, root, CI and delivery gates remain open. See
+  [EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).
+
+- **Phase EG 20 K checkpoint:** frozen `a9c2c39` producer cases pass fixed
+  model holdout and exact archive replay checks. Their first independent audit
+  fails on adjacent reconstructed binary64 coordinates. A verifier-only
+  operation-order correction retains the independent MP oracle, unchanged
+  conditioning cap and adjacent-point rejection. Corrected audit, unmodified
+  native restart comparison and delivery remain required; no new mathematical
+  goal or fitted-restart success is claimed.
+
+- **Phase EG supported-route acceptance and disposition:** original scientific
+  scope passes at `1b5d60a` using the Cauchy-frequency GECP fit and explicit
+  model-plus-lossless-XOR native archive, with unchanged accuracy, noise and
+  native budgets. Earlier generic `FermionicBasis`/`FermionicFit` and pure-fit
+  native commitments are superseded failed engineering routes, not passed
+  requirements; they remain unsupported historical non-claims. This status
+  does not revise the original mathematical goals. The 20 K validation is a
+  reproduction, not fresh blind validation. Documentation-head root/CI, merge
+  and main checks remain pending. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
