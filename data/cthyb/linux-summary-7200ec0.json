@@ -1,0 +1,46 @@
+{
+  "schema": "kernelgecp.cthyb-linux-summary.v1",
+  "run_url": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40928480439",
+  "generation_revision": "7200ec0e912954c568bedb2092d9ff1c053f9ba7",
+  "audit_revision": "7200ec0e912954c568bedb2092d9ff1c053f9ba7",
+  "status": "passed",
+  "gates": {
+    "all_provider_replay_and_cutoff": true,
+    "independent_low_frequency_quadrature": true,
+    "independent_native_refinement": true,
+    "loop_controllers": true,
+    "native_and_represented_self_consistency": true,
+    "physical_observable_agreement": true,
+    "standard_errors": true
+  },
+  "calibration_budgets": [
+    {
+      "cycles": 100000,
+      "max_standard_error": 0.0005367245790930034,
+      "passed": false
+    },
+    {
+      "cycles": 400000,
+      "max_standard_error": 0.0004479040723858216,
+      "passed": false
+    },
+    {
+      "cycles": 1600000,
+      "max_standard_error": 0.0002887010370246631,
+      "passed": true
+    }
+  ],
+  "max_standard_error": 8.43750405322051e-05,
+  "independent_chain_count": 208,
+  "max_agreement_difference": 9.991778448267818e-05,
+  "max_native_grid_refinement_difference": 0.00011840410393160195,
+  "quadrature_max": 1.7478211525672687e-05,
+  "archive": "experiments/data/cthyb-linux-7200ec0-passed.zip",
+  "archive_bytes": 20367310,
+  "archive_sha256": "5fba88be6a6796d29947b5e3bc5bf360e155813dec18d15e506ebe1f51832e77",
+  "binding": "data/cthyb/linux-audit-binding-7200ec0.json",
+  "binding_sha256": "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd",
+  "audit": "data/cthyb/linux-independent-audit-7200ec0.json",
+  "scope": "finite-grid stochastic DMFT; fixed-bath chain uncertainty, not trajectory error or continuous certification",
+  "delivery": "open"
+}

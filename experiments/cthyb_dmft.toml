@@ -1,5 +1,6 @@
 # Actual CPU CT-HYB; calibration and final seeds are disjoint.
 schema_version = 1
+seed_mapping = "odd_stride_2_v1"
 beta = 10.0
 interaction = 2.0
 hopping = 1.0

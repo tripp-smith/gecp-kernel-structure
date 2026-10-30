@@ -1,0 +1,100 @@
+{
+  "QR_replay_discrepancies": {
+    "16.0": {
+      "dense": {
+        "kernelgecp": 9.423836450021118e-05,
+        "pydlr": 0.00010126100866432244,
+        "sparse_ir": 9.982320570329386e-05
+      },
+      "kernelgecp": {
+        "kernelgecp": 0.00011031145658204632,
+        "pydlr": 0.00010454155660037712,
+        "sparse_ir": 0.00010524345293700846
+      }
+    },
+    "8.0": {
+      "dense": {
+        "kernelgecp": 0.00010429747511882796,
+        "pydlr": 0.00010455820238135202,
+        "sparse_ir": 0.00010351526297415592
+      },
+      "kernelgecp": {
+        "kernelgecp": 9.905864232678308e-05,
+        "pydlr": 9.456617972883495e-05,
+        "sparse_ir": 9.159805026970959e-05
+      }
+    }
+  },
+  "artifact_paths": {
+    "binding": "data/cthyb/audit-binding-e83d195.json",
+    "campaign": "experiments/data/cthyb_9d28053_campaign.tar.gz",
+    "independent_audit": "data/cthyb/independent-audit-e83d195.json",
+    "invalid_independence_audit": "data/cthyb/invalid-independence-audit.json"
+  },
+  "artifact_sha256": {
+    "binding": "bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88",
+    "campaign": "c50e2db4464001e6bc30a948e14a0da9176d3d005d3ae3c7cb43d13c3267bfd3",
+    "independent_audit": "0d9b938aa23126fb7feaabc73e79f3daeaa76fc588ae8bba823d182595ca96bc",
+    "invalid_independence_audit": "c0ab23f1a4f7f871cf3ac742000d86ad412ce2a0f67d5a3aad81ec2df4d7fe1e"
+  },
+  "audit_revision": "e83d195cb11ec9e2657c24327e95489edff1c5d6",
+  "calibration_budgets": [
+    {
+      "cycles": 100000,
+      "max_standard_error": 0.0008387403799489761,
+      "passed": false
+    },
+    {
+      "cycles": 400000,
+      "max_standard_error": 0.00036501660184211593,
+      "passed": false
+    },
+    {
+      "cycles": 1600000,
+      "max_standard_error": 0.00024551731066038614,
+      "passed": true
+    }
+  ],
+  "controller_iterations": {
+    "dense": 12,
+    "kernelgecp": 12
+  },
+  "final_replicas_per_path": 64,
+  "fixed_bath_residual_maxima": {
+    "dense": {
+      "native": 0.00018048227562383992,
+      "represented": 0.00018048227562383992
+    },
+    "kernelgecp": {
+      "native": 0.00020140331437501756,
+      "represented": 0.0002222073617332946
+    }
+  },
+  "gates": {
+    "all_provider_replay_and_cutoff": true,
+    "independent_low_frequency_quadrature": true,
+    "independent_native_refinement": true,
+    "loop_controllers": true,
+    "native_and_represented_self_consistency": true,
+    "physical_observable_agreement": true,
+    "standard_errors": true
+  },
+  "generation_revision": "9d28053060329cd20647dc03e038a383c351adf1",
+  "independence_scope": "disjoint_seeds_fresh_thermalized_fixed_bath_chains_not_paired_DMFT_paths",
+  "independent_chain_count": 208,
+  "invalid_revalidation_8818c3a_archive": {
+    "bytes": 36844053,
+    "original_local_directory": "/tmp/gecp-ee-revalidation-8818c3a",
+    "sha256": "6f94066f3002f1227c4f5339a6271bb37753320659af27cde93e192fc58d7baf",
+    "status": "not_packaged_exceeds_30_MB"
+  },
+  "linux_ci_status": "not established by this local receipt",
+  "max_agreement_difference": 9.57732514392318e-05,
+  "max_agreement_limit_ratio": 0.08661097959264133,
+  "max_native_refinement_difference": 0.00012945753886475786,
+  "max_standard_error": 8.456215107685957e-05,
+  "platform": "Darwin-arm64",
+  "quadrature_max": 1.7478208398680895e-05,
+  "schema": "kernelgecp.cthyb-evidence-summary.v1",
+  "status": "local_scientific_evidence_passed_linux_and_delivery_open"
+}

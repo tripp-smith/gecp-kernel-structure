@@ -26,6 +26,8 @@ from typing import Any
 
 import numpy as np
 
+from experiments.cthyb_loop_state import commit as commit_loop_state
+from experiments.cthyb_loop_state import restore as restore_loop_state
 from kernelgecp.integrations.cthyb_dmft import (
     CTHYBConfig,
     CTHYBMeasurement,
@@ -52,6 +54,8 @@ SOURCES = (
     "kernelgecp/fitting.py",
     "kernelgecp/dmft.py",
     "experiments/cthyb_dmft.py",
+    "experiments/cthyb_loop_state.py",
+    "experiments/cthyb_exact_state.toml",
     "experiments/dlr_adapters.py",
     "environments/locks/dlr-physics-pip.txt",
 )
@@ -137,6 +141,8 @@ def _read(path: Path) -> dict[str, Any]:
 
 def load_config(path: Path) -> dict[str, Any]:
     data = tomllib.loads(path.read_text())
+    if data.get("seed_mapping") != "odd_stride_2_v1" or data.get("seed_base", 1) % 2:
+        raise ValueError("seed mapping requires an even base and odd stride-2 streams")
     if data.get("schema_version") != 1:
         raise ValueError("CT-HYB campaign requires schema_version=1")
     CTHYBConfig(
@@ -449,6 +455,8 @@ def _sample(
     seed: int,
     stem: Path,
     identity: dict[str, Any],
+    *,
+    notify: bool = True,
 ) -> CTHYBMeasurement:
     _verify_sources(identity)
     if stem.with_suffix(".json").exists():
@@ -472,17 +480,18 @@ def _sample(
     if peak_bytes > identity["config"]["memory_limit_bytes"]:
         raise MemoryError("actual campaign RSS exceeded the frozen CPU memory budget")
     save_measurement(stem, measurement, identity)
-    print(
-        json.dumps(
-            {
-                "measurement": str(stem.relative_to(stem.parents[1])),
-                "cycles": cycles,
-                "seed": seed,
-                "seconds": time.perf_counter() - start,
-            }
-        ),
-        flush=True,
-    )
+    if notify:
+        print(
+            json.dumps(
+                {
+                    "measurement": str(stem.relative_to(stem.parents[1])),
+                    "cycles": cycles,
+                    "seed": seed,
+                    "seconds": time.perf_counter() - start,
+                }
+            ),
+            flush=True,
+        )
     return measurement
 
 
@@ -516,6 +525,16 @@ def _plans(data: dict[str, Any], cutoff: float) -> dict[str, CTHYBPlan]:
     }
 
 
+def _require_distinct_replica_arrays(folder: Path, count: int) -> None:
+    fingerprints = [
+        _read(folder / f"replica-{i:02d}.json")["arrays_sha256"] for i in range(count)
+    ]
+    if len(set(fingerprints)) != count:
+        raise ValueError(
+            "duplicate native measurement arrays invalidate independent replicas"
+        )
+
+
 def _replicas(
     plan: CTHYBPlan,
     bath: np.ndarray,
@@ -529,9 +548,12 @@ def _replicas(
     represented: bool = False,
 ) -> tuple[list[CTHYBMeasurement], Any]:
     measurements = [
-        _sample(plan, bath, cycles, seed + i, folder / f"replica-{i:02d}", identity)
+        _sample(
+            plan, bath, cycles, seed + 2 * i + 1, folder / f"replica-{i:02d}", identity
+        )
         for i in range(count)
     ]
+    _require_distinct_replica_arrays(folder, count)
     estimate = estimate_replicas(
         np.array(
             [
@@ -558,19 +580,56 @@ def _loop(
     compressed: bool,
     pilot: bool = False,
 ) -> tuple[np.ndarray, dict[str, Any]]:
-    bath = plan.initial_bath()
-    history = []
-    baths = []
-    consecutive = 0
     maximum = data["calibration_loop_iterations"] if pilot else data["max_iterations"]
-    for iteration in range(maximum):
+    _verify_sources(identity)
+    model_config = dataclasses.asdict(plan.config)
+    if any(
+        data.get(key) != value or identity.get("config", {}).get(key) != value
+        for key, value in model_config.items()
+    ):
+        raise ValueError("loop model config differs from frozen identity")
+    restored = restore_loop_state(
+        folder,
+        plan,
+        cycles,
+        seed,
+        identity,
+        maximum=maximum,
+        pilot=pilot,
+        compressed=compressed,
+        data=data,
+        read=_read,
+        sha=_sha,
+        load=load_measurement,
+    )
+    if restored is None:
+        bath = plan.initial_bath()
+        initial_bath = bath.copy()
+        history = []
+        baths = []
+        consecutive = 0
+        first = 0
+        previous_sha = None
+    else:
+        initial_bath = restored["initial_bath"]
+        history = restored["history"]
+        baths = restored["baths"]
+        consecutive = restored["consecutive"]
+        first = restored["next_index"]
+        previous_sha = restored["previous_state_sha256"]
+        if restored["report"] is not None:
+            _write(folder / "loop.json", restored["report"])
+            return restored["final_bath"], restored["report"]
+        bath = restored["next_bath"]
+    for iteration in range(first, maximum):
         measurement = _sample(
             plan,
             bath,
             cycles,
-            seed + iteration,
+            seed + 2 * iteration + 1,
             folder / f"iteration-{iteration:02d}",
             identity,
+            notify=False,
         )
         representation = plan.represent(measurement) if compressed else None
         updated, defect = plan.bath_update(measurement, representation)
@@ -588,33 +647,68 @@ def _loop(
             }
         )
         consecutive = consecutive + 1 if defect < data["loop_tolerance"] else 0
-        if (
+        converged = (
             not pilot
             and iteration + 1 >= data["min_iterations"]
             and consecutive >= data["consecutive_passes"]
-        ):
-            break
+        )
+        completed = converged or iteration + 1 == maximum
+        final = (
+            np.mean(baths[-data["final_bath_average"] :], axis=0) if completed else None
+        )
+        report = None
+        if completed:
+            report = {
+                "history": history,
+                "converged": converged,
+                "stop_reason": "calibration_pilot_budget"
+                if pilot
+                else "stochastic_controller"
+                if converged
+                else "max_iterations_inconclusive",
+                "final_bath_rule": (
+                    "mean_of_last_declared_number_of_measured_input_baths"
+                ),
+                "averaged_baths": min(len(baths), data["final_bath_average"]),
+            }
+        commit_loop_state(
+            folder,
+            index=iteration,
+            identity=identity,
+            previous_state_sha256=previous_sha,
+            next_bath=updated,
+            initial_bath=initial_bath,
+            model_config=model_config,
+            history=history,
+            consecutive=consecutive,
+            pilot=pilot,
+            compressed=compressed,
+            report=report,
+            final_bath=final,
+            sha=_sha,
+            write=_write,
+        )
+        previous_sha = _sha(folder / f"state-{iteration:02d}.json")
+        # Segmented CI may stop on this event only after the state head is committed.
+        print(
+            json.dumps(
+                {
+                    "measurement": str(
+                        (folder / f"iteration-{iteration:02d}").relative_to(
+                            folder.parent.parent
+                        )
+                    ),
+                    "cycles": cycles,
+                    "seed": seed + 2 * iteration + 1,
+                }
+            ),
+            flush=True,
+        )
+        if completed:
+            _write(folder / "loop.json", report)
+            return final, report
         bath = updated
-    converged = (
-        not pilot
-        and len(history) >= data["min_iterations"]
-        and consecutive >= data["consecutive_passes"]
-    )
-    # Average actual input baths, never include an unmeasured proposed iterate.
-    final = np.mean(baths[-data["final_bath_average"] :], axis=0)
-    report = {
-        "history": history,
-        "converged": converged,
-        "stop_reason": "calibration_pilot_budget"
-        if pilot
-        else "stochastic_controller"
-        if converged
-        else "max_iterations_inconclusive",
-        "final_bath_rule": "mean_of_last_declared_number_of_measured_input_baths",
-        "averaged_baths": min(len(baths), data["final_bath_average"]),
-    }
-    _write(folder / "loop.json", report)
-    return final, report
+    raise AssertionError("loop state exhausted without completion")
 
 
 def calibrate(
@@ -934,7 +1028,7 @@ def run_final(
         "observables": ["density_total", "double_occupancy"]
         + [f"G_real_n{x}" for x in data["selected_indices"]]
         + [f"G_imag_n{x}" for x in data["selected_indices"]],
-        "seed_policy": "disjoint_calibration_loop_final_and_replica_families",
+        "seed_policy": "disjoint_families_odd_stride_2_native_seed_mapping",
         "uncertainty_scope": "independent_fixed_bath_chains_not_DMFT_trajectory_error",
         "native_grid_refinement_status": (
             "independent_fixed_bath_replicas_with_declared_tail_extension"

@@ -1,0 +1,74 @@
+name: CT-HYB validation segment
+
+on:
+  workflow_call:
+    inputs:
+      checkpoint_input:
+        type: string
+        required: true
+      checkpoint_output:
+        type: string
+        required: true
+      final_segment:
+        type: boolean
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  VECLIB_MAXIMUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  BLIS_NUM_THREADS: '1'
+
+jobs:
+  segment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: '2.9.0-0'
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-triqs
+          cache-environment: true
+          post-cleanup: all
+      - name: Install locked scientific providers and package
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install --no-deps .
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.checkpoint_input }}-${{ github.run_id }}
+          path: artifacts/cthyb-science
+      - name: Resume for at most four hours and checkpoint after a chain
+        run: >-
+          python scripts/providers/cthyb_checkpoint.py artifacts/cthyb-science
+          --minutes 240 --grace-minutes 30
+      - name: Require completed scientific result and independent audit
+        if: inputs.final_segment
+        run: |
+          test -f artifacts/cthyb-science/result.json
+          set +e
+          python -m experiments.audit_cthyb_dmft artifacts/cthyb-science --output artifacts/cthyb-science/independent-audit.json
+          audit_status=$?
+          python -c 'import json; assert json.load(open("artifacts/cthyb-science/result.json"))["status"] == "passed"'
+          result_status=$?
+          set -e
+          test "$audit_status" -eq 0 && test "$result_status" -eq 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ inputs.checkpoint_output }}-${{ github.run_id }}
+          path: artifacts/cthyb-science
+          if-no-files-found: error
+          retention-days: 14

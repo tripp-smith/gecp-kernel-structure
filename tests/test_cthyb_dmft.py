@@ -381,3 +381,31 @@ def test_native_smoke_rejects_wrong_provenance_with_nonzero_exit(
             word in receipt["error"] for word in ("editable", "wheel", "installed")
         )
     )
+
+
+def test_duplicate_raw_measurements_fail_closed(tmp_path: Path) -> None:
+    import json
+
+    from experiments.cthyb_dmft import _require_distinct_replica_arrays
+
+    for index, digest in enumerate(("a", "a")):
+        (tmp_path / f"replica-{index:02d}.json").write_text(
+            json.dumps({"arrays_sha256": digest})
+        )
+    with pytest.raises(ValueError, match="duplicate native measurement"):
+        _require_distinct_replica_arrays(tmp_path, 2)
+    (tmp_path / "replica-01.json").write_text(json.dumps({"arrays_sha256": "b"}))
+    _require_distinct_replica_arrays(tmp_path, 2)
+
+
+@native
+def test_actual_legacy_rng_seed_collision_and_odd_stride() -> None:
+    config = CTHYBConfig(n_iw=32, n_tau=385, warmup_cycles=500)
+    plan = CTHYBPlan(config)
+    bath = plan.initial_bath()
+    samples = [
+        plan.sample(bath, cycles=2000, seed=seed).g_tau
+        for seed in (29180000, 29180001, 29180003)
+    ]
+    np.testing.assert_array_equal(samples[0], samples[1])
+    assert not np.array_equal(samples[1], samples[2])

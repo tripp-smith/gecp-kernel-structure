@@ -11576,6 +11576,136 @@ The independent symmetry gate and all scientific budgets are unchanged.
 Original calibration/audit artifacts remain failed development evidence;
 repeat calibration from new clean source before any final data are evaluated.
 
+## Phase EG — EPW Nambu/native-restart interoperability contract
+
+Implement the accepted EG obligation using unmodified qe-7.5/EPW 6.0 and
+the official coarse MgB2 epw_super workflow. This is downstream compression,
+archival, evaluation and native anisotropic restart interchange. It is not
+an internal EPW transform replacement, a special EPW IR-object implementation
+or a converged experimental prediction. Original Lean scope is unchanged.
+
+First execute the official epw6.in anisotropic full-bandwidth calculation at
+17/20/30 K after the native SCF/DFPT/Wannier baseline. Retain source/PSP/input/
+executable/log/output hashes, thread settings, actual convergence and native
+file identities. The source-backed format is one header then frequency-major
+state-ordinal rows of four ES20.10 values, or five for full-bandwidth shifts.
+Never identify states by energy: distinct states may be degenerate. Preserve
+row order, ordinary Matsubara labels, temperature, eV units and the original
+one-sided/signed mesh. Use the actual provider Boltzmann conversion constant.
+An application manifest is mandatory because temperature and chemical-potential
+conventions are not fully represented by the native numeric columns.
+
+Public optional integration kernelgecp.integrations.epw will supply immutable
+EPWAnisotropicData, read/write native anisotropic files, construct physical
+2-by-2 Nambu Green matrices, frequency-fit them with existing FermionicBasis,
+archive them with v2 FermionicFit plus a hash-bound versioned JSON manifest,
+reconstruct on the declared native mesh and export supported restart files.
+Lossless unchanged replay preserves original bytes/rounding. Reconstructed
+export uses the same fixed-width format and native state/frequency order.
+Chemical-potential offsets are explicit, particularly when the native mu
+changes; unsupported or omitted conventions fail. Missing non-FBW shifts
+are zero only under that explicitly declared native convention. Any adjoint
+completion of a positive-only mesh must be requested explicitly in the adapter;
+the shared fitter remains unconstrained complex linear least squares.
+
+Nambu construction uses the real scalar Eliashberg convention with dynamic
+Z, Delta and chi. Recover Z, Delta and chi with solves and explicit numerical
+conditioning/amplification diagnostics. Reject nonfinite/singular/unsafe data
+or reconstruction that misses the declared budgets. Keep full basis precision,
+binary64 fit arithmetic, retained SVD rank and conditioning visible.
+
+Calibrate only on reserved source rows, then freeze the basis/cutoff/rcond/
+rank/holdouts before final validation. Require scaled held-out Nambu error
+<=1e-6, Z error <=1e-5, gap and energy-shift errors <=1e-6 eV. Check analytic
+scalar/complex matrix pole and BCS limits independently; parser invalid/order/
+temperature/shape/ownership and archive corruption cases must fail clearly.
+After reconstruction, unmodified EPW must read the exported anisotropic files
+and pass a bounded restart comparison against the same native unchanged-file
+restart. Resource or convergence exhaustion is failed/inconclusive, not a
+silent method switch. Coarse-grid evidence remains interoperability only.
+
+Use one MPI rank/thread and pinned Linux native CI, with jobs <=330 minutes
+and checkpoint artifacts. Default package dependencies stay unchanged. Every
+public adapter needs an actual provider case; a synthetic parser cannot close
+EG. Update README/API/claim docs, pass full root and exact-head provider CI,
+merge/push/synchronize main and verify its checks before delivery. EE/EF/EH/EI
+and 1.2.0 publication remain independent mandatory gates.
+
+### EG public interface and source-backed format decisions
+
+The authentic first native gate passed at generator `2b60af6`, preserving
+qe-7.5 source `770a0b2d12928a67048e2f3da8d10d057e52179e` and the exact
+official input/io hashes. It produced 140 ordered states at each temperature,
+with 54/46/31 positive frequencies at 17/20/30 K. Native energies span deep
+bands, so neither state deduplication nor a frequency-window-only spectral
+cutoff is acceptable. The log records ef0 and all three chemical potentials
+as 7.6644748482 eV; the actual fixture explicitly declares delta_mu=0.
+
+Implement EPWAnisotropicData, read_epw_anisotropic/write_epw_anisotropic,
+nambu_green, recover_epw_nambu, fit_epw_nambu and EPWNambuFit. Native reads
+require a versioned context manifest with file SHA256, tested provider,
+temperature, eV units, ordinary Matsubara labels/native state ordering,
+full-bandwidth convention, reference Fermi energy and explicit mu offset.
+Use kB=1.380649e-23/1.602176634e-19 eV/K. Keep original bytes for unchanged
+lossless replay; reconstructed output uses fixed ES20.10 fields and a new
+actual-file hash. A four-column file has chi=0 only with its explicit
+non-full-bandwidth convention. Arrays/context are owned and immutable.
+
+The Nambu inverse has diagonals i*omega*Z minus/plus
+(energy_minus_ef0-delta_mu+chi), and off-diagonals -Z*Delta. Construction and
+field recovery use linear solves. Recovery reports matrix condition and
+absolute inversion/Z amplification (deep bands and small omega can amplify
+errors even at condition number one); reject unsafe or materially non-real
+or structurally inconsistent recovery. Small accepted real-export rounding
+defects are explicit diagnostics, not a hidden symmetry repair.
+
+EPWNambuFit reuses FermionicFit v2 and a hash-bound application manifest with
+temperature/energy/state/mesh conventions and source-versus-analysis identity.
+Positive-only adjoint completion is an explicit fit option. Observation,
+calibration and final source-row sets are disjoint and frozen before final
+validation. Begin with actual 17 K data, retain 20/30 K misses/inconclusives,
+and expose only workflows meeting all stated physical/restart gates. Public
+fitting remains a downstream representation; it does not create EPW IR objects
+or accelerate the internal solver. Native unchanged/reconstructed restart
+controls and a last-state wrong-frequency negative control are mandatory.
+
+
+### EG calibration checkpoint (in progress, not an acceptance)
+
+The source-backed adapter has independent BCS/eigensystem, native byte replay,
+ordinal, invalid-input, archive integrity and recovery-sensitivity tests. The
+positive-frequency adapter can explicitly request adjoint completion, and now
+rejects undersampled designs or retained conditioning above its caller-set cap.
+These are preliminary implementation checks; neither the original native restart
+nor final held-out physical budgets have been met.
+
+A reproducible scouting run is `OPENBLAS_NUM_THREADS=1 uv run python
+experiments/epw_calibration.py --tol 1e-5`. It uses the actual 17 K provider
+fixture, cutoff 13 eV, calibration rows 36, 40, 44 and reserved final rows
+45, 49, 53. The remaining rows are observations. At rank 45, rcond 1e-12,
+retained condition 3.69e11, calibration errors were 4.83e-6 scaled Nambu,
+4.24e-5 Z, 2.99e-8 eV gap and 2.23e-5 eV chi. These miss the 1e-6, 1e-5,
+1e-6 eV and 1e-6 eV respective budgets. The separate 1e-3 rank 30 run also
+missed them. The script's 1e15 condition cap and 0.1 recovery real-tolerance
+are explicitly exploratory, not accepted export settings. Final rows were not
+used to select settings or report acceptance. Restart comparison, negative
+control, exact-head provider CI and full verification remain open.
+
+A separately piloted subtraction of the explicitly known bare Nambu resolvent
+before the shared fit did not resolve this miss: with the same rank 45 and
+rcond 1e-12, calibration errors were 5.80e-6 scaled Nambu, 4.24e-5 Z,
+2.76e-8 eV gap and 2.23e-5 eV chi. This alternative has not been exposed as a
+supported adapter method. Its result does not establish impossibility for other
+bases or observation designs.
+
+The denser-frequency native scout retains the same official coarse MgB2 input
+and solver, changing only `wscut` from 0.5 to 1.0 eV. The original input SHA256
+is `a67e51f747674319d3c5659e402529bcdf3d571b54f12d2802f2531d74ba8a82`;
+the changed input SHA256 is
+`7a74f36be9a1604ec8b4184e1bb985f14d237835ec43b19c6ac7e9f4dc2937e1`.
+This configuration is a scout and is not yet a successful provider run or
+final validation. Its execution manifest records both hashes and the change.
+
 ## Phase EI — scalable covariance and GP contract
 
 Implement the EI obligation in PRODUCTION_INTEGRATIONS.md on an isolated
@@ -11895,6 +12025,131 @@ provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
 
+### EE RNG collision invalidates nominal chain counts
+
+Independent audit found byte-identical raw arrays for every adjacent even/odd
+seed pair in both 45d42c7 and 8818c3a. The actual pinned TRIQS legacy
+Mersenne initializer computes `seed | 1U`, so consecutive even and odd seeds
+select the same state. The reported N=8/16/64 standard errors and claimed
+independence are invalid. In the original calibration, recomputation from
+one chain per unique pair gives N=4 maximum SEMs 0.00216963, 0.000389928,
+and 0.000279354 at 100k, 400k, and 1.6m cycles: 400k fails the 0.0003
+gate. The 8818c3a final outcome is consumed, invalid independence evidence,
+not acceptance, regardless of its printed gate status.
+
+Predeclare a fresh campaign using `experiments/cthyb_fresh_odd.toml`, seed
+base 29100000, with separately thermalized odd seeds allocated at stride two
+within disjoint families. Recalibrate the entire unchanged 100k/400k/1.6m
+ladder on eight distinct streams and retain all failures. Freeze the first
+passing budget and cutoff before new independent loops, 64 final chains per
+path and 16 refinement chains. Fail closed if any fixed-bath replica array
+fingerprints coincide, even with distinct seed labels. Raw evidence, observed
+equation defect, Monte Carlo uncertainty and covariance of the mean remain
+separate. This does not make probabilistic independence a mathematical proof.
+Full native scientific verification and independent audit remain mandatory.
+
+The denser native scout completed successfully at `13915c807e3e82cb071af6bd44dd9c3a6bbb640c`
+(GitHub Actions run 40646021445). Its 17 K file has 109 positive frequencies,
+140 ordinal states, native SHA256
+`14479ca5f9f5760d9b0b5553c794d8443dd16122159134dcae512c3f69a9defd`, and
+native-log Fermi level and chemical potential both 7.6644748416 eV. The frozen
+compressed 17 K file and source manifest are retained under `tests/data/epw`.
+Using the same observation, calibration and untouched final-row split, rank 58,
+13 eV cutoff and rcond 1e-12, the dense calibration produced 2.07e-6 scaled
+Nambu error, 9.14e-5 Z, 6.01e-8 eV gap and 9.29e-6 eV chi; retained condition
+was 2.97e11. Strict recovery rejected the matrix: its maximum imaginary Z
+was about 2.41e-4. The calibration can be repeated with
+`OPENBLAS_NUM_THREADS=1 uv run python experiments/epw_calibration.py --manifest
+manifest-scout-wscut1.json --tol 1e-7`. Positive-only real-coefficient stacked
+least squares yielded essentially the same result; an explicitly labeled
+real-Eliashberg structure projection still missed the physical budgets.
+Static observed-row pole subtraction and the separately piloted two-sided
+`G0^-1 (G-G0) G0^-1` representation with anchors 0, 20, 52 and 108 did not
+close the budgets or strict recovery. These are failed pilots, not supported
+alternate adapter policies. The final rows 45, 49 and 53 were not used to choose
+these settings or validate a final fit. No EPW native-read comparison of an
+accepted reconstruction has been performed.
+
+### EG frequency-native real-parity cross contract
+
+Calibration of the time-cardinal basis remains failed evidence. A separate,
+explicit real-Eliashberg Nambu representation now has promising calibration:
+fit the actual Green channels `[Re G11, Im G11 / omega, Re G12]` with one real
+Cauchy cross basis at `x=omega^2`, `p=-E^2`. Reconstruct `G11=a+i*omega*b`,
+`G22=-a+i*omega*b`, `G12=G21=c`. This uses declared real Nambu parity; it is
+not a change to generic complex-linear `fit_matsubara`, a self-energy fit,
+field interpolation, or EPW's specialized IR-object format.
+
+Implement a bounded frequency cross plan with solve-based cached SVD fitting,
+owning immutable parameters, and shared safe version-2 archive containers plus
+the native application manifest. Select Cauchy rows/poles using the exact
+Schur product evaluated in log magnitude, avoiding subtractive pivot residuals.
+Construct cardinal weights with explicit 256-bit arithmetic; validate the
+deployed serialized binary64 evaluator, denominator condition and near-node
+behavior independently. Preserve failures and reject unrepresentable or
+ill-conditioned evaluations without another method taking over.
+
+The pole dictionary spans 0 through -169 eV^2; 13 eV describes that dictionary,
+not a certified physical spectral support. Calibration uses rows 36/40/44;
+final rows 45/49/53 have not been fitted, predicted or scored. The pilot imported
+the complete native table and constructed its full Green array, so future
+generation must isolate allowed-row construction explicitly. At rank 60,
+calibration scaled Green error is 6.71e-10, Z 4.97e-9, gap 2.76e-11 eV and
+chi 1.72e-8 eV; the SVD condition is 4.82 and calibration barycentric condition
+9.71. Rank 48 passes with less margin; rank 84 exhibits a large evaluation
+condition and must remain a rejection regression. Independent algebra review
+accepts the Cauchy Schur/cardinal identities and explicit parity interpretation;
+its separate binary64 weight/evaluator check differs by at most 6.66e-16 at
+rank-60 calibration queries. These are tuning observations, not final acceptance.
+
+Before adopting this candidate require an independent analytic BCS/finite-pole
+oracle, direct low-rank Schur checks, complete archive reload/ownership tests,
+actual byte accounting including nodes/poles/weights/manifests, frozen source
+and controls, untouched final-row recovery with unchanged budgets, and the
+unmodified EPW native imag_read/Padé restart plus wrong-frequency negative
+control. Full root/exact-head/main delivery gates remain mandatory.
+
+### EG native Padé failure and bounded conditioning study
+
+The frozen rank-60 final Green/field representation and independent audit pass
+at `80ea4bd`. All three numerical repeats agree. However actual unmodified
+EPW restart run 40854443322 does not pass the real-axis comparison. Both native
+reads complete and the wrong-frequency negative control rejects as expected.
+The first comparator stopped on the native right-aligned header; after fixing
+that parser defect, the unchanged six-channel comparison fails across the full
+630,000 state/frequency rows. Largest differences include Z 79.91, gap 1.705 eV
+and shift 10.203 eV despite imaginary-axis differences below 4.34e-8. The
+original receipt, complete comparison and worst-row witnesses are retained
+under `data/epw/lossy-restart*`; the failed inputs and native logs are archived
+separately. This is failed scientific evidence, not successful interoperability.
+
+Pinned `supercond_aniso.f90` sets the Padé order directly from `npade` and
+prints a convergence message after evaluation. The message is not an adaptive
+convergence test. The default 90 percent uses 98 points for this fixture.
+The observed sensitivity motivates a development-only native order study,
+without changing any comparison tolerance or replacing the native solver.
+`epw_pade_calibration` predeclares percentages 90/74/58/44/30/22/15, giving
+orders 98/80/64/48/32/24/16. Every candidate runs both raw and fitted inputs
+and compares all real-axis fields under the original absolute 1e-5 and relative
+1e-3 budgets. All failures remain visible. To reject a stable but uninformative
+continuation, omitted positive imaginary frequencies must also meet Z 1e-5
+and gap/shift 1e-6 eV, using the same compiled upstream recurrence.
+
+Before interpreting lower orders, require full native N=98 baseline agreement
+and agreement of an independently compiled diagnostic wrapper with that native
+output. It uses pinned calculation bodies, actual compiled QE constants,
+the exact Kelvin-to-Rydberg-to-eV sequence and native compiler flags. Wrapper
+source/module/compiler hashes are retained. A NumPy port failed this prerequisite
+and supplies no accepted order-selection evidence. Only a candidate passing
+both checks may be frozen; all candidates failing is inconclusive. The study
+uses already consumed 17 K development data only. The 20 K table remains
+unscored for prospective fresh validation after any successful freeze.
+
+Explicit lossless archival is a possible separate interoperability feature;
+it does not establish that the fitted reconstruction satisfies this Padé gate.
+No such payload silently replaces the failed lossy export. Original EG scope,
+scientific budgets, actual native testing and delivery obligations remain open.
+
 ### EI dependency-only reproduction
 
 Merged security main `cbfe6cf` before final delivery. A clean-source repeat of
@@ -12091,3 +12346,124 @@ complete actual-provider synthetic run. Focused tests, independent audits,
 full root, exact-head CI, documentation, merge and main gates remain mandatory.
 
 Acquisition segments use a 240-minute driver deadline, leaving setup and artifact-upload headroom within the 330-minute hosted-job cap. The mandatory actual-Linux wiring test checks that the recorded runtime identity survives a disposable tiny native solve before any final acquisition. It uses separate seed 32290001 and contributes no final measurements. A parent-reader regression covers the original audit_receipt_sha256 binding key; all scientific acceptance remains open.
+
+### EE integration and fresh odd-stride status
+
+The old nominally independent cohorts remain invalid because native RNG seeds collide; their archived evidence is not relabeled. Corrected odd-stride calibration selected 1.6 million cycles. The fresh local final validation from frozen scientific source `9d28053` is in progress and has not passed acceptance. Hosted run `40646031061` completed calibration but its validation was cancelled; both artifacts were retained. The current integration merges EI main `f6ba348`; EF exact-main delivery is recorded in [PR #137](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146). EI merged-main checks are pending. Full EE statistical/physical gates, independent audit, local root, exact-head CI and delivery remain open.
+
+### EE exact-state checkpoint repair and clean Linux campaign
+
+Linux run 40853707061 passes calibration and validation segment A, then segment
+B fails `resumed chain does not match its requested input`. The complete
+334-file artifact is retained unchanged under experiments/data; its digest is
+`d302a6d5d6d8e55191513af979020268089e8a47cd4e66ec981117db3c28cdbd`.
+All 164 measured receipts/arrays, cycle counts and odd-stride seeds pass the
+read-only forensic checks. Compressed cross-platform replay differs by up to
+8.81e-16; dense replay is exact. The missing failing-operand log prevents a
+claim that this independently proves the precise Linux failure. It does show
+why reconstructing a historical floating trajectory is insufficient authority
+for an exact requested bath. No tolerance is added to the sampling check.
+
+New `cthyb_loop_state` persists exact initial/next bath bits, complete history,
+controller counter, model/source identity, measurement hashes and predecessor
+links. The atomic head commits each processed measurement before normal segment
+notification. Completed loops save the exact averaged input bath and report.
+Restoration checks all links and measurements, the initial-bath commitment and
+an exact-rational IEEE rounding allowance for the final mean, then returns saved
+bits. Arbitrary interruptions between measurement/state/head writes fail closed
+as orphans; this is not general crash recovery or cryptographic authentication.
+Portable tests cover interruption windows, completed/partial state, strict
+thresholds, pilot/early/max-iteration outcomes and rebinding/tampering failures.
+
+The old incomplete run is not imported into the repaired source identity.
+`cthyb_exact_state.toml` keeps every physics and numerical budget but predeclares
+fresh disjoint odd streams with seed base 30100000. The three-segment Linux
+campaign starts clean, with all source/locks/configuration frozen before data.
+Both the full scientific result and independent audit remain mandatory before
+root/exact-head/merge/main delivery; local evidence alone does not close EE.
+
+
+### EE fresh Linux scientific evidence
+
+Fresh GitHub Actions run 40928480439 at generation and audit revision `7200ec0e912954c568bedb2092d9ff1c053f9ba7` passes all seven independently audited scientific gates. Calibration selects 1,600,000 cycles without changing the frozen budgets or targets; 208 fresh fixed-bath chains are audited. [CTHYB_DMFT.md](CTHYB_DMFT.md#fresh-linux-scientific-acceptance) records the measurements, limits, source-bound archive and integrity checks. The earlier checkpoint failure and invalid independence cohorts remain historical evidence. Finite-grid stochastic acceptance does not certify continuous behavior or stochastic trajectory error. Final root verification, exact-head CI, authorized merge and post-merge checks remain open.
+
+### EE exact-head frozen-evidence replay contract
+
+Keep the full fresh native campaign available on scientific-source changes
+and explicit dispatch. Documentation-only delivery revisions must not silently
+claim an older head was checked or rerun new Monte Carlo until passing. Add a
+dedicated actual-provider Linux replay lane for final heads and main: verify
+the committed canonical ZIP/binding, bounded extraction and complete source
+inventory against current scientific files, then recompute the independent
+audit on all frozen native measurements. Missing, changed, malformed or failed
+evidence and unavailable promised providers must fail. Retain both the original
+generation/audit identity and the current replay revision distinctly. This
+replays accepted real-provider data; it is not a new stochastic validation.
+Test digest/source mismatch, unsafe archive and failed/missing gate rejection.
+All full-root, exact-head and post-merge delivery gates remain mandatory.
+
+### EG delivered-main acceptance at EE closure
+
+EG is delivered at synchronized main `a268f24`: native-enabled full root
+passes 2,421 tests with 35 optional skips, and all five exact-main workflows
+pass. PR #143 preserves the failed fit-only study as manual while keeping the
+supported native archive gate automatic. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)
+binds the unchanged scientific evidence, exact main and claim limitations.
+EE integrates this main without changing its accepted scientific sources.
+
+### EG historical order-study and restart-development checkpoint
+
+The fixed seven-order study run 40859909319 at `942dd85` ends inconclusive:
+all seven candidates fail, with native baseline and compiled-helper rechecks
+passing. The [canonical receipt and development checkpoint](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival)
+retain provenance, archive size and the distinction between lossless recovery
+and pure fitted native restart. The order-98 perturbation scaling diagnostic
+uses observed truth and has no native result yet. Its fake-provider tests pass;
+the 17 K fitted and raw endpoints were format checked. The candidate 20 K
+roundtrip and auditor do not constitute fitted or scored 20/30 K evidence.
+Full root, cross-platform, required native and delivery gates remain open.
+
+### EG historical 20 K coordinate boundary and preserved first audit
+
+Frozen `a9c2c39` producer cases meet the fixed pure-model budgets and archive
+round-trip original native bytes. Their first independent audit evaluates
+reconstructed Matsubara coordinates one to six ULP from the declared binary64
+points; at mode zero this changes exact-node condition 1 to about 1.43e17.
+Independent MP256 replay on archived coordinates has maximum condition 10.1618.
+Fix only the verifier's operation order and require bit-identical declared
+coordinates before product replay; retain rejection of unsafe nearby points,
+the original failed receipt, fitted parameters and all budgets. Native restart
+acceptance is untested. The archive candidate includes exact native corrections
+and remains separate from the failed fit-only restart.
+
+### EG supported-route disposition and acceptance
+
+The original integration objective accepts Matsubara fitting, a compact archive
+and unmodified native interchange; it did not require a fit-only native restart.
+The earlier specific commitment above to generic `FermionicBasis`/`FermionicFit`
+and the later pure-fit-only native route are superseded failed engineering
+approaches, retained here as historical non-claims. They are not passed. The
+supported Cauchy-frequency GECP fit reuses the cached `LeastSquaresPlan`,
+immutable helpers and safe NPZ primitives; its explicit model plus lossless
+native XOR correction archive supports native export. No original mathematical
+goal or accuracy, noise, conditioning or native comparison budget is weakened.
+
+At `1b5d60a`, Linux run 40979924989 passes native fixture generation, three
+pure-model holdouts, independent audit, raw/restored unmodified EPW comparison
+and wrong-frequency rejection. The 20 K run reproduces consumed earlier data,
+not fresh blind validation; the first failed audit and coordinate-only repair
+are preserved. The 17 K pure-fit native failure and all four nonzero scaled
+sensitivity failures remain failures; the zero-copy control passes. Scientific
+acceptance for the original scope passes; root and exact-head CI for this
+updated documentation, merge and main verification remain open. Evidence,
+storage and hashes are in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+### EG delivery workflow boundary
+
+PR #138 merges the original-scope supported archive workflow. Its legacy
+fit-only experiment remains failed and reproducible by manual dispatch; it
+must not automatically run as a production main gate. Keep the supported
+`epw-restart-archive.yml` native comparison automatic on main. This maintenance
+changes workflow activation only, with no numerical code, data, budgets or
+required original scientific gate changes. Verify YAML, full root and exact
+head CI, then merge and verify main under the standing delivery authorization.

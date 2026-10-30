@@ -100,16 +100,15 @@ remain native. Upstream acceptance is not a delivery gate.
 | --- | --- | --- |
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
-| ED | Deterministic interacting Bethe IPT with independent references | complete: [frozen campaign and independent audit](INTERACTING_DMFT.md), full root and all main workflows pass at merged main `7530ec7` ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
-| EE | Actual CT-HYB DMFT and independent-replica uncertainty | fresh Linux generation `7200ec0` and all seven scientific audit gates pass; final delivery is in progress in PR #141 |
-| EF | Native molecular GF2 runs and supported Green importer | complete, merged main `07c4115`; root and exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
-| EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, full root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)); unsupported pure-fit failures remain preserved |
-| EH | Actual covariance-aware MaxEnt including EE observations | normalized Mac synthetic/calibration pass, fresh measured GECP/flat fails RMS 2.0232; Linux provider failure and predeclared 256-chain candidate remain open in PR #142 |
-| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
+| ED | Deterministic interacting Bethe IPT with independent references | complete, merged/pushed main `7530ec7`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | `7200ec0` complete fresh Linux campaign and all seven independent scientific gates pass; final source-bound replay, root/exact-head CI and delivery remain open in PR #141 |
+| EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
+| EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, root and all five exact-main workflows pass; explicit model-plus-lossless native route passes, pure-fit route remains failed ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)) |
+| EH | Actual covariance-aware MaxEnt including EE observations | normalized Mac synthetic/calibration pass; fresh measured GECP/flat fails RMS 2.0232; Linux provider failure and predeclared 256-chain candidate remain open in PR #142 |
+| EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
-EB/EC/ED/EF/EI acceptance is complete, approximately 55% of this new contract;
-EE/EG/EH/EJ domain/release acceptance remains open. Each phase requires its named
+EB/EC/ED/EF/EG/EI are delivered, approximately 70% of the new integration program by completed acceptance obligations; EE/EH/EJ remain open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
@@ -130,3 +129,8 @@ canonical launches, shared numerical decisions, acceptance and merges. Workers
 return artifact paths, hashes, commands, outcomes and open obligations. Failed
 worker calls do not count as reviews, and completed subsets do not redefine the
 goal. Long scientific runs use durable checkpoints and confirmed live handles.
+
+EG's supported route, reproduction and preserved failed coordinate audit are
+recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+The generic basis and pure-fit native approaches failed and remain unsupported;
+their failed evidence is preserved separately from the delivered native archive.

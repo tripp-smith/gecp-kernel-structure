@@ -1,0 +1,108 @@
+name: EPW explicit native restart archive
+
+on:
+  push:
+    branches: [main, "codex/phase-eg-epw-nambu"]
+    paths:
+      - .github/workflows/epw-restart-archive.yml
+      - environments/epw/**
+      - environments/epw-science/**
+      - scripts/providers/epw*.py
+      - kernelgecp/**
+      - experiments/epw*.py
+      - experiments/audit_epw_restart_roundtrip.py
+      - tests/data/epw/restart20-a9c2c39/**
+      - tests/test_epw*.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epw-restart-archive-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHONPATH: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v5
+      - name: Install isolated locked scientific runtime
+        run: uv sync --project environments/epw-science --frozen
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the pinned unmodified native solver
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/epw/Dockerfile
+          tags: kernelgecp-epw:eg
+          load: true
+          push: false
+          cache-from: type=gha,scope=provider-epw
+          cache-to: type=gha,mode=min,scope=provider-epw
+      - name: Generate the pinned native 20 K source and provenance
+        run: |
+          mkdir -p artifacts
+          docker image inspect kernelgecp-epw:eg --format '{{.Id}}' > artifacts/epw-image-id.txt
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" -v "$PWD:/repo:ro" -e PYTHONPATH=/repo kernelgecp-epw:eg \
+            /opt/venv/bin/python -m scripts.providers.epw_anisotropic_fixture \
+            --source-revision "$(git rev-parse HEAD)" --wscut-ev 1.0 --output /artifacts/epw-anisotropic.json
+      - name: Run the fixed pure-model holdout and explicit correction archive
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.epw_restart_roundtrip campaign \
+            --native-root "$PWD/artifacts" --temperature-kelvin 20 \
+            --chemical-potential-offset-ev 0 --output "$PWD/artifacts/restart20"
+      - name: Independently audit all three archive cases
+        run: |
+          environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
+            --manifest "$PWD/artifacts/restart20/campaign.json" \
+            --output "$PWD/artifacts/restart20-audit.json"
+      - name: Compare actual unmodified native raw and restored restarts
+        run: |
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -v "$PWD/artifacts:/artifacts" -v "$PWD:/repo:ro" -e PYTHONPATH=/repo kernelgecp-epw:eg \
+            /opt/venv/bin/python -m scripts.providers.epw_restart \
+            --workspace /artifacts/epw-native/test-suite/epw_super \
+            --raw-file /artifacts/restart20/case-0/raw-replay.dat \
+            --reconstructed-file /artifacts/restart20/case-0/restored-native.dat \
+            --temperature-kelvin 20 --source-revision "$(git rev-parse HEAD)" --qe-root /opt/qe \
+            --output /artifacts/restart20-native-comparison.json
+      - name: Compress complete generated real-axis comparison tables
+        if: always()
+        run: |
+          sudo find artifacts -name 'MgB2.pade_aniso_020.00' -type f -exec gzip -n {} +
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: epw-explicit-restart-archive-linux
+          path: |
+            artifacts/epw-image-id.txt
+            artifacts/epw-anisotropic.json
+            artifacts/epw-native/test-suite/epw_super/epw6.in
+            artifacts/epw-native/test-suite/epw_super/epw6.out
+            artifacts/epw-native/test-suite/epw_super/MgB2.a2f
+            artifacts/epw-native/test-suite/epw_super/MgB2.imag_aniso_*
+            artifacts/restart20/
+            artifacts/restart20-audit.json
+            artifacts/restart20-native-comparison.json
+            artifacts/restart20-native-comparison-restart-cases/**/restart.out
+            artifacts/restart20-native-comparison-restart-cases/**/epw6.in
+            artifacts/restart20-native-comparison-restart-cases/**/MgB2.imag_aniso_020.00
+            artifacts/restart20-native-comparison-restart-cases/**/MgB2.pade_aniso_020.00.gz
+          if-no-files-found: error
+          retention-days: 14

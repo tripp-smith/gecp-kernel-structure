@@ -1,0 +1,171 @@
+{
+  "cases": [
+    {
+      "bytes": {
+        "gzip_ascii": 292867,
+        "model_only": 218121,
+        "model_plus_xor_bundle": 524562,
+        "raw_ascii": 1300981,
+        "raw_binary_arrays": 310976
+      },
+      "repeat": 0,
+      "results": {
+        "full": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        },
+        "heldout": {
+          "cardinal_condition_max": 9.770528499586156,
+          "metrics": {
+            "chi_ev": 2.361075238099808e-09,
+            "gap_ev": 1.11752143996946e-12,
+            "green_global_scaled": 1.2008905247361947e-10,
+            "green_scaled": 2.9237809121288e-10,
+            "imaginary_defect": 1.1102230246251565e-16,
+            "z": 6.103602068208147e-10
+          },
+          "recovery_condition_max": 1.0000000000000007,
+          "z_derivative_gain_max": 316.80470309915523
+        },
+        "training": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        }
+      },
+      "training_design_condition_max": 10.161770379255588,
+      "xor_correction_bytes": 309120,
+      "xor_correction_values": 38640
+    },
+    {
+      "bytes": {
+        "gzip_ascii": 292867,
+        "model_only": 218122,
+        "model_plus_xor_bundle": 524563,
+        "raw_ascii": 1300981,
+        "raw_binary_arrays": 310976
+      },
+      "repeat": 1,
+      "results": {
+        "full": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        },
+        "heldout": {
+          "cardinal_condition_max": 9.770528499586156,
+          "metrics": {
+            "chi_ev": 2.361075238099808e-09,
+            "gap_ev": 1.11752143996946e-12,
+            "green_global_scaled": 1.2008905247361947e-10,
+            "green_scaled": 2.9237809121288e-10,
+            "imaginary_defect": 1.1102230246251565e-16,
+            "z": 6.103602068208147e-10
+          },
+          "recovery_condition_max": 1.0000000000000007,
+          "z_derivative_gain_max": 316.80470309915523
+        },
+        "training": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        }
+      },
+      "training_design_condition_max": 10.161770379255588,
+      "xor_correction_bytes": 309120,
+      "xor_correction_values": 38640
+    },
+    {
+      "bytes": {
+        "gzip_ascii": 292867,
+        "model_only": 218122,
+        "model_plus_xor_bundle": 524563,
+        "raw_ascii": 1300981,
+        "raw_binary_arrays": 310976
+      },
+      "repeat": 2,
+      "results": {
+        "full": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        },
+        "heldout": {
+          "cardinal_condition_max": 9.770528499586156,
+          "metrics": {
+            "chi_ev": 2.361075238099808e-09,
+            "gap_ev": 1.11752143996946e-12,
+            "green_global_scaled": 1.2008905247361947e-10,
+            "green_scaled": 2.9237809121288e-10,
+            "imaginary_defect": 1.1102230246251565e-16,
+            "z": 6.103602068208147e-10
+          },
+          "recovery_condition_max": 1.0000000000000007,
+          "z_derivative_gain_max": 316.80470309915523
+        },
+        "training": {
+          "cardinal_condition_max": 10.161770379255588,
+          "metrics": {
+            "chi_ev": 6.234582010378187e-09,
+            "gap_ev": 3.4261345930458598e-12,
+            "green_global_scaled": 9.30456097911995e-12,
+            "green_scaled": 8.020868937956999e-10,
+            "imaginary_defect": 2.220446049250313e-16,
+            "z": 1.6597394569828339e-09
+          },
+          "recovery_condition_max": 1.0000000000000009,
+          "z_derivative_gain_max": 28793.93191621486
+        }
+      },
+      "training_design_condition_max": 10.161770379255588,
+      "xor_correction_bytes": 309120,
+      "xor_correction_values": 38640
+    }
+  ],
+  "native_acceptance": "not_tested",
+  "public_decoder": "consistency only",
+  "schema": "kernelgecp.epw-restart-roundtrip-audit.v1",
+  "scope": "finite 20 K fit-only holdout and all-field truth-assisted exact reconstruction; native solver comparator required",
+  "status": "passed"
+}

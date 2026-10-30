@@ -243,7 +243,7 @@ def _loop(
     consecutive = 0
     converged = False
     for i in range(len(paths)):
-        m = archive.get(role, i, seed + i, cycles, iteration=True)
+        m = archive.get(role, i, seed + 2 * i + 1, cycles, iteration=True)
         _assert_bath(m.bath_iw, expected)
         green = m.g_iw if replay is None else replay.apply(m)
         candidate = data["hopping"] ** 2 * green.mean(axis=1)
@@ -283,8 +283,17 @@ def _replicas(
     )
     samples = []
     rows = []
+    fingerprints = set()
     for i in range(count):
-        m = archive.get(role, i, seed + i, cycles)
+        fingerprint = _read(archive.folder / role / f"replica-{i:02d}.json")[
+            "arrays_sha256"
+        ]
+        _require(
+            fingerprint not in fingerprints,
+            "duplicate native measurement arrays invalidate independent replicas",
+        )
+        fingerprints.add(fingerprint)
+        m = archive.get(role, i, seed + 2 * i + 1, cycles)
         _assert_bath(m.bath_iw, bath)
         samples.append(m)
         rows.append(
@@ -380,64 +389,107 @@ def audit(folder: Path) -> dict[str, Any]:
         hashlib.sha256(audit_blob).hexdigest() == audit_hash,
         "independent audit code must be committed before canonical acceptance",
     )
+    _require(
+        data.get("seed_mapping") == "odd_stride_2_v1" and data["seed_base"] % 2 == 0,
+        "native seed mapping is not validated; nominal independence is invalid",
+    )
     seed = data["seed_base"]
-    calibration_bath, _, _ = _loop(
-        archive,
-        data,
-        "calibration-loop",
-        seed,
-        data["calibration_loop_cycles"],
-        None,
-        pilot=True,
-    )
-    budget_records = []
-    chosen = None
-    calibration_samples = []
-    for level, cycles in enumerate(data["cycle_budgets"]):
-        samples, estimate = _replicas(
+    if "revalidation" in identity:
+        parent = audit(folder / "parent")
+        prior = _read(folder / "parent-audit.json")
+        proof = frozen["parent_proof"]
+        _require(
+            parent["status"] == prior["status"] == "inconclusive",
+            "failed parent must remain inconclusive",
+        )
+        _require(
+            parent["generation_revision"]
+            == identity["revalidation"]["parent_generation_revision"],
+            "parent revision mismatch",
+        )
+        _require(
+            _sha(folder / "parent-audit.json") == proof["independent_audit_sha256"],
+            "parent audit hash mismatch",
+        )
+        budget_records = parent["calibration_budgets"]
+        calibration_replay = parent["calibration_QR_replay"]
+        chosen = next((row["cycles"] for row in budget_records if row["passed"]), None)
+        first_cutoff = next(
+            (
+                float(cutoff)
+                for cutoff, errors in calibration_replay.items()
+                if all(
+                    value <= data["replay_selected_target"] for value in errors.values()
+                )
+            ),
+            None,
+        )
+        _require(
+            chosen == frozen["cycles"] and first_cutoff == frozen["cutoff"],
+            "parent calibration selection mismatch",
+        )
+        replay_cache = {
+            cutoff: {method: _QRReplay(method, data, cutoff) for method in METHODS}
+            for cutoff in data["cutoffs"]
+        }
+    else:
+        calibration_bath, _, _ = _loop(
             archive,
-            f"calibration-{cycles}",
-            seed + 1000 * (level + 1),
-            cycles,
-            data["calibration_replicas"],
-            calibration_bath,
-            data["calibration_indices"],
+            data,
+            "calibration-loop",
+            seed,
+            data["calibration_loop_cycles"],
+            None,
+            pilot=True,
         )
-        maximum = float(np.max(estimate["standard_error"]))
-        passed = maximum <= data["max_standard_error"]
-        budget_records.append(
-            {"cycles": cycles, "max_standard_error": maximum, "passed": passed}
-        )
-        if passed and chosen is None:
-            chosen = cycles
-            calibration_samples = samples
-    _require(
-        chosen == frozen["cycles"],
-        "frozen budget is not the first independently passing budget",
-    )
-    replay_cache = {
-        cutoff: {method: _QRReplay(method, data, cutoff) for method in METHODS}
-        for cutoff in data["cutoffs"]
-    }
-    first_cutoff = None
-    calibration_replay = {}
-    positions = np.array(data["calibration_indices"]) + data["n_iw"]
-    for cutoff, providers in replay_cache.items():
-        errors = {}
-        for method, replay in providers.items():
-            difference = np.mean(
-                [replay.apply(m) - m.g_iw for m in calibration_samples], axis=0
+        budget_records = []
+        chosen = None
+        calibration_samples = []
+        for level, cycles in enumerate(data["cycle_budgets"]):
+            samples, estimate = _replicas(
+                archive,
+                f"calibration-{cycles}",
+                seed + 1000 * (level + 1),
+                cycles,
+                data["calibration_replicas"],
+                calibration_bath,
+                data["calibration_indices"],
             )
-            errors[method] = float(np.max(np.abs(difference[positions])))
-        calibration_replay[str(cutoff)] = errors
-        if first_cutoff is None and all(
-            x <= data["replay_selected_target"] for x in errors.values()
-        ):
-            first_cutoff = cutoff
-    _require(
-        first_cutoff == frozen["cutoff"],
-        "frozen cutoff is not the first independently passing cutoff",
-    )
+            maximum = float(np.max(estimate["standard_error"]))
+            passed = maximum <= data["max_standard_error"]
+            budget_records.append(
+                {"cycles": cycles, "max_standard_error": maximum, "passed": passed}
+            )
+            if passed and chosen is None:
+                chosen = cycles
+                calibration_samples = samples
+        _require(
+            chosen == frozen["cycles"],
+            "frozen budget is not the first independently passing budget",
+        )
+        replay_cache = {
+            cutoff: {method: _QRReplay(method, data, cutoff) for method in METHODS}
+            for cutoff in data["cutoffs"]
+        }
+        first_cutoff = None
+        calibration_replay = {}
+        positions = np.array(data["calibration_indices"]) + data["n_iw"]
+        for cutoff, providers in replay_cache.items():
+            errors = {}
+            for method, replay in providers.items():
+                difference = np.mean(
+                    [replay.apply(m) - m.g_iw for m in calibration_samples], axis=0
+                )
+                errors[method] = float(np.max(np.abs(difference[positions])))
+            calibration_replay[str(cutoff)] = errors
+            if first_cutoff is None and all(
+                x <= data["replay_selected_target"] for x in errors.values()
+            ):
+                first_cutoff = cutoff
+        _require(
+            first_cutoff == frozen["cutoff"],
+            "frozen cutoff is not the first independently passing cutoff",
+        )
     providers = replay_cache[frozen["cutoff"]]
     final_samples = {}
     final_estimates = {}
@@ -476,11 +528,23 @@ def audit(folder: Path) -> dict[str, Any]:
         expected = bath[positions] / data["hopping"] ** 2
         target = np.r_[expected.real, expected.imag]
         checks = []
+        defect_details = []
         for stats in (native_estimate, estimate):
             difference = np.abs(stats["mean"][2:] - target)
             limits = data["self_consistency_absolute"] + 3 * stats["standard_error"][2:]
             checks.append(bool(np.all(difference <= limits)))
-        residuals[name] = {"native_and_represented_pass": all(checks)}
+            defect_details.append(
+                {
+                    "absolute_equation_defect": difference,
+                    "monte_carlo_standard_error": stats["standard_error"][2:],
+                    "acceptance_limit": limits,
+                }
+            )
+        residuals[name] = {
+            "native_and_represented_pass": all(checks),
+            "native": defect_details[0],
+            "represented": defect_details[1],
+        }
     agreement = _agreement(
         final_estimates["dense"], final_estimates["kernelgecp"], data
     )

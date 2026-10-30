@@ -37,5 +37,6 @@ RUN (make -j2 epw > /opt/epw-build.log 2>&1 \
     && test -x /opt/qe/EPW/bin/epw.x
 
 COPY scripts/providers/epw_smoke.py /workspace/scripts/providers/epw_smoke.py
+COPY scripts/providers/epw_anisotropic_fixture.py /workspace/scripts/providers/epw_anisotropic_fixture.py
 WORKDIR /work
 CMD ["/opt/venv/bin/python", "/workspace/scripts/providers/epw_smoke.py", "--help"]

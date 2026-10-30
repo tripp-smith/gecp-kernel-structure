@@ -1,0 +1,1008 @@
+{
+  "baseline_comparison": {
+    "atol": 1e-05,
+    "budget_reference": "absolute raw value",
+    "channels": {
+      "Z_imag": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "Z_real": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "gap_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "gap_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      }
+    },
+    "frequency_count": 4500,
+    "passed": true,
+    "row_count": 630000,
+    "rtol": 0.001,
+    "state_count": 140
+  },
+  "binary_sha256": "63409927dc9e36969d525b96ce4f8751d3294179fbaf1cb27b90248c4042d863",
+  "budget_seconds": 18000,
+  "candidates": [
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p90-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "704a35cbc1f862d0bc16a67f74c9c1de718c01c20df61dc01747dcda779be68c",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.4183900379999983
+          },
+          "input_sha256": "f9862287163d7ebaa98a9d83069cf54a364186e037263df40b8bd750d21d1ec4",
+          "output_sha256": "7a32007bb5e68534017bc81e11733c6c529cce9007608f1502948a50c1ef8636",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p90-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "864c79a137cb42634f67b173783cbb5f1449956720f1479fa0742cbf055b04e5",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.3691890910000097
+          },
+          "input_sha256": "f9862287163d7ebaa98a9d83069cf54a364186e037263df40b8bd750d21d1ec4",
+          "output_sha256": "96d5f2fd93718f61cd2b75de917c7cc4edaf1fdff4cf53ea1486fd48dcf528f5",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 616565,
+            "max_absolute_error": 69.75953110500001,
+            "max_budget_ratio": 152204.03507490037,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 508503,
+            "max_absolute_error": 79.9083212069,
+            "max_budget_ratio": 341261.7177066491,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 299698,
+            "max_absolute_error": 1.70509922314,
+            "max_budget_ratio": 23593.939567427165,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 277209,
+            "max_absolute_error": 0.8684855040499999,
+            "max_budget_ratio": 38932.78520309634,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 615532,
+            "max_absolute_error": 10.202519479977001,
+            "max_budget_ratio": 63960.76366650352,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 610960,
+            "max_absolute_error": 4.446638246354,
+            "max_budget_ratio": 95895.11383129616,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          0.02088775334438253,
+          9.801639868946277e-06,
+          0.014824288185385634
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 4620,
+        "sha256": "32624077c5fc4450660d4aefd0744834973fcc255531acb7be1ca3e6b0bae055",
+        "transcript": "/diagnostic/calibration/heldout-raw-98.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          0.1479861440405822,
+          3.9399229034185355e-05,
+          0.041903642674689996
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 4620,
+        "sha256": "a007932a0389d3320ce1f634843d2a6d51ff54d1c121f1260814155f41c554d0",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-98.txt"
+      },
+      "order": 98,
+      "percent": 90,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p74-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "7639a04368da91b7ac67ae65d2eceb6ae2bda5bbb97a86226a69f20f24f4482c",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.318826592999983
+          },
+          "input_sha256": "7228d06751803d2e4d93a368203981bee006b8519aea37f7c44174497bb7dfa4",
+          "output_sha256": "fa6385547a6979de53c5a74c56d2a493ffe398915d7bbc0688342fa95f170329",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p74-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "4df712ffe7c229e11a2223dc1a45ed3948380e966bffcd55897b716719166019",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.4190866630000016
+          },
+          "input_sha256": "7228d06751803d2e4d93a368203981bee006b8519aea37f7c44174497bb7dfa4",
+          "output_sha256": "5348e62e29b911a1b5fe6f841b5c13fbee6d35bde25ec0b4e3cb11d79cc5bfd3",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 606537,
+            "max_absolute_error": 54.82650095534,
+            "max_budget_ratio": 453207.6542032168,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 489311,
+            "max_absolute_error": 132.9228266744,
+            "max_budget_ratio": 108497.15027340833,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 322218,
+            "max_absolute_error": 1.8564895306900002,
+            "max_budget_ratio": 71136.18659336634,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 305282,
+            "max_absolute_error": 1.750665219738,
+            "max_budget_ratio": 41910.32322486721,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 615713,
+            "max_absolute_error": 9.15085331405,
+            "max_budget_ratio": 83104.07065134251,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 611672,
+            "max_absolute_error": 7.03418031027,
+            "max_budget_ratio": 55489.756952527256,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          0.04167365389067679,
+          5.187131220719542e-05,
+          0.07491626596723958
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 12180,
+        "sha256": "fa1e0e07445714e3676300525948d2ee6272d317cc9380a5719af2f3ed3d049f",
+        "transcript": "/diagnostic/calibration/heldout-raw-80.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          1.34576413389534,
+          0.002232446325909331,
+          0.9989276623633097
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 12180,
+        "sha256": "b0076d6b324810506a25d53a0976bb177e6fe373f7199e0e7e9ce58d11d2ac3c",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-80.txt"
+      },
+      "order": 80,
+      "percent": 74,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p58-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "b215c91f17b04a79b780aeb509fca7642b72b94c22b70baca2f7f75be66a9804",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.3194813240000087
+          },
+          "input_sha256": "68992a4cb6ea8726543b0d1a900817fb018359a4c132b033dfa5fe5475a5663c",
+          "output_sha256": "f686d5781fdab046c765102421ccc0892ee88b00ba1140cc9d891f6dde562999",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p58-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "8e58edc59bdda74a9ba79b5bcc8073afc14d282d53af9c47be84b57d2f9a1608",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.3193441500000063
+          },
+          "input_sha256": "68992a4cb6ea8726543b0d1a900817fb018359a4c132b033dfa5fe5475a5663c",
+          "output_sha256": "e2419d2b9d93b828841594b55990f6a87d83f4c84728b03f8790505de9ff4177",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 605604,
+            "max_absolute_error": 580.2725357488,
+            "max_budget_ratio": 500402.8979011492,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 475536,
+            "max_absolute_error": 581.83180598074,
+            "max_budget_ratio": 253875.28208573753,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 359092,
+            "max_absolute_error": 2.1579532010299998,
+            "max_budget_ratio": 27200.196634932512,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 332758,
+            "max_absolute_error": 0.6899751451408,
+            "max_budget_ratio": 43600.39102857966,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 615496,
+            "max_absolute_error": 7.74787733066,
+            "max_budget_ratio": 191814.09736487185,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 609856,
+            "max_absolute_error": 5.814928338213,
+            "max_budget_ratio": 100404.37573324607,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          1.863185997788102,
+          0.0005526991553653905,
+          0.8585834875185294
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 18900,
+        "sha256": "a92fb1b28d4269017c3b70c8658dbf3fb50aea6bfa13556796277ce4e7928c04",
+        "transcript": "/diagnostic/calibration/heldout-raw-64.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          4.167630312802542,
+          0.006582409160089891,
+          11.364577968184276
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 18900,
+        "sha256": "32917c28b82922db741682866679f8e1426046720701eeb3e387c36e762bf7ab",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-64.txt"
+      },
+      "order": 64,
+      "percent": 58,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p44-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "a219786349d81bbee90f8d117867b79b6783afc6a5db4ee9df51286e53f39772",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.019176783000006
+          },
+          "input_sha256": "84420670a7a8db0187c8fa5e2d8aa660d61ba6e5c602246a7fc893ead9432b32",
+          "output_sha256": "0b6a14b0753bb26a3857921fe0afa220c03aca716df0cd26ce7b5a07e5439849",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p44-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "ea221c17ae6f0526b1a82ea09a1c9d36635415346ea234c2527190fc714e65ea",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.018503124999995
+          },
+          "input_sha256": "84420670a7a8db0187c8fa5e2d8aa660d61ba6e5c602246a7fc893ead9432b32",
+          "output_sha256": "d906f12b17c571bfffefb3e7798e3c0e7c3481cbc825d8341fad71d942abf669",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 610650,
+            "max_absolute_error": 87.262558754,
+            "max_budget_ratio": 122105.98722198493,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 524324,
+            "max_absolute_error": 63.1937887989,
+            "max_budget_ratio": 166779.7903877951,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 384538,
+            "max_absolute_error": 0.8057136581782001,
+            "max_budget_ratio": 12958.277419643386,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 357860,
+            "max_absolute_error": 0.45591220269800004,
+            "max_budget_ratio": 25662.107277946103,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 614510,
+            "max_absolute_error": 14.19971723612,
+            "max_budget_ratio": 359893.47940811416,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 605569,
+            "max_absolute_error": 26.7551055362404,
+            "max_budget_ratio": 64378.960472444545,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          75.3476066351876,
+          0.0006109469739234105,
+          2.807312544098245
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 25620,
+        "sha256": "63c97e0728415da1c72c5a14de2ead3e382dda763b8d54e57ff874a80863c1d9",
+        "transcript": "/diagnostic/calibration/heldout-raw-48.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          0.36354426847799926,
+          0.00010825063991216563,
+          0.5580038546201603
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 25620,
+        "sha256": "ceceede73dca5af3338b10994d2ac0a175f6a9ebdff79069ab5c1fef3b3bb32c",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-48.txt"
+      },
+      "order": 48,
+      "percent": 44,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p30-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "53e89a00c33d485352e23423c3f13af695bda9a209510c4f2e792c55c6e9ed3a",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 1.9678087369999844
+          },
+          "input_sha256": "34e74a93b1590b2c3835ee150688eddd41782cf0070d5aba45a7c07b48447438",
+          "output_sha256": "ed16c79bcb5cb660ce455fbaf5c1c34486cbb9754be9a34a532a698e0f229198",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p30-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "de3a76bb2f82c36fb2b61aeb4e7056666d57e14812f51a05428f9621a9d3a707",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 1.967672957000019
+          },
+          "input_sha256": "34e74a93b1590b2c3835ee150688eddd41782cf0070d5aba45a7c07b48447438",
+          "output_sha256": "32387cfe5bcfce59104d3f5841c16354091065d19f2c367ce4c3f25753105017",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 584986,
+            "max_absolute_error": 149.680079298,
+            "max_budget_ratio": 163396.8147520356,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 493770,
+            "max_absolute_error": 148.0213598798,
+            "max_budget_ratio": 306618.20627657167,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 439662,
+            "max_absolute_error": 1.720805758555,
+            "max_budget_ratio": 61955.325835515505,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 408397,
+            "max_absolute_error": 0.637149880604,
+            "max_budget_ratio": 14822.702982077188,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 614618,
+            "max_absolute_error": 9.45609701519,
+            "max_budget_ratio": 587623.6257678372,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 606107,
+            "max_absolute_error": 8.00797176259,
+            "max_budget_ratio": 71841.25441187645,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          2.2828730635424894,
+          0.0005964357771572055,
+          3.1644921104089727
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 32340,
+        "sha256": "cd74ad9093da04aace2ac14c55a47eaf5421fd28599024095150f117828b2f20",
+        "transcript": "/diagnostic/calibration/heldout-raw-32.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          0.656133702042428,
+          0.021074225891120867,
+          1.0260272202531906
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 32340,
+        "sha256": "cd28a91b546c61c36e6f55243f7b510c58bc234d0053012f24039f7a5b80104f",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-32.txt"
+      },
+      "order": 32,
+      "percent": 30,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p22-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "b805c550d5d0b930ba5da6bdc3a8fb6ad2161ac70b1fa8b5dd102d2db57d1034",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 2.0181723530000113
+          },
+          "input_sha256": "1ca48b01d751f9e0ffb65a2d934647fe1364a5413428a9c5155b208c4548582a",
+          "output_sha256": "3b8a0cd0dcc8819f0e2d9aca7ce0a802564a290ebcef1aee71d6e8c6244d5c45",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p22-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "3f0be12244821ff51bfd2a3c494052ed25236f06d6e3876142fd5b007664c50f",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 1.9185059130000184
+          },
+          "input_sha256": "1ca48b01d751f9e0ffb65a2d934647fe1364a5413428a9c5155b208c4548582a",
+          "output_sha256": "6cb0e27fbcaf3c07b121ef5ef31e6c19b5ffa297c11066acc7b98466b907f42c",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 319783,
+            "max_absolute_error": 159.60243296730002,
+            "max_budget_ratio": 184667.79844450182,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 176978,
+            "max_absolute_error": 92.8298317096,
+            "max_budget_ratio": 138926.23662641927,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 306212,
+            "max_absolute_error": 1.0965129437549999,
+            "max_budget_ratio": 37218.0490140065,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 304408,
+            "max_absolute_error": 1.672879122039,
+            "max_budget_ratio": 40626.6156924732,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 556534,
+            "max_absolute_error": 5.866247176671,
+            "max_budget_ratio": 41779.15964248596,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 501239,
+            "max_absolute_error": 5.004224243237,
+            "max_budget_ratio": 20696.279439106558,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          4.200384784011362,
+          0.009792081507097514,
+          0.5932403171163142
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 35700,
+        "sha256": "ebc1d4c75e8ca09ec35482a87a13b374f4d0bb60ec552dad3387e8ac9e208016",
+        "transcript": "/diagnostic/calibration/heldout-raw-24.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          13.010012138230017,
+          0.005938125887731361,
+          0.49113157766733495
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 35700,
+        "sha256": "e396bd7b272ebcb9a822969ee3a92f723fdaf60f5108d9880a905cc2cd430bac",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-24.txt"
+      },
+      "order": 24,
+      "percent": 22,
+      "status": "failed"
+    },
+    {
+      "cases": {
+        "raw": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p15-raw/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "61ca430a8085a1a57d19b8bfaf4cf2e8cdd844c76aa0bba12e48fb0a30a3d250",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 1.8674088770000026
+          },
+          "input_sha256": "9c216cf31a58177b4481c1d4b371e5ee0b6517b59d28414ae1706510395cebe5",
+          "output_sha256": "e283fed80b2724528552e881055a96aa43f8bb83a3c7339ae0a1e92fb8232c37",
+          "status": "passed"
+        },
+        "reconstructed": {
+          "execution": {
+            "command": [
+              "/opt/qe/EPW/bin/epw.x",
+              "-in",
+              "epw6.in"
+            ],
+            "log": "/diagnostic/calibration/p15-reconstructed/restart.out",
+            "log_bytes": 9660,
+            "log_sha256": "d687579674894f90210d901727e460b575e0cd7a1a8a32a91e4c1814ab077efb",
+            "mpi_ranks": 1,
+            "returncode": 0,
+            "threads": 1,
+            "timed_out": false,
+            "wall_seconds": 1.967667578000004
+          },
+          "input_sha256": "9c216cf31a58177b4481c1d4b371e5ee0b6517b59d28414ae1706510395cebe5",
+          "output_sha256": "65409fbc242f93137c64911269f15bccd86a11891ce3cc47917e48387bc61c3e",
+          "status": "passed"
+        }
+      },
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 26108,
+            "max_absolute_error": 0.023310882244,
+            "max_budget_ratio": 717.8128976431352,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 17793,
+            "max_absolute_error": 0.031782179315000006,
+            "max_budget_ratio": 2063.5912509332024,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "heldout_raw": {
+        "max_absolute_error": [
+          0.33494039784151863,
+          1.2044332204798442,
+          0.057879346756780144
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 39060,
+        "sha256": "6d1f88bf87e2f38167512e7ee28d2eb00a69eb855779b56d4203f2e1a28ca77d",
+        "transcript": "/diagnostic/calibration/heldout-raw-16.txt"
+      },
+      "heldout_reconstructed": {
+        "max_absolute_error": [
+          0.3349403973415188,
+          1.2044332204798442,
+          0.05787934657178015
+        ],
+        "max_imaginary_defect": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": false,
+        "rows": 39060,
+        "sha256": "58fcfa0722f0fb98ecf7113a7d4cf32ae4b1936f62b323cf72fdcc53a50a9868",
+        "transcript": "/diagnostic/calibration/heldout-reconstructed-16.txt"
+      },
+      "order": 16,
+      "percent": 15,
+      "status": "failed"
+    }
+  ],
+  "driver_sha256": "4c9c01a189ed969f7106ae23219cd16392a06646cdacc288cf674291b08970b8",
+  "elapsed_seconds": 68.315378638,
+  "errors": [],
+  "helper": {
+    "binary_sha256": "eb8ca791d11e3d6ebaa7fc3089494d939d46427d8b785e4e91a06e5ad562139d",
+    "command": [
+      "mpif90",
+      "-O3",
+      "-g",
+      "-fallow-argument-mismatch",
+      "-cpp",
+      "-D__FFTW3",
+      "-D__MPI",
+      "-D__MPI_MODULE",
+      "-I/opt/qe//external/devxlib/src",
+      "-I.",
+      "-I/opt/qe//include",
+      "-I/opt/qe/Modules",
+      "-I/opt/qe/EPW/src",
+      "-I/opt/qe/Modules",
+      "-o",
+      "/diagnostic/calibration/pade-heldout",
+      "/diagnostic/calibration/pade-extracted.f90"
+    ],
+    "compiler": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "extracted_source_sha256": "a166a0927746b7d8e2878a771e8495adf55dd4f97119581eb1e340157c9ea48b",
+    "make_inc_sha256": "3ae49285a1ac6db18a45e666f7912bc6d33bac4ad28e0c6536741f5ee5379f70",
+    "module_sha256": {
+      "constants.mod": "5b83c2ebc9aeea7d8298e2fd4f24b79b720d0eb89d7bf97b417b403b512ceb89",
+      "ep_constants.mod": "b3493d064fc3ae5fec49dcd104896377b1d68474a94a2c9f91b4359b09c8cedd",
+      "kinds.mod": "d3ccc820bd2dadf7e3aa49e22ca5374c8b4ee5d222d629d5bf4313cafa99c3a1"
+    },
+    "source_bodies_sha256": "7f31e9b4c75ac7fd7474a31b2a3805d1668fdec174536f3b14faff6736589adc",
+    "stdout_rebinding": "local stdout unit 6; coefficients and evaluation bodies otherwise unchanged",
+    "temperature_sequence": "temps=17*kelvin2eV/ryd2ev; gtemp=temps*ryd2ev",
+    "upstream_source_sha256": "e5c9a6cecdd8456aaed85f820bdb0a6bfd047fdaf32c5e0143b3f401187cd95b"
+  },
+  "helper_native_check": {
+    "failures": 0,
+    "max_budget_ratio": 4.894327492262186e-08,
+    "passed": true,
+    "rows": 3780,
+    "transcript_sha256": "bd27103009481299600e661279707f92f1a1a2bac238aa043f6eba57a0b9c267"
+  },
+  "inputs": {
+    "raw": "3bb9f9c0574b6001ff27c998a135c94e76c6ef56f2565b5b60ef34c3ea94b872",
+    "reconstructed": "6a7ad3ce942c01c1c9a1a7e9b2a4b54d1639c503928cbc9d4fc3bbda4e468258"
+  },
+  "native_printed_convergence": "fixed N message, not convergence test",
+  "orders": [
+    98,
+    80,
+    64,
+    48,
+    32,
+    24,
+    16
+  ],
+  "passing_percentages": [],
+  "percentages": [
+    90,
+    74,
+    58,
+    44,
+    30,
+    22,
+    15
+  ],
+  "restart_comparator_sha256": "c162bb0f3c99b1001dde79d6aa129de8b140f117f8d80b626906c9630af351d9",
+  "schema": "kernelgecp.epw-pade-calibration.v1",
+  "scope": "consumed 17 K development only; no final claim",
+  "source_revision": "942dd8563edfe4473aa1af67c1632a9b89d122fe",
+  "status": "inconclusive"
+}
