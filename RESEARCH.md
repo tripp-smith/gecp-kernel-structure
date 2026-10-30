@@ -11475,6 +11475,107 @@ MPI/BLAS/OpenMP thread, bounded CPU memory and a checkpointed job cap no larger
 than 330 minutes. A fast native CI probe remains a separate wiring gate.
 Full root, exact-source CI, merge and pushed-main acceptance remain required.
 
+## Phase EH — covariance-aware actual MaxEnt contract
+
+Implement EH from PRODUCTION_INTEGRATIONS.md, retaining model, numerical,
+statistical and nonuniqueness boundaries. Public kernelgecp.integrations.maxent
+will supply immutable scalar/ordered-diagonal spectral datasets, declared
+covariance eigenmodes/rank, complete linear projection and actual TauMaxEnt
+continuation. Importing the ordinary package must not import optional TRIQS.
+Do not substitute sparse recovery or another continuation provider silently.
+
+For a fixed real linear observation projection P, propagate both data and
+the full covariance: y_new=P y and C_new=P C P.T. Record P, all source/target
+coordinates, rank/rcond, conditioning and covariance cutoffs. Interpolated
+points remain correlated; their count is not an independent sample count.
+Reject materially indefinite/nonfinite/unsupported covariance. Discard only
+declared small eigenmodes and report effective rank. Empirical covariance of
+an N-chain mean is sample chain covariance divided by N, with rank <=N-1.
+Ordered diagonal channels use explicitly declared marginal continuations;
+do not claim a joint off-diagonal spectral inference or joint uncertainty.
+
+Use actual pinned MaxEnt 4.0.1/TauMaxEnt with scalar positive spectra. Freeze
+omega/alpha meshes, covariance cutoffs, default models, seeds and selection
+policy before final validation. Native provider minimization is mandatory.
+Select an alpha by a declared training-noise discrepancy rule; no held-out
+truth enters regularization/model selection. If spectra are normalized to a
+declared mass, this is an explicit postprocessing operation: retain raw mass
+and re-evaluate forward predictions afterward. A failed fit, failed rank gate
+or missed noise budget remains failed/inconclusive.
+
+Synthetic cases include off-grid atomic and smooth positive spectra with
+independent/correlated noise and independent forward quadrature. Compare raw
+observations and GECP/DLR/IR projections using the same permitted inputs.
+Final EE native measurements provide the actual physical-data case; use fixed
+disjoint chain families for continuation and forward validation and retain the
+full declared covariance model/rank. The old inconclusive EE ensemble may be
+used only as explicitly labeled tuning data, not untouched final acceptance.
+
+Require nonnegative spectra and normalization to1e-6 after any declared mass
+operation. Independent held-out noisy forward predictions require whitened
+RMS<=2 on declared retained covariance modes. Record discarded modes rather
+than silently calling them noise-free constraints. Report spectral-window
+weights, CDF errors where truth is known, bootstrap variation and sensitivity
+to flat/broad alternative default models. Neither bootstrap variation nor a
+single MaxEnt result establishes complete uncertainty coverage or unique peak
+recovery. Existing sparse methods stay separately labeled comparisons.
+
+Keep providers optional, manifests/archives versioned and hash-bound, and
+record actual arithmetic/import/runtime/source/units/state order. No new paid
+compute/GPU; one memory-intensive workload at a time, hosted jobs<=330min.
+Actual provider cases, installed-package checks, full root, exact-head CI,
+authorized merge/push and exact-main checks are required before EH closes.
+1.1.0 artifacts and original mathematical results stay immutable.
+
+### EH implementation and source-freeze contract
+
+`kernelgecp.integrations.maxent` now provides immutable scalar data, explicit
+ordered diagonal marginals, retained covariance modes and complete linear
+projection. Projection composes its original observation map and propagates
+values, covariance AND the native forward kernel: `P G`, `P C P^T`, `P K`.
+Actual TauMaxEnt 4.0.1 uses its DataKernel and covariance rotation, with no
+continuation surrogate. A poor rank-four polynomial projection regression
+distinguishes this operator from merely evaluating K at the target times.
+The selected provider alpha must have converged; individual failed alpha
+trials stay visible. Spectral mass rescaling is explicit and its forward
+defect is recomputed. Shared GECP fit archives retain coefficient diagnostics;
+application datasets/JSON carry full covariance, units, provider, order and
+hashes. Generic complex observation data are not silently projected to real.
+
+The source-frozen synthetic campaign will calibrate all three declared spectra
+and noise models through raw/GECP/DLR/IR, with flat and broad-Gaussian defaults.
+Use 24 calibration processes, seeds 101--103, GL24 held-out queries; freeze
+omega401/alpha33, representation eps1e-8 and covariance/SVD cutoffs before
+final data. Final validation uses fresh seeds1001--1003 and disjoint GL36
+queries, three fresh processes per case (72 total), and eight parametric
+bootstrap continuations on each first repetition only. An independent auditor
+recomputes projected discrepancy, covariance modes, positivity/mass, adaptive
+forward quadrature, window/CDF/variation metrics, hashes, source blobs and
+repeat inventories. Failed processes, missing manifest bytes, orphan arrays
+and exhausted deadlines cannot produce a passed freeze.
+
+Earlier pilots tune the implementation; they are not final acceptance. The
+initial data/covariance-only projection omitted P on the model kernel, and
+is retained as a corrected prototype history. A smooth-CDF integer-dtype
+pilot failure was corrected before final validation. The current projected
+GECP atomic/broad-default scout passes held-out RMS0.579, with full covariance
+rank21 and coefficient-versus-projection agreement1.30e-15; it also executes
+two actual bootstrap continuations. Full synthetic freeze/generation/audit,
+fresh accepted EE physical data, installed package, root/CI and delivery gates
+remain open. RNG-collided old EE ensembles cannot establish independent noise.
+
+The first frozen calibration at `6fe118e` passed all24 producer cases but its
+independent audit rejected the DLR projection symmetry: multiplying the design
+by the transposed coefficient solve accumulated about3.07e-8 antisymmetry in
+an ill-scaled basis. The full numerical map and covariance were consistently
+propagated, but the intended same-mesh orthogonal projector can be computed
+more stably. `LeastSquaresPlan.observation_projection` now forms U_r U_r^H
+directly from its cached retained SVD; same-mesh spectroscopy uses that map,
+while different-mesh interpolation retains the explicit evaluation solve.
+The independent symmetry gate and all scientific budgets are unchanged.
+Original calibration/audit artifacts remain failed development evidence;
+repeat calibration from new clean source before any final data are evaluated.
+
 ## Phase EG — EPW Nambu/native-restart interoperability contract
 
 Implement the accepted EG obligation using unmodified qe-7.5/EPW 6.0 and
@@ -12108,6 +12209,144 @@ separately in the attributed native workflow artifact and fixture.
 
 Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
 
+### EH measured-chain calibration and final contract
+
+The corrected EE generation `9d28053` has a passed independent audit and a
+separate content-hash binding for its result, freeze and every measurement.
+The original [audit](data/cthyb/independent-audit-e83d195.json),
+[binding](data/cthyb/audit-binding-e83d195.json) and complete raw campaign
+are retained without rewriting historical provenance. This local acceptance
+does not close EE's running canonical Linux campaign or delivery.
+
+`experiments.cthyb_spectroscopy` explicitly checks the real paramagnetic spin
+average, 64 distinct odd-seed measurements and identical bath within a cohort.
+Calibration uses `kernelgecp-final`; final validation uses `dense-final`.
+Each cohort has 32 training chains and 32 independent validation chains.
+The 65 observation indices are `0,48,...,3072`; the 16 disjoint query indices
+are `24+192*k`. Covariance of a mean is the unbiased sum of residual outer
+products divided by `N*(N-1)`. The declared relative eigenmode cutoff is 1e-4.
+Held-out whitening uses only the independent validation-chain mean covariance,
+conditional on the fitted training data. Training query covariance is not an
+estimate of nonlinear continuation uncertainty and is not added to that budget.
+
+Before any final evaluation, freeze all imported scientific sources, actual
+provider code/native extensions, versions, interpreter, thread settings and
+controls. Calibration requires all eight raw/GECP/DLR/IR by flat/Gaussian-default
+cases plus independent `audit_cthyb_spectroscopy` acceptance. Final runs require
+their exact hashes and run all eight configurations in three fresh processes.
+Repeat zero alone has eight training-chain bootstrap continuations with seed
+193. Process repeats share observations and are not independent data replicas.
+Every child has a bounded deadline, hash-bound job/receipt, unique process ID,
+retained log and explicit exit status; no silent retry or orphan reuse occurs.
+Total time is bounded by 330 minutes. Construction, continuation, prediction,
+bootstrap, total time, peak RSS and serialized sizes have explicit scopes.
+
+The actual provider remains TauMaxEnt 4.0.1, beta 10, omega [-4,4] with 401
+nodes and 33 alpha values. Preserve complete P G/P C P-transpose/P K propagation,
+positivity and mass within 1e-6, and conditional held-out whitened RMS at most 2.
+The independent audit recomputes raw-chain statistics, projection, covariance
+modes, physical forward integrals, native trial defects, window weights,
+bootstrap variation, default sensitivity and numerical repeat equality.
+Native spectra have no known truth CDF; no unique peak or uncertainty-coverage
+claim follows. A failed or exhausted calibration remains unresolved and cannot
+authorize final scoring. All full-root, Linux, merge and main gates remain open.
+
+### EH native calibration refinement
+
+Full root at `d507050` passes 2,393 tests/40 optional skips and the actual
+provider-focused suite passes 51 cases. Its first measured-data calibration
+passes raw and GECP with both default models, but pydlr/flat misses the fixed
+held-out RMS bound: 2.058574 versus 2. The complete partial campaign and its
+worker artifacts are retained in
+`experiments/data/cthyb-spectroscopy-d507050-failed.tar.gz`, SHA256
+`70740cc4dc44254e484e368391de25deeedaea4b3c6500fa0f32a20d580e84ec`.
+No final dense cohort has been scored. The stop is failed calibration, not
+permission to drop a comparison provider or inflate the validation covariance.
+
+The declared common control ladder preserves baseline eps 1e-8/rcond 1e-10
+and selects candidate1 eps 1e-10/rcond 1e-12 for a new full calibration. This
+keeps more basis information at the lower measured Monte Carlo noise level.
+A noncanonical pydlr/flat pilot has RMS 1.74493, design rank 23, covariance rank
+22 and retained condition about 1.59e10; it is tuning evidence only. All eight
+method/default combinations, bootstrap and independent audit must pass before
+the unchanged final gate. The noise threshold, held-out covariance, spectral
+window, alpha/frequency grids, positivity/mass budget and final-data exclusion
+are unchanged. Synthetic `dc97680` evidence is retained with its original controls.
+
+### EH failed final, normalized-discrepancy repair and fresh-data contract
+
+The `edca95c` common calibration passes all eight cases and independent audit,
+but its first untouched raw/flat final worker exits 1 on held-out RMS 6.495244.
+The full failed worker and prior calibration are archived. Independent adaptive
+quadrature identifies a mismatch between alpha selection on native chi-square
+and the subsequently unit-normalized delivered spectrum. Both the unnormalized
+and normalized held-out predictions fail, so rescaling is not the sole cause.
+
+Select using the actual normalized physical forward's training discrepancy,
+with complete projection and retained covariance modes. Preserve native trial
+chi-square, spectra, convergence, masses and new selection diagnostics. Actual
+TauMaxEnt optimization remains unconstrained by mass. Audit this selection
+independently through adaptive quadrature, with a regression that rejects the
+old selection mechanism. Do not use held-out targets to select an alpha.
+
+Keep basis/alpha/omega/covariance/noise budgets fixed. Recalibrate on the original
+9d28053 kernelgecp-final cohort; reject its consumed dense-final data for final
+acceptance. Reserve only the new 7200ec0 Linux dense-final cohort (seed base
+30100000) after EE passes its full scientific and independent audit gates.
+Calibration and final bindings must remain separate and their seeds disjoint.
+The synthetic repaired-selector validation uses predeclared fresh seeds
+2001/2002/2003 and query order 48; historical validation is preserved. Phase
+closure still requires every real-provider gate, full root/exact-head CI and
+verified merged-main delivery in PR #142.
+
+### EH bounded fixed-bath covariance-estimation contract
+
+The normalized-selector generation `1452a8a` passes its Mac synthetic final
+and independent audit, but its fresh measured final using the accepted
+`7200ec0` dense bath fails GECP/flat held-out RMS 2.023200438825109 against 2.
+Raw/flat and raw/Gaussian pass. Independent diagnostic recomputation confirms
+the inspected arithmetic; bypassing the known failure is not a passing audit.
+Both the old dense cohort and this new 64-chain cohort are consumed validation.
+Preserve their complete partial outputs and failures before further acquisition.
+
+The next and only predeclared candidate is a separate fixed-bath acquisition,
+not another full EE DMFT campaign: 256 fresh independent chains, first 128 for
+training and last 128 for held-out validation. Use the exact accepted Linux
+`7200ec0` dense-final bath, beta 10, U 2, 1,600,000 cycles, native warmup and
+moments unchanged. Seeds are `32100001 + 2*i`, `0 <= i < 256`, disjoint from
+all prior declared families. Freeze implementation, bath bits/hash, source and
+runtime identities, explicit seed list, split, and all analysis controls before
+acquisition. A hash-bound independent audit must verify every native chain and
+the accepted parent-bath provenance. Do not label this fixed-bath cohort as a
+passed full EE campaign. Keep the historical 64-chain reader and auditor.
+
+Add a bounded acquisition driver and independent raw-chain auditor, then an
+explicit 256/128 spectroscopy reader and corresponding bootstrap handling.
+Retain eight bootstrap resamples of 128 training chains on repeat zero, three
+fresh process repeats and all eight method/default combinations. Calibration
+may replay the already consumed calibration cohort under the frozen new code;
+the new held-out cohort cannot tune alpha, projection, controls or stopping.
+Keep eps 1e-10, rcond 1e-12, the 33-alpha/401-frequency grids, covariance cutoff
+1e-4, query locations, positivity/mass tolerance 1e-6 and whitened RMS <= 2.
+Increasing the cohort addresses covariance estimation; it does not promise
+acceptance and can reveal bias more sharply. Do not inflate held-out covariance.
+
+Acquisition must checkpoint bounded segments of at most 330 minutes, retain
+per-chain timing/native diagnostics and fail closed on orphan or mismatched
+archives, seed overlap, changed source/runtime/bath, invalid sign or failed
+native solve. One local memory-intensive workload and fixed single threads
+remain required. No automatic retry, adaptive enlargement or replacement seeds
+after scoring. Any scientific miss remains failed or inconclusive; preserve
+the complete run and diagnose before proposing another independent experiment.
+
+The Linux synthetic MaxEnt exception remains a separate unresolved blocker.
+Preserve input before continuation, native exception/trial history and caller
+NumPy error policy; require an evidence-supported provider investigation and a
+complete actual-provider synthetic run. Focused tests, independent audits,
+full root, exact-head CI, documentation, merge and main gates remain mandatory.
+
+Acquisition segments use a 240-minute driver deadline, leaving setup and artifact-upload headroom within the 330-minute hosted-job cap. The mandatory actual-Linux wiring test checks that the recorded runtime identity survives a disposable tiny native solve before any final acquisition. It uses separate seed 32290001 and contributes no final measurements. A parent-reader regression covers the original audit_receipt_sha256 binding key; all scientific acceptance remains open.
+
 ### EE integration and fresh odd-stride status
 
 The old nominally independent cohorts remain invalid because native RNG seeds collide; their archived evidence is not relabeled. Corrected odd-stride calibration selected 1.6 million cycles. The fresh local final validation from frozen scientific source `9d28053` is in progress and has not passed acceptance. Hosted run `40646031061` completed calibration but its validation was cancelled; both artifacts were retained. The current integration merges EI main `f6ba348`; EF exact-main delivery is recorded in [PR #137](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146). EI merged-main checks are pending. Full EE statistical/physical gates, independent audit, local root, exact-head CI and delivery remain open.
@@ -12228,3 +12467,167 @@ must not automatically run as a production main gate. Keep the supported
 changes workflow activation only, with no numerical code, data, budgets or
 required original scientific gate changes. Verify YAML, full root and exact
 head CI, then merge and verify main under the standing delivery authorization.
+
+
+### EH bounded native acquisition delivery pipeline
+
+Automatic spectroscopy CI retains installed providers, all 72 synthetic final
+cases, eight measured calibration cases and their independent audits. It must
+not score the consumed 7200 dense cohort again. The manual
+`acquire_fixed_bath=true` run alone enables one 256-chain candidate, checkpointed
+as 80/80/96 chains with 240-minute driver and 330-minute hosted-job bounds.
+Each stage requires its exact cumulative count and retains failures. The first
+stage requires an actual Linux runtime-freeze probe and passed calibration,
+then creates the source/runtime/bath/seed freeze once. Subsequent stages resume
+that same identity. A separate job audits all raw chains before all 24 measured
+final workers and their independent spectroscopy audit.
+
+Calibration-only green CI does not close EH or authorize publication. Root
+must verify source, full root/exact-head checks, calibration and native preflight
+before the single canonical dispatch, record its run identity, and never rerun
+or dispatch a replacement after acquisition begins. Reruns could otherwise
+reuse predeclared seeds and are not fresh independent validation. Preserve a
+failed or resource-exhausted acquisition; review its cause before a new proposal.
+Hosted runtime/library drift fails closed. The final release must require the
+passed raw-cohort binding and measured final audit, not workflow color alone.
+
+
+### EH projector ownership and strict DMFT source binding
+
+The first integrated head d2d9fc6 passes full root (2,601 tests, 42 optional
+skips), but strict CT-HYB replay rejects its sole shared-fitter addition,
+`LeastSquaresPlan.observation_projection`. That method is used only by the
+optional spectroscopy adapter. Restore the shared fitting module byte-for-byte
+to accepted 7200ec0 and move the identical method to private
+`_SpectralLeastSquaresPlan` in the MaxEnt integration, inheriting the unchanged
+constructor, fit, cached SVD, rank rule and immutable storage. Public
+`prepare_spectral_projection` and its complete covariance map stay unchanged.
+This supersedes the earlier documented prerelease public projector identifier;
+it was not published in 1.1.0 or required by the original integration contract.
+
+Independent Terra review accepts the unchanged arithmetic/cache/bounds and
+requires preserving QR, complex, ill-scaled, rank-zero and ownership tests.
+Saved real-provider projection comparison is regression consistency, distinct
+from those independent oracles. Keep the strict source guard unchanged and
+require committed matching inputs plus actual-provider audit replay; do not
+allow AST exceptions or rewrite original scientific receipts. A source-triggered
+native campaign on d2d9fc6 is an unintended development run, not a new final
+cohort or replacement accepted EE experiment. Preserve its outcome separately.
+All new-head root, real Linux calibration/preflight and fresh measured final
+acceptance gates remain required before closure.
+
+
+The d2d9fc6 Linux preflight stops inside the native tail fitter because its
+8-frequency disposable fixture supplies too few least-squares rows. It does
+not establish runtime drift and has not generated a final chain. Retain the
+full failed log/receipt, and use the already exercised 32-frequency/385-time,
+500-warmup/2,000-cycle wiring configuration with the same separate probe seed.
+Production beta/U/bath/grids/cycles/seeds and spectroscopy budgets are unchanged.
+GECP/DLR/IR projector matrices are bitwise identical to all three retained
+1452a8a measured calibration matrices; the source-bound consistency receipt is
+recorded in data/spectroscopy/projector-relocation.json. Independent QR and
+covariance tests remain separate evidence. EE is delivered at main 06c4e45
+with full root and all seven exact-main workflows passing; its canonical receipt
+is PR #141 comment 6519090265. EH native/final and EJ gates remain open.
+
+
+### EH final launch boundary and measured Linux resource plan
+
+Recover actual 7200ec0 Actions logs before acquisition: 152 measurements at
+1.6 million cycles average 140.08 seconds, maximum 144.47 seconds. That implies
+about 9.96 hours for 256 serial measurements, before overhead. This is a
+planning estimate, not a fresh-process performance claim. The portable timing
+inventory binds the source, run and backing-log hash.
+
+Supersede the earlier 80/80/96 scheduling proposal with four fixed 64-chain
+segments. Each has roughly 2.57 hours of prior maximum scaled measurement
+work, leaving substantial margin within the 240-minute driver and 330-minute
+hosted-job caps. The one 256-chain cohort, deterministic 128/128 split, seeds,
+physics, cycle count and all scientific gates remain unchanged; no new final
+data have been generated.
+
+Ordinary push/PR CI executes small actual installed-provider cases and the
+Linux preflight. Full synthetic/measured calibration, independent audits and
+the optional acquisition are explicit workflow dispatches after source
+verification. A green ordinary CI run cannot close EH or authorize release.
+The full canonical dispatch must pass calibration before any acquisition,
+then every raw/final audit. No automatic replacement or rerun after acquisition
+begins is allowed. This avoids regenerating expensive science on each draft
+or documentation edit, without removing a mandatory completion gate.
+
+
+### EH stock-minimizer singularity diagnostic contract
+
+The a04a482 installed Linux fixture raises native LinAlgError after eight
+converged trials, at levenberg_minimizer.py:192 while increasing damping.
+The captured e8ac40e synthetic calibration input fails with the same native
+exception. Preserve both failures. Source review identifies absolute mu0=1e-18
+and unguarded linear solves as a hypothesis, not a proven cause.
+
+Run exactly one bounded diagnostic matrix, three Linux repetitions of the
+consumed unit and saved calibration inputs, with stock default mu0, 1e-12 and
+1e-8. All other provider controls, complete alpha grids, covariance, projection,
+positivity/mass/noise gates and objective remain unchanged. The baseline wrapper
+saves a failing matrix/RHS/mu/callsite then rethrows without changing the solve
+or retrying. Restore native classes and solve after every declared preset.
+Prior Mac J-squared and Marquardt scouts have poor physical training fits and
+remain rejected development evidence; the current study adds no such method.
+No preset is accepted from Mac-only success, no future final data or MC is used,
+and no production optimizer setting changes before independent review of the
+Linux evidence and complete calibration. Full native Q is not captured; native
+chi-square and independently evaluated physical discrepancy remain distinct.
+
+### EH explicit initial-damping candidate and untouched validation
+
+The one bounded Linux diagnostic at `eeb5523`, run 41042085787, records six
+processes: three repetitions of a unit fixture and of the consumed saved
+calibration fixture. Native default initial damping 1e-18 raises four singular
+solve exceptions; 1e-12 raises one; 1e-8 completes every 9/33-alpha family in all
+six. These are two fixtures repeated, not six independent scientific cases.
+The complete reports, logs, captured matrices and independent analysis are in
+`experiments/data/maxent-lm-linux-eeb5523.tar.gz`, bound by the inventory in
+`data/spectroscopy/lm-linux-eeb5523.json`. One 1e-12 exception has no captured
+matrix; preserve that limitation.
+
+Independent binary-rational elimination finds full rank in all four captured
+rounded matrices. All inputs are finite and match J + mu I and RHS f exactly
+in binary64. Failed damping changes none of four unit diagonal entries and
+only four of twenty calibration entries. SVD estimates indicate severe
+conditioning; exact rank does not imply numerical stability. This supports an
+explicit 1e-8 initial-damping candidate for complete recalibration, not a proven
+fix. The stock algorithm can reduce damping later; mu0 is not a floor. No
+inverse, retries, skipped alpha trials or alternative optimizer are introduced.
+The portable independent diagnostic auditor is
+`scripts/audit_maxent_lm_diagnostic.py`; it never runs the native solver.
+
+Add `MaxEntConfig.minimizer_mu0` as a finite positive explicit control, preserving
+the native default 1e-18. The synthetic and measured campaigns explicitly pass
+and bind candidate 1e-8 for all raw/GECP/DLR/IR/default-model cases. Do not change
+the public default merely from this diagnostic. Independent audits reject an
+absent or different candidate control. Existing spectral archives retain their
+recorded settings and remain loadable; old campaign receipts cannot establish
+acceptance of the new source/configuration.
+
+Earlier Linux synthetic validation failures informed this development choice.
+Before generating any new final outputs, replace final noise seeds
+2001/2002/2003 and 48-node queries with untouched seeds 3001/3002/3003 and
+64-node Gauss-Legendre queries. Calibration seeds 101/102/103 and 24-node
+queries stay fixed. Retain all prior failures. The same 24 calibration and 72
+final cases, 33 alphas, 401 omega points, 1e-6 positivity/normalization and
+whitened RMS <=2 gates remain mandatory. Native measured calibration is eight
+cases; the untouched 256-chain candidate and its 24 final continuation workers
+retain the previously declared physics, seeds, 128/128 split and four 64-chain
+segments. Neither final RMS 2.023200438825109 nor any noise budget is relaxed.
+Complete candidate calibration, root/installed-provider/exact-head verification
+and the independent prelaunch review before canonical acquisition. Calibration
+failure stops before acquisition; any later failure remains failed/inconclusive,
+with no replacement cohort or automatic rerun.
+
+Native diagnostic regeneration requires the frozen eeb5523 source, original
+input and pinned environment. Its strict historical manifest comparison should
+not infer a newly added control. The portable captured-report auditor runs on
+current source without the provider. All six original Actions ZIP digests and
+their extracted bytes were independently checked and preserved in the bundle.
+The new config field is appended after existing positional fields, and an
+actual historical spectral-dataset read test confirms original metadata remains
+unchanged. This does not make old campaign acceptance current.

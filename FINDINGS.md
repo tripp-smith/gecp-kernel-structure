@@ -2440,6 +2440,7 @@ checks miss. No canonical budget, physical-agreement or completion claim is
 inferred from that pilot; frozen independent sampling is still required.
 
 
+
 The original canonical and 64-chain revalidation cohorts used adjacent even
 and odd native seeds, which the pinned RNG maps to identical internal states.
 Their reported nominal standard errors and inherited budget selection are
@@ -2517,6 +2518,58 @@ final verification and delivery remain open.
 These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
 
+## EH observation models and covariance propagation
+
+Spectral continuation after compression requires the complete observation map:
+P G, P C P-transpose and P K. Projecting covariance while retaining a pointwise
+kernel at interpolated times gives a different likelihood. Actual-provider
+regressions distinguish these models and check the full projected kernel.
+Treating interpolated samples as independent observations is unsupported.
+
+An independently audited calibration exposed an ill-scaled pydlr coefficient
+map whose assembled same-mesh projector missed symmetry by about 3.07e-8.
+The failed evidence is preserved. Constructing the retained orthogonal
+projector directly from the cached SVD vectors fixes the numerical mechanism
+without weakening the audit tolerance. Complex QR and zero-rank fixtures
+also check the shared fitter's observation-projection interface.
+
+The corrected actual-MaxEnt campaign has 72 passing fresh-process children:
+24 distinct case/method/default configurations, each repeated three times.
+The independent audit recomputes all 24 distinct final configurations and
+checks the full inventory and repeat equality. Positive mass, held-out noise
+budgets, CDF/window errors, bootstrap variation and default-model sensitivity
+are separate quantities in [SPECTROSCOPY.md](SPECTROSCOPY.md). This closes the
+synthetic evidence obligation only; measured CT-HYB spectroscopy, Linux
+acceptance and delivery remain open.
+
+## EH normalized-spectrum selection failure
+
+Measured final source `edca95c` fails raw/flat held-out RMS 6.495244 (limit 2).
+Selecting a provider trial before mass rescaling can produce an inconsistent
+normalized training fit: this case changes RMS 1.06817 to 5.04594. The repaired
+selector uses only normalized-model training discrepancy; it does not establish
+new scientific acceptance. Failure archives and fresh-cohort restrictions are
+recorded in [SPECTROSCOPY.md](SPECTROSCOPY.md). No original theorem changes.
+
+## EH fresh measured miss and bounded covariance candidate
+
+The normalized selector passes the Mac synthetic final and measured
+calibration at `1452a8a`. Its fresh measured `7200ec0` GECP/flat final misses
+the unchanged held-out RMS gate: 2.023200438825109 versus 2, with training RMS
+0.999109. Raw/flat and raw/Gaussian pass. The original failed outputs are
+archived; independent diagnostic arithmetic checks do not turn that failure
+into a passing final audit. The Linux provider exception remains unresolved.
+
+With 32 training chains the 65-dimensional raw covariance has rank at most
+31; the 16-dimensional query covariance is also estimated from only 32
+independent chains. Finite-sample inverse-covariance variability motivates one
+predeclared 256-chain candidate split 128/128. This is not an identified cause,
+coverage result or guarantee of success. The separate acquisition, raw audit,
+bootstrap and spectroscopy readers preserve all physical/numerical gates and
+require a passed source-bound calibration before acquisition. The integrated
+focused suite passes 59 tests with one required Linux-native preflight skipped
+locally. New measurements, full scientific acceptance and delivery remain open.
+
 ### EE checkpoint representation and exact inputs
 
 A cross-platform replay of stored compressed measurements changes later bath
@@ -2571,3 +2624,13 @@ failures remain non-claims. Original scientific acceptance passes, while this
 documentation head and delivery remain unverified. The historical generic
 FermionicBasis/FermionicFit and fit-only native routes are failed, superseded
 engineering approaches. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+### EH development observation: native damping and conditioning
+
+The preserved [Linux diagnostic](data/spectroscopy/lm-linux-eeb5523.json)
+contains four native singular-solve errors despite exact full rational rank of
+the saved finite binary64 systems. Tiny damping is partly or entirely rounded
+away, and numerical conditioning remains severe. A common explicit initial
+mu0=1e-8 completes six runs of two fixtures and is a candidate for complete
+calibration only. This is neither a general optimizer-stability result nor a
+repair of the separately failed measured RMS 2.0232. All scientific gates remain.

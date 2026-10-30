@@ -1,0 +1,69 @@
+name: Bounded stock MaxEnt damping diagnostic
+on:
+  push:
+    branches: [codex/eh-lm-diagnostic]
+    paths:
+      - .github/workflows/maxent-lm-diagnostic.yml
+      - scripts/maxent_lm_diagnostic.py
+      - tests/data/maxent/linux-singular-e8ac40e/**
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  VECLIB_MAXIMUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  BLIS_NUM_THREADS: '1'
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        fixture: [unit, calibration]
+        replica: [1, 2, 3]
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: '2.9.0-0'
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+      - name: Install pinned actual provider
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -c 'from triqs_maxent import TauMaxEnt'
+      - name: Run unchanged baseline and two predeclared damping controls
+        env:
+          FIXTURE: ${{ matrix.fixture }}
+        run: |
+          mkdir -p artifacts/lm-diagnostic
+          if [ "$FIXTURE" = unit ]; then
+            PYTHONPATH="$PWD" python scripts/maxent_lm_diagnostic.py --output artifacts/lm-diagnostic/result.json > artifacts/lm-diagnostic/run.log 2>&1
+          else
+            PYTHONPATH="$PWD" python scripts/maxent_lm_diagnostic.py --dataset tests/data/maxent/linux-singular-e8ac40e/offgrid_atoms_correlated-pydlr-broad_gaussian-r0-dataset.npz --model broad_gaussian --output artifacts/lm-diagnostic/result.json > artifacts/lm-diagnostic/run.log 2>&1
+          fi
+          python - <<'PYCHECK'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('artifacts/lm-diagnostic/result.json').read_text())
+          assert report['scope'] == 'Consumed calibration fixtures only; not production acceptance.'
+          assert [row['name'] for row in report['trials']] == ['baseline', 'mu0_1e-12', 'mu0_1e-8']
+          assert all(row['status'] in ('completed', 'exception') for row in report['trials'])
+          PYCHECK
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maxent-lm-${{ matrix.fixture }}-${{ matrix.replica }}-${{ github.run_id }}
+          path: artifacts/lm-diagnostic/
+          if-no-files-found: error
+          retention-days: 30

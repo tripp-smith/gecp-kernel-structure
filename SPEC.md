@@ -3036,6 +3036,12 @@ This annotation records delivered identifiers without changing the goals above.
   replicas per path, inheriting calibrated 400000 cycles/wmax=8 and preserving
   all physical/error gates. No old final chains are pooled into or relabeled
   as the new validation. Local/Linux scientific and delivery gates stay open.
+- **Phase EH implementation contract:** immutable covariance-aware positive
+  spectral data, complete linear-projection covariance, actual TauMaxEnt,
+  independent noisy/smooth/atomic/CT-HYB forward checks and declared effective
+  ranks. Bootstrap/default-model sensitivity is evidence, not unique peak or
+  complete uncertainty coverage. EE data and all scientific/delivery gates
+  remain required; original mathematical goals are unchanged.
 
 - **Phase EG implementation contract:** source-backed anisotropic EPW output,
   explicit Nambu/frequency-fit/archive/reconstruction and native restart
@@ -3087,6 +3093,41 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase EF comparison status:** frozen `56c3211` passes the declared
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
+
+- **Production delivery update:** EF and EI are delivered with exact-main
+  root and CI acceptance in PR #137 and #139. Their delivery receipts supersede
+  earlier pending annotations; original goals and 1.1.0 artifacts are unchanged.
+- **Phase EH synthetic evidence identifiers:** `SpectralDataset`,
+  `SpectralProjection`, `MaxEntConfig`, `MaxEntSpectrum`,
+  `continue_tau_maxent`, safe dataset archives, cached-SVD
+  `LeastSquaresPlan.observation_projection`, `spectroscopy_campaign` and
+  independent `audit_spectroscopy`. Frozen `dc97680` passes 24 calibration
+  cases and 72 final children, covering 24 independently audited final
+  configurations plus three-repeat equality. Measured CT-HYB spectroscopy,
+  full root, actual Linux CI and delivery remain mandatory and open.
+
+- **Phase EH native calibration status:** root at `d507050` passes 2,393
+  tests/40 skips. Measured calibration is incomplete: pydlr/flat RMS 2.058574
+  misses the unchanged bound 2. Failed evidence is archived. A common tighter
+  basis/SVD candidate is declared for all methods; all eight calibration cases
+  and independent audit remain required before untouched final evaluation.
+
+- **Phase EH normalization/fresh-validation status:** measured calibration at
+  `edca95c` passes all eight cases and independent audit; untouched raw/flat
+  final fails RMS 6.495244 against the unchanged limit 2. Preserve that cohort
+  as failed evidence. A training-only normalized-model selector, independent
+  physical-quadrature checks and disjoint future Linux final-cohort identities
+  are implemented for recalibration; no new scientific acceptance is claimed.
+  [SPECTROSCOPY.md](SPECTROSCOPY.md) and draft PR #142 retain remaining gates.
+
+- **Phase EH bounded measurement status:** normalized-selector Mac synthetic
+  and measured calibration evidence passes at `1452a8a`, but its fresh
+  `7200ec0` measured GECP/flat final fails RMS 2.023200438825109 against 2.
+  That final cohort is consumed and its complete partial output is archived.
+  A separately audited 256-chain fixed-bath acquisition with a frozen 128/128
+  split is the next declared candidate; numerical gates and original scope
+  are unchanged. Linux native-provider failure, full scientific acceptance,
+  root/exact-head CI and delivery remain open.
 
 - **Phase EE checkpoint status:** the first corrected Linux campaign passed
   calibration and its first segment but failed exact cross-host trajectory
@@ -3151,3 +3192,28 @@ This annotation records delivered identifiers without changing the goals above.
   does not revise the original mathematical goals. The 20 K validation is a
   reproduction, not fresh blind validation. Documentation-head root/CI, merge
   and main checks remain pending. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+
+- **Phase EH prerelease identifier disposition:** the earlier source-only
+  `LeastSquaresPlan.observation_projection` identifier is superseded by a
+  private integration subclass. `prepare_spectral_projection` preserves the
+  identical cached-SVD projector, covariance propagation and scientific gates;
+  the shared fitter is byte-identical to accepted CT-HYB source 7200ec0. No
+  published 1.1.0 artifact or original mathematical/application goal changes.
+  Full new-head verification, native acceptance and delivery remain open.
+
+
+- **Phase EE delivery status:** PR #141 is merged at synchronized main
+  `06c4e45`; native-enabled full root passes 2,499 tests/39 optional skips and
+  all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)).
+  EH scientific acceptance and EJ/public 1.2.0 remain open. No original goal
+  or published artifact is changed.
+
+
+EH status annotation (2026-10-30): the bounded stock-MaxEnt Linux diagnostic
+and independent finite-matrix audit are development evidence only. The explicit
+`MaxEntConfig.minimizer_mu0` candidate is recorded by all campaign methods;
+full recalibration and untouched final validation remain required. Fresh
+synthetic seeds 3001/3002/3003 and 64-node queries supersede consumed validation.
+The measured RMS 2.0232 failure, unchanged <=2 gate, and unexecuted 256-chain
+candidate remain open. No original mathematical goal or release gate changes.

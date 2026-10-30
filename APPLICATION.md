@@ -1694,6 +1694,60 @@ remainder certificates. Loop RSS excludes later validation/replay; full-worker
 wall/RSS includes them. Coefficient and output-array sizes have distinct scopes
 and do not imply a total-memory or universal performance advantage.
 
+## Covariance-aware MaxEnt continuation (1.2 development)
+
+`kernelgecp.integrations.maxent` is an optional, lazy TRIQS MaxEnt 4.0.1
+adapter for real scalar or diagonal positive spectral functions. Ordinary
+`import kernelgecp` requires no TRIQS installation. Calling the provider fails
+clearly when it is unavailable; no sparse-recovery surrogate is substituted.
+
+`SpectralDataset(beta, tau, values, covariance)` owns immutable observations
+and their complete covariance. It preserves the distinct zero-plus and
+beta-minus endpoints and rejects implicit conversion of complex observations.
+Covariance eigenmode selection has declared relative/absolute cutoffs, retained
+rank and discarded-mode diagnostics. `diagonal_spectral_datasets` extracts
+declared marginals from a time-major joint covariance; it does not construct a
+joint posterior or support off-diagonal spectral continuation.
+
+Use `prepare_spectral_projection(basis, source_tau, target_tau, rcond=...)`
+and `projection.apply(dataset)` for compression. The result carries the full
+linear observation map P and the original source mesh. Continuation sends
+P G, P C P-transpose and P K to the actual `TauMaxEnt` provider before its
+covariance rotation. New interpolated points therefore remain correlated.
+For a same-mesh projection, retained SVD vectors form U-r U-r-transpose
+directly, avoiding the cancellation in ill-scaled coefficient maps.
+
+`continue_tau_maxent(dataset, MaxEntConfig(...))` retains each alpha trial,
+its convergence/iteration status and chi-square. The selected converged alpha
+minimizes the declared discrepancy to retained noise rank. Explicit optional
+mass normalization retains both the raw mass and the recomputed normalized
+training defect. With normalization enabled, alpha selection compares the
+normalized physical forward model against training data, including the complete
+projection and retained covariance modes. Provider chi-square values remain
+separate; diagnostics also retain each trial mass and selection discrepancy.
+Without normalization, selection uses the provider chi-square. Normalization is
+explicit postprocessing, not a constraint inside native optimization. `MaxEntSpectrum.evaluate_tau` performs physical forward
+evaluation; it is separate from the projected observation model.
+`save_spectral_dataset`/`load_spectral_dataset` preserve full covariance,
+projection, source mesh and a versioned hash-bound application manifest with
+caller-declared units/provider/state ordering/settings.
+
+The [synthetic campaign](SPECTROSCOPY.md) uses the actual provider, independent
+held-out forward checks and a separate arithmetic audit. Measured CT-HYB
+validation and full phase delivery remain required. Bootstrap variation and
+default-model sensitivity do not establish unique peak recovery or complete
+uncertainty coverage. Existing sparse-recovery experiments remain separately
+labeled comparisons.
+
+Provider failures retain the native exception type, message and completed
+trial history. No partial alpha family substitutes for a successful result,
+and continuation restores the caller's NumPy error policy even on failure.
+The experimental Linux-only fixed-bath acquisition is a separate research
+workflow, not a replacement DMFT solver or a published 1.1.0 interface. It
+requires a committed source freeze and passed independent calibration before
+new measurements. Its 256-chain acceptance and the measured spectroscopy
+phase remain open; see the [current evidence](SPECTROSCOPY.md).
+
 ## EPW anisotropic frequency interoperability (1.2 development)
 
 `kernelgecp.integrations.epw` reads the tested qe-7.5 / EPW 6.0 anisotropic
@@ -1848,6 +1902,7 @@ geometries and grids, with independent QR/Fourier audit; exact-source CI remains
 This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
 
+
 EE source campaigns use exact loop-state checkpoints. Normal segmentation
 commits the next bath, controller state and content-bound head before stopping;
 completed loops retain their exact final bath. Legacy folders without that state
@@ -1901,3 +1956,21 @@ The bundle carries its declared temperature, units, state order and chemical
 potential offset. The fitted Green values are model predictions; native export
 uses the explicitly stored corrections. This example requires the unreleased
 1.2 implementation or its source checkout, not the published 1.1.0 package.
+
+
+The source-only prerelease `LeastSquaresPlan.observation_projection` method
+has moved into the optional spectroscopy adapter. Use public
+`prepare_spectral_projection` for the complete observation map. Its cached SVD,
+rank cutoff, ownership and covariance semantics are unchanged. This development
+identifier was never part of the published 1.1.0 API.
+
+### Explicit MaxEnt initialization
+
+The optional `MaxEntConfig.minimizer_mu0` sets the stock Levenberg minimizer's
+initial positive finite damping. It is not a lower bound. The default preserves
+TRIQS/MaxEnt 4.0.1's 1e-18; scientific candidate campaigns explicitly record
+1e-8 for every method. Full production acceptance is pending. Singular or
+exhausted native solves still raise an explicit numerical failure with their
+cause and completed trial history. The package does not retry another optimizer
+or silently discard alpha trials. Archived datasets keep their original
+calculation settings; read historical evidence with its recorded source.
