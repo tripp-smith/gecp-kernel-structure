@@ -1,0 +1,68 @@
+Starting serial run at: 2026-10-30 13:16:43.606507
+Warning: could not identify MPI environment!
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -1.8820626554949392e-23
+2026-10-30 13:16:43.629938
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 6.285946541773886e-17
+alpha[ 0] =   1.00000000e+04, chi2 =   4.24979571e+03, n_iter=      32 
+alpha[ 1] =   5.62341325e+03, chi2 =   2.59077833e+03, n_iter=      16 
+alpha[ 2] =   3.16227766e+03, chi2 =   1.52139032e+03, n_iter=      19 
+alpha[ 3] =   1.77827941e+03, chi2 =   8.65524068e+02, n_iter=      22 
+alpha[ 4] =   1.00000000e+03, chi2 =   4.82380896e+02, n_iter=      25 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.66926099e+02, n_iter=      28 
+alpha[ 6] =   3.16227766e+02, chi2 =   1.48783815e+02, n_iter=      30 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.48126666e+01, n_iter=      40 
+alpha[ 8] =   1.00000000e+02, chi2 =   5.03539912e+01, n_iter=      41 
+alpha[ 9] =   5.62341325e+01, chi2 =   3.18731441e+01, n_iter=      50 
+alpha[10] =   3.16227766e+01, chi2 =   2.19845662e+01, n_iter=      60 
+alpha[11] =   1.77827941e+01, chi2 =   1.59726417e+01, n_iter=      71 
+alpha[12] =   1.00000000e+01, chi2 =   1.24968905e+01, n_iter=      84 
+alpha[13] =   5.62341325e+00, chi2 =   1.05995697e+01, n_iter=     100 
+alpha[14] =   3.16227766e+00, chi2 =   9.49828789e+00, n_iter=     138 
+alpha[15] =   1.77827941e+00, chi2 =   8.60336120e+00, n_iter=     198 
+alpha[16] =   1.00000000e+00, chi2 =   8.05958290e+00, n_iter=     254 
+alpha[17] =   5.62341325e-01, chi2 =   7.77891429e+00, n_iter=     290 
+alpha[18] =   3.16227766e-01, chi2 =   7.66137326e+00, n_iter=     299 
+alpha[19] =   1.77827941e-01, chi2 =   7.60212570e+00, n_iter=     353 
+alpha[20] =   1.00000000e-01, chi2 =   7.56830841e+00, n_iter=     432 
+alpha[21] =   5.62341325e-02, chi2 =   7.54888731e+00, n_iter=     525 
+alpha[22] =   3.16227766e-02, chi2 =   7.53694154e+00, n_iter=     655 
+alpha[23] =   1.77827941e-02, chi2 =   7.53086854e+00, n_iter=     762 
+alpha[24] =   1.00000000e-02, chi2 =   7.52991824e+00, n_iter=     488 
+alpha[25] =   5.62341325e-03, chi2 =   7.52989756e+00, n_iter=     209 
+alpha[26] =   3.16227766e-03, chi2 =   7.52989487e+00, n_iter=     146 
+alpha[27] =   1.77827941e-03, chi2 =   7.52989404e+00, n_iter=      77 
+alpha[28] =   1.00000000e-03, chi2 =   7.52989371e+00, n_iter=      59 
+alpha[29] =   5.62341325e-04, chi2 =   7.52989359e+00, n_iter=      44 
+alpha[30] =   3.16227766e-04, chi2 =   7.52989355e+00, n_iter=      37 
+alpha[31] =   1.77827941e-04, chi2 =   7.52989354e+00, n_iter=      26 
+alpha[32] =   1.00000000e-04, chi2 =   7.52989353e+00, n_iter=      23 
+MaxEnt loop finished in 0:00:03.503489
+{
+  "dataset_fingerprint": "5feb82e1f894e0e76dc56d3cac6656ed98c649c99676ae9eb2e832cad84454ff",
+  "effective_rank": 20,
+  "config": {
+    "omega_min": -4.0,
+    "omega_max": 4.0,
+    "n_omega": 401,
+    "alpha_min": 0.0001,
+    "alpha_max": 10000.0,
+    "n_alpha": 33,
+    "maxiter": 1000,
+    "default_model": "broad_gaussian",
+    "normalize_mass": 1.0,
+    "minimizer_mu0": 1e-08
+  },
+  "mass": 0.9999999999999999,
+  "selected_alpha": 17.78279410038923,
+  "normalized_training_whitened_rms": 0.9691263541863481,
+  "scope": "new analysis with declared settings; no held-out or unique-peak claim"
+}

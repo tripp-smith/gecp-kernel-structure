@@ -33,6 +33,95 @@ ARTIFACTS = {
 }
 
 
+# Verifier-owned 1.2 delivery inventory. Presence is an asset gate only; it
+# does not establish scientific eligibility or any provider-domain gate.
+# Missing future guides deliberately remain requirements until authored.
+REQUIRED_12_ASSETS = {
+    "core": ("METHODS.md", "CITATION.cff", "RELEASE_NOTES.md", "FINAL_HANDOFF.md"),
+    "domain-guides": (
+        "INTERACTING_DMFT.md",
+        "CTHYB_DMFT.md",
+        "MOLECULAR_GREEN.md",
+        "EPW_INTEROPERABILITY.md",
+        "SPECTROSCOPY.md",
+        "COVARIANCE.md",
+    ),
+    "user-guides": (
+        "INSTALLATION_COMPATIBILITY.md",
+        "TROUBLESHOOTING.md",
+        "MIGRATION.md",
+    ),
+    "examples": (
+        "examples/interacting_dmft.py",
+        "examples/molecular_green.py",
+        "examples/triqs_interoperability.py",
+        "examples/epw_restart_archive.py",
+        "examples/spectral_continuation.py",
+        "examples/covariance_operator.py",
+        "experiments/covariance_benchmark.py",
+    ),
+    "reports": (
+        "data/cthyb/linux-audit-binding-7200ec0.json",
+        "data/cthyb/linux-independent-audit-7200ec0.json",
+        "data/epw/native-archive-linux-audit.json",
+        "data/covariance/audit.json",
+    ),
+    "source-notices": (
+        "native/SOURCE_BUILD.md",
+        "native/THIRD_PARTY_NOTICES.md",
+        "PROVIDER_NOTICES.md",
+        "environments/provider-licenses.json",
+        "environments/locks/triqs-linux-64-conda-inventory.json",
+        "environments/locks/triqs-osx-arm64-conda-inventory.json",
+        "environments/locks/dlr-physics-inventory.json",
+        "environments/locks/green-linux-build.json",
+    ),
+}
+
+
+def _is_12(version: str) -> bool:
+    return tuple(int(part) for part in version.split(".")) >= (1, 2, 0)
+
+
+def _required_12_records() -> dict[str, tuple[str, str]]:
+    records = {}
+    for group, paths in REQUIRED_12_ASSETS.items():
+        for source in paths:
+            name = Path(source).name
+            _require(name not in records, "duplicate required 1.2 asset basename")
+            records[name] = (source, group)
+    return records
+
+
+def _check_12_content(path: Path, group: str) -> None:
+    _require(
+        path.is_file() and not path.is_symlink(),
+        f"missing required 1.2 {group} asset: {path.name}",
+    )
+    data = path.read_bytes()
+    _require(
+        bool(data.strip()),
+        f"empty required 1.2 {group} asset: {path.name}",
+    )
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ReleaseError(
+            f"invalid text required 1.2 {group} asset: {path.name}"
+        ) from exc
+    if path.suffix == ".json":
+        try:
+            parsed = _json(path)
+        except (ValueError, UnicodeDecodeError) as exc:
+            raise ReleaseError(
+                f"invalid required 1.2 {group} JSON: {path.name}"
+            ) from exc
+        _require(
+            isinstance(parsed, dict) and bool(parsed),
+            f"empty required 1.2 {group} JSON: {path.name}",
+        )
+
+
 class ReleaseError(ValueError):
     """A release does not satisfy the exact-source/artifact contract."""
 
@@ -312,13 +401,29 @@ def collect_artifacts(
         )
         distributions.append((wheel, f"native-{role}"))
     _require(not output.exists(), "release output already exists")
+    documents = [
+        (root / name, "document")
+        for name in ("METHODS.md", "CITATION.cff", "RELEASE_NOTES.md")
+    ]
+    if _is_12(version):
+        documents = []
+        for source, group in _required_12_records().values():
+            path = root / source
+            _check_12_content(path, group)
+            blob = subprocess.run(
+                ["git", "-C", str(root), "show", f"{revision}:{source}"],
+                capture_output=True,
+                check=False,
+            )
+            _require(
+                blob.returncode == 0 and blob.stdout == path.read_bytes(),
+                f"required 1.2 asset differs from Git source: {source}",
+            )
+            documents.append((path, group))
     groups = {
         "dist": distributions,
         "source": [(base / "source" / name, "source") for name in sorted(source_names)],
-        "documents": [
-            (root / name, "document")
-            for name in ("METHODS.md", "CITATION.cff", "RELEASE_NOTES.md")
-        ],
+        "documents": documents,
     }
     manifest = {"schema": "kernelgecp.release.v1", "project": "kernelgecp", **selected}
     manifest["schema"] = "kernelgecp.release.v1"
@@ -363,8 +468,11 @@ def verify_payload(root: Path) -> dict[str, Any]:
     expected = {Path("release-manifest.json")}
     all_names = {"release-manifest.json"}
     for group in ("dist", "source", "documents"):
-        entries = manifest[group]
-        _require(isinstance(entries, list) and bool(entries), "missing manifest files")
+        entries = manifest.get(group)
+        _require(
+            isinstance(entries, list) and bool(entries),
+            f"missing manifest files: {group}",
+        )
         names = set()
         for entry in entries:
             name, digest = entry["filename"], entry["sha256"]
@@ -391,6 +499,16 @@ def verify_payload(root: Path) -> dict[str, Any]:
                 "release file hash mismatch",
             )
             expected.add(Path(group) / name)
+    if _is_12(version):
+        required = _required_12_records()
+        found = {
+            entry["filename"]: entry.get("role") for entry in manifest["documents"]
+        }
+        for name, (_, group) in required.items():
+            _require(
+                found.get(name) == group, f"missing required 1.2 {group} asset: {name}"
+            )
+            _check_12_content(root / "documents" / name, group)
     _require(
         len(manifest["dist"]) == 4
         and {x["role"] for x in manifest["dist"]}

@@ -10,11 +10,11 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EE — actual CT-HYB Bethe DMFT integration, in progress<br>
-> **Phase state:** EE has passed local and fresh Linux corrected-seed scientific campaigns with independent audits, plus a source-bound actual-provider audit replay. The first Linux checkpoint failure remains preserved; the fresh run used exact loop-state persistence. EB/EC/ED/EF/EG/EI are delivered; EE final verification/delivery and EH/EJ remain open under the [five-field contract](PRODUCTION_INTEGRATIONS.md)<br>
+> **Current phase:** EJ — release preparation alongside the frozen EH scientific run<br>
+> **Phase state:** EB/EC/ED/EE/EF/EG/EI are delivered. EH remains draft in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142), with canonical source `feaac669` running [41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). [Draft PR #144](https://github.com/tripp-smith/gecp-kernel-structure/pull/144) prepares required release assets; it does not establish scientific eligibility or authorize publication. Version 1.2.0 remains unreleased<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
-> **Last verification:** EE scientific source `7200ec0` passes full root (2,356 tests, 39 optional skips), fresh Linux run 40928480439 and its independent audit. Source-bound replay at `56622e9` passes all seven scientific gates under the pinned actual runtime. This final delivery head still requires full root, exact-head CI and main verification in [PR #141](https://github.com/tripp-smith/gecp-kernel-structure/pull/141). [EG delivered-main receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400) closes EPW delivery<br>
+> **Last verification:** Base main `06c4e45` is delivered with full root and seven exact-main workflows ([EE receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)). Frozen EH source `feaac669` passes full root (2,618 tests, 42 optional skips), all eight exact-head workflows and installed MaxEnt on Linux/macOS. Its canonical scientific run and the new EJ branch require their own remaining acceptance; no 1.2 publication is claimed<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** EB/EC/ED/EF/EG/EI are delivered, approximately 70% of the integration program by completed acceptance obligations. EE scientific acceptance passes, with delivery open. EH and EJ remain open. Published 1.1.0 artifacts are unchanged<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
@@ -477,3 +477,10 @@ cutoff `1e6`. This is numerical finite-grid evidence, not a continuous GECP
 rate theorem. Continuous interval-certified pivoting is a separate supported
 mode and is tested on synthetic and fermionic cases; it is not substituted for
 the canonical finite-grid census or a Lean convergence proof.
+
+## Production integration guides
+
+The unreleased 1.2 candidate adds [installation and compatibility](INSTALLATION_COMPATIBILITY.md),
+[molecular GF2 interchange](MOLECULAR_GREEN.md), [migration](MIGRATION.md),
+[troubleshooting](TROUBLESHOOTING.md), and an [optional-provider notice index](PROVIDER_NOTICES.md).
+Read the acceptance ledger before treating a pending domain as delivered.
