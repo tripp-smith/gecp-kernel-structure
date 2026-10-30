@@ -134,9 +134,9 @@ def true_cdf(case, omega):
 
 
 def observations(case, seed, *, query_order=24):
-    if type(query_order) is not int or query_order not in (24, 36, 48):
+    if type(query_order) is not int or query_order not in (24, 36, 48, 64):
         raise ValueError(
-            "query_order must be 24, historical 36, or predeclared fresh 48"
+            "query_order must be 24, historical 36/48, or predeclared fresh 64"
         )
     beta = 10.0
     tau = np.linspace(0, beta, 65)
@@ -395,11 +395,12 @@ def main():
     parser.add_argument("--eps", type=float, default=1e-8)
     parser.add_argument("--n-omega", type=int, default=401)
     parser.add_argument("--n-alpha", type=int, default=33)
+    parser.add_argument("--minimizer-mu0", type=float, default=1e-8)
     parser.add_argument(
         "--default-model", choices=["flat", "broad_gaussian"], default="flat"
     )
     parser.add_argument("--bootstrap", type=int, default=0)
-    parser.add_argument("--query-order", type=int, choices=[24, 36, 48], default=24)
+    parser.add_argument("--query-order", type=int, choices=[24, 36, 48, 64], default=24)
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -411,6 +412,7 @@ def main():
                 n_omega=args.n_omega,
                 n_alpha=args.n_alpha,
                 default_model=args.default_model,
+                minimizer_mu0=args.minimizer_mu0,
             )
         )
         result = run_case(

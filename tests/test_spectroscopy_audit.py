@@ -153,10 +153,11 @@ def _campaign(tmp_path):
         "eps": 1e-8,
         "n_omega": 401,
         "n_alpha": 33,
+        "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [2001, 2002, 2003],
-        "final_query_order": 48,
+        "final_seeds": [3001, 3002, 3003],
+        "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }

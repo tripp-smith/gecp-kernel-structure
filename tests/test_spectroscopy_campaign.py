@@ -42,3 +42,20 @@ def test_seeds_and_observation_query_isolation_are_explicit():
     assert len(final_query) == 36
     assert not np.any(np.isin(query, final_query))
     assert not np.array_equal(final.values, data.values)
+
+
+def test_new_final_noise_and_query_nodes_are_disjoint_from_consumed_validation():
+    from experiments.spectroscopy_campaign import controls, jobs
+
+    frozen = controls()
+    assert frozen["final_seeds"] == [3001, 3002, 3003]
+    assert frozen["final_query_order"] == 64
+    assert frozen["minimizer_mu0"] == 1e-8
+    for offset, case in enumerate(frozen["cases"]):
+        old, old_query, _ = observations(case, 2001 + offset, query_order=48)
+        new, new_query, _ = observations(case, 3001 + offset, query_order=64)
+        assert not np.array_equal(old.values, new.values)
+        assert not np.intersect1d(old_query, new_query).size
+        assert not np.intersect1d(new.tau, new_query).size
+    assert all(job["minimizer_mu0"] == 1e-8 for job in jobs(True))
+    assert all(job["minimizer_mu0"] == 1e-8 for job in jobs(False))

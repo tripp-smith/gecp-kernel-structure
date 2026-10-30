@@ -217,6 +217,7 @@ def calibration_fixture(monkeypatch, tmp_path):
                         "array_sha256": driver._sha(archive),
                         "eps": spec.PROTOCOL["eps"],
                         "rcond": spec.PROTOCOL["rcond"],
+                        "config": {"minimizer_mu0": spec.PROTOCOL["minimizer_mu0"]},
                     }
                 )
             )

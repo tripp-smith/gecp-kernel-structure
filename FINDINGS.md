@@ -2624,3 +2624,13 @@ failures remain non-claims. Original scientific acceptance passes, while this
 documentation head and delivery remain unverified. The historical generic
 FermionicBasis/FermionicFit and fit-only native routes are failed, superseded
 engineering approaches. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+### EH development observation: native damping and conditioning
+
+The preserved [Linux diagnostic](data/spectroscopy/lm-linux-eeb5523.json)
+contains four native singular-solve errors despite exact full rational rank of
+the saved finite binary64 systems. Tiny damping is partly or entirely rounded
+away, and numerical conditioning remains severe. A common explicit initial
+mu0=1e-8 completes six runs of two fixtures and is a candidate for complete
+calibration only. This is neither a general optimizer-stability result nor a
+repair of the separately failed measured RMS 2.0232. All scientific gates remain.

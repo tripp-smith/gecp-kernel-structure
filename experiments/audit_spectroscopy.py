@@ -232,11 +232,12 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 2001) + i,
+                        "seed": (101 if calibration else 3001) + i,
                         "eps": 1e-8,
                         "n_omega": 401,
                         "n_alpha": 33,
-                        "query_order": 24 if calibration else 48,
+                        "minimizer_mu0": 1e-8,
+                        "query_order": 24 if calibration else 64,
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
@@ -338,7 +339,7 @@ def audit_case(path, job=None, full=True):
         for k in ("case", "method", "seed", "eps", "pilot", "query_order"):
             require(result.get(k) == job[k], f"case {k}")
         require(result.get("bootstrap_count") == job["bootstrap"], "bootstrap count")
-        for k in ("default_model", "n_omega", "n_alpha"):
+        for k in ("default_model", "n_omega", "n_alpha", "minimizer_mu0"):
             require(result.get("config", {}).get(k) == job[k], f"config {k}")
     require(sha(npz) == result.get("array_sha256"), "case archive hash")
     with np.load(npz, allow_pickle=False) as z:
@@ -383,6 +384,7 @@ def audit_case(path, job=None, full=True):
             "alpha_min": 1e-4,
             "alpha_max": 1e4,
             "n_alpha": 33,
+            "minimizer_mu0": 1e-8,
             "maxiter": 1000,
             "default_model": result["config"]["default_model"],
             "normalize_mass": 1.0,
@@ -669,10 +671,11 @@ def audit_campaign(manifest_path, freeze_path):
         "eps": 1e-8,
         "n_omega": 401,
         "n_alpha": 33,
+        "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [2001, 2002, 2003],
-        "final_query_order": 48,
+        "final_seeds": [3001, 3002, 3003],
+        "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }

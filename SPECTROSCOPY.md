@@ -164,3 +164,19 @@ are identical. Small actual-provider CI remains automatic; complete scientific
 calibration and acquisition require explicit dispatch after source verification.
 Calibration-only or ordinary CI success does not close the measured gate.
 See [resource evidence](data/spectroscopy/fixed-bath-linux-resource-plan.json).
+
+## Explicit optimizer controls under validation
+
+The [bounded Linux diagnostic](data/spectroscopy/lm-linux-eeb5523.json) and
+[contract](RESEARCH.md#eh-explicit-initial-damping-candidate-and-untouched-validation)
+identify severe numerical conditioning in stock MaxEnt solves. All six runs
+of two fixtures complete with initial damping 1e-8; this is development evidence,
+not domain acceptance. `MaxEntConfig(minimizer_mu0=1e-8)` exposes the candidate
+explicitly. Its native default remains 1e-18, and the native algorithm can reduce
+mu after initialization. No fallback or retry is added.
+
+New candidate calibration must pass before untouched synthetic final seeds
+3001/3002/3003 with 64-node queries. Historical 2001/48 validation and both
+measured failures remain consumed evidence. The 256 raw fixed-bath measurements,
+128/128 split and all 24 measured final workers remain unexecuted mandatory
+gates; a successful unit diagnostic or ordinary CI cannot close them.

@@ -469,6 +469,7 @@ def audit_case(path, method, model, repeat, stats):
             "maxiter": 1000,
             "default_model": model,
             "normalize_mass": 1.0,
+            "minimizer_mu0": 1e-8,
         },
         "solver controls",
     )
@@ -961,6 +962,7 @@ def campaign_audit(
             "rcond": 1e-12,
             "n_omega": 401,
             "n_alpha": 33,
+            "minimizer_mu0": 1e-8,
             "covariance_rtol": 1e-4,
             "bootstrap_count": 8,
             "bootstrap_repeat": 0,

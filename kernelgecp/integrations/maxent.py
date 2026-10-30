@@ -601,7 +601,12 @@ def diagonal_spectral_datasets(
 
 @dataclass(frozen=True, slots=True)
 class MaxEntConfig:
-    """Explicit finite grids and training-only discrepancy alpha selection."""
+    """Explicit finite grids and training-only discrepancy alpha selection.
+
+    minimizer_mu0 is the native minimizer's initial damping, not a floor;
+    the native algorithm can reduce it during a solve. The default preserves
+    the provider setting; scientific campaigns declare their candidate explicitly.
+    """
 
     omega_min: float = -4.0
     omega_max: float = 4.0
@@ -612,6 +617,7 @@ class MaxEntConfig:
     maxiter: int = 1000
     default_model: str = "flat"
     normalize_mass: float | None = 1.0
+    minimizer_mu0: float = 1e-18
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -632,6 +638,7 @@ class MaxEntConfig:
             self.alpha_max, "alpha_max"
         ):
             raise ValueError("alpha range must be increasing")
+        _positive_real(self.minimizer_mu0, "minimizer_mu0")
         if self.default_model not in {"flat", "broad_gaussian"}:
             raise ValueError("default_model must be flat or broad_gaussian")
         if self.normalize_mass is not None:
@@ -794,7 +801,9 @@ def continue_tau_maxent(
 
     solver = provider.TauMaxEnt(
         cost_function="bryan",
-        minimizer=RecordingMinimizer(maxiter=settings.maxiter),
+        minimizer=RecordingMinimizer(
+            maxiter=settings.maxiter, mu0=settings.minimizer_mu0
+        ),
         analyzers=[],
         interactive=False,
         scale_alpha=None,

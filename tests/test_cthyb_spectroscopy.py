@@ -170,6 +170,7 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
                         "array_sha256": m.sha(archive),
                         "eps": m.PROTOCOL["eps"],
                         "rcond": m.PROTOCOL["rcond"],
+                        "config": {"minimizer_mu0": m.PROTOCOL["minimizer_mu0"]},
                     }
                 )
             )

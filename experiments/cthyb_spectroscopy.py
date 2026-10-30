@@ -410,6 +410,7 @@ PROTOCOL = {
     "rcond": 1e-12,
     "n_omega": 401,
     "n_alpha": 33,
+    "minimizer_mu0": 1e-8,
     "covariance_rtol": RTOL,
     "bootstrap_count": 8,
     "bootstrap_repeat": 0,
@@ -639,6 +640,7 @@ def verify_calibration(path, digest, snapshot_value):
             or value.get("array_sha256") != sha(archive)
             or value.get("eps") != PROTOCOL["eps"]
             or value.get("rcond") != PROTOCOL["rcond"]
+            or value.get("config", {}).get("minimizer_mu0") != PROTOCOL["minimizer_mu0"]
         ):
             raise ValueError("calibration case failed")
     return receipt
@@ -710,6 +712,7 @@ def run(
     rcond=1e-12,
     n_omega=401,
     n_alpha=33,
+    minimizer_mu0=1e-8,
 ):
     if method not in METHODS or model not in ("flat", "broad_gaussian"):
         raise ValueError("unsupported method or default model")
@@ -731,7 +734,12 @@ def run(
     projection_start = time.perf_counter()
     fitted = data if projection is None else projection.apply(data)
     projection_seconds = time.perf_counter() - projection_start
-    config = MaxEntConfig(n_omega=n_omega, n_alpha=n_alpha, default_model=model)
+    config = MaxEntConfig(
+        n_omega=n_omega,
+        n_alpha=n_alpha,
+        default_model=model,
+        minimizer_mu0=minimizer_mu0,
+    )
     continuation_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
     continuation_seconds = time.perf_counter() - continuation_start
@@ -1004,6 +1012,7 @@ def worker(job_path, job_digest):
         rcond=PROTOCOL["rcond"],
         n_omega=PROTOCOL["n_omega"],
         n_alpha=PROTOCOL["n_alpha"],
+        minimizer_mu0=PROTOCOL["minimizer_mu0"],
     )
     # Revalidate every bound raw receipt/archive after the calculation.
     _, cohort = load_cohort(

@@ -398,6 +398,7 @@ def test_calibration_freeze_and_adversarial_changes(tmp_path, monkeypatch):
             "rcond": 1e-12,
             "n_omega": 401,
             "n_alpha": 33,
+            "minimizer_mu0": 1e-8,
             "covariance_rtol": 1e-4,
             "bootstrap_count": 8,
             "bootstrap_repeat": 0,

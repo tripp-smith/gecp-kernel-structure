@@ -211,6 +211,10 @@ def test_archive_safe_roundtrip_and_tamper_rejection(tmp_path):
         dict(alpha_min=2, alpha_max=1),
         dict(default_model="silent_fallback"),
         dict(normalize_mass=0),
+        *[
+            dict(minimizer_mu0=value)
+            for value in (True, np.bool_(False), 0, -1, np.nan, np.inf, -np.inf, "1e-8")
+        ],
     ],
 )
 def test_resource_and_configuration_contract(settings):
@@ -250,9 +254,15 @@ def test_actual_tau_maxent_provider_positive_and_rank_aware():
         2 * (1 + np.exp(-beta * pole))
     )
     data = SpectralDataset(beta, tau, values, 1e-8 * np.eye(33))
-    result = continue_tau_maxent(
-        data, MaxEntConfig(omega_min=-2, omega_max=2, n_omega=81, n_alpha=9)
-    )
+    settings = {
+        "omega_min": -2,
+        "omega_max": 2,
+        "n_omega": 81,
+        "n_alpha": 9,
+        "minimizer_mu0": 1e-8,
+    }
+    result = continue_tau_maxent(data, MaxEntConfig(**settings))
+    assert result.diagnostics["config"]["minimizer_mu0"] == 1e-8
     assert result.diagnostics["version"] == "4.0.1"
     assert result.effective_rank == 33
     assert result.converged[result.selected_index]
@@ -291,7 +301,10 @@ def test_actual_provider_projects_forward_kernel_with_complete_observation_map(
     plan = prepare_spectral_projection(PolynomialDesign(), tau, np.linspace(0, 3, 17))
     projected = plan.apply(data)
     result = continue_tau_maxent(
-        projected, MaxEntConfig(omega_min=-2, omega_max=2, n_omega=81, n_alpha=9)
+        projected,
+        MaxEntConfig(
+            omega_min=-2, omega_max=2, n_omega=81, n_alpha=9, minimizer_mu0=1e-8
+        ),
     )
     solver = created[0]
     independent_kernel = -np.exp(-tau[:, None] * result.omega) / (
@@ -353,14 +366,17 @@ def test_selection_scores_delivered_spectrum_and_projection_not_provider_chi2():
             )
 
 
-def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch):
+@pytest.mark.parametrize("mu0", [None, 2e-7])
+def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch, mu0):
     from types import SimpleNamespace
 
     from kernelgecp.types import NumericalBreakdownError
 
+    constructor_calls = []
+
     class Minimizer:
         def __init__(self, **kwargs):
-            pass
+            constructor_calls.append(kwargs)
 
         def minimize(self):
             self.converged, self.n_iter_last = True, 7
@@ -399,9 +415,37 @@ def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch)
     )
     previous_policy = np.geterr()
     with pytest.raises(NumericalBreakdownError) as caught:
-        continue_tau_maxent(dataset())
+        settings = {"maxiter": 123}
+        if mu0 is not None:
+            settings["minimizer_mu0"] = mu0
+        continue_tau_maxent(dataset(), MaxEntConfig(**settings))
+    assert constructor_calls == [{"maxiter": 123, "mu0": 1e-18 if mu0 is None else mu0}]
     assert np.geterr() == previous_policy
     assert "LinAlgError: singular training system" in str(caught.value)
     assert "completed trials: 1" in str(caught.value)
     assert "history (converged, iterations): [(True, 7)]" in str(caught.value)
     assert isinstance(caught.value.__cause__, np.linalg.LinAlgError)
+
+
+def test_existing_positional_configuration_keeps_its_meaning():
+    config = MaxEntConfig(-4, 4, 401, 1e-4, 1e4, 33, 1000, "broad_gaussian", None)
+    assert config.default_model == "broad_gaussian"
+    assert config.normalize_mass is None
+    assert config.minimizer_mu0 == 1e-18
+
+
+def test_historical_spectral_dataset_load_preserves_original_manifest():
+    import json
+    from pathlib import Path
+
+    path = (
+        Path(__file__).parent
+        / "data/maxent/linux-singular-e8ac40e"
+        / "offgrid_atoms_correlated-pydlr-broad_gaussian-r0-dataset.npz"
+    )
+    original = path.with_suffix(".json").read_bytes()
+    manifest = json.loads(original)
+    assert "minimizer_mu0" not in manifest["calculation_settings"]
+    restored = load_spectral_dataset(path)
+    assert restored.fingerprint == manifest["fingerprint"]
+    assert path.with_suffix(".json").read_bytes() == original

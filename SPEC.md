@@ -3208,3 +3208,12 @@ This annotation records delivered identifiers without changing the goals above.
   all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)).
   EH scientific acceptance and EJ/public 1.2.0 remain open. No original goal
   or published artifact is changed.
+
+
+EH status annotation (2026-10-30): the bounded stock-MaxEnt Linux diagnostic
+and independent finite-matrix audit are development evidence only. The explicit
+`MaxEntConfig.minimizer_mu0` candidate is recorded by all campaign methods;
+full recalibration and untouched final validation remain required. Fresh
+synthetic seeds 3001/3002/3003 and 64-node queries supersede consumed validation.
+The measured RMS 2.0232 failure, unchanged <=2 gate, and unexecuted 256-chain
+candidate remain open. No original mathematical goal or release gate changes.

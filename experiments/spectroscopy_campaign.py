@@ -69,10 +69,11 @@ def controls():
         "eps": 1e-8,
         "n_omega": 401,
         "n_alpha": 33,
+        "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [2001, 2002, 2003],
-        "final_query_order": 48,
+        "final_seeds": [3001, 3002, 3003],
+        "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": REPEATS,
     }
@@ -87,11 +88,12 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 2001) + ci,
+                        "seed": (101 if calibration else 3001) + ci,
                         "eps": 1e-8,
                         "n_omega": 401,
                         "n_alpha": 33,
-                        "query_order": 24 if calibration else 48,
+                        "minimizer_mu0": 1e-8,
+                        "query_order": 24 if calibration else 64,
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
@@ -119,7 +121,7 @@ def validate_child(job, result, env, directory):
     ):
         raise ValueError("child query/bootstrap mismatch")
     config = result.get("config", {})
-    for k in ("default_model", "n_omega", "n_alpha"):
+    for k in ("default_model", "n_omega", "n_alpha", "minimizer_mu0"):
         if config.get(k) != job[k]:
             raise ValueError(f"child config {k} mismatch")
     if result.get("provenance") != {
@@ -178,6 +180,8 @@ def child_command(python, job, output):
         str(job["n_omega"]),
         "--n-alpha",
         str(job["n_alpha"]),
+        "--minimizer-mu0",
+        str(job["minimizer_mu0"]),
         "--default-model",
         job["default_model"],
         "--query-order",

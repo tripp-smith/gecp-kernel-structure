@@ -215,6 +215,7 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         and protocol.get("rcond") == 1e-12
         and protocol.get("n_omega") == 401
         and protocol.get("n_alpha") == 33
+        and protocol.get("minimizer_mu0") == 1e-8
         and protocol.get("covariance_rtol") == 1e-4
         and protocol.get("bootstrap_count") == 8
         and protocol.get("bootstrap_repeat") == 0

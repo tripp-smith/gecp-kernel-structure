@@ -1963,3 +1963,14 @@ has moved into the optional spectroscopy adapter. Use public
 `prepare_spectral_projection` for the complete observation map. Its cached SVD,
 rank cutoff, ownership and covariance semantics are unchanged. This development
 identifier was never part of the published 1.1.0 API.
+
+### Explicit MaxEnt initialization
+
+The optional `MaxEntConfig.minimizer_mu0` sets the stock Levenberg minimizer's
+initial positive finite damping. It is not a lower bound. The default preserves
+TRIQS/MaxEnt 4.0.1's 1e-18; scientific candidate campaigns explicitly record
+1e-8 for every method. Full production acceptance is pending. Singular or
+exhausted native solves still raise an explicit numerical failure with their
+cause and completed trial history. The package does not retry another optimizer
+or silently discard alpha trials. Archived datasets keep their original
+calculation settings; read historical evidence with its recorded source.

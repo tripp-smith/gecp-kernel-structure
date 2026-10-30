@@ -12576,3 +12576,58 @@ No preset is accepted from Mac-only success, no future final data or MC is used,
 and no production optimizer setting changes before independent review of the
 Linux evidence and complete calibration. Full native Q is not captured; native
 chi-square and independently evaluated physical discrepancy remain distinct.
+
+### EH explicit initial-damping candidate and untouched validation
+
+The one bounded Linux diagnostic at `eeb5523`, run 41042085787, records six
+processes: three repetitions of a unit fixture and of the consumed saved
+calibration fixture. Native default initial damping 1e-18 raises four singular
+solve exceptions; 1e-12 raises one; 1e-8 completes every 9/33-alpha family in all
+six. These are two fixtures repeated, not six independent scientific cases.
+The complete reports, logs, captured matrices and independent analysis are in
+`experiments/data/maxent-lm-linux-eeb5523.tar.gz`, bound by the inventory in
+`data/spectroscopy/lm-linux-eeb5523.json`. One 1e-12 exception has no captured
+matrix; preserve that limitation.
+
+Independent binary-rational elimination finds full rank in all four captured
+rounded matrices. All inputs are finite and match J + mu I and RHS f exactly
+in binary64. Failed damping changes none of four unit diagonal entries and
+only four of twenty calibration entries. SVD estimates indicate severe
+conditioning; exact rank does not imply numerical stability. This supports an
+explicit 1e-8 initial-damping candidate for complete recalibration, not a proven
+fix. The stock algorithm can reduce damping later; mu0 is not a floor. No
+inverse, retries, skipped alpha trials or alternative optimizer are introduced.
+The portable independent diagnostic auditor is
+`scripts/audit_maxent_lm_diagnostic.py`; it never runs the native solver.
+
+Add `MaxEntConfig.minimizer_mu0` as a finite positive explicit control, preserving
+the native default 1e-18. The synthetic and measured campaigns explicitly pass
+and bind candidate 1e-8 for all raw/GECP/DLR/IR/default-model cases. Do not change
+the public default merely from this diagnostic. Independent audits reject an
+absent or different candidate control. Existing spectral archives retain their
+recorded settings and remain loadable; old campaign receipts cannot establish
+acceptance of the new source/configuration.
+
+Earlier Linux synthetic validation failures informed this development choice.
+Before generating any new final outputs, replace final noise seeds
+2001/2002/2003 and 48-node queries with untouched seeds 3001/3002/3003 and
+64-node Gauss-Legendre queries. Calibration seeds 101/102/103 and 24-node
+queries stay fixed. Retain all prior failures. The same 24 calibration and 72
+final cases, 33 alphas, 401 omega points, 1e-6 positivity/normalization and
+whitened RMS <=2 gates remain mandatory. Native measured calibration is eight
+cases; the untouched 256-chain candidate and its 24 final continuation workers
+retain the previously declared physics, seeds, 128/128 split and four 64-chain
+segments. Neither final RMS 2.023200438825109 nor any noise budget is relaxed.
+Complete candidate calibration, root/installed-provider/exact-head verification
+and the independent prelaunch review before canonical acquisition. Calibration
+failure stops before acquisition; any later failure remains failed/inconclusive,
+with no replacement cohort or automatic rerun.
+
+Native diagnostic regeneration requires the frozen eeb5523 source, original
+input and pinned environment. Its strict historical manifest comparison should
+not infer a newly added control. The portable captured-report auditor runs on
+current source without the provider. All six original Actions ZIP digests and
+their extracted bytes were independently checked and preserved in the bundle.
+The new config field is appended after existing positional fields, and an
+actual historical spectral-dataset read test confirms original metadata remains
+unchanged. This does not make old campaign acceptance current.

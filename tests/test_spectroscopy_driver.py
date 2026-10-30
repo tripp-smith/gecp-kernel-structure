@@ -60,11 +60,14 @@ def setup(monkeypatch, tmp_path):
                 "default_model": option("--default-model"),
                 "n_omega": int(option("--n-omega")),
                 "n_alpha": int(option("--n-alpha")),
+                "minimizer_mu0": float(option("--minimizer-mu0")),
             },
             "provenance": {k: v for k, v in env.items() if k != "python_executable"},
             "array_sha256": driver.sha(npz),
             "coefficient_fit_archive": None,
         }
+        if mode == "mu":
+            result["config"]["minimizer_mu0"] = 1e-18
         if mode == "gates":
             result["gates"] = {}
         out.write_text(json.dumps(result))
@@ -85,7 +88,7 @@ def test_success_freeze_and_repeat_resume(setup):
     tmp, _, state = setup
     assert calibrate(setup)["status"] == "passed"
     freeze = driver.read(tmp / "freeze.json")
-    assert freeze["controls"]["final_seeds"] == [2001, 2002, 2003]
+    assert freeze["controls"]["final_seeds"] == [3001, 3002, 3003]
     result = driver.execute("campaign", tmp / "final", tmp / "freeze.json", "test")
     assert result["status"] == "passed" and len(result["children"]) == 3
     assert len(result["repeat_comparison"]["skipped"]) == 2
@@ -97,7 +100,9 @@ def test_success_freeze_and_repeat_resume(setup):
     assert state["calls"] == count
 
 
-@pytest.mark.parametrize("mode", ["exit", "missing", "gates", "corrupt", "manifest"])
+@pytest.mark.parametrize(
+    "mode", ["exit", "missing", "gates", "corrupt", "manifest", "mu"]
+)
 def test_failed_calibration_never_freezes(setup, mode):
     tmp, _, state = setup
     state["mode"] = mode
