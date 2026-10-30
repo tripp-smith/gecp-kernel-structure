@@ -47,12 +47,12 @@ jobs:
           from pathlib import Path
           import json
           from experiments import spectroscopy as science
-          from kernelgecp.integrations.maxent import MaxEntConfig
+          from kernelgecp.integrations.maxent import save_spectral_dataset
           # Instrument serialization only; preserve the complete provider,
           # selector, alpha grid, covariance and original calibration sample.
           actual = science.continue_tau_maxent
           def capture_training(data, config):
-              data.save(Path("artifacts/provider-training.npz"),
+              save_spectral_dataset(data, Path("artifacts/provider-training.npz"),
                   units={"tau":"inverse_energy", "omega":"energy", "G_tau":"dimensionless"},
                   provider={"name":"diagnostic-capture-before-actual-TauMaxEnt"},
                   calculation_settings={"case":"offgrid_atoms_correlated", "method":"pydlr", "seed":102})
