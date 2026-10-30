@@ -12467,3 +12467,26 @@ must not automatically run as a production main gate. Keep the supported
 changes workflow activation only, with no numerical code, data, budgets or
 required original scientific gate changes. Verify YAML, full root and exact
 head CI, then merge and verify main under the standing delivery authorization.
+
+
+### EH bounded native acquisition delivery pipeline
+
+Automatic spectroscopy CI retains installed providers, all 72 synthetic final
+cases, eight measured calibration cases and their independent audits. It must
+not score the consumed 7200 dense cohort again. The manual
+`acquire_fixed_bath=true` run alone enables one 256-chain candidate, checkpointed
+as 80/80/96 chains with 240-minute driver and 330-minute hosted-job bounds.
+Each stage requires its exact cumulative count and retains failures. The first
+stage requires an actual Linux runtime-freeze probe and passed calibration,
+then creates the source/runtime/bath/seed freeze once. Subsequent stages resume
+that same identity. A separate job audits all raw chains before all 24 measured
+final workers and their independent spectroscopy audit.
+
+Calibration-only green CI does not close EH or authorize publication. Root
+must verify source, full root/exact-head checks, calibration and native preflight
+before the single canonical dispatch, record its run identity, and never rerun
+or dispatch a replacement after acquisition begins. Reruns could otherwise
+reuse predeclared seeds and are not fresh independent validation. Preserve a
+failed or resource-exhausted acquisition; review its cause before a new proposal.
+Hosted runtime/library drift fails closed. The final release must require the
+passed raw-cohort binding and measured final audit, not workflow color alone.

@@ -143,3 +143,14 @@ bound acquisition and independent raw-chain audit, not a relabeled full EE
 campaign. No new observations may be generated before source/protocol freeze;
 no automatic retries, enlargement or covariance inflation follow a failed
 final case. All synthetic, measured, full-root, CI and delivery gates remain.
+
+
+The revised CI separates calibration from the single canonical acquisition.
+Automatic runs cannot regenerate final chains. The explicit manual acquisition
+runs 80/80/96 chains with strict checkpoints, then independently audits the raw
+cohort and all 24 final workers. Root records its canonical run before data
+acquisition; no workflow rerun or replacement dispatch after it begins is
+permitted by this protocol. Each hosted job is bounded at 330 minutes, with
+240-minute acquisition segments. Calibration-only CI success leaves measured
+acceptance and release blocked. The Linux runtime-freeze preflight, complete
+new final and every original scientific budget remain mandatory.

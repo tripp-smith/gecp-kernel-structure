@@ -5,6 +5,7 @@ on:
     branches: [main, "codex/phase-eh-covariance-maxent"]
     paths:
       - .github/workflows/maxent-science.yml
+      - .github/workflows/cthyb-fixed-bath-segment.yml
       - kernelgecp/**
       - experiments/*spectroscopy*.py
       - experiments/data/cthyb_9d28053_campaign.tar.gz
@@ -16,6 +17,7 @@ on:
   pull_request:
     paths:
       - .github/workflows/maxent-science.yml
+      - .github/workflows/cthyb-fixed-bath-segment.yml
       - kernelgecp/**
       - experiments/*spectroscopy*.py
       - experiments/data/cthyb_9d28053_campaign.tar.gz
@@ -25,6 +27,12 @@ on:
       - tests/test_maxent*.py
       - tests/test_*spectroscopy*.py
   workflow_dispatch:
+    inputs:
+      acquire_fixed_bath:
+        description: Acquire the single predeclared cohort; never rerun after acquisition starts
+        type: boolean
+        default: false
+        required: true
 
 permissions:
   contents: read
@@ -32,7 +40,7 @@ permissions:
 
 concurrency:
   group: maxent-science-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   OMP_NUM_THREADS: "1"
@@ -117,7 +125,8 @@ jobs:
         run: |
           python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
           python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
-          python -c 'from triqs_maxent import TauMaxEnt; import pydlr, sparse_ir'
+          python -m pip install pytest==9.0.3
+          python -c 'from triqs_maxent import TauMaxEnt; import triqs_cthyb, pydlr, sparse_ir'
       - name: Calibrate synthetic fixtures and audit independently
         run: |
           python -m experiments.spectroscopy_campaign calibration --output artifacts/calibration --freeze artifacts/freeze.json
@@ -142,67 +151,6 @@ jobs:
             --ee-audit data/cthyb/independent-audit-e83d195.json \
             --ee-binding data/cthyb/audit-binding-e83d195.json \
             --output artifacts/native-calibration-audit.json
-      - name: Require the predeclared fresh EE scientific run
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api repos/tripp-smith/gecp-kernel-structure/actions/runs/40928480439 > artifacts/fresh-ee-run.json
-          python - <<'PYRUN'
-          import json
-          run = json.load(open("artifacts/fresh-ee-run.json"))
-          assert run["head_sha"] == "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
-          assert run["status"] == "completed" and run["conclusion"] == "success", "Fresh EE validation is not accepted"
-          assert run["path"] == ".github/workflows/cthyb-science.yml"
-          assert run["repository"]["full_name"] == "tripp-smith/gecp-kernel-structure"
-          PYRUN
-          git fetch --no-tags origin 7200ec0e912954c568bedb2092d9ff1c053f9ba7
-      - uses: actions/download-artifact@v4
-        with:
-          name: cthyb-validation-40928480439
-          run-id: 40928480439
-          github-token: ${{ github.token }}
-          path: artifacts/fresh-cthyb-input
-      - name: Bind the fresh passed audit and original measurement hashes
-        run: |
-          python - <<'PYBIND'
-          import hashlib, json
-          from pathlib import Path
-          root = Path("artifacts/fresh-cthyb-input")
-          def sha(path):
-              return hashlib.sha256(path.read_bytes()).hexdigest()
-          audit = json.loads((root/"independent-audit.json").read_text())
-          result = json.loads((root/"result.json").read_text())
-          revision = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
-          assert audit["schema"] == "kernelgecp.cthyb-audit.v1"
-          assert audit["status"] == result["status"] == "passed"
-          assert audit["generation_revision"] == revision
-          assert audit["gates"] and all(x is True for x in audit["gates"].values())
-          assert result["identity"]["source_revision"] == revision
-          binding = {"schema":"kernelgecp.cthyb-audit-binding.v1", "status":"passed", "generation_revision":revision,
-              "audit_receipt_sha256":sha(root/"independent-audit.json"), "result_sha256":sha(root/"result.json"),
-              "manifest_sha256":sha(root/"manifest.json"), "freeze_sha256":sha(root/"freeze.json"),
-              "measurement_archives":result["measurement_archives"]}
-          (root/"audit-binding.json").write_text(json.dumps(binding, sort_keys=True, indent=2)+"\n")
-          PYBIND
-      - name: Validate all frozen measured-data cases on the fresh cohort
-        run: |
-          calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
-          calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
-          fresh_binding_hash=$(sha256sum artifacts/fresh-cthyb-input/audit-binding.json | cut -d ' ' -f1)
-          python -m experiments.cthyb_spectroscopy artifacts/fresh-cthyb-input \
-            --audit-receipt artifacts/fresh-cthyb-input/independent-audit.json \
-            --audit-binding artifacts/fresh-cthyb-input/audit-binding.json \
-            --binding-sha256 "$fresh_binding_hash" \
-            --stage final --output-dir artifacts/native-final \
-            --calibration artifacts/native-calibration/calibration.json --calibration-sha256 "$calibration_hash" \
-            --calibration-audit artifacts/native-calibration-audit.json --calibration-audit-sha256 "$calibration_audit_hash"
-          python -m experiments.audit_cthyb_spectroscopy artifacts/native-final/final.json \
-            --ee-root artifacts/fresh-cthyb-input \
-            --ee-audit artifacts/fresh-cthyb-input/independent-audit.json \
-            --ee-binding artifacts/fresh-cthyb-input/audit-binding.json \
-            --calibration artifacts/native-calibration/calibration.json \
-            --calibration-audit artifacts/native-calibration-audit.json \
-            --output artifacts/native-final-audit.json
       - name: Record the executed scientific runtime
         run: |
           python scripts/providers/export_conda_lock.py --explicit artifacts/conda-explicit.txt --inventory artifacts/conda-inventory.json
@@ -210,7 +158,108 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: maxent-scientific-linux
+          name: maxent-calibration-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  fixed-bath-a:
+    if: github.event_name == 'workflow_dispatch' && inputs.acquire_fixed_bath == true
+    needs: [installed-provider, scientific-campaign]
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: a
+      previous: ''
+      max_new: 80
+      expected: 80
+
+  fixed-bath-b:
+    needs: fixed-bath-a
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: b
+      previous: a
+      max_new: 80
+      expected: 160
+
+  fixed-bath-c:
+    needs: fixed-bath-b
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: c
+      previous: b
+      max_new: 96
+      expected: 256
+
+  fixed-bath-final:
+    needs: fixed-bath-c
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Require all pinned scientific providers
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install pytest==9.0.3
+          python -c 'from triqs_maxent import TauMaxEnt; import triqs_cthyb, pydlr, sparse_ir'
+      - uses: actions/download-artifact@v4
+        with:
+          name: maxent-calibration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: fixed-bath-c-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/fixed-bath
+      - name: Extract the accepted parent and independently audit the new cohort
+        run: |
+          python - <<'PYEXTRACT'
+          from pathlib import Path
+          from experiments.replay_cthyb_acceptance import extract, digest, ZIP_SHA, BINDING_SHA
+          archive = Path('experiments/data/cthyb-linux-7200ec0-passed.zip')
+          binding = Path('data/cthyb/linux-audit-binding-7200ec0.json')
+          assert digest(archive) == ZIP_SHA and digest(binding) == BINDING_SHA
+          extract(archive, Path('artifacts/parent'))
+          PYEXTRACT
+          python -m experiments.audit_cthyb_fixed_bath \
+            --folder artifacts/fixed-bath --parent-dir artifacts/parent \
+            --parent-binding data/cthyb/linux-audit-binding-7200ec0.json \
+            --receipt artifacts/fixed-bath-audit.json --binding artifacts/fixed-bath-binding.json \
+            --calibration artifacts/native-calibration/calibration.json \
+            --calibration-audit artifacts/native-calibration-audit.json
+      - name: Run all 24 frozen measured workers and audit independently
+        run: |
+          calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
+          calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
+          binding_hash=$(sha256sum artifacts/fixed-bath-binding.json | cut -d ' ' -f1)
+          python -m experiments.cthyb_spectroscopy artifacts/fixed-bath \
+            --audit-receipt artifacts/fixed-bath-audit.json --audit-binding artifacts/fixed-bath-binding.json \
+            --binding-sha256 "$binding_hash" --stage final --output-dir artifacts/native-final \
+            --calibration artifacts/native-calibration/calibration.json --calibration-sha256 "$calibration_hash" \
+            --calibration-audit artifacts/native-calibration-audit.json --calibration-audit-sha256 "$calibration_audit_hash"
+          python -m experiments.audit_cthyb_spectroscopy artifacts/native-final/final.json \
+            --ee-root artifacts/fixed-bath --ee-audit artifacts/fixed-bath-audit.json \
+            --ee-binding artifacts/fixed-bath-binding.json \
+            --calibration artifacts/native-calibration/calibration.json \
+            --calibration-audit artifacts/native-calibration-audit.json --output artifacts/native-final-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maxent-fixed-bath-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
