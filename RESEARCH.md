@@ -11968,7 +11968,7 @@ separately in the attributed native workflow artifact and fixture.
 Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
 
 
-### EG order-study and restart-development checkpoint
+### EG historical order-study and restart-development checkpoint
 
 The fixed seven-order study run 40859909319 at `942dd85` ends inconclusive:
 all seven candidates fail, with native baseline and compiled-helper rechecks
@@ -11980,7 +11980,7 @@ the 17 K fitted and raw endpoints were format checked. The candidate 20 K
 roundtrip and auditor do not constitute fitted or scored 20/30 K evidence.
 Full root, cross-platform, required native and delivery gates remain open.
 
-### EG 20 K coordinate boundary and preserved first audit
+### EG historical 20 K coordinate boundary and preserved first audit
 
 Frozen `a9c2c39` producer cases meet the fixed pure-model budgets and archive
 round-trip original native bytes. Their first independent audit evaluates
@@ -11992,3 +11992,25 @@ coordinates before product replay; retain rejection of unsafe nearby points,
 the original failed receipt, fitted parameters and all budgets. Native restart
 acceptance is untested. The archive candidate includes exact native corrections
 and remains separate from the failed fit-only restart.
+
+### EG supported-route disposition and acceptance
+
+The original integration objective accepts Matsubara fitting, a compact archive
+and unmodified native interchange; it did not require a fit-only native restart.
+The earlier specific commitment above to generic `FermionicBasis`/`FermionicFit`
+and the later pure-fit-only native route are superseded failed engineering
+approaches, retained here as historical non-claims. They are not passed. The
+supported Cauchy-frequency GECP fit reuses the cached `LeastSquaresPlan`,
+immutable helpers and safe NPZ primitives; its explicit model plus lossless
+native XOR correction archive supports native export. No original mathematical
+goal or accuracy, noise, conditioning or native comparison budget is weakened.
+
+At `1b5d60a`, Linux run 40979924989 passes native fixture generation, three
+pure-model holdouts, independent audit, raw/restored unmodified EPW comparison
+and wrong-frequency rejection. The 20 K run reproduces consumed earlier data,
+not fresh blind validation; the first failed audit and coordinate-only repair
+are preserved. The 17 K pure-fit native failure and all four nonzero scaled
+sensitivity failures remain failures; the zero-copy control passes. Scientific
+acceptance for the original scope passes; root and exact-head CI for this
+updated documentation, merge and main verification remain open. Evidence,
+storage and hashes are in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).

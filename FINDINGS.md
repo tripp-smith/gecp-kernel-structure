@@ -2498,7 +2498,9 @@ These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
 
 
-### EG native continuation checkpoint
+### EG historical native continuation checkpoint
+
+The following describes the prior checkpoint; see the supported result below.
 
 The 17 K pure fit passes held-out imaginary-axis checks, but its native Padé
 restart fails. The fixed seven-order study is inconclusive with all candidates
@@ -2513,3 +2515,16 @@ replay is safe here while a three-ULP neighbor fails the unchanged conditioning
 guard. The verifier repair preserves this rejection and does not establish
 continuous-frequency stability or native solver acceptance. See
 [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md).
+
+### EG supported native archive result
+
+At `1b5d60a`, the Cauchy-frequency model passes all three 20 K pure-model
+holdouts and independent audit. Explicit lossless XOR corrections restore the
+native file; unmodified EPW compares raw and restored inputs with zero error
+in all six channels over 630,000 rows, and rejects a wrong-frequency control.
+The run reproduces previously consumed data, not a fresh blind validation.
+The failed 17 K pure-fit restart and the four nonzero scaled sensitivity
+failures remain non-claims. Original scientific acceptance passes, while this
+documentation head and delivery remain unverified. The historical generic
+FermionicBasis/FermionicFit and fit-only native routes are failed, superseded
+engineering approaches. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).

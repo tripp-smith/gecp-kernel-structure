@@ -1,4 +1,11 @@
-# EPW frequency representation evidence
+# EPW interoperability evidence
+
+The current supported archive route meets the original scientific gates; see
+[supported route acceptance](#supported-route-acceptance). The preceding 17 K
+fit-only sections below preserve the failed engineering path and its historical
+pending statements, rather than extending the original release objective.
+
+## Historical 17 K frequency representation
 
 A frozen finite-grid frequency-cross experiment and its independent calibration
 and final audits pass locally at source revision
@@ -92,7 +99,12 @@ A bounded native order-calibration study is specified in RESEARCH.md;
 20 K is reserved for fresh validation after a successful freeze. No tolerance
 relaxation or lossless fallback closes the failed fitted-restart obligation.
 
-## Development checkpoint: native continuation and archival
+<a id="development-checkpoint-native-continuation-and-archival"></a>
+
+## Historical development checkpoint: native continuation and archival
+
+The following paragraphs describe the state at that checkpoint; later results
+are recorded in [supported route acceptance](#supported-route-acceptance).
 
 The fixed seven-order study at `942dd85` (run 40859909319) is terminal
 inconclusive: all seven candidates fail, while the native baseline and compiled
@@ -122,7 +134,7 @@ branch; a separately scoped sensitivity workflow runs on relevant pushes. This
 avoids repeating the known 17 K failure on every development push. The required
 native fitted-restart gate remains mandatory.
 
-## Frozen 20 K archive checkpoint and coordinate audit correction
+## Historical frozen 20 K archive checkpoint and coordinate audit correction
 
 All three producer cases at `a9c2c39` pass the predeclared pure-model held-out
 budgets and restore the original native file byte for byte. The first independent
@@ -153,3 +165,42 @@ promised platform. A dedicated native archive workflow now requires independent
 negative control. Those native gates, the corrected audit, final verification,
 exact-head CI and delivery remain open. The failed 17 K fit-only restart claim
 is not replaced by a successful archive decode.
+
+## Supported route acceptance
+
+Original EG scientific acceptance is met at source `1b5d60a`: the shared
+Cauchy-frequency GECP model passes the three predeclared 20 K pure-model
+holdouts and independent audit, and an explicit model-plus-lossless-XOR archive
+restores the native input. In [Linux run 40979924989](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40979924989),
+unmodified EPW reads raw and restored inputs and all six output channels agree
+with zero error over 630,000 rows (4,500 frequencies by 140 states); the
+wrong-frequency control exits 1. The native result SHA-256 is
+`a1abe291a8067890b2dd9b2f958614201ca4a2d09b1e37c984d2c2cd618709ce` and
+the audit SHA-256 is
+`0d6c08a369bf22708d127f2f344ca9babb15ff3431bced6797d4851480b8f03b`.
+The [native receipt](data/epw/native-archive-linux.json),
+[independent audit](data/epw/native-archive-linux-audit.json),
+[acceptance record](data/epw/supported-route-acceptance.json), and
+[curated evidence](experiments/data/epw-restart20-linux-1b5.tar.gz) bind the
+results. The complete workflow artifact 12944763024 is 73,163,061 bytes,
+SHA-256 `5b5449aa21f40f40feb2e6a00672b6078c51075824943b828b16dea4cfb2811f`;
+it is retained locally pending EJ asset publication.
+
+This is reproduction of the earlier 20 K run, not a fresh blind validation.
+The first failed independent audit and its coordinate-only verifier correction
+remain documented above. The Mac 20 K payload is 524,604 bytes versus 1,300,981
+ASCII and 291,358 gzip bytes; the Mac 17 K payload is 581,819 versus 1,541,361
+ASCII and 340,551 gzip bytes. Linux 20 K bundles are 524,562–524,563 bytes versus 1,300,981 ASCII and
+292,867 gzip bytes (model-only 218,121–218,122 bytes).
+These data do not show a gzip storage advantage or universal performance.
+
+The 17 K pure-fit native comparison failed. In the truth-assisted sensitivity
+run [40978168520](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40978168520),
+all four nonzero residual scales (1, 0.1, 0.01, 0.001) fail, while the exact
+zero-copy control passes. No pure-fit native acceptance follows. The earlier
+plan to use generic `FermionicBasis`/`FermionicFit` and the later pure-fit-only
+native gate are superseded failed engineering approaches, not the original EG
+objective; neither is supported or silently counted as passed. Accuracy, noise
+and native budgets are unchanged. Full root and exact-head CI passed for
+`1b5d60a`; the documentation revision still requires its own root and CI,
+followed by merge and main verification before delivery.

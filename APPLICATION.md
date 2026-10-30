@@ -1722,12 +1722,15 @@ field recovery reject unsafe conditioning instead of substituting another fit.
 
 The 13 eV pole dictionary is a numerical approximation parameter, not a
 certified spectral cutoff. No tail correction or self-energy subtraction is
-implicit. The canonical source workflow is `experiments.epw_frequency` with
-`experiments.audit_epw_frequency` and `scripts.providers.epw_restart`, using
+implicit. The historical fit-only workflow is `experiments.epw_frequency` with
+`experiments.audit_epw_frequency`; the supported archive workflow is
+`experiments.epw_restart_roundtrip`, `experiments.audit_epw_restart_roundtrip`
+and `scripts.providers.epw_restart`, using
 the isolated locked `environments/epw-science` runtime. Frozen held-out
-Green/field accuracy passes, but default-order native Padé restart comparison
-fails its unchanged budgets. Export diagnostics do not establish stable
-downstream continuation. Coarse MgB2 cases provide
+Green/field accuracy passes. The supported restart path explicitly combines the
+model with lossless native XOR corrections and exports the restored fields.
+Unmodified EPW passes the 20 K raw/restored comparison; this does not establish
+a pure fitted restart, which failed at 17 K under unchanged budgets. Coarse MgB2 cases provide
 interoperability evidence, not converged experimental materials predictions or
 EPW solver acceleration. EPW's specialized IR-object format is unsupported.
 
@@ -1819,5 +1822,34 @@ indices with declared binary64 beta. Its archived coordinates and arithmetic
 order are part of the numerical contract: nearby floating frequency values
 can fail conditioning even when the exact native-index query passes. The
 explicit restart archive retains native correction information separately
-from pure-model predictions; its native readback support remains gated on
-actual provider comparison.
+from pure-model predictions; actual native readback passes for the declared
+20 K workflow. Fit-only restart stability remains unsupported.
+
+### EG supported route and scope
+
+The Cauchy-frequency GECP fit shares the cached `LeastSquaresPlan`, immutable
+helpers and safe NPZ primitives. `EPWRestartArchive` explicitly retains the
+model and lossless native corrections; it does not silently substitute a fit.
+The earlier generic `FermionicBasis`/`FermionicFit` route and a pure-fit native
+restart are unsupported historical approaches, not accepted interfaces for
+this EPW task. Original accuracy, noise and native comparison budgets remain
+unchanged. See [EPW evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance)
+for measured storage and provenance; this is finite-case interoperability, not
+continuous-frequency stability or a universal performance claim.
+
+For a saved supported bundle, the approximate model and exact native data have
+separate public operations:
+
+```python
+from kernelgecp.integrations.epw_restart_archive import EPWRestartArchive
+
+archive = EPWRestartArchive.load("bundle.json")
+green = archive.fit.evaluate_matsubara([0, 1, 2])
+native = archive.reconstruct_native()
+manifest = archive.write_native_restart("MgB2.imag_aniso_020.00")
+```
+
+The bundle carries its declared temperature, units, state order and chemical
+potential offset. The fitted Green values are model predictions; native export
+uses the explicitly stored corrections. This example requires the unreleased
+1.2 implementation or its source checkout, not the published 1.1.0 package.

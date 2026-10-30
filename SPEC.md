@@ -3104,3 +3104,13 @@ This annotation records delivered identifiers without changing the goals above.
   conditioning cap and adjacent-point rejection. Corrected audit, unmodified
   native restart comparison and delivery remain required; no new mathematical
   goal or fitted-restart success is claimed.
+
+- **Phase EG supported-route acceptance and disposition:** original scientific
+  scope passes at `1b5d60a` using the Cauchy-frequency GECP fit and explicit
+  model-plus-lossless-XOR native archive, with unchanged accuracy, noise and
+  native budgets. Earlier generic `FermionicBasis`/`FermionicFit` and pure-fit
+  native commitments are superseded failed engineering routes, not passed
+  requirements; they remain unsupported historical non-claims. This status
+  does not revise the original mathematical goals. The 20 K validation is a
+  reproduction, not fresh blind validation. Documentation-head root/CI, merge
+  and main checks remain pending. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
