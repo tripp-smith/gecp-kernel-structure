@@ -1,0 +1,67 @@
+{
+  "base_main": "06c4e457876532fe1512250c7c61736f4acf99d5",
+  "commands": [
+    "uv run python -m examples.covariance_operator",
+    "uv run --project environments/gp --frozen python -m examples.covariance_operator --gpytorch",
+    "uv run python -m examples.epw_restart_archive <extracted-case-0>/bundle.json <new-native-path>",
+    "PYTHONPATH=<frozen-EH-checkout> <pinned-triqs-python> examples/spectral_continuation.py <consumed-calibration-dataset> --default-model broad_gaussian"
+  ],
+  "epw_fixture_archive_sha256": "bdf9b9b581ce39c96df99bc589d8c0bc3ec0be450aa83e57f3e47fb15788cc67",
+  "example_source_sha256": {
+    "examples/covariance_operator.py": "25e76e153b5f7aac17048eb7841dc92940f01d2340e4a5ded879aea81a3699bd",
+    "examples/epw_restart_archive.py": "5688c01f52be43239b93ca0f499124cbe01d23a994a9aad8a0e0c23366a6ef38",
+    "examples/spectral_continuation.py": "0594ebe5c7789f73427f53146c24248d4face6ea28d11359f64d57d7571060f0"
+  },
+  "maxent_full_native_log": {
+    "path": "data/release/examples/maxent-example.log",
+    "sha256": "073938eb4823e351264aa32e75be196ff3d29c8da25516abd87428963f580ad1"
+  },
+  "maxent_import_source": "feaac669eb49d700f0059f5be755a9e4403a1719 frozen EH checkout through PYTHONPATH; new EJ package has not yet merged EH",
+  "release_version": "1.2.0 unreleased; package versions remain 1.1.0 candidate metadata",
+  "results": {
+    "covariance": {
+      "approximate_system_relative_residual": 1.1665083201722146e-12,
+      "rank": 21,
+      "retained_factor_bytes": 47784,
+      "scope": "finite RBF example; not original-kernel error or GP calibration",
+      "stop_reason": "tolerance"
+    },
+    "epw": {
+      "frequencies": 92,
+      "native_export_roundtrip_equal": true,
+      "scope": "saved actual native fixture, no new EPW solver calculation",
+      "state_count": 140
+    },
+    "gpytorch": {
+      "approximate_system_relative_residual": 1.1665083201722146e-12,
+      "gpytorch_max_difference": 4.8405723873656825e-14,
+      "rank": 21,
+      "retained_factor_bytes": 47784,
+      "scope": "finite RBF example; not original-kernel error or GP calibration",
+      "stop_reason": "tolerance"
+    },
+    "maxent": {
+      "config": {
+        "alpha_max": 10000.0,
+        "alpha_min": 0.0001,
+        "default_model": "broad_gaussian",
+        "maxiter": 1000,
+        "minimizer_mu0": 1e-08,
+        "n_alpha": 33,
+        "n_omega": 401,
+        "normalize_mass": 1.0,
+        "omega_max": 4.0,
+        "omega_min": -4.0
+      },
+      "dataset_fingerprint": "5feb82e1f894e0e76dc56d3cac6656ed98c649c99676ae9eb2e832cad84454ff",
+      "effective_rank": 20,
+      "mass": 0.9999999999999999,
+      "normalized_training_whitened_rms": 0.9691263541863481,
+      "scope": "new analysis with declared settings; no held-out or unique-peak claim",
+      "selected_alpha": 17.78279410038923
+    }
+  },
+  "schema": "kernelgecp.release-preparation-examples.v1",
+  "scientific_eligibility": "pending: EH raw cohort, final independent audits and final release source checks remain mandatory",
+  "scope": "Interface examples on existing fixtures, not canonical domain acceptance or publication eligibility."
+}

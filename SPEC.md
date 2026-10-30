@@ -3151,3 +3151,11 @@ This annotation records delivered identifiers without changing the goals above.
   does not revise the original mathematical goals. The 20 K validation is a
   reproduction, not fresh blind validation. Documentation-head root/CI, merge
   and main checks remain pending. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+
+EJ status annotation (2026-10-30): isolated release preparation adds required
+application guides, examples, source/notice indexes and a fail-closed asset
+inventory with exact Git-document binding. This does not close domain science
+or publication. EH canonical source feaac669 runs in 41095194293; all mandatory
+scientific eligibility, final release/native verification and public installed
+1.2.0 acceptance remain required. Published 1.1.0 artifacts are unchanged.

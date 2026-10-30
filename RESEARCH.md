@@ -12228,3 +12228,57 @@ must not automatically run as a production main gate. Keep the supported
 changes workflow activation only, with no numerical code, data, budgets or
 required original scientific gate changes. Verify YAML, full root and exact
 head CI, then merge and verify main under the standing delivery authorization.
+
+
+## Phase EJ — fail-closed production-release preparation
+
+Prepare 1.2.0 on a separate branch while EH generation source feaac669 stays
+frozen in canonical run 41095194293. EE and EG delivery are established by the
+canonical PR #141/#138 receipts; older pending labels are historical. EH and
+publication remain open. Do not bump versions, tag, publish or close EJ from
+ordinary CI or from a document inventory.
+
+First deliver a verifier-owned asset inventory in scripts/release_artifacts.py
+and meaningful corruption/missing-file tests. Keep the 1.1 release path intact.
+Include all five application guides (both DMFT guides plus molecular Green,
+EPW, spectroscopy and covariance), installation/compatibility, migration,
+troubleshooting, examples, reports and optional-provider source/license indexes.
+Require nonempty UTF-8 text and strict nonempty JSON where applicable; an
+arbitrary byte threshold is not a completeness proof. Bind collected documents
+to their exact Git source blobs. Keep large science assets out of pip archives.
+
+The separate mandatory scientific eligibility gate must execute all applicable
+real-provider independent verifiers and validate source/environment/artifact
+bindings and complete domain case sets. Missing, stale, failed, skipped or
+inconclusive EH raw-256, synthetic-72 and measured-24 evidence must reject
+publication. A producer boolean, hash format, workflow color or document list
+is insufficient. This gate and final provider reruns remain required work.
+
+At closure run focused negative gate checks, ./scripts/verify.sh, exact-head CI,
+installed wheel/sdist tests and required full native scientific release runs.
+After authorized merge verify synchronized exact main, promote tested bytes,
+verify public PyPI hashes and installed interfaces, retain source/notices and
+all failed scientific evidence, and issue the canonical handoff receipt. The
+canonical implementation-run provenance belongs in FINAL_HANDOFF.md and must
+keep frozen original research accounting unchanged. New model/version, token
+categories and billing are recorded only when exposed, never inferred.
+
+
+EJ preparation verification: 65 focused release-asset tests pass, including
+full 1.2 collector composition, exact Git-document mismatch rejection, missing
+required groups/files, malformed JSON and legacy 1.1 paths. Composition fixtures
+do not prove archive validity or scientific eligibility. Source assets are
+present except SPECTROSCOPY.md, which belongs to the pending EH merge; 1.2
+collection must reject its absence. Nonempty text alone is not semantic review.
+
+New examples exercise actual CPU GPyTorch identical-factor conversion, actual
+TauMaxEnt on the consumed development input, and the supported saved native
+EPW model-plus-lossless archive. EPW export/reimport preserves all Z/gap/chi
+fields, 140 states and 92 frequencies exactly. The column-only example retains
+47,784 factor bytes at rank 21 and has approximate-system residual 1.17e-12;
+CPU GPyTorch differs by 4.85e-14. These are interface checks, not new performance
+or full scientific claims. The MaxEnt example imports frozen EH source feaac669
+explicitly, because this isolated EJ branch has not merged EH. Its complete
+native output, including covariance-mode warnings, is preserved separately.
+The future combined candidate still needs installed-example and release checks.
+`data/release/application-examples-preparation.json` binds the scripts/results.
