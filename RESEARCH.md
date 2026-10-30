@@ -12490,3 +12490,42 @@ reuse predeclared seeds and are not fresh independent validation. Preserve a
 failed or resource-exhausted acquisition; review its cause before a new proposal.
 Hosted runtime/library drift fails closed. The final release must require the
 passed raw-cohort binding and measured final audit, not workflow color alone.
+
+
+### EH projector ownership and strict DMFT source binding
+
+The first integrated head d2d9fc6 passes full root (2,601 tests, 42 optional
+skips), but strict CT-HYB replay rejects its sole shared-fitter addition,
+`LeastSquaresPlan.observation_projection`. That method is used only by the
+optional spectroscopy adapter. Restore the shared fitting module byte-for-byte
+to accepted 7200ec0 and move the identical method to private
+`_SpectralLeastSquaresPlan` in the MaxEnt integration, inheriting the unchanged
+constructor, fit, cached SVD, rank rule and immutable storage. Public
+`prepare_spectral_projection` and its complete covariance map stay unchanged.
+This supersedes the earlier documented prerelease public projector identifier;
+it was not published in 1.1.0 or required by the original integration contract.
+
+Independent Terra review accepts the unchanged arithmetic/cache/bounds and
+requires preserving QR, complex, ill-scaled, rank-zero and ownership tests.
+Saved real-provider projection comparison is regression consistency, distinct
+from those independent oracles. Keep the strict source guard unchanged and
+require committed matching inputs plus actual-provider audit replay; do not
+allow AST exceptions or rewrite original scientific receipts. A source-triggered
+native campaign on d2d9fc6 is an unintended development run, not a new final
+cohort or replacement accepted EE experiment. Preserve its outcome separately.
+All new-head root, real Linux calibration/preflight and fresh measured final
+acceptance gates remain required before closure.
+
+
+The d2d9fc6 Linux preflight stops inside the native tail fitter because its
+8-frequency disposable fixture supplies too few least-squares rows. It does
+not establish runtime drift and has not generated a final chain. Retain the
+full failed log/receipt, and use the already exercised 32-frequency/385-time,
+500-warmup/2,000-cycle wiring configuration with the same separate probe seed.
+Production beta/U/bath/grids/cycles/seeds and spectroscopy budgets are unchanged.
+GECP/DLR/IR projector matrices are bitwise identical to all three retained
+1452a8a measured calibration matrices; the source-bound consistency receipt is
+recorded in data/spectroscopy/projector-relocation.json. Independent QR and
+covariance tests remain separate evidence. EE is delivered at main 06c4e45
+with full root and all seven exact-main workflows passing; its canonical receipt
+is PR #141 comment 6519090265. EH native/final and EJ gates remain open.

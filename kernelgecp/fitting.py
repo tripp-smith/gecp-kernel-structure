@@ -187,22 +187,6 @@ class LeastSquaresPlan:
 
         return self._diagnostics
 
-    def observation_projection(self) -> NumericArray:
-        """Return the retained observation projector U_r U_r^H.
-
-        This avoids forming A A^+ through a badly scaled coefficient basis.
-        The full observation-sized matrix is explicitly bounded to2048 rows;
-        it describes this finite SVD, not held-out prediction or certification.
-        """
-        if self._design.shape[0] > 2048:
-            raise ValueError("observation projection matrix is limited to2048 rows")
-        rank = self._diagnostics.effective_rank
-        left = self._u[:, :rank]
-        result = left @ left.conj().T
-        if not np.all(np.isfinite(result)):
-            raise NumericalBreakdownError("observation projection is nonfinite")
-        return _immutable_copy(result)
-
     def _observations(
         self, values: npt.ArrayLike, axis: int
     ) -> tuple[NumericArray, int]:

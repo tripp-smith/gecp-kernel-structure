@@ -1,0 +1,46 @@
+{
+  "cases": [
+    {
+      "bitwise_equal": true,
+      "maximum_difference": 0,
+      "method": "kernelgecp",
+      "old_archive_sha256": "876ffe3ae4a3b679394c91134ac817c56b7a73c851f01e1ed2cadf5a9519fbfa",
+      "projection_sha256": "077969418abaec8616f988a9281f880bbe053accc0dff04e591edd4b37286ac8",
+      "shape": [
+        65,
+        65
+      ]
+    },
+    {
+      "bitwise_equal": true,
+      "maximum_difference": 0,
+      "method": "pydlr",
+      "old_archive_sha256": "5ed8f32bf2e24a7624cee99c091da5c5747b57666a016c319831018ca27fea88",
+      "projection_sha256": "b484b339486414f8095414a9b9ff08de65010f8ad2af0034845109f471e01bd0",
+      "shape": [
+        65,
+        65
+      ]
+    },
+    {
+      "bitwise_equal": true,
+      "maximum_difference": 0,
+      "method": "sparse_ir",
+      "old_archive_sha256": "2b9c6cbc0d9d5fa6ca6c4bf38d365861408b53a7816f9e8ddf8e856ea922f8cb",
+      "projection_sha256": "67821a8cdac4b36e880d56b5840e08a6da1d12516329c36c291404f0e383dd2b",
+      "shape": [
+        65,
+        65
+      ]
+    }
+  ],
+  "old_generation_revision": "1452a8a921c650242f0ba1fae5593cc67f314bf1",
+  "schema": "kernelgecp.projector-relocation-consistency.v1",
+  "scope": "Regression consistency against consumed real-provider calibration; independent QR and ill-scaled oracles remain separate.",
+  "status": "passed",
+  "tested_source_sha256": {
+    "kernelgecp/fitting.py": "d4a7f4ff5d4e55db1cc8e8f4285274b3a669eb0807c173bbd13f1b290ac58119",
+    "kernelgecp/integrations/maxent.py": "e3ce84b5095ee2679a4fbe86e9024c490004b7d00061073789594f40c040d1c4",
+    "tests/test_observation_projection.py": "a6ceb8b5393f8d921172a90e1846471031bfdfa91b24cf7c84b3189b64c98962"
+  }
+}

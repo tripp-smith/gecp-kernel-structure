@@ -18,11 +18,11 @@ from kernelgecp.integrations.cthyb_dmft import CTHYBConfig, CTHYBMeasurement
     reason="canonical Linux acquisition-runtime preflight requires actual CT-HYB",
 )
 def test_linux_native_runtime_freeze_survives_first_solve():
-    config = CTHYBConfig(n_iw=8, n_tau=49, warmup_cycles=10)
+    config = CTHYBConfig(n_iw=32, n_tau=385, warmup_cycles=500)
     plan = driver.CTHYBPlan(config)
     before = driver.provenance()
     # A separate disposable wiring probe, outside every declared final seed family.
-    measured = plan.sample(plan.initial_bath(), cycles=16, seed=32290001)
+    measured = plan.sample(plan.initial_bath(), cycles=2000, seed=32290001)
     assert measured.solve_status == 0
     assert driver.provenance() == before
 

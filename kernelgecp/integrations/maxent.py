@@ -26,6 +26,7 @@ from ..basis import _positive_real, _tau_array
 from ..fitting import (
     LeastSquaresDiagnostics,
     LeastSquaresPlan,
+    NumericArray,
     _immutable_copy,
     _numeric_array,
 )
@@ -41,6 +42,28 @@ def _real_array(value: npt.ArrayLike, name: str) -> FloatArray:
 
 def _owned(value: npt.ArrayLike) -> FloatArray:
     return cast(FloatArray, _immutable_copy(np.asarray(value, dtype=np.float64)))
+
+
+class _SpectralLeastSquaresPlan(LeastSquaresPlan):
+    """Integration-only observation projector over the inherited cached SVD."""
+
+    __slots__ = ()
+
+    def observation_projection(self) -> NumericArray:
+        """Return the retained observation projector U_r U_r^H.
+
+        This avoids forming A A^+ through a badly scaled coefficient basis.
+        The full observation-sized matrix is explicitly bounded to2048 rows;
+        it describes this finite SVD, not held-out prediction or certification.
+        """
+        if self._design.shape[0] > 2048:
+            raise ValueError("observation projection matrix is limited to2048 rows")
+        rank = self._diagnostics.effective_rank
+        left = self._u[:, :rank]
+        result = left @ left.conj().T
+        if not np.all(np.isfinite(result)):
+            raise NumericalBreakdownError("observation projection is nonfinite")
+        return _immutable_copy(result)
 
 
 def _jsonable(value: Any) -> Any:
@@ -516,7 +539,7 @@ def prepare_spectral_projection(
     ):
         raise ValueError("basis designs must have matching trailing coefficient axes")
     same_mesh = np.array_equal(source, target)
-    plan = LeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
+    plan = _SpectralLeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
     if plan.diagnostics.effective_rank == 0:
         raise NumericalBreakdownError("projection design has no retained singular mode")
     matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T

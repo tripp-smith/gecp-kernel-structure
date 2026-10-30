@@ -3192,3 +3192,19 @@ This annotation records delivered identifiers without changing the goals above.
   does not revise the original mathematical goals. The 20 K validation is a
   reproduction, not fresh blind validation. Documentation-head root/CI, merge
   and main checks remain pending. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).
+
+
+- **Phase EH prerelease identifier disposition:** the earlier source-only
+  `LeastSquaresPlan.observation_projection` identifier is superseded by a
+  private integration subclass. `prepare_spectral_projection` preserves the
+  identical cached-SVD projector, covariance propagation and scientific gates;
+  the shared fitter is byte-identical to accepted CT-HYB source 7200ec0. No
+  published 1.1.0 artifact or original mathematical/application goal changes.
+  Full new-head verification, native acceptance and delivery remain open.
+
+
+- **Phase EE delivery status:** PR #141 is merged at synchronized main
+  `06c4e45`; native-enabled full root passes 2,499 tests/39 optional skips and
+  all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)).
+  EH scientific acceptance and EJ/public 1.2.0 remain open. No original goal
+  or published artifact is changed.

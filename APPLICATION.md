@@ -1956,3 +1956,10 @@ The bundle carries its declared temperature, units, state order and chemical
 potential offset. The fitted Green values are model predictions; native export
 uses the explicitly stored corrections. This example requires the unreleased
 1.2 implementation or its source checkout, not the published 1.1.0 package.
+
+
+The source-only prerelease `LeastSquaresPlan.observation_projection` method
+has moved into the optional spectroscopy adapter. Use public
+`prepare_spectral_projection` for the complete observation map. Its cached SVD,
+rank cutoff, ownership and covariance semantics are unchanged. This development
+identifier was never part of the published 1.1.0 API.
