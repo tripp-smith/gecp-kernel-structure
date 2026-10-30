@@ -103,7 +103,7 @@ jobs:
           retention-days: 14
 
   scientific-campaign:
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     defaults:
@@ -170,8 +170,8 @@ jobs:
     with:
       segment: a
       previous: ''
-      max_new: 80
-      expected: 80
+      max_new: 64
+      expected: 64
 
   fixed-bath-b:
     needs: fixed-bath-a
@@ -179,8 +179,8 @@ jobs:
     with:
       segment: b
       previous: a
-      max_new: 80
-      expected: 160
+      max_new: 64
+      expected: 128
 
   fixed-bath-c:
     needs: fixed-bath-b
@@ -188,11 +188,20 @@ jobs:
     with:
       segment: c
       previous: b
-      max_new: 96
+      max_new: 64
+      expected: 192
+
+  fixed-bath-d:
+    needs: fixed-bath-c
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: d
+      previous: c
+      max_new: 64
       expected: 256
 
   fixed-bath-final:
-    needs: fixed-bath-c
+    needs: fixed-bath-d
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     defaults:
@@ -222,7 +231,7 @@ jobs:
           path: artifacts
       - uses: actions/download-artifact@v4
         with:
-          name: fixed-bath-c-${{ github.run_id }}-${{ github.run_attempt }}
+          name: fixed-bath-d-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/fixed-bath
       - name: Extract the accepted parent and independently audit the new cohort
         run: |

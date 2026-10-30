@@ -154,3 +154,13 @@ permitted by this protocol. Each hosted job is bounded at 330 minutes, with
 240-minute acquisition segments. Calibration-only CI success leaves measured
 acceptance and release blocked. The Linux runtime-freeze preflight, complete
 new final and every original scientific budget remain mandatory.
+
+
+The final pre-acquisition resource plan uses actual Linux timing evidence,
+not the earlier Mac estimate: approximately 10 hours of serial measurements
+plus setup, continuation and audit. Four 64-chain segments replace 80/80/96
+for scheduling headroom; the 256 samples, split, seeds and scientific budgets
+are identical. Small actual-provider CI remains automatic; complete scientific
+calibration and acquisition require explicit dispatch after source verification.
+Calibration-only or ordinary CI success does not close the measured gate.
+See [resource evidence](data/spectroscopy/fixed-bath-linux-resource-plan.json).

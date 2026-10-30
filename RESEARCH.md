@@ -12529,3 +12529,28 @@ recorded in data/spectroscopy/projector-relocation.json. Independent QR and
 covariance tests remain separate evidence. EE is delivered at main 06c4e45
 with full root and all seven exact-main workflows passing; its canonical receipt
 is PR #141 comment 6519090265. EH native/final and EJ gates remain open.
+
+
+### EH final launch boundary and measured Linux resource plan
+
+Recover actual 7200ec0 Actions logs before acquisition: 152 measurements at
+1.6 million cycles average 140.08 seconds, maximum 144.47 seconds. That implies
+about 9.96 hours for 256 serial measurements, before overhead. This is a
+planning estimate, not a fresh-process performance claim. The portable timing
+inventory binds the source, run and backing-log hash.
+
+Supersede the earlier 80/80/96 scheduling proposal with four fixed 64-chain
+segments. Each has roughly 2.57 hours of prior maximum scaled measurement
+work, leaving substantial margin within the 240-minute driver and 330-minute
+hosted-job caps. The one 256-chain cohort, deterministic 128/128 split, seeds,
+physics, cycle count and all scientific gates remain unchanged; no new final
+data have been generated.
+
+Ordinary push/PR CI executes small actual installed-provider cases and the
+Linux preflight. Full synthetic/measured calibration, independent audits and
+the optional acquisition are explicit workflow dispatches after source
+verification. A green ordinary CI run cannot close EH or authorize release.
+The full canonical dispatch must pass calibration before any acquisition,
+then every raw/final audit. No automatic replacement or rerun after acquisition
+begins is allowed. This avoids regenerating expensive science on each draft
+or documentation edit, without removing a mandatory completion gate.
