@@ -101,7 +101,7 @@ remain native. Upstream acceptance is not a delivery gate.
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
 | ED | Deterministic interacting Bethe IPT with independent references | complete: [frozen campaign and independent audit](INTERACTING_DMFT.md), full root and all main workflows pass at merged main `7530ec7` ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
-| EE | Actual CT-HYB DMFT and independent-replica uncertainty | local corrected-seed campaign and audit pass; first Linux resume failed and is preserved; exact-state repair and a clean fresh-seed Linux campaign remain open in PR #141 |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | local and fresh Linux corrected-seed campaigns and independent audits pass; the first failed Linux resume is preserved. Final root, exact-head CI and delivery remain open in PR #141 |
 | EF | Native molecular GF2 runs and supported Green importer | delivered at merged main `07c4115`; [exact-main receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146) |
 | EG | EPW MgB2 native output/compression/restart interoperability | pending EB/EC |
 | EH | Actual covariance-aware MaxEnt including EE observations | pending EC/EE |

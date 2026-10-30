@@ -11910,3 +11910,23 @@ fresh disjoint odd streams with seed base 30100000. The three-segment Linux
 campaign starts clean, with all source/locks/configuration frozen before data.
 Both the full scientific result and independent audit remain mandatory before
 root/exact-head/merge/main delivery; local evidence alone does not close EE.
+
+
+### EE fresh Linux scientific evidence
+
+Fresh GitHub Actions run 40928480439 at generation and audit revision `7200ec0e912954c568bedb2092d9ff1c053f9ba7` passes all seven independently audited scientific gates. Calibration selects 1,600,000 cycles without changing the frozen budgets or targets; 208 fresh fixed-bath chains are audited. [CTHYB_DMFT.md](CTHYB_DMFT.md#fresh-linux-scientific-acceptance) records the measurements, limits, source-bound archive and integrity checks. The earlier checkpoint failure and invalid independence cohorts remain historical evidence. Finite-grid stochastic acceptance does not certify continuous behavior or stochastic trajectory error. Final root verification, exact-head CI, authorized merge and post-merge checks remain open.
+
+### EE exact-head frozen-evidence replay contract
+
+Keep the full fresh native campaign available on scientific-source changes
+and explicit dispatch. Documentation-only delivery revisions must not silently
+claim an older head was checked or rerun new Monte Carlo until passing. Add a
+dedicated actual-provider Linux replay lane for final heads and main: verify
+the committed canonical ZIP/binding, bounded extraction and complete source
+inventory against current scientific files, then recompute the independent
+audit on all frozen native measurements. Missing, changed, malformed or failed
+evidence and unavailable promised providers must fail. Retain both the original
+generation/audit identity and the current replay revision distinctly. This
+replays accepted real-provider data; it is not a new stochastic validation.
+Test digest/source mismatch, unsafe archive and failed/missing gate rejection.
+All full-root, exact-head and post-merge delivery gates remain mandatory.

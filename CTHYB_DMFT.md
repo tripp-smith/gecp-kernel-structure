@@ -4,8 +4,8 @@ This is a bounded local scientific result, not Phase EE delivery. Actual TRIQS
 4.0.2/CT-HYB 4.0.1 on Darwin arm64 produced the finite-grid stochastic campaign
 at generation revision `9d28053060329cd20647dc03e038a383c351adf1`. An independent
 audit at revision `e83d195cb11ec9e2657c24327e95489edff1c5d6` passed the seven
-reported gates. The original EE requirement includes a real Linux execution and
-independent audit in CI; that and exact-head delivery remain open. The local
+reported gates. A fresh real Linux execution and independent audit now pass at source
+`7200ec0`; exact-head verification and delivery remain open. The local
 root verification at `e83d195` reported 2,345 passed and 39 skipped. This local
 result is not a continuous-domain certificate, exact Hubbard-model result,
 performance claim, or evidence of trajectory-error bounds.
@@ -103,4 +103,13 @@ fail-closed orphan; this is not general crash recovery. Legacy checkpoints
 without state are rejected. Hashes provide content integrity, not signatures.
 `experiments/cthyb_exact_state.toml` declares a fresh disjoint seed family with
 base 30100000 and unchanged physics, cycle ladder, ensemble sizes and numerical
-budgets. A new complete Linux campaign and its independent audit remain required.
+budgets. The fresh complete Linux campaign and its independent audit are recorded below.
+
+
+## Fresh Linux scientific acceptance
+
+GitHub Actions run [40928480439](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/40928480439) generated the fresh campaign on Linux x86_64 at source `7200ec0e912954c568bedb2092d9ff1c053f9ba7`; the independent audit identifies the same revision. This passes the seven scientific gates, while final full-root verification, exact-head CI and delivery remain open. The frozen 1,600,000-cycle choice was the first passing calibration budget: maximum standard errors at 100,000, 400,000 and 1,600,000 cycles were respectively 0.000536725, 0.000447904 and 0.000288701 against 0.0003. Both controllers stopped at 12 iterations.
+
+The audit reports 208 fresh fixed-bath chains and maximum final observable standard error 0.0000843751 against 0.0003. All 14 dense/GECP observable differences meet their individual 0.001 plus three combined standard-error limits; the largest difference is 0.0000999178. Maximum selected fixed-bath defects are 0.000167133 (dense native), 0.000150296 (GECP native), and 0.000131124 (GECP represented); each component passes its own limit. Maximum native-grid refinement discrepancy is 0.000118404 and low-frequency quadrature discrepancy is 0.0000174782. Three provider replays and cutoff checks pass. The same finite-grid, fixed-bath uncertainty and independence limitations above apply; this is not a trajectory-error bound or continuous certificate.
+
+The [complete Linux archive](experiments/data/cthyb-linux-7200ec0-passed.zip) is 20,367,310 bytes, SHA-256 `5fba88be6a6796d29947b5e3bc5bf360e155813dec18d15e506ebe1f51832e77`. The [independent audit](data/cthyb/linux-independent-audit-7200ec0.json), [binding](data/cthyb/linux-audit-binding-7200ec0.json), and [source-bound summary](data/cthyb/linux-summary-7200ec0.json) retain the audit and provenance. The binding SHA-256 is `6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd`. An independent inventory comparison checked every one of 467 archive files against the extracted tree, all 208 bound measurement JSON hashes and their NPZ hashes, the four top-level binding hashes, and all ten manifest source hashes against Git revision `7200ec0`. These integrity checks do not themselves rerun the independent scientific audit or establish signatures.
