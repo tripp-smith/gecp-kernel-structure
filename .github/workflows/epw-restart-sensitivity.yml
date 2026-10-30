@@ -1,0 +1,65 @@
+name: EPW restart sensitivity (development only)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["codex/phase-eg-epw-nambu"]
+    paths:
+      - scripts/providers/epw_restart_sensitivity.py
+      - tests/test_epw_restart_sensitivity.py
+      - .github/workflows/epw-restart-sensitivity.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sensitivity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Download consumed 17 K development inputs
+        uses: actions/download-artifact@v4
+        with:
+          name: epw-anisotropic-native-linux
+          run-id: 40854443322
+          github-token: ${{ github.token }}
+          path: prior
+      - uses: docker/setup-buildx-action@v3
+      - name: Build pinned unmodified EPW
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: environments/epw/Dockerfile
+          tags: kernelgecp-epw:sensitivity
+          load: true
+          cache-from: type=gha,scope=provider-epw
+          cache-to: type=gha,mode=min,scope=provider-epw
+      - name: Measure the fixed residual ladder at native order 98
+        run: |
+          mkdir -p diagnostic
+          docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
+            -e VECLIB_MAXIMUM_THREADS=1 -e NUMEXPR_NUM_THREADS=1 -e PYTHONPATH=/repo \
+            -v "$PWD/prior:/prior:ro" -v "$PWD/diagnostic:/diagnostic" -v "$PWD:/repo:ro" \
+            kernelgecp-epw:sensitivity /opt/venv/bin/python -m scripts.providers.epw_restart_sensitivity \
+            --artifact /prior --qe-root /opt/qe --output /diagnostic/sensitivity \
+            --source-revision "$(git rev-parse HEAD)"
+      - name: Compress complete generated real-axis tables
+        if: always()
+        run: |
+          sudo find diagnostic -name 'MgB2.pade_aniso_017.00' -type f -exec gzip -n {} +
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: epw-restart-development-sensitivity
+          path: |
+            diagnostic/**/sensitivity-progress.json
+            diagnostic/**/restart.out
+            diagnostic/**/epw6.in
+            diagnostic/**/MgB2.imag_aniso_017.00
+            diagnostic/**/MgB2.pade_aniso_017.00.gz
+          if-no-files-found: error
+          retention-days: 14

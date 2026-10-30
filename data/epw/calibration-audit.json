@@ -1,0 +1,52 @@
+{
+  "details": {
+    "calibration": [
+      {
+        "calibration": {
+          "chi_ev": 4.072432206875254e-07,
+          "gap_ev": 5.759216222412517e-10,
+          "green_global_scaled": 1.4182020203685104e-08,
+          "green_scaled": 5.2194145188575614e-08,
+          "imaginary_defect": 8.326672684688674e-17,
+          "z": 3.340531182782769e-07
+        },
+        "design_condition_max": 7.321300572759685,
+        "passed": false,
+        "rank": 48,
+        "training": {
+          "chi_ev": 2.533017464834142e-06,
+          "gap_ev": 3.3862947741020166e-09,
+          "green_global_scaled": 4.743878672259592e-09,
+          "green_scaled": 3.669538544844456e-07,
+          "imaginary_defect": 2.220446049250313e-16,
+          "z": 1.5937201878202245e-06
+        }
+      },
+      {
+        "calibration": {
+          "chi_ev": 1.714504661853855e-08,
+          "gap_ev": 2.7510999337995723e-11,
+          "green_global_scaled": 6.770425428912394e-10,
+          "green_scaled": 2.121454709993004e-09,
+          "imaginary_defect": 8.326672684688674e-17,
+          "z": 4.945378551113322e-09
+        },
+        "design_condition_max": 16.38227176132696,
+        "passed": true,
+        "rank": 60,
+        "training": {
+          "chi_ev": 4.335337433492015e-08,
+          "gap_ev": 9.706510378446054e-11,
+          "green_global_scaled": 1.173435782581478e-10,
+          "green_scaled": 7.922958030767867e-09,
+          "imaginary_defect": 2.220446049250313e-16,
+          "z": 2.1700441665828407e-08
+        }
+      }
+    ],
+    "selected_rank": 60
+  },
+  "kind": "calibration",
+  "scope": "training and calibration rows only; final rows unscored",
+  "status": "passed"
+}

@@ -1,0 +1,67 @@
+{
+  "artifact_id": 12888469873,
+  "artifact_sha256": "07df1620aeda4aed67643dc559e8c268666cb0014d7d7fce77984df15fecbacf",
+  "comparison": {
+    "atol": 1e-05,
+    "budget_reference": "absolute raw value",
+    "channels": {
+      "Z_imag": {
+        "failures": 616565,
+        "max_absolute_error": 69.75953110500001,
+        "max_budget_ratio": 152204.03507490037,
+        "unit": "dimensionless"
+      },
+      "Z_real": {
+        "failures": 508503,
+        "max_absolute_error": 79.9083212069,
+        "max_budget_ratio": 341261.7177066491,
+        "unit": "dimensionless"
+      },
+      "gap_imag_ev": {
+        "failures": 299698,
+        "max_absolute_error": 1.70509922314,
+        "max_budget_ratio": 23593.939567427165,
+        "unit": "eV"
+      },
+      "gap_real_ev": {
+        "failures": 277209,
+        "max_absolute_error": 0.8684855040499999,
+        "max_budget_ratio": 38932.78520309634,
+        "unit": "eV"
+      },
+      "shift_imag_ev": {
+        "failures": 615532,
+        "max_absolute_error": 10.202519479977001,
+        "max_budget_ratio": 63960.76366650352,
+        "unit": "eV"
+      },
+      "shift_real_ev": {
+        "failures": 610960,
+        "max_absolute_error": 4.446638246354,
+        "max_budget_ratio": 95895.11383129616,
+        "unit": "eV"
+      }
+    },
+    "frequency_count": 4500,
+    "passed": false,
+    "row_count": 630000,
+    "rtol": 0.001,
+    "state_count": 140
+  },
+  "generation_revision": "80ea4bd774842d02ad5c3205af8eebb0577287de",
+  "header_repair_only": true,
+  "original_receipt_sha256": "6a817d435cbb4904c8ff6749afe2795cafceac4fd8fef351a786135b51bb025f",
+  "schema": "kernelgecp.epw-lossy-restart-failure.v1",
+  "status": "failed",
+  "table_hashes": {
+    "raw": "7a32007bb5e68534017bc81e11733c6c529cce9007608f1502948a50c1ef8636",
+    "reconstructed": "96d5f2fd93718f61cd2b75de917c7cc4edaf1fdff4cf53ea1486fd48dcf528f5"
+  },
+  "tolerances_unchanged": {
+    "Z_units": "dimensionless",
+    "atol": 1e-05,
+    "gap_shift_units": "eV",
+    "rtol": 0.001
+  },
+  "workflow_run": 40854443322
+}

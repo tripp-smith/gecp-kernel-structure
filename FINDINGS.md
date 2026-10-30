@@ -2447,6 +2447,33 @@ invalid; the parent 400k budget also fails the SEM gate when recomputed from
 four unique streams. Fresh odd-stride calibration and held-out validation are
 in progress. A duplicate raw-measurement check now fails closed.
 
+## EG calibration: frequency-native real-parity cross
+
+Direct time-cardinal frequency fits of authentic coarse MgB2 output missed the
+Z/energy-shift budgets and remain failed evidence. An explicit real Nambu
+parity reduction gives three Green channels in squared Matsubara frequency.
+For this Cauchy kernel, exact Schur-product identities permit log-magnitude
+pivot selection without subtracting nearly equal residuals. High-precision
+cardinal construction followed by guarded binary64 evaluation avoids the
+ill-conditioned time-cardinal continuation observed in the failed pilots.
+
+The rank-60 candidate meets the training/calibration margins on actual EPW
+data. Independent direct-product arithmetic and an analytic finite-pole BCS
+eigensystem check the representation. Archive reload, complex symmetry,
+ownership, corruption and unsafe-conditioning tests pass. These checks do not
+close untouched final-row or native-restart acceptance. The method explicitly
+uses real Eliashberg parity, preserves native solver fields, and adds no generic
+complex-linearity, continuous certificate or universal speedup claim.
+
+The subsequent actual EPW run reads both native exports successfully but its
+default-order real-axis Padé outputs differ far beyond the fixed budgets.
+Small imaginary-axis approximation errors therefore do not establish stable
+downstream continuation. A parser defect had hidden this numerical failure;
+correcting header whitespace preserves the rejection. The failed inputs,
+logs and complete comparison are retained. A bounded native conditioning
+study must pass independent reproduction and omitted-frequency checks before
+any fresh validation. Fitted-restart acceptance remains open.
+
 ## EI development: column observations and independent covariance checks
 
 Column-oracle Cholesky separates scalable factor state from a dense covariance
@@ -2499,3 +2526,34 @@ now serializes the accepted state instead of regenerating historical updates.
 The full failed Linux artifact is preserved and the next campaign uses a fresh
 seed family. This changes neither Monte Carlo uncertainty targets nor physical
 agreement budgets, and it adds no numerical determinism theorem across hardware.
+
+### EG historical native continuation checkpoint
+
+The following describes the prior checkpoint; see the supported result below.
+
+The 17 K pure fit passes held-out imaginary-axis checks, but its native Padé
+restart fails. The fixed seven-order study is inconclusive with all candidates
+failing, despite passing baseline and compiled-helper rechecks. A lossless
+archive and truth-assisted sensitivity diagnostic are development work, not a
+proof of fitted restart interoperability; no native sensitivity result or
+20/30 K fitted-field score exists. See the [evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).
+
+The EG 20 K archive checkpoint exposes an arithmetic API boundary: equivalent
+real Matsubara formulas need not give the same binary64 coordinates. Exact-node
+replay is safe here while a three-ULP neighbor fails the unchanged conditioning
+guard. The verifier repair preserves this rejection and does not establish
+continuous-frequency stability or native solver acceptance. See
+[EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md).
+
+### EG supported native archive result
+
+At `1b5d60a`, the Cauchy-frequency model passes all three 20 K pure-model
+holdouts and independent audit. Explicit lossless XOR corrections restore the
+native file; unmodified EPW compares raw and restored inputs with zero error
+in all six channels over 630,000 rows, and rejects a wrong-frequency control.
+The run reproduces previously consumed data, not a fresh blind validation.
+The failed 17 K pure-fit restart and the four nonzero scaled sensitivity
+failures remain non-claims. Original scientific acceptance passes, while this
+documentation head and delivery remain unverified. The historical generic
+FermionicBasis/FermionicFit and fit-only native routes are failed, superseded
+engineering approaches. See [evidence](EPW_INTEROPERABILITY.md#supported-route-acceptance).

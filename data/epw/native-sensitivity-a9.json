@@ -1,0 +1,572 @@
+{
+  "baseline_comparison": {
+    "atol": 1e-05,
+    "budget_reference": "absolute raw value",
+    "channels": {
+      "Z_imag": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "Z_real": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "gap_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "gap_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      }
+    },
+    "frequency_count": 4500,
+    "passed": true,
+    "row_count": 630000,
+    "rtol": 0.001,
+    "state_count": 140
+  },
+  "budget_seconds": 18000,
+  "cases": {
+    "raw": {
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/raw/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "70e19ab3db49cba5ac48d101f6bb93f88740ba310432d1464ad573975364fa51",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.723177048999986
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "7a32007bb5e68534017bc81e11733c6c529cce9007608f1502948a50c1ef8636",
+      "scale": null,
+      "status": "executed"
+    },
+    "scale-0": {
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": true,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/scale-0/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "30dc5408bb24b512a6dddf89790f7178d7ac34170996b7ddca14694f00055ee5",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.4234729799999855
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "7a32007bb5e68534017bc81e11733c6c529cce9007608f1502948a50c1ef8636",
+      "perturbation": {
+        "fields": {
+          "Z": {
+            "equal_text_count": 15260,
+            "equal_value_count": 15260,
+            "field_count": 15260,
+            "max_absolute_error": 0.0
+          },
+          "gap_ev": {
+            "equal_text_count": 15260,
+            "equal_value_count": 15260,
+            "field_count": 15260,
+            "max_absolute_error": 0.0
+          },
+          "shift_ev": {
+            "equal_text_count": 15260,
+            "equal_value_count": 15260,
+            "field_count": 15260,
+            "max_absolute_error": 0.0
+          }
+        },
+        "frequency_and_state_text_unchanged": true,
+        "sha256": "3bb9f9c0574b6001ff27c998a135c94e76c6ef56f2565b5b60ef34c3ea94b872"
+      },
+      "scale": 0.0,
+      "status": "passed"
+    },
+    "scale-0.001": {
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 0,
+            "max_absolute_error": 0.0,
+            "max_budget_ratio": 0.0,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 7084,
+            "max_absolute_error": 0.0265354944101,
+            "max_budget_ratio": 1086.728827882039,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 7348,
+            "max_absolute_error": 0.0316226644539,
+            "max_budget_ratio": 1059.2037579630985,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 479561,
+            "max_absolute_error": 10.43404558586,
+            "max_budget_ratio": 30847.589902035277,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 448348,
+            "max_absolute_error": 3.96682029413,
+            "max_budget_ratio": 60722.028944395475,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/scale-0.001/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "ab4e747bcbb569799f8918391cb3b1a2fddbe6ebe6f0794736fc551d76d56bbc",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.424135277000005
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "804e13a640aeb322aae8c46c6a2f185764855c69a84e57013f8650cbc79f9903",
+      "perturbation": {
+        "fields": {
+          "Z": {
+            "equal_text_count": 15260,
+            "equal_value_count": 15260,
+            "field_count": 15260,
+            "max_absolute_error": 0.0
+          },
+          "gap_ev": {
+            "equal_text_count": 15239,
+            "equal_value_count": 15239,
+            "field_count": 15260,
+            "max_absolute_error": 1.0000008633659352e-13
+          },
+          "shift_ev": {
+            "equal_text_count": 10781,
+            "equal_value_count": 10781,
+            "field_count": 15260,
+            "max_absolute_error": 4.3000006333393515e-11
+          }
+        },
+        "frequency_and_state_text_unchanged": true,
+        "sha256": "a75b8fa5939ed4f169d5692eb34e65c9059046b9176518b0e412fb04416c5ade"
+      },
+      "scale": 0.001,
+      "status": "comparison_failed"
+    },
+    "scale-0.01": {
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 15266,
+            "max_absolute_error": 12.547615469999982,
+            "max_budget_ratio": 33503.61725979143,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 9556,
+            "max_absolute_error": 17.114530654999996,
+            "max_budget_ratio": 78180.41638956609,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 71445,
+            "max_absolute_error": 0.2399204290013,
+            "max_budget_ratio": 7606.417856576983,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 66452,
+            "max_absolute_error": 0.16962746659550001,
+            "max_budget_ratio": 7802.705386020156,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 606798,
+            "max_absolute_error": 9.85015646479,
+            "max_budget_ratio": 170964.28479814914,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 596504,
+            "max_absolute_error": 4.427639670693,
+            "max_budget_ratio": 79895.38290849421,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/scale-0.01/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "91e03dddb2c9cf3bdd4a7a8898741b4a54a367d3b2eca3c74c83d8659e2bc14f",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.4239406990000134
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "2fbbd83fb57ec0534a097879291160836ed54984f1bc72e097c34c0c9952cc7b",
+      "perturbation": {
+        "fields": {
+          "Z": {
+            "equal_text_count": 15124,
+            "equal_value_count": 15124,
+            "field_count": 15260,
+            "max_absolute_error": 2.000000165480742e-10
+          },
+          "gap_ev": {
+            "equal_text_count": 14846,
+            "equal_value_count": 14846,
+            "field_count": 15260,
+            "max_absolute_error": 9.999999960041972e-13
+          },
+          "shift_ev": {
+            "equal_text_count": 4890,
+            "equal_value_count": 4890,
+            "field_count": 15260,
+            "max_absolute_error": 4.340000026026303e-10
+          }
+        },
+        "frequency_and_state_text_unchanged": true,
+        "sha256": "ff3a389dd2f228ca021d16b37e9ef75f604677859e2606b9760fff2a302a48c5"
+      },
+      "scale": 0.01,
+      "status": "comparison_failed"
+    },
+    "scale-0.1": {
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 442297,
+            "max_absolute_error": 106.140812378,
+            "max_budget_ratio": 893568.7829597547,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 308205,
+            "max_absolute_error": 143.759611796,
+            "max_budget_ratio": 73504.52919193609,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 185669,
+            "max_absolute_error": 0.723255683195,
+            "max_budget_ratio": 45816.41774548286,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 176545,
+            "max_absolute_error": 0.7437549653650001,
+            "max_budget_ratio": 43603.865580689824,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 614405,
+            "max_absolute_error": 15.868653376909,
+            "max_budget_ratio": 524017.5760104474,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 608761,
+            "max_absolute_error": 13.5389142832771,
+            "max_budget_ratio": 984793.8262869632,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/scale-0.1/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "d56d58d13192ddbe8d5596ac3861ab65c77a4bd08b19e4965e8030c0c6f00ecc",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.3731521509999993
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "892537acf61d14c21b76e584c1a83e053e7445a93b37e8ee9d9c77319ac1cdfc",
+      "perturbation": {
+        "fields": {
+          "Z": {
+            "equal_text_count": 10680,
+            "equal_value_count": 10680,
+            "field_count": 15260,
+            "max_absolute_error": 2.1999999599842113e-09
+          },
+          "gap_ev": {
+            "equal_text_count": 12219,
+            "equal_value_count": 12219,
+            "field_count": 15260,
+            "max_absolute_error": 9.699999917872626e-12
+          },
+          "shift_ev": {
+            "equal_text_count": 3209,
+            "equal_value_count": 3209,
+            "field_count": 15260,
+            "max_absolute_error": 4.335000004795919e-09
+          }
+        },
+        "frequency_and_state_text_unchanged": true,
+        "sha256": "e58213b372a078c6d6051fb7d6f415452943ab948f3523232405464138537ef6"
+      },
+      "scale": 0.1,
+      "status": "comparison_failed"
+    },
+    "scale-1": {
+      "comparison": {
+        "atol": 1e-05,
+        "budget_reference": "absolute raw value",
+        "channels": {
+          "Z_imag": {
+            "failures": 616565,
+            "max_absolute_error": 69.75953110500001,
+            "max_budget_ratio": 152204.03507490037,
+            "unit": "dimensionless"
+          },
+          "Z_real": {
+            "failures": 508503,
+            "max_absolute_error": 79.9083212069,
+            "max_budget_ratio": 341261.7177066491,
+            "unit": "dimensionless"
+          },
+          "gap_imag_ev": {
+            "failures": 299698,
+            "max_absolute_error": 1.70509922314,
+            "max_budget_ratio": 23593.939567427165,
+            "unit": "eV"
+          },
+          "gap_real_ev": {
+            "failures": 277209,
+            "max_absolute_error": 0.8684855040499999,
+            "max_budget_ratio": 38932.78520309634,
+            "unit": "eV"
+          },
+          "shift_imag_ev": {
+            "failures": 615532,
+            "max_absolute_error": 10.202519479977001,
+            "max_budget_ratio": 63960.76366650352,
+            "unit": "eV"
+          },
+          "shift_real_ev": {
+            "failures": 610960,
+            "max_absolute_error": 4.446638246354,
+            "max_budget_ratio": 95895.11383129616,
+            "unit": "eV"
+          }
+        },
+        "frequency_count": 4500,
+        "passed": false,
+        "row_count": 630000,
+        "rtol": 0.001,
+        "state_count": 140
+      },
+      "execution": {
+        "command": [
+          "/opt/qe/EPW/bin/epw.x",
+          "-in",
+          "epw6.in"
+        ],
+        "log": "/diagnostic/sensitivity/scale-1/restart.out",
+        "log_bytes": 9660,
+        "log_sha256": "3c723ee2de02858e3cc644dfb0ab3f339d76bb13df2835f64b475722c5214d33",
+        "mpi_ranks": 1,
+        "returncode": 0,
+        "threads": 1,
+        "timed_out": false,
+        "wall_seconds": 3.372874195999998
+      },
+      "input_sha256": "493d4691723ed86e90d1053beb6767e4e74f64d553284cbeab59996e638086e9",
+      "output_sha256": "96d5f2fd93718f61cd2b75de917c7cc4edaf1fdff4cf53ea1486fd48dcf528f5",
+      "perturbation": {
+        "fields": {
+          "Z": {
+            "equal_text_count": 4647,
+            "equal_value_count": 4647,
+            "field_count": 15260,
+            "max_absolute_error": 2.170000001910921e-08
+          },
+          "gap_ev": {
+            "equal_text_count": 5716,
+            "equal_value_count": 5716,
+            "field_count": 15260,
+            "max_absolute_error": 9.709999991558416e-11
+          },
+          "shift_ev": {
+            "equal_text_count": 2793,
+            "equal_value_count": 2793,
+            "field_count": 15260,
+            "max_absolute_error": 4.335200000371575e-08
+          }
+        },
+        "frequency_and_state_text_unchanged": true,
+        "sha256": "6a7ad3ce942c01c1c9a1a7e9b2a4b54d1639c503928cbc9d4fc3bbda4e468258"
+      },
+      "scale": 1.0,
+      "status": "comparison_failed"
+    }
+  },
+  "comparator_sha256": "33c6d5ea99b42254fbb0c0e4567405a9af5b9bdded8b6f8a3f3e3f1051a8db0a",
+  "driver_sha256": "4090805975b2390919edc6cdaa6ce1fe827692ff3d144f6159a33af14ae43919",
+  "elapsed_seconds": 68.846775587,
+  "errors": [],
+  "native_order": 98,
+  "npade_percent": 90,
+  "provider": {
+    "epw": "6.0",
+    "qe": "7.5"
+  },
+  "scales": [
+    1.0,
+    0.1,
+    0.01,
+    0.001,
+    0.0
+  ],
+  "schema": "kernelgecp.epw-restart-sensitivity.v1",
+  "scope": "Truth-assisted consumed 17 K development feasibility only; no fitted-restart acceptance or new temperature validation.",
+  "source": {
+    "a2f_sha256": "f20a3631b9bb6e747b9a5ed059388ae29db409ff73f60595100bf3d3bbb6ed51",
+    "binary_sha256": "63409927dc9e36969d525b96ce4f8751d3294179fbaf1cb27b90248c4042d863",
+    "case_metadata_sha256": "270ae7d65a4b5452a11b3963da4f750bf0214e9918ce63ccadaa8d6cfa149720",
+    "context_sha256": "e51e9a271d77b4f73646dffd98deccbc0bd13d038d9df74f5532cbb09c553d58",
+    "fitted_sha256": "6a7ad3ce942c01c1c9a1a7e9b2a4b54d1639c503928cbc9d4fc3bbda4e468258",
+    "io_sha256": "416ee21c65fd49b2a04894c2d5e18ffb1a5e8f7c223cab950a28f760cf56ec36",
+    "official_input_sha256": "a67e51f747674319d3c5659e402529bcdf3d571b54f12d2802f2531d74ba8a82",
+    "raw_sha256": "3bb9f9c0574b6001ff27c998a135c94e76c6ef56f2565b5b60ef34c3ea94b872",
+    "saved_raw_output_sha256": "7a32007bb5e68534017bc81e11733c6c529cce9007608f1502948a50c1ef8636",
+    "saved_receipt_sha256": "6a817d435cbb4904c8ff6749afe2795cafceac4fd8fef351a786135b51bb025f",
+    "workspace_input_sha256": "7a74f36be9a1604ec8b4184e1bb985f14d237835ec43b19c6ac7e9f4dc2937e1"
+  },
+  "source_revision": "a9c2c39c882975ae760650021056253c5e082063",
+  "status": "completed",
+  "tolerances": {
+    "atol": 1e-05,
+    "reference": "absolute raw output",
+    "rtol": 0.001
+  }
+}
