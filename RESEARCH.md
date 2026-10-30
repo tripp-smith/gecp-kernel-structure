@@ -12017,3 +12017,29 @@ method/default combinations, bootstrap and independent audit must pass before
 the unchanged final gate. The noise threshold, held-out covariance, spectral
 window, alpha/frequency grids, positivity/mass budget and final-data exclusion
 are unchanged. Synthetic `dc97680` evidence is retained with its original controls.
+
+### EH failed final, normalized-discrepancy repair and fresh-data contract
+
+The `edca95c` common calibration passes all eight cases and independent audit,
+but its first untouched raw/flat final worker exits 1 on held-out RMS 6.495244.
+The full failed worker and prior calibration are archived. Independent adaptive
+quadrature identifies a mismatch between alpha selection on native chi-square
+and the subsequently unit-normalized delivered spectrum. Both the unnormalized
+and normalized held-out predictions fail, so rescaling is not the sole cause.
+
+Select using the actual normalized physical forward's training discrepancy,
+with complete projection and retained covariance modes. Preserve native trial
+chi-square, spectra, convergence, masses and new selection diagnostics. Actual
+TauMaxEnt optimization remains unconstrained by mass. Audit this selection
+independently through adaptive quadrature, with a regression that rejects the
+old selection mechanism. Do not use held-out targets to select an alpha.
+
+Keep basis/alpha/omega/covariance/noise budgets fixed. Recalibrate on the original
+9d28053 kernelgecp-final cohort; reject its consumed dense-final data for final
+acceptance. Reserve only the new 7200ec0 Linux dense-final cohort (seed base
+30100000) after EE passes its full scientific and independent audit gates.
+Calibration and final bindings must remain separate and their seeds disjoint.
+The synthetic repaired-selector validation uses predeclared fresh seeds
+2001/2002/2003 and query order 48; historical validation is preserved. Phase
+closure still requires every real-provider gate, full root/exact-head CI and
+verified merged-main delivery in PR #142.

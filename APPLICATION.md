@@ -1721,7 +1721,12 @@ directly, avoiding the cancellation in ill-scaled coefficient maps.
 its convergence/iteration status and chi-square. The selected converged alpha
 minimizes the declared discrepancy to retained noise rank. Explicit optional
 mass normalization retains both the raw mass and the recomputed normalized
-training defect. `MaxEntSpectrum.evaluate_tau` performs physical forward
+training defect. With normalization enabled, alpha selection compares the
+normalized physical forward model against training data, including the complete
+projection and retained covariance modes. Provider chi-square values remain
+separate; diagnostics also retain each trial mass and selection discrepancy.
+Without normalization, selection uses the provider chi-square. Normalization is
+explicit postprocessing, not a constraint inside native optimization. `MaxEntSpectrum.evaluate_tau` performs physical forward
 evaluation; it is separate from the projected observation model.
 `save_spectral_dataset`/`load_spectral_dataset` preserve full covariance,
 projection, source mesh and a versioned hash-bound application manifest with

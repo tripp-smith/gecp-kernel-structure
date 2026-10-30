@@ -232,11 +232,11 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 1001) + i,
+                        "seed": (101 if calibration else 2001) + i,
                         "eps": 1e-8,
                         "n_omega": 401,
                         "n_alpha": 33,
-                        "query_order": 24 if calibration else 36,
+                        "query_order": 24 if calibration else 48,
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
@@ -489,11 +489,60 @@ def audit_case(path, job=None, full=True):
         axis=0,
     )
     close(chi, measured, "trial chi2", rtol=3e-5, atol=2e-5)
-    eligible = conv & np.isfinite(chi) & (chi >= 0) & np.all(trials >= 0, axis=1)
-    require(np.any(eligible), "no converged positive trial")
+    masses = np.trapezoid(trials, omega, axis=1)
+    eligible = (
+        conv
+        & np.isfinite(chi)
+        & (chi >= 0)
+        & np.all(trials >= 0, axis=1)
+        & np.isfinite(masses)
+        & (masses > 0)
+    )
+    require(np.any(eligible), "no converged positive finite-mass trial")
+    candidates = np.flatnonzero(eligible)
+    normalized = trials[candidates] / masses[candidates, None]
+
+    def all_trial_forward(x):
+        # Integrate all piecewise-linear trials independently of the producer's
+        # fixed Gauss rule; one adaptive vector integral retains bounded state.
+        i = int(np.clip(np.searchsorted(omega, x, side="right") - 1, 0, len(omega) - 2))
+        fraction = (x - omega[i]) / (omega[i + 1] - omega[i])
+        heights = normalized[:, i] * (1 - fraction) + normalized[:, i + 1] * fraction
+        return kernel(t, np.array([x])) * heights[None, :]
+
+    physical = quad_vec(
+        all_trial_forward, -4, 4, points=omega[1:-1], epsabs=1e-11, epsrel=1e-11
+    )[0]
+    selection = np.sum(
+        ((v.T @ (p @ physical - a["projected_values"][:, None])) / np.sqrt(e)[:, None])
+        ** 2,
+        axis=0,
+    )
+    diagnostics = result.get("provider_diagnostics", {})
+    require(
+        diagnostics.get("alpha_selection")
+        == "normalized_physical_forward_training_discrepancy"
+        and diagnostics.get("selection_rule")
+        == "closest_abs_log_chi2_per_retained_rank_to_one",
+        "normalized training selection rule",
+    )
+    close(diagnostics["trial_masses"], masses, "trial masses")
+    recorded = diagnostics.get("selection_chi2", [])
+    require(len(recorded) == 33, "selection discrepancy inventory")
+    close(
+        [recorded[i] for i in candidates],
+        selection,
+        "normalized trial discrepancy",
+        rtol=2e-5,
+        atol=2e-5,
+    )
+    require(
+        all(recorded[i] is None for i in range(33) if not eligible[i]),
+        "ineligible selection discrepancy",
+    )
     scores = np.full(33, np.inf)
-    scores[eligible] = np.abs(
-        np.log(np.maximum(chi[eligible], np.finfo(float).tiny) / len(e))
+    scores[candidates] = np.abs(
+        np.log(np.maximum(selection, np.finfo(float).tiny) / len(e))
     )
     idx = int(np.argmin(scores))
     require(result["selected_index"] == idx, "alpha selection")
@@ -622,8 +671,8 @@ def audit_campaign(manifest_path, freeze_path):
         "n_alpha": 33,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [1001, 1002, 1003],
-        "final_query_order": 36,
+        "final_seeds": [2001, 2002, 2003],
+        "final_query_order": 48,
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }

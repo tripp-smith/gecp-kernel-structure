@@ -85,7 +85,7 @@ def test_success_freeze_and_repeat_resume(setup):
     tmp, _, state = setup
     assert calibrate(setup)["status"] == "passed"
     freeze = driver.read(tmp / "freeze.json")
-    assert freeze["controls"]["final_seeds"] == [1001, 1002, 1003]
+    assert freeze["controls"]["final_seeds"] == [2001, 2002, 2003]
     result = driver.execute("campaign", tmp / "final", tmp / "freeze.json", "test")
     assert result["status"] == "passed" and len(result["children"]) == 3
     assert len(result["repeat_comparison"]["skipped"]) == 2

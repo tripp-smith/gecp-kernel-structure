@@ -3105,3 +3105,11 @@ This annotation records delivered identifiers without changing the goals above.
   misses the unchanged bound 2. Failed evidence is archived. A common tighter
   basis/SVD candidate is declared for all methods; all eight calibration cases
   and independent audit remain required before untouched final evaluation.
+
+- **Phase EH normalization/fresh-validation status:** measured calibration at
+  `edca95c` passes all eight cases and independent audit; untouched raw/flat
+  final fails RMS 6.495244 against the unchanged limit 2. Preserve that cohort
+  as failed evidence. A training-only normalized-model selector, independent
+  physical-quadrature checks and disjoint future Linux final-cohort identities
+  are implemented for recalibration; no new scientific acceptance is claimed.
+  [SPECTROSCOPY.md](SPECTROSCOPY.md) and draft PR #142 retain remaining gates.

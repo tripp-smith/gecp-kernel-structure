@@ -256,6 +256,14 @@ def test_actual_tau_maxent_provider_positive_and_rank_aware():
     assert result.diagnostics["version"] == "4.0.1"
     assert result.effective_rank == 33
     assert result.converged[result.selected_index]
+    diagnostics = result.diagnostics
+    assert diagnostics["selection_chi2"][
+        result.selected_index
+    ] / result.effective_rank == pytest.approx(
+        result.normalized_training_whitened_rms**2
+    )
+    diagnostics["selection_chi2"][result.selected_index] = -1
+    assert result.diagnostics["selection_chi2"][result.selected_index] >= 0
     assert np.min(result.density) >= 0
     assert abs(result.mass - 1) < 1e-12
     assert abs(result.raw_mass - 1) < 0.002
@@ -301,3 +309,45 @@ def test_actual_provider_projects_forward_kernel_with_complete_observation_map(
     assert result.diagnostics["forward_operator"] == (
         "complete_projection_times_native_source_tau_kernel"
     )
+
+
+def test_selection_scores_delivered_spectrum_and_projection_not_provider_chi2():
+    from kernelgecp.integrations.maxent import _selection_metrics
+    from kernelgecp.types import NumericalBreakdownError
+
+    omega = np.linspace(-2, 2, 81)
+    tau = np.linspace(0, 3, 9)
+    good = np.exp(-(((omega - 0.6) / 0.5) ** 2))
+    good /= np.trapezoid(good, omega)
+    bad = np.exp(-(((omega + 1.0) / 0.35) ** 2))
+    bad /= np.trapezoid(bad, omega)
+    values = spectral_forward(3, tau, omega, good) + 0.001
+    data = SpectralDataset(3, tau, values, 1e-6 * np.eye(9))
+    trials = np.array([1.02 * bad, good, np.zeros_like(good), -good, good])
+    native_chi = np.array([9.0, 100.0, 9.0, 9.0, 9.0])
+    converged = np.array([True, True, True, True, False])
+    for training in (
+        data,
+        prepare_spectral_projection(
+            PolynomialDesign(), tau, np.linspace(0, 3, 17)
+        ).apply(data),
+    ):
+        selected, masses, metrics = _selection_metrics(
+            training, omega, trials, native_chi, converged, 1.0
+        )
+        assert selected == 1
+        assert masses[0] == pytest.approx(1.02)
+        assert metrics[2:] == [None, None, None]
+        prediction = spectral_forward(3, tau, omega, good)
+        if training.projection is not None:
+            prediction = training.projection @ prediction
+        expected = training.modes.whitened_rms(prediction - training.values) ** 2
+        assert metrics[1] / training.modes.effective_rank == pytest.approx(expected)
+        assert (
+            _selection_metrics(training, omega, trials, native_chi, converged, None)[0]
+            == 0
+        )
+        with pytest.raises(NumericalBreakdownError, match="finite-mass"):
+            _selection_metrics(
+                training, omega, trials[2:4], native_chi[2:4], converged[2:4], 1.0
+            )

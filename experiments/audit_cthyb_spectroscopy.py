@@ -16,7 +16,10 @@ OBS = np.arange(0, 3073, 48)
 QUERY = 24 + 192 * np.arange(16)
 METHODS = ("raw", "kernelgecp", "pydlr", "sparse_ir")
 MODELS = ("flat", "broad_gaussian")
-REV = "9d28053060329cd20647dc03e038a383c351adf1"
+CAL_REV = "9d28053060329cd20647dc03e038a383c351adf1"
+FINAL_REV = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
+CAL_SEED = 29100000
+FINAL_SEED = 30100000
 BINDING = "bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88"
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -88,20 +91,27 @@ def forward(t, w, d):
 
 def raw_cohort(root, audit, binding, stage):
     root = Path(root)
-    require(sha(binding) == BINDING, "EE binding hash")
+    require(stage in ("calibration", "final"), "EE stage")
+    binding_hash = sha(binding)
+    if stage == "calibration":
+        require(binding_hash == BINDING, "EE binding hash")
+    revision = CAL_REV if stage == "calibration" else FINAL_REV
+    seed_base = CAL_SEED if stage == "calibration" else FINAL_SEED
     b = read(binding)
     a = read(audit)
     manifest = read(root / "manifest.json")
     result = read(root / "result.json")
     require(
-        b.get("status") == "passed"
-        and b.get("generation_revision") == REV
+        b.get("schema") == "kernelgecp.cthyb-audit-binding.v1"
+        and b.get("status") == "passed"
+        and b.get("generation_revision") == revision
         and b.get("audit_receipt_sha256") == sha(audit),
         "EE binding",
     )
     require(
-        a.get("status") == "passed"
-        and a.get("generation_revision") == REV
+        a.get("schema") == "kernelgecp.cthyb-audit.v1"
+        and a.get("status") == "passed"
+        and a.get("generation_revision") == revision
         and a.get("gates")
         and all(v is True for v in a["gates"].values()),
         "EE independent audit",
@@ -121,14 +131,18 @@ def raw_cohort(root, audit, binding, stage):
     ]:
         require(b.get(key) == sha(root / name), "EE " + name)
     require(
-        manifest.get("source_revision") == REV
+        manifest.get("source_revision") == revision
         and result.get("identity") == manifest
-        and result.get("status") == "passed",
+        and result.get("status") == "passed"
+        and result.get("freeze_sha256") == sha(root / "freeze.json"),
         "EE provenance",
     )
     cfg = manifest["config"]
     require(
-        cfg.get("seed_mapping") == "odd_stride_2_v1"
+        cfg.get("seed_base") == seed_base
+        and cfg.get("beta") == 10
+        and cfg.get("interaction") == 2
+        and cfg.get("seed_mapping") == "odd_stride_2_v1"
         and cfg.get("n_tau") == 3073
         and cfg.get("final_replicas") == 64,
         "EE configuration",
@@ -182,7 +196,24 @@ def raw_cohort(root, audit, binding, stage):
     samples = np.array(samples)
     om, oc = moments(samples[:32, OBS])
     qm, qc = moments(samples[32:, QUERY])
-    return samples, om, oc, qm, qc
+    cohort = {
+        "stage": stage,
+        "role": role,
+        "generation_revision": revision,
+        "seed_base": seed_base,
+        "manifest_sha256": sha(root / "manifest.json"),
+        "freeze_sha256": sha(root / "freeze.json"),
+        "seeds": [seed_base + offset + 1 + 2 * i for i in range(64)],
+        "receipt_sha256": sha(audit),
+        "binding_sha256": binding_hash,
+        "result_sha256": sha(root / "result.json"),
+        "measurement_receipt_sha256": [
+            sha(root / role / f"replica-{i:02d}.json") for i in range(64)
+        ],
+        "spin_operation": "paramagnetic_arithmetic_mean_up_down",
+        "imaginary_absolute_tolerance": 1e-10,
+    }
+    return (samples, om, oc, qm, qc), cohort
 
 
 def audit_case(path, method, model, repeat, stats):
@@ -362,16 +393,59 @@ def audit_case(path, method, model, repeat, stats):
         axis=0,
     )
     close(chi, calc, "native chi2", rtol=3e-5, atol=2e-5)
-    eligible = np.array(conv) & (chi >= 0) & np.all(trials >= 0, axis=1)
-    require(eligible.any(), "convergence")
-    score = np.full(33, np.inf)
-    score[eligible] = np.abs(
-        np.log(np.maximum(chi[eligible], np.finfo(float).tiny) / len(e))
+    masses = np.trapezoid(trials, w, axis=1)
+    eligible = (
+        np.array(conv)
+        & (chi >= 0)
+        & np.all(trials >= 0, axis=1)
+        & np.isfinite(masses)
+        & (masses > 0)
     )
-    idx = int(np.argmin(score))
+    require(eligible.any(), "convergence")
+    # Integrate all eligible piecewise-linear spectra with adaptive SciPy quadrature.
+    indices = np.flatnonzero(eligible)
+    normalized = trials[indices] / masses[indices, None]
+
+    def integrand(x):
+        j = min(np.searchsorted(w, x, side="right") - 1, len(w) - 2)
+        j = max(j, 0)
+        f = (x - w[j]) / (w[j + 1] - w[j])
+        density = normalized[:, j] * (1 - f) + normalized[:, j + 1] * f
+        kernel = -np.exp(
+            np.where(x >= 0, -native_times * x, (10 - native_times) * x)
+        ) * expit(10 * abs(x))
+        return kernel[:, None] * density[None, :]
+
+    physical = quad_vec(integrand, -4, 4, points=w[1:-1], epsabs=1e-11, epsrel=1e-11)[0]
+    residual = p @ physical - a["projected_values"][:, None]
+    selection = np.sum((v.T @ residual / np.sqrt(e)[:, None]) ** 2, axis=0)
+    diagnostics = d["provider_diagnostics"]
+    require(
+        diagnostics.get("alpha_selection")
+        == "normalized_physical_forward_training_discrepancy"
+        and diagnostics.get("selection_rule")
+        == "closest_abs_log_chi2_per_retained_rank_to_one",
+        "selection rule",
+    )
+    close(diagnostics.get("trial_masses"), masses, "trial masses")
+    reported = diagnostics.get("selection_chi2")
+    require(
+        isinstance(reported, list)
+        and len(reported) == 33
+        and all(reported[i] is None for i in range(33) if not eligible[i]),
+        "selection chi2 inventory",
+    )
+    close(
+        [reported[i] for i in indices],
+        selection,
+        "selection chi2",
+        rtol=3e-5,
+        atol=2e-5,
+    )
+    score = np.abs(np.log(np.maximum(selection, np.finfo(float).tiny) / len(e)))
+    idx = int(indices[np.argmin(score)])
     require(d["selected_index"] == idx, "alpha selection")
-    raw = np.trapezoid(trials[idx], w)
-    require(raw > 0, "raw mass")
+    raw = masses[idx]
     close(den, trials[idx] / raw, "selected spectrum")
     prediction = forward(a["query"], w, den)
     close(prediction, a["prediction"], "independent quadrature", rtol=2e-6, atol=2e-7)
@@ -547,7 +621,7 @@ def check_workers(
             Path(job["folder"]).resolve() == Path(root).resolve()
             and Path(job["audit_receipt"]).resolve() == Path(ee_audit).resolve()
             and Path(job["audit_binding"]).resolve() == Path(binding).resolve()
-            and job.get("binding_sha256") == BINDING
+            and job.get("binding_sha256") == sha(binding)
             and Path(job["output"]).resolve() == campaign_dir / name,
             "worker input paths",
         )
@@ -597,6 +671,20 @@ def check_workers(
     require(len(seen) == len(workers), "worker PID inventory")
 
 
+def check_calibration_binding(cal, ca, calibration):
+    require(
+        ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v1"
+        and ca.get("status") == "passed"
+        and ca.get("kind") == "calibration"
+        and ca.get("calibration_sha256") == sha(calibration)
+        and ca.get("binding_sha256") == cal.get("binding_sha256")
+        and cal.get("binding_sha256") == BINDING
+        and ca.get("gates")
+        and all(v is True for v in ca["gates"].values()),
+        "calibration audit binding",
+    )
+
+
 def campaign_audit(
     campaign, root, ee_audit, binding, calibration=None, calibration_audit=None
 ):
@@ -610,7 +698,7 @@ def campaign_audit(
     require(
         m.get("schema") == f"kernelgecp.cthyb-spectroscopy-{stage}.v1"
         and m.get("status") == "passed"
-        and m.get("binding_sha256") == BINDING,
+        and m.get("binding_sha256") == sha(binding),
         "campaign schema",
     )
     protocol = m["protocol"]
@@ -656,6 +744,13 @@ def campaign_audit(
             "calibration_repeats": 1,
             "final_repeats": 3,
             "validation": "independent_heldout_chain_mean_conditional_on_training_fit",
+            "alpha_selection": "normalized_training_only_discrepancy",
+            "consumed_final_failure_array_sha256": (
+                "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba"
+            ),
+            "calibration_generation_revision": CAL_REV,
+            "final_generation_revision": FINAL_REV,
+            "final_seed_base": FINAL_SEED,
         },
         "protocol",
     )
@@ -667,22 +762,48 @@ def campaign_audit(
         )
         ca = read(calibration_audit)
         cal = read(calibration)
+        require(m.get("calibration_sha256") == sha(calibration), "calibration hash")
+        check_calibration_binding(cal, ca, calibration)
+        audit_blob = subprocess.check_output(
+            [
+                "git",
+                "show",
+                ca["auditor_revision"] + ":experiments/audit_cthyb_spectroscopy.py",
+            ],
+            cwd=ROOT,
+        )
         require(
-            m.get("calibration_sha256") == sha(calibration)
-            and ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v1"
-            and ca.get("status") == "passed"
-            and ca.get("kind") == "calibration"
-            and ca.get("calibration_sha256") == sha(calibration)
-            and ca.get("binding_sha256") == BINDING
-            and ca.get("gates")
-            and all(v is True for v in ca["gates"].values()),
-            "calibration audit binding",
+            hashlib.sha256(audit_blob).hexdigest() == ca.get("auditor_sha256"),
+            "calibration auditor source",
         )
         require(
             cal.get("protocol") == protocol and cal.get("snapshot") == m["snapshot"],
             "calibration freeze",
         )
-    samples = raw_cohort(root, ee_audit, binding, stage)
+    samples, cohort = raw_cohort(root, ee_audit, binding, stage)
+    require(m.get("cohort") == cohort, "campaign cohort metadata")
+    if stage == "calibration":
+        require(m.get("calibration_cohort") is None, "calibration cohort metadata")
+    else:
+        cc = cal.get("cohort", {})
+        require(
+            cal.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v1"
+            and cal.get("status") == "passed"
+            and cc.get("stage") == "calibration"
+            and cc.get("role") == "kernelgecp-final"
+            and cc.get("generation_revision") == CAL_REV
+            and cc.get("seed_base") == CAL_SEED
+            and cc.get("binding_sha256") == BINDING
+            and cc.get("seeds") == [CAL_SEED + 40001 + 2 * i for i in range(64)]
+            and m.get("calibration_cohort") == cc,
+            "calibration cohort metadata",
+        )
+        require(
+            cc["generation_revision"] != cohort["generation_revision"]
+            and cc["binding_sha256"] != cohort["binding_sha256"]
+            and not set(cc["seeds"]) & set(cohort["seeds"]),
+            "cohort overlap",
+        )
     repeats = 1 if stage == "calibration" else 3
     expected = {
         f"{method}-{model}-r{repeat}.json"
@@ -707,6 +828,7 @@ def campaign_audit(
             "child hashes",
         )
         records[name], arrays[name] = audit_case(p, method, model, repeat, samples)
+        require(records[name].get("source") == cohort, "case cohort metadata")
     if stage == "final":
         for method in METHODS:
             for model in MODELS:
@@ -751,7 +873,7 @@ def campaign_audit(
         if stage == "calibration"
         else sha(calibration),
         "campaign_sha256": sha(campaign),
-        "binding_sha256": BINDING,
+        "binding_sha256": sha(binding),
         "auditor_revision": revision,
         "auditor_sha256": sha(source),
         "gates": {

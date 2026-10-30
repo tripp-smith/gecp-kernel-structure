@@ -1,0 +1,19 @@
+{
+  "after_mass_normalization": {
+    "heldout_whitened_rms": 6.495244119180456,
+    "training_whitened_rms": 5.045938499700362
+  },
+  "array_sha256": "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba",
+  "before_mass_normalization": {
+    "heldout_whitened_rms": 2.804336636578487,
+    "training_whitened_rms": 1.0681749797032996
+  },
+  "case_sha256": "85d8cf8b643220fe662f6bc35791a9128d5c497ecc48692c2500da56fe2b6224",
+  "forward": "independent scipy.integrate.quad_vec of piecewise-linear density",
+  "provider_training_chi2": 35.33942292611777,
+  "raw_mass": 1.0109490863415924,
+  "schema": "kernelgecp.maxent-normalization-diagnosis.v1",
+  "scope": "Post-hoc diagnosis of a failed consumed cohort, not alpha tuning or acceptance.",
+  "selected_alpha": 1000.0,
+  "selected_index": 4
+}

@@ -1,0 +1,28 @@
+{
+  "archive": "experiments/data/cthyb-spectroscopy-edca95c-failed.tar.gz",
+  "archive_sha256": "b545a943e955063b022fb32775bc440e07c82935a7ef166e527eb2e24f00eca2",
+  "array_sha256": "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba",
+  "calibration_audit_sha256": "9500a1f32e1074b5275e3d93b49b1251c640374834219595b8260402767cd35a",
+  "calibration_sha256": "543c1f110a0c426246cdb16cc0bfcaa380075fdd28dba25f7bd78dc5b73df53f",
+  "case": "raw-flat-r0",
+  "case_sha256": "85d8cf8b643220fe662f6bc35791a9128d5c497ecc48692c2500da56fe2b6224",
+  "gates": {
+    "heldout_whitened_rms": false,
+    "normalized": true,
+    "positive": true,
+    "provider_selected_converged": true
+  },
+  "heldout_limit": 2.0,
+  "heldout_whitened_rms": 6.495244119180473,
+  "mass": 1.0,
+  "normalized_training_whitened_rms": 5.045938499700459,
+  "parent_exit_code": 1,
+  "progress_sha256": "b55623bc1655231a6dbed4ce250a530801c6d18bbfacb43fda6d5e554ca68287",
+  "raw_mass": 1.0109490863415924,
+  "schema": "kernelgecp.cthyb-spectroscopy-final-failure.v1",
+  "scope": "Failed untouched measured-data validation. This cohort is consumed; no retuning or rerun can relabel it as fresh validation.",
+  "selected_index": 4,
+  "source_revision": "edca95cae1dae91369ee251acf303f71d9d233d4",
+  "status": "failed",
+  "worker_exit_code": 1
+}

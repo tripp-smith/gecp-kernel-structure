@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: maxent-science-${{ github.ref }}
@@ -71,7 +72,7 @@ jobs:
         run: |
           python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
           python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
-          python -c 'from triqs_maxent import TauMaxEnt; from triqs.gf import GfImTime; import pydlr, sparse_ir'
+          python -c 'from triqs_maxent import TauMaxEnt; from triqs.gfs import GfImTime; import pydlr, sparse_ir'
           python -m pip install pytest==9.0.3
       - name: Build and install the actual candidate wheel
         run: |
@@ -141,21 +142,64 @@ jobs:
             --ee-audit data/cthyb/independent-audit-e83d195.json \
             --ee-binding data/cthyb/audit-binding-e83d195.json \
             --output artifacts/native-calibration-audit.json
-      - name: Validate all frozen measured-data cases in fresh processes
+      - name: Require the predeclared fresh EE scientific run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/tripp-smith/gecp-kernel-structure/actions/runs/40928480439 > artifacts/fresh-ee-run.json
+          python - <<'PYRUN'
+          import json
+          run = json.load(open("artifacts/fresh-ee-run.json"))
+          assert run["head_sha"] == "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
+          assert run["status"] == "completed" and run["conclusion"] == "success", "Fresh EE validation is not accepted"
+          assert run["path"] == ".github/workflows/cthyb-science.yml"
+          assert run["repository"]["full_name"] == "tripp-smith/gecp-kernel-structure"
+          PYRUN
+          git fetch --no-tags origin 7200ec0e912954c568bedb2092d9ff1c053f9ba7
+      - uses: actions/download-artifact@v4
+        with:
+          name: cthyb-validation-40928480439
+          run-id: 40928480439
+          github-token: ${{ github.token }}
+          path: artifacts/fresh-cthyb-input
+      - name: Bind the fresh passed audit and original measurement hashes
+        run: |
+          python - <<'PYBIND'
+          import hashlib, json
+          from pathlib import Path
+          root = Path("artifacts/fresh-cthyb-input")
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+          audit = json.loads((root/"independent-audit.json").read_text())
+          result = json.loads((root/"result.json").read_text())
+          revision = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
+          assert audit["schema"] == "kernelgecp.cthyb-audit.v1"
+          assert audit["status"] == result["status"] == "passed"
+          assert audit["generation_revision"] == revision
+          assert audit["gates"] and all(x is True for x in audit["gates"].values())
+          assert result["identity"]["source_revision"] == revision
+          binding = {"schema":"kernelgecp.cthyb-audit-binding.v1", "status":"passed", "generation_revision":revision,
+              "audit_receipt_sha256":sha(root/"independent-audit.json"), "result_sha256":sha(root/"result.json"),
+              "manifest_sha256":sha(root/"manifest.json"), "freeze_sha256":sha(root/"freeze.json"),
+              "measurement_archives":result["measurement_archives"]}
+          (root/"audit-binding.json").write_text(json.dumps(binding, sort_keys=True, indent=2)+"\n")
+          PYBIND
+      - name: Validate all frozen measured-data cases on the fresh cohort
         run: |
           calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
           calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
-          python -m experiments.cthyb_spectroscopy artifacts/cthyb-input/gecp-ee-odd-9d28053 \
-            --audit-receipt data/cthyb/independent-audit-e83d195.json \
-            --audit-binding data/cthyb/audit-binding-e83d195.json \
-            --binding-sha256 bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88 \
+          fresh_binding_hash=$(sha256sum artifacts/fresh-cthyb-input/audit-binding.json | cut -d ' ' -f1)
+          python -m experiments.cthyb_spectroscopy artifacts/fresh-cthyb-input \
+            --audit-receipt artifacts/fresh-cthyb-input/independent-audit.json \
+            --audit-binding artifacts/fresh-cthyb-input/audit-binding.json \
+            --binding-sha256 "$fresh_binding_hash" \
             --stage final --output-dir artifacts/native-final \
             --calibration artifacts/native-calibration/calibration.json --calibration-sha256 "$calibration_hash" \
             --calibration-audit artifacts/native-calibration-audit.json --calibration-audit-sha256 "$calibration_audit_hash"
           python -m experiments.audit_cthyb_spectroscopy artifacts/native-final/final.json \
-            --ee-root artifacts/cthyb-input/gecp-ee-odd-9d28053 \
-            --ee-audit data/cthyb/independent-audit-e83d195.json \
-            --ee-binding data/cthyb/audit-binding-e83d195.json \
+            --ee-root artifacts/fresh-cthyb-input \
+            --ee-audit artifacts/fresh-cthyb-input/independent-audit.json \
+            --ee-binding artifacts/fresh-cthyb-input/audit-binding.json \
             --calibration artifacts/native-calibration/calibration.json \
             --calibration-audit artifacts/native-calibration-audit.json \
             --output artifacts/native-final-audit.json

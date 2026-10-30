@@ -101,7 +101,16 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
             self.effective_rank = dataset.modes.effective_rank
             self.raw_mass = self.mass = 1.0
             self.normalized_training_whitened_rms = 0.0
-            self.diagnostics = {"provider": "fake test fixture"}
+            pred = a.forward(dataset.tau, omega, density)
+            whitened = dataset.modes.whiten(pred - dataset.values)
+            selected_chi = float(whitened @ whitened)
+            self.diagnostics = {
+                "provider": "fake test fixture",
+                "alpha_selection": "normalized_physical_forward_training_discrepancy",
+                "selection_rule": "closest_abs_log_chi2_per_retained_rank_to_one",
+                "trial_masses": [1.0] * 33,
+                "selection_chi2": [selected_chi] * 33,
+            }
 
         def evaluate_tau(self, beta, tau):
             return a.forward(tau, omega, density)
@@ -132,6 +141,10 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     stats = samples, train, train_cov, held, held_cov
     result, _ = a.audit_case(case, "raw", "flat", 0, stats)
     assert result["status"] == "passed"
+    altered = {**result, "selected_index": 1}
+    case.write_text(json.dumps(altered))
+    with pytest.raises(ValueError, match="alpha selection"):
+        a.audit_case(case, "raw", "flat", 0, stats)
     altered = {**result, "rcond": 1e-10}
     case.write_text(json.dumps(altered))
     with pytest.raises(ValueError, match="solver controls"):
@@ -195,7 +208,7 @@ def test_24_test_only_workers_and_tampering(tmp_path):
                     "folder": str(root),
                     "audit_receipt": str(ee_audit),
                     "audit_binding": str(ee_binding),
-                    "binding_sha256": a.BINDING,
+                    "binding_sha256": a.sha(ee_binding),
                     "output": str(result),
                     "calibration": str(cal),
                     "calibration_sha256": a.sha(cal),
@@ -269,3 +282,40 @@ def test_24_test_only_workers_and_tampering(tmp_path):
         a.check_workers(
             manifest, campaign, root, ee_audit, ee_binding, "final", cal, cal_audit
         )
+
+
+def test_reused_calibration_generation_cannot_be_final(tmp_path):
+    binding = tmp_path / "binding.json"
+    audit = tmp_path / "audit.json"
+    binding.write_text(
+        json.dumps(
+            {
+                "schema": "kernelgecp.cthyb-audit-binding.v1",
+                "status": "passed",
+                "generation_revision": a.CAL_REV,
+            }
+        )
+    )
+    audit.write_text(json.dumps({"status": "passed"}))
+    (tmp_path / "manifest.json").write_text(json.dumps({"fixture": True}))
+    (tmp_path / "result.json").write_text(json.dumps({"fixture": True}))
+    with pytest.raises(ValueError, match="EE binding"):
+        a.raw_cohort(tmp_path, audit, binding, "final")
+
+
+def test_calibration_audit_rejects_final_cross_binding(tmp_path):
+    path = tmp_path / "calibration.json"
+    path.write_text(json.dumps({"fixture": True}))
+    cal = {"binding_sha256": a.BINDING}
+    audit = {
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "status": "passed",
+        "kind": "calibration",
+        "calibration_sha256": a.sha(path),
+        "binding_sha256": "f" * 64,
+        "gates": {"ok": True},
+    }
+    with pytest.raises(ValueError, match="calibration audit binding"):
+        a.check_calibration_binding(cal, audit, path)
+    audit["binding_sha256"] = a.BINDING
+    a.check_calibration_binding(cal, audit, path)

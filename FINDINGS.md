@@ -2505,3 +2505,12 @@ budgets, CDF/window errors, bootstrap variation and default-model sensitivity
 are separate quantities in [SPECTROSCOPY.md](SPECTROSCOPY.md). This closes the
 synthetic evidence obligation only; measured CT-HYB spectroscopy, Linux
 acceptance and delivery remain open.
+
+## EH normalized-spectrum selection failure
+
+Measured final source `edca95c` fails raw/flat held-out RMS 6.495244 (limit 2).
+Selecting a provider trial before mass rescaling can produce an inconsistent
+normalized training fit: this case changes RMS 1.06817 to 5.04594. The repaired
+selector uses only normalized-model training discrepancy; it does not establish
+new scientific acceptance. Failure archives and fresh-cohort restrictions are
+recorded in [SPECTROSCOPY.md](SPECTROSCOPY.md). No original theorem changes.

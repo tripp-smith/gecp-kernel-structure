@@ -32,7 +32,10 @@ from kernelgecp.integrations.maxent import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-REVISION = "9d28053060329cd20647dc03e038a383c351adf1"
+CALIBRATION_REVISION = "9d28053060329cd20647dc03e038a383c351adf1"
+FINAL_REVISION = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
+CALIBRATION_SEED_BASE = 29100000
+FINAL_SEED_BASE = 30100000
 OBS = np.arange(0, 3073, 48)
 QUERY = 24 + 192 * np.arange(16)
 RTOL = 1e-4
@@ -58,13 +61,17 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
     """Validate audit, raw receipts, hashes, seeds, shape and one common bath."""
     if stage not in ("calibration", "final"):
         raise ValueError("unsupported stage")
+    revision = CALIBRATION_REVISION if stage == "calibration" else FINAL_REVISION
+    seed_base = CALIBRATION_SEED_BASE if stage == "calibration" else FINAL_SEED_BASE
     if len(binding_sha256) != 64 or sha(binding_path) != binding_sha256:
         raise ValueError("audit binding digest mismatch")
     binding = json.loads(binding_path.read_text())
+    if stage == "final" and binding.get("generation_revision") == CALIBRATION_REVISION:
+        raise ValueError("consumed final cohort cannot be reused")
     if (
         binding.get("schema") != "kernelgecp.cthyb-audit-binding.v1"
         or binding.get("status") != "passed"
-        or binding.get("generation_revision") != REVISION
+        or binding.get("generation_revision") != revision
         or binding.get("audit_receipt_sha256") != sha(receipt_path)
         or binding.get("result_sha256") != sha(folder / "result.json")
         or binding.get("manifest_sha256") != sha(folder / "manifest.json")
@@ -75,7 +82,7 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
     if (
         receipt.get("schema") != "kernelgecp.cthyb-audit.v1"
         or receipt.get("status") != "passed"
-        or receipt.get("generation_revision") != REVISION
+        or receipt.get("generation_revision") != revision
         or not receipt.get("gates")
         or not all(v is True for v in receipt["gates"].values())
     ):
@@ -90,10 +97,11 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
     result = json.loads((folder / "result.json").read_text())
     config = identity["config"]
     if (
-        identity.get("source_revision") != REVISION
+        identity.get("source_revision") != revision
         or result.get("identity") != identity
         or result.get("status") != "passed"
         or result.get("freeze_sha256") != sha(folder / "freeze.json")
+        or config.get("seed_base") != seed_base
         or config.get("seed_mapping") != "odd_stride_2_v1"
         or config.get("final_replicas") != 64
         or config.get("n_tau") != 3073
@@ -152,6 +160,10 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
     return np.array(samples), {
         "stage": stage,
         "role": role,
+        "generation_revision": revision,
+        "seed_base": seed_base,
+        "manifest_sha256": sha(folder / "manifest.json"),
+        "freeze_sha256": sha(folder / "freeze.json"),
         "seeds": sorted(seeds),
         "receipt_sha256": sha(receipt_path),
         "binding_sha256": binding_sha256,
@@ -240,6 +252,13 @@ PROTOCOL = {
     "calibration_repeats": 1,
     "final_repeats": 3,
     "validation": "independent_heldout_chain_mean_conditional_on_training_fit",
+    "alpha_selection": "normalized_training_only_discrepancy",
+    "consumed_final_failure_array_sha256": (
+        "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba"
+    ),
+    "calibration_generation_revision": CALIBRATION_REVISION,
+    "final_generation_revision": FINAL_REVISION,
+    "final_seed_base": FINAL_SEED_BASE,
 }
 
 
@@ -358,7 +377,7 @@ def snapshot():
     }
 
 
-def verify_calibration(path, digest, snapshot_value, binding_digest):
+def verify_calibration(path, digest, snapshot_value):
     validate_basis_controls()
     if not path or not digest or len(digest) != 64 or sha(path) != digest:
         raise ValueError("final requires pinned passed calibration receipt")
@@ -368,11 +387,23 @@ def verify_calibration(path, digest, snapshot_value, binding_digest):
         or receipt.get("status") != "passed"
         or receipt.get("protocol") != PROTOCOL
         or receipt.get("snapshot") != snapshot_value
-        or receipt.get("binding_sha256") != binding_digest
     ):
         raise ValueError(
             "calibration freeze does not match protocol, source, runtime or EE binding"
         )
+    cohort = receipt.get("cohort", {})
+    if (
+        cohort.get("stage") != "calibration"
+        or cohort.get("role") != "kernelgecp-final"
+        or cohort.get("generation_revision") != CALIBRATION_REVISION
+        or cohort.get("seed_base") != CALIBRATION_SEED_BASE
+        or cohort.get("seeds")
+        != [CALIBRATION_SEED_BASE + 40001 + 2 * i for i in range(64)]
+        or cohort.get("binding_sha256") != receipt.get("binding_sha256")
+        or not isinstance(receipt.get("binding_sha256"), str)
+        or len(receipt["binding_sha256"]) != 64
+    ):
+        raise ValueError("calibration cohort binding or identity mismatch")
     expected = {
         f"{method}-{model}-r0.json"
         for method in METHODS
@@ -398,6 +429,15 @@ def verify_calibration(path, digest, snapshot_value, binding_digest):
         ):
             raise ValueError("calibration case failed")
     return receipt
+
+
+def validate_cohort_pair(calibration, final):
+    if (
+        calibration["generation_revision"] == final["generation_revision"]
+        or calibration["binding_sha256"] == final["binding_sha256"]
+        or set(calibration["seeds"]) & set(final["seeds"])
+    ):
+        raise ValueError("calibration and final cohort bindings or seeds overlap")
 
 
 def verify_calibration_audit(path, digest, calibration_digest, binding_digest):
@@ -699,17 +739,14 @@ def worker(job_path, job_digest):
 
     threading.Thread(target=watch_parent, daemon=True).start()
     if stage == "final":
-        verify_calibration(
-            Path(job["calibration"]),
-            job["calibration_sha256"],
-            frozen,
-            job["binding_sha256"],
+        calibration_value = verify_calibration(
+            Path(job["calibration"]), job["calibration_sha256"], frozen
         )
         verify_calibration_audit(
             Path(job["calibration_audit"]),
             job["calibration_audit_sha256"],
             job["calibration_sha256"],
-            job["binding_sha256"],
+            calibration_value["binding_sha256"],
         )
     result = run(
         Path(job["folder"]),
@@ -738,17 +775,14 @@ def worker(job_path, job_digest):
     if snapshot() != frozen or sha(job_path) != job_digest:
         raise RuntimeError("worker source/runtime or job changed during execution")
     if stage == "final":
-        verify_calibration(
-            Path(job["calibration"]),
-            job["calibration_sha256"],
-            frozen,
-            job["binding_sha256"],
+        calibration_value = verify_calibration(
+            Path(job["calibration"]), job["calibration_sha256"], frozen
         )
         verify_calibration_audit(
             Path(job["calibration_audit"]),
             job["calibration_audit_sha256"],
             job["calibration_sha256"],
-            job["binding_sha256"],
+            calibration_value["binding_sha256"],
         )
     if result["status"] != "passed":
         raise RuntimeError("worker case gates failed")
@@ -790,13 +824,16 @@ def campaign(
         raise ValueError("invalid campaign stage")
     frozen = snapshot()
     if stage == "final":
-        verify_calibration(calibration, calibration_digest, frozen, binding_digest)
+        calibration_value = verify_calibration(calibration, calibration_digest, frozen)
         verify_calibration_audit(
             calibration_audit,
             calibration_audit_digest,
             calibration_digest,
-            binding_digest,
+            calibration_value["binding_sha256"],
         )
+    _, cohort = load_cohort(folder, receipt, binding, binding_digest, stage)
+    if stage == "final":
+        validate_cohort_pair(calibration_value["cohort"], cohort)
     output.mkdir(parents=True, exist_ok=True)
     if any(output.iterdir()):
         raise FileExistsError("campaign output directory must be empty")
@@ -812,6 +849,8 @@ def campaign(
         "protocol": PROTOCOL,
         "snapshot": frozen,
         "binding_sha256": binding_digest,
+        "cohort": cohort,
+        "calibration_cohort": calibration_value["cohort"] if stage == "final" else None,
         "cases": cases,
         "workers": workers,
         "global_timeout_seconds": GLOBAL_SECONDS,
@@ -950,6 +989,8 @@ def campaign(
         "protocol": PROTOCOL,
         "snapshot": frozen,
         "binding_sha256": binding_digest,
+        "cohort": cohort,
+        "calibration_cohort": calibration_value["cohort"] if stage == "final" else None,
         "calibration_sha256": calibration_digest if stage == "final" else None,
         "calibration_audit_sha256": calibration_audit_digest
         if stage == "final"

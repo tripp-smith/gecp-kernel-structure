@@ -680,14 +680,71 @@ def spectral_forward(
     return _owned(output)
 
 
+def _selection_metrics(
+    data: SpectralDataset,
+    omega: FloatArray,
+    spectra: FloatArray,
+    chi2: FloatArray,
+    converged: npt.NDArray[np.bool_],
+    normalize_mass: float | None,
+) -> tuple[int, list[float | None], list[float | None]]:
+    """Score training fits after the delivered mass operation."""
+    masses = np.asarray(np.trapezoid(spectra, omega, axis=1), dtype=np.float64)
+    eligible = (
+        converged
+        & (chi2 >= 0)
+        & np.all(spectra >= 0, axis=1)
+        & np.isfinite(masses)
+        & (masses > 0)
+    )
+    mass_records = [float(m) if np.isfinite(m) else None for m in masses]
+    metrics: list[float | None] = [None] * len(masses)
+    for i in np.flatnonzero(eligible):
+        if normalize_mass is None:
+            value = float(chi2[i])
+        else:
+            density = spectra[i] * (normalize_mass / masses[i])
+            prediction = spectral_forward(
+                data.beta,
+                data.tau
+                if data.projection_source_tau is None
+                else data.projection_source_tau,
+                omega,
+                density,
+            )
+            if data.projection is not None:
+                prediction = data.projection @ prediction
+            whitened = data.modes.whiten(prediction - data.values)
+            value = float(np.dot(whitened, whitened))
+        if math.isfinite(value):
+            metrics[i] = value
+    candidates = [i for i, value in enumerate(metrics) if value is not None]
+    if not candidates:
+        raise NumericalBreakdownError(
+            "no positive finite-mass converged TauMaxEnt alpha trial"
+        )
+    selected = min(
+        candidates,
+        key=lambda i: abs(
+            math.log(
+                max(cast(float, metrics[i]), np.finfo(float).tiny)
+                / data.modes.effective_rank
+            )
+        ),
+    )
+    return selected, mass_records, metrics
+
+
 def continue_tau_maxent(
     data: SpectralDataset, config: MaxEntConfig | None = None
 ) -> MaxEntSpectrum:
     """Run actual TRIQS/MaxEnt4.0.1; unavailable or exhausted providers fail.
 
-    Alpha minimizes |log(chi2 / retained noise rank)| over converged provider
-    trials. Optional mass rescaling is explicit and its forward defect is
-    recomputed. This is a regularized estimate, not unique peak recovery.
+    Alpha minimizes |log(chi2 / retained noise rank)| over eligible converged
+    trials. With mass rescaling, chi2 is recomputed from the normalized physical
+    forward model and training data; without it, provider chi2 is used. The
+    provider generates the family without a mass constraint in optimization.
+    This is a regularized estimate, not unique peak recovery.
     """
     settings = MaxEntConfig() if config is None else config
     try:
@@ -770,16 +827,9 @@ def continue_tau_maxent(
     ):
         raise NumericalBreakdownError("provider returned incomplete alpha trials")
     converged = np.array([entry[0] for entry in history])
-    eligible = converged & (chi2 >= 0) & np.all(spectra >= 0, axis=1)
-    if not np.any(eligible):
-        raise NumericalBreakdownError("no positive converged TauMaxEnt alpha trial")
-    scores = np.full(chi2.size, np.inf)
-    scores[eligible] = np.abs(
-        np.log(
-            np.maximum(chi2[eligible], np.finfo(float).tiny) / data.modes.effective_rank
-        )
+    selected, trial_masses, selection_chi2 = _selection_metrics(
+        data, omega, spectra, chi2, converged, settings.normalize_mass
     )
-    selected = int(np.argmin(scores))
     density = spectra[selected].copy()
     raw_mass = float(np.trapezoid(density, omega))
     if not math.isfinite(raw_mass) or raw_mass <= 0:
@@ -818,8 +868,13 @@ def continue_tau_maxent(
                 "config": asdict(settings),
                 "dataset": data.fingerprint,
                 "alpha_selection": (
-                    "training_discrepancy_closest_chi2_per_retained_rank_to_one"
+                    "provider_chi2_training_discrepancy"
+                    if settings.normalize_mass is None
+                    else "normalized_physical_forward_training_discrepancy"
                 ),
+                "selection_rule": "closest_abs_log_chi2_per_retained_rank_to_one",
+                "trial_masses": trial_masses,
+                "selection_chi2": selection_chi2,
                 "covariance_threshold": data.modes.threshold,
                 "effective_rank": data.modes.effective_rank,
                 "forward_operator": "native_tau_kernel"

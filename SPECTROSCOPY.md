@@ -1,4 +1,6 @@
-# Synthetic MaxEnt spectroscopy evidence
+# MaxEnt spectroscopy evidence
+
+Current EH acceptance remains open in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). The measured final failure and normalized-model repair below supersede earlier preparation status; the synthetic results in this section are historical evidence for their frozen selector.
 
 The frozen synthetic campaign at clean source revision
 `dc97680a0fa01789cefd1b699a3fb4c0f00a2699` used actual TRIQS MaxEnt
@@ -68,3 +70,40 @@ pass both defaults; pydlr/flat has held-out RMS 2.058574 and fails the limit 2.
 The next common calibration candidate tightens basis tolerance and SVD cutoff;
 no noise allowance or mandatory provider is removed. Actual measured-data
 acceptance and untouched final scoring remain open.
+
+## Measured final failure and normalization repair
+
+All eight measured calibration cases at `edca95c` and their independent audit
+passed. The untouched dense final cohort then failed its first raw/flat case:
+held-out whitened RMS 6.495244 exceeds the unchanged limit 2. The selected
+spectrum had mass 1.010949. Independent adaptive quadrature gives training RMS
+1.06817 before unit-mass rescaling and 5.04594 after it; held-out RMS is 2.80434
+before rescaling and 6.49524 after it. Rescaling worsens the result, but does
+not alone explain the failed held-out budget. These are post-hoc diagnostics,
+not an alpha selection based on held-out data.
+
+The [failure receipt](data/spectroscopy/native-final-failure.json),
+[diagnosis](data/spectroscopy/native-final-normalization-diagnosis.json),
+[failed final archive](experiments/data/cthyb-spectroscopy-edca95c-failed.tar.gz)
+and [original calibration archive](experiments/data/cthyb-spectroscopy-edca95c-calibration.tar.gz)
+preserve original output, worker logs, source/runtime identities and hashes.
+The previous native-chi-square alpha selector is historical; its passing
+calibration does not validate the repaired selector.
+
+The repair keeps actual TauMaxEnt's full trial family and original chi-square
+values. When normalization is requested, it selects among converged positive
+finite-mass trials using the normalized physical forward model's training
+chi-square per retained covariance rank. It records every trial mass and
+selection discrepancy, applies the complete projection, and uses no held-out
+values for selection. This is explicit postprocessing, not a normalization
+constraint inside the provider's optimization. Both scientific auditors
+independently integrate the normalized trial spectra before checking selection.
+
+Recalibration retains the original kernelgecp-final observations. The consumed
+`9d28053` dense cohort is rejected for future final acceptance; the prospective
+final cohort is exclusively the disjoint `7200ec0` Linux dense-final streams,
+seed base 30100000, after complete EE scientific acceptance and independent
+binding. Synthetic final seeds become 2001/2002/2003 with 48 untouched quadrature
+queries, replacing the consumed 1001/1002/1003 and 36-query validation. Numerical,
+noise, covariance and provider gates remain unchanged. New calibration, audits,
+final runs, full verification, exact-source CI and delivery remain mandatory.

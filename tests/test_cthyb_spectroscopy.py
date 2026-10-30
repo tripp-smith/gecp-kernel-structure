@@ -33,9 +33,9 @@ def fixture(tmp_path, monkeypatch):
     role = tmp_path / "dense-final"
     role.mkdir()
     identity = {
-        "source_revision": m.REVISION,
+        "source_revision": m.FINAL_REVISION,
         "config": {
-            "seed_base": 29100000,
+            "seed_base": 30100000,
             "seed_mapping": "odd_stride_2_v1",
             "final_replicas": 64,
             "n_tau": 3073,
@@ -60,7 +60,7 @@ def fixture(tmp_path, monkeypatch):
     audit = {
         "schema": "kernelgecp.cthyb-audit.v1",
         "status": "passed",
-        "generation_revision": m.REVISION,
+        "generation_revision": m.FINAL_REVISION,
         "gates": {"gate": True},
         "audit_revision": "revision",
         "audit_sha256": m.hashlib.sha256(b"audit").hexdigest(),
@@ -72,7 +72,7 @@ def fixture(tmp_path, monkeypatch):
     def load(stem, identity):
         i = int(stem.name.split("-")[-1])
         return SimpleNamespace(
-            seed=29130001 + 2 * i,
+            seed=30130001 + 2 * i,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -88,7 +88,7 @@ def fixture(tmp_path, monkeypatch):
             {
                 "schema": "kernelgecp.cthyb-audit-binding.v1",
                 "status": "passed",
-                "generation_revision": m.REVISION,
+                "generation_revision": m.FINAL_REVISION,
                 "audit_receipt_sha256": m.sha(receipt),
                 "result_sha256": m.sha(tmp_path / "result.json"),
                 "manifest_sha256": m.sha(tmp_path / "manifest.json"),
@@ -103,7 +103,7 @@ def fixture(tmp_path, monkeypatch):
 def test_raw_cohort_and_failure_paths(tmp_path, monkeypatch):
     receipt, binding = fixture(tmp_path, monkeypatch)
     data, meta = m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
-    assert data.shape == (64, 3073) and meta["seeds"][0] == 29130001
+    assert data.shape == (64, 3073) and meta["seeds"][0] == 30130001
     with pytest.raises(ValueError, match="digest"):
         m.load_cohort(tmp_path, receipt, binding, "0" * 64, "final")
     path = tmp_path / "dense-final" / "replica-01.json"
@@ -117,7 +117,7 @@ def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
 
     def bad(stem, identity):
         return SimpleNamespace(
-            seed=29130001,
+            seed=30130001,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -133,7 +133,7 @@ def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
     def imag(stem, identity):
         i = int(stem.name.split("-")[-1])
         return SimpleNamespace(
-            seed=29130001 + 2 * i,
+            seed=30130001 + 2 * i,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -185,21 +185,36 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
                 "status": "passed",
                 "protocol": m.PROTOCOL,
                 "snapshot": snapshot,
-                "binding_sha256": "binding",
+                "binding_sha256": "a" * 64,
+                "cohort": {
+                    "stage": "calibration",
+                    "role": "kernelgecp-final",
+                    "generation_revision": m.CALIBRATION_REVISION,
+                    "seed_base": m.CALIBRATION_SEED_BASE,
+                    "seeds": [
+                        m.CALIBRATION_SEED_BASE + 40001 + 2 * i for i in range(64)
+                    ],
+                    "binding_sha256": "a" * 64,
+                },
                 "cases": cases,
             }
         )
     )
-    m.verify_calibration(receipt, m.sha(receipt), snapshot, "binding")
+    m.verify_calibration(receipt, m.sha(receipt), snapshot)
     with pytest.raises(ValueError, match="requires"):
-        m.verify_calibration(None, None, snapshot, "binding")
+        m.verify_calibration(None, None, snapshot)
     with pytest.raises(ValueError, match="source"):
-        m.verify_calibration(
-            receipt, m.sha(receipt), {"sources": {"core": "changed"}}, "binding"
-        )
+        m.verify_calibration(receipt, m.sha(receipt), {"sources": {"core": "changed"}})
+    altered = json.loads(receipt.read_text())
+    altered["cohort"]["binding_sha256"] = "b" * 64
+    receipt.write_text(json.dumps(altered))
+    with pytest.raises(ValueError, match="cohort binding"):
+        m.verify_calibration(receipt, m.sha(receipt), snapshot)
+    altered["cohort"]["binding_sha256"] = "a" * 64
+    receipt.write_text(json.dumps(altered))
     (tmp_path / "raw-flat-r0.npz").write_bytes(b"tampered")
     with pytest.raises(ValueError, match="hash"):
-        m.verify_calibration(receipt, m.sha(receipt), snapshot, "binding")
+        m.verify_calibration(receipt, m.sha(receipt), snapshot)
 
 
 def test_real_measurement_archive_tampering(tmp_path):
@@ -435,3 +450,61 @@ def test_native_basis_ladder_is_fixed_and_common(monkeypatch):
     monkeypatch.setitem(m.PROTOCOL, "rcond", 1e-9)
     with pytest.raises(ValueError, match="basis controls"):
         m.validate_basis_controls()
+
+
+def test_wrong_generation_consumed_final_and_wrong_seed_base(tmp_path, monkeypatch):
+    receipt, binding = fixture(tmp_path, monkeypatch)
+    value = json.loads(binding.read_text())
+    for revision, message in [
+        (m.CALIBRATION_REVISION, "consumed"),
+        ("f" * 40, "source"),
+    ]:
+        value["generation_revision"] = revision
+        binding.write_text(json.dumps(value))
+        with pytest.raises(ValueError, match=message):
+            m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+    value["generation_revision"] = m.FINAL_REVISION
+    identity = json.loads((tmp_path / "manifest.json").read_text())
+    identity["config"]["seed_base"] += 2
+    (tmp_path / "manifest.json").write_text(json.dumps(identity))
+    result = json.loads((tmp_path / "result.json").read_text())
+    result["identity"] = identity
+    (tmp_path / "result.json").write_text(json.dumps(result))
+    value["manifest_sha256"] = m.sha(tmp_path / "manifest.json")
+    value["result_sha256"] = m.sha(tmp_path / "result.json")
+    binding.write_text(json.dumps(value))
+    with pytest.raises(ValueError, match="configuration"):
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+
+
+def test_calibration_audit_cross_binding_and_cohort_overlap(tmp_path, monkeypatch):
+    path = tmp_path / "audit.json"
+    audit = {
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "status": "passed",
+        "kind": "calibration",
+        "calibration_sha256": "cal",
+        "binding_sha256": "final-binding",
+        "gates": {"ok": True},
+        "auditor_revision": "rev",
+        "auditor_sha256": m.hashlib.sha256(b"auditor").hexdigest(),
+    }
+    path.write_text(json.dumps(audit))
+    monkeypatch.setattr(m.subprocess, "check_output", lambda *a, **k: b"auditor")
+    with pytest.raises(ValueError, match="binding"):
+        m.verify_calibration_audit(path, m.sha(path), "cal", "calibration-binding")
+    cal = {
+        "generation_revision": m.CALIBRATION_REVISION,
+        "binding_sha256": "cal",
+        "seeds": [1],
+    }
+    final = {
+        "generation_revision": m.FINAL_REVISION,
+        "binding_sha256": "final",
+        "seeds": [2],
+    }
+    m.validate_cohort_pair(cal, final)
+    for key in ("generation_revision", "binding_sha256", "seeds"):
+        bad = dict(final, **{key: cal[key]})
+        with pytest.raises(ValueError, match="overlap"):
+            m.validate_cohort_pair(cal, bad)

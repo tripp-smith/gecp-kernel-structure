@@ -155,8 +155,8 @@ def _campaign(tmp_path):
         "n_alpha": 33,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [1001, 1002, 1003],
-        "final_query_order": 36,
+        "final_seeds": [2001, 2002, 2003],
+        "final_query_order": 48,
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }

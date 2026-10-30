@@ -134,9 +134,9 @@ def true_cdf(case, omega):
 
 
 def observations(case, seed, *, query_order=24):
-    if type(query_order) is not int or query_order not in (24, 36):
+    if type(query_order) is not int or query_order not in (24, 36, 48):
         raise ValueError(
-            "query_order must be24 for calibration or36 for fresh validation"
+            "query_order must be 24, historical 36, or predeclared fresh 48"
         )
     beta = 10.0
     tau = np.linspace(0, beta, 65)
@@ -358,6 +358,7 @@ def run_case(
             spectrum.normalized_training_whitened_rms
         ),
         "selected_index": spectrum.selected_index,
+        "provider_diagnostics": spectrum.diagnostics,
         "converged": spectrum.converged,
         "iterations": spectrum.iterations,
         "metrics": metrics,
@@ -397,7 +398,7 @@ def main():
         "--default-model", choices=["flat", "broad_gaussian"], default="flat"
     )
     parser.add_argument("--bootstrap", type=int, default=0)
-    parser.add_argument("--query-order", type=int, choices=[24, 36], default=24)
+    parser.add_argument("--query-order", type=int, choices=[24, 36, 48], default=24)
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
