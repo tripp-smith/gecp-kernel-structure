@@ -2514,3 +2514,22 @@ normalized training fit: this case changes RMS 1.06817 to 5.04594. The repaired
 selector uses only normalized-model training discrepancy; it does not establish
 new scientific acceptance. Failure archives and fresh-cohort restrictions are
 recorded in [SPECTROSCOPY.md](SPECTROSCOPY.md). No original theorem changes.
+
+## EH fresh measured miss and bounded covariance candidate
+
+The normalized selector passes the Mac synthetic final and measured
+calibration at `1452a8a`. Its fresh measured `7200ec0` GECP/flat final misses
+the unchanged held-out RMS gate: 2.023200438825109 versus 2, with training RMS
+0.999109. Raw/flat and raw/Gaussian pass. The original failed outputs are
+archived; independent diagnostic arithmetic checks do not turn that failure
+into a passing final audit. The Linux provider exception remains unresolved.
+
+With 32 training chains the 65-dimensional raw covariance has rank at most
+31; the 16-dimensional query covariance is also estimated from only 32
+independent chains. Finite-sample inverse-covariance variability motivates one
+predeclared 256-chain candidate split 128/128. This is not an identified cause,
+coverage result or guarantee of success. The separate acquisition, raw audit,
+bootstrap and spectroscopy readers preserve all physical/numerical gates and
+require a passed source-bound calibration before acquisition. The integrated
+focused suite passes 59 tests with one required Linux-native preflight skipped
+locally. New measurements, full scientific acceptance and delivery remain open.

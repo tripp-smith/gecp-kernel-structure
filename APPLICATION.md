@@ -1739,6 +1739,15 @@ default-model sensitivity do not establish unique peak recovery or complete
 uncertainty coverage. Existing sparse-recovery experiments remain separately
 labeled comparisons.
 
+Provider failures retain the native exception type, message and completed
+trial history. No partial alpha family substitutes for a successful result,
+and continuation restores the caller's NumPy error policy even on failure.
+The experimental Linux-only fixed-bath acquisition is a separate research
+workflow, not a replacement DMFT solver or a published 1.1.0 interface. It
+requires a committed source freeze and passed independent calibration before
+new measurements. Its 256-chain acceptance and the measured spectroscopy
+phase remain open; see the [current evidence](SPECTROSCOPY.md).
+
 ## Published release evidence
 
 Version 1.1.0 is public on [PyPI](https://pypi.org/project/kernelgecp/1.1.0/) and

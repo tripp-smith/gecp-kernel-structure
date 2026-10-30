@@ -179,3 +179,57 @@ def test_failed_child_is_not_retried(setup):
     state["mode"] = "ok"
     second = driver.execute("campaign", tmp / "final", tmp / "freeze.json", "test")
     assert second["status"] == "failed" and state["calls"] == before
+
+
+def test_failed_provider_retains_projected_input_and_failed_receipt(
+    monkeypatch, tmp_path
+):
+    import sys
+
+    from experiments import spectroscopy
+    from kernelgecp.integrations.maxent import load_spectral_dataset
+    from kernelgecp.types import NumericalBreakdownError
+
+    class Basis:
+        beta = 10
+
+        def design_tau(self, tau):
+            return np.polynomial.legendre.legvander(2 * np.asarray(tau) / 10 - 1, 3)
+
+    monkeypatch.setattr(spectroscopy, "basis", lambda *args: Basis())
+    monkeypatch.setattr(spectroscopy, "provenance", lambda: {})
+    output = tmp_path / "nested" / "case.json"
+    dataset_path = output.with_name("case-dataset.npz")
+
+    def fail(fitted, config):
+        restored = load_spectral_dataset(dataset_path)
+        np.testing.assert_array_equal(restored.covariance, fitted.covariance)
+        np.testing.assert_array_equal(restored.projection, fitted.projection)
+        np.testing.assert_array_equal(
+            restored.projection_source_tau, fitted.projection_source_tau
+        )
+        raise NumericalBreakdownError("stub provider failure")
+
+    monkeypatch.setattr(spectroscopy, "continue_tau_maxent", fail)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "spectroscopy",
+            "--case",
+            "offgrid_atoms_correlated",
+            "--method",
+            "pydlr",
+            "--seed",
+            "102",
+            "--pilot",
+            "--output",
+            str(output),
+        ],
+    )
+    with pytest.raises(SystemExit) as caught:
+        spectroscopy.main()
+    assert caught.value.code == 1
+    assert json.loads(output.read_text())["status"] == "failed"
+    assert dataset_path.exists() and dataset_path.with_suffix(".json").exists()
+    assert not output.with_suffix(".npz").exists()

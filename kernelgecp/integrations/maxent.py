@@ -809,10 +809,15 @@ def continue_tau_maxent(
             "provider covariance truncation changed declared rank"
         )
     try:
-        result = solver.run()
+        # The native minimizer changes NumPy's error policy internally. Keep
+        # the caller's policy intact even if a native solve raises midway.
+        with np.errstate(**np.geterr()):
+            result = solver.run()
     except (ValueError, FloatingPointError, np.linalg.LinAlgError) as error:
         raise NumericalBreakdownError(
-            "actual TauMaxEnt failed; no substitute method"
+            f"actual TauMaxEnt failed; no substitute method; "
+            f"{type(error).__name__}: {error}; completed trials: {len(history)}; "
+            f"history (converged, iterations): {history}"
         ) from error
     spectra = _real_array(result.A, "provider spectra")
     alphas, chi2 = (

@@ -1,0 +1,78 @@
+{
+  "acceptance_whitened_rms_max": 2,
+  "analysis_revision": "1452a8a921c650242f0ba1fae5593cc67f314bf1",
+  "archive": {
+    "path": "experiments/data/cthyb-spectroscopy-1452a8a-7200-failed.tar.gz",
+    "sha256": "a742063f8edbf19ef49d1b5e02f4261aece3f338d0c84de9b596b6ebbfbda5f9",
+    "size_bytes": 1636044
+  },
+  "cases": [
+    {
+      "file": "raw-flat-r0.json",
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "normalized_training_whitened_rms": 1.0556338062034543,
+      "sha256": "d10e0e76bb13e625bc620e7dbf2d83066d931f8e69dd07df11e8419f3316cca0",
+      "status": "passed",
+      "whitened_rms": 1.6316361025459343
+    },
+    {
+      "file": "raw-broad_gaussian-r0.json",
+      "gates": {
+        "heldout_whitened_rms": true,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "normalized_training_whitened_rms": 0.9965551217308896,
+      "sha256": "697e27111faa679d7a0f9af95e14bfb601f55e2d684abfb4579befea83e77c3e",
+      "status": "passed",
+      "whitened_rms": 1.5965419912298489
+    },
+    {
+      "file": "kernelgecp-flat-r0.json",
+      "gates": {
+        "heldout_whitened_rms": false,
+        "normalized": true,
+        "positive": true,
+        "provider_selected_converged": true
+      },
+      "normalized_training_whitened_rms": 0.9991090094844813,
+      "sha256": "2399e033f95e2c036469b4ae0984f8e8c9543f05bdfd8974943cb312322689cc",
+      "status": "failed",
+      "whitened_rms": 2.023200438825109
+    }
+  ],
+  "cohort_size": 64,
+  "disposition": "Consumed validation; retain failure. Independent arithmetic diagnostic is not a passing final audit. No threshold relaxation, covariance inflation or same-cohort retuning.",
+  "files": {
+    "gecp-eh-cthyb-final-fresh-7200.log": "d174b3d251caf615c480499db22afcbd676ee3a8afe7285990ce47cf50a5698b",
+    "kernelgecp-flat-r0-job.json": "4e21b16efeef0338bace760b75079d064fbe354f464a02320f05740050ef586b",
+    "kernelgecp-flat-r0-worker.log": "cd11fbe503185eddda9e5fd3373cbc5012d2fd3d567fd87f75d28a2759b44fee",
+    "kernelgecp-flat-r0.json": "2399e033f95e2c036469b4ae0984f8e8c9543f05bdfd8974943cb312322689cc",
+    "kernelgecp-flat-r0.npz": "bb43c4160ecb04daf5d7dedcd7dec9ccfb3a0d8a7a458323ba6f08eb7fb817d3",
+    "progress.json": "68369479bfd082d9e04972ac7c3f25bad707cf40c90a5e59fd78cde1f6789aa6",
+    "raw-broad_gaussian-r0-job.json": "333e61140712391ff1e053966f3545e39fb68f58577f2ae80590a86f6aff7a00",
+    "raw-broad_gaussian-r0-worker.json": "1c631361720aad76eee44c00a408327fa49a744332017558e7737ae450a7a2a8",
+    "raw-broad_gaussian-r0-worker.log": "dc4978d5ad8217f7bc5b9ced188d4f5f61a8f13db6a28315933384e5b4904a5b",
+    "raw-broad_gaussian-r0.json": "697e27111faa679d7a0f9af95e14bfb601f55e2d684abfb4579befea83e77c3e",
+    "raw-broad_gaussian-r0.npz": "67558f1d07a7a252ecfc7157bd497fbd46d482754d233569a21493704cc22c25",
+    "raw-flat-r0-job.json": "02f7c06ef1f227d9cc4ef9e10384c40a5016becbbca98a5ee8d2b4a20fdc1829",
+    "raw-flat-r0-worker.json": "2772275cee406c478a4a8cd45223d847fe7d85d2fa2cea1aeed8652fca75e94b",
+    "raw-flat-r0-worker.log": "d25b4f074fd70783359e35b91d2442f3957f01e6ec865c45f9f5c2f6306951db",
+    "raw-flat-r0.json": "d10e0e76bb13e625bc620e7dbf2d83066d931f8e69dd07df11e8419f3316cca0",
+    "raw-flat-r0.npz": "f0d9fd13515160454244876c68b91edc75384bd5e9123f554de169ee063521cd"
+  },
+  "measurement_revision": "7200ec0e912954c568bedb2092d9ff1c053f9ba7",
+  "measurement_role": "dense-final",
+  "schema": "kernelgecp.cthyb-spectroscopy-failed-final.v1",
+  "split": [
+    32,
+    32
+  ],
+  "status": "failed"
+}

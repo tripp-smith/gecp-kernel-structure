@@ -236,6 +236,14 @@ def run_case(
             )
     construction_seconds = time.perf_counter() - start
     config = MaxEntConfig(**config)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    save_spectral_dataset(
+        fitted,
+        output.with_name(output.stem + "-dataset.npz"),
+        units={"tau": "inverse_energy", "omega": "energy", "G_tau": "dimensionless"},
+        provider={"name": method, "continuation": "TRIQS/MaxEnt4.0.1"},
+        calculation_settings=dataclasses.asdict(config),
+    )
     fit_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
     continuation_seconds = time.perf_counter() - fit_start
@@ -331,13 +339,6 @@ def run_case(
             "format": "kernelgecp.fit.v2",
             "observation_domain": "tau",
         }
-    save_spectral_dataset(
-        fitted,
-        output.with_name(output.stem + "-dataset.npz"),
-        units={"tau": "inverse_energy", "omega": "energy", "G_tau": "dimensionless"},
-        provider={"name": method, "continuation": "TRIQS/MaxEnt4.0.1"},
-        calculation_settings=dataclasses.asdict(config),
-    )
     result = {
         "schema": "kernelgecp.spectroscopy-case.v1",
         "pilot": pilot,

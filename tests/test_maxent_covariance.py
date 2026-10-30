@@ -351,3 +351,57 @@ def test_selection_scores_delivered_spectrum_and_projection_not_provider_chi2():
             _selection_metrics(
                 training, omega, trials[2:4], native_chi[2:4], converged[2:4], 1.0
             )
+
+
+def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch):
+    from types import SimpleNamespace
+
+    from kernelgecp.types import NumericalBreakdownError
+
+    class Minimizer:
+        def __init__(self, **kwargs):
+            pass
+
+        def minimize(self):
+            self.converged, self.n_iter_last = True, 7
+
+    class Solver:
+        def __init__(self, **kwargs):
+            self.minimizer = kwargs["minimizer"]
+
+        def set_G_tau_data(self, tau, values):
+            pass
+
+        def set_cov(self, covariance):
+            self.err = np.ones(len(covariance))
+
+        def run(self):
+            self.minimizer.minimize()
+            np.seterr(all="ignore")
+            raise np.linalg.LinAlgError("singular training system")
+
+    provider = SimpleNamespace(
+        TauMaxEnt=Solver,
+        LinearOmegaMesh=lambda lo, hi, n: np.linspace(lo, hi, n),
+        LogAlphaMesh=lambda *args: None,
+        DataDefaultModel=lambda *args: None,
+    )
+    modules = {
+        "triqs_maxent": provider,
+        "triqs_maxent.minimizers": SimpleNamespace(LevenbergMinimizer=Minimizer),
+        "triqs_maxent.version": SimpleNamespace(version="4.0.1"),
+    }
+    original = importlib.import_module
+    monkeypatch.setattr(
+        importlib,
+        "import_module",
+        lambda name: modules[name] if name in modules else original(name),
+    )
+    previous_policy = np.geterr()
+    with pytest.raises(NumericalBreakdownError) as caught:
+        continue_tau_maxent(dataset())
+    assert np.geterr() == previous_policy
+    assert "LinAlgError: singular training system" in str(caught.value)
+    assert "completed trials: 1" in str(caught.value)
+    assert "history (converged, iterations): [(True, 7)]" in str(caught.value)
+    assert isinstance(caught.value.__cause__, np.linalg.LinAlgError)

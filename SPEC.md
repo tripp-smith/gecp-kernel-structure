@@ -3113,3 +3113,12 @@ This annotation records delivered identifiers without changing the goals above.
   physical-quadrature checks and disjoint future Linux final-cohort identities
   are implemented for recalibration; no new scientific acceptance is claimed.
   [SPECTROSCOPY.md](SPECTROSCOPY.md) and draft PR #142 retain remaining gates.
+
+- **Phase EH bounded measurement status:** normalized-selector Mac synthetic
+  and measured calibration evidence passes at `1452a8a`, but its fresh
+  `7200ec0` measured GECP/flat final fails RMS 2.023200438825109 against 2.
+  That final cohort is consumed and its complete partial output is archived.
+  A separately audited 256-chain fixed-bath acquisition with a frozen 128/128
+  split is the next declared candidate; numerical gates and original scope
+  are unchanged. Linux native-provider failure, full scientific acceptance,
+  root/exact-head CI and delivery remain open.

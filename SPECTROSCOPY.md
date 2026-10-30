@@ -107,3 +107,39 @@ binding. Synthetic final seeds become 2001/2002/2003 with 48 untouched quadratur
 queries, replacing the consumed 1001/1002/1003 and 36-query validation. Numerical,
 noise, covariance and provider gates remain unchanged. New calibration, audits,
 final runs, full verification, exact-source CI and delivery remain mandatory.
+
+## Normalized-selector evidence and second measured final failure
+
+At `1452a8a`, all 72 fresh Mac synthetic cases and their independent audit
+pass. Their [archive](experiments/data/spectroscopy-normalized-1452.tar.gz)
+has SHA-256 `5c8b6752f3f6ed57b4c13a6e586ce5941026d30c58c45e771d928b5881105c77`.
+The eight repaired-selector measured calibration cases and their independent
+audit also pass; [archive](experiments/data/cthyb-spectroscopy-normalized-1452.tar.gz)
+SHA-256 `1d9b502818f6818841fabb30780eb956dd4772d9a9e710137287afe3465672e6`.
+The [checkpoint](data/spectroscopy/normalized-1452-checkpoint.json) retains
+their original identities. Synthetic Linux run 40978733084 failed inside the
+native provider before completing all alpha trials. An isolated diagnostic
+replay passed, so its cause remains unresolved. The complete failed artifact
+is preserved; no partial trial family is accepted and no provider controls
+were changed. New failure instrumentation retains the input, exception cause
+and completed trial history and restores the caller's NumPy error policy.
+
+The new `7200ec0` dense-final observations have now been scored and are
+consumed. Raw/flat and raw/Gaussian held-out RMS are 1.631636 and 1.596542.
+GECP/flat fails at 2.023200438825109 against the unchanged limit 2 despite
+training RMS 0.999109. Positivity, normalization and selected convergence pass.
+The [failure receipt](data/spectroscopy/native-final-7200-failure.json) and
+[complete partial archive](experiments/data/cthyb-spectroscopy-1452a8a-7200-failed.tar.gz),
+SHA-256 `a742063f8edbf19ef49d1b5e02f4261aece3f338d0c84de9b596b6ebbfbda5f9`,
+retain all worker outputs and the terminal parent log. Independent diagnostic
+recomputation confirms the inspected arithmetic, but is not a passing final
+audit. Finite-sample inverse-covariance variability is a plausible contributor,
+not an established cause or uncertainty-coverage guarantee.
+
+The [bounded next contract](RESEARCH.md#eh-bounded-fixed-bath-covariance-estimation-contract)
+uses 256 new fixed-bath chains with a predeclared 128/128 split, the accepted
+EE bath and unchanged physics and scientific gates. It requires a separately
+bound acquisition and independent raw-chain audit, not a relabeled full EE
+campaign. No new observations may be generated before source/protocol freeze;
+no automatic retries, enlargement or covariance inflation follow a failed
+final case. All synthetic, measured, full-root, CI and delivery gates remain.

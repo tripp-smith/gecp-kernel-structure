@@ -12043,3 +12043,51 @@ The synthetic repaired-selector validation uses predeclared fresh seeds
 2001/2002/2003 and query order 48; historical validation is preserved. Phase
 closure still requires every real-provider gate, full root/exact-head CI and
 verified merged-main delivery in PR #142.
+
+### EH bounded fixed-bath covariance-estimation contract
+
+The normalized-selector generation `1452a8a` passes its Mac synthetic final
+and independent audit, but its fresh measured final using the accepted
+`7200ec0` dense bath fails GECP/flat held-out RMS 2.023200438825109 against 2.
+Raw/flat and raw/Gaussian pass. Independent diagnostic recomputation confirms
+the inspected arithmetic; bypassing the known failure is not a passing audit.
+Both the old dense cohort and this new 64-chain cohort are consumed validation.
+Preserve their complete partial outputs and failures before further acquisition.
+
+The next and only predeclared candidate is a separate fixed-bath acquisition,
+not another full EE DMFT campaign: 256 fresh independent chains, first 128 for
+training and last 128 for held-out validation. Use the exact accepted Linux
+`7200ec0` dense-final bath, beta 10, U 2, 1,600,000 cycles, native warmup and
+moments unchanged. Seeds are `32100001 + 2*i`, `0 <= i < 256`, disjoint from
+all prior declared families. Freeze implementation, bath bits/hash, source and
+runtime identities, explicit seed list, split, and all analysis controls before
+acquisition. A hash-bound independent audit must verify every native chain and
+the accepted parent-bath provenance. Do not label this fixed-bath cohort as a
+passed full EE campaign. Keep the historical 64-chain reader and auditor.
+
+Add a bounded acquisition driver and independent raw-chain auditor, then an
+explicit 256/128 spectroscopy reader and corresponding bootstrap handling.
+Retain eight bootstrap resamples of 128 training chains on repeat zero, three
+fresh process repeats and all eight method/default combinations. Calibration
+may replay the already consumed calibration cohort under the frozen new code;
+the new held-out cohort cannot tune alpha, projection, controls or stopping.
+Keep eps 1e-10, rcond 1e-12, the 33-alpha/401-frequency grids, covariance cutoff
+1e-4, query locations, positivity/mass tolerance 1e-6 and whitened RMS <= 2.
+Increasing the cohort addresses covariance estimation; it does not promise
+acceptance and can reveal bias more sharply. Do not inflate held-out covariance.
+
+Acquisition must checkpoint bounded segments of at most 330 minutes, retain
+per-chain timing/native diagnostics and fail closed on orphan or mismatched
+archives, seed overlap, changed source/runtime/bath, invalid sign or failed
+native solve. One local memory-intensive workload and fixed single threads
+remain required. No automatic retry, adaptive enlargement or replacement seeds
+after scoring. Any scientific miss remains failed or inconclusive; preserve
+the complete run and diagnose before proposing another independent experiment.
+
+The Linux synthetic MaxEnt exception remains a separate unresolved blocker.
+Preserve input before continuation, native exception/trial history and caller
+NumPy error policy; require an evidence-supported provider investigation and a
+complete actual-provider synthetic run. Focused tests, independent audits,
+full root, exact-head CI, documentation, merge and main gates remain mandatory.
+
+Acquisition segments use a 240-minute driver deadline, leaving setup and artifact-upload headroom within the 330-minute hosted-job cap. The mandatory actual-Linux wiring test checks that the recorded runtime identity survives a disposable tiny native solve before any final acquisition. It uses separate seed 32290001 and contributes no final measurements. A parent-reader regression covers the original audit_receipt_sha256 binding key; all scientific acceptance remains open.

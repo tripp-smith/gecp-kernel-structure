@@ -89,6 +89,228 @@ def forward(t, w, d):
     return quad_vec(integrand, -4, 4, points=w[1:-1], epsabs=1e-11, epsrel=1e-11)[0]
 
 
+PARENT_BINDING = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd"
+FIXED_SEEDS = [32100001 + 2 * i for i in range(256)]
+
+
+def fixed_raw_cohort(folder, receipt_path, binding_path):
+    """Independently recompute fixed-bath chain moments."""
+    folder = Path(folder)
+    receipt_path = Path(receipt_path)
+    binding_path = Path(binding_path)
+    binding_sha256 = sha(binding_path)
+    if len(binding_sha256) != 64 or sha(binding_path) != binding_sha256:
+        raise ValueError("fixed-bath audit binding digest mismatch")
+    binding = json.loads(binding_path.read_text())
+    receipt = json.loads(receipt_path.read_text())
+    manifest = json.loads((folder / "manifest.json").read_text())
+    result = json.loads((folder / "result.json").read_text())
+    manifest_hash = sha(folder / "manifest.json")
+    if (
+        binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
+        or binding.get("status") != "passed"
+        or binding.get("receipt_sha256") != sha(receipt_path)
+        or binding.get("manifest_sha256") != manifest_hash
+        or binding.get("result_sha256") != sha(folder / "result.json")
+        or binding.get("parent_binding_sha256") != PARENT_BINDING
+        or receipt.get("schema") != "kernelgecp.cthyb-fixed-bath-audit.v1"
+        or receipt.get("status") != "passed"
+        or receipt.get("parent_binding_sha256") != PARENT_BINDING
+        or receipt.get("manifest_sha256") != manifest_hash
+        or receipt.get("result_sha256") != sha(folder / "result.json")
+        or receipt.get("chain_count") != 256
+        or receipt.get("train_count") != 128
+        or receipt.get("heldout_count") != 128
+        or receipt.get("audit_revision") != binding.get("audit_revision")
+        or receipt.get("audit_source_sha256") != binding.get("audit_source_sha256")
+    ):
+        raise ValueError("fixed-bath audit or parent binding mismatch")
+    rev = binding.get("audit_revision")
+    if (
+        not isinstance(rev, str)
+        or len(rev) != 40
+        or any(c not in "0123456789abcdef" for c in rev)
+    ):
+        raise ValueError("invalid fixed-bath auditor revision")
+    blob = subprocess.check_output(
+        ["git", "show", rev + ":experiments/audit_cthyb_fixed_bath.py"], cwd=ROOT
+    )
+    if hashlib.sha256(blob).hexdigest() != binding.get("audit_source_sha256"):
+        raise ValueError("fixed-bath auditor source mismatch")
+    protocol = manifest.get("protocol", {})
+    provenance = manifest.get("provenance", {})
+    calibration = manifest.get("calibration")
+    keys = {
+        "receipt_sha256",
+        "audit_sha256",
+        "binding_sha256",
+        "auditor_revision",
+        "auditor_sha256",
+    }
+    if (
+        not isinstance(calibration, dict)
+        or set(calibration) != keys
+        or receipt.get("calibration") != calibration
+        or binding.get("calibration") != calibration
+        or calibration.get("auditor_revision") != provenance.get("revision")
+        or calibration.get("auditor_sha256")
+        != provenance.get("sources", {}).get("experiments/audit_cthyb_spectroscopy.py")
+        or any(
+            not isinstance(calibration[k], str)
+            or len(calibration[k]) != (40 if k == "auditor_revision" else 64)
+            or any(c not in "0123456789abcdef" for c in calibration[k])
+            for k in keys
+        )
+    ):
+        raise ValueError("fixed-bath frozen calibration binding mismatch")
+    if (
+        manifest.get("schema") != "kernelgecp.cthyb-fixed-bath.v1"
+        or manifest.get("parent", {}).get("binding_sha256") != PARENT_BINDING
+        or protocol.get("seeds") != FIXED_SEEDS
+        or protocol.get("train_count") != 128
+        or protocol.get("cycles") != 1600000
+        or result.get("schema") != "kernelgecp.cthyb-fixed-bath-result.v1"
+        or result.get("status") != "complete"
+        or result.get("manifest_sha256") != manifest_hash
+        or len(result.get("chains", [])) != 256
+        or not provenance.get("revision")
+    ):
+        raise ValueError("fixed-bath manifest, split or result mismatch")
+    expected = {
+        f"chains/chain-{i:03d}{ext}"
+        for i in range(256)
+        for ext in (".json", ".npz", ".timing.json")
+    }
+    inventory = binding.get("inventory")
+    if not isinstance(inventory, dict) or set(inventory) != expected:
+        raise ValueError("fixed-bath inventory mismatch")
+    if any(
+        (folder / name).is_symlink() or sha(folder / name) != digest
+        for name, digest in inventory.items()
+    ):
+        raise ValueError("fixed-bath inventory hash mismatch")
+    if {p.name for p in (folder / "chains").iterdir()} != {
+        Path(x).name for x in expected
+    }:
+        raise ValueError("fixed-bath orphan or missing file")
+    samples, bath = [], None
+    for i, entry in enumerate(result["chains"]):
+        role = "train" if i < 128 else "heldout"
+        stem = folder / "chains" / f"chain-{i:03d}"
+        require(
+            entry
+            == {
+                "index": i,
+                "seed": FIXED_SEEDS[i],
+                "role": role,
+                "receipt_sha256": sha(stem.with_suffix(".json")),
+                "arrays_sha256": sha(stem.with_suffix(".npz")),
+                "timing_sha256": sha(stem.with_suffix(".timing.json")),
+            },
+            "chain entry",
+        )
+        d = read(stem.with_suffix(".json"))
+        require(
+            d.get("schema") == "kernelgecp.cthyb-measurement.v1"
+            and d.get("identity")
+            == {"manifest_sha256": manifest_hash, "index": i, "role": role}
+            and d.get("config") == protocol.get("config")
+            and d.get("seed") == FIXED_SEEDS[i]
+            and d.get("arrays_sha256") == sha(stem.with_suffix(".npz"))
+            and d.get("cycles") == 1600000
+            and d.get("solve_status") == 0
+            and 0.99 < d.get("average_sign", 0) <= 1.000000001,
+            "chain identity",
+        )
+        with np.load(stem.with_suffix(".npz"), allow_pickle=False) as z:
+            x, t = z["g_tau"], z["bath_iw"]
+            require(
+                x.shape == (3073, 2)
+                and np.isfinite(x).all()
+                and np.max(np.abs(x.imag)) <= 1e-10,
+                "chain data",
+            )
+            if bath is None:
+                bath = t.copy()
+            require(
+                np.array_equal(bath, t)
+                and hashlib.sha256(t.tobytes()).hexdigest()
+                == manifest["parent"].get("bath_bytes_sha256"),
+                "bath",
+            )
+            samples.append((x[:, 0].real + x[:, 1].real) / 2)
+    samples = np.array(samples)
+    om, oc = moments(samples[:128, OBS])
+    qm, qc = moments(samples[128:, QUERY])
+    cohort = {
+        "stage": "final",
+        "role": "fixed-bath-256",
+        "generation_revision": provenance["revision"],
+        "seeds": FIXED_SEEDS,
+        "manifest_sha256": manifest_hash,
+        "result_sha256": sha(folder / "result.json"),
+        "receipt_sha256": sha(receipt_path),
+        "binding_sha256": binding_sha256,
+        "parent_binding_sha256": PARENT_BINDING,
+        "calibration": calibration,
+        "bath_bytes_sha256": manifest["parent"]["bath_bytes_sha256"],
+        "measurement_receipt_sha256": [
+            inventory[f"chains/chain-{i:03d}.json"] for i in range(256)
+        ],
+        "spin_operation": "paramagnetic_arithmetic_mean_up_down",
+        "imaginary_absolute_tolerance": 1e-10,
+    }
+    return (samples, om, oc, qm, qc), cohort
+
+
+def audit_acquisition_freeze(folder, frozen):
+    """Match acquisition provenance to the already calibrated source/runtime freeze."""
+    provenance = json.loads((folder / "manifest.json").read_text())["provenance"]
+    runtime = provenance.get("runtime", {})
+    if (
+        provenance.get("revision") != frozen.get("revision")
+        or runtime.get("python") != frozen.get("python")
+        or runtime.get("platform") != frozen.get("platform")
+        or provenance.get("threads") != frozen.get("threads")
+        or any(
+            provenance.get("sources", {}).get(k) != v
+            for k, v in frozen["sources"].items()
+        )
+    ):
+        raise ValueError(
+            "acquisition source or runtime differs from calibration freeze"
+        )
+    names = {"sparse_ir": "sparse-ir"}
+    for name, value in runtime.get("versions", {}).items():
+        if frozen["packages"].get(names.get(name, name)) != value:
+            raise ValueError(
+                "acquisition provider version differs from calibration freeze"
+            )
+    files = runtime.get("provider_files", {})
+    if not files:
+        raise ValueError("acquisition provider files missing")
+    for tree in frozen["runtime_trees"].values():
+        root = Path(tree["root"])
+        selected = sorted(
+            (Path(p), h)
+            for p, h in files.items()
+            if Path(p).is_relative_to(root)
+            and Path(p).suffix in (".py", ".so", ".dylib")
+            and "__pycache__" not in Path(p).parts
+        )
+        # MaxEnt and mpmath are analysis-only, absent from acquisition.
+        if not selected and root.name in ("triqs_maxent", "mpmath"):
+            continue
+        digest = hashlib.sha256()
+        for path, value in selected:
+            digest.update(str(path.relative_to(root)).encode() + b"\0")
+            digest.update(bytes.fromhex(value))
+        if len(selected) != tree["files"] or digest.hexdigest() != tree["sha256"]:
+            raise ValueError(
+                "acquisition provider tree differs from calibration freeze"
+            )
+
+
 def raw_cohort(root, audit, binding, stage):
     root = Path(root)
     require(stage in ("calibration", "final"), "EE stage")
@@ -457,11 +679,13 @@ def audit_case(path, method, model, repeat, stats):
     close(d["window_weights"], weights(w, den), "window weights")
     require(
         a["bootstrap_spectra"].shape == ((8, 401) if count else (0,))
-        and a["bootstrap_indices"].shape == ((8, 32) if count else (0,)),
+        and a["bootstrap_indices"].shape == ((8, len(samples) // 2) if count else (0,)),
         "bootstrap shape",
     )
     if count:
-        ix = np.random.default_rng(d["bootstrap_seed"]).integers(0, 32, size=(8, 32))
+        ix = np.random.default_rng(d["bootstrap_seed"]).integers(
+            0, len(samples) // 2, size=(8, len(samples) // 2)
+        )
         require(np.array_equal(ix, a["bootstrap_indices"]), "bootstrap indices")
         bw = []
         for x in a["bootstrap_spectra"]:
@@ -780,7 +1004,31 @@ def campaign_audit(
             cal.get("protocol") == protocol and cal.get("snapshot") == m["snapshot"],
             "calibration freeze",
         )
-    samples, cohort = raw_cohort(root, ee_audit, binding, stage)
+    if (
+        stage == "final"
+        and read(binding).get("schema")
+        == "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
+    ):
+        samples, cohort = fixed_raw_cohort(root, ee_audit, binding)
+        require(
+            cohort["generation_revision"] == m["snapshot"]["revision"],
+            "fixed-bath source freeze",
+        )
+        audit_acquisition_freeze(Path(root), m["snapshot"])
+        expected_calibration = {
+            "receipt_sha256": sha(calibration),
+            "audit_sha256": sha(calibration_audit),
+            "binding_sha256": cal["binding_sha256"],
+            "auditor_revision": ca["auditor_revision"],
+            "auditor_sha256": ca["auditor_sha256"],
+        }
+        require(
+            cohort.get("calibration") == expected_calibration
+            and m.get("calibration_audit_sha256") == sha(calibration_audit),
+            "final calibration differs from pre-acquisition freeze",
+        )
+    else:
+        samples, cohort = raw_cohort(root, ee_audit, binding, stage)
     require(m.get("cohort") == cohort, "campaign cohort metadata")
     if stage == "calibration":
         require(m.get("calibration_cohort") is None, "calibration cohort metadata")

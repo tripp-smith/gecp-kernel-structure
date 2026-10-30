@@ -152,6 +152,14 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     case.write_text(json.dumps(result))
     with np.load(case.with_suffix(".npz"), allow_pickle=False) as archive:
         arrays = {k: archive[k] for k in archive.files}
+    original_indices = arrays["bootstrap_indices"].copy()
+    arrays["bootstrap_indices"] = original_indices[:, :-1]
+    np.savez_compressed(case.with_suffix(".npz"), **arrays)
+    result["array_sha256"] = a.sha(case.with_suffix(".npz"))
+    case.write_text(json.dumps(result))
+    with pytest.raises(ValueError, match="bootstrap shape"):
+        a.audit_case(case, "raw", "flat", 0, stats)
+    arrays["bootstrap_indices"] = original_indices
     arrays["validation_covariance"] += train_cov[:16, :16]
     np.savez_compressed(case.with_suffix(".npz"), **arrays)
 
