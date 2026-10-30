@@ -39,6 +39,7 @@ experiments/data/*
 !experiments/data/adaptive_census.png
 !experiments/data/rust_reference_benchmark.json.gz
 !experiments/data/rust_native_build_failure.json
+!experiments/data/cthyb_45d42c7_inconclusive.tar.gz
 !experiments/data/interacting_dmft_a3a64ba.json.gz
 !experiments/data/interacting_dmft_a3a64ba_audit.json
 

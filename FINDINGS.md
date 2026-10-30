@@ -2427,6 +2427,26 @@ on this small beta=10 workload, and Python reference GECP setup dominates.
 No universal or interacting-workflow speed advantage follows. Full root,
 exact-revision CI, merge and main verification remain separate delivery gates.
 
+### EE actual CT-HYB preparation
+
+The pinned native solver executes fresh density-matrix measurements and
+time-to-frequency Bethe feedback through GECP. Native moment identities,
+measured-row isolation, array ownership and same-seed fresh-chain repetition
+pass focused checks; GECP, pydlr and sparse-ir replay one identical native
+measurement in the fast probe. These are implementation checks, not a
+canonical Monte Carlo uncertainty result. The reduced-budget full pilot is
+retained as inconclusive because its independent fixed-bath equation/refinement
+checks miss. No canonical budget, physical-agreement or completion claim is
+inferred from that pilot; frozen independent sampling is still required.
+
+
+The original canonical and 64-chain revalidation cohorts used adjacent even
+and odd native seeds, which the pinned RNG maps to identical internal states.
+Their reported nominal standard errors and inherited budget selection are
+invalid; the parent 400k budget also fails the SEM gate when recomputed from
+four unique streams. Fresh odd-stride calibration and held-out validation are
+in progress. A duplicate raw-measurement check now fails closed.
+
 ## EG calibration: frequency-native real-parity cross
 
 Direct time-cardinal frequency fits of authentic coarse MgB2 output missed the
@@ -2497,6 +2517,29 @@ final verification and delivery remain open.
 These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
 
+### EE checkpoint representation and exact inputs
+
+A cross-platform replay of stored compressed measurements changes later bath
+entries at about 8.8e-16. Such a discrepancy is tiny as a numerical error but
+correctly fails exact input identity for a stored Monte Carlo chain. Resumption
+now serializes the accepted state instead of regenerating historical updates.
+The full failed Linux artifact is preserved and the next campaign uses a fresh
+seed family. This changes neither Monte Carlo uncertainty targets nor physical
+agreement budgets, and it adds no numerical determinism theorem across hardware.
+
+### EE fresh Linux scientific acceptance
+
+The fresh odd-stride campaign at `7200ec0` passes all seven independent
+scientific gates on Linux. Its 208 native measurements and original independent
+audit are preserved with a complete source-bound archive. Final observable
+standard errors are at most 8.43751e-5 against 3e-4; density, double occupancy
+and selected Green values satisfy their individual agreement limits. Native
+refinement, equation checks and identical-data three-provider replay pass.
+These are fixed-bath finite-grid stochastic results; uncertainty conditional
+on the bath does not bound stochastic controller trajectories. Prior invalid
+seed and checkpoint failures remain failures. The new actual-provider replay
+recomputes the independent audit without resampling; final root, CI and
+merged-main delivery remain open in PR #141.
 
 ### EG historical native continuation checkpoint
 

@@ -3018,6 +3018,25 @@ This annotation records delivered identifiers without changing the goals above.
   immutable update/result/diagnostic records, optional `DenseIPTPlan`, finite
   Fock/Lehmann/pole references and `experiments.interacting_dmft`. Independent
   full campaign, root verification and delivery remain pending.
+- **Phase EE implementation contract:** actual CT-HYB measured-time feedback
+  through native Fourier and GECP representations, independent cycle-budget
+  calibration/final replicas, observable covariance and three-provider frozen
+  measurement replay. RESEARCH.md records the bounded protocol and explicit
+  inconclusive outcomes. No original mathematical goal, 1.1.0 artifact or
+  EE uncertainty/physical-agreement target is rewritten.
+- **Phase ED delivered acceptance:** PR #136 is merged and pushed as main
+  `7530ec7`; full root (2,109 passed, 27 optional skips) and all four exact-main
+  workflows pass. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)
+  binds the inherited frozen campaign, independent audit and final delivery.
+  New production integration scope is approximately 30% complete by its
+  acceptance obligations. No original mathematical goal changes.
+- **Phase EE revalidation annotation:** the original 16-replica campaign is
+  retained as inconclusive because dense density SEM=3.53984248e-4 exceeds the
+  unchanged 3e-4 target. RESEARCH.md predeclares new loops and 64 entirely new
+  replicas per path, inheriting calibrated 400000 cycles/wmax=8 and preserving
+  all physical/error gates. No old final chains are pooled into or relabeled
+  as the new validation. Local/Linux scientific and delivery gates stay open.
+
 - **Phase EG implementation contract:** source-backed anisotropic EPW output,
   explicit Nambu/frequency-fit/archive/reconstruction and native restart
   interchange, with physical error/conditioning gates and authentic coarse
@@ -3068,6 +3087,24 @@ This annotation records delivered identifiers without changing the goals above.
 - **Phase EF comparison status:** frozen `56c3211` passes the declared
   calibration and fresh sampled validation gates; the earlier failed control
   run remains recorded in RESEARCH.md. Independent audit passes; full-root, exact-source CI and delivery remain open.
+
+- **Phase EE checkpoint status:** the first corrected Linux campaign passed
+  calibration and its first segment but failed exact cross-host trajectory
+  replay. Its complete checkpoint is preserved. New explicit loop-state
+  persistence retains exact input baths and controller state without relaxing
+  sampling equality. A fresh seed family and unchanged scientific budgets are
+  frozen for a clean run; all Linux scientific and delivery gates remain open.
+
+- **Phase EE integration status:** prior nominally independent cohorts are invalid due to native seed collisions. Corrected odd-stride calibration selected 1.6 million cycles; fresh local final validation is in progress. Full physical/statistical gates, independent audit, exact-head CI and delivery remain open. Original scope is unchanged.
+- **Phase EF delivery status:** merged main `07c4115` passed exact-main acceptance ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)). **Phase EI delivery status:** merged main `f6ba348`, exact-main checks pending.
+
+- **Phase EE Linux scientific status:** fresh run 40928480439 at generation and audit revision `7200ec0e912954c568bedb2092d9ff1c053f9ba7` passes the seven independent finite-grid scientific gates. The source-bound archive and numerical limits are recorded in CTHYB_DMFT.md. Final root verification, exact-head CI and delivery remain open; original scope and prior failure records are unchanged.
+
+- **Phase EG delivery status:** PR #138 and workflow-boundary PR #143 are
+  merged; synchronized main `a268f24` passes native-enabled full root and all
+  five exact-main workflows. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)
+  retains the explicit supported archive route and failed pure-fit routes.
+  Original mathematical goals and published 1.1.0 artifacts are unchanged.
 
 - **Production delivery status update:** ED, EF and EI are delivered under
   PR #136, #137 and #139 with exact-main root and CI acceptance. These later

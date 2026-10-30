@@ -1,0 +1,6 @@
+{
+  "error": "native seed mapping is not validated; nominal independence is invalid",
+  "error_type": "ValueError",
+  "schema": "kernelgecp.cthyb-audit.v1",
+  "status": "failed"
+}

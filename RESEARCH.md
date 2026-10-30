@@ -11334,6 +11334,77 @@ checks; the solver passes 57 pole/QR/quadrature/controller/ownership checks.
 The actual pinned native reference passes 15 tests. These focused checks do
 not close ED's canonical campaign, full root or delivery obligations.
 
+## Phase EE — measured CT-HYB Bethe DMFT implementation contract
+
+Implement the unchanged EE obligation in PRODUCTION_INTEGRATIONS.md, using
+the actual pinned TRIQS 4.0.2/CT-HYB 4.0.1 solver, beta=10, U=2, hopping=1,
+mu=U/2 and the explicitly paramagnetic single-band Bethe bath. This worktree
+starts from ED implementation `a3a64ba`; ED acceptance and delivery remain a
+separate root-owned gate. No new Lean theorem or exact-Hubbard-model claim is
+proposed. The published 1.1.0 release and its historical evidence are unchanged.
+
+Named outputs are the optional public module
+`kernelgecp.integrations.cthyb_dmft`, actual-provider tests and smoke probe,
+and `experiments.cthyb_dmft` with a frozen TOML protocol and independently
+auditable measurement archives. Imports stay lazy. An impurity measurement
+retains both spin blocks of native G_tau/G_iw, native density-matrix Green and
+Sigma moments, occupancies, double occupancy, sign, solve status, input bath,
+cycle/thermalization/seed settings and package/source identities. Safe immutable
+arrays and finite, shape, physical-domain and resume/provenance validation are
+required. No operator or spin axis is inferred from file names.
+
+Each dense update uses native CT-HYB postprocessing; each GECP update fits
+the actual measured G_tau and reconstructs G_iw before mixing the new Bethe
+bath. Spin averaging explicitly enforces the declared paramagnetic bath; it
+does not replace or erase the measured spin-resolved data. Both paths apply
+the same native moment/tail-window handling. Static Hartree and mu conventions
+remain explicit. Replay GECP, pydlr and sparse-ir on identical frozen time
+measurements and the same least-squares observations/rcond; reserve time rows
+for representation validation. Record residuals, retained ranks, conditioning,
+tail changes and low-frequency/final observable differences. Native tolerance
+is not interpreted as a physical error certificate.
+
+Canonical sampling calibrates the prescribed cycle ladder 100000, 400000,
+1600000, each with independent seeds and recorded warmup and length_cycle.
+Choose and freeze the lowest passing budget using calibration replicas only;
+do not retry or tune on final replicas. The configured replica count, warmup,
+loop cap, stopping threshold and validation indices are frozen before final
+generation. Final dense and GECP loops use disjoint seeds. Once baths diverge,
+matching seeds would not establish paired Monte Carlo paths. Final fixed-bath
+replicas are fresh and independent of loop/calibration samples, preserve the
+raw measurements for EH, and estimate standard errors across independent
+replica means with sample variance (not raw time-bin scatter). Retain full
+observable covariance and distinguish Monte Carlo uncertainty, measured-data
+representation discrepancy and stochastic self-consistency defect. A finite
+stochastic controller threshold is not ED's deterministic 1e-8 criterion.
+
+Acceptance is the existing EE requirement: density, double occupancy and
+predeclared selected Green values agree between the independently converged
+dense and GECP baths within 1e-3 plus three combined standard errors, with
+observable standard errors <=3e-4. Add independent fresh fixed-bath residual
+checks and explicit iteration/budget exhaustion. Calibration may not raise
+the maximum 1600000-cycle budget or silently relax the uncertainty target;
+an exhausted campaign is inconclusive. Native-grid/cutoff sensitivity and
+the three-provider frozen replay are separate recorded gates, not substitutes
+for stochastic closed-loop evidence. No required speedup is claimed.
+
+Execute with one MPI rank and one BLAS/OpenMP thread on bounded CPU memory;
+no paid compute. The campaign writes atomic per-measurement checkpoints,
+detects source/config/hash mismatches and resumes completed verified work.
+A fast actual-provider CI case proves native execution, moments, measured
+feedback and replay wiring but cannot close the canonical uncertainty gate.
+Require independent archive/acceptance checks, focused negative tests, actual
+provider execution, the full `./scripts/verify.sh`, exact-revision CI and
+authorized delivery. This branch is not pushed or merged during preparation.
+
+Primary provider behavior is checked against installed 4.0.1 solver source
+and the official [density-matrix measurement documentation](https://triqs.github.io/cthyb/latest/basicnotions/measurements.html),
+[native moments guide](https://triqs.github.io/cthyb/latest/guide/static_observables_notebook.html)
+and [CT-HYB convergence guide](https://triqs.github.io/cthyb/latest/guide/cthyb_convergence_tests.html).
+The density matrix requires both measure_density_matrix and use_norm_as_weight;
+native density-matrix moments are recorded rather than fitted from noisy tails.
+## Phase ED — inherited frozen campaign acceptance
+
 The clean tracked generation `a3a64ba` now passes all 27 compressed and nine
 native independent closed-loop trials, nine doubled-cutoff controls and
 complete common-native-trajectory replays. All 12 method/U records repeat
@@ -11356,6 +11427,53 @@ audit receipts remain available in the phase's verification log record.
 All numerical generation source remains identified as its frozen ancestor;
 the later CLI/auditor/documentation changes require their own final root and
 exact-head CI before delivery.
+
+EE now incorporates ED accepted main `7530ec7`. Focused checks pass 28 base
+tests (three optional native skips) and 31 under the pinned actual runtime.
+The fast provider probe executes measured feedback and three identical-data
+replays. A reduced 1000/4000/16000-cycle pilot returns inconclusive because
+fresh fixed-bath self-consistency and doubled-grid checks miss; its retained
+raw archives are tuning evidence only. Canonical calibration/final seeds are
+disjoint, as are Green calibration indices [1,2,5,11] and final indices
+[0,3,7,15,23,31]. Density and double-occupancy functionals remain the same
+physical observables, estimated from fresh independent final chains.
+
+### EE untouched 64-replica revalidation contract
+
+The frozen 45d42c7 campaign completed with an inconclusive result, retained
+unchanged at result SHA256
+`8051f86e5038f109c66b02c6bf1df2728ee95cb1c3f50d70864c4bcd8eb7e462`.
+Its controllers, density/double-occupancy/selected-G agreement, independent
+fixed-bath equations, all-provider replay, native-grid and cutoff gates pass.
+The dense density standard error is 3.53984248e-4 and misses the unchanged
+3e-4 gate; GECP's maximum is 2.81577605e-4. This completed validation is now
+tuning evidence for a new experiment and is never relabeled successful.
+
+Predeclare a fresh experiment in `experiments/cthyb_revalidation.toml` with
+64 independent fixed-bath chains per path, 16 new native-refinement chains,
+new dense/GECP loops from the analytic initial bath, and seed base 28100000.
+Use entirely new seed families; do not pool the original 16 with another 48.
+Inherit the already calibrated 400000 cycles and wmax=8, beta=10, U=2,
+hopping=1, grids, fit/mixing/controller settings and acceptance thresholds.
+The original calibration's 100000/400000/1600000 ladder remains immutable
+parent evidence. Changing ensemble size is experimental design informed by
+the old miss, not a relaxation of the actual final standard-error test.
+
+The new runner binds original manifest/freeze/result and every parent raw-file
+hash, preserves the parent's 45d sampling identities, and records its own
+protocol/source identity separately. It creates its freeze before the first
+new chain and resumes only matching source/config/environment. New final
+replicas and every physical/error gate remain untouched until this freeze;
+no further retuning is permitted from their intermediate values. Preserve
+explicit inconclusive outcomes if any fresh gate misses. The independent
+auditor recomputes both the parent negative and new-chain equations/statistics
+without trusting stored acceptance booleans. Record covariance of the ensemble
+mean explicitly for EH; its empirical rank is at most 63.
+
+Require both actual local and full Linux scientific execution, with one
+MPI/BLAS/OpenMP thread, bounded CPU memory and a checkpointed job cap no larger
+than 330 minutes. A fast native CI probe remains a separate wiring gate.
+Full root, exact-source CI, merge and pushed-main acceptance remain required.
 
 ## Phase EG — EPW Nambu/native-restart interoperability contract
 
@@ -11806,6 +11924,29 @@ provider locks are unchanged. No published 1.1.0 artifact or frozen numerical
 record is rewritten. Full root and exact-head/main verification are required
 for this maintenance update; later application branches must incorporate it.
 
+### EE RNG collision invalidates nominal chain counts
+
+Independent audit found byte-identical raw arrays for every adjacent even/odd
+seed pair in both 45d42c7 and 8818c3a. The actual pinned TRIQS legacy
+Mersenne initializer computes `seed | 1U`, so consecutive even and odd seeds
+select the same state. The reported N=8/16/64 standard errors and claimed
+independence are invalid. In the original calibration, recomputation from
+one chain per unique pair gives N=4 maximum SEMs 0.00216963, 0.000389928,
+and 0.000279354 at 100k, 400k, and 1.6m cycles: 400k fails the 0.0003
+gate. The 8818c3a final outcome is consumed, invalid independence evidence,
+not acceptance, regardless of its printed gate status.
+
+Predeclare a fresh campaign using `experiments/cthyb_fresh_odd.toml`, seed
+base 29100000, with separately thermalized odd seeds allocated at stride two
+within disjoint families. Recalibrate the entire unchanged 100k/400k/1.6m
+ladder on eight distinct streams and retain all failures. Freeze the first
+passing budget and cutoff before new independent loops, 64 final chains per
+path and 16 refinement chains. Fail closed if any fixed-bath replica array
+fingerprints coincide, even with distinct seed labels. Raw evidence, observed
+equation defect, Monte Carlo uncertainty and covariance of the mean remain
+separate. This does not make probabilistic independence a mathematical proof.
+Full native scientific verification and independent audit remain mandatory.
+
 The denser native scout completed successfully at `13915c807e3e82cb071af6bd44dd9c3a6bbb640c`
 (GitHub Actions run 40646021445). Its 17 K file has 109 positive frequencies,
 140 ordinal states, native SHA256
@@ -11967,6 +12108,69 @@ separately in the attributed native workflow artifact and fixture.
 
 Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
 
+### EE integration and fresh odd-stride status
+
+The old nominally independent cohorts remain invalid because native RNG seeds collide; their archived evidence is not relabeled. Corrected odd-stride calibration selected 1.6 million cycles. The fresh local final validation from frozen scientific source `9d28053` is in progress and has not passed acceptance. Hosted run `40646031061` completed calibration but its validation was cancelled; both artifacts were retained. The current integration merges EI main `f6ba348`; EF exact-main delivery is recorded in [PR #137](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146). EI merged-main checks are pending. Full EE statistical/physical gates, independent audit, local root, exact-head CI and delivery remain open.
+
+### EE exact-state checkpoint repair and clean Linux campaign
+
+Linux run 40853707061 passes calibration and validation segment A, then segment
+B fails `resumed chain does not match its requested input`. The complete
+334-file artifact is retained unchanged under experiments/data; its digest is
+`d302a6d5d6d8e55191513af979020268089e8a47cd4e66ec981117db3c28cdbd`.
+All 164 measured receipts/arrays, cycle counts and odd-stride seeds pass the
+read-only forensic checks. Compressed cross-platform replay differs by up to
+8.81e-16; dense replay is exact. The missing failing-operand log prevents a
+claim that this independently proves the precise Linux failure. It does show
+why reconstructing a historical floating trajectory is insufficient authority
+for an exact requested bath. No tolerance is added to the sampling check.
+
+New `cthyb_loop_state` persists exact initial/next bath bits, complete history,
+controller counter, model/source identity, measurement hashes and predecessor
+links. The atomic head commits each processed measurement before normal segment
+notification. Completed loops save the exact averaged input bath and report.
+Restoration checks all links and measurements, the initial-bath commitment and
+an exact-rational IEEE rounding allowance for the final mean, then returns saved
+bits. Arbitrary interruptions between measurement/state/head writes fail closed
+as orphans; this is not general crash recovery or cryptographic authentication.
+Portable tests cover interruption windows, completed/partial state, strict
+thresholds, pilot/early/max-iteration outcomes and rebinding/tampering failures.
+
+The old incomplete run is not imported into the repaired source identity.
+`cthyb_exact_state.toml` keeps every physics and numerical budget but predeclares
+fresh disjoint odd streams with seed base 30100000. The three-segment Linux
+campaign starts clean, with all source/locks/configuration frozen before data.
+Both the full scientific result and independent audit remain mandatory before
+root/exact-head/merge/main delivery; local evidence alone does not close EE.
+
+
+### EE fresh Linux scientific evidence
+
+Fresh GitHub Actions run 40928480439 at generation and audit revision `7200ec0e912954c568bedb2092d9ff1c053f9ba7` passes all seven independently audited scientific gates. Calibration selects 1,600,000 cycles without changing the frozen budgets or targets; 208 fresh fixed-bath chains are audited. [CTHYB_DMFT.md](CTHYB_DMFT.md#fresh-linux-scientific-acceptance) records the measurements, limits, source-bound archive and integrity checks. The earlier checkpoint failure and invalid independence cohorts remain historical evidence. Finite-grid stochastic acceptance does not certify continuous behavior or stochastic trajectory error. Final root verification, exact-head CI, authorized merge and post-merge checks remain open.
+
+### EE exact-head frozen-evidence replay contract
+
+Keep the full fresh native campaign available on scientific-source changes
+and explicit dispatch. Documentation-only delivery revisions must not silently
+claim an older head was checked or rerun new Monte Carlo until passing. Add a
+dedicated actual-provider Linux replay lane for final heads and main: verify
+the committed canonical ZIP/binding, bounded extraction and complete source
+inventory against current scientific files, then recompute the independent
+audit on all frozen native measurements. Missing, changed, malformed or failed
+evidence and unavailable promised providers must fail. Retain both the original
+generation/audit identity and the current replay revision distinctly. This
+replays accepted real-provider data; it is not a new stochastic validation.
+Test digest/source mismatch, unsafe archive and failed/missing gate rejection.
+All full-root, exact-head and post-merge delivery gates remain mandatory.
+
+### EG delivered-main acceptance at EE closure
+
+EG is delivered at synchronized main `a268f24`: native-enabled full root
+passes 2,421 tests with 35 optional skips, and all five exact-main workflows
+pass. PR #143 preserves the failed fit-only study as manual while keeping the
+supported native archive gate automatic. The [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)
+binds the unchanged scientific evidence, exact main and claim limitations.
+EE integrates this main without changing its accepted scientific sources.
 
 ### EG historical order-study and restart-development checkpoint
 

@@ -1761,6 +1761,47 @@ job was repeated. These release checks leave the finite-fixture, conditional
 certificate and exact-theorem scopes above unchanged. Upstream outreach now
 includes the maintainer-invited [notebook PR #10](https://github.com/SpM-lab/sparse-ir-doc/pull/10);
 its live page owns subsequent review, check and merge status.
+
+## Optional actual CT-HYB measured-data workflow
+
+The source module `kernelgecp.integrations.cthyb_dmft` requires the isolated
+TRIQS 4.0.2/CT-HYB 4.0.1 runtime; importing kernelgecp does not import either
+provider. `CTHYBConfig` declares a bounded single-band paramagnetic Bethe
+problem. `CTHYBPlan(config, basis, fit_tau_indices=...)` accepts the same physical
+time/frequency design protocol as IPTPlan. `sample(bath_iw, cycles=..., seed=...)`
+creates and thermalizes a fresh actual native chain and returns immutable
+spin-resolved time/frequency data, input bath, native density-matrix Green/Sigma
+moments, occupations, double occupancy, sign and solve status.
+
+`represent(measurement)` fits only the declared measured time rows, evaluates
+G(iw) and applies the same native tail-window replacement as the dense path.
+It reports retained rank, conditioning, training/excluded-row residuals and
+native Fourier discrepancy. `bath_update(measurement, representation)` uses
+the represented frequency values in the mixed Bethe update; omitting the
+representation selects native Fourier values. Spin averaging applies only to
+the declared paramagnetic bath. Static mu=U/2 remains explicit in native G0;
+no finite-Monte-Carlo density or particle-hole symmetry is silently imposed.
+
+`observables` returns total density, double occupancy, and real/imaginary
+spin-mean Green values at ordinary signed integer indices. Pass the optional
+representation to inspect the actual compressed output. `estimate_replicas`
+uses sample covariance across at least two independent fixed-bath chain means;
+the caller must establish independence with noncolliding RNG states and fresh chains. In the pinned native default RNG, even seed `2k` and odd seed `2k+1` map to the same state; distinct seed labels alone are insufficient. Use distinct odd seeds and independently reject repeated raw measurements.
+Time-bin scatter and loop-iteration scatter are not standard-error estimates.
+The returned covariance is the sample covariance of chain means; covariance
+of the final ensemble average is that matrix divided by the replica count.
+The independent saved-chain audit stores both explicitly for later EH use.
+
+The source campaign `python -m experiments.cthyb_dmft all --output PATH` uses
+the frozen protocol in `experiments/cthyb_dmft.toml`; the fresh scientific
+campaign uses `experiments/cthyb_fresh_odd.toml`. Calibration/final seeds
+and Green query sets are disjoint. It retains hash-bound numeric archives,
+refuses changed source/config/runtime on resume, freezes the required cycle
+ladder before final data, and returns nonzero for inconclusive uncertainty,
+representation, self-consistency or refinement. The fast actual-provider CI
+probe proves wiring, not canonical statistical/physical acceptance. No CT-HYB
+speed or exact interacting-model accuracy claim follows from these interfaces.
+
 ## Molecular Green GF2 checkpoints
 
 The 1.2.0 candidate source contains an optional molecular reader for
@@ -1807,6 +1848,13 @@ geometries and grids, with independent QR/Fourier audit; exact-source CI remains
 This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
 
+EE source campaigns use exact loop-state checkpoints. Normal segmentation
+commits the next bath, controller state and content-bound head before stopping;
+completed loops retain their exact final bath. Legacy folders without that state
+and partial/orphan writes fail clearly. New canonical Linux runs use
+experiments/cthyb_exact_state.toml; the historical failed Linux artifact remains
+separate. This workflow does not relax exact sampling input checks or establish
+physical convergence from a checkpoint alone.
 
 ### EPW restart development checkpoint
 
