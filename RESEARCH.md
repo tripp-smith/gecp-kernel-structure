@@ -11966,3 +11966,16 @@ separately in the attributed native workflow artifact and fixture.
 ### EI scientific binding reproduction
 
 Clean source `3b8e4a51f8ff980176b58af252e6f81c7de10778` merges EF and binds the executed scientific sources and isolated GP runtime. Calibration from `20789ca9248c5cf3f1b65a298ac2359dfe2a9f4d` matches every prior numerical value and control exactly (excluding provenance and pilot timing); the prior calibration is preserved as `data/covariance/calibration-before-binding.json`. All 18 fresh case arrays exactly match the security reproduction; actual GPyTorch and independent audit pass. The [receipt](data/covariance/binding-reproduction.json) records individual checks, source and raw-file hashes. Previously consumed test rows were reproduced without retuning, not new blind validation. Final root and exact-head CI remain open. EF merged at `07c4115e70828b4067a658f6242693e77c93c310`; its main checks remain pending.
+
+
+### EG order-study and restart-development checkpoint
+
+The fixed seven-order study run 40859909319 at `942dd85` ends inconclusive:
+all seven candidates fail, with native baseline and compiled-helper rechecks
+passing. The [canonical receipt and development checkpoint](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival)
+retain provenance, archive size and the distinction between lossless recovery
+and pure fitted native restart. The order-98 perturbation scaling diagnostic
+uses observed truth and has no native result yet. Its fake-provider tests pass;
+the 17 K fitted and raw endpoints were format checked. The candidate 20 K
+roundtrip and auditor do not constitute fitted or scored 20/30 K evidence.
+Full root, cross-platform, required native and delivery gates remain open.

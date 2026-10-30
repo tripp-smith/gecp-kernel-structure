@@ -1803,3 +1803,13 @@ passes the declared same-solution sampled compression gates across both
 geometries and grids, with independent QR/Fourier audit; exact-source CI remains pending.
 This is not a continuous-domain or GF2 model-accuracy guarantee. The separate scientific environment
 and native commands are documented in `environments/green-science/README.md`.
+
+
+### EPW restart development checkpoint
+
+An explicit model-plus-XOR restart archive and 20 K roundtrip driver/auditor
+are under development. The archive validates its baseline hash and reconstructs
+original field bits without silent fallback or refitting. This lossless path is
+separate from the required pure fitted native restart, which has failed. The
+[EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival)
+records size, test scope and remaining native and cross-platform gates.

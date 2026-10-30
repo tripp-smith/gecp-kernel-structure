@@ -1,4 +1,4 @@
-"""Compare unmodified EPW 6 imag_read/Padé restarts of a frozen 17 K input.
+"""Compare unmodified EPW 6 imag_read/Padé restarts of a frozen 17 K or 20 K input.
 
 This is coarse native interoperability evidence, not an EPW acceleration claim
 or an experimental materials prediction. No self-consistency iteration is run.
@@ -55,9 +55,26 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
-def restart_input(text: str) -> str:
+def native_names(temperature_kelvin: int) -> tuple[str, str, str]:
+    require(
+        type(temperature_kelvin) is int and temperature_kelvin in (17, 20),
+        "temperature must be 17 or 20 K",
+    )
+    suffix = f"{temperature_kelvin:03d}.00"
+    return (
+        f"MgB2.imag_aniso_{suffix}",
+        f"MgB2.pade_aniso_{suffix}",
+        f"MgB2.pade_aniso_gap0_{suffix}",
+    )
+
+
+def restart_input(text: str, temperature_kelvin: int = 17) -> str:
+    native_names(temperature_kelvin)
     changes = (
-        (r"(?m)^(\s*temps\s*=\s*)17\s+20\s+30(?=\s*!|\s*$)", r"\g<1>17"),
+        (
+            r"(?m)^(\s*temps\s*=\s*)17\s+20\s+30(?=\s*!|\s*$)",
+            rf"\g<1>{temperature_kelvin}",
+        ),
         (r"(?m)^(\s*iverbosity\s*=\s*)0(?=\s|$)", r"\g<1>2"),
     )
     require(not re.search(r"(?im)^\s*imag_read\s*=", text), "imag_read already present")
@@ -276,11 +293,14 @@ def run(
     qe_root: Path,
     output: Path,
     timeout: int,
+    *,
+    temperature_kelvin: int = 17,
 ) -> dict[str, Any]:
     receipt: dict[str, Any] = {
         "schema": "kernelgecp.epw-restart-comparison.v1",
         "status": "failed",
         "source_revision": revision,
+        "temperature_kelvin": temperature_kelvin,
         "provider": {"qe": "7.5", "epw": "6.0"},
         "scope": (
             "coarse native imag_read/Pade interoperability, "
@@ -298,6 +318,7 @@ def run(
         "errors": [],
     }
     try:
+        raw_name, output_name, gap_name = native_names(temperature_kelvin)
         require(
             re.fullmatch(r"[0-9a-f]{40}", revision) is not None,
             "full source revision required",
@@ -326,7 +347,7 @@ def run(
             sha(original) == SCOUT_INPUT_SHA256, "expected official wscut=1 eV input"
         )
         source_text = original.read_text()
-        modified = restart_input(source_text)
+        modified = restart_input(source_text, temperature_kelvin)
         receipt.update(
             source={
                 "binary_sha256": sha(executable),
@@ -338,7 +359,7 @@ def run(
                 "original_sha256": sha(original),
                 "modified_sha256": hashlib.sha256(modified.encode()).hexdigest(),
                 "changes": [
-                    "temps: 17 20 30 -> 17 K",
+                    f"temps: 17 20 30 -> {temperature_kelvin} K",
                     "imag_read: default false -> true",
                     "iverbosity: 0 -> 2 (output diagnostics)",
                 ],
@@ -374,10 +395,10 @@ def run(
             work = case_root / name
             shutil.copytree(workspace, work)
             # Discard copied outputs so only this execution can supply evidence.
-            for stale in (OUTPUT_NAME, "MgB2.pade_aniso_gap0_017.00", "restart.out"):
+            for stale in (output_name, gap_name, "restart.out"):
                 (work / stale).unlink(missing_ok=True)
             (work / INPUT_NAME).write_text(modified)
-            target = work / RAW_NAME
+            target = work / raw_name
             if name == "wrong-frequency":
                 corrupt = wrong_frequency(raw_file, target, raw_meta["state_count"])
             else:
@@ -400,7 +421,7 @@ def run(
                 case["execution"] = execute(executable, work, timeout)
                 check_execution(case["execution"], negative=name == "wrong-frequency")
                 if name != "wrong-frequency":
-                    result_path = work / OUTPUT_NAME
+                    result_path = work / output_name
                     require(
                         result_path.is_file() and result_path.stat().st_size > 0,
                         "missing native Padé table",
@@ -420,8 +441,8 @@ def run(
         ):
             try:
                 comparison = compare_tables(
-                    case_root / "raw" / OUTPUT_NAME,
-                    case_root / "reconstructed" / OUTPUT_NAME,
+                    case_root / "raw" / output_name,
+                    case_root / "reconstructed" / output_name,
                     raw_meta["state_energy_minus_ef0_ev"],
                     nfreq,
                     step,
@@ -451,6 +472,7 @@ def main() -> int:
     parser.add_argument("--qe-root", type=Path, default=Path("/opt/qe"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--native-timeout", type=int, default=1200)
+    parser.add_argument("--temperature-kelvin", type=int, choices=(17, 20), default=17)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     result = run(
@@ -461,6 +483,7 @@ def main() -> int:
         args.qe_root,
         args.output,
         args.native_timeout,
+        temperature_kelvin=args.temperature_kelvin,
     )
     args.output.write_text(
         json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n"

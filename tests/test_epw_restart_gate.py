@@ -23,7 +23,11 @@ mode=(p/'mode').read_text()
 if mode == 'timeout':
     import time
     time.sleep(2)
-lines=(p/'MgB2.imag_aniso_017.00').read_text().splitlines()
+temperature = int(next(line.split('=')[1].split()[0]
+    for line in (p/'epw6.in').read_text().splitlines()
+    if line.strip().startswith('temps')))
+suffix = f'{temperature:03d}.00'
+lines=(p/f'MgB2.imag_aniso_{suffix}').read_text().splitlines()
 first=float(lines[1][:20]); last=float(lines[2][:20])
 if first != last and mode != 'badcontrol':
     print('Error in routine eliashberg_read_aniso_iaxis: '
@@ -38,7 +42,8 @@ print('Convergence was reached for N = 5 Pade approximants')
 print('raxis_pade   : done')
 print('Total program execution')
 if mode == 'missing': sys.exit(0)
-with (p/'MgB2.pade_aniso_017.00').open('w') as out:
+if mode == 'wrongname': suffix = '999.00'
+with (p/f'MgB2.pade_aniso_{suffix}').open('w') as out:
     if mode == 'empty': sys.exit(0)
     header=['# w [eV]', 'Enk-Ef [eV]', 'Re[znorm(w)]', 'Im[znorm(w)]',
             'Re[delta(w)]', 'Im[delta(w)]', 'Re[shift(w)]', 'Im[shift(w)]']
@@ -138,6 +143,7 @@ def test_fake_process_happy_path_and_corruption(tmp_path, monkeypatch):
         "badcontrol",
         "budget",
         "badheader",
+        "wrongname",
     ],
 )
 def test_fake_process_fail_closed(tmp_path, monkeypatch, mode):
@@ -183,3 +189,77 @@ def test_timeout_is_failure_with_durable_log(tmp_path, monkeypatch):
     assert all(
         Path(case["execution"]["log"]).is_file() for case in result["cases"].values()
     )
+
+
+def test_fake_20_kelvin_native_names_and_source_controls(tmp_path, monkeypatch):
+    work, raw, fitted, qe = fixture(tmp_path, monkeypatch)
+    # Synthetic outputs test temperature-specific stale-file deletion.
+    (work / "MgB2.pade_aniso_020.00").write_text("stale")
+    (work / "MgB2.pade_aniso_gap0_020.00").write_text("stale")
+    (work / "MgB2.pade_aniso_017.00").write_text("other temperature")
+    result = restart.run(
+        work,
+        raw,
+        fitted,
+        "a" * 40,
+        qe,
+        tmp_path / "receipt.json",
+        10,
+        temperature_kelvin=20,
+    )
+    assert result["status"] == "passed", result["errors"]
+    assert result["temperature_kelvin"] == 20
+    assert result["input"]["changes"][0] == "temps: 17 20 30 -> 20 K"
+    assert result["source"]["official_input_sha256"] == restart.UPSTREAM_INPUT_SHA256
+    for name, case in result["cases"].items():
+        path = Path(case["workdir"])
+        assert (path / "MgB2.imag_aniso_020.00").is_file()
+        assert (path / "MgB2.pade_aniso_017.00").read_text() == "other temperature"
+        assert not (path / "MgB2.pade_aniso_gap0_020.00").exists()
+        if name != "wrong-frequency":
+            assert Path(case["output"]["path"]).name == "MgB2.pade_aniso_020.00"
+    assert result["cases"]["wrong-frequency"]["execution"]["returncode"] == 2
+    assert result["comparison"]["passed"]
+    modified = restart.restart_input(INPUT, 20)
+    assert (
+        modified.replace("temps = 20 ! K", "temps = 17 20 30 ! K")
+        .replace("iverbosity  = 2", "iverbosity  = 0")
+        .replace("  imag_read = .true.\n", "")
+        == INPUT
+    )
+
+
+@pytest.mark.parametrize("temperature", [0, 19, 30, True, "20", 20.0])
+def test_invalid_temperature_fails_closed(tmp_path, monkeypatch, temperature):
+    with pytest.raises(ValueError, match="temperature"):
+        restart.restart_input(INPUT, temperature)
+    work, raw, fitted, qe = fixture(tmp_path, monkeypatch)
+    result = restart.run(
+        work,
+        raw,
+        fitted,
+        "a" * 40,
+        qe,
+        tmp_path / "receipt.json",
+        10,
+        temperature_kelvin=temperature,
+    )
+    assert result["status"] == "failed" and "temperature" in result["errors"][0]
+
+
+def test_modified_source_and_nonofficial_temperature_list_fail(tmp_path, monkeypatch):
+    with pytest.raises(ValueError, match="official input"):
+        restart.restart_input(INPUT.replace("17 20 30", "17 20"), 20)
+    work, raw, fitted, qe = fixture(tmp_path, monkeypatch)
+    (work / "epw6.in").write_text(INPUT.replace("wscut = 1.0", "wscut = 2.0"))
+    result = restart.run(
+        work,
+        raw,
+        fitted,
+        "a" * 40,
+        qe,
+        tmp_path / "receipt.json",
+        10,
+        temperature_kelvin=20,
+    )
+    assert result["status"] == "failed" and "wscut" in result["errors"][0]

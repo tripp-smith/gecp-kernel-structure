@@ -101,15 +101,14 @@ remain native. Upstream acceptance is not a delivery gate.
 | EB | Locked optional runtimes; actual provider imports and minimal calculations | all six platform/provider jobs pass at `d5f58a1`; replay locks/notices and final exact-source/main acceptance in [PR #134](https://github.com/tripp-smith/gecp-kernel-structure/pull/134) |
 | EC | Frequency fitting, archive v2/v1 reader, actual TRIQS adapters | complete, merged/pushed main `64e9f34`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/135#issuecomment-6436634601)) |
 | ED | Deterministic interacting Bethe IPT with independent references | complete, merged/pushed main `7530ec7`; full root and all four exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/136#issuecomment-6445705017)) |
-| EE | Actual CT-HYB DMFT and independent-replica uncertainty | corrected unique-seed campaign and independent audit pass locally; canonical Linux and delivery remain open in PR #141 |
+| EE | Actual CT-HYB DMFT and independent-replica uncertainty | 7,200-sample fresh Linux calibration passes; validation and delivery remain open in PR #141 |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
-| EG | EPW MgB2 native output/compression/restart interoperability | frozen final fit and independent audit pass; actual default-order Padé restart fails unchanged budgets; native conditioning study and delivery remain open in PR #138 |
-| EH | Actual covariance-aware MaxEnt including EE observations | 72 synthetic actual-MaxEnt cases and independent audit pass; measured CT-HYB spectroscopy and delivery remain open |
+| EG | EPW MgB2 native output/compression/restart interoperability | frozen final fit and independent audit pass; actual default-order Padé restart fails unchanged budgets; seven-order study inconclusive; archive and sensitivity diagnostics in development; native gate and delivery remain open in PR #138 |
+| EH | Actual covariance-aware MaxEnt including EE observations | draft PR #142 final EDCA fails RMS 6.495; normalized selection repair and delivery remain open |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
-EB through ED acceptance is complete, approximately 30% of this new contract;
-EE–EJ domain/release acceptance remains open. Each phase requires its named
+EB/EC/ED/EF/EI are delivered, approximately 55% of the new integration program by completed acceptance obligations; EE/EG/EH/EJ remain open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed

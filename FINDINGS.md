@@ -2496,3 +2496,13 @@ selection requires both primary and doubled-cutoff controls; the failed
 final verification and delivery remain open.
 These sampled results neither certify the continuous domain nor establish GF2
 accuracy against the exact molecular problem.
+
+
+### EG native continuation checkpoint
+
+The 17 K pure fit passes held-out imaginary-axis checks, but its native Padé
+restart fails. The fixed seven-order study is inconclusive with all candidates
+failing, despite passing baseline and compiled-helper rechecks. A lossless
+archive and truth-assisted sensitivity diagnostic are development work, not a
+proof of fitted restart interoperability; no native sensitivity result or
+20/30 K fitted-field score exists. See the [evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).

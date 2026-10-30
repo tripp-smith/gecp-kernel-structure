@@ -91,3 +91,33 @@ still required. Default-order Padé output is highly sensitive in this case.
 A bounded native order-calibration study is specified in RESEARCH.md;
 20 K is reserved for fresh validation after a successful freeze. No tolerance
 relaxation or lossless fallback closes the failed fitted-restart obligation.
+
+## Development checkpoint: native continuation and archival
+
+The fixed seven-order study at `942dd85` (run 40859909319) is terminal
+inconclusive: all seven candidates fail, while the native baseline and compiled
+helper rechecks pass. The complete [order-study receipt](data/epw/pade-order-study.json)
+records the results and provenance. Its SHA-256 is
+`e4053cd975c80f5dd7750d1ded46dafdae6316d78571d9c36bb6b91ef6d7e51f`;
+artifact 12891476500 has digest
+`15cd18b08c87d3776df8e7a42e6aa4c065ef6b2064be9f950ce7020541541ad8`.
+
+A separate development diagnostic scales the observed fitted-minus-raw
+perturbation by 1, 0.1, 0.01, 0.001 and 0 at fixed native order 98. It is
+truth-assisted feasibility work, not an available compression method. The
+17 K formatted endpoints were checked against fitted and raw inputs respectively;
+eight fake-provider tests pass, but no native sensitivity result exists yet.
+
+The explicit `EPWRestartArchive` combines a model with lossless XOR corrections
+to reconstruct original field bits and validates the baseline hash. It does not
+silently fall back or refit. The full 17 K bundle is 581,819 bytes versus
+340,551 bytes for gzip of the original table: this is no gzip storage advantage
+and does not demonstrate a pure fitted-restart pass. A candidate 20 K driver,
+auditor and comparator support are under development; no 20/30 K fields have
+been fitted or scored. Earlier synthetic checks passed 58 tests; cross-platform,
+full-root and native gates for the new code remain open.
+
+The full EPW science workflow runs on pushes to main or manually on a frozen
+branch; a separately scoped sensitivity workflow runs on relevant pushes. This
+avoids repeating the known 17 K failure on every development push. The required
+native fitted-restart gate remains mandatory.

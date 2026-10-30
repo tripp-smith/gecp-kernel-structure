@@ -3087,3 +3087,12 @@ This annotation records delivered identifiers without changing the goals above.
   Successful reads alone do not close the fitted-restart obligation. Root at
   `8b52a3d` passes 2,374 tests/35 skips; later diagnostic changes need their own
   root and exact-head CI. No mandatory gate or original goal is weakened.
+
+
+- **Phase EG development status:** the fixed seven-order native study is
+  inconclusive with all candidates failing; native baseline and compiled-helper
+  rechecks pass. Explicit lossless archive, 20 K roundtrip/auditor and a
+  truth-assisted sensitivity diagnostic are developmental. No native
+  sensitivity result or fitted/scored 20/30 K fields exist; required pure
+  fitted-restart, root, CI and delivery gates remain open. See
+  [EPW evidence](EPW_INTEROPERABILITY.md#development-checkpoint-native-continuation-and-archival).

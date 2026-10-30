@@ -2,7 +2,7 @@ name: EPW anisotropic interoperability
 
 on:
   push:
-    branches: [main, "codex/phase-eg-epw-nambu"]
+    branches: [main]
     paths:
       - .github/workflows/epw-interoperability.yml
       - environments/epw/**
