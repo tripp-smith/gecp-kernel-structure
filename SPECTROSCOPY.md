@@ -1,6 +1,6 @@
 # MaxEnt spectroscopy evidence
 
-Scientific acceptance passes at frozen `feaac669` in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). Delivery verification remains in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). Sections named for older sources are historical; both measured failures remain failed and consumed.
+The original frozen `feaac669` campaign passes in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). PR #142 merged as `3bc726b`, but its exact-main replay fails the independent projection check. Delivery remains open; the [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288) preserves both passing branch and failing main evidence. Sections named for older sources are historical; both measured failures remain failed and consumed.
 
 ## Accepted Linux scientific campaign
 
@@ -253,3 +253,31 @@ New candidate calibration must pass before untouched synthetic final seeds
 measured failures remain consumed evidence. The 256 raw fixed-bath measurements,
 128/128 split and all 24 measured final workers remain unexecuted mandatory
 gates; a successful unit diagnostic or ordinary CI cannot close them.
+
+
+## Post-merge projection discrepancy
+
+The source tree of main 3bc726b is identical to passing head 2f2446c. Both
+full root commands pass, but main replay 41321087677 fails the frozen
+measured-calibration independent projection comparison. Its retained failed
+child receipt reports `ValueError: independent projection`; it does not identify
+the case. Do not rerun jobs solely to replace this failed receipt with green.
+
+Local 50-digit SVD of the exact saved binary64 design finds the pyDLR projector
+outside the existing 2e-8 plus 1e-8 relative elementwise budget: maximum absolute
+difference 2.7619e-8, maximum tolerance ratio 1.194. The retained condition is
+1.5913e10, with the smallest singular ratio 6.284e-11 safely above the 1e-12
+cutoff. Local binary64 decompositions pass the same comparison. These facts
+support sensitivity of the subspace calculation; they do not establish which
+case failed on Linux or prove an auditor-only defect. Independent source review
+also finds that the producer evaluates the archived design and fitter design
+separately, so their byte equality must be checked before assigning the cause.
+
+The bounded diagnostic reads only the eight calibration matrix archives after
+checking the complete curated archive identity and member safety. It compares
+NumPy/SciPy backends and an independent 50-digit SVD, records runtime details,
+and reports `diagnostic_complete` even when a comparison fails. That process
+status is not scientific acceptance. No provider calculation, new samples,
+changed production representation or changed budget is involved. A production
+repair would require new source binding, calibration and appropriate untouched
+final validation; observed final data cannot be relabeled untouched.
