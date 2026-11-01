@@ -1,0 +1,55 @@
+{
+  "archives": [
+    {
+      "bytes": 15215284,
+      "path": "experiments/data/spectroscopy-normalized-1452.tar.gz",
+      "sha256": "5c8b6752f3f6ed57b4c13a6e586ce5941026d30c58c45e771d928b5881105c77"
+    },
+    {
+      "bytes": 4508130,
+      "path": "experiments/data/cthyb-spectroscopy-normalized-1452.tar.gz",
+      "sha256": "1d9b502818f6818841fabb30780eb956dd4772d9a9e710137287afe3465672e6"
+    }
+  ],
+  "diagnostic_history": [
+    {
+      "revision": "6825a9a3c7107504a157089a880315281a967bc6",
+      "run_id": 40981428833,
+      "status": "failed_wrapper_used_nonexistent_dataset_save_method_before_provider"
+    },
+    {
+      "interpretation": "Does not erase the earlier full-science failure or establish its cause.",
+      "revision": "4c52684f4a012f347e239d2033611393147c2f43",
+      "run_id": 40981642700,
+      "status": "passed_single_consumed_calibration_case_with_unchanged_controls"
+    }
+  ],
+  "fresh_process_repetitions": 3,
+  "generation_revision": "1452a8a921c650242f0ba1fae5593cc67f314bf1",
+  "independently_audited_final_configurations": 24,
+  "linux_failure": {
+    "archive": "experiments/data/maxent-linux-1452-failed.zip",
+    "artifact_id": 12943299401,
+    "case": "offgrid_atoms_correlated-pydlr-broad_gaussian-r0",
+    "cause": "provider_exception_original_type_and_trace_not_retained",
+    "run_id": 40978733084,
+    "sha256": "7eaa411c2bb32ce6e17d30fa62cd794fbf5f526055e70c20f105aeb413701012",
+    "stage": "calibration",
+    "status": "failed_unresolved"
+  },
+  "measured_calibration_audit_sha256": "53cfa2b21e8d1a6b4fc87c19313a72062d21b2af0aa32478107f9d1d56682a4c",
+  "measured_calibration_cases": 8,
+  "measured_final_status": "not_run_fresh_7200ec0_required",
+  "nonclaims": [
+    "full_linux_scientific_acceptance",
+    "fresh_measured_final_acceptance",
+    "unique_peak_recovery",
+    "complete_uncertainty_coverage",
+    "universal_performance_advantage"
+  ],
+  "schema": "kernelgecp.normalized-spectroscopy-checkpoint.v1",
+  "scientific_status": "mac_synthetic_and_native_calibration_passed_full_linux_and_fresh_native_final_open",
+  "synthetic_calibration_cases": 24,
+  "synthetic_final_audit_sha256": "c62b1fa9df0704d8b77db9897784f7772db8ae8d9b128591912a268028e51add",
+  "synthetic_final_children": 72
+}

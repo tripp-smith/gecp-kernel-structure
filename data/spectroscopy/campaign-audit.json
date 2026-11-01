@@ -1,0 +1,9 @@
+{
+  "cases": 72,
+  "claim_scope": "finite synthetic cases; bootstrap variation is not coverage or unique peak recovery",
+  "freeze_sha256": "d54b8092d51031bc3ac4009d6ff062955758a15c529a688d37737d8e542c7892",
+  "independently_audited_cases": 24,
+  "kind": "campaign",
+  "manifest_sha256": "b59a7d25ffd374825b0d78c313dc50b80d26accc93fc82f2e3e447e1abea2090",
+  "status": "passed"
+}

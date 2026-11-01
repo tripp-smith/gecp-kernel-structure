@@ -1,0 +1,194 @@
+{
+  "archive": {
+    "bytes": 1587134,
+    "path": "experiments/data/maxent-lm-linux-eeb5523.tar.gz",
+    "sha256": "a20fac0d5ec99f90952a2e58f9b779cd0b9fe81a0dc73c885dd0232fe992467d"
+  },
+  "failure_capture_limitation": "unit-1 mu0=1e-12 exception has no captured matrix",
+  "generation_revision": "eeb55234768fe15ce7a89e13ab10ebbbfc0a5c57",
+  "interpretation": "All six runs repeat two fixtures, not six independent fixtures. Exact binary rational ranks are full; numerical conditioning and damping rounding remain limitations. Candidate1e-8 requires complete recalibration; no native algorithm change or retry.",
+  "inventory": {
+    "authenticated-actions-artifacts.json": {
+      "bytes": 1506,
+      "sha256": "74dab9bad6d339f12eb107adbc9404744d42370a7d026bcb84012dbb3b78aebb"
+    },
+    "independent-original.json": {
+      "bytes": 25566,
+      "sha256": "edb0133700c018e00e67c426d6bc82a664d4c971e7ffd3eb50917e3c0ff669f3"
+    },
+    "independent-original.md": {
+      "bytes": 3647,
+      "sha256": "72a54873a9d49effa711fbf90db4c819cd56f4de425f2f0a48255b02944ff492"
+    },
+    "independent-original.py": {
+      "bytes": 3769,
+      "sha256": "4aeaef088f7553fbe73a6848eb0d1e4e919d0a7abf6fc5d633fe630bf4d1e8cd"
+    },
+    "independent-portable.json": {
+      "bytes": 42194,
+      "sha256": "9465d9bc17c30862de84043ce423059de9f8da3d3392992018f96dbfecd0f0e0"
+    },
+    "original-zips/12969519963.zip": {
+      "bytes": 212830,
+      "sha256": "6874f11e605f13e942c9da60dcd0fd3aa796863bcc6c054eff7e86c0ed5713d4"
+    },
+    "original-zips/12969944890.zip": {
+      "bytes": 19501,
+      "sha256": "85e4fd9b53aa1b629848bff9674075701e6bd2a228fc1794c4937e7c65dc0b1e"
+    },
+    "original-zips/12970109366.zip": {
+      "bytes": 303432,
+      "sha256": "1531e1c39940b66e0905caf5b00092e30d5ab707e838488588fad8f4d516ec37"
+    },
+    "original-zips/12970213444.zip": {
+      "bytes": 18604,
+      "sha256": "3860f37b6cd427b742a3a53756e5fa750e32156973e455a497e126941b6eb71b"
+    },
+    "original-zips/12970691613.zip": {
+      "bytes": 212828,
+      "sha256": "75684c6f34ba33eb30c11aec2a322f766faa6e06c73399ad2562fbad9cf862ba"
+    },
+    "original-zips/12971390004.zip": {
+      "bytes": 19501,
+      "sha256": "10dccb4a954c1786bee497cc9b117f9a661d34251cf2de5c25b50a1395494c17"
+    },
+    "reports/maxent-lm-calibration-1-41042085787/result.failure.npz": {
+      "bytes": 7828,
+      "sha256": "d757735afca7e69f3e36eef367eedcac9b92c980191f3758dbbec57b586abe0f"
+    },
+    "reports/maxent-lm-calibration-1-41042085787/result.json": {
+      "bytes": 751745,
+      "sha256": "4c0c470b14965cc3efba7d89c104aaaf2102d15a659263ed21ca5610e58a2d65"
+    },
+    "reports/maxent-lm-calibration-1-41042085787/run.log": {
+      "bytes": 8964,
+      "sha256": "0c8b6bd9be5a895edcc613198c45e002cd85a802789a8be44b19ed4062d30a81"
+    },
+    "reports/maxent-lm-calibration-2-41042085787/result.failure.npz": {
+      "bytes": 7828,
+      "sha256": "d757735afca7e69f3e36eef367eedcac9b92c980191f3758dbbec57b586abe0f"
+    },
+    "reports/maxent-lm-calibration-2-41042085787/result.json": {
+      "bytes": 751744,
+      "sha256": "0edf022f25b06a52f07de914bc7c527ba80b3197360b2213bf67ac43dd7dfb28"
+    },
+    "reports/maxent-lm-calibration-2-41042085787/run.log": {
+      "bytes": 8964,
+      "sha256": "7b052fd45c29c0b1c62aa9413b9e744530af2eb4de54704f321750b53d05afe8"
+    },
+    "reports/maxent-lm-calibration-3-41042085787/result.json": {
+      "bytes": 1113056,
+      "sha256": "a6d63d8c17132d6c2d6b568af84faf2673f3fbfcfae339e431c862f7bb372bf2"
+    },
+    "reports/maxent-lm-calibration-3-41042085787/run.log": {
+      "bytes": 9452,
+      "sha256": "bd8e88e19e256d0a5a477ab17288639d263f7d377b38d58ae0fbfd1a71cb7e77"
+    },
+    "reports/maxent-lm-unit-1-41042085787/result.json": {
+      "bytes": 60904,
+      "sha256": "e6ab9ccae7d8b0cbf28149ab84e492ce4b75c8632acc1cef715c461c1c2abcad"
+    },
+    "reports/maxent-lm-unit-1-41042085787/run.log": {
+      "bytes": 4107,
+      "sha256": "0944b637a273d5118f87518e3d7a4976f6c5039d43c42d98b1e1421648f6bd4a"
+    },
+    "reports/maxent-lm-unit-2-41042085787/result.failure.npz": {
+      "bytes": 1443,
+      "sha256": "156bd4a55bf929b35ff5f585b01914c163bf91d6e213cf8e9a3600a10833598e"
+    },
+    "reports/maxent-lm-unit-2-41042085787/result.json": {
+      "bytes": 61446,
+      "sha256": "293943d892e323ca9131a0761b9a704b20be4a5f23a0259b29eae822cc04a809"
+    },
+    "reports/maxent-lm-unit-2-41042085787/run.log": {
+      "bytes": 4111,
+      "sha256": "5cbf14da1f2d386c3c3edd2fb7acced57035d19610641b9e94a4a3dc0f2a935e"
+    },
+    "reports/maxent-lm-unit-3-41042085787/result.failure.npz": {
+      "bytes": 1443,
+      "sha256": "156bd4a55bf929b35ff5f585b01914c163bf91d6e213cf8e9a3600a10833598e"
+    },
+    "reports/maxent-lm-unit-3-41042085787/result.json": {
+      "bytes": 61440,
+      "sha256": "bcc16d82484ea7afe6728b6a2ef1f8e17076f3e2a68124736675436f4e154dd1"
+    },
+    "reports/maxent-lm-unit-3-41042085787/run.log": {
+      "bytes": 4111,
+      "sha256": "b92d5a163f06309c70f1dc78484cac0e3c0a1638d0bcb2f4c460d2ea54b5dac1"
+    }
+  },
+  "native_reproduction_source": "Use frozen source eeb55234768fe15ce7a89e13ab10ebbbfc0a5c57 for scripts/maxent_lm_diagnostic.py and its saved dataset. Current source intentionally adds an explicit configuration field; the portable report auditor needs no provider.",
+  "original_actions_artifacts": {
+    "artifacts": [
+      {
+        "bytes": 19501,
+        "extracted_files_equal": true,
+        "id": 12971390004,
+        "name": "maxent-lm-unit-2-41042085787",
+        "zip_sha256": "10dccb4a954c1786bee497cc9b117f9a661d34251cf2de5c25b50a1395494c17"
+      },
+      {
+        "bytes": 212828,
+        "extracted_files_equal": true,
+        "id": 12970691613,
+        "name": "maxent-lm-calibration-2-41042085787",
+        "zip_sha256": "75684c6f34ba33eb30c11aec2a322f766faa6e06c73399ad2562fbad9cf862ba"
+      },
+      {
+        "bytes": 18604,
+        "extracted_files_equal": true,
+        "id": 12970213444,
+        "name": "maxent-lm-unit-1-41042085787",
+        "zip_sha256": "3860f37b6cd427b742a3a53756e5fa750e32156973e455a497e126941b6eb71b"
+      },
+      {
+        "bytes": 303432,
+        "extracted_files_equal": true,
+        "id": 12970109366,
+        "name": "maxent-lm-calibration-3-41042085787",
+        "zip_sha256": "1531e1c39940b66e0905caf5b00092e30d5ab707e838488588fad8f4d516ec37"
+      },
+      {
+        "bytes": 19501,
+        "extracted_files_equal": true,
+        "id": 12969944890,
+        "name": "maxent-lm-unit-3-41042085787",
+        "zip_sha256": "85e4fd9b53aa1b629848bff9674075701e6bd2a228fc1794c4937e7c65dc0b1e"
+      },
+      {
+        "bytes": 212830,
+        "extracted_files_equal": true,
+        "id": 12969519963,
+        "name": "maxent-lm-calibration-1-41042085787",
+        "zip_sha256": "6874f11e605f13e942c9da60dcd0fd3aa796863bcc6c054eff7e86c0ed5713d4"
+      }
+    ],
+    "repository": "tripp-smith/gecp-kernel-structure",
+    "run_id": 41042085787
+  },
+  "outcomes": {
+    "baseline": {
+      "completed": 2,
+      "exceptions": 4
+    },
+    "mu0_1e-12": {
+      "completed": 5,
+      "exceptions": 1
+    },
+    "mu0_1e-8": {
+      "completed": 6,
+      "exceptions": 0
+    }
+  },
+  "presets": {
+    "candidate": 1e-08,
+    "native_default": 1e-18
+  },
+  "reproduce": [
+    "tar -xzf experiments/data/maxent-lm-linux-eeb5523.tar.gz -C <empty-directory>",
+    "uv run python scripts/audit_maxent_lm_diagnostic.py <empty-directory>/reports --output <audit.json>"
+  ],
+  "run_url": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41042085787",
+  "schema": "kernelgecp.maxent-lm-development-evidence.v1",
+  "scope": "Consumed calibration and unit fixtures only; no production acceptance."
+}
