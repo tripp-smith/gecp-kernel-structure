@@ -2634,3 +2634,15 @@ away, and numerical conditioning remains severe. A common explicit initial
 mu0=1e-8 completes six runs of two fixtures and is a candidate for complete
 calibration only. This is neither a general optimizer-stability result nor a
 repair of the separately failed measured RMS 2.0232. All scientific gates remain.
+
+
+### EH scientific acceptance: actual Linux MaxEnt and native fixed-bath chains
+
+At feaac669, canonical run 41095194293 passes all synthetic, 256-chain and
+measured-final gates with independent audits. Final measured maximum whitened
+RMS is 1.48560 <=2; selected mass errors are <=2.23e-16. Extra independent
+chain/covariance/RMS checks agree. Earlier failures remain failed; this cohort
+does not establish a sole failure cause. Fixed-bath conditional mean and
+bootstrap sensitivity scopes remain explicit, without unique spectra, complete
+uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
+and 1.2 publication remain subject to final checks.

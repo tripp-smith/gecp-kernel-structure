@@ -3217,3 +3217,11 @@ full recalibration and untouched final validation remain required. Fresh
 synthetic seeds 3001/3002/3003 and 64-node queries supersede consumed validation.
 The measured RMS 2.0232 failure, unchanged <=2 gate, and unexecuted 256-chain
 candidate remain open. No original mathematical goal or release gate changes.
+
+
+EH status annotation (2026-11-01): canonical source feaac669 and Linux run
+41095194293 pass all required synthetic, raw 256-chain and measured-final
+scientific gates and independent audits; measured final maximum RMS 1.48560
+passes unchanged limit 2. Accepted/failed evidence and source scopes are retained.
+New replay CI, final root/exact-head, merge and exact-main checks remain required
+for delivery. No mathematical goal or numerical budget changes.

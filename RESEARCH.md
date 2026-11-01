@@ -12631,3 +12631,29 @@ their extracted bytes were independently checked and preserved in the bundle.
 The new config field is appended after existing positional fields, and an
 actual historical spectral-dataset read test confirms original metadata remains
 unchanged. This does not make old campaign acceptance current.
+
+
+### EH canonical Linux scientific acceptance at feaac669
+
+Run 41095194293 completes all jobs successfully: synthetic 24 calibration/72
+final children, measured eight calibration/24 final workers and independent
+audits. Four native 64-chain segments generate the one independently audited
+256-chain cohort, split 128/128 with declared bath, source, runtime and calibration
+bindings. No replacement acquisition or workflow rerun occurred. Final measured
+maximum RMS is 1.4855952278227857 <=2; old failed cohorts remain failed. Extra
+independent chain/covariance/RMS recomputation agrees; its missing quadrature,
+provider and bootstrap reruns are explicit.
+
+Preserve the authenticated 95.64 MB original artifact for release archival and
+commit a 55.45 MB curated archive of 1,451 new-output files. Reconstruct the
+467+423 byte-identical existing inputs from pinned archives. Six original audit
+receipts, inventory, summary and extra numerical review are under data/spectroscopy.
+Linux replay checks all archives, safe extraction, candidate source equivalence,
+private frozen checkout and every independent audit without acquiring data.
+The initial replay is deliberately strict for current 1.1 metadata; narrow
+version-only source handling remains an EJ release obligation.
+
+Scientific acceptance passes. Final full root, actual Linux replay, exact-head
+CI, authorized merge and synchronized exact-main checks remain delivery gates.
+The source-level replay tests include a real isolated Git/native mutation;
+structural preflight is explicitly not a scientific acceptance receipt.

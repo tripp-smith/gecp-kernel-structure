@@ -1,0 +1,44 @@
+{
+  "auditor_revision": "feaac669eb49d700f0059f5be755a9e4403a1719",
+  "auditor_sha256": "90ff4e26253b3a91b0e3a40995b375d5c729fbe9d27abc5e64ebcb486d0c661c",
+  "binding_sha256": "bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88",
+  "calibration_sha256": "7802574520ee1a2bf83dbb9c361c98dbb9952dc34bd8ca05f948e2f2379908b3",
+  "campaign_sha256": "7802574520ee1a2bf83dbb9c361c98dbb9952dc34bd8ca05f948e2f2379908b3",
+  "cases": 8,
+  "default_sensitivity": {
+    "kernelgecp-r0": [
+      -0.0008345931817605456,
+      0.0017586540292294783,
+      -0.0009240608474681
+    ],
+    "pydlr-r0": [
+      -0.0007900491345851635,
+      0.0016671266347684233,
+      -0.0008770775001822884
+    ],
+    "raw-r0": [
+      -0.0008939134032154294,
+      0.002080049835152864,
+      -0.0011861364319384338
+    ],
+    "sparse_ir-r0": [
+      -0.0008024994473502522,
+      0.0016917612608566834,
+      -0.000889261813506681
+    ]
+  },
+  "gates": {
+    "bootstrap_and_defaults": true,
+    "covariance_and_projection": true,
+    "ee_source_and_raw_chains": true,
+    "fresh_process_receipts": true,
+    "frozen_protocol_and_hashes": true,
+    "heldout_rms": true,
+    "native_trials_and_quadrature": true,
+    "repeat_arrays": true
+  },
+  "kind": "calibration",
+  "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+  "scope": "heldout chain mean only; finite native model, no truth CDF, nonlinear coverage or unique spectrum claim",
+  "status": "passed"
+}

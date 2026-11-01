@@ -1,0 +1,665 @@
+{
+  "checks": {
+    "fixed_bath": {
+      "chain_count": 256,
+      "unique_seeds": 256,
+      "odd_321_seeds": true,
+      "roles": {
+        "train": 128,
+        "heldout": 128
+      },
+      "manifest_sha256_matches": true,
+      "calibration_audit_sha256_matches": true
+    },
+    "native_final_binding": {
+      "binding_file_sha256": "5bc4c31f5a8fbe4fbe07dd1079282c2488718745cb061498211a2a730ebb59f0",
+      "receipt_binding_sha256": "5bc4c31f5a8fbe4fbe07dd1079282c2488718745cb061498211a2a730ebb59f0",
+      "all_sources_match": true
+    },
+    "chain_recomputation": {
+      "all_bath_bytes_match": true,
+      "max_imaginary": 0,
+      "all_chain_runtime_receipts_valid": true,
+      "runtime_seconds_range": [
+        89.14157605100081,
+        143.73669347400028
+      ],
+      "chain_recomputed_max_abs_errors": {
+        "observation_values": 1.6653345369377348e-16,
+        "query_mean": 0.0,
+        "covariance": 5.293955920339377e-23,
+        "validation_covariance": 3.3087224502121107e-23
+      }
+    }
+  },
+  "groups": {
+    "calibration": {
+      "count": 24,
+      "unique_ids": 24,
+      "max_rms_by_method_default": {
+        "kernelgecp/flat": 1.0226557058125458,
+        "pydlr/broad_gaussian": 1.0212694492245846,
+        "raw/broad_gaussian": 0.8327326833528945,
+        "sparse_ir/flat": 1.0227811419073911,
+        "kernelgecp/broad_gaussian": 1.0211752237272453,
+        "pydlr/flat": 1.0227503951490062,
+        "raw/flat": 0.8327340397729865,
+        "sparse_ir/broad_gaussian": 1.0213000734834679
+      },
+      "max_rms_discrepancy": 3.3306690738754696e-16,
+      "projection_covariance_max_abs_error": 4.1359030627651384e-24,
+      "max_mass_error": 2.220446049250313e-16,
+      "validation_rank_range": [
+        24,
+        24
+      ],
+      "validation_condition_range": [
+        1.0,
+        7.832754149253179
+      ],
+      "bootstrap_window_std_range": null,
+      "nonconverged_main_trials": 80,
+      "complete_trial_arrays": 24
+    },
+    "campaign": {
+      "count": 72,
+      "unique_ids": 24,
+      "max_rms_by_method_default": {
+        "sparse_ir/broad_gaussian": 0.5637305161385369,
+        "raw/broad_gaussian": 0.5637305018553255,
+        "kernelgecp/broad_gaussian": 0.5637304927277521,
+        "kernelgecp/flat": 0.5637304556376241,
+        "sparse_ir/flat": 0.56373049065506,
+        "pydlr/broad_gaussian": 0.5637304527230144,
+        "pydlr/flat": 0.5637304702061885,
+        "raw/flat": 0.5637305261524056
+      },
+      "max_rms_discrepancy": 1.1102230246251565e-16,
+      "projection_covariance_max_abs_error": 4.1359030627651384e-24,
+      "max_mass_error": 2.220446049250313e-16,
+      "validation_rank_range": [
+        64,
+        64
+      ],
+      "validation_condition_range": [
+        1.0,
+        25.981863993682474
+      ],
+      "bootstrap_window_std_range": [
+        6.428471509084461e-05,
+        0.07993528929746802
+      ],
+      "nonconverged_main_trials": 288,
+      "complete_trial_arrays": 72
+    },
+    "native-calibration": {
+      "count": 8,
+      "unique_ids": 8,
+      "max_rms_by_method_default": {
+        "raw/flat": 1.6927560541911089,
+        "pydlr/flat": 1.7912368141635655,
+        "kernelgecp/broad_gaussian": 1.4997647598256998,
+        "kernelgecp/flat": 1.7808389299966962,
+        "sparse_ir/broad_gaussian": 1.508072269476775,
+        "sparse_ir/flat": 1.7992728541448777,
+        "pydlr/broad_gaussian": 1.502627924338892,
+        "raw/broad_gaussian": 1.7149299683175976
+      },
+      "max_rms_discrepancy": 1.5543122344752192e-15,
+      "projection_covariance_max_abs_error": 1.5881867761018131e-22,
+      "max_mass_error": 1.1102230246251565e-16,
+      "validation_rank_range": [
+        16,
+        16
+      ],
+      "validation_condition_range": [
+        24.73719733176647,
+        24.73719733176647
+      ],
+      "bootstrap_window_std_range": [
+        0.0026118971295601176,
+        0.04050841263926409
+      ],
+      "nonconverged_main_trials": 10,
+      "complete_trial_arrays": 8
+    },
+    "native-final": {
+      "count": 24,
+      "unique_ids": 24,
+      "max_rms_by_method_default": {
+        "raw/flat": 0.9461953987106582,
+        "kernelgecp/flat": 1.4855952278227857,
+        "pydlr/broad_gaussian": 1.0372371823915425,
+        "pydlr/flat": 1.0578876196247746,
+        "kernelgecp/broad_gaussian": 1.036093055432902,
+        "raw/broad_gaussian": 0.9885377871644929,
+        "sparse_ir/broad_gaussian": 1.0366637560272123,
+        "sparse_ir/flat": 1.0560391987131035
+      },
+      "max_rms_discrepancy": 6.661338147750939e-16,
+      "projection_covariance_max_abs_error": 3.970466940254533e-23,
+      "max_mass_error": 2.220446049250313e-16,
+      "validation_rank_range": [
+        16,
+        16
+      ],
+      "validation_condition_range": [
+        9.650416846219926,
+        9.650416846219926
+      ],
+      "bootstrap_window_std_range": [
+        0.01649343746171801,
+        0.05845098484890323
+      ],
+      "nonconverged_main_trials": 222,
+      "complete_trial_arrays": 24
+    }
+  },
+  "blockers": [],
+  "limitations": [
+    "Finite-grid held-out chain-mean diagnostics only; no continuous proof, true native spectrum, unique spectrum, nonlinear predictive coverage, or method-wide dominance.",
+    "New cohort does not erase earlier 6.495 and 2.023 failures or establish mu0 as their sole cause.",
+    "Independent chain covariance and means, stored-prediction RMS, P C P^T, chain bath bytes and runtime receipts checked; independent prediction integration, runtime authenticity, and full bootstrap resampling remain outside this script.",
+    "Synthetic final 72 receipts reuse 24 method/default/case identities across repeated runs; these are not 72 independent cases."
+  ],
+  "measured_r0_details": {
+    "native-calibration": {
+      "raw/flat": {
+        "rms": 1.6927560541911089,
+        "window_weights": [
+          0.2255798663073421,
+          0.5490575502999057,
+          0.22536258339275228
+        ],
+        "bootstrap_window_std": [
+          0.020213753087232195,
+          0.04050841263926409,
+          0.02107728663051635
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "pydlr/flat": {
+        "rms": 1.7912368141635655,
+        "window_weights": [
+          0.22546574071234884,
+          0.5489660739126271,
+          0.22556818537502377
+        ],
+        "bootstrap_window_std": [
+          0.005401222889469308,
+          0.005991605471251069,
+          0.004788590494732146
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 178.16674320612313
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "kernelgecp/broad_gaussian": {
+        "rms": 1.4997647598256998,
+        "window_weights": [
+          0.22462860546829383,
+          0.550361175204112,
+          0.22501021932759413
+        ],
+        "bootstrap_window_std": [
+          0.0030723091761033633,
+          0.0038578098517699027,
+          0.0031101164113054177
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 23,
+            "retained_condition": 187.36068657554165
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "kernelgecp/flat": {
+        "rms": 1.7808389299966962,
+        "window_weights": [
+          0.22546319865005437,
+          0.5486025211748825,
+          0.22593428017506223
+        ],
+        "bootstrap_window_std": [
+          0.004557326455341156,
+          0.006146290954261651,
+          0.004916455262271996
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 23,
+            "retained_condition": 187.36068657554165
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "sparse_ir/broad_gaussian": {
+        "rms": 1.508072269476775,
+        "window_weights": [
+          0.22461654764317635,
+          0.5504527963845118,
+          0.22493065597231177
+        ],
+        "bootstrap_window_std": [
+          0.0041670667568722486,
+          0.0033977594563326546,
+          0.0026118971295601176
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 177.06941867691236
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "sparse_ir/flat": {
+        "rms": 1.7992728541448777,
+        "window_weights": [
+          0.2254190470905266,
+          0.5487610351236551,
+          0.22581991778581845
+        ],
+        "bootstrap_window_std": [
+          0.005127959548206631,
+          0.005984010047246236,
+          0.004631547801290031
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 177.06941867691236
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "pydlr/broad_gaussian": {
+        "rms": 1.502627924338892,
+        "window_weights": [
+          0.22467569157776368,
+          0.5506332005473955,
+          0.22469110787484148
+        ],
+        "bootstrap_window_std": [
+          0.003914933124603958,
+          0.0035305932537684635,
+          0.0028173865871531072
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 178.16674320612313
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      },
+      "raw/broad_gaussian": {
+        "rms": 1.7149299683175976,
+        "window_weights": [
+          0.22468595290412666,
+          0.5511376001350585,
+          0.22417644696081385
+        ],
+        "bootstrap_window_std": [
+          0.01895177666530089,
+          0.03939887586884799,
+          0.021024067638348652
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "projected_covariance_modes": {
+            "rank": 31,
+            "retained_condition": 30.063145564105294
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 24.737197331766474
+          }
+        }
+      }
+    },
+    "native-final": {
+      "raw/flat": {
+        "rms": 0.9461953987106582,
+        "window_weights": [
+          0.2231767193529518,
+          0.5503142802696036,
+          0.22650900037744426
+        ],
+        "bootstrap_window_std": [
+          0.019725343094137322,
+          0.05815843807053988,
+          0.0421839243095914
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "pydlr/flat": {
+        "rms": 1.0578876196247746,
+        "window_weights": [
+          0.22391866435951677,
+          0.5494142220055365,
+          0.22666711363494674
+        ],
+        "bootstrap_window_std": [
+          0.01649343746171801,
+          0.034143696106996545,
+          0.024146489427977973
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 21.811989464386986
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "kernelgecp/broad_gaussian": {
+        "rms": 1.036093055432902,
+        "window_weights": [
+          0.22354248861370574,
+          0.5516848000455519,
+          0.22477271134074206
+        ],
+        "bootstrap_window_std": [
+          0.022491571878105295,
+          0.046052601753024544,
+          0.02356986689101337
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 23,
+            "retained_condition": 22.535936548881672
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "kernelgecp/flat": {
+        "rms": 1.4855952278227857,
+        "window_weights": [
+          0.2233739292927635,
+          0.5511862320782126,
+          0.22543983862902373
+        ],
+        "bootstrap_window_std": [
+          0.022309585458348758,
+          0.04544688151477608,
+          0.023177222672808653
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 23,
+            "retained_condition": 22.535936548881672
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "sparse_ir/broad_gaussian": {
+        "rms": 1.0366637560272123,
+        "window_weights": [
+          0.22353679454161943,
+          0.5516813903941684,
+          0.2247818150642118
+        ],
+        "bootstrap_window_std": [
+          0.01864175613959863,
+          0.04268713031104458,
+          0.029408994955541598
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 21.788358119230065
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "sparse_ir/flat": {
+        "rms": 1.0560391987131035,
+        "window_weights": [
+          0.22392955930106287,
+          0.5494117682861447,
+          0.22665867241279247
+        ],
+        "bootstrap_window_std": [
+          0.01903348915691699,
+          0.0423395892754603,
+          0.029429994940991674
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 21.788358119230065
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "pydlr/broad_gaussian": {
+        "rms": 1.0372371823915425,
+        "window_weights": [
+          0.2235285220001824,
+          0.5516829711877325,
+          0.22478850681208473
+        ],
+        "bootstrap_window_std": [
+          0.016649388697828997,
+          0.03466008367478975,
+          0.024299518773351465
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 22,
+            "retained_condition": 21.811989464386986
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      },
+      "raw/broad_gaussian": {
+        "rms": 0.9885377871644929,
+        "window_weights": [
+          0.22309089950429464,
+          0.5534084931433586,
+          0.22350060735234556
+        ],
+        "bootstrap_window_std": [
+          0.01969776240978694,
+          0.05845098484890323,
+          0.04248951216077156
+        ],
+        "modes": {
+          "training_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "projected_covariance_modes": {
+            "rank": 64,
+            "retained_condition": 84.83737457141618
+          },
+          "validation_covariance_modes": {
+            "rank": 16,
+            "retained_condition": 9.650416846219942
+          }
+        }
+      }
+    }
+  },
+  "default_window_differences": {
+    "kernelgecp-r0": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "kernelgecp-r1": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "kernelgecp-r2": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "pydlr-r0": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "pydlr-r1": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "pydlr-r2": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "raw-r0": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "raw-r1": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "raw-r2": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "sparse_ir-r0": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ],
+    "sparse_ir-r1": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ],
+    "sparse_ir-r2": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ]
+  }
+}

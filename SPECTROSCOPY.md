@@ -1,6 +1,73 @@
 # MaxEnt spectroscopy evidence
 
-Current EH acceptance remains open in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). The measured final failure and normalized-model repair below supersede earlier preparation status; the synthetic results in this section are historical evidence for their frozen selector.
+Scientific acceptance passes at frozen `feaac669` in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). Delivery verification remains in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). Sections named for older sources are historical; both measured failures remain failed and consumed.
+
+## Accepted Linux scientific campaign
+
+The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
+24 synthetic calibration cases, 72 untouched synthetic final children (24
+independently audited unique cases), eight measured calibration workers, 256
+fresh native chains and all 24 measured final workers. Every scientific gate
+and independent audit passes. The raw cohort uses the accepted 7200ec0 fixed
+bath, 1.6 million cycles per chain and disjoint odd seeds 32100001+2*i. The
+first 128 chains train the estimator; the last 128 supply held-out means and
+covariances. These are fixed-bath conditional measurements, not full trajectory
+uncertainty or statistically paired diverged DMFT loops.
+
+| Measured final method | Flat default RMS | Broad Gaussian RMS |
+| --- | ---: | ---: |
+| raw | 0.946195 | 0.988538 |
+| kernelgecp | 1.485595 | 1.036093 |
+| pydlr | 1.057888 | 1.037237 |
+| sparse-ir | 1.056039 | 1.036664 |
+
+The unchanged noisy held-out limit is 2. Synthetic final maximum RMS is
+0.563731; measured calibration maximum is 1.799273. Selected mass errors are
+at most 2.23e-16. Initial damping is explicitly 1e-8 in every method, with all
+33 native trials retained, including nonconverged trials; selected trials
+converge. The public config default remains native 1e-18. Initial damping is
+not a lower bound or a general stability guarantee.
+
+Training covariance rank is 64. Projected ranks are 64 raw, 23 GECP and 22
+DLR/IR; held-out rank is 16. Retained condition numbers are approximately 84.84
+training, 22.54 GECP, 21.81 DLR, 21.79 IR and 9.65 held out. Full P C P-transpose
+and P K propagation, declared eigenmode cutoffs and effective ranks are explicit.
+Interpolated points do not become independent measurements.
+
+The summary retains spectral-window weights, default sensitivity, bootstrap
+variation, three process timings/RSS and storage. Window bootstrap standard
+deviations reach 0.05846; default-model window-weight changes reach 0.003095.
+Eight bootstrap replicas describe variation, not coverage. Native spectra lack
+known truth, so no native CDF-error or unique-peak claim is made. Repeat zero
+includes bootstrap work while repeats one and two do not; these uneven workload
+timings do not establish a comparative speedup.
+
+[Independent extra review](data/spectroscopy/linux-independent-review-feaac66.json)
+checks all 128 case archive hashes and 768 chain hashes, and recomputes chain
+means/covariances, projected covariances and RMS using separate NumPy formulas.
+Covariances agree within 5.3e-23 and RMS within 1.6e-15. This review did not rerun
+forward quadrature, providers or bootstrap sampling; the frozen independent
+scientific auditors cover the applicable obligations. Reproduce the extra
+review with `experiments/audit_spectroscopy_arrays.py` and extracted evidence.
+
+The [evidence inventory](data/spectroscopy/linux-accepted-feaac66.json) binds
+the original 95,640,546-byte Actions ZIP (SHA-256
+`55140875128daa8b3399c432b143265be6fc8c59715a6d9375cf12b62b7db600`)
+and curated 55,453,529-byte archive (SHA-256
+`63ac446677a9c36dfb17736e9823582a92ce49c59d85c3c0f393fd35c4ee2576`).
+All 1,451 new-output files are preserved. The 467 parent and 423 calibration
+input files were byte-compared against the original ZIP and reconstructed from
+existing committed archives. Dedicated Linux replay CI checks pinned hashes,
+rebuilds all 2,341 files, verifies source bindings and reruns the frozen auditors
+without sampling. Recorded versions/module hashes and hash-locked runtime replay
+do not establish bitwise provenance for every compiled dependency.
+
+Previous measured RMS 6.495244 and 2.023200438825109 remain failed. This pass
+uses the predeclared new cohort and controls; it does not establish the sole
+cause of those failures. This is finite scientific evidence, not a continuous
+theorem or general materials prediction.
+
+## Historical campaigns and failed routes
 
 The frozen synthetic campaign at clean source revision
 `dc97680a0fa01789cefd1b699a3fb4c0f00a2699` used actual TRIQS MaxEnt
