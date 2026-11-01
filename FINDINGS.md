@@ -2646,3 +2646,15 @@ does not establish a sole failure cause. Fixed-bath conditional mean and
 bootstrap sensitivity scopes remain explicit, without unique spectra, complete
 uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
 and 1.2 publication remain subject to final checks.
+
+
+### EH post-merge projection precision finding (2026-11-01)
+
+Main 3bc726b passes base verification but fails the frozen independent
+projection replay. Independent 50-digit SVD places the saved pyDLR projector
+outside its existing comparison tolerance; the retained design condition is
+about 1.59e10. A local calibration-only explicit higher-precision QR plus cached
+SVD gives projector differences below 8e-16 from a separate 80-digit SVD for
+GECP, pyDLR and sparse IR. Original conditioning remains reported. This is finite
+matrix evidence and does not establish actual MaxEnt calibration, final
+spectroscopy acceptance or a speed advantage. No acceptance budget changed.

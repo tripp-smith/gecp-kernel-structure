@@ -12690,3 +12690,47 @@ source/path review finds no blocker; actual Linux replay and final full root,
 exact-head CI, authorized merge and synchronized main remain required. The
 previous cd40c56 root receipt passes 2,627 tests/42 optional skips, but does not
 verify this later wrapper correction.
+
+
+## EH corrective projection contract — explicit precision
+
+Main 3bc726b fails independent projection replay even though the frozen
+campaign and PR-head runs passed. Independent 50-digit SVD of the saved pyDLR
+65-by-23 design exceeds the unchanged 2e-8 plus 1e-8 relative projector budget;
+condition is 1.59e10. A calibration-only 80-digit QR prototype followed by the
+existing cached SVD meets the same independent budget at about 1e-15. It does
+not establish production or final scientific acceptance.
+
+Implement an explicit precision option for same-mesh, full-column-rank spectral
+projection. Keep shared LeastSquaresPlan unchanged and keep the default float64
+path. Use declared higher precision to construct orthogonal observation
+coordinates, then the cached SVD. Preserve the original rcond/rank decision and
+original condition/singular-value metadata alongside transformed diagnostics.
+Reject rank-truncated, ambiguous-rank and cross-mesh requests for this bounded
+option rather than silently changing the retained subspace or solver. Preserve
+complex linearity of the complete projection and P C P-transpose/K propagation.
+Retain one immutable exact source design, expose the decomposition input, and
+record method/precision/hash provenance. No tolerance is relaxed.
+
+Meaningful tests include a known ill-conditioned span checked against separate
+high-precision SVD, invalid precision, rank-truncated/cross-mesh rejection,
+immutable ownership, original-vs-transformed diagnostics and propagated data,
+covariance and kernel. Existing float64 paths and arbitrary matrix fitting
+remain unchanged. Full root and actual pinned-provider calibration/CI remain
+required. No canonical run may launch from this implementation step. Any
+scientific production change requires new source binding, complete calibration
+and appropriate fresh untouched final validation; the observed final cohort
+cannot be relabeled untouched. Existing failures remain preserved.
+
+
+Corrective implementation checkpoint: 38 focused projection/covariance tests
+pass with two missing-provider skips; typing and Ruff pass after primary review.
+The source design is evaluated once on identical meshes, original condition is
+retained and exact decomposition coordinates are exposed. Local actual-archive
+calibration probes use explicit 256-bit QR and a separate 80-digit SVD; maximum
+projector differences are 5.12e-16 GECP, 4.44e-16 pyDLR and 7.78e-16 IR. Relative
+covariance/kernel discrepancies are around 1e-15. These are development matrix
+probes, not real-provider continuation or untouched final validation. Shared
+LeastSquaresPlan and all canonical data remain unchanged. Freeze the commit,
+run full verification, and review a source-bound scientific repair plan before
+any calibration or acquisition launch.

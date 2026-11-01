@@ -3233,3 +3233,14 @@ a private feaac669 checkout, verifies bound candidate data against frozen blobs,
 and retains failed child JSON. Thirteen focused tests and independent source
 review pass. Full root and exact-head Linux replay/CI remain required; no
 scientific input, numerical budget or mathematical goal changes.
+
+
+EH corrective implementation annotation (2026-11-01): add an explicit bounded
+precision option for same-mesh full-column-rank spectral observation projection,
+retaining the shared cached SVD, original rank/conditioning, immutable source
+input and separate transformed arithmetic provenance. Local calibration-matrix
+probes agree with an independent higher-precision SVD within the unchanged
+projector budget. The failed main replay remains failed; no provider campaign
+or new canonical sampling is launched by this step. Full verification and new
+source-bound calibration/final validation remain required. No original
+mathematical goal or numerical acceptance tolerance changes.

@@ -1975,3 +1975,24 @@ exhausted native solves still raise an explicit numerical failure with their
 cause and completed trial history. The package does not retry another optimizer
 or silently discard alpha trials. Archived datasets keep their original
 calculation settings; read historical evidence with its recorded source.
+
+
+### Explicit precision for spectral observation projection (in development)
+
+`prepare_spectral_projection(basis, tau, tau, rcond=1e-12,
+precision_bits=256)` opts into mpmath QR followed by the existing cached
+binary64 SVD. The default remains `precision_bits=53`. The bounded option
+requires identical source/target meshes and full column rank, supports at most
+256 observations and 128 columns, and accepts integer precision 128–1024.
+Unsupported rank truncation, rank ambiguity and cross-mesh requests fail clearly.
+Its separation guard is heuristic and is not a numerical certificate.
+
+`source_design` retains the single immutable source evaluation;
+`decomposed_design` retains the actual cached-SVD input. `diagnostics` keeps the
+original singular values/rank/condition, while `transformed_diagnostics` reports
+the orthogonal coordinates. `projection_provenance_json` records method,
+precision, array hashes/shapes and the guard. Dataset projection preserves the
+same complete linear covariance/kernel map and records that provenance. The
+well-conditioned coordinates do not change the reported original conditioning.
+This option is development work pending source-bound provider calibration and
+appropriate untouched final validation; it is not a delivered 1.2.0 capability.

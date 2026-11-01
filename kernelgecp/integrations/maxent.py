@@ -455,10 +455,22 @@ class SpectralProjection:
     matrix: FloatArray
     diagnostics: LeastSquaresDiagnostics
     metadata_json: str
+    source_design: FloatArray | None = None
+    decomposed_design: FloatArray | None = None
+    transformed_diagnostics: LeastSquaresDiagnostics | None = None
+    projection_provenance_json: str = "{}"
 
     def __post_init__(self) -> None:
-        for name in ("source_tau", "target_tau", "matrix"):
-            object.__setattr__(self, name, _owned(getattr(self, name)))
+        for name in (
+            "source_tau",
+            "target_tau",
+            "matrix",
+            "source_design",
+            "decomposed_design",
+        ):
+            value = getattr(self, name)
+            if value is not None:
+                object.__setattr__(self, name, _owned(value))
 
     def apply(
         self, data: SpectralDataset, *, covariance_rtol: float | None = None
@@ -486,6 +498,7 @@ class SpectralProjection:
                 "source": data.provenance,
                 "basis": json.loads(self.metadata_json),
                 "svd": asdict(self.diagnostics),
+                "projection_arithmetic": json.loads(self.projection_provenance_json),
                 "independent_interpolated_observations": False,
             },
             projection=(
@@ -509,6 +522,7 @@ def prepare_spectral_projection(
     *,
     rcond: float | None = None,
     metadata: Any = None,
+    precision_bits: int = 53,
 ) -> SpectralProjection:
     """Prepare the complete linear observation map through a cached SVD.
 
@@ -517,7 +531,21 @@ def prepare_spectral_projection(
     observation-sized identity is constructed. This is
     ordinary least squares, not generalized least squares; covariance is then
     propagated through exactly the same complete linear map.
+
+    ``precision_bits=53`` retains the binary64 path. An explicit integer from
+    128 through 1024 enables mpmath QR followed by a cached binary64 SVD of the
+    rounded orthogonal coordinates. That option supports only same-mesh designs
+    with full column rank, at most 256 rows and 128 columns. Truncated,
+    underdetermined and insufficiently separated rank decisions are rejected;
+    the separation guard is a heuristic, not a certificate. Original design
+    singular values, cutoff and conditioning remain in ``diagnostics``.
+    Transformed diagnostics, immutable exact decomposition inputs and arithmetic
+    provenance are exposed separately. No automatic precision fallback occurs.
     """
+    if type(precision_bits) is not int or not (
+        precision_bits == 53 or 128 <= precision_bits <= 1024
+    ):
+        raise ValueError("precision_bits must be 53 or an integer from 128 to 1024")
     beta = _positive_real(basis.beta, "basis beta")
     source, target = _tau_array(source_tau, beta), _tau_array(target_tau, beta)
     for points in (source, target):
@@ -528,8 +556,15 @@ def prepare_spectral_projection(
             or np.any(np.diff(points) <= 0)
         ):
             raise ValueError("projection meshes must be ordered and include endpoints")
-    observed = _real_array(basis.design_tau(source), "source design")
-    evaluated = _real_array(basis.design_tau(target), "target design")
+    same_mesh = np.array_equal(source, target)
+    if precision_bits != 53 and not same_mesh:
+        raise ValueError("higher precision projection requires the same mesh")
+    observed = _owned(_real_array(basis.design_tau(source), "source design"))
+    evaluated = (
+        observed
+        if same_mesh
+        else _real_array(basis.design_tau(target), "target design")
+    )
     if (
         observed.ndim != 2
         or evaluated.ndim != 2
@@ -538,11 +573,72 @@ def prepare_spectral_projection(
         or observed.shape[1] != evaluated.shape[1]
     ):
         raise ValueError("basis designs must have matching trailing coefficient axes")
-    same_mesh = np.array_equal(source, target)
     plan = _SpectralLeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
     if plan.diagnostics.effective_rank == 0:
         raise NumericalBreakdownError("projection design has no retained singular mode")
-    matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T
+    decomposed = _real_array(plan.design, "decomposed design")
+    transformed_diagnostics = None
+    method = "binary64_cached_svd"
+    if precision_bits != 53:
+        rows, columns = observed.shape
+        if rows > 256 or columns > 128:
+            raise ValueError("higher precision projection exceeds resource limits")
+        diagnostics = plan.diagnostics
+        if rows < columns or diagnostics.effective_rank != columns:
+            raise ValueError("higher precision projection requires full column rank")
+        # Both margins are heuristics, not certified binary64 separation bounds.
+        threshold = diagnostics.rank_threshold
+        rounding_floor = (
+            8
+            * np.finfo(np.float64).eps
+            * max(rows, columns)
+            * diagnostics.singular_values[0]
+        )
+        if threshold is None or diagnostics.singular_values[-1] <= max(
+            2 * threshold, rounding_floor
+        ):
+            raise ValueError("higher precision projection has ambiguous rank boundary")
+        try:
+            import mpmath
+
+            context = mpmath.mp.clone()
+            context.prec = precision_bits
+            design_mp = context.matrix(
+                [[context.mpf(float(value)) for value in row] for row in observed]
+            )
+            q, _ = context.qr(design_mp)
+            decomposed = _owned(
+                np.array(
+                    [[float(q[i, j]) for j in range(columns)] for i in range(rows)]
+                )
+            )
+        except (ArithmeticError, ValueError, OverflowError, MemoryError) as error:
+            raise NumericalBreakdownError("higher precision QR failed") from error
+        transformed = _SpectralLeastSquaresPlan(decomposed, rcond=rcond)
+        if transformed.diagnostics.effective_rank != columns:
+            raise NumericalBreakdownError("rounded orthogonal design lost rank")
+        transformed_diagnostics = transformed.diagnostics
+        matrix = transformed.observation_projection()
+        method = "mpmath_qr_then_binary64_cached_svd"
+    else:
+        matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T
+    provenance = {
+        "method": method,
+        "precision_bits": precision_bits,
+        "source_design_sha256": hashlib.sha256(observed.tobytes()).hexdigest(),
+        "decomposed_design_sha256": hashlib.sha256(decomposed.tobytes()).hexdigest(),
+        "source_design_shape": list(observed.shape),
+        "decomposed_design_shape": list(decomposed.shape),
+        "hash_scope": "C-order binary64 array bytes with the recorded shapes",
+        "rank_guard": (
+            "smallest > max(2 * threshold, 8 * eps64 * max(shape) * largest); heuristic"
+        )
+        if precision_bits != 53
+        else None,
+        "transformed_svd": asdict(transformed_diagnostics)
+        if transformed_diagnostics
+        else None,
+    }
     return SpectralProjection(
         beta,
         source,
@@ -550,6 +646,10 @@ def prepare_spectral_projection(
         _real_array(matrix, "projection"),
         plan.diagnostics,
         _document({} if metadata is None else metadata),
+        observed,
+        decomposed,
+        transformed_diagnostics,
+        _document(provenance),
     )
 
 
