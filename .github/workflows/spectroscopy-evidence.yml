@@ -49,5 +49,7 @@ jobs:
         if: always()
         with:
           name: spectroscopy-evidence-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/
+          path: |
+            artifacts/spectroscopy-replay.json
+            artifacts/spectroscopy-replay.json.logs/
           if-no-files-found: error

@@ -12670,3 +12670,23 @@ Fresh Linux CI must validate the actual repaired reader and independent audits.
 The earlier local root run overlapped the wrapper edit; it is superseded as an
 acceptance receipt. Freeze a new commit and repeat full verification. No native
 measurement, scientific parameter, source-generation field or budget changed.
+
+
+EH replay-wrapper correction after cd40c56: both synthetic auditors pass in
+Linux run 41317459588, but the measured-calibration auditor rejects worker
+input paths because immutable receipts bind the original absolute CI workspace.
+The original wrapper extracted evidence into a temporary directory and passed
+bound data from its private frozen clone. Restore the recorded Linux workspace
+and use candidate-checkout data only after matching all three input blobs to
+frozen Git objects. Keep scientific auditors and their imports in the private
+feaac669 checkout. Reject another workspace or nonempty/symlink evidence folder
+rather than rewrite receipts. Copy failed auditor JSON before temporary cleanup
+and preserve the child failure in the controller report. No canonical input,
+scientific implementation, numerical gate or cohort is changed.
+
+Thirteen focused tests pass, including failed-child report retention, original
+workspace safety and candidate/input tampering rejection. Independent Terra
+source/path review finds no blocker; actual Linux replay and final full root,
+exact-head CI, authorized merge and synchronized main remain required. The
+previous cd40c56 root receipt passes 2,627 tests/42 optional skips, but does not
+verify this later wrapper correction.

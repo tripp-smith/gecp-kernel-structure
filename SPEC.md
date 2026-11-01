@@ -3225,3 +3225,11 @@ scientific gates and independent audits; measured final maximum RMS 1.48560
 passes unchanged limit 2. Accepted/failed evidence and source scopes are retained.
 New replay CI, final root/exact-head, merge and exact-main checks remain required
 for delivery. No mathematical goal or numerical budget changes.
+
+
+EH delivery annotation (2026-11-01): the replay wrapper restores the immutable
+worker receipts' original Linux paths while running scientific auditors from
+a private feaac669 checkout, verifies bound candidate data against frozen blobs,
+and retains failed child JSON. Thirteen focused tests and independent source
+review pass. Full root and exact-head Linux replay/CI remain required; no
+scientific input, numerical budget or mathematical goal changes.

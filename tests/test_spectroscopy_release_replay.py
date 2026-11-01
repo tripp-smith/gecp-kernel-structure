@@ -2,6 +2,7 @@
 
 import importlib.util
 import io
+import json
 import subprocess
 import tarfile
 import tempfile
@@ -24,6 +25,64 @@ gate = module("gate", ROOT / "scripts/check_spectroscopy_release.py")
 
 
 class ReplayTests(unittest.TestCase):
+    def test_evidence_workspace_location_and_safety(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            with patch.object(replay, "RECORDED_WORKSPACE", root):
+                with self.assertRaises(ValueError):
+                    replay.validate_workspace(root / "other")
+                artifacts = replay.prepare_evidence(root)
+                (artifacts / "stale.json").write_text("{}")
+                with self.assertRaises(ValueError):
+                    replay.prepare_evidence(root)
+                (artifacts / "stale.json").unlink()
+                artifacts.rmdir()
+                artifacts.symlink_to(root, target_is_directory=True)
+                with self.assertRaises(ValueError):
+                    replay.prepare_evidence(root)
+
+    def test_controller_preserves_child_failure_details(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "result.json"
+            archives = {name: root / name for name in replay.ARCHIVES}
+            child_receipt = {"status": "failed", "error": "specific audit failure"}
+
+            def invoke(cmd, **kwargs):
+                if "--input-repository" in cmd:
+                    self.assertEqual(
+                        cmd[cmd.index("--input-repository") + 1], str(root)
+                    )
+                    output.write_text(json.dumps(child_receipt))
+                    raise subprocess.CalledProcessError(7, cmd)
+
+            with (
+                patch.object(replay, "ROOT", root),
+                patch.object(replay.sys, "platform", "linux"),
+                patch.object(replay.sys, "argv", ["replay", "--output", str(output)]),
+                patch.object(replay, "validate_workspace", create=True),
+                patch.object(
+                    replay,
+                    "prepare_evidence",
+                    return_value=root / "artifacts",
+                    create=True,
+                ),
+                patch.object(replay, "verified_archives", return_value=archives),
+                patch.object(replay, "extract_tar"),
+                patch.object(replay, "extract_zip"),
+                patch.object(replay, "require_runtime"),
+                patch.object(
+                    replay.subprocess, "check_output", return_value="candidate\n"
+                ),
+                patch.object(replay.subprocess, "run", side_effect=invoke),
+                patch.object(replay.sys, "stderr", io.StringIO()),
+            ):
+                self.assertEqual(replay.main(), 1)
+            result = json.loads(output.read_text())
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["error"], child_receipt["error"])
+            self.assertIn("exit status 7", result["wrapper_error"])
+
     def test_unsafe_paths_and_links_rejected(self):
         for name, kind in [
             ("../escape", "file"),

@@ -20,6 +20,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = None
+INPUT_ROOT = None
 LOGS = None
 FROZEN = "feaac669eb49d700f0059f5be755a9e4403a1719"
 
@@ -67,6 +68,10 @@ def checked_file(p):
     return p
 
 
+def input_repository():
+    return ROOT if INPUT_ROOT is None else INPUT_ROOT
+
+
 def source_check(candidate):
     if git("rev-parse", "HEAD").decode().strip() != FROZEN:
         fail("auditors must execute at frozen EH HEAD")
@@ -81,6 +86,20 @@ def source_check(candidate):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
     )
+    if INPUT_ROOT is not None:
+        actual = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=INPUT_ROOT, text=True
+        ).strip()
+        if actual != candidate:
+            fail("input repository candidate mismatch")
+        for name in (
+            "data/cthyb/independent-audit-e83d195.json",
+            "data/cthyb/audit-binding-e83d195.json",
+            "data/cthyb/linux-audit-binding-7200ec0.json",
+        ):
+            original = git("show", FROZEN + ":" + name)
+            if checked_file(INPUT_ROOT / name).read_bytes() != original:
+                fail("bound input repository data changed: " + name)
     # Inventory is constructed from the frozen Git tree, never from evidence.
     names = git("ls-tree", "-r", "--name-only", FROZEN).decode().splitlines()
     selected = {
@@ -149,10 +168,12 @@ def execute(cmd, name):
 
 def run(module, args, output):
     cmd = [sys.executable, "-m", module, *map(str, args), "--output", str(output)]
-    execute(cmd, output.stem)
-    result = load(checked_file(output))
-    shutil.copyfile(output, LOGS / output.name)
-    return result
+    try:
+        execute(cmd, output.stem)
+    finally:
+        if output.is_file():
+            shutil.copyfile(output, LOGS / output.name)
+    return load(checked_file(output))
 
 
 def sha(path):
@@ -247,7 +268,7 @@ def receipt_preflight(e):
         ac.get("campaign_sha256") != sha(cal)
         or ac.get("calibration_sha256") != sha(cal)
         or ac.get("binding_sha256")
-        != sha(ROOT / "data/cthyb/audit-binding-e83d195.json")
+        != sha(input_repository() / "data/cthyb/audit-binding-e83d195.json")
     ):
         fail("calibration binding mismatch")
     if (
@@ -331,9 +352,13 @@ def check(e, candidate):
     cal = f("native-calibration/calibration.json")
     ca = f("native-calibration-audit.json")
     final = f("native-final/final.json")
-    eeaudit = checked_file(ROOT / "data/cthyb/independent-audit-e83d195.json")
-    eebind = checked_file(ROOT / "data/cthyb/audit-binding-e83d195.json")
-    parentbinding = checked_file(ROOT / "data/cthyb/linux-audit-binding-7200ec0.json")
+    eeaudit = checked_file(
+        input_repository() / "data/cthyb/independent-audit-e83d195.json"
+    )
+    eebind = checked_file(input_repository() / "data/cthyb/audit-binding-e83d195.json")
+    parentbinding = checked_file(
+        input_repository() / "data/cthyb/linux-audit-binding-7200ec0.json"
+    )
     with tempfile.TemporaryDirectory(prefix="eh-audit-") as t:
         t = Path(t)
         for manifest, audit, kind, count in [
@@ -372,31 +397,35 @@ def check(e, candidate):
         ):
             fail("measured calibration binding mismatch")
         raw_a, raw_b = t / "raw-audit.json", t / "raw-binding.json"
-        execute(
-            [
-                sys.executable,
-                "-m",
-                "experiments.audit_cthyb_fixed_bath",
-                "--folder",
-                str(e / "fixed-bath"),
-                "--parent-dir",
-                str(e / "parent"),
-                "--parent-binding",
-                str(parentbinding),
-                "--receipt",
-                str(raw_a),
-                "--binding",
-                str(raw_b),
-                "--calibration",
-                str(cal),
-                "--calibration-audit",
-                str(ca),
-            ],
-            "fixed-bath",
-        )
+        try:
+            execute(
+                [
+                    sys.executable,
+                    "-m",
+                    "experiments.audit_cthyb_fixed_bath",
+                    "--folder",
+                    str(e / "fixed-bath"),
+                    "--parent-dir",
+                    str(e / "parent"),
+                    "--parent-binding",
+                    str(parentbinding),
+                    "--receipt",
+                    str(raw_a),
+                    "--binding",
+                    str(raw_b),
+                    "--calibration",
+                    str(cal),
+                    "--calibration-audit",
+                    str(ca),
+                ],
+                "fixed-bath",
+            )
+        finally:
+            for raw_output in (raw_a, raw_b):
+                if raw_output.is_file():
+                    shutil.copyfile(raw_output, LOGS / raw_output.name)
         for raw_output in (raw_a, raw_b):
             load(checked_file(raw_output))
-            shutil.copyfile(raw_output, LOGS / raw_output.name)
         if load(checked_file(raw_a)).get("chain_count") != 256:
             fail("raw cohort incomplete")
         # The final auditor consumes original raw receipt/binding bytes: final
@@ -470,10 +499,12 @@ def main():
     p.add_argument("--candidate", required=True)
     p.add_argument("--frozen-checkout", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--input-repository", type=Path, required=True)
     a = p.parse_args()
-    global ROOT, LOGS
+    global ROOT, INPUT_ROOT, LOGS
     try:
         ROOT = a.frozen_checkout.resolve(strict=True)
+        INPUT_ROOT = a.input_repository.resolve(strict=True)
         if not sys.platform.startswith("linux"):
             fail("scientific audit replay requires Linux")
         a.output.parent.mkdir(parents=True, exist_ok=True)

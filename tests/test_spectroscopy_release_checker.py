@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -16,6 +17,69 @@ spec.loader.exec_module(gate)
 
 
 class RejectionTests(unittest.TestCase):
+    def test_failed_child_receipt_is_preserved(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            logs = root / "logs"
+            logs.mkdir()
+            output = root / "child.json"
+            receipt = '{"status": "failed", "error": "audit detail"}\n'
+
+            def fail_child(cmd, name):
+                output.write_text(receipt)
+                raise subprocess.CalledProcessError(2, cmd)
+
+            with (
+                patch.object(gate, "LOGS", logs),
+                patch.object(gate, "execute", side_effect=fail_child),
+                self.assertRaises(subprocess.CalledProcessError),
+            ):
+                gate.run("example.audit", [], output)
+            self.assertEqual((logs / output.name).read_text(), receipt)
+
+    def test_candidate_input_revision_and_data_are_bound(self):
+        with tempfile.TemporaryDirectory() as d:
+            inputs = Path(d)
+            name = "data/cthyb/independent-audit-e83d195.json"
+            (inputs / name).parent.mkdir(parents=True)
+            (inputs / name).write_bytes(b"tampered")
+
+            def frozen_git(*args):
+                if args == ("rev-parse", "HEAD"):
+                    return (gate.FROZEN + "\n").encode()
+                if args[0] == "status":
+                    return b""
+                if args[0] == "show":
+                    return b"original"
+                self.fail(f"unexpected frozen git command: {args}")
+
+            with (
+                patch.object(gate, "ROOT", inputs / "frozen"),
+                patch.object(gate, "INPUT_ROOT", inputs),
+                patch.object(gate, "git", side_effect=frozen_git),
+                patch.object(gate.subprocess, "run"),
+                patch.object(gate.subprocess, "check_output", return_value="wrong\n"),
+                self.assertRaisesRegex(
+                    ValueError, "input repository candidate mismatch"
+                ),
+            ):
+                gate.source_check(gate.FROZEN)
+
+            with (
+                patch.object(gate, "ROOT", inputs / "frozen"),
+                patch.object(gate, "INPUT_ROOT", inputs),
+                patch.object(gate, "git", side_effect=frozen_git),
+                patch.object(gate.subprocess, "run"),
+                patch.object(
+                    gate.subprocess, "check_output", return_value=gate.FROZEN + "\n"
+                ) as candidate_git,
+                self.assertRaisesRegex(
+                    ValueError, "bound input repository data changed"
+                ),
+            ):
+                gate.source_check(gate.FROZEN)
+            self.assertEqual(candidate_git.call_args.kwargs["cwd"], inputs)
+
     def test_json_rejects_ambiguity_and_nonfinite(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "e.json"

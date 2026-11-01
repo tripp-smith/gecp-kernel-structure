@@ -59,7 +59,13 @@ All 1,451 new-output files are preserved. The 467 parent and 423 calibration
 input files were byte-compared against the original ZIP and reconstructed from
 existing committed archives. Dedicated Linux replay CI checks pinned hashes,
 rebuilds all 2,341 files, verifies source bindings and reruns the frozen auditors
-without sampling. Recorded versions/module hashes and hash-locked runtime replay
+without sampling. Frozen worker receipts bind absolute native job paths, so
+replay requires the original Linux CI workspace
+`/home/runner/work/gecp-kernel-structure/gecp-kernel-structure` and an empty
+`artifacts` directory. Scientific auditors run from a private frozen checkout;
+the original bound data paths use byte-verified candidate-checkout inputs.
+Failed child audit JSON and logs are retained even when replay stops.
+Recorded versions/module hashes and hash-locked runtime replay
 do not establish bitwise provenance for every compiled dependency.
 
 Previous measured RMS 6.495244 and 2.023200438825109 remain failed. This pass

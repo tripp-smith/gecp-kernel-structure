@@ -18,6 +18,9 @@ from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 FROZEN = "feaac669eb49d700f0059f5be755a9e4403a1719"
+RECORDED_WORKSPACE = Path(
+    "/home/runner/work/gecp-kernel-structure/gecp-kernel-structure"
+)
 ARCHIVES = {
     "spectroscopy-linux-feaac66-passed.tar.gz": (
         "63ac446677a9c36dfb17736e9823582a92ce49c59d85c3c0f393fd35c4ee2576"
@@ -192,6 +195,24 @@ def verified_archives(root):
     return archives
 
 
+def validate_workspace(root):
+    """Frozen worker receipts bind absolute paths in the original Linux runner."""
+    require(
+        root == root.resolve() and root == RECORDED_WORKSPACE,
+        "scientific replay requires the recorded Linux CI workspace: "
+        + str(RECORDED_WORKSPACE),
+    )
+
+
+def prepare_evidence(root):
+    validate_workspace(root)
+    evidence = root / "artifacts"
+    require(not evidence.is_symlink(), "recorded evidence workspace is a symlink")
+    evidence.mkdir(exist_ok=True)
+    require(not any(evidence.iterdir()), "recorded evidence workspace must be empty")
+    return evidence
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -208,8 +229,9 @@ def main():
         ).strip()
         with tempfile.TemporaryDirectory(prefix="gecp-eh-replay-") as temporary:
             base = Path(temporary)
-            evidence = base / "evidence"
-            evidence.mkdir()
+            # Immutable worker receipts contain absolute original CI paths.
+            # Restore that layout; never rewrite path-bearing evidence or auditors.
+            evidence = prepare_evidence(ROOT)
             extract_tar(
                 archives["spectroscopy-linux-feaac66-passed.tar.gz"],
                 evidence,
@@ -247,6 +269,8 @@ def main():
                     str(frozen),
                     "--candidate",
                     candidate,
+                    "--input-repository",
+                    str(ROOT),
                     "--output",
                     str(output),
                 ],
@@ -273,9 +297,18 @@ def main():
         zipfile.BadZipFile,
         subprocess.SubprocessError,
     ) as exc:
-        output.write_text(
-            json.dumps({"status": "failed", "error": str(exc)}, indent=2) + "\n"
-        )
+        failure = {}
+        if output.is_file():
+            try:
+                value = json.loads(output.read_text())
+                if isinstance(value, dict):
+                    failure = value
+            except (OSError, ValueError):
+                pass
+        failure["status"] = "failed"
+        failure.setdefault("error", str(exc))
+        failure["wrapper_error"] = str(exc)
+        output.write_text(json.dumps(failure, indent=2, allow_nan=False) + "\n")
         print("spectroscopy replay failed: " + str(exc), file=sys.stderr)
         return 1
 
