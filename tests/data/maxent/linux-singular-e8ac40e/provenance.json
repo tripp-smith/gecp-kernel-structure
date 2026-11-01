@@ -1,0 +1,13 @@
+{
+  "artifact_id": 12966831986,
+  "artifact_sha256": "d7e369f3b9eab61e03ee1536135bfc5ef101d471eb23fcdec5bdd10403e62690",
+  "case": "offgrid_atoms_correlated-pydlr-broad_gaussian-r0",
+  "files": {
+    "offgrid_atoms_correlated-pydlr-broad_gaussian-r0-dataset.json": "41ad20911854eeebdb87d8455008f76e6647bdf33c86c1c3f7dd8ef0a5fd409d",
+    "offgrid_atoms_correlated-pydlr-broad_gaussian-r0-dataset.npz": "9cc0926aca9c5be2fc529c29f7d5acda05f3fe0edecd8d30119f2858bfab8513"
+  },
+  "run_id": 41032738433,
+  "schema": "kernelgecp.maxent-failure-fixture.v1",
+  "scope": "Consumed synthetic calibration input; not future validation or Monte Carlo acquisition.",
+  "source_revision": "e8ac40ea635293a347082bddb8b16ffd959e6e1b"
+}

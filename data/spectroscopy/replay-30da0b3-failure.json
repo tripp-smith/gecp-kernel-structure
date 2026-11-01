@@ -1,0 +1,12 @@
+{
+  "cause": "Replay wrapper queried wheel distribution metadata for the Conda-native TRIQS namespace.",
+  "error": "No package metadata was found for triqs",
+  "failed_log_sha256": "fd06567fcc48d11c637dfda5273546106071905968dca68b0b07390dccfb7be2",
+  "local_actual_runtime_probe": "Unavailable: older /tmp/gecp-eb-triqs-runtime interpreter could not load codecs on 2026-11-01; no local provider success claimed.",
+  "repair": "Read triqs/triqs_cthyb/triqs_maxent native version modules exactly as the accepted producer does; retain strict equality.",
+  "run_id": 41316332914,
+  "schema": "kernelgecp.spectroscopy-replay-failure.v1",
+  "scientific_data_changed": false,
+  "source_revision": "30da0b35df28877728e343fa6f3c02d539db1526",
+  "status": "failed_before_scientific_audits"
+}

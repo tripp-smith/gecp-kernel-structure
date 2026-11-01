@@ -1,0 +1,155 @@
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	﻿2026-10-30T08:56:08.2261627Z ##[group]Run python -m pytest tests/test_cthyb_dmft.py -q
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2261948Z ^[[36;1mpython -m pytest tests/test_cthyb_dmft.py -q^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2262150Z ^[[36;1mpython -m pytest tests/test_cthyb_fixed_bath.py -q^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2262338Z ^[[36;1mproject_root="$PWD"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2262586Z ^[[36;1mchecked_revision="$(git rev-parse HEAD)"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2262778Z ^[[36;1mcd "$RUNNER_TEMP"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2262969Z ^[[36;1mpython -m pytest "$project_root/tests/test_triqs_integration.py" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2263197Z ^[[36;1m  --import-mode=importlib -q^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2263473Z ^[[36;1mpython "$project_root/scripts/providers/triqs_adapter_smoke.py" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2263724Z ^[[36;1m  --require-installed --source-revision "$checked_revision" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2263960Z ^[[36;1m  --output "$project_root/artifacts/triqs-adapter.json"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2264249Z ^[[36;1mpython -m pytest "$project_root/tests/test_triqs_dmft.py" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2264458Z ^[[36;1m  --import-mode=importlib -q^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2264642Z ^[[36;1mpython "$project_root/scripts/providers/dmft_smoke.py" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2264870Z ^[[36;1m  --require-installed --source-revision "$checked_revision" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2265100Z ^[[36;1m  --output "$project_root/artifacts/dmft-native.json"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2265319Z ^[[36;1mpython "$project_root/scripts/providers/cthyb_smoke.py" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2265552Z ^[[36;1m  --require-installed --source-revision "$checked_revision" \^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2265821Z ^[[36;1m  --output "$project_root/artifacts/cthyb.json"^[[0m
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281336Z shell: /usr/bin/bash -el {0}
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281481Z env:
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281588Z   OMP_NUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281712Z   OPENBLAS_NUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281836Z   MKL_NUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2281956Z   VECLIB_MAXIMUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282087Z   NUMEXPR_NUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282219Z   BLIS_NUM_THREADS: 1
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282352Z   MAMBA_ROOT_PREFIX: /home/runner/micromamba
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282525Z   MAMBA_EXE: /home/runner/micromamba-bin/micromamba
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282723Z   CONDARC: /home/runner/work/_temp/setup-micromamba/.condarc
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:08.2282900Z ##[endgroup]
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:10.5469000Z ........................................                                 [100%]
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0767015Z F.............                                                           [100%]
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0767446Z =================================== FAILURES ===================================
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0768230Z ____________ test_linux_native_runtime_freeze_survives_first_solve _____________
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0768482Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0768610Z     @pytest.mark.skipif(
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0768915Z         sys.platform != "linux" or importlib.util.find_spec("triqs_cthyb") is None,
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0769348Z         reason="canonical Linux acquisition-runtime preflight requires actual CT-HYB",
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0769605Z     )
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0769756Z     def test_linux_native_runtime_freeze_survives_first_solve():
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0770012Z         config = CTHYBConfig(n_iw=8, n_tau=49, warmup_cycles=10)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0770194Z         plan = driver.CTHYBPlan(config)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0770350Z         before = driver.provenance()
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0771157Z         # A separate disposable wiring probe, outside every declared final seed family.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0771451Z >       measured = plan.sample(plan.initial_bath(), cycles=16, seed=32290001)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0771670Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0771787Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0771843Z tests/test_cthyb_fixed_bath.py:25: 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0772017Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0772214Z kernelgecp/integrations/cthyb_dmft.py:340: in sample
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0772575Z     solver.solve(
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0772715Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0772838Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0777810Z self = triqs_cthyb.solver_core.SolverCore [wrapped from C++ object triqs_cthyb::solver_core]
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0778233Z params_kw = {'h_int': 2*c_dag('down',0)*c_dag('up',0)*c('up',0)*c('down',0), 'length_cycle': 50, 'measure_G_tau': True, 'measure_density_matrix': True, ...}
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0778596Z depr_params = {'measure_g_l': 'measure_G_l', 'measure_g_tau': 'measure_G_tau'}
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0778848Z key = 'measure_g_l', perform_post_proc = True, perform_tail_fit = False
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0778989Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0779047Z         def solve(self, **params_kw):
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0779190Z             r"""
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0779354Z             Solve the impurity problem for a given G0_iw. If ``measure_G_tau``
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0779598Z             (default = ``True``), ``G_iw`` and ``Sigma_iw`` will be calculated and
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0779853Z             their tails fitted. In addition to the solver parameters, parameters to
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0780078Z             control the tail fitting can be provided.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0780229Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0780381Z             Moreover, the fundamental property :math:`G_{ij}(i \omega_n) =
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0780646Z             G_{ji}^*(- i \omega_n)` of the input G0_iw is enforced within C++, and
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0781100Z             a warning is printed if the property was not satisfied. Additionally, if
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0781355Z             ``measure_G_tau`` is set to ``True``, the property :math:`G_{ij}(\tau)=
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0781596Z             G_{ji}^*(\tau)` will be also ensured for the measured :math:`G(\tau)`.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0781845Z     	The difference between the original :math:`G(\tau)` and the hermitized
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782113Z     	:math:`G(\tau)` is stored in the object ``asymmetry_G_tau`` of the solver instance.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782314Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782411Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782508Z             Parameters
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782635Z             ----------
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0782811Z             params_kw : dict {'param':value} that is passed to the core solver.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0783096Z                          Two required :class:`parameters <triqs_cthyb.solver_core.SolveParametersT>` are
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0783467Z                             * `h_int` (:ref:`Operator object <triqslibs:operators>`): the local Hamiltonian of the impurity problem to be solved,
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0783777Z                             * `n_cycles` (int): number of measurements to be made.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0783996Z             perform_post_proc : boolean, optional, default = ``True``
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0784213Z                                 Should ``G_iw`` and ``Sigma_iw`` be calculated?
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0784426Z             perform_tail_fit : boolean, optional, default = ``False``
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0784649Z                                Should the tails of ``Sigma_iw`` and ``G_iw`` be fitted?
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0784865Z             fit_max_moment : integer, optional, default = 3
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0785065Z                              Highest moment to fit in the tail of ``Sigma_iw``.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0785344Z             fit_known_moments : ``ndarray.shape[order, Sigma_iw[0].target_shape]``, optional, default = None
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0785766Z                                 Known moments of Sigma_iw, given as an numpy ndarray
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0785997Z             fit_min_n : integer, optional, default = ``int(0.8 * self.n_iw)``
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0786206Z                         Index of ``iw`` from which to start fitting.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0786397Z             fit_max_n : integer, optional, default = ``n_iw``
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0786579Z                         Index of ``iw`` to fit until.
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0786729Z             """
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0786833Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787076Z             # -- Deprecation checks for measure parameters
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787232Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787340Z             depr_params = dict(
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787485Z                 measure_g_tau='measure_G_tau',
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787640Z                 measure_g_l='measure_G_l',
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787777Z                 )
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0787886Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788001Z             for key in list(depr_params.keys()):
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788165Z                 if key in list(params_kw.keys()):
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788374Z                     print('WARNING: cthyb.solve parameter %s is deprecated use %s.' % \
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788586Z                         (key, depr_params[key]))
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788749Z                     val = params_kw.pop(key)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0788910Z                     params_kw[depr_params[key]] = val
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789058Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789167Z             # -- Tail post proc flags
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789309Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789453Z             perform_post_proc = params_kw.pop("perform_post_proc", True)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789679Z             perform_tail_fit = params_kw.pop("perform_tail_fit", False)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789851Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0789972Z             if perform_post_proc and perform_tail_fit:
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0790210Z                 # If tail parameters provided for Sigma_iw fitting, use them, otherwise use defaults
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0790561Z                 if not (("fit_min_n" in params_kw) or ("fit_max_n" in params_kw) or ("fit_max_w" in params_kw) or ("fit_min_w" in params_kw)):
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0790914Z                     if mpi.is_master_node():
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0791149Z                         warning = ("!------------------------------------------------------------------------------------!\n"
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0791482Z                                    "! WARNING: Using default high-frequency tail fitting parameters in the CTHYB solver. !\n"
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0791828Z                                    "! You should check that the fitting range is suitable for your calculation!          !\n"
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0792136Z                                    "!------------------------------------------------------------------------------------!")
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0792352Z                         print(warning)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0792516Z                 fit_min_n = params_kw.pop("fit_min_n", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0792700Z                 fit_max_n = params_kw.pop("fit_max_n", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0792883Z                 fit_min_w = params_kw.pop("fit_min_w", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793060Z                 fit_max_w = params_kw.pop("fit_max_w", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793252Z                 fit_max_moment = params_kw.pop("fit_max_moment", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793468Z                 fit_known_moments = params_kw.pop("fit_known_moments", None)
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793646Z     
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793758Z             # Call the core solver's solve routine
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0793971Z >           solve_status = SolverCore.solve(self, SolveParametersT(**params_kw))
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0794186Z                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0794359Z E           RuntimeError: .. Error  : 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0794503Z E           Triqs runtime error
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0794908Z E               at /home/conda/feedstock_root/build_artifacts/triqs_1786400867592/work/c++/triqs/gfs/functions/./../../mesh/./tail_fitter.hpp : 328
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0795205Z E           
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0795407Z E           Error in tail-fitter::setup_lss: Insufficient data points for least square procedure
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0795638Z E           Exception was thrown on node
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0795736Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0795904Z ../../../micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/triqs_cthyb/solver.py:152: RuntimeError
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0796229Z ----------------------------- Captured stdout call -----------------------------
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0796514Z Warning: could not identify MPI environment!
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0796709Z ----------------------------- Captured stderr call -----------------------------
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0796915Z Starting serial run at: 2026-10-30 08:56:11.505451
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0797132Z WARNING: Tail fit in extraction of delta(infty) has large error of: 0.00139551
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0797389Z WARNING: Tail fit in extraction of delta(infty) has large error of: 0.00139551
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0797617Z =========================== short test summary info ============================
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0797929Z FAILED tests/test_cthyb_fixed_bath.py::test_linux_native_runtime_freeze_survives_first_solve - RuntimeError: .. Error  : 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0798206Z Triqs runtime error
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0798471Z     at /home/conda/feedstock_root/build_artifacts/triqs_1786400867592/work/c++/triqs/gfs/functions/./../../mesh/./tail_fitter.hpp : 328
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0798718Z 
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0798839Z Error in tail-fitter::setup_lss: Insufficient data points for least square procedure
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.0799064Z Exception was thrown on node
+triqs (ubuntu-24.04, linux-64)	Test actual installed TRIQS interoperability outside the checkout	2026-10-30T08:56:13.1329575Z ##[error]Process completed with exit code 1.

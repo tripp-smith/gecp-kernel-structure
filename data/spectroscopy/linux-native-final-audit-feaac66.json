@@ -1,0 +1,84 @@
+{
+  "auditor_revision": "feaac669eb49d700f0059f5be755a9e4403a1719",
+  "auditor_sha256": "90ff4e26253b3a91b0e3a40995b375d5c729fbe9d27abc5e64ebcb486d0c661c",
+  "binding_sha256": "5bc4c31f5a8fbe4fbe07dd1079282c2488718745cb061498211a2a730ebb59f0",
+  "calibration_sha256": "7802574520ee1a2bf83dbb9c361c98dbb9952dc34bd8ca05f948e2f2379908b3",
+  "campaign_sha256": "c629f2b0faa3678c5fff195566c5193743b734c44e9072ff63c80ee39f3437b5",
+  "cases": 24,
+  "default_sensitivity": {
+    "kernelgecp-r0": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "kernelgecp-r1": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "kernelgecp-r2": [
+      0.0001685593209422298,
+      0.0004985679673392696,
+      -0.0006671272882816659
+    ],
+    "pydlr-r0": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "pydlr-r1": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "pydlr-r2": [
+      -0.0003901423593343778,
+      0.002268749182195995,
+      -0.0018786068228620056
+    ],
+    "raw-r0": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "raw-r1": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "raw-r2": [
+      -8.58198486571593e-05,
+      0.003094212873754998,
+      -0.003008393025098699
+    ],
+    "sparse_ir-r0": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ],
+    "sparse_ir-r1": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ],
+    "sparse_ir-r2": [
+      -0.00039276475944344247,
+      0.0022696221080237278,
+      -0.0018768573485806739
+    ]
+  },
+  "gates": {
+    "bootstrap_and_defaults": true,
+    "covariance_and_projection": true,
+    "ee_source_and_raw_chains": true,
+    "fresh_process_receipts": true,
+    "frozen_protocol_and_hashes": true,
+    "heldout_rms": true,
+    "native_trials_and_quadrature": true,
+    "repeat_arrays": true
+  },
+  "kind": "final",
+  "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+  "scope": "heldout chain mean only; finite native model, no truth CDF, nonlinear coverage or unique spectrum claim",
+  "status": "passed"
+}

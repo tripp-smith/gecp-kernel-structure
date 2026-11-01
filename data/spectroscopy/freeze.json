@@ -1,0 +1,72 @@
+{
+  "calibration_manifest_sha256": "1b8d16a7ccaf9477e91175c39d0f329c0030200f47572971dbf719f1fc353d38",
+  "controls": {
+    "bootstrap_first_repeat": 8,
+    "calibration_query_order": 24,
+    "calibration_seeds": [
+      101,
+      102,
+      103
+    ],
+    "cases": [
+      "offgrid_atoms_independent",
+      "offgrid_atoms_correlated",
+      "smooth_correlated"
+    ],
+    "defaults": [
+      "flat",
+      "broad_gaussian"
+    ],
+    "eps": 1e-08,
+    "final_query_order": 36,
+    "final_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "methods": [
+      "raw",
+      "kernelgecp",
+      "pydlr",
+      "sparse_ir"
+    ],
+    "n_alpha": 33,
+    "n_omega": 401,
+    "repeats": 3
+  },
+  "provenance": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.16",
+    "python_executable": "/private/tmp/gecp-eb-triqs-runtime/bin/python3.12",
+    "source_hashes": {
+      "environments/locks/dlr-physics-pip.txt": "94067120d51ac68e65411f92b0ed73ca0afcb670cc2983505026b6bd22586936",
+      "environments/locks/triqs-linux-64-conda-explicit.txt": "36ecb181a14c9656e12629fdebadb3a3ed64c225ee54d2df3cc8b932714026db",
+      "environments/locks/triqs-maxent-pip.txt": "1c5797d997da3c59c74b232e114f81a979e4f0d254c7cf7759d7fd2b5d122b98",
+      "experiments/audit_spectroscopy.py": "ea6a8bd3864fd1bc531ad61b96d0eec85a605e2f0ada3863a4dc817c1d39fcf9",
+      "experiments/dlr_adapters.py": "cd7c9cc6bea7ed9f5fece73210d5f0c1bd9610f0de6cd81d9b9ad3cf3769c344",
+      "experiments/spectroscopy.py": "cb88efb01a89b48627225ff426877f13e7b1341bef262f49f0a81a71b05ba9bf",
+      "experiments/spectroscopy_campaign.py": "2590168bfe20784129f2e9a93a0bac7d76823558b0f9761114ef72135b1ed4ca",
+      "kernelgecp/basis.py": "06fdf3443c1ad18e5ce9b5091538e5f7412a8fddd31ecb863eaa2a39dcdd7887",
+      "kernelgecp/fitting.py": "a2cb643d6af3fcffb5c47d60fbe969d13930cce4feec45ad55ea7e727d6a8371",
+      "kernelgecp/integrations/maxent.py": "2e337ea41684299fe4975269af8a32f2447aa769fb974bbf59f6e959aac5f9d8"
+    },
+    "source_revision": "dc97680a0fa01789cefd1b699a3fb4c0f00a2699",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "tracked_clean": true,
+    "versions": {
+      "numpy": "2.2.6",
+      "pydlr": "1.0.1",
+      "scipy": "1.18.1",
+      "sparse-ir": "2.1.6"
+    }
+  },
+  "schema": "kernelgecp.spectroscopy-freeze.v1",
+  "scope": "fixed controls; final seeds and query order differ from calibration; no data-driven control search",
+  "status": "passed"
+}

@@ -1,0 +1,20 @@
+{
+  "audit_revision": "feaac669eb49d700f0059f5be755a9e4403a1719",
+  "audit_source_sha256": "f9c1e9e087611ec233e33360582b01571ab63f95463c1b0ce9e4f3894256325f",
+  "calibration": {
+    "audit_sha256": "e820e6fd237bd8ad82775847e198c71d34480c691eba778d6f3726a1d12616e7",
+    "auditor_revision": "feaac669eb49d700f0059f5be755a9e4403a1719",
+    "auditor_sha256": "90ff4e26253b3a91b0e3a40995b375d5c729fbe9d27abc5e64ebcb486d0c661c",
+    "binding_sha256": "bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88",
+    "receipt_sha256": "7802574520ee1a2bf83dbb9c361c98dbb9952dc34bd8ca05f948e2f2379908b3"
+  },
+  "chain_count": 256,
+  "claim_scope": "fixed_bath_raw_cohort_only_not_EE_campaign",
+  "heldout_count": 128,
+  "manifest_sha256": "beff8dfe1b2d9176ba14f8eba4ce78898f6f7fd0d482f0db8656846d40aae3cd",
+  "parent_binding_sha256": "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd",
+  "result_sha256": "12b7513cfc506d32fae8e8a65072a2852aec8f9199553c8ed492ee58eb28dd81",
+  "schema": "kernelgecp.cthyb-fixed-bath-audit.v1",
+  "status": "passed",
+  "train_count": 128
+}

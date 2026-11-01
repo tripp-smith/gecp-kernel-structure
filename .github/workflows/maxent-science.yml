@@ -1,0 +1,274 @@
+name: Covariance-aware MaxEnt spectroscopy
+
+on:
+  push:
+    branches: [main, "codex/phase-eh-covariance-maxent"]
+    paths:
+      - .github/workflows/maxent-science.yml
+      - .github/workflows/cthyb-fixed-bath-segment.yml
+      - kernelgecp/**
+      - experiments/*spectroscopy*.py
+      - experiments/data/cthyb_9d28053_campaign.tar.gz
+      - data/cthyb/*.json
+      - environments/locks/triqs*
+      - environments/locks/dlr-physics-pip.txt
+      - tests/test_maxent*.py
+      - tests/test_*spectroscopy*.py
+  pull_request:
+    paths:
+      - .github/workflows/maxent-science.yml
+      - .github/workflows/cthyb-fixed-bath-segment.yml
+      - kernelgecp/**
+      - experiments/*spectroscopy*.py
+      - experiments/data/cthyb_9d28053_campaign.tar.gz
+      - data/cthyb/*.json
+      - environments/locks/triqs*
+      - environments/locks/dlr-physics-pip.txt
+      - tests/test_maxent*.py
+      - tests/test_*spectroscopy*.py
+  workflow_dispatch:
+    inputs:
+      acquire_fixed_bath:
+        description: Acquire the single predeclared cohort; never rerun after acquisition starts
+        type: boolean
+        default: false
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: maxent-science-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  BLIS_NUM_THREADS: "1"
+
+jobs:
+  installed-provider:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: linux-64
+          - os: macos-15
+            platform: osx-arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-${{ matrix.platform }}-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Install pinned actual continuation and comparison providers
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -c 'from triqs_maxent import TauMaxEnt; from triqs.gfs import GfImTime; import pydlr, sparse_ir'
+          python -m pip install pytest==9.0.3
+      - name: Build and install the actual candidate wheel
+        run: |
+          mkdir -p artifacts/dist
+          python -m pip wheel --no-deps . --wheel-dir artifacts/dist
+          python -m pip install --no-deps --force-reinstall artifacts/dist/*.whl
+      - name: Test installed continuation outside the checkout
+        run: |
+          project_root="$PWD"
+          cd "$RUNNER_TEMP"
+          python -c 'import kernelgecp; from pathlib import Path; assert "site-packages" in str(Path(kernelgecp.__file__).resolve())'
+          python -m pytest "$project_root/tests/test_maxent_covariance.py" --import-mode=importlib -q
+          python -m pip freeze --all > "$project_root/artifacts/maxent-pip-freeze.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maxent-installed-${{ matrix.platform }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  scientific-campaign:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Require the pinned actual scientific runtime
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install pytest==9.0.3
+          python -c 'from triqs_maxent import TauMaxEnt; import triqs_cthyb, pydlr, sparse_ir'
+      - name: Calibrate synthetic fixtures and audit independently
+        run: |
+          python -m experiments.spectroscopy_campaign calibration --output artifacts/calibration --freeze artifacts/freeze.json
+          python -m experiments.audit_spectroscopy --manifest artifacts/calibration/campaign.json --freeze artifacts/freeze.json --output artifacts/calibration-audit.json
+      - name: Run and independently audit all 72 frozen final cases
+        run: |
+          python -m experiments.spectroscopy_campaign campaign --output artifacts/campaign --freeze artifacts/freeze.json
+          python -m experiments.audit_spectroscopy --manifest artifacts/campaign/campaign.json --freeze artifacts/freeze.json --output artifacts/campaign-audit.json
+      - name: Extract the attributed independently audited CT-HYB observations
+        run: |
+          mkdir -p artifacts/cthyb-input
+          python -c 'import tarfile; t=tarfile.open("experiments/data/cthyb_9d28053_campaign.tar.gz"); t.extractall("artifacts/cthyb-input", filter="data")'
+      - name: Calibrate measured-data continuation and audit independently
+        run: |
+          python -m experiments.cthyb_spectroscopy artifacts/cthyb-input/gecp-ee-odd-9d28053 \
+            --audit-receipt data/cthyb/independent-audit-e83d195.json \
+            --audit-binding data/cthyb/audit-binding-e83d195.json \
+            --binding-sha256 bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88 \
+            --stage calibration --output-dir artifacts/native-calibration
+          python -m experiments.audit_cthyb_spectroscopy artifacts/native-calibration/calibration.json \
+            --ee-root artifacts/cthyb-input/gecp-ee-odd-9d28053 \
+            --ee-audit data/cthyb/independent-audit-e83d195.json \
+            --ee-binding data/cthyb/audit-binding-e83d195.json \
+            --output artifacts/native-calibration-audit.json
+      - name: Record the executed scientific runtime
+        run: |
+          python scripts/providers/export_conda_lock.py --explicit artifacts/conda-explicit.txt --inventory artifacts/conda-inventory.json
+          python -m pip freeze --all > artifacts/pip-freeze.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maxent-calibration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  fixed-bath-a:
+    if: github.event_name == 'workflow_dispatch' && inputs.acquire_fixed_bath == true
+    needs: [installed-provider, scientific-campaign]
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: a
+      previous: ''
+      max_new: 64
+      expected: 64
+
+  fixed-bath-b:
+    needs: fixed-bath-a
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: b
+      previous: a
+      max_new: 64
+      expected: 128
+
+  fixed-bath-c:
+    needs: fixed-bath-b
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: c
+      previous: b
+      max_new: 64
+      expected: 192
+
+  fixed-bath-d:
+    needs: fixed-bath-c
+    uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
+    with:
+      segment: d
+      previous: c
+      max_new: 64
+      expected: 256
+
+  fixed-bath-final:
+    needs: fixed-bath-d
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Require all pinned scientific providers
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+          python -m pip install pytest==9.0.3
+          python -c 'from triqs_maxent import TauMaxEnt; import triqs_cthyb, pydlr, sparse_ir'
+      - uses: actions/download-artifact@v4
+        with:
+          name: maxent-calibration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: fixed-bath-d-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/fixed-bath
+      - name: Extract the accepted parent and independently audit the new cohort
+        run: |
+          python - <<'PYEXTRACT'
+          from pathlib import Path
+          from experiments.replay_cthyb_acceptance import extract, digest, ZIP_SHA, BINDING_SHA
+          archive = Path('experiments/data/cthyb-linux-7200ec0-passed.zip')
+          binding = Path('data/cthyb/linux-audit-binding-7200ec0.json')
+          assert digest(archive) == ZIP_SHA and digest(binding) == BINDING_SHA
+          extract(archive, Path('artifacts/parent'))
+          PYEXTRACT
+          python -m experiments.audit_cthyb_fixed_bath \
+            --folder artifacts/fixed-bath --parent-dir artifacts/parent \
+            --parent-binding data/cthyb/linux-audit-binding-7200ec0.json \
+            --receipt artifacts/fixed-bath-audit.json --binding artifacts/fixed-bath-binding.json \
+            --calibration artifacts/native-calibration/calibration.json \
+            --calibration-audit artifacts/native-calibration-audit.json
+      - name: Run all 24 frozen measured workers and audit independently
+        run: |
+          calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
+          calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
+          binding_hash=$(sha256sum artifacts/fixed-bath-binding.json | cut -d ' ' -f1)
+          python -m experiments.cthyb_spectroscopy artifacts/fixed-bath \
+            --audit-receipt artifacts/fixed-bath-audit.json --audit-binding artifacts/fixed-bath-binding.json \
+            --binding-sha256 "$binding_hash" --stage final --output-dir artifacts/native-final \
+            --calibration artifacts/native-calibration/calibration.json --calibration-sha256 "$calibration_hash" \
+            --calibration-audit artifacts/native-calibration-audit.json --calibration-audit-sha256 "$calibration_audit_hash"
+          python -m experiments.audit_cthyb_spectroscopy artifacts/native-final/final.json \
+            --ee-root artifacts/fixed-bath --ee-audit artifacts/fixed-bath-audit.json \
+            --ee-binding artifacts/fixed-bath-binding.json \
+            --calibration artifacts/native-calibration/calibration.json \
+            --calibration-audit artifacts/native-calibration-audit.json --output artifacts/native-final-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maxent-fixed-bath-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,26 @@
+{
+  "error": "TRIQS tail_fitter setup_lss: Insufficient data points for least square procedure",
+  "failed_fixture": {
+    "cycles": 16,
+    "n_iw": 8,
+    "n_tau": 49,
+    "seed": 32290001,
+    "warmup_cycles": 10
+  },
+  "platform": "linux-64",
+  "production_config_changed": false,
+  "remaining_gate": "Actual Linux preflight must pass at the new source before acquisition.",
+  "replacement_fixture": {
+    "cycles": 2000,
+    "n_iw": 32,
+    "n_tau": 385,
+    "seed": 32290001,
+    "warmup_cycles": 500
+  },
+  "retained_log_sha256": "b94ccb14d54362997b7a016a48733370f5c825797742f34d2060f5b3579c2861",
+  "run_id": 41029454857,
+  "schema": "kernelgecp.fixed-bath-preflight-failure.v1",
+  "scope": "Disposable wiring fixture failed before runtime identity comparison; no final 32100001+2*i acquisition occurred.",
+  "source_revision": "d2d9fc689b896e3b66cac61cf000611b41ee93ab",
+  "status": "failed"
+}

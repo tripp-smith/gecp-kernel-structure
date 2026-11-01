@@ -70,6 +70,7 @@ jobs:
       - name: Test actual installed TRIQS interoperability outside the checkout
         run: |
           python -m pytest tests/test_cthyb_dmft.py -q
+          python -m pytest tests/test_cthyb_fixed_bath.py -q
           project_root="$PWD"
           checked_revision="$(git rev-parse HEAD)"
           cd "$RUNNER_TEMP"
