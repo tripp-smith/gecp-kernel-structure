@@ -77,6 +77,32 @@ class ReplayTests(unittest.TestCase):
                 invoke.assert_not_called()
             self.assertIn("archive hash mismatch", output.read_text())
 
+    def test_native_provider_versions_do_not_require_distribution_metadata(self):
+        from types import SimpleNamespace
+
+        native = {"triqs": "4.0.2", "triqs_cthyb": "4.0.1", "triqs_maxent": "4.0.1"}
+
+        def distribution(name):
+            if name in native:
+                raise AssertionError("Conda native namespaces have no wheel metadata")
+            return "declared-python-distribution"
+
+        with (
+            patch.object(
+                replay.importlib.metadata, "version", side_effect=distribution
+            ),
+            patch.object(
+                replay.importlib,
+                "import_module",
+                side_effect=lambda name: SimpleNamespace(
+                    version=native[name.removesuffix(".version")]
+                ),
+            ),
+        ):
+            actual = replay.runtime_versions()
+        self.assertEqual({name: actual[name] for name in native}, native)
+        self.assertEqual(len(actual), 9)
+
     def test_native_source_change_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             checkout = Path(directory) / "frozen"

@@ -131,6 +131,17 @@ def extract_zip(archive, destination):
                     out.write(chunk)
 
 
+def runtime_versions():
+    """Use each provider's actual version interface, including Conda namespaces."""
+    versions = {
+        name: importlib.metadata.version(name)
+        for name in ("numpy", "scipy", "mpmath", "pydlr", "sparse-ir", "pylibsparseir")
+    }
+    for name in ("triqs", "triqs_cthyb", "triqs_maxent"):
+        versions[name] = str(importlib.import_module(name + ".version").version)
+    return versions
+
+
 def require_runtime(evidence):
     require(sys.platform.startswith("linux"), "Linux required for scientific replay")
     require(
@@ -154,11 +165,12 @@ def require_runtime(evidence):
     require(
         sys.version == snapshot["python"], "Python runtime differs from calibration"
     )
+    versions = runtime_versions()
+    require(
+        set(versions) == set(snapshot["packages"]), "runtime package inventory mismatch"
+    )
     for name, expected in snapshot["packages"].items():
-        require(
-            importlib.metadata.version(name) == expected,
-            "provider version mismatch: " + name,
-        )
+        require(versions[name] == expected, "provider version mismatch: " + name)
     for name, record in snapshot["provider_modules"].items():
         module = importlib.import_module(name)
         require(

@@ -12657,3 +12657,16 @@ Scientific acceptance passes. Final full root, actual Linux replay, exact-head
 CI, authorized merge and synchronized exact-main checks remain delivery gates.
 The source-level replay tests include a real isolated Git/native mutation;
 structural preflight is explicitly not a scientific acceptance receipt.
+
+
+EH replay-wrapper failure at 30da0b3: Linux CI 41316332914 stops before audits
+because the pinned Conda TRIQS namespace has native version metadata rather
+than a wheel distribution record. Preserve the failed receipt. Read the three
+native version modules exactly as the accepted producer does, retaining exact
+version comparisons for all nine packages. Nine focused replay tests pass.
+The older local temporary Conda prefix no longer loads Python codecs, so its
+attempted getter probe is unavailable and is not counted as provider evidence.
+Fresh Linux CI must validate the actual repaired reader and independent audits.
+The earlier local root run overlapped the wrapper edit; it is superseded as an
+acceptance receipt. Freeze a new commit and repeat full verification. No native
+measurement, scientific parameter, source-generation field or budget changed.
