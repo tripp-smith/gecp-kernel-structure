@@ -2,7 +2,7 @@ name: Covariance-aware MaxEnt spectroscopy
 
 on:
   push:
-    branches: [main, "codex/phase-eh-covariance-maxent"]
+    branches: [main, "codex/phase-eh-covariance-maxent", "codex/eh-conditioned-projection"]
     paths:
       - .github/workflows/maxent-science.yml
       - .github/workflows/cthyb-fixed-bath-segment.yml
@@ -13,6 +13,8 @@ on:
       - environments/locks/triqs*
       - environments/locks/dlr-physics-pip.txt
       - tests/test_maxent*.py
+      - tests/test_projection_precision*.py
+      - scripts/providers/projection_precision_smoke.py
       - tests/test_*spectroscopy*.py
   pull_request:
     paths:
@@ -25,6 +27,8 @@ on:
       - environments/locks/triqs*
       - environments/locks/dlr-physics-pip.txt
       - tests/test_maxent*.py
+      - tests/test_projection_precision*.py
+      - scripts/providers/projection_precision_smoke.py
       - tests/test_*spectroscopy*.py
   workflow_dispatch:
     inputs:
@@ -92,8 +96,19 @@ jobs:
           project_root="$PWD"
           cd "$RUNNER_TEMP"
           python -c 'import kernelgecp; from pathlib import Path; assert "site-packages" in str(Path(kernelgecp.__file__).resolve())'
-          python -m pytest "$project_root/tests/test_maxent_covariance.py" --import-mode=importlib -q
+          python -m pytest "$project_root/tests/test_maxent_covariance.py" \
+            "$project_root/tests/test_projection_precision.py" \
+            "$project_root/tests/test_projection_precision_review.py" --import-mode=importlib -q
           python -m pip freeze --all > "$project_root/artifacts/maxent-pip-freeze.txt"
+      - name: Validate installed provider projection matrices
+        run: |
+          project_root="$PWD"
+          revision="$(git rev-parse HEAD)"
+          cd "$RUNNER_TEMP"
+          env -u PYTHONPATH python "$project_root/scripts/providers/projection_precision_smoke.py" \
+            --source-root "$project_root" --source-revision "$revision" \
+            --require-installed \
+            --output "$project_root/artifacts/projection-precision-${{ matrix.platform }}.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,6 +1,6 @@
 # MaxEnt spectroscopy evidence
 
-Scientific acceptance passes at frozen `feaac669` in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). Delivery verification remains in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). Sections named for older sources are historical; both measured failures remain failed and consumed.
+The frozen `feaac669` campaign passed its original run, but merged main `3bc726b` fails independent projection replay. EH delivery remains open ([canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288)). [Diagnostic PR #145](https://github.com/tripp-smith/gecp-kernel-structure/pull/145) and the explicit-precision corrective branch preserve the failure; no new calibration or untouched final validation is claimed.
 
 ## Accepted Linux scientific campaign
 
@@ -253,3 +253,22 @@ New candidate calibration must pass before untouched synthetic final seeds
 measured failures remain consumed evidence. The 256 raw fixed-bath measurements,
 128/128 split and all 24 measured final workers remain unexecuted mandatory
 gates; a successful unit diagnostic or ordinary CI cannot close them.
+
+
+## Corrective explicit-precision provider checks (in progress)
+
+The opt-in projection mode uses declared higher-precision QR followed by the
+cached SVD on rounded orthogonal coordinates. It keeps the original rank,
+cutoff and conditioning, immutable source/decomposition inputs and portable
+hashes. The default remains binary64; unsupported truncated/cross-mesh requests
+fail. The MP resource cap precedes factorization. No scientific tolerance changes.
+
+`projection_precision_smoke.py` checks the actual installed candidate outside
+the checkout with the real pyDLR/IR providers and the GECP basis. It compares
+the exact single source design with a repeated provider evaluation, verifies
+module and noneditable-wheel identities, and uses separate 80-digit SVD plus
+complex-kernel/covariance probes. The Linux/macOS pinned runtime lanes must run
+this check. Its status concerns projection matrices only, with no native
+sampling, TauMaxEnt calibration or final scientific acceptance. Previously
+observed final data remain observed; a complete source-bound repair validation
+contract remains required.

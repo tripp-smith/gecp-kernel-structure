@@ -12746,3 +12746,15 @@ cross-mesh default, and projected archive provenance round-trip coverage.
 The earlier frozen cd2fa1a root passes 2,640 tests/42 optional skips. These later
 review fixes require a new frozen-head full verification; no numerical
 acceptance tolerance, canonical data, production campaign or default changes.
+
+
+Actual installed-provider precision validation is a separate next gate. The
+new bounded smoke checks real GECP/pyDLR/IR designs outside the checkout on both
+pinned Linux/macOS runtimes, ties three imported modules and wheel RECORD to
+the candidate, records repeated-design byte equality and original/transformed
+diagnostics, and compares against independent 80-digit SVD with the unchanged
+projector budget plus a tighter 1e-13 check. It also verifies complete covariance
+and complex kernel propagation with deterministic fixtures. Default binary64
+errors remain visible. Its status is matrix-only, never scientific eligibility.
+The existing native continuation tests remain. No manual scientific campaign,
+calibration or acquisition is launched by this change.

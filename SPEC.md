@@ -3244,3 +3244,11 @@ projector budget. The failed main replay remains failed; no provider campaign
 or new canonical sampling is launched by this step. Full verification and new
 source-bound calibration/final validation remain required. No original
 mathematical goal or numerical acceptance tolerance changes.
+
+
+EH precision-runtime annotation (2026-11-02): add candidate-installed real
+GECP/pyDLR/IR matrix probes on the pinned Linux/macOS provider lanes, with
+source/wheel identities, repeated-design hashes and an independent high-precision
+oracle. These checks do not close continuation, calibration, untouched final
+validation or release obligations. The scientific tolerances and original
+mathematical goals remain unchanged.
