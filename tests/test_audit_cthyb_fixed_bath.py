@@ -51,7 +51,7 @@ def test_parent_binding_and_source_blob_are_valid(monkeypatch):
     assert binding["status"] == "passed"
     assert bath.shape == (512,)
     assert len(seeds) == 208
-    assert not set(range(32100001, 32100513, 2)) & seeds
+    assert not set(range(33100001, 33100513, 2)) & seeds
 
 
 @pytest.mark.skipif(
@@ -94,9 +94,11 @@ def test_orphan_missing_and_source_mismatch_fail_closed(tmp_path, monkeypatch):
         "bath_bytes_sha256": hashlib.sha256(bath.tobytes()).hexdigest(),
     }
     manifest = {
-        "schema": "kernelgecp.cthyb-fixed-bath.v1",
+        "schema": "kernelgecp.cthyb-fixed-bath.v2",
         "protocol": {
-            "seeds": list(range(32100001, 32100513, 2)),
+            "profile": "corrective_projection_v2",
+            "projection_precision_bits": 256,
+            "seeds": list(range(33100001, 33100513, 2)),
             "train_count": 128,
             "cycles": 1600000,
             "segment_seconds": 14400,
@@ -130,7 +132,7 @@ def test_orphan_missing_and_source_mismatch_fail_closed(tmp_path, monkeypatch):
     write(
         folder / "result.json",
         {
-            "schema": "kernelgecp.cthyb-fixed-bath-result.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-result.v2",
             "status": "complete",
             "manifest_sha256": audit.sha(folder / "manifest.json"),
             "chains": [{}] * 256,
@@ -176,7 +178,7 @@ def test_full_synthetic_inventory_and_tamper(tmp_path, monkeypatch):
     original = audit.read_json(PARENT / "dense-final/replica-00.json")
     source = PARENT / "dense-final/replica-00.npz"
     bath = audit.arrays(source)["bath_iw"]
-    seeds = list(range(32100001, 32100513, 2))
+    seeds = list(range(33100001, 33100513, 2))
     ref = {
         "binding_sha256": audit.PARENT_BINDING_SHA256,
         "audit_sha256": binding["audit_receipt_sha256"],
@@ -199,8 +201,10 @@ def test_full_synthetic_inventory_and_tamper(tmp_path, monkeypatch):
         )
     }
     manifest = {
-        "schema": "kernelgecp.cthyb-fixed-bath.v1",
+        "schema": "kernelgecp.cthyb-fixed-bath.v2",
         "protocol": {
+            "profile": "corrective_projection_v2",
+            "projection_precision_bits": 256,
             "seeds": seeds,
             "train_count": 128,
             "cycles": 1600000,
@@ -243,7 +247,7 @@ def test_full_synthetic_inventory_and_tamper(tmp_path, monkeypatch):
             "arrays_sha256": audit.sha(source),
         }
         timing = {
-            "schema": "kernelgecp.cthyb-fixed-bath-timing.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-timing.v2",
             "seed": seed,
             "elapsed_seconds": 1,
             "peak_rss_bytes": 1,
@@ -258,7 +262,7 @@ def test_full_synthetic_inventory_and_tamper(tmp_path, monkeypatch):
     write(
         folder / "result.json",
         {
-            "schema": "kernelgecp.cthyb-fixed-bath-result.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-result.v2",
             "manifest_sha256": manifest_hash,
             "status": "complete",
             "chains": chains,
@@ -380,7 +384,7 @@ def test_calibration_freeze_and_adversarial_changes(tmp_path, monkeypatch):
                 "array_sha256": audit.sha(archive),
             }
     cal = {
-        "schema": "kernelgecp.cthyb-spectroscopy-calibration.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-calibration.v2",
         "status": "passed",
         "binding_sha256": audit.CAL_BINDING,
         "cohort": {
@@ -392,6 +396,15 @@ def test_calibration_freeze_and_adversarial_changes(tmp_path, monkeypatch):
             "binding_sha256": audit.CAL_BINDING,
         },
         "protocol": {
+            "profile": "corrective_projection_v2",
+            "projection_precision_bits": 256,
+            "parent_generation_revision": audit.PARENT_REVISION,
+            "final_generation_revision_policy": "equal_campaign_snapshot_revision",
+            "final_seed_base": 33100001,
+            "final_seed_stride": 2,
+            "final_chain_count": 256,
+            "final_training_count": 128,
+            "final_heldout_count": 128,
             "methods": methods,
             "default_models": defaults,
             "eps": 1e-10,
@@ -413,7 +426,7 @@ def test_calibration_freeze_and_adversarial_changes(tmp_path, monkeypatch):
     write(calibration, cal)
     cal_hash = audit.sha(calibration)
     receipt = {
-        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v2",
         "status": "passed",
         "kind": "calibration",
         "cases": 8,
@@ -433,6 +446,25 @@ def test_calibration_freeze_and_adversarial_changes(tmp_path, monkeypatch):
         "auditor_sha256": source_hash,
     }
     audit.validate_calibration(calibration, audit_path, ref, provenance)
+    # Controls must fail even if an altered calibration is rehashed into the freeze.
+    for key, value in (("profile", "old"), ("projection_precision_bits", 53)):
+        original = cal["protocol"][key]
+        cal["protocol"][key] = value
+        write(calibration, cal)
+        ref["receipt_sha256"] = audit.sha(calibration)
+        receipt["campaign_sha256"] = ref["receipt_sha256"]
+        receipt["calibration_sha256"] = ref["receipt_sha256"]
+        write(audit_path, receipt)
+        ref["audit_sha256"] = audit.sha(audit_path)
+        with pytest.raises(ValueError, match="calibration controls mismatch"):
+            audit.validate_calibration(calibration, audit_path, ref, provenance)
+        cal["protocol"][key] = original
+    write(calibration, cal)
+    ref["receipt_sha256"] = audit.sha(calibration)
+    receipt["campaign_sha256"] = ref["receipt_sha256"]
+    receipt["calibration_sha256"] = ref["receipt_sha256"]
+    write(audit_path, receipt)
+    ref["audit_sha256"] = audit.sha(audit_path)
     # Rebinding a failed audit must not convert it into a pass.
     receipt["gates"]["heldout_rms"] = False
     write(audit_path, receipt)

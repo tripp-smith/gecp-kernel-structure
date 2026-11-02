@@ -232,8 +232,10 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 3001) + i,
+                        "seed": (101 if calibration else 4001) + i,
                         "eps": 1e-8,
+                        "rcond": 1e-10,
+                        "precision_bits": 53,
                         "n_omega": 401,
                         "n_alpha": 33,
                         "minimizer_mu0": 1e-8,
@@ -331,12 +333,27 @@ def audit_case(path, job=None, full=True):
     result = read(path)
     npz = path.with_suffix(".npz")
     require(
-        result.get("schema") == "kernelgecp.spectroscopy-case.v1"
+        result.get("schema") == "kernelgecp.spectroscopy-case.v2"
         and result.get("status") == "passed",
         "case status/schema",
     )
+    require(
+        result.get("rcond") == 1e-10
+        and type(result.get("precision_bits")) is int
+        and result["precision_bits"] == 53,
+        "projection controls",
+    )
     if job:
-        for k in ("case", "method", "seed", "eps", "pilot", "query_order"):
+        for k in (
+            "case",
+            "method",
+            "seed",
+            "eps",
+            "pilot",
+            "query_order",
+            "rcond",
+            "precision_bits",
+        ):
             require(result.get(k) == job[k], f"case {k}")
         require(result.get("bootstrap_count") == job["bootstrap"], "bootstrap count")
         for k in ("default_model", "n_omega", "n_alpha", "minimizer_mu0"):
@@ -425,7 +442,8 @@ def audit_case(path, job=None, full=True):
         diag = result["projection_svd"]
         cutoff = diag["rcond"] * sv[0]
         require(
-            diag["effective_rank"] == int(np.sum(sv > cutoff))
+            diag["rcond"] == 1e-10
+            and diag["effective_rank"] == int(np.sum(sv > cutoff))
             and abs(diag["rank_threshold"] - cutoff) <= 1e-12,
             "design SVD rank",
         )
@@ -655,16 +673,19 @@ def audit_campaign(manifest_path, freeze_path):
     kind = m.get("kind")
     require(
         kind in ("calibration", "campaign")
-        and m.get("schema") == "kernelgecp.spectroscopy-campaign.v1"
+        and m.get("schema") == "kernelgecp.spectroscopy-campaign.v2"
         and m.get("status") == "passed",
         "campaign schema/status",
     )
     require(
-        f.get("schema") == "kernelgecp.spectroscopy-freeze.v1"
+        f.get("schema") == "kernelgecp.spectroscopy-freeze.v2"
         and f.get("status") == "passed",
         "freeze status/schema",
     )
     controls = {
+        "profile": "corrective_projection_v2_synthetic_binary64",
+        "rcond": 1e-10,
+        "precision_bits": 53,
         "cases": list(CASES),
         "methods": list(METHODS),
         "defaults": list(DEFAULTS),
@@ -674,7 +695,7 @@ def audit_campaign(manifest_path, freeze_path):
         "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [3001, 3002, 3003],
+        "final_seeds": [4001, 4002, 4003],
         "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": 3,

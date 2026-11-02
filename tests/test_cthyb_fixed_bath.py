@@ -141,7 +141,7 @@ def test_freeze_and_resume(monkeypatch, tmp_path):
     parent, binding, output = fixture_setup(monkeypatch, tmp_path)
     run_worker(parent, binding, output)
     manifest, result, _, _ = driver.validate(output, parent, binding, *calargs())
-    assert manifest["protocol"]["seeds"] == [32100001 + 2 * i for i in range(256)]
+    assert manifest["protocol"]["seeds"] == [33100001 + 2 * i for i in range(256)]
     assert result["chains"][0]["role"] == "train"
     with pytest.raises(FileExistsError):
         driver.freeze(parent, binding, output, *calargs())
@@ -199,6 +199,8 @@ def calibration_fixture(monkeypatch, tmp_path):
     }
     monkeypatch.setattr(spec, "snapshot", lambda: snapshot)
     monkeypatch.setattr(spec, "validate_basis_controls", lambda: None)
+    # This fixture tests binding plumbing; it is not numerical audit evidence.
+    monkeypatch.setattr(spec, "validate_case_projection", lambda *_: None)
     monkeypatch.setattr(
         spec.subprocess, "check_output", lambda *args, **kwargs: auditor_blob
     )
@@ -237,7 +239,7 @@ def calibration_fixture(monkeypatch, tmp_path):
     receipt.write_text(
         json.dumps(
             {
-                "schema": "kernelgecp.cthyb-spectroscopy-calibration.v1",
+                "schema": "kernelgecp.cthyb-spectroscopy-calibration.v2",
                 "status": "passed",
                 "protocol": spec.PROTOCOL,
                 "snapshot": snapshot,
@@ -252,7 +254,7 @@ def calibration_fixture(monkeypatch, tmp_path):
     audit.write_text(
         json.dumps(
             {
-                "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+                "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v2",
                 "status": "passed",
                 "kind": "calibration",
                 "calibration_sha256": digest,
@@ -301,3 +303,34 @@ def test_calibration_missing(monkeypatch, tmp_path):
     args[0].unlink()
     with pytest.raises((FileNotFoundError, ValueError)):
         driver.calibration_binding(*args)
+
+
+@pytest.mark.parametrize(
+    "change", ["v1", "old_seeds", "profile", "precision", "resource", "calibration"]
+)
+def test_resume_rejects_changed_frozen_contract(monkeypatch, tmp_path, change):
+    parent, binding, output = fixture_setup(monkeypatch, tmp_path)
+    path = output / "manifest.json"
+    manifest = json.loads(path.read_text())
+    if change == "v1":
+        manifest["schema"] = "kernelgecp.cthyb-fixed-bath.v1"
+    elif change == "old_seeds":
+        manifest["protocol"]["seeds"] = [32100001 + 2 * i for i in range(256)]
+    elif change == "profile":
+        manifest["protocol"]["profile"] = "old"
+    elif change == "precision":
+        manifest["protocol"]["projection_precision_bits"] = 53
+    elif change == "resource":
+        manifest["protocol"]["segment_seconds"] += 1
+    else:
+        manifest["calibration"]["receipt_sha256"] = "different"
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="changed"):
+        driver.validate(output, parent, binding, *calargs())
+
+
+def test_fresh_seed_allocation_and_split():
+    assert len(set(driver.SEEDS)) == 256
+    assert not set(driver.SEEDS) & set(range(32100001, 32100513, 2))
+    assert not set(driver.SEEDS) & set(range(29140001, 29140129, 2))
+    assert [driver.role(i) for i in range(256)] == ["train"] * 128 + ["heldout"] * 128

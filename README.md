@@ -10,7 +10,7 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — corrective projection implementation in progress<br>
+> **Current phase:** EH — corrective scientific validation preparation<br>
 > **Phase state:** EH merged in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142), but main `3bc726b` fails the frozen projection replay. [Diagnostic PR #145](https://github.com/tripp-smith/gecp-kernel-structure/pull/145) confirms an ill-conditioned pyDLR projector discrepancy against high precision. An explicit precision option is in local development; it has no scientific acceptance, new calibration, untouched final validation or release claim<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>

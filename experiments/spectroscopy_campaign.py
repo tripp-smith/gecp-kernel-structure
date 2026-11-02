@@ -63,6 +63,9 @@ def stable_environment(p):
 
 def controls():
     return {
+        "profile": "corrective_projection_v2_synthetic_binary64",
+        "rcond": 1e-10,
+        "precision_bits": 53,
         "cases": list(science.CASES),
         "methods": list(science.METHODS),
         "defaults": list(DEFAULTS),
@@ -72,7 +75,7 @@ def controls():
         "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [3001, 3002, 3003],
+        "final_seeds": [4001, 4002, 4003],
         "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": REPEATS,
@@ -88,8 +91,10 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 3001) + ci,
+                        "seed": (101 if calibration else 4001) + ci,
                         "eps": 1e-8,
+                        "rcond": 1e-10,
+                        "precision_bits": 53,
                         "n_omega": 401,
                         "n_alpha": 33,
                         "minimizer_mu0": 1e-8,
@@ -106,15 +111,18 @@ def stem(job):
 
 def validate_child(job, result, env, directory):
     if (
-        result.get("status") != "passed"
+        result.get("schema") != "kernelgecp.spectroscopy-case.v2"
+        or result.get("status") != "passed"
         or not isinstance(result.get("gates"), dict)
         or not result["gates"]
         or not all(v is True for v in result["gates"].values())
     ):
         raise ValueError("failed or missing child gates/status")
-    for key in ("case", "method", "seed", "eps", "pilot"):
+    for key in ("case", "method", "seed", "eps", "pilot", "rcond", "precision_bits"):
         if result.get(key) != job[key]:
             raise ValueError(f"child {key} mismatch")
+    if type(result.get("precision_bits")) is not int:
+        raise ValueError("child precision_bits must be an integer")
     if (
         result.get("bootstrap_count") != job["bootstrap"]
         or result.get("query_order") != job["query_order"]
@@ -176,6 +184,10 @@ def child_command(python, job, output):
         str(job["seed"]),
         "--eps",
         str(job["eps"]),
+        "--rcond",
+        str(job["rcond"]),
+        "--precision-bits",
+        str(job["precision_bits"]),
         "--n-omega",
         str(job["n_omega"]),
         "--n-alpha",
@@ -325,7 +337,7 @@ def execute(kind, directory, freeze_path, python=sys.executable):
         if mp.exists() or freeze_path.exists():
             raise ValueError("calibration outputs already exist")
         manifest = {
-            "schema": "kernelgecp.spectroscopy-campaign.v1",
+            "schema": "kernelgecp.spectroscopy-campaign.v2",
             "kind": kind,
             "status": "running",
             "controls": cfg,
@@ -335,7 +347,8 @@ def execute(kind, directory, freeze_path, python=sys.executable):
     else:
         frozen = read(freeze_path)
         if (
-            frozen.get("status") != "passed"
+            frozen.get("schema") != "kernelgecp.spectroscopy-freeze.v2"
+            or frozen.get("status") != "passed"
             or frozen.get("controls") != cfg
             or stable_environment(frozen.get("provenance", {}))
             != stable_environment(env)
@@ -344,7 +357,8 @@ def execute(kind, directory, freeze_path, python=sys.executable):
         if mp.exists():
             manifest = read(mp)
             if (
-                manifest.get("kind") != kind
+                manifest.get("schema") != "kernelgecp.spectroscopy-campaign.v2"
+                or manifest.get("kind") != kind
                 or manifest.get("controls") != cfg
                 or manifest.get("freeze_sha256") != sha(freeze_path)
                 or stable_environment(manifest.get("provenance", {}))
@@ -353,7 +367,7 @@ def execute(kind, directory, freeze_path, python=sys.executable):
                 raise ValueError("resume configuration/source mismatch")
         else:
             manifest = {
-                "schema": "kernelgecp.spectroscopy-campaign.v1",
+                "schema": "kernelgecp.spectroscopy-campaign.v2",
                 "kind": kind,
                 "status": "running",
                 "controls": cfg,
@@ -368,7 +382,7 @@ def execute(kind, directory, freeze_path, python=sys.executable):
             compare_repeats(directory, manifest)
         if manifest["status"] == "passed" and kind == "calibration":
             freeze = {
-                "schema": "kernelgecp.spectroscopy-freeze.v1",
+                "schema": "kernelgecp.spectroscopy-freeze.v2",
                 "status": "passed",
                 "controls": cfg,
                 "provenance": env,

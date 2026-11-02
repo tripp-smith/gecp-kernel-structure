@@ -43,8 +43,10 @@ def fixture(tmp_path, monkeypatch):
         "auditor_sha256": "d" * 64,
     }
     manifest = {
-        "schema": "kernelgecp.cthyb-fixed-bath.v1",
+        "schema": "kernelgecp.cthyb-fixed-bath.v2",
         "protocol": {
+            "profile": "corrective_projection_v2",
+            "projection_precision_bits": 256,
             "seeds": m.FIXED_SEEDS,
             "train_count": 128,
             "cycles": 1600000,
@@ -105,7 +107,7 @@ def fixture(tmp_path, monkeypatch):
     write(
         tmp_path / "result.json",
         {
-            "schema": "kernelgecp.cthyb-fixed-bath-result.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-result.v2",
             "status": "complete",
             "manifest_sha256": mh,
             "chains": entries,
@@ -116,7 +118,7 @@ def fixture(tmp_path, monkeypatch):
     write(
         receipt,
         {
-            "schema": "kernelgecp.cthyb-fixed-bath-audit.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-audit.v2",
             "status": "passed",
             "parent_binding_sha256": m.PARENT_BINDING,
             "calibration": calibration,
@@ -133,7 +135,7 @@ def fixture(tmp_path, monkeypatch):
     write(
         binding,
         {
-            "schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v1",
+            "schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v2",
             "status": "passed",
             "calibration": calibration,
             "receipt_sha256": m.sha(receipt),

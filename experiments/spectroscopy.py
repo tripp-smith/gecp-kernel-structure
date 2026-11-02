@@ -202,8 +202,23 @@ def spectrum_metrics(case, result):
 
 
 def run_case(
-    case, method, seed, eps, config, output, *, pilot, bootstrap=0, query_order=24
+    case,
+    method,
+    seed,
+    eps,
+    config,
+    output,
+    *,
+    pilot,
+    bootstrap=0,
+    query_order=24,
+    rcond=1e-10,
+    precision_bits=53,
 ):
+    if type(precision_bits) is not int or precision_bits != 53:
+        raise ValueError("synthetic projection requires precision_bits=53")
+    if isinstance(rcond, bool) or not np.isfinite(rcond) or rcond < 0:
+        raise ValueError("rcond must be finite and nonnegative")
     before = provenance()
     if not pilot and (
         not before["tracked_clean"] or any(os.environ.get(v) != "1" for v in THREADS)
@@ -220,17 +235,18 @@ def run_case(
     fitted = data
     if method != "raw":
         constructed = basis(method, data.beta, eps)
-        observation_design = constructed.design_tau(data.tau)
         projection = prepare_spectral_projection(
             constructed,
             data.tau,
             data.tau,
-            rcond=1e-10,
+            rcond=rcond,
+            precision_bits=precision_bits,
             metadata={"method": method, "eps": eps},
         )
+        observation_design = projection.source_design
         fitted = projection.apply(data)
         if method == "kernelgecp":
-            coefficient_fit = constructed.fit_tau(data.values, data.tau, rcond=1e-10)
+            coefficient_fit = constructed.fit_tau(data.values, data.tau, rcond=rcond)
             fit_projection_difference = float(
                 np.max(np.abs(coefficient_fit.evaluate_tau(data.tau) - fitted.values))
             )
@@ -340,7 +356,7 @@ def run_case(
             "observation_domain": "tau",
         }
     result = {
-        "schema": "kernelgecp.spectroscopy-case.v1",
+        "schema": "kernelgecp.spectroscopy-case.v2",
         "pilot": pilot,
         "status": "passed" if all(gates.values()) else "failed",
         "gates": gates,
@@ -349,6 +365,8 @@ def run_case(
         "seed": seed,
         "query_order": query_order,
         "eps": eps,
+        "rcond": rcond,
+        "precision_bits": precision_bits,
         "config": dataclasses.asdict(config),
         "provenance": before,
         "effective_rank": fitted.modes.effective_rank,
@@ -396,6 +414,8 @@ def main():
     parser.add_argument("--n-omega", type=int, default=401)
     parser.add_argument("--n-alpha", type=int, default=33)
     parser.add_argument("--minimizer-mu0", type=float, default=1e-8)
+    parser.add_argument("--rcond", type=float, default=1e-10)
+    parser.add_argument("--precision-bits", type=int, default=53)
     parser.add_argument(
         "--default-model", choices=["flat", "broad_gaussian"], default="flat"
     )
@@ -425,6 +445,8 @@ def main():
             pilot=args.pilot,
             bootstrap=args.bootstrap,
             query_order=args.query_order,
+            rcond=args.rcond,
+            precision_bits=args.precision_bits,
         )
         if result["status"] != "passed":
             raise RuntimeError("spectroscopy gates failed; retain failed artifacts")

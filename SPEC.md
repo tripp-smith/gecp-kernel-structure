@@ -3252,3 +3252,13 @@ source/wheel identities, repeated-design hashes and an independent high-precisio
 oracle. These checks do not close continuation, calibration, untouched final
 validation or release obligations. The scientific tolerances and original
 mathematical goals remain unchanged.
+
+
+EH corrective-campaign planning annotation (2026-11-02): 3bc9bd9 passes full
+root and real installed-provider matrix checks on Linux/macOS; these are not
+continuation acceptance. A v2 measured protocol will explicitly use the new
+precision mode while preserving all scientific budgets and original native
+calibration provenance. Fresh synthetic final seeds 4001/4002/4003 and fresh
+native odd seeds 33100001+2*i (256, split128/128) are predeclared before new
+generation. Synthetic eps/rcond remain their historical values. No new run is
+launched by this annotation, and original mathematical goals are unchanged.

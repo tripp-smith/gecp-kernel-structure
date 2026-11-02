@@ -38,10 +38,10 @@ from kernelgecp.integrations.cthyb_dmft import CTHYBPlan
 
 BINDING_SHA = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd"
 REVISION = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
-SEEDS = [32100001 + 2 * i for i in range(256)]
-SCHEMA = "kernelgecp.cthyb-fixed-bath.v1"
-RESULT_SCHEMA = "kernelgecp.cthyb-fixed-bath-result.v1"
-TIMING_SCHEMA = "kernelgecp.cthyb-fixed-bath-timing.v1"
+SEEDS = [33100001 + 2 * i for i in range(256)]
+SCHEMA = "kernelgecp.cthyb-fixed-bath.v2"
+RESULT_SCHEMA = "kernelgecp.cthyb-fixed-bath-result.v2"
+TIMING_SCHEMA = "kernelgecp.cthyb-fixed-bath-timing.v2"
 
 
 def role(i: int) -> str:
@@ -194,6 +194,8 @@ def provenance():
 
 def protocol(config):
     return {
+        "profile": "corrective_projection_v2",
+        "projection_precision_bits": 256,
         "seeds": SEEDS,
         "train_count": 128,
         "cycles": 1600000,
@@ -228,7 +230,11 @@ def calibration_binding(
     )
     gates = audit.get("gates")
     if (
-        not isinstance(gates, dict)
+        cal.get("schema") != "kernelgecp.cthyb-spectroscopy-calibration.v2"
+        or cal.get("protocol", {}).get("profile") != "corrective_projection_v2"
+        or cal.get("protocol", {}).get("projection_precision_bits") != 256
+        or audit.get("schema") != "kernelgecp.cthyb-spectroscopy-independent-audit.v2"
+        or not isinstance(gates, dict)
         or set(gates) != CALIBRATION_GATES
         or not all(v is True for v in gates.values())
         or audit.get("cases") != 8

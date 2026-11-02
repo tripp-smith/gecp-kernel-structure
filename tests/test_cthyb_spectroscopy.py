@@ -30,12 +30,12 @@ def test_independent_mean_and_covariance():
 
 
 def fixture(tmp_path, monkeypatch):
-    role = tmp_path / "dense-final"
+    role = tmp_path / "kernelgecp-final"
     role.mkdir()
     identity = {
-        "source_revision": m.FINAL_REVISION,
+        "source_revision": m.CALIBRATION_REVISION,
         "config": {
-            "seed_base": 30100000,
+            "seed_base": 29100000,
             "seed_mapping": "odd_stride_2_v1",
             "final_replicas": 64,
             "n_tau": 3073,
@@ -60,7 +60,7 @@ def fixture(tmp_path, monkeypatch):
     audit = {
         "schema": "kernelgecp.cthyb-audit.v1",
         "status": "passed",
-        "generation_revision": m.FINAL_REVISION,
+        "generation_revision": m.CALIBRATION_REVISION,
         "gates": {"gate": True},
         "audit_revision": "revision",
         "audit_sha256": m.hashlib.sha256(b"audit").hexdigest(),
@@ -72,7 +72,7 @@ def fixture(tmp_path, monkeypatch):
     def load(stem, identity):
         i = int(stem.name.split("-")[-1])
         return SimpleNamespace(
-            seed=30130001 + 2 * i,
+            seed=29140001 + 2 * i,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -88,7 +88,7 @@ def fixture(tmp_path, monkeypatch):
             {
                 "schema": "kernelgecp.cthyb-audit-binding.v1",
                 "status": "passed",
-                "generation_revision": m.FINAL_REVISION,
+                "generation_revision": m.CALIBRATION_REVISION,
                 "audit_receipt_sha256": m.sha(receipt),
                 "result_sha256": m.sha(tmp_path / "result.json"),
                 "manifest_sha256": m.sha(tmp_path / "manifest.json"),
@@ -102,14 +102,16 @@ def fixture(tmp_path, monkeypatch):
 
 def test_raw_cohort_and_failure_paths(tmp_path, monkeypatch):
     receipt, binding = fixture(tmp_path, monkeypatch)
-    data, meta = m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
-    assert data.shape == (64, 3073) and meta["seeds"][0] == 30130001
+    data, meta = m.load_cohort(
+        tmp_path, receipt, binding, m.sha(binding), "calibration"
+    )
+    assert data.shape == (64, 3073) and meta["seeds"][0] == 29140001
     with pytest.raises(ValueError, match="digest"):
-        m.load_cohort(tmp_path, receipt, binding, "0" * 64, "final")
-    path = tmp_path / "dense-final" / "replica-01.json"
+        m.load_cohort(tmp_path, receipt, binding, "0" * 64, "calibration")
+    path = tmp_path / "kernelgecp-final" / "replica-01.json"
     path.write_text("{}")
     with pytest.raises(ValueError, match="receipt hash"):
-        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "calibration")
 
 
 def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
@@ -117,7 +119,7 @@ def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
 
     def bad(stem, identity):
         return SimpleNamespace(
-            seed=30130001,
+            seed=29140001,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -128,12 +130,12 @@ def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
 
     monkeypatch.setattr(m, "load_measurement", bad)
     with pytest.raises(ValueError, match="seed"):
-        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "calibration")
 
     def imag(stem, identity):
         i = int(stem.name.split("-")[-1])
         return SimpleNamespace(
-            seed=30130001 + 2 * i,
+            seed=29140001 + 2 * i,
             config=SimpleNamespace(beta=10, interaction=2, n_tau=3073),
             cycles=1600000,
             solve_status=0,
@@ -144,7 +146,7 @@ def test_duplicate_seed_and_imaginary_rejected(tmp_path, monkeypatch):
 
     monkeypatch.setattr(m, "load_measurement", imag)
     with pytest.raises(ValueError, match="imaginary"):
-        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "calibration")
 
 
 def test_heldout_noise_gate():
@@ -162,11 +164,31 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
         for model in m.PROTOCOL["default_models"]:
             path = tmp_path / f"{method}-{model}-r0.json"
             archive = path.with_suffix(".npz")
-            archive.write_bytes(b"finite fixture")
+            design = np.eye(3)
+            np.savez(archive, observation_design=design, decomposed_design=design)
+            arithmetic = m.identity_arithmetic(design)
+            transformed = None
+            original = None
+            bits = 53
+            if method != "raw":
+                bits = 256
+                transformed = {"fixture": True}
+                original = {"fixture": True}
+                arithmetic.update(
+                    method="mpmath_qr_then_binary64_cached_svd",
+                    precision_bits=bits,
+                    transformed_svd=transformed,
+                )
             path.write_text(
                 json.dumps(
                     {
+                        "schema": "kernelgecp.cthyb-spectroscopy.v2",
+                        "method": method,
                         "status": "passed",
+                        "precision_bits": bits,
+                        "projection_arithmetic": arithmetic,
+                        "projection_svd": original,
+                        "transformed_projection_svd": transformed,
                         "array_sha256": m.sha(archive),
                         "eps": m.PROTOCOL["eps"],
                         "rcond": m.PROTOCOL["rcond"],
@@ -182,7 +204,7 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
     receipt.write_text(
         json.dumps(
             {
-                "schema": "kernelgecp.cthyb-spectroscopy-calibration.v1",
+                "schema": "kernelgecp.cthyb-spectroscopy-calibration.v2",
                 "status": "passed",
                 "protocol": m.PROTOCOL,
                 "snapshot": snapshot,
@@ -202,6 +224,13 @@ def test_calibration_freeze_must_match_sources_and_cases(tmp_path):
         )
     )
     m.verify_calibration(receipt, m.sha(receipt), snapshot)
+    old = json.loads(receipt.read_text())
+    old["schema"] = "kernelgecp.cthyb-spectroscopy-calibration.v1"
+    receipt.write_text(json.dumps(old))
+    with pytest.raises(ValueError, match="freeze"):
+        m.verify_calibration(receipt, m.sha(receipt), snapshot)
+    old["schema"] = "kernelgecp.cthyb-spectroscopy-calibration.v2"
+    receipt.write_text(json.dumps(old))
     with pytest.raises(ValueError, match="requires"):
         m.verify_calibration(None, None, snapshot)
     with pytest.raises(ValueError, match="source"):
@@ -259,7 +288,7 @@ def test_independent_audit_is_required_and_bound(tmp_path, monkeypatch):
         m.verify_calibration_audit(None, None, "cal", "binding")
     path = tmp_path / "independent.json"
     value = {
-        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v2",
         "status": "passed",
         "kind": "calibration",
         "calibration_sha256": "cal",
@@ -313,10 +342,13 @@ def test_case_propagates_covariance_kernel_and_bootstrap(tmp_path, monkeypatch):
     samples = np.random.default_rng(7).normal(size=(64, 3073)) * 1e-3
     monkeypatch.setattr(m, "load_cohort", lambda *args: (samples, {}))
 
+    calls = []
+
     class Basis:
         beta = 10.0
 
         def design_tau(self, tau):
+            calls.append(1)
             return np.column_stack([np.ones(len(tau)), tau, tau**2])
 
     monkeypatch.setattr(m, "basis", lambda *args: Basis())
@@ -364,11 +396,30 @@ def test_case_propagates_covariance_kernel_and_bootstrap(tmp_path, monkeypatch):
         bootstrap=2,
         n_omega=5,
         n_alpha=2,
+        precision_bits=256,
     )
     assert result["status"] == "passed" and result["bootstrap_count"] == 2
     assert result["eps"] == m.PROTOCOL["eps"]
     assert result["rcond"] == result["projection_svd"]["rcond"] == m.PROTOCOL["rcond"]
+    assert result["schema"] == "kernelgecp.cthyb-spectroscopy.v2"
+    assert result["precision_bits"] == 256
+    assert len(calls) == 1
+    m.validate_case_projection(result, output.with_suffix(".npz"), "kernelgecp")
+    for field in ("source_design_sha256", "decomposed_design_sha256"):
+        bad = json.loads(json.dumps(result))
+        bad["projection_arithmetic"][field] = "0" * 64
+        with pytest.raises(ValueError, match="hash or shape"):
+            m.validate_case_projection(bad, output.with_suffix(".npz"), "kernelgecp")
+    old = dict(result, schema="kernelgecp.cthyb-spectroscopy.v1")
+    with pytest.raises(ValueError, match="schema"):
+        m.validate_case_projection(old, output.with_suffix(".npz"), "kernelgecp")
     with np.load(output.with_suffix(".npz")) as a:
+        assert result["projection_arithmetic"]["source_design_sha256"] == m.design_hash(
+            a["observation_design"]
+        )
+        assert result["projection_arithmetic"][
+            "decomposed_design_sha256"
+        ] == m.design_hash(a["decomposed_design"])
         np.testing.assert_allclose(
             a["projected_covariance"],
             a["projection"] @ a["covariance"] @ a["projection"].T,
@@ -381,6 +432,22 @@ def test_case_propagates_covariance_kernel_and_bootstrap(tmp_path, monkeypatch):
             a["validation_covariance"], np.cov(samples[32:, m.QUERY], rowvar=False) / 32
         )
         assert a["bootstrap_indices"].shape == (2, 32)
+    raw = m.run(
+        tmp_path,
+        tmp_path,
+        tmp_path,
+        "digest",
+        "calibration",
+        "raw",
+        "flat",
+        tmp_path / "raw.json",
+        n_omega=5,
+        n_alpha=2,
+        precision_bits=256,
+    )
+    assert raw["precision_bits"] == 53
+    assert raw["projection_arithmetic"]["method"] == "identity"
+    m.validate_case_projection(raw, tmp_path / "raw.npz", "raw")
 
 
 def test_fresh_worker_processes_exit_and_timeout(tmp_path):
@@ -414,7 +481,7 @@ def test_fresh_worker_processes_exit_and_timeout(tmp_path):
 
 def test_worker_rejects_changed_freeze_before_case(tmp_path, monkeypatch):
     job = {
-        "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v2",
         "protocol": m.PROTOCOL,
         "method": "raw",
         "model": "flat",
@@ -431,6 +498,10 @@ def test_worker_rejects_changed_freeze_before_case(tmp_path, monkeypatch):
         m.worker(path, m.sha(path))
     with pytest.raises(ValueError, match="job hash"):
         m.worker(path, "0" * 64)
+    job["schema"] = "kernelgecp.cthyb-spectroscopy-worker-job.v1"
+    path.write_text(json.dumps(job))
+    with pytest.raises(ValueError, match="job protocol"):
+        m.worker(path, m.sha(path))
 
 
 def test_final_requires_freezes_before_any_worker(tmp_path, monkeypatch):
@@ -453,18 +524,29 @@ def test_native_basis_ladder_is_fixed_and_common(monkeypatch):
         m.validate_basis_controls()
 
 
-def test_wrong_generation_consumed_final_and_wrong_seed_base(tmp_path, monkeypatch):
+def test_old_final_binding_rejected_and_calibration_identity_checked(
+    tmp_path, monkeypatch
+):
     receipt, binding = fixture(tmp_path, monkeypatch)
+    # Even a correctly hashed, formerly accepted EE final binding cannot be
+    # consumed as a fresh corrective-v2 fixed-bath cohort.
     value = json.loads(binding.read_text())
-    for revision, message in [
-        (m.CALIBRATION_REVISION, "consumed"),
-        ("f" * 40, "source"),
-    ]:
-        value["generation_revision"] = revision
-        binding.write_text(json.dumps(value))
-        with pytest.raises(ValueError, match=message):
-            m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
     value["generation_revision"] = m.FINAL_REVISION
+    binding.write_text(json.dumps(value))
+    with pytest.raises(ValueError, match="fresh v2 fixed-bath"):
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+    value["schema"] = "kernelgecp.cthyb-fixed-bath-audit-binding.v2"
+    binding.write_text(json.dumps(value))
+    delegated = object()
+    monkeypatch.setattr(m, "load_fixed_cohort", lambda *args: delegated)
+    assert (
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final") is delegated
+    )
+    value["schema"] = "kernelgecp.cthyb-audit-binding.v1"
+    binding.write_text(json.dumps(value))
+    with pytest.raises(ValueError, match="source"):
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "calibration")
+    value["generation_revision"] = m.CALIBRATION_REVISION
     identity = json.loads((tmp_path / "manifest.json").read_text())
     identity["config"]["seed_base"] += 2
     (tmp_path / "manifest.json").write_text(json.dumps(identity))
@@ -475,13 +557,13 @@ def test_wrong_generation_consumed_final_and_wrong_seed_base(tmp_path, monkeypat
     value["result_sha256"] = m.sha(tmp_path / "result.json")
     binding.write_text(json.dumps(value))
     with pytest.raises(ValueError, match="configuration"):
-        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final")
+        m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "calibration")
 
 
 def test_calibration_audit_cross_binding_and_cohort_overlap(tmp_path, monkeypatch):
     path = tmp_path / "audit.json"
     audit = {
-        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v2",
         "status": "passed",
         "kind": "calibration",
         "calibration_sha256": "cal",
@@ -509,3 +591,18 @@ def test_calibration_audit_cross_binding_and_cohort_overlap(tmp_path, monkeypatc
         bad = dict(final, **{key: cal[key]})
         with pytest.raises(ValueError, match="overlap"):
             m.validate_cohort_pair(cal, bad)
+
+
+def test_v2_protocol_separates_parent_from_fresh_final_generation():
+    assert m.PROTOCOL["parent_generation_revision"] == m.FINAL_REVISION
+    assert "final_generation_revision" not in m.PROTOCOL
+    assert (
+        m.PROTOCOL["final_generation_revision_policy"]
+        == "equal_campaign_snapshot_revision"
+    )
+    assert m.PROTOCOL["final_seed_base"] == 33100001
+    assert m.PROTOCOL["final_seed_stride"] == 2
+    assert m.PROTOCOL["final_chain_count"] == 256
+    assert (
+        m.PROTOCOL["final_training_count"] == m.PROTOCOL["final_heldout_count"] == 128
+    )

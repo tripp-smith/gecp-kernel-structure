@@ -46,6 +46,79 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def design_hash(array):
+    return hashlib.sha256(
+        np.ascontiguousarray(array, dtype="<f8").tobytes()
+    ).hexdigest()
+
+
+def identity_arithmetic(design):
+    digest = design_hash(design)
+    return {
+        "method": "identity",
+        "precision_bits": 53,
+        "source_design_sha256": digest,
+        "decomposed_design_sha256": digest,
+        "source_design_shape": list(design.shape),
+        "decomposed_design_shape": list(design.shape),
+        "hash_scope": "C-order little-endian binary64 array bytes with recorded shapes",
+        "rank_guard": None,
+        "transformed_svd": None,
+    }
+
+
+def validate_case_projection(value, archive, method):
+    """Bind v2 receipts to the serialized source and decomposed designs."""
+    if (
+        value.get("schema") != "kernelgecp.cthyb-spectroscopy.v2"
+        or value.get("method") != method
+        or value.get("array_sha256") != sha(archive)
+    ):
+        raise ValueError("case schema, method or archive binding mismatch")
+    arithmetic = value.get("projection_arithmetic")
+    bits = 53 if method == "raw" else PROTOCOL["projection_precision_bits"]
+    if (
+        not isinstance(arithmetic, dict)
+        or type(value.get("precision_bits")) is not int
+        or value["precision_bits"] != bits
+        or arithmetic.get("precision_bits") != bits
+    ):
+        raise ValueError("case projection precision mismatch")
+    with np.load(archive, allow_pickle=False) as arrays:
+        source = arrays["observation_design"]
+        decomposed = arrays["decomposed_design"]
+        if any(
+            a.ndim != 2 or a.dtype != np.dtype("float64") or not np.isfinite(a).all()
+            for a in (source, decomposed)
+        ):
+            raise ValueError("case design arrays invalid")
+        if any(
+            arithmetic.get(name + "_sha256") != design_hash(a)
+            or arithmetic.get(name + "_shape") != list(a.shape)
+            for name, a in (
+                ("source_design", source),
+                ("decomposed_design", decomposed),
+            )
+        ):
+            raise ValueError("case design hash or shape mismatch")
+        if method == "raw":
+            if (
+                arithmetic != identity_arithmetic(source)
+                or not np.array_equal(source, np.eye(len(source)))
+                or not np.array_equal(source, decomposed)
+                or value.get("projection_svd") is not None
+                or value.get("transformed_projection_svd") is not None
+            ):
+                raise ValueError("case raw projection identity mismatch")
+        elif (
+            arithmetic.get("method") != "mpmath_qr_then_binary64_cached_svd"
+            or not isinstance(value.get("projection_svd"), dict)
+            or not isinstance(value.get("transformed_projection_svd"), dict)
+            or arithmetic.get("transformed_svd") != value["transformed_projection_svd"]
+        ):
+            raise ValueError("case projection diagnostics mismatch")
+
+
 def mean_cov(samples):
     samples = np.asarray(samples, dtype=float)
     if samples.ndim != 2 or samples.shape[0] < 2 or not np.isfinite(samples).all():
@@ -58,7 +131,7 @@ def mean_cov(samples):
 
 
 PARENT_BINDING = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd"
-FIXED_SEEDS = [32100001 + 2 * i for i in range(256)]
+FIXED_SEEDS = [33100001 + 2 * i for i in range(256)]
 
 
 def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
@@ -71,13 +144,13 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
     result = json.loads((folder / "result.json").read_text())
     manifest_hash = sha(folder / "manifest.json")
     if (
-        binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
+        binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v2"
         or binding.get("status") != "passed"
         or binding.get("receipt_sha256") != sha(receipt_path)
         or binding.get("manifest_sha256") != manifest_hash
         or binding.get("result_sha256") != sha(folder / "result.json")
         or binding.get("parent_binding_sha256") != PARENT_BINDING
-        or receipt.get("schema") != "kernelgecp.cthyb-fixed-bath-audit.v1"
+        or receipt.get("schema") != "kernelgecp.cthyb-fixed-bath-audit.v2"
         or receipt.get("status") != "passed"
         or receipt.get("parent_binding_sha256") != PARENT_BINDING
         or receipt.get("manifest_sha256") != manifest_hash
@@ -128,12 +201,12 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
     ):
         raise ValueError("fixed-bath frozen calibration binding mismatch")
     if (
-        manifest.get("schema") != "kernelgecp.cthyb-fixed-bath.v1"
+        manifest.get("schema") != "kernelgecp.cthyb-fixed-bath.v2"
         or manifest.get("parent", {}).get("binding_sha256") != PARENT_BINDING
         or protocol.get("seeds") != FIXED_SEEDS
         or protocol.get("train_count") != 128
         or protocol.get("cycles") != 1600000
-        or result.get("schema") != "kernelgecp.cthyb-fixed-bath-result.v1"
+        or result.get("schema") != "kernelgecp.cthyb-fixed-bath-result.v2"
         or result.get("status") != "complete"
         or result.get("manifest_sha256") != manifest_hash
         or len(result.get("chains", [])) != 256
@@ -219,19 +292,15 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
     """Validate audit, raw receipts, hashes, seeds, shape and one common bath."""
     if stage not in ("calibration", "final"):
         raise ValueError("unsupported stage")
-    if (
-        stage == "final"
-        and json.loads(binding_path.read_text()).get("schema")
-        == "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
-    ):
-        return load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256)
-    revision = CALIBRATION_REVISION if stage == "calibration" else FINAL_REVISION
-    seed_base = CALIBRATION_SEED_BASE if stage == "calibration" else FINAL_SEED_BASE
     if len(binding_sha256) != 64 or sha(binding_path) != binding_sha256:
         raise ValueError("audit binding digest mismatch")
     binding = json.loads(binding_path.read_text())
-    if stage == "final" and binding.get("generation_revision") == CALIBRATION_REVISION:
-        raise ValueError("consumed final cohort cannot be reused")
+    if stage == "final":
+        if binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v2":
+            raise ValueError("final requires a fresh v2 fixed-bath audit binding")
+        return load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256)
+    revision = CALIBRATION_REVISION
+    seed_base = CALIBRATION_SEED_BASE
     if (
         binding.get("schema") != "kernelgecp.cthyb-audit-binding.v1"
         or binding.get("status") != "passed"
@@ -273,11 +342,7 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
         or config.get("interaction") != 2
     ):
         raise ValueError("campaign identity, result, or configuration mismatch")
-    role, offset = (
-        ("kernelgecp-final", 40000)
-        if stage == "calibration"
-        else ("dense-final", 30000)
-    )
+    role, offset = "kernelgecp-final", 40000
     paths = sorted((folder / role).glob("replica-*.json"))
     if len(paths) != 64 or paths != [
         folder / role / f"replica-{i:02d}.json" for i in range(64)
@@ -379,6 +444,8 @@ def mode_record(modes):
 # The protocol is fixed before calibration and final validation. Repeats are
 # fresh solver invocations on the same cohort, not independent data realizations.
 PROTOCOL = {
+    "profile": "corrective_projection_v2",
+    "projection_precision_bits": 256,
     "methods": list(METHODS),
     "default_models": ["flat", "broad_gaussian"],
     # One common native-data candidate for every method and model; the ladder
@@ -423,8 +490,13 @@ PROTOCOL = {
         "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba"
     ),
     "calibration_generation_revision": CALIBRATION_REVISION,
-    "final_generation_revision": FINAL_REVISION,
-    "final_seed_base": FINAL_SEED_BASE,
+    "parent_generation_revision": FINAL_REVISION,
+    "final_generation_revision_policy": "equal_campaign_snapshot_revision",
+    "final_seed_base": 33100001,
+    "final_seed_stride": 2,
+    "final_chain_count": 256,
+    "final_training_count": 128,
+    "final_heldout_count": 128,
 }
 
 
@@ -597,7 +669,7 @@ def verify_calibration(path, digest, snapshot_value):
         raise ValueError("final requires pinned passed calibration receipt")
     receipt = json.loads(path.read_text())
     if (
-        receipt.get("schema") != "kernelgecp.cthyb-spectroscopy-calibration.v1"
+        receipt.get("schema") != "kernelgecp.cthyb-spectroscopy-calibration.v2"
         or receipt.get("status") != "passed"
         or receipt.get("protocol") != PROTOCOL
         or receipt.get("snapshot") != snapshot_value
@@ -643,6 +715,7 @@ def verify_calibration(path, digest, snapshot_value):
             or value.get("config", {}).get("minimizer_mu0") != PROTOCOL["minimizer_mu0"]
         ):
             raise ValueError("calibration case failed")
+        validate_case_projection(value, archive, name.split("-", 1)[0])
     return receipt
 
 
@@ -672,7 +745,7 @@ def verify_calibration_audit(path, digest, calibration_digest, binding_digest):
         raise ValueError("final requires a pinned independent calibration audit")
     audit = json.loads(path.read_text())
     if (
-        audit.get("schema") != "kernelgecp.cthyb-spectroscopy-independent-audit.v1"
+        audit.get("schema") != "kernelgecp.cthyb-spectroscopy-independent-audit.v2"
         or audit.get("status") != "passed"
         or audit.get("kind") != "calibration"
         or audit.get("calibration_sha256") != calibration_digest
@@ -713,6 +786,7 @@ def run(
     n_omega=401,
     n_alpha=33,
     minimizer_mu0=1e-8,
+    precision_bits=53,
 ):
     if method not in METHODS or model not in ("flat", "broad_gaussian"):
         raise ValueError("unsupported method or default model")
@@ -724,12 +798,19 @@ def run(
     construction_start = time.perf_counter()
     projection = None
     design = np.eye(len(data.tau))
+    decomposed = design
     if method != "raw":
         b = basis(method, data.beta, eps)
-        design = b.design_tau(data.tau)
         projection = prepare_spectral_projection(
-            b, data.tau, data.tau, rcond=rcond, metadata={"method": method, "eps": eps}
+            b,
+            data.tau,
+            data.tau,
+            rcond=rcond,
+            metadata={"method": method, "eps": eps},
+            precision_bits=precision_bits,
         )
+        design = projection.source_design
+        decomposed = projection.decomposed_design
     construction_seconds = time.perf_counter() - construction_start
     projection_start = time.perf_counter()
     fitted = data if projection is None else projection.apply(data)
@@ -808,6 +889,7 @@ def run(
         projected_covariance=fitted.covariance,
         projection=p,
         observation_design=design,
+        decomposed_design=decomposed,
         native_kernel=native_kernel,
         projected_kernel=p @ native_kernel,
         query=query,
@@ -822,7 +904,7 @@ def run(
         bootstrap_indices=np.array(boot_indices),
     )
     result = {
-        "schema": "kernelgecp.cthyb-spectroscopy.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy.v2",
         "status": "passed" if all(gates.values()) else "failed",
         "gates": gates,
         "source": metadata,
@@ -841,6 +923,13 @@ def run(
         "training_covariance_modes": mode_record(data.modes),
         "projected_covariance_modes": mode_record(fitted.modes),
         "validation_covariance_modes": mode_record(modes),
+        "precision_bits": 53 if projection is None else precision_bits,
+        "projection_arithmetic": identity_arithmetic(design)
+        if projection is None
+        else json.loads(projection.projection_provenance_json),
+        "transformed_projection_svd": None
+        if projection is None or projection.transformed_diagnostics is None
+        else json.loads(projection.projection_provenance_json)["transformed_svd"],
         "projection_svd": None
         if projection is None
         else dataclasses.asdict(projection.diagnostics),
@@ -935,7 +1024,7 @@ def worker(job_path, job_digest):
         raise ValueError("worker job hash mismatch")
     job = json.loads(job_path.read_text())
     if (
-        job.get("schema") != "kernelgecp.cthyb-spectroscopy-worker-job.v1"
+        job.get("schema") != "kernelgecp.cthyb-spectroscopy-worker-job.v2"
         or job.get("protocol") != PROTOCOL
     ):
         raise ValueError("invalid worker job protocol")
@@ -1013,6 +1102,7 @@ def worker(job_path, job_digest):
         n_omega=PROTOCOL["n_omega"],
         n_alpha=PROTOCOL["n_alpha"],
         minimizer_mu0=PROTOCOL["minimizer_mu0"],
+        precision_bits=PROTOCOL["projection_precision_bits"],
     )
     # Revalidate every bound raw receipt/archive after the calculation.
     _, cohort = load_cohort(
@@ -1044,10 +1134,11 @@ def worker(job_path, job_digest):
         )
     if result["status"] != "passed":
         raise RuntimeError("worker case gates failed")
+    validate_case_projection(result, output.with_suffix(".npz"), method)
     write_json(
         output.with_name(output.stem + "-worker.json"),
         {
-            "schema": "kernelgecp.cthyb-spectroscopy-worker.v1",
+            "schema": "kernelgecp.cthyb-spectroscopy-worker.v2",
             "status": "passed",
             "pid": os.getpid(),
             "job_sha256": job_digest,
@@ -1115,7 +1206,7 @@ def campaign(
     progress_path = output / "progress.json"
     cases, records, workers = {}, {}, {}
     progress = {
-        "schema": "kernelgecp.cthyb-spectroscopy-progress.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-progress.v2",
         "status": "running",
         "stage": stage,
         "parent_pid": os.getpid(),
@@ -1140,7 +1231,7 @@ def campaign(
                     job_path = output / (case.stem + "-job.json")
                     log_path = output / (case.stem + "-worker.log")
                     job = {
-                        "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v1",
+                        "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v2",
                         "stage": stage,
                         "parent_pid": os.getpid(),
                         "method": method,
@@ -1213,7 +1304,9 @@ def campaign(
                     worker_receipt = case.with_name(case.stem + "-worker.json")
                     finished = json.loads(worker_receipt.read_text())
                     if (
-                        finished.get("status") != "passed"
+                        finished.get("schema")
+                        != "kernelgecp.cthyb-spectroscopy-worker.v2"
+                        or finished.get("status") != "passed"
                         or finished.get("pid") != child["pid"]
                         or finished.get("job_sha256") != job_digest
                         or finished.get("result_sha256") != sha(case)
@@ -1223,6 +1316,9 @@ def campaign(
                     workers[name]["worker_receipt_file"] = worker_receipt.name
                     workers[name]["worker_receipt_sha256"] = sha(worker_receipt)
                     records[name] = json.loads(case.read_text())
+                    validate_case_projection(
+                        records[name], case.with_suffix(".npz"), method
+                    )
                     cases[name] = {
                         "result_sha256": sha(case),
                         "array_sha256": sha(case.with_suffix(".npz")),
@@ -1255,7 +1351,7 @@ def campaign(
             }
     result = {
         "schema": "kernelgecp.cthyb-spectroscopy-"
-        + ("calibration.v1" if stage == "calibration" else "final.v1"),
+        + ("calibration.v2" if stage == "calibration" else "final.v2"),
         "status": "passed"
         if all(x["status"] == "passed" for x in records.values())
         else "failed",

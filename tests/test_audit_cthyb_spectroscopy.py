@@ -205,7 +205,7 @@ def test_24_test_only_workers_and_tampering(tmp_path):
                 logfile = tmp_path / (name + ".log")
                 workerfile = tmp_path / (name + ".worker")
                 job = {
-                    "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v1",
+                    "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v2",
                     "stage": "final",
                     "parent_pid": 9000000,
                     "method": method,
@@ -237,7 +237,7 @@ def test_24_test_only_workers_and_tampering(tmp_path):
                 workerfile.write_text(
                     json.dumps(
                         {
-                            "schema": "kernelgecp.cthyb-spectroscopy-worker.v1",
+                            "schema": "kernelgecp.cthyb-spectroscopy-worker.v2",
                             "status": "passed",
                             "pid": pid,
                             "job_sha256": a.sha(jobfile),
@@ -285,6 +285,27 @@ def test_24_test_only_workers_and_tampering(tmp_path):
             manifest, campaign, root, ee_audit, ee_binding, "final", cal, cal_audit
         )
     records[0]["exit_code"] = 0
+    job_path = tmp_path / records[0]["job_file"]
+    job = json.loads(job_path.read_text())
+    job["schema"] = "kernelgecp.cthyb-spectroscopy-worker-job.v1"
+    job_path.write_text(json.dumps(job))
+    records[0]["job_sha256"] = a.sha(job_path)
+    with pytest.raises(ValueError, match="worker job controls"):
+        a.check_workers(
+            manifest, campaign, root, ee_audit, ee_binding, "final", cal, cal_audit
+        )
+    job["schema"] = "kernelgecp.cthyb-spectroscopy-worker-job.v2"
+    job_path.write_text(json.dumps(job))
+    records[0]["job_sha256"] = a.sha(job_path)
+    worker_path = tmp_path / records[0]["worker_receipt_file"]
+    worker = json.loads(worker_path.read_text())
+    worker["schema"] = "kernelgecp.cthyb-spectroscopy-worker.v1"
+    worker_path.write_text(json.dumps(worker))
+    records[0]["worker_receipt_sha256"] = a.sha(worker_path)
+    with pytest.raises(ValueError, match="worker receipt"):
+        a.check_workers(
+            manifest, campaign, root, ee_audit, ee_binding, "final", cal, cal_audit
+        )
     (tmp_path / records[0]["log_file"]).write_text("tampered")
     with pytest.raises(ValueError, match="artifact hash"):
         a.check_workers(
@@ -316,7 +337,7 @@ def test_calibration_audit_rejects_final_cross_binding(tmp_path):
     path.write_text(json.dumps({"fixture": True}))
     cal = {"binding_sha256": a.BINDING}
     audit = {
-        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v2",
         "status": "passed",
         "kind": "calibration",
         "calibration_sha256": a.sha(path),
@@ -327,3 +348,119 @@ def test_calibration_audit_rejects_final_cross_binding(tmp_path):
         a.check_calibration_binding(cal, audit, path)
     audit["binding_sha256"] = a.BINDING
     a.check_calibration_binding(cal, audit, path)
+
+
+def test_projection_audit_ill_conditioned_and_tampering():
+    import copy
+    import hashlib
+
+    import mpmath as mp
+
+    rng = np.random.default_rng(932)
+    basis, _ = np.linalg.qr(rng.normal(size=(65, 3)))
+    design = np.column_stack(
+        (
+            basis[:, 0],
+            basis[:, 0] + 1e-4 * basis[:, 1],
+            basis[:, 0] + 1e-9 * basis[:, 2],
+        )
+    )
+    with mp.workdps(80):
+        matrix = mp.matrix([[mp.mpf(float(x)) for x in row] for row in design])
+        u, _, _ = mp.svd(matrix, full_matrices=False)
+        q = np.array([[float(u[i, j]) for j in range(3)] for i in range(65)])
+    p = q @ q.T
+
+    def svd_record(x):
+        singular = np.linalg.svd(x, compute_uv=False)
+        condition = singular[0] / singular[-1]
+        return {
+            "design_shape": list(x.shape),
+            "design_dtype": "float64",
+            "singular_values": singular.tolist(),
+            "effective_rank": len(singular),
+            "rcond": 1e-12,
+            "rank_threshold": 1e-12 * singular[0],
+            "condition_number": condition,
+            "retained_condition_number": condition,
+            "conditioning_status": "full_rank",
+            "factorization": "cached_thin_svd",
+            "arithmetic": "numpy_float64_or_complex128",
+            "precision_bits": 53,
+            "converged": True,
+            "stop_reason": "svd_factorization_completed",
+            "convergence_scope": "numerical_factorization_of_supplied_design",
+            "solve_scope": "truncated_svd_minimum_norm_fit_on_supplied_samples",
+            "residual_scope": (
+                "design_times_coefficients_minus_supplied_training_values"
+            ),
+            "certification_status": "not_certified",
+            "certification_scope": "no_analytic_or_rounding_certificate",
+        }
+
+    def digest(x):
+        return hashlib.sha256(
+            np.ascontiguousarray(x, dtype="<f8").tobytes()
+        ).hexdigest()
+
+    transformed = svd_record(q)
+    info = {
+        "method": "mpmath_qr_then_binary64_cached_svd",
+        "precision_bits": 256,
+        "source_design_sha256": digest(design),
+        "decomposed_design_sha256": digest(q),
+        "source_design_shape": list(design.shape),
+        "decomposed_design_shape": list(q.shape),
+        "hash_scope": "C-order little-endian binary64 array bytes with recorded shapes",
+        "rank_guard": (
+            "smallest > max(2 * threshold, 8 * eps64 * max(shape) * largest); heuristic"
+        ),
+        "transformed_svd": transformed,
+    }
+    record = {
+        "precision_bits": 256,
+        "projection_arithmetic": info,
+        "projection_svd": svd_record(design),
+        "transformed_projection_svd": transformed,
+    }
+    arrays = {"observation_design": design, "decomposed_design": q, "projection": p}
+    a.audit_projection(record, arrays, "pydlr")
+    for change in ("projection", "q", "hash", "precision", "rank"):
+        r, x = copy.deepcopy(record), {k: v.copy() for k, v in arrays.items()}
+        if change == "projection":
+            x["projection"][0, 0] += 1e-3
+        elif change == "q":
+            x["decomposed_design"][0, 0] += 1e-3
+            r["projection_arithmetic"]["decomposed_design_sha256"] = digest(
+                x["decomposed_design"]
+            )
+        elif change == "hash":
+            r["projection_arithmetic"]["source_design_sha256"] = "0" * 64
+        elif change == "precision":
+            r["precision_bits"] = 53
+        else:
+            r["projection_svd"]["effective_rank"] = 2
+        with pytest.raises(ValueError):
+            a.audit_projection(r, x, "pydlr")
+
+
+def test_v1_case_and_calibration_audit_rejected(tmp_path):
+    case = tmp_path / "case.json"
+    case.write_text(json.dumps({"schema": "kernelgecp.cthyb-spectroscopy.v1"}))
+    with pytest.raises(ValueError, match="case identity"):
+        a.audit_case(case, "raw", "flat", 0, None)
+    cal = tmp_path / "cal.json"
+    cal.write_text("{}")
+    old = {"schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1"}
+    with pytest.raises(ValueError, match="calibration audit binding"):
+        a.check_calibration_binding({}, old, cal)
+    binding = tmp_path / "binding.json"
+    binding.write_text(
+        json.dumps({"schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v1"})
+    )
+    receipt = tmp_path / "receipt.json"
+    receipt.write_text("{}")
+    (tmp_path / "manifest.json").write_text("{}")
+    (tmp_path / "result.json").write_text("{}")
+    with pytest.raises(ValueError, match="fixed-bath audit or parent binding"):
+        a.fixed_raw_cohort(tmp_path, receipt, binding)

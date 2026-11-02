@@ -12758,3 +12758,83 @@ and complex kernel propagation with deterministic fixtures. Default binary64
 errors remain visible. Its status is matrix-only, never scientific eligibility.
 The existing native continuation tests remain. No manual scientific campaign,
 calibration or acquisition is launched by this change.
+
+
+## EH corrective scientific campaign v2 — source freeze before generation
+
+The explicit-precision library at 3bc9bd9 passes full root (2,651 tests,
+42 optional skips) and actual installed-provider matrix probes on both pinned
+Linux/macOS runtimes. The probes verify repeated-design byte equality and
+independent 80-digit projector agreement below 1e-15 for real GECP/pyDLR/IR.
+These are matrix gates only. Draft PR #146 is not scientifically accepted.
+
+Prepare a new, explicitly versioned measured spectroscopy/campaign protocol
+`corrective_projection_v2`. Measured nonraw methods use precision_bits=256,
+eps=1e-10 and rcond=1e-12; raw uses the identity. Preserve n_omega=401,
+n_alpha=33, initial mu=1e-8, covariance_rtol=1e-4, bootstrap count eight in
+repeat zero, methods/default models, process repetitions, all positivity,
+normalization, convergence, covariance, held-out RMS<=2 and resource gates.
+Serialize the single exact source input and actual decomposition coordinates,
+with portable byte hashes/shapes and original plus transformed diagnostics.
+The independent oracle uses 80-digit SVD of the ORIGINAL serialized design at
+the ORIGINAL rcond, then checks the unchanged 2e-8 absolute/1e-8 relative P
+budget, Q orthogonality/span, source/hash/rank, P C P-transpose/K and every
+existing continuation gate. Do not compare the unstable binary64 SVD projector
+as the new mode's truth. Preserve v1 evidence and its frozen Git auditors;
+new v2 acceptance rejects old case/worker/campaign/raw receipts as v2.
+
+Synthetic settings remain historical eps=1e-8, rcond=1e-10 and precision 53;
+do not silently unify them with measured controls or apply full-column QR to
+truncated/underdetermined fixtures. Freeze new synthetic final seeds
+4001/4002/4003 and unchanged 64-node quadrature before any new generation.
+Old calibration seeds remain allowed calibration only. Preserve 24 synthetic
+calibration cases and 72 final children with independent audits.
+
+Recalibrate measured continuation on the attributed 9d28053 native 64-chain
+CALIBRATION data only. Its original raw CAL_BINDING bdc256787... and CAL_REVISION
+9d28053 identify the native raw origin and remain unchanged. The NEW continuation
+calibration and independent audit bind the exact corrective source/runtime and
+must pass before acquisition. Audit revision equals the new acquisition source;
+its hashes are frozen before any new sample. Do not replace native calibration
+raw bindings with continuation audit hashes or pretend old final data are fresh.
+
+Predeclare a fresh 256-chain native fixed-bath cohort, odd seeds
+33100001+2*i for i=0..255, first 128 training/last 128 held out, same accepted
+7200ec0 dense-final bath and 1.6m cycles per chain. These seeds are disjoint
+from prior 32100001 final and all calibration streams. Retain four 64-chain
+checkpoints, 240-minute driver and 330-minute job caps, 4GiB, one thread and
+independent complete raw audit before 24 measured final workers. No new
+closed-loop DMFT trajectory or paired-trajectory uncertainty claim is implied.
+
+Implementation may proceed now; no manual calibration or canonical acquisition
+is authorized by this checkpoint alone. Before manual calibration: complete
+unit/adversarial checks, full root/exact-head CI, installed providers and
+independent source-contract review on one frozen committed source. Before the
+ONE canonical acquisition: both fresh continuation calibrations and audits
+actually pass; freeze source/runtime/parent/calibration/audit hashes, all segment
+ranges and seeds; record dispatch identity. A failure or exhausted resource
+budget is retained, never silently restarted as untouched. No scientific edits
+after freeze. New final outputs are untouched until the declared validation.
+
+
+The v2 workflow now makes calibration-only dispatches actually calibration-only:
+no synthetic final workers run unless acquire_fixed_bath is true. Both measured
+and synthetic calibration audits plus a disposable native runtime probe must
+pass before the conditional synthetic final step. Canonical workflow reruns are
+rejected before any final generation, and segment checkpoints require the v2
+schema and exact fresh cumulative seed list. The root operator still owns the
+one canonical dispatch and must check existing run identities before launch;
+this workflow does not grant arbitrary duplicate manual dispatches fresh status.
+Unit tests check reserved seed metadata without generating final noise; only
+calibration/example seeds are used for observation fixtures. Old feaac669
+receipts/archives remain byte-identical and are not reinterpreted by the v2 code.
+
+
+Integrated independent review found stale protocol labels still naming the old
+EE final cohort. Separate the accepted parent 7200ec0 revision from the v2
+final-generation policy (must equal the actual frozen campaign snapshot), and
+explicitly record the fresh 33100001 odd-stride/count/split. The actual source
+revision remains in the frozen snapshot and final cohort. The measured and raw
+independent auditors enforce the corrected policy; old EE origin constants
+remain only where reading attributed native calibration/parent data. This is a
+provenance correction, with no physics, numerical budget or sampling change.

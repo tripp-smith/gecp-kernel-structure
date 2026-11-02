@@ -33,7 +33,7 @@ on:
   workflow_dispatch:
     inputs:
       acquire_fixed_bath:
-        description: Acquire the single predeclared cohort; never rerun after acquisition starts
+        description: False runs calibration only; true consumes the one fresh final allocation
         type: boolean
         default: false
         required: true
@@ -142,14 +142,16 @@ jobs:
           python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
           python -m pip install pytest==9.0.3
           python -c 'from triqs_maxent import TauMaxEnt; import triqs_cthyb, pydlr, sparse_ir'
+      - name: Refuse canonical regeneration through workflow reruns
+        if: inputs.acquire_fixed_bath == true
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = 1 || { echo 'Canonical reruns are forbidden; preserve the first attempt.' >&2; exit 1; }
       - name: Calibrate synthetic fixtures and audit independently
         run: |
           python -m experiments.spectroscopy_campaign calibration --output artifacts/calibration --freeze artifacts/freeze.json
           python -m experiments.audit_spectroscopy --manifest artifacts/calibration/campaign.json --freeze artifacts/freeze.json --output artifacts/calibration-audit.json
-      - name: Run and independently audit all 72 frozen final cases
-        run: |
-          python -m experiments.spectroscopy_campaign campaign --output artifacts/campaign --freeze artifacts/freeze.json
-          python -m experiments.audit_spectroscopy --manifest artifacts/campaign/campaign.json --freeze artifacts/freeze.json --output artifacts/campaign-audit.json
       - name: Extract the attributed independently audited CT-HYB observations
         run: |
           mkdir -p artifacts/cthyb-input
@@ -166,6 +168,21 @@ jobs:
             --ee-audit data/cthyb/independent-audit-e83d195.json \
             --ee-binding data/cthyb/audit-binding-e83d195.json \
             --output artifacts/native-calibration-audit.json
+      - name: Verify disposable native runtime before final allocation
+        run: |
+          python -m pytest tests/test_cthyb_fixed_bath.py::test_linux_native_runtime_freeze_survives_first_solve -o addopts= -q --junitxml=artifacts/native-runtime-preflight.xml
+          python - <<'PYPREFLIGHT'
+          import xml.etree.ElementTree as ET
+          cases = ET.parse('artifacts/native-runtime-preflight.xml').getroot().findall('.//testcase')
+          assert len(cases) == 1
+          assert cases[0].get('name') == 'test_linux_native_runtime_freeze_survives_first_solve'
+          assert all(cases[0].find(kind) is None for kind in ('skipped', 'failure', 'error'))
+          PYPREFLIGHT
+      - name: Run and independently audit all 72 frozen final cases
+        if: inputs.acquire_fixed_bath == true
+        run: |
+          python -m experiments.spectroscopy_campaign campaign --output artifacts/campaign --freeze artifacts/freeze.json
+          python -m experiments.audit_spectroscopy --manifest artifacts/campaign/campaign.json --freeze artifacts/freeze.json --output artifacts/campaign-audit.json
       - name: Record the executed scientific runtime
         run: |
           python scripts/providers/export_conda_lock.py --explicit artifacts/conda-explicit.txt --inventory artifacts/conda-inventory.json

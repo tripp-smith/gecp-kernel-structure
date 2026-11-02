@@ -108,7 +108,9 @@ jobs:
           import json, os
           from pathlib import Path
           result = json.loads(Path('artifacts/fixed-bath/result.json').read_text())
+          assert result['schema'] == 'kernelgecp.cthyb-fixed-bath-result.v2'
           assert len(result['chains']) == int(os.environ['EXPECTED']), 'segment incomplete; preserve checkpoint and stop'
+          assert [x['seed'] for x in result['chains']] == [33100001+2*i for i in range(len(result['chains']))]
           PYCHECK
       - uses: actions/upload-artifact@v4
         if: always()

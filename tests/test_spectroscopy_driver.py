@@ -47,12 +47,15 @@ def setup(monkeypatch, tmp_path):
         if mode != "manifest":
             out.with_name(out.stem + "-dataset.json").write_text("{}\n")
         result = {
+            "schema": "kernelgecp.spectroscopy-case.v2",
             "status": "passed",
             "gates": {"positive": True},
             "case": option("--case"),
             "method": option("--method"),
             "seed": int(option("--seed")),
             "eps": float(option("--eps")),
+            "rcond": float(option("--rcond")),
+            "precision_bits": int(option("--precision-bits")),
             "pilot": "--pilot" in cmd,
             "query_order": int(option("--query-order")),
             "bootstrap_count": int(option("--bootstrap")),
@@ -68,6 +71,12 @@ def setup(monkeypatch, tmp_path):
         }
         if mode == "mu":
             result["config"]["minimizer_mu0"] = 1e-18
+        if mode == "schema":
+            result["schema"] = "kernelgecp.spectroscopy-case.v1"
+        if mode == "rcond":
+            result["rcond"] = 1e-12
+        if mode == "precision":
+            result["precision_bits"] = 256
         if mode == "gates":
             result["gates"] = {}
         out.write_text(json.dumps(result))
@@ -88,7 +97,7 @@ def test_success_freeze_and_repeat_resume(setup):
     tmp, _, state = setup
     assert calibrate(setup)["status"] == "passed"
     freeze = driver.read(tmp / "freeze.json")
-    assert freeze["controls"]["final_seeds"] == [3001, 3002, 3003]
+    assert freeze["controls"]["final_seeds"] == [4001, 4002, 4003]
     result = driver.execute("campaign", tmp / "final", tmp / "freeze.json", "test")
     assert result["status"] == "passed" and len(result["children"]) == 3
     assert len(result["repeat_comparison"]["skipped"]) == 2
@@ -101,7 +110,18 @@ def test_success_freeze_and_repeat_resume(setup):
 
 
 @pytest.mark.parametrize(
-    "mode", ["exit", "missing", "gates", "corrupt", "manifest", "mu"]
+    "mode",
+    [
+        "exit",
+        "missing",
+        "gates",
+        "corrupt",
+        "manifest",
+        "mu",
+        "schema",
+        "rcond",
+        "precision",
+    ],
 )
 def test_failed_calibration_never_freezes(setup, mode):
     tmp, _, state = setup

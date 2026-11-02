@@ -166,14 +166,14 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         "calibration freeze hash mismatch",
     )
     require(
-        cal.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v1"
+        cal.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v2"
         and cal.get("status") == "passed"
         and cal.get("binding_sha256") == CAL_BINDING,
         "calibration receipt did not pass",
     )
     gates = ca.get("gates")
     require(
-        ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v1"
+        ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v2"
         and ca.get("status") == "passed"
         and ca.get("kind") == "calibration"
         and ca.get("cases") == 8
@@ -204,12 +204,22 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         and cohort.get("seed_base") == 29100000
         and cohort.get("seeds") == expected_seeds
         and cohort.get("binding_sha256") == CAL_BINDING
-        and not set(expected_seeds) & set(range(32100001, 32100513, 2)),
+        and not set(expected_seeds) & set(range(33100001, 33100513, 2)),
         "calibration cohort mismatch",
     )
     protocol = cal.get("protocol", {})
     require(
-        protocol.get("methods") == ["raw", "kernelgecp", "pydlr", "sparse_ir"]
+        protocol.get("profile") == "corrective_projection_v2"
+        and protocol.get("projection_precision_bits") == 256
+        and protocol.get("parent_generation_revision") == PARENT_REVISION
+        and protocol.get("final_generation_revision_policy")
+        == "equal_campaign_snapshot_revision"
+        and protocol.get("final_seed_base") == 33100001
+        and protocol.get("final_seed_stride") == 2
+        and protocol.get("final_chain_count") == 256
+        and protocol.get("final_training_count") == 128
+        and protocol.get("final_heldout_count") == 128
+        and protocol.get("methods") == ["raw", "kernelgecp", "pydlr", "sparse_ir"]
         and protocol.get("default_models") == ["flat", "broad_gaussian"]
         and protocol.get("eps") == 1e-10
         and protocol.get("rcond") == 1e-12
@@ -420,7 +430,7 @@ def audit_cohort(
     result = read_json(folder / "result.json")
     manifest_hash = sha(folder / "manifest.json")
     require(
-        manifest.get("schema") == "kernelgecp.cthyb-fixed-bath.v1",
+        manifest.get("schema") == "kernelgecp.cthyb-fixed-bath.v2",
         "manifest schema mismatch",
     )
     protocol, ref, provenance = (
@@ -428,9 +438,11 @@ def audit_cohort(
         manifest["parent"],
         manifest["provenance"],
     )
-    seeds = [32100001 + 2 * i for i in range(256)]
+    seeds = [33100001 + 2 * i for i in range(256)]
     require(
-        protocol["seeds"] == seeds
+        protocol.get("profile") == "corrective_projection_v2"
+        and protocol.get("projection_precision_bits") == 256
+        and protocol["seeds"] == seeds
         and protocol["train_count"] == 128
         and protocol["cycles"] == 1600000
         and protocol["segment_seconds"] == 14400
@@ -509,7 +521,7 @@ def audit_cohort(
             "generation source mismatch",
         )
     require(
-        result.get("schema") == "kernelgecp.cthyb-fixed-bath-result.v1"
+        result.get("schema") == "kernelgecp.cthyb-fixed-bath-result.v2"
         and result.get("status") == "complete"
         and result.get("manifest_sha256") == manifest_hash
         and len(result.get("chains", [])) == 256,
@@ -579,7 +591,7 @@ def audit_cohort(
             "native solve/sign/density invalid",
         )
         require(
-            timing.get("schema") == "kernelgecp.cthyb-fixed-bath-timing.v1"
+            timing.get("schema") == "kernelgecp.cthyb-fixed-bath-timing.v2"
             and timing.get("seed") == seeds[i]
             and type(timing.get("solve_status")) is int
             and timing.get("solve_status") == 0
@@ -637,7 +649,7 @@ def audit_cohort(
         "audit source must match committed revision",
     )
     receipt = {
-        "schema": "kernelgecp.cthyb-fixed-bath-audit.v1",
+        "schema": "kernelgecp.cthyb-fixed-bath-audit.v2",
         "status": "passed",
         "claim_scope": "fixed_bath_raw_cohort_only_not_EE_campaign",
         "chain_count": 256,
@@ -657,7 +669,7 @@ def audit_cohort(
     )
     receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
     binding = {
-        "schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v1",
+        "schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v2",
         "status": "passed",
         "receipt_sha256": sha(receipt_path),
         "manifest_sha256": manifest_hash,
