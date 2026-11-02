@@ -15,6 +15,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from kernelgecp.integrations._maxent_mass import NormalizedMassMap
+from kernelgecp.types import NumericalBreakdownError
 
 FloatArray = NDArray[np.float64]
 _F = TypeVar("_F", bound=Callable[..., Any])
@@ -66,7 +67,23 @@ def make_native_mass_cost(mass: float) -> tuple[Any, Any]:
             # Native NormalEntropy writes into its argument, including empty
             # floor selections. Its private value must be writable and owned;
             # the immutable mathematical map remains isolated from that state.
-            return self._map().f(v).copy()
+            mapping = self._map()
+            image = mapping.f(v)
+            # NormalEntropy floors H, D and H/D at 1e-100. Reject that
+            # numerical regime before its in-place changes can invalidate the
+            # chain-rule derivatives or alter the caller's default model.
+            with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+                ratio = image / mapping.default_weights
+            if (
+                np.any(image <= 1e-100)
+                or np.any(mapping.default_weights <= 1e-100)
+                or np.any(ratio <= 1e-100)
+                or not np.isfinite(ratio).all()
+            ):
+                raise NumericalBreakdownError(
+                    "constrained image reaches native NormalEntropy floor or overflow"
+                )
+            return image.copy()
 
         @cached
         def d(self, v: FloatArray) -> FloatArray:
@@ -78,7 +95,8 @@ def make_native_mass_cost(mass: float) -> tuple[Any, Any]:
 
         @cached
         def inv(self, hidden: FloatArray) -> FloatArray:
-            return self._map(refresh=True).inv(hidden)
+            # LevenbergMinimizer owns and updates this vector with v -= dv.
+            return self._map(refresh=True).inv(hidden).copy()
 
     h = NativeNormalizedH()
     return costs.MaxEntCostFunction(d_dv=True, H_of_v=h), h

@@ -294,6 +294,14 @@ final validation; observed final data cannot be relabeled untouched.
 
 ## Corrective explicit-precision provider checks (in progress)
 
+The explicit constrained-mass candidate also requires owned writable initial
+coordinates for the native Levenberg update. The pure mathematical map keeps
+immutable outputs. The adapter rejects hidden images, defaults or their ratio
+at the native entropy floor (`1e-100`) and nonfinite ratios before the provider
+can alter them. Underflow or such a trial fails explicitly; no optimizer or
+entropy substitute is used. These interface bounds do not establish scientific
+calibration or a held-out prediction pass.
+
 The opt-in projection mode uses declared higher-precision QR followed by the
 cached SVD on rounded orthogonal coordinates. It keeps the original rank,
 cutoff and conditioning, immutable source/decomposition inputs and portable

@@ -12946,3 +12946,19 @@ an incomplete historical /tmp directory. Eleven focused tests pass/one skips;
 invalid explicit opt-in exits1. Mandatory supported native EPW gates and every
 scientific acceptance threshold remain unchanged. This prevents the same known
 base-verification harness failure before freezing the full candidate.
+
+Actual installed probes at65ba89c (workflow41531271566) fail on Linux and macOS
+with the independently predicted read-only initial-coordinate error. The
+native minimizer executes `v -= dv`; preserve the failed provider artifacts and
+return an owned writable inverse at this adapter boundary. Full local root at
+65ba89c was deliberately stopped (exit143) after this defect was confirmed; it
+is not a passing verification receipt. No Monte Carlo jobs ran.
+
+Independent review additionally identifies native NormalEntropy's in-place
+1e-100 floor. Reject hidden values, defaults and H/D ratios that reach it, plus
+nonfinite ratios, before cost evaluation changes the intended derivatives.
+Keep pure-map immutability and explicit trial breakdowns. Extend the real
+provider probe with writable-inverse and entropy-floor negative checks, then
+rerun focused/root and exact-head installed Linux/macOS checks. The old failed
+scientific cohort, RMS2 budget, original rescale behavior and calibration/final
+separation remain unchanged.

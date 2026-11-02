@@ -11,6 +11,7 @@ python -m pip install kernelgecp==1.1.0
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
 > **Current phase:** EH — constrained-mass optimization candidate after failed v2 final validation<br>
+> **Candidate validation:** Actual Linux/macOS provider probes exposed a read-only initial-coordinate bug. The adapter correction and entropy-floor rejection are under verification; this is not a scientific pass<br>
 > **Phase state:** Corrective source `98bdfab` completes all256 raw chains and their independent audit, but final raw continuation fails RMS2.8853>2. The cohort is consumed development evidence; no tolerance is relaxed. An explicit native unit-mass objective candidate is in development and has no real-provider/scientific acceptance. [PR #146 canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) preserves failed artifacts and open gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>

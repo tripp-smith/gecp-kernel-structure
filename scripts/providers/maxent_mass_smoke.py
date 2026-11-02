@@ -102,6 +102,9 @@ def native_cost_checks(np, native):
         raise RuntimeError("singular-space map refresh failed")
     if not np.array_equal(initial, initial_copy):
         raise RuntimeError("inverse mutated its read-only input")
+    if not v.flags.writeable or not v.flags.owndata:
+        raise RuntimeError("native minimizer requires an owned writable inverse")
+    v -= 0.01  # The actual provider updates its initial coordinates in place.
     v = np.linspace(0.1, 0.2, after)
     v_copy = v.copy()
     v.setflags(write=False)
@@ -150,6 +153,16 @@ def native_cost_checks(np, native):
     expected = changed.D / np.sum(changed.D)
     if not np.allclose(new_h, expected, rtol=1e-12, atol=1e-14):
         raise RuntimeError("default-model map refresh failed")
+    tiny = np.ones(9)
+    tiny[0] = 1e-105
+    cost.D = provider.DataDefaultModel(tiny, omega)
+    try:
+        hidden(np.zeros(hidden.input_size)).f()
+    except native.NumericalBreakdownError as exc:
+        if "NormalEntropy floor" not in str(exc):
+            raise
+    else:
+        raise RuntimeError("native entropy-floor regime was not rejected")
     return {
         "rank_before_reduction": before,
         "rank_after_reduction": after,
@@ -160,6 +173,8 @@ def native_cost_checks(np, native):
         "finite_difference_step": step,
         "default_refresh": True,
         "readonly_input_isolation": True,
+        "writable_owned_inverse": True,
+        "native_entropy_floor_rejected": True,
     }
 
 
