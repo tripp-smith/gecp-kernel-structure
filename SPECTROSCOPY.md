@@ -1,8 +1,17 @@
 # MaxEnt spectroscopy evidence
 
-The frozen `feaac669` campaign passed its original run, but merged main `3bc726b` fails independent projection replay. EH delivery remains open ([canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288)). [Diagnostic PR #145](https://github.com/tripp-smith/gecp-kernel-structure/pull/145) and the explicit-precision corrective branch preserve the failure; no new calibration or untouched final validation is claimed.
+EH remains open. Corrective v2 source `98bdfab` completes all256 native chains
+and the independent raw-only audit in run41391193610, plus72 synthetic final
+children. Its first measured final raw-flat-r0 case fails held-out whitened
+RMS2.885315>2. The remaining23 workers never run. Preserve this failed consumed
+cohort and the earlier independent-projection discrepancy; no tolerance is
+relaxed. An explicit native mass-constraint candidate is in development after
+training-only analysis identifies a large fit penalty from posthoc rescaling.
+It has no actual-provider or new calibration/final acceptance. The
+[canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records original artifacts, independent audits and remaining gates.
 
-## Accepted Linux scientific campaign
+## Historical Linux campaign; current acceptance superseded
 
 The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
 24 synthetic calibration cases, 72 untouched synthetic final children (24

@@ -2658,3 +2658,18 @@ SVD gives projector differences below 8e-16 from a separate 80-digit SVD for
 GECP, pyDLR and sparse IR. Original conditioning remains reported. This is finite
 matrix evidence and does not establish actual MaxEnt calibration, final
 spectroscopy acceptance or a speed advantage. No acceptance budget changed.
+
+
+### EH v2 final failure and unit-mass objective hypothesis
+
+All256 native chains and the independent fixed-bath raw audit pass at98bdfab.
+Continuation fails on the first raw-flat final case: RMS2.885315>2, despite
+positivity, delivered unit mass and selected native convergence. Independent
+means/covariance/forward checks reproduce the miss. The selected unconstrained
+trial has mass1.0022294 and native training chi²79.84; explicit rescaling raises
+independent training chi² to492.19. A training-only constrained nonnegative
+reference reaches about79.08 with numerical/KKT limitations. These facts support
+a bounded native unit-mass optimization hypothesis; they do not establish cause,
+global optimality, held-out improvement or final scientific acceptance. The
+failed cohort is consumed; remaining23 workers never execute, and new decisions
+require an appropriate new freeze and untouched validation. Thresholds stay fixed.

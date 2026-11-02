@@ -258,7 +258,7 @@ def run_case(
         output.with_name(output.stem + "-dataset.npz"),
         units={"tau": "inverse_energy", "omega": "energy", "G_tau": "dimensionless"},
         provider={"name": method, "continuation": "TRIQS/MaxEnt4.0.1"},
-        calculation_settings=dataclasses.asdict(config),
+        calculation_settings=config.as_record(),
     )
     fit_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
@@ -367,7 +367,7 @@ def run_case(
         "eps": eps,
         "rcond": rcond,
         "precision_bits": precision_bits,
-        "config": dataclasses.asdict(config),
+        "config": config.as_record(),
         "provenance": before,
         "effective_rank": fitted.modes.effective_rank,
         "whitened_rms": rms,

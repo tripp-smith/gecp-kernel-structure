@@ -1725,9 +1725,18 @@ training defect. With normalization enabled, alpha selection compares the
 normalized physical forward model against training data, including the complete
 projection and retained covariance modes. Provider chi-square values remain
 separate; diagnostics also retain each trial mass and selection discrepancy.
-Without normalization, selection uses the provider chi-square. Normalization is
-explicit postprocessing, not a constraint inside native optimization. `MaxEntSpectrum.evaluate_tau` performs physical forward
-evaluation; it is separate from the projected observation model.
+Without normalization, selection uses the provider chi-square. The default
+`mass_mode="rescale"` preserves explicit postprocessing. The candidate
+`mass_mode="constrained"` instead requires a positive `normalize_mass` target,
+uses a normalized positive parameterization inside the actual native general
+cost function, and does not rescale delivered trials afterward. It records the
+centered feature rank, singular values, conditioning and explicit-array resource
+estimate. Rank truncation is heuristic, and floating mass has rounding error;
+no global optimization or numerical certificate is claimed. Native interface
+and scientific acceptance for this candidate remain open. `MaxEntConfig.as_record()`
+preserves the legacy rescale control fields and records the nondefault mode
+explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;
+it is separate from the projected observation model.
 `save_spectral_dataset`/`load_spectral_dataset` preserve full covariance,
 projection, source mesh and a versioned hash-bound application manifest with
 caller-declared units/provider/state ordering/settings.

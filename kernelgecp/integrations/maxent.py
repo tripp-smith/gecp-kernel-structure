@@ -706,6 +706,9 @@ class MaxEntConfig:
     minimizer_mu0 is the native minimizer's initial damping, not a floor;
     the native algorithm can reduce it during a solve. The default preserves
     the provider setting; scientific campaigns declare their candidate explicitly.
+    The rescale default applies mass after fitting. Constrained mode instead
+    uses a normalized native parameterization and full chain-rule derivatives,
+    with explicit numerical rank and resource limits. Convergence is not assured.
     """
 
     omega_min: float = -4.0
@@ -718,6 +721,7 @@ class MaxEntConfig:
     default_model: str = "flat"
     normalize_mass: float | None = 1.0
     minimizer_mu0: float = 1e-18
+    mass_mode: str = "rescale"
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -743,6 +747,20 @@ class MaxEntConfig:
             raise ValueError("default_model must be flat or broad_gaussian")
         if self.normalize_mass is not None:
             _positive_real(self.normalize_mass, "normalize_mass")
+        if not isinstance(self.mass_mode, str) or self.mass_mode not in {
+            "rescale",
+            "constrained",
+        }:
+            raise ValueError("mass_mode must be rescale or constrained")
+        if self.mass_mode == "constrained" and self.normalize_mass is None:
+            raise ValueError("constrained mass requires an explicit normalize_mass")
+
+    def as_record(self) -> dict[str, Any]:
+        """Preserve legacy rescale receipts; record an explicit nondefault mode."""
+        result = asdict(self)
+        if self.mass_mode == "rescale":
+            result.pop("mass_mode")
+        return result
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -817,6 +835,8 @@ def _selection_metrics(
     chi2: FloatArray,
     converged: npt.NDArray[np.bool_],
     normalize_mass: float | None,
+    *,
+    mass_mode: str = "rescale",
 ) -> tuple[int, list[float | None], list[float | None]]:
     """Score training fits after the delivered mass operation."""
     masses = np.asarray(np.trapezoid(spectra, omega, axis=1), dtype=np.float64)
@@ -827,13 +847,21 @@ def _selection_metrics(
         & np.isfinite(masses)
         & (masses > 0)
     )
+    if mass_mode == "constrained":
+        if normalize_mass is None:
+            raise ValueError("constrained mass requires a target")
+        eligible &= np.isclose(masses, normalize_mass, rtol=1e-10, atol=0)
     mass_records = [float(m) if np.isfinite(m) else None for m in masses]
     metrics: list[float | None] = [None] * len(masses)
     for i in np.flatnonzero(eligible):
         if normalize_mass is None:
             value = float(chi2[i])
         else:
-            density = spectra[i] * (normalize_mass / masses[i])
+            density = (
+                spectra[i]
+                if mass_mode == "constrained"
+                else spectra[i] * (normalize_mass / masses[i])
+            )
             prediction = spectral_forward(
                 data.beta,
                 data.tau
@@ -873,7 +901,10 @@ def continue_tau_maxent(
     Alpha minimizes |log(chi2 / retained noise rank)| over eligible converged
     trials. With mass rescaling, chi2 is recomputed from the normalized physical
     forward model and training data; without it, provider chi2 is used. The
-    provider generates the family without a mass constraint in optimization.
+    default generates the family without a mass constraint in optimization.
+    Explicit constrained mode uses a normalized positive native parameterization
+    with full cost derivatives and no posthoc mass scaling. Its numerical rank
+    and resource limits are recorded; no alternative optimizer is substituted.
     This is a regularized estimate, not unique peak recovery.
     """
     settings = MaxEntConfig() if config is None else config
@@ -899,8 +930,17 @@ def continue_tau_maxent(
             history.append((bool(self.converged), int(self.n_iter_last)))
             return result
 
+    cost_function: Any = "bryan"
+    mass_parameterization: Any = None
+    if settings.mass_mode == "constrained":
+        from ._maxent_native_mass import make_native_mass_cost
+
+        assert settings.normalize_mass is not None
+        cost_function, mass_parameterization = make_native_mass_cost(
+            settings.normalize_mass
+        )
     solver = provider.TauMaxEnt(
-        cost_function="bryan",
+        cost_function=cost_function,
         minimizer=RecordingMinimizer(
             maxiter=settings.maxiter, mu0=settings.minimizer_mu0
         ),
@@ -940,6 +980,17 @@ def continue_tau_maxent(
         raise NumericalBreakdownError(
             "provider covariance truncation changed declared rank"
         )
+    if settings.mass_mode == "constrained":
+        # The provider multiplies A_init by mesh weights before H.inv().
+        # Supply a density, so its initial hidden image is the weighted default.
+        assert settings.normalize_mass is not None
+        weighted_default = np.asarray(solver.D.D, dtype=float)
+        solver.A_init = (
+            settings.normalize_mass
+            * weighted_default
+            / np.sum(weighted_default)
+            / np.asarray(solver.omega.delta, dtype=float)
+        )
     try:
         # The native minimizer changes NumPy's error policy internally. Keep
         # the caller's policy intact even if a native solve raises midway.
@@ -965,7 +1016,13 @@ def continue_tau_maxent(
         raise NumericalBreakdownError("provider returned incomplete alpha trials")
     converged = np.array([entry[0] for entry in history])
     selected, trial_masses, selection_chi2 = _selection_metrics(
-        data, omega, spectra, chi2, converged, settings.normalize_mass
+        data,
+        omega,
+        spectra,
+        chi2,
+        converged,
+        settings.normalize_mass,
+        mass_mode=settings.mass_mode,
     )
     density = spectra[selected].copy()
     raw_mass = float(np.trapezoid(density, omega))
@@ -973,7 +1030,7 @@ def continue_tau_maxent(
         raise NumericalBreakdownError(
             "selected spectral mass is nonpositive or nonfinite"
         )
-    if settings.normalize_mass is not None:
+    if settings.normalize_mass is not None and settings.mass_mode == "rescale":
         density *= settings.normalize_mass / raw_mass
     mass = float(np.trapezoid(density, omega))
     prediction = spectral_forward(
@@ -1002,7 +1059,7 @@ def continue_tau_maxent(
             {
                 "provider": "TRIQS/MaxEnt",
                 "version": version,
-                "config": asdict(settings),
+                "config": settings.as_record(),
                 "dataset": data.fingerprint,
                 "alpha_selection": (
                     "provider_chi2_training_discrepancy"
@@ -1019,7 +1076,16 @@ def continue_tau_maxent(
                 else "complete_projection_times_native_source_tau_kernel",
                 "mass_operation": "none"
                 if settings.normalize_mass is None
-                else "explicit_rescale",
+                else (
+                    "native_mass_constraint"
+                    if settings.mass_mode == "constrained"
+                    else "explicit_rescale"
+                ),
+                "mass_parameterization": (
+                    mass_parameterization.diagnostics
+                    if mass_parameterization is not None
+                    else None
+                ),
                 "certification_status": "not_certified",
                 "uncertainty_scope": (
                     "retained_covariance_modes_no_unique_peak_or_coverage_claim"

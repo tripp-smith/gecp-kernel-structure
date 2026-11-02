@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -6,8 +7,6 @@ import numpy as np
 import pytest
 
 from experiments import epw_frequency as exp
-
-NATIVE = Path("/tmp/gecp-eg-native-13915c8")
 
 
 def test_partitions_exclude_all_reserved():
@@ -44,16 +43,26 @@ def test_budget_and_matrix_normalization():
     )
 
 
-@pytest.mark.skipif(not NATIVE.exists(), reason="actual native source not available")
 def test_actual_native_context_and_explicit_offset():
-    data, context, path = exp.native_context(NATIVE, 0.0)
+    native_root = os.environ.get("KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT")
+    if native_root is None:
+        pytest.skip(
+            "set KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT to an actual native source"
+        )
+    if not native_root or not Path(native_root).is_dir():
+        pytest.fail(
+            "KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT must name an existing "
+            "native source directory"
+        )
+    native = Path(native_root)
+    data, context, path = exp.native_context(native, 0.0)
     assert (
         data.z.shape == (109, 140)
         and context["reference_fermi_energy_ev"] == 7.6644748416
     )
     assert context["source_provenance"]["corpus_sha256"][path.name] == exp.sha(path)
     with pytest.raises(ValueError, match="offset"):
-        exp.native_context(NATIVE, 0.01)
+        exp.native_context(native, 0.01)
 
 
 def test_calibration_never_constructs_reserved_rows(tmp_path, monkeypatch):

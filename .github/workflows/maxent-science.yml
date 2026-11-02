@@ -97,6 +97,8 @@ jobs:
           cd "$RUNNER_TEMP"
           python -c 'import kernelgecp; from pathlib import Path; assert "site-packages" in str(Path(kernelgecp.__file__).resolve())'
           python -m pytest "$project_root/tests/test_maxent_covariance.py" \
+            "$project_root/tests/test_maxent_mass_map.py" \
+            "$project_root/tests/test_maxent_mass_selection.py" \
             "$project_root/tests/test_projection_precision.py" \
             "$project_root/tests/test_projection_precision_review.py" --import-mode=importlib -q
           python -m pip freeze --all > "$project_root/artifacts/maxent-pip-freeze.txt"
@@ -109,6 +111,15 @@ jobs:
             --source-root "$project_root" --source-revision "$revision" \
             --require-installed \
             --output "$project_root/artifacts/projection-precision-${{ matrix.platform }}.json"
+      - name: Validate installed native constrained-mass interface
+        run: |
+          project_root="$PWD"
+          revision="$(git rev-parse HEAD)"
+          cd "$RUNNER_TEMP"
+          env -u PYTHONPATH python "$project_root/scripts/providers/maxent_mass_smoke.py" \
+            --source-root "$project_root" --source-revision "$revision" \
+            --require-installed \
+            --output "$project_root/artifacts/native-mass-${{ matrix.platform }}.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

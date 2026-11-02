@@ -1,0 +1,52 @@
+"""Mass-mode validation and training-only selection; no provider execution."""
+
+import numpy as np
+import pytest
+
+from kernelgecp.integrations.maxent import (
+    MaxEntConfig,
+    SpectralDataset,
+    _selection_metrics,
+    spectral_forward,
+)
+from kernelgecp.types import NumericalBreakdownError
+
+
+def test_legacy_mass_mode_and_explicit_constraint():
+    assert MaxEntConfig().mass_mode == "rescale"
+    assert MaxEntConfig(normalize_mass=None).mass_mode == "rescale"
+    assert MaxEntConfig(mass_mode="constrained").normalize_mass == 1.0
+    assert "mass_mode" not in MaxEntConfig().as_record()
+    assert MaxEntConfig(mass_mode="constrained").as_record()["mass_mode"] == (
+        "constrained"
+    )
+    with pytest.raises(ValueError, match="explicit normalize_mass"):
+        MaxEntConfig(mass_mode="constrained", normalize_mass=None)
+    for invalid in ("unknown", [], True):
+        with pytest.raises(ValueError, match="mass_mode"):
+            MaxEntConfig(mass_mode=invalid)
+
+
+def test_constraint_rejects_mass_violation_instead_of_rescaling():
+    omega = np.array([-1.0, 0.0, 1.0])
+    spectra = np.full((1, 3), 0.55)
+    data = SpectralDataset(2.0, [0.0, 1.0, 2.0], np.zeros(3), np.eye(3))
+    args = (data, omega, spectra, np.array([1.0]), np.array([True]), 1.0)
+    with pytest.raises(NumericalBreakdownError, match="no positive finite-mass"):
+        _selection_metrics(*args, mass_mode="constrained")
+    selected, masses, metrics = _selection_metrics(*args)
+    assert selected == 0 and masses[0] == pytest.approx(1.1)
+    assert metrics[0] is not None
+
+
+def test_constraint_selection_does_not_modify_rounding_scale():
+    omega = np.array([-1.0, 0.0, 1.0])
+    spectra = np.full((1, 3), 0.5 * (1 + 5e-12))
+    tau = np.array([0.0, 1.0, 2.0])
+    observed = spectral_forward(2.0, tau, omega, spectra[0])
+    data = SpectralDataset(2.0, tau, observed, np.eye(3) * 1e-16)
+    args = (data, omega, spectra, np.array([1.0]), np.array([True]), 1.0)
+    _, _, constrained = _selection_metrics(*args, mass_mode="constrained")
+    _, _, rescaled = _selection_metrics(*args)
+    assert constrained[0] == 0.0
+    assert rescaled[0] is not None and rescaled[0] > 0

@@ -3270,3 +3270,12 @@ calibration provenance. Fresh synthetic final seeds 4001/4002/4003 and fresh
 native odd seeds 33100001+2*i (256, split128/128) are predeclared before new
 generation. Synthetic eps/rcond remain their historical values. No new run is
 launched by this annotation, and original mathematical goals are unchanged.
+
+
+EH unit-mass candidate annotation (2026-11-02): frozen v2 run41391193610
+completes256 raw chains and raw audit, but first finalraw continuation fails
+whitenedRMS2.8853>2; remainingworkers neverexecute. Preserve this consumed failed
+cohort. Develop an explicit constrained mass objective through actualTauMaxEnt
+with derivative/resource/provider checks, keeping rescale default and all
+scientific thresholds. This is not calibration/final/release acceptance; original
+mathematical goals, public archive meanings and published1.1.0 remain unchanged.

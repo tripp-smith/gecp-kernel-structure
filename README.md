@@ -10,8 +10,8 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — corrective scientific validation preparation<br>
-> **Phase state:** EH merged in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142), but main `3bc726b` fails the frozen projection replay. [Diagnostic PR #145](https://github.com/tripp-smith/gecp-kernel-structure/pull/145) confirms an ill-conditioned pyDLR projector discrepancy against high precision. An explicit precision option is in local development; it has no scientific acceptance, new calibration, untouched final validation or release claim<br>
+> **Current phase:** EH — constrained-mass optimization candidate after failed v2 final validation<br>
+> **Phase state:** Corrective source `98bdfab` completes all256 raw chains and their independent audit, but final raw continuation fails RMS2.8853>2. The cohort is consumed development evidence; no tolerance is relaxed. An explicit native unit-mass objective candidate is in development and has no real-provider/scientific acceptance. [PR #146 canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) preserves failed artifacts and open gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
 > **Last verification:** Main root passes 2,631 tests/42 optional skips; one exact-main scientific replay fails and remains open. Local calibration-only orthogonalization probes meet the unchanged projector budget around 1e-15. New library work requires focused/full checks and a new source-bound scientific validation contract<br>

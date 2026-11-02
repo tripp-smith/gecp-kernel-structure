@@ -909,7 +909,7 @@ def run(
         "gates": gates,
         "source": metadata,
         "method": method,
-        "config": dataclasses.asdict(config),
+        "config": config.as_record(),
         "eps": eps,
         "rcond": rcond,
         "observation_indices": OBS.tolist(),

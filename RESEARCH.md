@@ -12877,3 +12877,72 @@ guard is not misreported as a passing new-source scientific gate; a new frozen
 v2 replay and every required release/main check must pass before closure.
 No source edits occur during calibration or acquisition. Status updates go in
 external canonical PR receipts while that source is frozen.
+
+
+## EH unit-mass objective candidate after failed v2 final validation
+
+Canonical v2 run 41391193610 is terminal. All256 raw chains and their independent
+fixed-bath audit pass, but the first raw-flat-r0 continuation fails held-out
+whitened RMS2.8853152217099556>2. Remaining23 workers and final continuation audit
+never execute after fail-fast. The unchanged raw/continuation scopes and all
+failed artifacts remain preserved in canonical PR146 receipt6569177201. The
+whole cohort is now consumed development evidence, not an untouched final set.
+
+Independent numerical checks reproduce the failure and the declared means,
+covariances and forward quadrature. The selected native alpha31.6228 converges,
+but its mass1.002229417 is rescaled after fitting, increasing training chi² from
+79.84 to492.19. This is a real gate miss; its cause is not established as an
+implementation bug. A training-only independent positive unit-mass optimization
+constructs chi²about79.08, below80 but above target64, with conditioning and KKT
+limitations. This is a bounded feasibility control, not native MaxEnt acceptance
+or held-out success. No alternate alpha has been chosen against held-out data.
+
+Next candidate: add an explicit constrained mass mode inside actual TauMaxEnt
+4.0.1, preserving the existing rescale default and all scientific budgets. Use
+a normalized positive exponential H(v), with an explicit centered/reduced feature
+basis and declared rank/conditioning diagnostics. Differentiate the complete
+map for the native general MaxEnt cost function; retain its existing Levenberg
+minimizer, damping/iteration settings, alpha grid and covariance model. No
+posthoc scaling in constrained mode, no silent fallback or inferred symmetry.
+Pinned wheel74c0fb1a4ec4abbc0ee8b46d11f9f01781687d4bfbe74982c0100c0887b4fcac
+provides the inspected constructor, derivative, initialization and cache contracts.
+
+Deliver pure NumPy map plus independent derivative/roundtrip/resource tests,
+a lazy native GenericH_of_v adapter and explicit MaxEntConfig.mass_mode choices
+rescale/constrained. Constraint requires an explicit positive normalize_mass.
+Retain original mass rescaling and archive meanings for existing users. Native
+initialization uses the density corresponding to the weighted default so the
+initial latent vector is zero. Refresh the feature map after provider singular-
+space reduction and expose any numerical rank removal. Resource/rank/underflow
+failures stay explicit. This is not a global optimum or floating-point theorem.
+
+Verify finite differences, complete native cost derivatives, cache/property
+changes, positive finite/unit-mass every-alpha trials and source-installed
+actual4.0.1 provider cases in Linux/macOS. Only then calibrate the candidate on
+existing calibration/development data. Do not declare a new canonical sampling
+allocation, consume future seeds or claim phase/release completion here. Any
+scientific decision change needs a new frozen profile and appropriate untouched
+final validation; failed v2 remains failed with tolerance2 and all old budgets.
+Full root/exact-head CI, native calibration, new final science and complete
+EJ/public1.2 acceptance remain open. Existing mathematical goals are unchanged.
+
+
+Candidate integration checks pass111 focused tests with two optional provider
+skips; all44 package modules type-check. Independent review caught a read-only
+hidden-image incompatibility with native NormalEntropy; return an owned writable
+native image while keeping mathematical map arrays immutable. It also corrected
+pre-coercion caps, constant-offset rank sensitivity, subnormal-mass handling and
+Hessian temporary accounting. Pure map tests cover14 derivative/roundtrip/resource
+cases; native full-cost finite-difference and installed continuation probes are
+wired for Linux/macOS but have not run. Strict v2 rescale control receipts keep
+their original fields via MaxEntConfig.as_record(); nondefault constrained mode
+is always recorded, so the v2 auditor is not weakened to accept it. Full root,
+actual native probes and all later scientific gates remain required.
+
+
+Carry the already verified EJ optional EPW harness correction into this branch:
+require explicit KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT rather than autodiscovering
+an incomplete historical /tmp directory. Eleven focused tests pass/one skips;
+invalid explicit opt-in exits1. Mandatory supported native EPW gates and every
+scientific acceptance threshold remain unchanged. This prevents the same known
+base-verification harness failure before freezing the full candidate.
