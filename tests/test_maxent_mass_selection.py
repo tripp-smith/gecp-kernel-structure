@@ -17,6 +17,7 @@ def test_legacy_mass_mode_and_explicit_constraint():
     assert MaxEntConfig(normalize_mass=None).mass_mode == "rescale"
     assert MaxEntConfig(mass_mode="constrained").normalize_mass == 1.0
     assert "mass_mode" not in MaxEntConfig().as_record()
+    assert "mass_curvature" not in MaxEntConfig().as_record()
     assert MaxEntConfig(mass_mode="constrained").as_record()["mass_mode"] == (
         "constrained"
     )
@@ -25,6 +26,17 @@ def test_legacy_mass_mode_and_explicit_constraint():
     for invalid in ("unknown", [], True):
         with pytest.raises(ValueError, match="mass_mode"):
             MaxEntConfig(mass_mode=invalid)
+
+
+def test_native_curvature_is_explicit_and_never_ignored():
+    assert MaxEntConfig(mass_mode="constrained").mass_curvature == "exact"
+    projected = MaxEntConfig(mass_mode="constrained", mass_curvature="projected")
+    assert projected.as_record()["mass_curvature"] == "projected"
+    for invalid in ("unknown", [], True):
+        with pytest.raises(ValueError, match="mass_curvature"):
+            MaxEntConfig(mass_mode="constrained", mass_curvature=invalid)
+    with pytest.raises(ValueError, match="requires constrained"):
+        MaxEntConfig(mass_curvature="projected")
 
 
 def test_constraint_rejects_mass_violation_instead_of_rescaling():

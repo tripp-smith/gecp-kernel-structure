@@ -707,8 +707,9 @@ class MaxEntConfig:
     the native algorithm can reduce it during a solve. The default preserves
     the provider setting; scientific campaigns declare their candidate explicitly.
     The rescale default applies mass after fitting. Constrained mode instead
-    uses a normalized native parameterization and full chain-rule derivatives,
-    with explicit numerical rank and resource limits. Convergence is not assured.
+    uses a normalized native parameterization and exact chain-rule gradient.
+    Its curvature is explicitly exact or native projected; numerical rank and
+    resource limits are recorded. Convergence is not assured.
     """
 
     omega_min: float = -4.0
@@ -722,6 +723,7 @@ class MaxEntConfig:
     normalize_mass: float | None = 1.0
     minimizer_mu0: float = 1e-18
     mass_mode: str = "rescale"
+    mass_curvature: str = "exact"
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -754,12 +756,20 @@ class MaxEntConfig:
             raise ValueError("mass_mode must be rescale or constrained")
         if self.mass_mode == "constrained" and self.normalize_mass is None:
             raise ValueError("constrained mass requires an explicit normalize_mass")
+        if not isinstance(self.mass_curvature, str) or self.mass_curvature not in {
+            "exact",
+            "projected",
+        }:
+            raise ValueError("mass_curvature must be exact or projected")
+        if self.mass_mode != "constrained" and self.mass_curvature != "exact":
+            raise ValueError("projected mass_curvature requires constrained mass_mode")
 
     def as_record(self) -> dict[str, Any]:
         """Preserve legacy rescale receipts; record an explicit nondefault mode."""
         result = asdict(self)
         if self.mass_mode == "rescale":
             result.pop("mass_mode")
+            result.pop("mass_curvature")
         return result
 
 
@@ -899,11 +909,12 @@ def continue_tau_maxent(
     """Run actual TRIQS/MaxEnt4.0.1; unavailable or exhausted providers fail.
 
     Alpha minimizes |log(chi2 / retained noise rank)| over eligible converged
-    trials. With mass rescaling, chi2 is recomputed from the normalized physical
-    forward model and training data; without it, provider chi2 is used. The
+    trials. With a declared mass, chi2 is recomputed from the delivered physical
+    forward model and training data; otherwise provider chi2 is used. The
     default generates the family without a mass constraint in optimization.
     Explicit constrained mode uses a normalized positive native parameterization
-    with full cost derivatives and no posthoc mass scaling. Its numerical rank
+    with an exact gradient, explicitly selected exact or projected curvature,
+    and no posthoc mass scaling. Its numerical rank
     and resource limits are recorded; no alternative optimizer is substituted.
     This is a regularized estimate, not unique peak recovery.
     """
@@ -937,7 +948,7 @@ def continue_tau_maxent(
 
         assert settings.normalize_mass is not None
         cost_function, mass_parameterization = make_native_mass_cost(
-            settings.normalize_mass
+            settings.normalize_mass, curvature=settings.mass_curvature
         )
     solver = provider.TauMaxEnt(
         cost_function=cost_function,
@@ -996,7 +1007,12 @@ def continue_tau_maxent(
         # the caller's policy intact even if a native solve raises midway.
         with np.errstate(**np.geterr()):
             result = solver.run()
-    except (ValueError, FloatingPointError, np.linalg.LinAlgError) as error:
+    except (
+        ValueError,
+        FloatingPointError,
+        np.linalg.LinAlgError,
+        NumericalBreakdownError,
+    ) as error:
         raise NumericalBreakdownError(
             f"actual TauMaxEnt failed; no substitute method; "
             f"{type(error).__name__}: {error}; completed trials: {len(history)}; "

@@ -29,6 +29,7 @@ FIXED = {
     "minimizer_mu0": 1e-8,
     "normalize_mass": 1.0,
     "mass_mode": "constrained",
+    "mass_curvature": "projected",
     "covariance_rtol": 1e-4,
     "covariance_atol": 1e-18,
     "beta": 10.0,
@@ -173,7 +174,7 @@ def main():
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=False)
     receipt = {
-        "schema": "kernelgecp.maxent-training-scout.v1",
+        "schema": "kernelgecp.maxent-training-scout.v2",
         "status": "failed",
         "scope": (
             "consumed development data; training-only diagnostic; no heldout scoring "
@@ -265,6 +266,7 @@ def main():
                             default_model=model,
                             normalize_mass=1.0,
                             mass_mode="constrained",
+                            mass_curvature="projected",
                         )
                         result = api.continue_tau_maxent(data, config)
                         predictions = forward12(

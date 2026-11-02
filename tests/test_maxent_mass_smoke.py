@@ -87,3 +87,14 @@ def test_cli_reports_source_mismatch(tmp_path):
     receipt = json.loads(output.read_text())
     assert receipt["status"] == "failed"
     assert receipt["error"]["stage"] == "source"
+
+
+def test_invalid_native_curvature_rejected_before_provider_import(monkeypatch):
+    from kernelgecp.integrations import _maxent_native_mass as native
+
+    def fail_import(name):
+        raise AssertionError("provider import was attempted")
+
+    monkeypatch.setattr(native.importlib, "import_module", fail_import)
+    with pytest.raises(ValueError, match="curvature"):
+        native.make_native_mass_cost(1.0, curvature="invalid")

@@ -2680,3 +2680,10 @@ both smooth default-model cases converge at all5alphas, and masses agree within
 4.5e-16. These are interface checks. A consumed-data training-only scout is
 prepared without any held-out scoring or new sampling; neither check closes
 scientific calibration or final acceptance.
+
+The real consumed-training scout at2df694e fails for both default models before
+completing its33alphas: the strict entropy-floor guard aborts after17/11 logged
+trials. This is a numerical failure, not improved spectroscopy evidence. The
+next explicit candidate uses the provider's projected positive curvature with
+the same objective, exact gradient and native minimizer. Its behavior remains
+unverified; no clipping, tolerance change or new raw sampling is introduced.

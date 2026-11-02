@@ -12988,3 +12988,38 @@ This is consumed-data diagnostic work, not calibration/final acceptance or a
 new sampling allocation. Preserve RMS2 and all science budgets. A promising
 result still requires separately frozen calibration, all compressed providers,
 bootstrap/default sensitivity and appropriate untouched final validation.
+
+## EH native projected-curvature development contract
+
+The single training-only run41533313911 at2df694e is terminal failed. Both
+actual installed interface lanes pass, and every scientific/acquisition job
+is skipped. The fixed real-training scout reaches the strict native entropy
+floor: flat logs17 completed alpha trials, Gaussian11, with last native chi²
+80.0708 and82.4824. No complete spectrum or held-out score is returned. Preserve
+its original receipt and native log; archive13182789790 is198114bytes with
+SHA25626b9075486c15120d97595507ac742c9063a642ef138efc6d5b3c6671addb532.
+ReceiptSHA7ed1b7681cacebd4b657785f919cb5ec93c6f004872225e53729e4d61fc9d107;
+logSHA4a424a90469ab8aef393944b22e4d7a9b388341dbf8ddfa6af9fbe2fd5baa6eb.
+Checkpoint2df694e full root passes2698/43skips/12subtests, logSHA
+62e256354c61e72329d45612e588735d81620cc8c3cfc74b58ad9ea9e02bb0de.
+
+Next bounded hypothesis uses the actual provider's existing projected curvature
+option: d_dv=False,dA_projection=2. Keep the objective, exact gradient, normalized
+mass map, alpha/grid/iteration controls, native Levenberg minimizer and all strict
+floor/resource policies. This changes the declared optimization curvature only;
+it is neither a fallback nor a demonstrated fix. In exact real arithmetic the
+projected matrix Jᵀ(KᵀW K+alpha diag(1/H))J is positive semidefinite for positive
+H and errors. It omits the chain term in the exact Hessian and must not be tested
+as that gradient's Hessian. Finite-precision checks remain numerical evidence.
+
+Expose mass_curvature=exact/projected explicitly for constrained mode; preserve
+the default exact behavior and legacy rescale control records. Reject ignored
+projected settings with rescale. Independently verify objective/gradient equality,
+exact Hessian finite differences, assembled projected matrix, symmetry/PSD and
+omitted chain term, plus actual installed smooth cases in both modes. The v2
+training scout fixes projected curvature in its controls and repeats only the
+consumed training diagnostic, without scoring held-outs or allocating samples.
+Retain completed native failure history even for our own NumericalBreakdownError;
+partial spectra remain unavailable. No clipping or infinite trial-cost workaround.
+Calibration, untouched final validation, bootstrap/provider comparisons, complete
+release eligibility and public1.2 remain open; all accuracy budgets stay fixed.

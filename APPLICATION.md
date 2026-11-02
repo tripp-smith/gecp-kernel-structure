@@ -1735,6 +1735,13 @@ estimate. Rank truncation is heuristic, and floating mass has rounding error;
 no global optimization or numerical certificate is claimed. The native interface
 passes installed Linux/macOS probes at f1663ed; scientific acceptance remains open.
 Entropy-floor and underflow regimes fail explicitly, without a substitute method.
+Constrained mode records `mass_curvature="exact"` by default. The explicit
+`"projected"` option uses the native provider's projected curvature matrix with
+the same objective and exact gradient. That matrix approximates the Hessian;
+the optimization path can differ and convergence is not assured. Rescale mode
+rejects this nondefault curvature instead of ignoring it. The real training-only
+exact-curvature scout fails at the entropy floor; projected scientific
+acceptance remains open.
 `MaxEntConfig.as_record()`
 preserves the legacy rescale control fields and records the nondefault mode
 explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;

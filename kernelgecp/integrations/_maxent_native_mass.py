@@ -21,13 +21,15 @@ FloatArray = NDArray[np.float64]
 _F = TypeVar("_F", bound=Callable[..., Any])
 
 
-def make_native_mass_cost(mass: float) -> tuple[Any, Any]:
+def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any, Any]:
     """Create a native cost function and its normalized H(v) component.
 
     TRIQS reduces the kernel's singular space immediately before calling inv;
     refreshing there ensures the map uses that reduced space.  The state holder
     is shared by the shallow copies created by the provider's cached interface.
     """
+    if curvature not in ("exact", "projected"):
+        raise ValueError("curvature must be exact or projected")
     functions = importlib.import_module("triqs_maxent.functions")
     costs = importlib.import_module("triqs_maxent.cost_functions")
     generic_h: Any = functions.GenericH_of_v
@@ -60,7 +62,15 @@ def make_native_mass_cost(mass: float) -> tuple[Any, Any]:
 
         @property
         def diagnostics(self) -> dict[str, Any]:
-            return copy.deepcopy(dict(self._map().diagnostics))
+            result = copy.deepcopy(dict(self._map().diagnostics))
+            result.update(
+                curvature=curvature,
+                d_dv=curvature == "exact",
+                dA_projection=2,
+                chi2_factor=1.0,
+                floor_policy="reject_native_entropy_floor_or_overflow",
+            )
+            return result
 
         @cached
         def f(self, v: FloatArray) -> FloatArray:
@@ -99,4 +109,6 @@ def make_native_mass_cost(mass: float) -> tuple[Any, Any]:
             return self._map(refresh=True).inv(hidden).copy()
 
     h = NativeNormalizedH()
-    return costs.MaxEntCostFunction(d_dv=True, H_of_v=h), h
+    return costs.MaxEntCostFunction(
+        d_dv=curvature == "exact", dA_projection=2, H_of_v=h
+    ), h

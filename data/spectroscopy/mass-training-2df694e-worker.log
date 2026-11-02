@@ -1,0 +1,56 @@
+Warning: could not identify MPI environment!
+Starting serial run at: 2026-11-02 22:10:58.997469
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -1.343375641707249e-23
+2026-11-02 22:10:59.309739
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 53.55656585037527
+alpha[ 0] =   1.00000000e+04, chi2 =   2.06843255e+02, n_iter=      31 
+alpha[ 1] =   5.62341325e+03, chi2 =   1.38431865e+02, n_iter=       6 
+alpha[ 2] =   3.16227766e+03, chi2 =   1.09172456e+02, n_iter=       7 
+alpha[ 3] =   1.77827941e+03, chi2 =   9.57961223e+01, n_iter=       7 
+alpha[ 4] =   1.00000000e+03, chi2 =   8.93136234e+01, n_iter=       8 
+alpha[ 5] =   5.62341325e+02, chi2 =   8.61549743e+01, n_iter=       9 
+alpha[ 6] =   3.16227766e+02, chi2 =   8.46022301e+01, n_iter=      10 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.37728775e+01, n_iter=      13 
+alpha[ 8] =   1.00000000e+02, chi2 =   8.32543207e+01, n_iter=      16 
+alpha[ 9] =   5.62341325e+01, chi2 =   8.28660279e+01, n_iter=      23 
+alpha[10] =   3.16227766e+01, chi2 =   8.25282242e+01, n_iter=      39 
+alpha[11] =   1.77827941e+01, chi2 =   8.21999530e+01, n_iter=      52 
+alpha[12] =   1.00000000e+01, chi2 =   8.18504691e+01, n_iter=      81 
+alpha[13] =   5.62341325e+00, chi2 =   8.14579923e+01, n_iter=     117 
+alpha[14] =   3.16227766e+00, chi2 =   8.10169744e+01, n_iter=     169 
+alpha[15] =   1.77827941e+00, chi2 =   8.05405905e+01, n_iter=     252 
+alpha[16] =   1.00000000e+00, chi2 =   8.00707754e+01, n_iter=     353 
+flat failed: NumericalBreakdownError: constrained image reaches native NormalEntropy floor or overflow
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -1.343375641707249e-23
+2026-11-02 22:11:15.109829
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 53.55656585037527
+alpha[ 0] =   1.00000000e+04, chi2 =   9.78817466e+01, n_iter=      29 
+alpha[ 1] =   5.62341325e+03, chi2 =   9.14427881e+01, n_iter=       5 
+alpha[ 2] =   3.16227766e+03, chi2 =   8.82705653e+01, n_iter=       5 
+alpha[ 3] =   1.77827941e+03, chi2 =   8.64243643e+01, n_iter=       6 
+alpha[ 4] =   1.00000000e+03, chi2 =   8.52487805e+01, n_iter=       7 
+alpha[ 5] =   5.62341325e+02, chi2 =   8.44660021e+01, n_iter=       7 
+alpha[ 6] =   3.16227766e+02, chi2 =   8.39005155e+01, n_iter=      10 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.34565902e+01, n_iter=      12 
+alpha[ 8] =   1.00000000e+02, chi2 =   8.30923224e+01, n_iter=      16 
+alpha[ 9] =   5.62341325e+01, chi2 =   8.27775266e+01, n_iter=      22 
+alpha[10] =   3.16227766e+01, chi2 =   8.24824269e+01, n_iter=      33 
+broad_gaussian failed: NumericalBreakdownError: constrained image reaches native NormalEntropy floor or overflow

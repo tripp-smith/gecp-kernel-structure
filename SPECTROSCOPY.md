@@ -8,10 +8,12 @@ cohort and the earlier independent-projection discrepancy; no tolerance is
 relaxed. An explicit native mass-constraint candidate is in development after
 training-only analysis identifies a large fit penalty from posthoc rescaling.
 Candidate `f1663ed` passes actual installed Linux/macOS native interface probes;
-it has no new scientific calibration/final acceptance. A fixed-control scout
-reads only the consumed training observations and covariance, saves all returned
-trials and independently evaluates training predictions. No held-out scoring or
-new Monte Carlo allocation occurs. The
+it has no new scientific calibration/final acceptance. The fixed-control scout
+at2df694e fails explicitly for both defaults at the native entropy floor before
+completing the alpha grid. Its consumed training observations remain development
+data. An explicit native projected-curvature option is now being tested with
+the same objective, exact gradient and Levenberg minimizer. No held-out scoring,
+clipping, tolerance change or new Monte Carlo allocation occurs. The
 [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records original artifacts, independent audits and remaining gates.
 

@@ -3287,3 +3287,10 @@ forward quadrature and bound native logs/trials. It cannot acquire a new raw
 cohort or score held-out data. Native calibration, appropriate untouched final
 science, all provider comparisons and release gates remain required. Original
 goals, scientific budgets and public1.1.0 artifacts are unchanged.
+
+EH native-curvature annotation (2026-11-02): training-only2df694e scout fails at
+the strict native entropy floor for both defaults, without held-out scoring or
+new sampling. Preserve this failure and test the provider's explicitly declared
+projected curvature under the same objective, exact gradient, Levenberg solver,
+budgets and guards. This is a numerical candidate, not calibration/final/release
+acceptance. Original mathematical goals and published1.1.0 remain unchanged.

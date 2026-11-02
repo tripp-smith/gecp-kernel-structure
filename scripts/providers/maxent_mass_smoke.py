@@ -76,111 +76,153 @@ def fixture(np):
 
 
 def native_cost_checks(np, native):
-    """Exercise provider cost chain rules and state refresh on a tiny kernel."""
+    """Check actual-provider objective, gradient, and both curvature contracts."""
     provider = importlib.import_module("triqs_maxent")
     kernels = importlib.import_module("triqs_maxent.kernels")
     omega = provider.LinearOmegaMesh(-2.0, 2.0, 9)
     grid = np.linspace(-1.0, 1.0, 9)
     basis, _ = np.linalg.qr(np.column_stack((grid, grid**2, grid**3)))
     matrix = np.diag([3.0, 1.0, 0.1]) @ basis.T
-    kernel = kernels.DataKernel(np.arange(3, dtype=float), omega, matrix)
-    cost, hidden = native.make_native_mass_cost(1.0)
-    cost.K = kernel
-    default = provider.DataDefaultModel(np.ones(9), omega)
-    cost.D = default
-    cost.G = np.array([0.2, -0.1, 0.3])
-    cost.err = np.array([0.2, 0.3, 0.4])
-    cost.set_alpha(0.7)
-    before = hidden.input_size[0]
-    kernel.reduce_singular_space(0.5)
-    initial = default.D / np.sum(default.D)
-    initial_copy = initial.copy()
-    initial.setflags(write=False)
-    v = hidden(initial).inv()
-    after = hidden.input_size[0]
-    if not (after < before and after > 0 and v.shape == (after,)):
-        raise RuntimeError("singular-space map refresh failed")
-    if not np.array_equal(initial, initial_copy):
-        raise RuntimeError("inverse mutated its read-only input")
-    if not v.flags.writeable or not v.flags.owndata:
-        raise RuntimeError("native minimizer requires an owned writable inverse")
-    v -= 0.01  # The actual provider updates its initial coordinates in place.
-    v = np.linspace(0.1, 0.2, after)
-    v_copy = v.copy()
-    v.setflags(write=False)
-    h = hidden(v).f()
-    if abs(float(np.sum(h)) - 1.0) > 1e-12 or np.any(h <= 0):
-        raise RuntimeError("native H mass or positivity failed")
-    analytic_gradient = cost(v).d()
-    analytic_hessian = cost(v).dd()
-    step = 1e-5
-    identity = np.eye(after)
-    gradient = np.array(
-        [
-            (cost(v + step * e).f() - cost(v - step * e).f()) / (2 * step)
-            for e in identity
-        ]
-    )
-    hessian = np.column_stack(
-        [
-            (cost(v + step * e).d() - cost(v - step * e).d()) / (2 * step)
-            for e in identity
-        ]
-    )
-    grad_error = float(
-        np.max(
-            np.abs(gradient - analytic_gradient)
-            / np.maximum(1.0, np.abs(analytic_gradient))
+    observed = np.array([0.2, -0.1, 0.3])
+    err = np.array([0.2, 0.3, 0.4])
+    alpha = 0.7
+    reports, outputs = {}, {}
+    for mode in ("exact", "projected"):
+        kernel = kernels.DataKernel(np.arange(3, dtype=float), omega, matrix)
+        cost, hidden = native.make_native_mass_cost(1.0, curvature=mode)
+        cost.K = kernel
+        default = provider.DataDefaultModel(np.ones(9), omega)
+        cost.D = default
+        cost.G = observed.copy()
+        cost.err = err.copy()
+        cost.set_alpha(alpha)
+        before = hidden.input_size[0]
+        kernel.reduce_singular_space(0.5)
+        initial = default.D / np.sum(default.D)
+        initial_copy = initial.copy()
+        initial.setflags(write=False)
+        initial_v = hidden(initial).inv()
+        after = hidden.input_size[0]
+        if not (after < before and after > 0 and initial_v.shape == (after,)):
+            raise RuntimeError("singular-space map refresh failed")
+        if not np.array_equal(initial, initial_copy):
+            raise RuntimeError("inverse mutated its read-only input")
+        if not initial_v.flags.writeable or not initial_v.flags.owndata:
+            raise RuntimeError("native minimizer requires owned writable inverse")
+        initial_v -= 0.01
+        v = np.linspace(0.1, 0.2, after)
+        v_copy = v.copy()
+        v.setflags(write=False)
+        h = hidden(v).f()
+        if abs(float(np.sum(h)) - 1.0) > 1e-12 or np.any(h <= 0):
+            raise RuntimeError("native H mass or positivity failed")
+        value, gradient, curvature = cost(v).f(), cost(v).d(), cost(v).dd()
+        jac = hidden(v).d()
+        hess_h = matrix.T @ (matrix / err[:, None] ** 2) + alpha * np.diag(1 / h)
+        projected = jac.T @ hess_h @ jac
+        gh = matrix.T @ ((matrix @ h - observed) / err**2) + alpha * np.log(
+            h / default.D
         )
-    )
-    hess_error = float(
-        np.max(
-            np.abs(hessian - analytic_hessian)
-            / np.maximum(1.0, np.abs(analytic_hessian))
+        chain = np.einsum("k,kij->ij", gh, hidden(v).dd())
+        step = 1e-5
+        identity = np.eye(after)
+        finite_gradient = np.array(
+            [
+                (cost(v + step * e).f() - cost(v - step * e).f()) / (2 * step)
+                for e in identity
+            ]
         )
-    )
+        grad_error = float(
+            np.max(
+                np.abs(finite_gradient - gradient) / np.maximum(1.0, np.abs(gradient))
+            )
+        )
+        expected = projected + chain if mode == "exact" else projected
+        matrix_error = float(
+            np.max(np.abs(curvature - expected) / np.maximum(1.0, np.abs(expected)))
+        )
+        symmetry_error = float(np.max(np.abs(curvature - curvature.T)))
+        min_eigenvalue = float(
+            np.min(np.linalg.eigvalsh((projected + projected.T) / 2))
+        )
+        psd_tolerance = 1e-10 * max(1.0, float(np.linalg.norm(projected, ord=2)))
+        if (
+            not np.isfinite(
+                [value, grad_error, matrix_error, symmetry_error, min_eigenvalue]
+            ).all()
+            or grad_error > 2e-5
+            or matrix_error > 1e-9
+            or symmetry_error > psd_tolerance
+            or min_eigenvalue < -psd_tolerance
+            or not np.array_equal(v, v_copy)
+        ):
+            raise RuntimeError(
+                "native gradient, curvature or input isolation failed: " + mode
+            )
+        hess_error = None
+        if mode == "exact":
+            finite_hessian = np.column_stack(
+                [
+                    (cost(v + step * e).d() - cost(v - step * e).d()) / (2 * step)
+                    for e in identity
+                ]
+            )
+            hess_error = float(
+                np.max(
+                    np.abs(finite_hessian - curvature)
+                    / np.maximum(1.0, np.abs(curvature))
+                )
+            )
+            if not np.isfinite(hess_error) or hess_error > 5e-4:
+                raise RuntimeError("exact native Hessian finite difference failed")
+        outputs[mode] = (value, gradient, curvature, chain)
+        changed = provider.DataDefaultModel(np.exp(grid), omega)
+        cost.D = changed
+        new_h = hidden(np.zeros(hidden.input_size)).f()
+        if not np.allclose(
+            new_h, changed.D / np.sum(changed.D), rtol=1e-12, atol=1e-14
+        ):
+            raise RuntimeError("default-model map refresh failed")
+        tiny = np.ones(9)
+        tiny[0] = 1e-105
+        cost.D = provider.DataDefaultModel(tiny, omega)
+        try:
+            hidden(np.zeros(hidden.input_size)).f()
+        except native.NumericalBreakdownError as exc:
+            if "NormalEntropy floor" not in str(exc):
+                raise
+        else:
+            raise RuntimeError("native entropy-floor regime was not rejected")
+        reports[mode] = {
+            "rank_before_reduction": before,
+            "rank_after_reduction": after,
+            "gradient_max_scaled_error": grad_error,
+            "curvature_formula_max_scaled_error": matrix_error,
+            "exact_hessian_fd_max_scaled_error": hess_error,
+            "symmetry_max_abs": symmetry_error,
+            "projected_min_eigenvalue": min_eigenvalue,
+            "psd_tolerance": psd_tolerance,
+            "finite_difference_step": step,
+            "default_refresh": True,
+            "readonly_input_isolation": True,
+            "writable_owned_inverse": True,
+            "native_entropy_floor_rejected": True,
+        }
+    exact, projected = outputs["exact"], outputs["projected"]
     if (
-        not np.isfinite(grad_error)
-        or not np.isfinite(hess_error)
-        or grad_error > 2e-5
-        or hess_error > 5e-4
-        or not np.array_equal(v, v_copy)
+        not np.allclose(exact[0], projected[0], rtol=1e-12, atol=1e-12)
+        or not np.allclose(exact[1], projected[1], rtol=1e-12, atol=1e-12)
+        or not np.allclose(exact[2] - projected[2], exact[3], rtol=1e-9, atol=1e-9)
     ):
-        raise RuntimeError("native cost derivative or input-isolation check failed")
-    changed = provider.DataDefaultModel(np.exp(grid), omega)
-    cost.D = changed
-    new_h = hidden(np.zeros(hidden.input_size)).f()
-    expected = changed.D / np.sum(changed.D)
-    if not np.allclose(new_h, expected, rtol=1e-12, atol=1e-14):
-        raise RuntimeError("default-model map refresh failed")
-    tiny = np.ones(9)
-    tiny[0] = 1e-105
-    cost.D = provider.DataDefaultModel(tiny, omega)
-    try:
-        hidden(np.zeros(hidden.input_size)).f()
-    except native.NumericalBreakdownError as exc:
-        if "NormalEntropy floor" not in str(exc):
-            raise
-    else:
-        raise RuntimeError("native entropy-floor regime was not rejected")
-    return {
-        "rank_before_reduction": before,
-        "rank_after_reduction": after,
-        "gradient_max_scaled_error": grad_error,
-        "hessian_max_scaled_error": hess_error,
-        "gradient_limit": 2e-5,
-        "hessian_limit": 5e-4,
-        "finite_difference_step": step,
-        "default_refresh": True,
-        "readonly_input_isolation": True,
-        "writable_owned_inverse": True,
-        "native_entropy_floor_rejected": True,
-    }
+        raise RuntimeError(
+            "curvature modes differ in objective, gradient or chain term"
+        )
+    return reports
 
 
 def run_probe(root, expected_revision, require_installed):
     result = {
-        "schema": "kernelgecp.native-mass-interface-probe.v1",
+        "schema": "kernelgecp.native-mass-interface-probe.v2",
         "status": "failed",
         "scope": (
             "native interface probe only; not production calibration or acceptance"
@@ -263,7 +305,11 @@ def run_probe(root, expected_revision, require_installed):
                 data = api.SpectralDataset(
                     beta, tau, values, np.eye(len(tau)) * sigma**2
                 )
-                for model in ("flat", "broad_gaussian"):
+                for mode, model in (
+                    (mode, model)
+                    for mode in ("exact", "projected")
+                    for model in ("flat", "broad_gaussian")
+                ):
                     config = api.MaxEntConfig(
                         n_omega=101,
                         n_alpha=5,
@@ -272,6 +318,7 @@ def run_probe(root, expected_revision, require_installed):
                         default_model=model,
                         normalize_mass=1.0,
                         mass_mode="constrained",
+                        mass_curvature=mode,
                     )
                     spectrum = api.continue_tau_maxent(data, config)
                     trials = spectrum.trial_spectra
@@ -289,6 +336,7 @@ def run_probe(root, expected_revision, require_installed):
                         or diagnostics["config"]["minimizer_mu0"] != 1e-8
                         or not np.isfinite(spectrum.normalized_training_whitened_rms)
                         or not param
+                        or param["curvature"] != mode
                         or not 0 < param["effective_rank"] <= param["original_rank"]
                         or not np.isfinite(param["retained_condition"])
                         or not np.isfinite(spectrum.chi2).all()
@@ -296,7 +344,7 @@ def run_probe(root, expected_revision, require_installed):
                         raise RuntimeError(
                             "native constrained trial validation failed: " + model
                         )
-                    result["cases"][model] = {
+                    result["cases"][mode + "/" + model] = {
                         "trial_masses": masses.tolist(),
                         "converged": list(spectrum.converged),
                         "iterations": list(spectrum.iterations),
