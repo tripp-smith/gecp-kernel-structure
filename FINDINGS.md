@@ -2673,3 +2673,10 @@ a bounded native unit-mass optimization hypothesis; they do not establish cause,
 global optimality, held-out improvement or final scientific acceptance. The
 failed cohort is consumed; remaining23 workers never execute, and new decisions
 require an appropriate new freeze and untouched validation. Thresholds stay fixed.
+
+The constrained-mass interface at f1663ed passes actual installed Linux/macOS
+probes: full native cost derivatives agree with finite differences below2.5e-11,
+both smooth default-model cases converge at all5alphas, and masses agree within
+4.5e-16. These are interface checks. A consumed-data training-only scout is
+prepared without any held-out scoring or new sampling; neither check closes
+scientific calibration or final acceptance.

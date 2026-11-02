@@ -3279,3 +3279,11 @@ cohort. Develop an explicit constrained mass objective through actualTauMaxEnt
 with derivative/resource/provider checks, keeping rescale default and all
 scientific thresholds. This is not calibration/final/release acceptance; original
 mathematical goals, public archive meanings and published1.1.0 remain unchanged.
+
+EH training-scout annotation (2026-11-02): checkpoint f1663ed passes full root
+verification and actual installed Linux/macOS constrained-mass interface probes.
+Add a fixed-control, consumed-data training-only diagnostic with independent
+forward quadrature and bound native logs/trials. It cannot acquire a new raw
+cohort or score held-out data. Native calibration, appropriate untouched final
+science, all provider comparisons and release gates remain required. Original
+goals, scientific budgets and public1.1.0 artifacts are unchanged.

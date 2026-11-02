@@ -1732,8 +1732,10 @@ uses a normalized positive parameterization inside the actual native general
 cost function, and does not rescale delivered trials afterward. It records the
 centered feature rank, singular values, conditioning and explicit-array resource
 estimate. Rank truncation is heuristic, and floating mass has rounding error;
-no global optimization or numerical certificate is claimed. Native interface
-and scientific acceptance for this candidate remain open. `MaxEntConfig.as_record()`
+no global optimization or numerical certificate is claimed. The native interface
+passes installed Linux/macOS probes at f1663ed; scientific acceptance remains open.
+Entropy-floor and underflow regimes fail explicitly, without a substitute method.
+`MaxEntConfig.as_record()`
 preserves the legacy rescale control fields and records the nondefault mode
 explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;
 it is separate from the projected observation model.

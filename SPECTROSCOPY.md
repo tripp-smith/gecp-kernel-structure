@@ -7,7 +7,11 @@ RMS2.885315>2. The remaining23 workers never run. Preserve this failed consumed
 cohort and the earlier independent-projection discrepancy; no tolerance is
 relaxed. An explicit native mass-constraint candidate is in development after
 training-only analysis identifies a large fit penalty from posthoc rescaling.
-It has no actual-provider or new calibration/final acceptance. The
+Candidate `f1663ed` passes actual installed Linux/macOS native interface probes;
+it has no new scientific calibration/final acceptance. A fixed-control scout
+reads only the consumed training observations and covariance, saves all returned
+trials and independently evaluates training predictions. No held-out scoring or
+new Monte Carlo allocation occurs. The
 [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records original artifacts, independent audits and remaining gates.
 

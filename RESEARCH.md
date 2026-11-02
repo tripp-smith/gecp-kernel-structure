@@ -12962,3 +12962,29 @@ provider probe with writable-inverse and entropy-floor negative checks, then
 rerun focused/root and exact-head installed Linux/macOS checks. The old failed
 scientific cohort, RMS2 budget, original rescale behavior and calibration/final
 separation remain unchanged.
+
+## EH fixed-control training-only mass scout contract
+
+Checkpoint f1663ed passes full root2691/43skips/12subtests and both actual
+installed Linux/macOS interface probes (41531870983 and41531882473). Its native
+full-cost derivative errors are below2.5e-11, and all five trials of both smooth
+default-model fixtures converge with mass error below4.5e-16. This is native
+interface evidence only. Exact source/log/artifact bindings and failed65ba89c
+probes are preserved in the canonical PR146 receipt.
+
+Next bounded development check: load only observation_tau, observation_values
+and covariance from the hash-bound consumed v2 raw-flat-r0 archive. Do not access
+query/held-out arrays or score held-out observations. Run actual TauMaxEnt4.0.1
+with fixed401omega/33alpha/1000iteration/mu0=1e-8, unit mass and the flat plus
+broad-Gaussian defaults. Save every returned trial, convergence/selection,
+covariance rank, mass and independent12-point interval-quadrature training
+predictions. Bind source, installed wheel, original fixture and output hashes.
+Retain native/Python logs and explicit failures, including any unavailable
+partial spectra. Never substitute optimizer, entropy or a synthetic provider.
+
+The dedicated training_scout workflow input cannot run the scientific campaign
+or any fixed-bath acquisition; conflicting sampling input fails explicitly.
+This is consumed-data diagnostic work, not calibration/final acceptance or a
+new sampling allocation. Preserve RMS2 and all science budgets. A promising
+result still requires separately frozen calibration, all compressed providers,
+bootstrap/default sensitivity and appropriate untouched final validation.

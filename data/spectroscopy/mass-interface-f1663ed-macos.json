@@ -1,0 +1,212 @@
+{
+  "cases": {
+    "broad_gaussian": {
+      "chi2": [
+        638.127493127578,
+        2.4776634472142356,
+        0.003902504574672921,
+        4.706353393255359e-06,
+        5.8255198339712614e-08
+      ],
+      "config": {
+        "alpha_max": 10000.0,
+        "alpha_min": 0.0001,
+        "default_model": "broad_gaussian",
+        "mass_mode": "constrained",
+        "maxiter": 1000,
+        "minimizer_mu0": 1e-08,
+        "n_alpha": 5,
+        "n_omega": 101,
+        "normalize_mass": 1.0,
+        "omega_max": 4.0,
+        "omega_min": -4.0
+      },
+      "converged": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "iterations": [
+        8,
+        13,
+        33,
+        99,
+        33
+      ],
+      "mass_operation": "native_mass_constraint",
+      "mass_parameterization": {
+        "certification": "not_certified",
+        "effective_rank": 16,
+        "estimated_explicit_array_peak_bytes": 443216,
+        "hessian_bytes": 206848,
+        "original_columns": 17,
+        "original_rank": 17,
+        "original_rows": 101,
+        "rank_truncation": "heuristic_relative_centered_svd",
+        "rcond": 1e-12,
+        "retained_condition": 1.0000000000000013,
+        "singular_values": [
+          1.0000000000000007,
+          1.0000000000000004,
+          1.0000000000000004,
+          1.0000000000000002,
+          1.0000000000000002,
+          1.0,
+          1.0,
+          1.0,
+          0.9999999999999999,
+          0.9999999999999999,
+          0.9999999999999999,
+          0.9999999999999998,
+          0.9999999999999998,
+          0.9999999999999998,
+          0.9999999999999996,
+          0.9999999999999993,
+          4.920430310813982e-16
+        ]
+      },
+      "selected_index": 1,
+      "training_whitened_rms": 0.3884825035615348,
+      "trial_masses": [
+        1.0,
+        1.0000000000000002,
+        1.0000000000000002,
+        1.0,
+        0.9999999999999998
+      ]
+    },
+    "flat": {
+      "chi2": [
+        1537.0765162360171,
+        5.331782074872285,
+        0.0075487124128808675,
+        8.723703361654592e-06,
+        1.1430212689201073e-07
+      ],
+      "config": {
+        "alpha_max": 10000.0,
+        "alpha_min": 0.0001,
+        "default_model": "flat",
+        "mass_mode": "constrained",
+        "maxiter": 1000,
+        "minimizer_mu0": 1e-08,
+        "n_alpha": 5,
+        "n_omega": 101,
+        "normalize_mass": 1.0,
+        "omega_max": 4.0,
+        "omega_min": -4.0
+      },
+      "converged": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "iterations": [
+        7,
+        17,
+        49,
+        121,
+        47
+      ],
+      "mass_operation": "native_mass_constraint",
+      "mass_parameterization": {
+        "certification": "not_certified",
+        "effective_rank": 16,
+        "estimated_explicit_array_peak_bytes": 443216,
+        "hessian_bytes": 206848,
+        "original_columns": 17,
+        "original_rank": 17,
+        "original_rows": 101,
+        "rank_truncation": "heuristic_relative_centered_svd",
+        "rcond": 1e-12,
+        "retained_condition": 1.0000000000000013,
+        "singular_values": [
+          1.0000000000000007,
+          1.0000000000000004,
+          1.0000000000000004,
+          1.0000000000000002,
+          1.0000000000000002,
+          1.0,
+          1.0,
+          1.0,
+          0.9999999999999999,
+          0.9999999999999999,
+          0.9999999999999999,
+          0.9999999999999998,
+          0.9999999999999998,
+          0.9999999999999998,
+          0.9999999999999996,
+          0.9999999999999993,
+          4.920430310813982e-16
+        ]
+      },
+      "selected_index": 1,
+      "training_whitened_rms": 0.5667167957419801,
+      "trial_masses": [
+        1.0000000000000004,
+        1.0000000000000002,
+        1.0,
+        1.0,
+        0.9999999999999998
+      ]
+    }
+  },
+  "environment": {
+    "conda_package_count": 131,
+    "conda_package_set_sha256": "bcbedf66157122e1d6aa5ad277e0a8bb37809aeebf5dbfeb4ccb77ff1350b109",
+    "machine": "arm64",
+    "python_implementation": "CPython",
+    "system": "Darwin",
+    "thread_limits": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    }
+  },
+  "identities": {
+    "environment_spec_sha256": "844d0d0ba3bfc395c8ee6e79ce0bc1099f3f059ebe5c0082eab1c1ae54218e25",
+    "maxent_wheel_sha256": "74c0fb1a4ec4abbc0ee8b46d11f9f01781687d4bfbe74982c0100c0887b4fcac",
+    "probe_sha256": "a53336b95a3fabacb5b5c777d1aeb5d03fb384010b12dc385d977bd25fa0e2af",
+    "source_revision": "f1663edf1844a1eedcc4fcfe9223a1ec64205eb1"
+  },
+  "installation": {
+    "distribution": "kernelgecp",
+    "editable": false,
+    "module_count": 3,
+    "record_sha256": "a8379429d2db68abc97a6385bb5a94206d28d55691771f8c520a9bdb5cbf4db7",
+    "version": "1.1.0"
+  },
+  "native_cost_checks": {
+    "default_refresh": true,
+    "finite_difference_step": 1e-05,
+    "gradient_limit": 2e-05,
+    "gradient_max_scaled_error": 2.4642142493203067e-11,
+    "hessian_limit": 0.0005,
+    "hessian_max_scaled_error": 1.8477650673395197e-11,
+    "native_entropy_floor_rejected": true,
+    "rank_after_reduction": 2,
+    "rank_before_reduction": 3,
+    "readonly_input_isolation": true,
+    "writable_owned_inverse": true
+  },
+  "provider_version": "4.0.1",
+  "schema": "kernelgecp.native-mass-interface-probe.v1",
+  "scope": "native interface probe only; not production calibration or acceptance",
+  "source_revision": "f1663edf1844a1eedcc4fcfe9223a1ec64205eb1",
+  "source_sha256": {
+    "kernelgecp/integrations/_maxent_mass.py": "49e84fb87421b70bc14e8c303f098047e8861585a96e3a3b096506d170f89aff",
+    "kernelgecp/integrations/_maxent_native_mass.py": "65760dfce25cf9deb2b7d20ffc9d2269370250b8e0cca1930b39b831cd5401a9",
+    "kernelgecp/integrations/maxent.py": "66ca11d1e7dd33cacb34f2513a288f6f3fb5ed79e79e76ca53e243c743983084",
+    "scripts/providers/installed_wheel.py": "dfcf865f4e6d8589f1596236547bb906c1dc5f96d0457efdccf834eb63a9ba94",
+    "scripts/providers/maxent_mass_smoke.py": "876f42b8f83a1311614a6b43ba2514d091f8cb06e256e37c47af46cbbf42df82",
+    "scripts/providers/triqs_smoke.py": "a53336b95a3fabacb5b5c777d1aeb5d03fb384010b12dc385d977bd25fa0e2af"
+  },
+  "status": "native_mass_interface_probe_passed"
+}
