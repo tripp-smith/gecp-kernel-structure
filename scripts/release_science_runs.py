@@ -30,6 +30,9 @@ ROLES = {
             "native (epw)": [
                 "Execute native numerical calculation and validate receipt"
             ],
+            "payload-audit": [
+                "Audit provider payloads and independently replay ED campaigns"
+            ],
         },
         [
             "provider-triqs-ubuntu-24.04",
@@ -38,6 +41,7 @@ ROLES = {
             "provider-gp-macos-15",
             "provider-green-linux",
             "provider-epw-linux",
+            "provider-payload-audit",
         ],
     ),
     "molecular": (

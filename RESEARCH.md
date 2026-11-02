@@ -12847,3 +12847,15 @@ mandatory supported EPW provider/release gate unchanged. Focused checks pass
 11 tests with one optional skip; an invalid opt-in exits 1. No actual positive
 historical fixture is available locally. Freeze the repaired commit and repeat
 full root before claiming verification.
+
+
+Repaired head 2187c7e passes full root. Next add a required seventh provider
+workflow job: after all six native/platform producers succeed, replay the
+provider payload component in the pinned Linux TRIQS runtime against the actual
+six artifacts. It independently audits both saved ED campaigns and preserves
+JSON/logs. Metadata selection requires this job, its executed audit step and
+its own artifact; absent/skipped audits cannot be accepted. The workflow has
+full-history exact-head checkout and a90-minute bound. Base mocked component
+tests are still not actual-provider acceptance; the new exact-head CI execution
+must pass before claiming this component verified. This job does not replace
+full molecular/EPW/GP/EE/EH eligibility or authorize publication.

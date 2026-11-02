@@ -68,7 +68,7 @@ def select(data):
 def test_selection_is_metadata_only():
     result = select(metadata())
     assert result["scope"] == SCOPE
-    assert len(result["runs"]["providers"]["jobs"]) == 6
+    assert len(result["runs"]["providers"]["jobs"]) == 7
 
 
 @pytest.mark.parametrize(
@@ -214,4 +214,19 @@ def test_reject_bad_auxiliary(case):
             second["name"] = "tripp-smith~gecp-kernel-structure~second.dockerbuild"
         data[2][2].append(second)
     with pytest.raises(ValueError):
+        select(data)
+
+
+def test_missing_provider_payload_audit_job():
+    data = metadata()
+    data[1][1] = [job for job in data[1][1] if job["name"] != "payload-audit"]
+    with pytest.raises(ValueError, match="providers jobs incomplete"):
+        select(data)
+
+
+def test_skipped_provider_payload_audit_step():
+    data = metadata()
+    job = next(job for job in data[1][1] if job["name"] == "payload-audit")
+    job["steps"][0]["conclusion"] = "skipped"
+    with pytest.raises(ValueError, match="providers required step failed or skipped"):
         select(data)
