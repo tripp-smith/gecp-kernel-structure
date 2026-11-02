@@ -1,0 +1,50 @@
+name: Spectral projection diagnostic
+
+on:
+  push:
+    branches: ["codex/eh-projection-diagnostic"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  BLIS_NUM_THREADS: "1"
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Restore pinned numerical dependencies
+        run: |
+          python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+          python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+      - name: Compare archived subspaces without provider calculations
+        run: |
+          mkdir -p artifacts
+          python -m scripts.diagnose_spectral_projection \
+            --archive experiments/data/spectroscopy-linux-feaac66-passed.tar.gz \
+            --high-precision --output artifacts/projection-diagnostic.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: projection-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/projection-diagnostic.json
+          if-no-files-found: error
