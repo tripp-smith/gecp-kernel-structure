@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Compare committed scientific source against the frozen scientific baseline."""
+"""Compare committed source only; this does not establish scientific acceptance.
+
+An upstream eligibility gate must derive the baseline from a fresh authenticated
+scientific run or receipt and independently audit its payloads. Supplying a
+baseline here does not establish its trustworthiness or approve a release.
+"""
 
 import argparse
 import hashlib
@@ -127,8 +132,8 @@ def normalized(path, data, expected):
     return data[:a] + b"<VERSION>" + data[b:]
 
 
-def compare(repo, candidate):
-    baseline = BASELINE
+def compare(repo, candidate, baseline=None):
+    baseline = BASELINE if baseline is None else baseline
     commit(repo, baseline)
     commit(repo, candidate)
     subprocess.run(
@@ -170,33 +175,57 @@ def compare(repo, candidate):
             version = current
         elif oid_a != oid_b:
             raise ValueError(f"critical blob changed: {path}")
-    inventory = "\n".join(
-        f"{p}\t{left[p][0]}\t{left[p][1]}" for p in sorted(left)
-    ).encode()
+
+    def inventory_digest(entries):
+        inventory = "\n".join(
+            f"{p}\t{entries[p][0]}\t{entries[p][1]}" for p in sorted(entries)
+        ).encode()
+        return hashlib.sha256(inventory).hexdigest()
+
     return {
         "baseline_commit": baseline,
         "candidate_commit": candidate,
         "ancestor_verified": True,
         "protected_paths": len(left),
-        "baseline_inventory_sha256": hashlib.sha256(inventory).hexdigest(),
+        "baseline_inventory_sha256": inventory_digest(left),
+        "candidate_inventory_sha256": inventory_digest(right),
+        "candidate_protected_entries": [
+            {"path": p, "mode": right[p][0], "blob_id": right[p][1]}
+            for p in sorted(right)
+        ],
         "version_transition": "1.1.0 -> " + version.decode(),
         "allowed_additions": sorted(additions),
         "scope": (
             "committed source equivalence only; "
-            "not scientific or installed-package acceptance"
+            "not scientific or installed-package acceptance or baseline trust; "
+            "the upstream eligibility gate must derive the baseline from a fresh "
+            "authenticated scientific run or receipt and independently audit payloads"
         ),
     }
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", required=True)
     parser.add_argument(
         "--candidate", required=True, help="caller-supplied full expected commit SHA"
     )
+    parser.add_argument(
+        "--baseline",
+        default=None,
+        help=(
+            "full baseline commit SHA; caller selection does not confer trust "
+            "or approval"
+        ),
+    )
     args = parser.parse_args()
     try:
-        print(json.dumps(compare(args.repo, args.candidate), sort_keys=True))
+        print(
+            json.dumps(
+                compare(args.repo, args.candidate, baseline=args.baseline),
+                sort_keys=True,
+            )
+        )
     except (
         ValueError,
         KeyError,

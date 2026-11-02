@@ -12897,3 +12897,52 @@ No numerical producer, frozen canonical98bdfab source or scientific budget is
 changed. Repeat full root and exact-head CI on the new merged content; old-head
 checks do not verify this commit. The required provider payload job remains
 pending actual execution and full release eligibility remains open.
+
+
+## EJ authenticated payload and version-transition input contract
+
+Continue the same mandatory release gate rather than treating components as
+publication approval. Preserve the verified 2a7c24b commit as a checkpoint while
+its actual provider workflows execute. Next implement release_science_payloads.py:
+consume freshly authenticated full-page selection metadata, stream exact artifact
+ZIPs, verify their API digest/size, bound the central directory before ZIP-library
+allocation, validate complete inventories before extraction, and record source,
+artifact identities, output paths and explicit integrity-only scope. Reject bad
+paths, links, duplicates/collisions, unsupported compression, encrypted members,
+unsafe ZIP64 variants, corruption and resource-budget exhaustion. New output roots
+cannot silently reuse partial failed downloads. Keep failed files/logs for audit.
+Docker build records remain auxiliary metadata rather than numerical evidence.
+
+Allow release_source_equivalence.py to take an explicit full baseline commit so
+its own source constant need not change after scientific acceptance. Protect the
+same complete source/input inventory and require the exact all-five version-field
+transition. The eventual gate must derive this baseline from authenticated,
+independently audited scientific receipts; an arbitrary supplied baseline is not
+trusted and source equality alone never authorizes publication. Bind candidate
+path/mode/blob inventory plus both source-tree digests. Test an accepted pre-version
+source with fixed release helpers followed only by the version transition, while
+rejecting actual source/config/workflow/fixture additions, mutations and bad IDs.
+This does not waive the separate 98bdfab-to-final-replayer numerical-input proof.
+
+Independent review of the materializer found malformed-name and unsupported-ZIP
+error handling gaps, then an alternative ZIP64 footer interpretation that could
+bypass the preallocation bound. Preserve meaningful regressions and reject the
+ZIP64 locator inconsistency before constructing ZipFile. Full root and exact-head
+CI remain required after integrating this next batch. No solver, scientific
+acceptance budget, public fit archive or frozen original accounting changes.
+
+
+Checkpoint 2a7c24b passes all 12 exact-head push/PR workflows, including the
+new actual-provider payload audit in both runs 41455427198/41455417453. The
+PR audit artifact 13147263338 is 5,546 bytes with ZIP SHA-256
+27c63824d6a7c420561f023e7a05ddf36ab5ab86584ba9634670a3e279341522.
+Its source-bound JSON validates six runtime receipts, six Green payload files,
+15 EPW payload files and independently audits 27 compressed plus nine dense
+ED records in each platform corpus. Both ED receipts pass all six audit gates.
+The extracted top-level receipt SHA-256 is
+728b0e7ebd08c66d4829d8bb1b430fa4257a83f4e7667c00421e08dd8db0361c.
+This is runtime/ED component acceptance, not full molecular, EPW, GP, EE or
+corrective EH release eligibility. The same checked ZIP also passes the new
+bounded inventory parser; the 979-entry canonical spectroscopy ZIP passes too.
+The next payload/baseline component batch still requires its own full root and
+exact-head checks. No public 1.2.0 or complete release acceptance is claimed.

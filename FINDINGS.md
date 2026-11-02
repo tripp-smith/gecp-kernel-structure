@@ -2665,3 +2665,14 @@ malformed-output failure retention. The real metadata fetch rejects current
 main because an exact-main molecular run is absent. These checks are gate
 components, not complete scientific eligibility, native 1.2 execution,
 publication or a new numerical theorem. The historical baseline is not a waiver.
+
+
+### EJ verified runtime/ED component and payload-input checks
+
+All 12 exact-head workflows pass at 2a7c24b, including actual six-provider
+payload verification and independent re-audits of both saved ED corpora. Each
+has 27 compressed and nine dense records with all audit gates passing. This
+component does not close the remaining full-domain release or corrective EH
+obligations. The subsequent input-layer work authenticates archive identity,
+bounds ZIP allocation/extraction and exposes a source-only baseline parameter;
+none substitutes for independently accepted numerical science or installed1.2.

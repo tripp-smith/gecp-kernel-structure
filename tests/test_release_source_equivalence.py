@@ -3,7 +3,6 @@ import pathlib
 import subprocess
 import tempfile
 import unittest
-from unittest.mock import patch
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -74,8 +73,7 @@ class EquivalenceTests(unittest.TestCase):
         run(self.repo, "clean", "-fdq")
 
     def compare(self, candidate, baseline=None):
-        with patch.object(eq, "BASELINE", baseline or self.base):
-            return eq.compare(str(self.repo), candidate)
+        return eq.compare(str(self.repo), candidate, baseline=baseline or self.base)
 
     def rejected(self, path, transform):
         f = self.repo / path
@@ -93,6 +91,42 @@ class EquivalenceTests(unittest.TestCase):
     def test_accept_controlled_bump(self):
         r = self.compare(self.good)
         self.assertEqual(r["candidate_commit"], self.good)
+        self.assertEqual(r["baseline_commit"], self.base)
+        self.assertNotEqual(
+            r["baseline_inventory_sha256"], r["candidate_inventory_sha256"]
+        )
+        entries = {
+            entry["path"]: (entry["mode"], entry["blob_id"])
+            for entry in r["candidate_protected_entries"]
+        }
+        self.assertEqual(entries, eq.tree(str(self.repo), self.good))
+        self.assertIn("independently audit payloads", r["scope"])
+
+    def test_caller_baseline_after_helpers_added(self):
+        run(self.repo, "reset", "--hard", "-q", self.base)
+        helper = self.repo / "scripts/release_helper.py"
+        helper.parent.mkdir(parents=True, exist_ok=True)
+        helper.write_text("# accepted pre-version helper\n")
+        run(self.repo, "add", ".")
+        run(self.repo, "commit", "-qm", "pre-version source")
+        preversion = run(self.repo, "rev-parse", "HEAD")
+        for path in eq.VERSION_FILES:
+            file = self.repo / path
+            file.write_bytes(
+                eq.normalized(path, file.read_bytes(), eq.OLD).replace(
+                    b"<VERSION>", eq.NEW
+                )
+            )
+        run(self.repo, "add", ".")
+        run(self.repo, "commit", "-qm", "version bump")
+        candidate = run(self.repo, "rev-parse", "HEAD")
+        result = self.compare(candidate, baseline=preversion)
+        self.assertEqual(result["baseline_commit"], preversion)
+        self.assertEqual(result["version_transition"], "1.1.0 -> 1.2.0")
+        self.assertIn(
+            "scripts/release_helper.py",
+            {e["path"] for e in result["candidate_protected_entries"]},
+        )
 
     def test_exact_fixture_diff(self):
         targets = {
@@ -228,6 +262,13 @@ class EquivalenceTests(unittest.TestCase):
     def test_bad_identity_and_ancestry(self):
         with self.assertRaises(ValueError):
             self.compare(self.good[:7])
+        with self.assertRaises(ValueError):
+            eq.compare(str(self.repo), self.good, baseline=self.base[:7])
+        tree_id = run(self.repo, "rev-parse", f"{self.base}^{{tree}}")
+        with self.assertRaises((ValueError, subprocess.CalledProcessError)):
+            eq.compare(str(self.repo), self.good, baseline=tree_id)
+        with self.assertRaises((ValueError, subprocess.CalledProcessError)):
+            eq.compare(str(self.repo), "0" * 40, baseline=self.base)
         with self.assertRaises(subprocess.CalledProcessError):
             self.compare(self.base, baseline=self.good)
 

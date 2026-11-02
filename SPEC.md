@@ -3268,3 +3268,12 @@ source equivalence does not certify corrective98bdfab; the latter is frozen in
 canonical run41391193610 after successful calibration-only41389031789. Untouched
 final acceptance, v2 replay, all original domain/release gates and public1.2.0
 remain open. No mathematical goal, scientific tolerance or 1.1.0 artifact changes.
+
+
+EJ payload-input annotation (2026-11-02): add bounded authenticated-artifact
+materialization and an explicit source-only baseline parameter to avoid changing
+verifier code for a controlled version transition. Independent numerical payload
+audits and upstream baseline authentication remain mandatory. Checkpoint2a7c24b
+passes actual six-provider/two-ED payload auditing and all exact-head workflows;
+this closes no full release/publication or corrective EH final obligation.
+Original mathematical goals, science tolerances and published1.1.0 stay unchanged.
