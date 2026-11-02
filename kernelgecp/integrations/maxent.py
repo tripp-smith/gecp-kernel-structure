@@ -573,6 +573,8 @@ def prepare_spectral_projection(
         or observed.shape[1] != evaluated.shape[1]
     ):
         raise ValueError("basis designs must have matching trailing coefficient axes")
+    if precision_bits != 53 and (observed.shape[0] > 256 or observed.shape[1] > 128):
+        raise ValueError("higher precision projection exceeds resource limits")
     plan = _SpectralLeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
     if plan.diagnostics.effective_rank == 0:
         raise NumericalBreakdownError("projection design has no retained singular mode")
@@ -581,8 +583,6 @@ def prepare_spectral_projection(
     method = "binary64_cached_svd"
     if precision_bits != 53:
         rows, columns = observed.shape
-        if rows > 256 or columns > 128:
-            raise ValueError("higher precision projection exceeds resource limits")
         diagnostics = plan.diagnostics
         if rows < columns or diagnostics.effective_rank != columns:
             raise ValueError("higher precision projection requires full column rank")
@@ -625,11 +625,11 @@ def prepare_spectral_projection(
     provenance = {
         "method": method,
         "precision_bits": precision_bits,
-        "source_design_sha256": hashlib.sha256(observed.tobytes()).hexdigest(),
-        "decomposed_design_sha256": hashlib.sha256(decomposed.tobytes()).hexdigest(),
+        "source_design_sha256": _array_hash(observed),
+        "decomposed_design_sha256": _array_hash(decomposed),
         "source_design_shape": list(observed.shape),
         "decomposed_design_shape": list(decomposed.shape),
-        "hash_scope": "C-order binary64 array bytes with the recorded shapes",
+        "hash_scope": "C-order little-endian binary64 array bytes with recorded shapes",
         "rank_guard": (
             "smallest > max(2 * threshold, 8 * eps64 * max(shape) * largest); heuristic"
         )

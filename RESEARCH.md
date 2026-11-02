@@ -12734,3 +12734,15 @@ probes, not real-provider continuation or untouched final validation. Shared
 LeastSquaresPlan and all canonical data remain unchanged. Freeze the commit,
 run full verification, and review a source-bound scientific repair plan before
 any calibration or acquisition launch.
+
+
+Independent corrective API review finds no covariance/linearity defect but
+identifies a resource-cap ordering issue: the high-precision size limit must
+precede the original SVD. Move it before factorization and add rejection tests
+that forbid SVD construction. Canonicalize the new design hashes using the
+existing little-endian array hash convention. Add a nearly collinear independent
+MP-SVD check at 1e-13, exposed-array hash/shape checks including the transposed
+cross-mesh default, and projected archive provenance round-trip coverage.
+The earlier frozen cd2fa1a root passes 2,640 tests/42 optional skips. These later
+review fixes require a new frozen-head full verification; no numerical
+acceptance tolerance, canonical data, production campaign or default changes.
