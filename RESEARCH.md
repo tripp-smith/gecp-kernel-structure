@@ -12946,3 +12946,23 @@ corrective EH release eligibility. The same checked ZIP also passes the new
 bounded inventory parser; the 979-entry canonical spectroscopy ZIP passes too.
 The next payload/baseline component batch still requires its own full root and
 exact-head checks. No public 1.2.0 or complete release acceptance is claimed.
+
+
+## EJ artifact attempt-binding hardening contract
+
+Require every selected artifact, including auxiliary build records, to bind
+explicitly to the selected run attempt when that attempt exceeds one. On the
+first attempt, an absent binding remains acceptable; any explicit attempt must
+be an integer equal to the selected attempt. Reject stale, absent on rerun, and
+boolean bindings. Focused selector tests cover both artifact classes and first-
+attempt compatibility. This metadata check does not establish scientific
+eligibility, installed-package acceptance, or authorize publication. Full root
+and exact-head CI remain required.
+
+Correct stale current EH status while preparing this component: canonical
+41391193610 is terminal failed (raw-flat-r0 RMS2.8853>2 after successful256-chain
+acquisition/raw audit);23 other measured workers did not run. The consumed
+cohort is now development evidence. Separate EH candidate f1663ed passes actual
+installed constrained-mass interface probes on Linux/macOS (41531870983), not
+scientific calibration or final acceptance. No tolerance, old artifact or
+source-equivalence waiver changes. The canonical PR146 receipt holds bindings.

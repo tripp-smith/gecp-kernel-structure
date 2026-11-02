@@ -230,3 +230,47 @@ def test_skipped_provider_payload_audit_step():
     job["steps"][0]["conclusion"] = "skipped"
     with pytest.raises(ValueError, match="providers required step failed or skipped"):
         select(data)
+
+
+@pytest.mark.parametrize("auxiliary", [False, True])
+@pytest.mark.parametrize("binding", ["missing", "stale", "boolean"])
+def test_rerun_rejects_ambiguous_artifact_attempt(auxiliary, binding):
+    data = metadata()
+    run_id = data[0]["molecular"][0]["id"]
+    data[0]["molecular"][0]["run_attempt"] = 2
+    for job in data[1][run_id]:
+        job["run_attempt"] = 2
+    for artifact in data[2][run_id]:
+        artifact["workflow_run"]["run_attempt"] = 2
+    if auxiliary:
+        artifact = docker_record(data, "molecular")
+        data[2][run_id].append(artifact)
+    else:
+        artifact = data[2][run_id][0]
+    if binding == "missing":
+        del artifact["workflow_run"]["run_attempt"]
+    else:
+        artifact["workflow_run"]["run_attempt"] = 1 if binding == "stale" else True
+    with pytest.raises(ValueError, match="artifact run attempt"):
+        select(data)
+
+
+def test_first_attempt_accepts_missing_binding_but_rejects_boolean():
+    data = metadata()
+    del data[2][2][0]["workflow_run"]["run_attempt"]
+    select(data)
+    data[2][2][0]["workflow_run"]["run_attempt"] = True
+    with pytest.raises(ValueError, match="artifact run attempt"):
+        select(data)
+
+
+def test_rerun_accepts_explicit_matching_required_and_auxiliary_bindings():
+    data = metadata()
+    run_id = data[0]["molecular"][0]["id"]
+    data[0]["molecular"][0]["run_attempt"] = 2
+    for job in data[1][run_id]:
+        job["run_attempt"] = 2
+    for artifact in data[2][run_id]:
+        artifact["workflow_run"]["run_attempt"] = 2
+    data[2][run_id].append(docker_record(data, "molecular"))
+    assert select(data)["runs"]["molecular"]["attempt"] == 2

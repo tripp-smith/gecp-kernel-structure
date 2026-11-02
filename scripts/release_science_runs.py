@@ -184,6 +184,12 @@ def select_science_runs(repository, revision, run_items, jobs_by_run, artifacts_
         for artifact in artifacts:
             binding = artifact.get("workflow_run") or {}
             digest = artifact.get("digest")
+            artifact_attempt = binding.get("run_attempt")
+            _require(
+                ("run_attempt" not in binding and attempt == 1)
+                or (type(artifact_attempt) is int and artifact_attempt == attempt),
+                f"ambiguous or invalid {role} artifact run attempt",
+            )
             _require(
                 _positive(artifact.get("id"))
                 and artifact.get("expired") is False
@@ -192,8 +198,7 @@ def select_science_runs(repository, revision, run_items, jobs_by_run, artifacts_
                 and re.fullmatch(r"sha256:[0-9a-f]{64}", digest)
                 and binding.get("id") == run_id
                 and binding.get("head_sha") == revision
-                and binding.get("head_branch") == "main"
-                and ("run_attempt" not in binding or binding["run_attempt"] == attempt),
+                and binding.get("head_branch") == "main",
                 f"invalid {role} artifact",
             )
             record = {k: artifact[k] for k in ("id", "name", "digest", "size_in_bytes")}

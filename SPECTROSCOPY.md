@@ -8,7 +8,12 @@ calibration-only [run 41389031789](https://github.com/tripp-smith/gecp-kernel-st
 including 24 synthetic and eight measured cases, independent audits and the
 actual native preflight. The single frozen fresh final
 [run 41391193610](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41391193610)
-is running. Final science, v2 replay, merged-main acceptance and 1.2.0 remain
+completed acquisition and the raw audit but failed the first measured worker:
+raw-flat-r0 held-out RMS2.8853 exceeds the unchanged limit2. The remaining23
+workers did not run. The cohort is consumed development evidence. Candidate
+`f1663ed` passes actual installed native constrained-mass interface probes on
+Linux/macOS; those probes do not establish scientific calibration or final
+acceptance. Final science, updated replay, merged-main acceptance and 1.2.0 remain
 open in the [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).
 Earlier failed/consumed cohorts retain their original status.
 

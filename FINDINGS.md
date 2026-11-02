@@ -2655,8 +2655,12 @@ an ill-conditioned pyDLR projector outside its unchanged independent error
 budget; no current EH acceptance follows from the historical pass. Corrective
 source 98bdfab passes calibration-only run 41389031789 with all 24 synthetic and
 eight measured cases, independent audits and actual native preflight. The one
-fresh final campaign 41391193610 is running. No final result is claimed; the
-canonical PR #146 receipt records provenance, calibration and remaining gates.
+fresh final campaign 41391193610 completes all256 chains and its raw audit, but
+the first measured worker fails held-out RMS2.8853>2; the other23 did not run.
+The cohort is consumed development evidence. Candidate f1663ed passes actual
+installed native constrained-mass interface probes on Linux/macOS, not scientific
+calibration or final acceptance. The canonical PR #146 receipt records original
+failures, provenance and remaining gates.
 
 EJ adds strict source inventory, authenticated paginated workflow metadata and
 a six-runtime/two-ED payload-audit component. Focused integration passes 191 tests

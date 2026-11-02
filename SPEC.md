@@ -3277,3 +3277,12 @@ audits and upstream baseline authentication remain mandatory. Checkpoint2a7c24b
 passes actual six-provider/two-ED payload auditing and all exact-head workflows;
 this closes no full release/publication or corrective EH final obligation.
 Original mathematical goals, science tolerances and published1.1.0 stay unchanged.
+
+EJ artifact-attempt annotation (2026-11-02): require explicit integer matching
+artifact attempt binding for reruns, including auxiliary build records; reject
+ambiguous missing/stale/boolean attempts. First-attempt metadata remains supported.
+This hardens metadata selection only. EH canonical41391193610 is terminal failed
+on raw RMS2.8853>2 after successful raw acquisition/audit; the cohort is consumed.
+Candidate f1663ed passes actual installed Linux/macOS mass-interface probes only.
+Calibration, untouched final science, complete release eligibility and public1.2
+remain required; original mathematical goals and numerical budgets are unchanged.
