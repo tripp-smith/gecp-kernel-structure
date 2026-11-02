@@ -12834,3 +12834,16 @@ authenticated fetch at current main 357ab9 exits 1 with missing exact-main
 molecular run; required science cannot be inferred from unrelated green workflows.
 The canonical EJ component receipt is PR #144 comment 6569479579. Full-root and
 exact-head CI outcomes will be recorded there against the frozen new head.
+
+
+Full root at frozen EJ head 9487fc3 exits 1: 2,721 tests pass, 42 skip and
+24 subtests pass, while the optional historical EPW native-context test fails.
+It autodiscovers a hardcoded /tmp directory that survives without its required
+native receipt. Preserve this failure rather than count root as passing. Replace
+implicit temporary-path discovery with explicit KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT
+opt-in. Unset skips this optional historical check; an explicitly missing or
+incomplete source fails. Keep native context/shape/offset assertions and every
+mandatory supported EPW provider/release gate unchanged. Focused checks pass
+11 tests with one optional skip; an invalid opt-in exits 1. No actual positive
+historical fixture is available locally. Freeze the repaired commit and repeat
+full root before claiming verification.
