@@ -2646,3 +2646,22 @@ does not establish a sole failure cause. Fixed-bath conditional mean and
 bootstrap sensitivity scopes remain explicit, without unique spectra, complete
 uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
 and 1.2 publication remain subject to final checks.
+
+
+### EH acceptance reopened; EJ gate components
+
+The earlier FEAA workflow pass above is historical. Merged-main replay reveals
+an ill-conditioned pyDLR projector outside its unchanged independent error
+budget; no current EH acceptance follows from the historical pass. Corrective
+source 98bdfab passes calibration-only run 41389031789 with all 24 synthetic and
+eight measured cases, independent audits and actual native preflight. The one
+fresh final campaign 41391193610 is running. No final result is claimed; the
+canonical PR #146 receipt records provenance, calibration and remaining gates.
+
+EJ adds strict source inventory, authenticated paginated workflow metadata and
+a six-runtime/two-ED payload-audit component. Focused integration passes 191 tests
+and 12 subtests; independent review corrects import isolation, receipt hashes and
+malformed-output failure retention. The real metadata fetch rejects current
+main because an exact-main molecular run is absent. These checks are gate
+components, not complete scientific eligibility, native 1.2 execution,
+publication or a new numerical theorem. The historical baseline is not a waiver.

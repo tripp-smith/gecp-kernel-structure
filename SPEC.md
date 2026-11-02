@@ -3250,3 +3250,13 @@ source-metadata equivalence and six-role run/artifact selection helpers (53
 focused tests); neither establishes numerical eligibility. Full native release,
 installed-distribution, publication and final handoff gates remain required.
 Original goals, numerical budgets and published 1.1.0 artifacts are unchanged.
+
+
+EJ release-gate component annotation (2026-11-02): harden committed-source
+inventory, authenticated full-page workflow selection and a runtime/ED payload
+audit component with negative tests and isolated exact-source auditor execution.
+These helpers are not complete scientific release eligibility. Historical FEAA
+source equivalence does not certify corrective98bdfab; the latter is frozen in
+canonical run41391193610 after successful calibration-only41389031789. Untouched
+final acceptance, v2 replay, all original domain/release gates and public1.2.0
+remain open. No mathematical goal, scientific tolerance or 1.1.0 artifact changes.

@@ -18,21 +18,12 @@ VERSION_FILES = {
     "native/Cargo.toml",
     "native/Cargo.lock",
 }
-# Baseline inventory audited from git ls-tree: all package/native build inputs,
-# experiment programs/configs, provider environments, scientific scripts/fixtures.
-RELEASE_SCRIPTS = {
-    "scripts/release_artifacts.py",
-    "scripts/check_distribution.py",
-    "scripts/prepare_corresponding_source.py",
-}
-ALLOWED_ADDITIONS = {
-    "experiments/audit_spectroscopy_arrays.py",
-    "experiments/replay_spectroscopy_acceptance.py",
-    "scripts/check_spectroscopy_release.py",
-    "scripts/release_source_equivalence.py",
-    "scripts/release_science_runs.py",
-}
+# Compare all tracked files in these trees, including workflows, fixtures,
+# scientific data and verification scripts, regardless of filename extension.
+# Root prose and release documents are outside this scientific-source check;
+# their release binding and installed-package acceptance are separate gates.
 ROOT_INPUTS = {
+    ".dockerignore",
     ".python-version",
     "pyproject.toml",
     "uv.lock",
@@ -57,12 +48,18 @@ def critical(path):
     return (
         path in ROOT_INPUTS
         or path.endswith((".lock", ".lock.json"))
-        or path.startswith(("kernelgecp/", "native/", "environments/", "tests/data/"))
-        or (path.startswith("experiments/") and path.endswith((".py", ".toml", ".txt")))
-        or (
-            path.startswith("scripts/")
-            and path not in RELEASE_SCRIPTS
-            and path.endswith((".py", ".sh"))
+        or path.startswith(
+            (
+                ".github/",
+                "data/",
+                "environments/",
+                "examples/",
+                "experiments/",
+                "kernelgecp/",
+                "native/",
+                "scripts/",
+                "tests/",
+            )
         )
     )
 
@@ -142,10 +139,8 @@ def compare(repo, candidate):
     )
     left, right = tree(repo, baseline), tree(repo, candidate)
     additions = right.keys() - left.keys()
-    unexpected = additions - ALLOWED_ADDITIONS
-    if unexpected:
-        raise ValueError(f"unexpected critical additions: {sorted(unexpected)}")
-    right = {p: entry for p, entry in right.items() if p not in additions}
+    if additions:
+        raise ValueError(f"unexpected critical additions: {sorted(additions)}")
     if not left.keys() >= VERSION_FILES or not right.keys() >= VERSION_FILES:
         raise ValueError("missing version file")
     if left.keys() != right.keys():

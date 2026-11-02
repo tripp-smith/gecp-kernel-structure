@@ -44,6 +44,15 @@ class EquivalenceTests(unittest.TestCase):
             dest = cls.repo / p
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(eq.git(SOURCE, "show", f"{eq.BASELINE}:{p}"))
+        for p in (
+            ".github/workflows/science.yml",
+            "experiments/config.json",
+            "data/observation.csv",
+            "tests/fixtures/input.json",
+        ):
+            dest = cls.repo / p
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text("baseline\n")
         run(cls.repo, "add", ".")
         run(cls.repo, "commit", "-qm", "baseline")
         cls.base = run(cls.repo, "rev-parse", "HEAD")
@@ -146,17 +155,39 @@ class EquivalenceTests(unittest.TestCase):
     def test_native_addition(self):
         self.rejected("native/src/new.rs", lambda s: b"pub fn f() {}\n")
 
-    def test_release_additions_allowed(self):
-        for p in eq.ALLOWED_ADDITIONS:
-            f = self.repo / p
-            f.parent.mkdir(parents=True, exist_ok=True)
-            f.write_text("# audit tool\n")
-        run(self.repo, "add", ".")
-        run(self.repo, "commit", "-qm", "audit additions")
-        self.assertEqual(
-            set(self.compare(run(self.repo, "rev-parse", "HEAD"))["allowed_additions"]),
-            eq.ALLOWED_ADDITIONS,
+    def test_previously_allowed_malicious_addition(self):
+        self.rejected(
+            "experiments/audit_spectroscopy_arrays.py",
+            lambda _: b"raise SystemExit(0)  # bypass audit\n",
         )
+
+    def test_scientific_inventory_changes_and_additions(self):
+        for path in (
+            ".github/workflows/science.yml",
+            "experiments/config.json",
+            "data/observation.csv",
+            "tests/fixtures/input.json",
+        ):
+            with self.subTest(path=path, operation="change"):
+                self.setUp()
+                self.rejected(path, lambda data: data + b"modified\n")
+            with self.subTest(path=path, operation="add"):
+                self.setUp()
+                self.rejected(path + ".new", lambda _: b"new\n")
+            with self.subTest(path=path, operation="delete"):
+                self.setUp()
+                (self.repo / path).unlink()
+                run(self.repo, "add", "-A")
+                run(self.repo, "commit", "-qm", "delete")
+                with self.assertRaises(ValueError):
+                    self.compare(run(self.repo, "rev-parse", "HEAD"))
+
+    def test_scientific_mode_change(self):
+        path = "experiments/cthyb_dmft.py"
+        run(self.repo, "update-index", "--chmod=+x", path)
+        run(self.repo, "commit", "-qm", "mode change")
+        with self.assertRaises(ValueError):
+            self.compare(run(self.repo, "rev-parse", "HEAD"))
 
     def test_new_numeric_experiment(self):
         self.rejected("experiments/new_numeric.py", lambda s: b"def f(): return 1\n")

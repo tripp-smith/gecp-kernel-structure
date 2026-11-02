@@ -1,8 +1,18 @@
 # MaxEnt spectroscopy evidence
 
-Scientific acceptance passes at frozen `feaac669` in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). Delivery verification remains in [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142). Sections named for older sources are historical; both measured failures remain failed and consumed.
+EH is open. The historical frozen `feaac669` workflow reported passing cases,
+but merged-main replay exposed a projector discrepancy against an independent
+high-precision oracle. That failure remains recorded; the historical results
+below do not establish current acceptance. Corrective source `98bdfab` passes
+calibration-only [run 41389031789](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41389031789),
+including 24 synthetic and eight measured cases, independent audits and the
+actual native preflight. The single frozen fresh final
+[run 41391193610](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41391193610)
+is running. Final science, v2 replay, merged-main acceptance and 1.2.0 remain
+open in the [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).
+Earlier failed/consumed cohorts retain their original status.
 
-## Accepted Linux scientific campaign
+## Historical Linux campaign; current acceptance superseded
 
 The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
 24 synthetic calibration cases, 72 untouched synthetic final children (24

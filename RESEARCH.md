@@ -12773,3 +12773,64 @@ inspection and independent numerical audits remain separate required work.
 Keep versions at 1.1.0 and PR #144 draft. Finish the EH discrepancy, compose the
 numerical eligibility gate, execute required final native validation, then freeze
 and test actual installed 1.2.0 distributions before publication and handoff.
+
+
+## EJ release-gate component implementation (2026-11-02)
+
+Current scientific generation source 98bdfab remains frozen in its separate
+worktree. Calibration-only run 41389031789 passes actual Linux/macOS installed
+providers, 24 synthetic cases, eight measured calibration cases, their independent
+audits and an executed disposable native preflight. An extra independent
+calibration review verifies source/array hashes, 52 numerical comparisons and
+an 80-digit original-design pyDLR projector check under the unchanged tolerance.
+This is calibration, not final acceptance. After registering its single allocation,
+canonical run 41391193610 starts at source 98bdfab, attempt1, with fresh native
+33100001+2*i seeds and untouched synthetic final seeds. Its actual outcome,
+v2 replay, EH delivery and every EJ publication gate remain open.
+
+On this separate EJ branch, implement three narrowly scoped gate components:
+
+- release_source_equivalence.py rejects every unknown critical addition and
+  protects tracked workflow/config/data/fixture/verification trees regardless
+  of extension; no unchecked added-auditor allowlist remains. The historical
+  FEAA baseline is unchanged and does NOT accept corrective source98bdfab.
+  Its expanded strict inventory intentionally cannot authorize current reuse.
+- release_science_fetch.py obtains authenticated gh API metadata with bounded
+  complete pagination, stable exact-source/main filtering, latest-run selection
+  and attempt-specific jobs. A failure/skipped required step is not bypassed.
+  It downloads no payload and does not establish scientific eligibility.
+- release_provider_audits.py validates all six runtime receipts and their
+  available bound payload bytes, records receipt hashes, and executes the two
+  independent ED campaign auditors from a clean private exact-SHA Git snapshot
+  under isolated Python imports. Missing providers/audits, wrong source/cohorts,
+  unsafe inputs or failures produce explicit failed receipts. This component
+  covers runtime and saved ED audits only, not whole-release eligibility.
+
+Focused tests must attack pagination/truncation, skipped/latest-failed bindings,
+source additions/modes/versions, corrupt receipts and payloads, malformed JSON
+shapes, untracked dependency-shadow modules, missing runtimes and failed audits.
+Mocked scientific subprocess tests do not establish actual provider execution.
+Independent review found the original untracked-import, missing receipt-digest
+and nonobject failure-retention defects; the implementation now isolates imports,
+records exact hashes and preserves failure reports. EPW executable hashes refer
+to the provider image; those binary bytes are absent from uploaded smoke artifacts
+and this limitation is explicit. Authenticated artifact-manifest binding remains
+an upstream requirement of the complete gate.
+
+The final source-reuse policy must separate strictly identical numerical producer
+inputs from explicitly reviewed verifier/release-only differences. Derive the
+accepted baseline from authenticated scientific receipts rather than a
+self-referential commit constant; bind any verifier-only inventory to exact
+candidate/main review and tests. Unknown classification blocks reuse. Do not
+silently add broad exceptions or reacquire Monte Carlo solely to accommodate a
+version string or an independently reviewed release helper. This policy is not
+yet implemented or accepted by the current comparator. Actual installed1.2 tests,
+complete domain payload audits, native release validations, publication wiring,
+full root, exact-head/main checks, merge and public handoff remain required.
+
+
+Component integration focused checks pass 191 tests and 12 subtests. An actual
+authenticated fetch at current main 357ab9 exits 1 with missing exact-main
+molecular run; required science cannot be inferred from unrelated green workflows.
+The canonical EJ component receipt is PR #144 comment 6569479579. Full-root and
+exact-head CI outcomes will be recorded there against the frozen new head.
