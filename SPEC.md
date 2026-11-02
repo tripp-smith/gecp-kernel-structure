@@ -3235,6 +3235,14 @@ review pass. Full root and exact-head Linux replay/CI remain required; no
 scientific input, numerical budget or mathematical goal changes.
 
 
+EH post-merge status annotation (2026-11-01): PR #142 merged as 3bc726b after
+all 15 exact-head workflows passed, and main root passes 2,631 tests/42 skips.
+Exact-main spectroscopy replay 41321087677 fails the frozen independent
+projection check, so delivery remains open. A bounded finite-matrix diagnostic
+preserves source, data and tolerances and makes no acceptance claim. Existing
+final data are observed. No mathematical goal or numerical budget changes.
+
+
 EH corrective implementation annotation (2026-11-01): add an explicit bounded
 precision option for same-mesh full-column-rank spectral observation projection,
 retaining the shared cached SVD, original rank/conditioning, immutable source

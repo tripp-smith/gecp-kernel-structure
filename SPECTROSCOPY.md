@@ -255,6 +255,34 @@ measured failures remain consumed evidence. The 256 raw fixed-bath measurements,
 gates; a successful unit diagnostic or ordinary CI cannot close them.
 
 
+## Post-merge projection discrepancy
+
+The source tree of main 3bc726b is identical to passing head 2f2446c. Both
+full root commands pass, but main replay 41321087677 fails the frozen
+measured-calibration independent projection comparison. Its retained failed
+child receipt reports `ValueError: independent projection`; it does not identify
+the case. Do not rerun jobs solely to replace this failed receipt with green.
+
+Local 50-digit SVD of the exact saved binary64 design finds the pyDLR projector
+outside the existing 2e-8 plus 1e-8 relative elementwise budget: maximum absolute
+difference 2.7619e-8, maximum tolerance ratio 1.194. The retained condition is
+1.5913e10, with the smallest singular ratio 6.284e-11 safely above the 1e-12
+cutoff. Local binary64 decompositions pass the same comparison. These facts
+support sensitivity of the subspace calculation; they do not establish which
+case failed on Linux or prove an auditor-only defect. Independent source review
+also finds that the producer evaluates the archived design and fitter design
+separately, so their byte equality must be checked before assigning the cause.
+
+The bounded diagnostic reads only the eight calibration matrix archives after
+checking the complete curated archive identity and member safety. It compares
+NumPy/SciPy backends and an independent 50-digit SVD, records runtime details,
+and reports `diagnostic_complete` even when a comparison fails. That process
+status is not scientific acceptance. No provider calculation, new samples,
+changed production representation or changed budget is involved. A production
+repair would require new source binding, calibration and appropriate untouched
+final validation; observed final data cannot be relabeled untouched.
+
+
 ## Corrective explicit-precision provider checks (in progress)
 
 The opt-in projection mode uses declared higher-precision QR followed by the

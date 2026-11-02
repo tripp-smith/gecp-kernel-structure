@@ -12692,6 +12692,33 @@ previous cd40c56 root receipt passes 2,627 tests/42 optional skips, but does not
 verify this later wrapper correction.
 
 
+## EH post-merge projection reproducibility contract
+
+PR #142 merged at main 3bc726b after clean head 2f2446c passed all 15 workflows
+and full root (2,631 tests/42 optional skips). Main has the identical Git tree
+and passes full root, but its replay 41321087677 fails the frozen calibration
+auditor's independent projection comparison. Preserve this failure and the
+passing historical runs; delivery is incomplete. Do not change tolerances,
+rescore a consumed final cohort as untouched, or restart native acquisition.
+
+First identify the actual failing Linux case and compare saved projectors
+against NumPy, SciPy gesdd/gesvd and 50-digit SVD on exact saved binary64 inputs.
+Retain rank, singular ratios, conditioning, error/tolerance ratios and actual
+runtime/BLAS configuration. The diagnostic reads only eight calibration NPZs
+from the authenticated curated archive and never executes provider calculations.
+A complete diagnostic may show failed comparisons; it is not an acceptance gate.
+
+Independent local evidence points to pyDLR condition 1.5913e10 without a rank
+cutoff crossing. The high-precision projector differs by 2.7619e-8 and exceeds
+the unchanged elementwise budget, while local binary64 comparisons pass.
+Source review finds separate evaluations for saved and fitted designs, with no
+scaling inside LeastSquaresPlan; their byte equality is an unresolved diagnostic
+obligation. Consider a single design instance and explicit high-precision
+orthonormal coordinates only after this evidence is resolved. Rank-truncated
+and cross-mesh cases cannot silently substitute full-column QR. Any scientific
+repair requires its own contract, source binding and validation isolation.
+
+
 ## EH corrective projection contract — explicit precision
 
 Main 3bc726b fails independent projection replay even though the frozen
@@ -12838,3 +12865,15 @@ revision remains in the frozen snapshot and final cohort. The measured and raw
 independent auditors enforce the corrected policy; old EE origin constants
 remain only where reading attributed native calibration/parent data. This is a
 provenance correction, with no physics, numerical budget or sampling change.
+
+
+V2 pre-calibration verification scope: freeze this integrated source, then require
+full root, exact-head base/installed/runtime checks, the actual three-provider
+matrix probes, and an independent contract review with no outstanding blocker.
+The historical feaac669 replay source-equivalence guard must reject this numeric
+change; that rejection is retained and is not a permit to merge or publish.
+New calibration is necessary to establish the replacement evidence. The old
+guard is not misreported as a passing new-source scientific gate; a new frozen
+v2 replay and every required release/main check must pass before closure.
+No source edits occur during calibration or acquisition. Status updates go in
+external canonical PR receipts while that source is frozen.
