@@ -2716,3 +2716,9 @@ fresh final seed identities. Independent audits reject a post-fit rescale and
 check bootstrap mass metadata. V2 remains the default. No v3 final noise or raw
 chains have been generated; calibration on consumed development data, source
 freeze, untouched final validation and exact-source/main CI are still required.
+
+V3 calibration41603543319 fails in actual native MaxEnt on the first synthetic
+raw/flat case after12 converged trials, despite passing installed interface
+checks. This is an explicit numerical breakdown, not a completed calibration.
+The failed artifact is preserved; observational linear-system capture is added
+before selecting a further numerical candidate. No final allocation executes.

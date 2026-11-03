@@ -327,6 +327,7 @@ def run_jobs(directory, manifest, env, python, deadline, profile="v2"):
                     out.with_suffix(".npz"),
                     out.with_name(out.stem + "-dataset.npz"),
                     out.with_name(out.stem + "-gecp-fit.npz"),
+                    out.with_name(out.stem + "-failed-solve.npz"),
                 ]
                 if f.is_file()
             }

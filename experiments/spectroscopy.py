@@ -72,6 +72,7 @@ def provenance(profile="v2"):
                 (
                     "kernelgecp/integrations/_maxent_mass.py",
                     "kernelgecp/integrations/_maxent_native_mass.py",
+                    "scripts/providers/maxent_solve_capture.py",
                 )
                 if profile == "v3"
                 else ()
@@ -289,7 +290,31 @@ def run_case(
         calculation_settings=config.as_record(),
     )
     fit_start = time.perf_counter()
-    spectrum = continue_tau_maxent(fitted, config)
+    if profile == "v3":
+        from scripts.providers.maxent_solve_capture import capture_failed_solve
+
+        solve_capture = {}
+        try:
+            with capture_failed_solve(
+                output.with_name(output.stem + "-failed-solve.npz"), solve_capture
+            ):
+                spectrum = continue_tau_maxent(fitted, config)
+        except Exception as error:
+            write_json(
+                output,
+                {
+                    "schema": "kernelgecp.spectroscopy-case.v3",
+                    "status": "failed",
+                    "stage": "native_tau_maxent",
+                    "error": f"{type(error).__name__}: {error}",
+                    "config": config.as_record(),
+                    "provenance": before,
+                    "solve_capture": solve_capture,
+                },
+            )
+            raise
+    else:
+        spectrum = continue_tau_maxent(fitted, config)
     continuation_seconds = time.perf_counter() - fit_start
     prediction_start = time.perf_counter()
     predicted = spectrum.evaluate_tau(data.beta, query)

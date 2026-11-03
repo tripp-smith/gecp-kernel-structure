@@ -141,3 +141,8 @@ independent audit pass without scientific acceptance. All failed historical
 scouts remain visible. New opt-in v3 producer/auditor and workflow propagation
 are under verification; new calibration, frozen allocation and untouched final
 science remain mandatory. No additional final Monte Carlo allocation has run.
+
+EH actual v3 calibration41603543319 is failed after12 native alpha trials on the
+first synthetic case. Measured calibration and all finals never run. Preserve
+its source-bound failure; capture the unchanged failing solve before changing
+controls. Interface and base-test success do not close this scientific gate.

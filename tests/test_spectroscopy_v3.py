@@ -114,3 +114,49 @@ def test_v3_independent_controls_reject_post_fit_rescale_configuration():
     }
     with pytest.raises(ValueError, match="child gates/status"):
         campaign.validate_child(row, result, {}, None)
+
+
+def test_v3_native_failure_retains_exact_solve_and_restores_numpy(
+    tmp_path, monkeypatch
+):
+    import json
+
+    from kernelgecp.integrations.maxent import MaxEntConfig
+
+    monkeypatch.setattr(science, "provenance", lambda *args: {})
+    matrix = np.zeros((2, 2))
+    rhs = np.ones(2)
+    prior = np.linalg.solve
+
+    def fail(dataset, config):
+        np.linalg.solve(matrix, rhs)
+
+    monkeypatch.setattr(science, "continue_tau_maxent", fail)
+    output = tmp_path / "case.json"
+    config = MaxEntConfig(
+        n_alpha=33,
+        minimizer_mu0=1e-8,
+        mass_mode="constrained",
+        mass_curvature="projected",
+        mass_interior_fraction=1e-12,
+        minimizer_marquardt=True,
+    )
+    with pytest.raises(np.linalg.LinAlgError):
+        science.run_case(
+            science.CASES[0],
+            "raw",
+            101,
+            1e-8,
+            config.as_record(),
+            output,
+            pilot=True,
+            profile="v3",
+        )
+    assert np.linalg.solve is prior
+    record = json.loads(output.read_text())
+    assert record["status"] == "failed"
+    assert record["solve_capture"]["status"] == "captured"
+    assert record["stage"] == "native_tau_maxent"
+    with np.load(tmp_path / "case-failed-solve.npz", allow_pickle=False) as archive:
+        np.testing.assert_array_equal(archive["matrix"], matrix)
+        np.testing.assert_array_equal(archive["rhs"], rhs)

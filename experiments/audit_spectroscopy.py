@@ -217,6 +217,7 @@ def check_provenance(p, profile="v2"):
             {
                 "kernelgecp/integrations/_maxent_mass.py",
                 "kernelgecp/integrations/_maxent_native_mass.py",
+                "scripts/providers/maxent_solve_capture.py",
             }
         )
     require(

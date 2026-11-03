@@ -3321,3 +3321,9 @@ claim. Implement explicit opt-in v3 protocol/schema propagation and independent
 unscaled-mass selection checks; v2 remains the default. Reserve34100001+2*i
 (256 split128/128) and synthetic5001/5002/5003 with80 query nodes for a later
 frozen final validation. No new final allocation or release gate is closed.
+
+EH v3 calibration annotation (2026-11-03):bc29be5 passes root and installed
+Linux/macOS interfaces, but41603543319 fails on a native singular solve in the
+first synthetic raw/flat case after12 trials. Preserve the complete failed
+artifact and add bounded observational matrix capture. No scientific threshold,
+accepted domain objective, final seed allocation or failed status is changed.

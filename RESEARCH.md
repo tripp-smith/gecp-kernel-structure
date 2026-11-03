@@ -13142,3 +13142,28 @@ Thread profile selection through subprocesses and test mixed-version rejection,
 seed overlap, source and receipt bindings, actual controls and independent
 mass/selection mathematics. Full root, installed-provider calibration, untouched
 final validation and exact-source/main CI are still required before EH closure.
+
+### EH v3 calibration failure and observational-system capture
+
+Sourcebc29be5 passes root2744/46skips/12subtests and actual installed probes on
+Linux/macOS. Its single calibration-only41603543319 fails on the first synthetic
+offgrid_atoms_independent/raw/flat case: native LinAlgError: Singular matrix,
+after12 completed converged alpha trials. No complete family, synthetic audit,
+measured calibration or final allocation executes. Preserve artifact13215738278,
+5729bytes,SHA9031f35a0b4e822706a34e256a3962f85c24f07955d8b612d577ca0dc2450ef8
+in experiments/data and its failure receipt in data/spectroscopy. The native
+Marquardt option therefore has no demonstrated robust-calibration advantage.
+
+Instrument the explicit v3 synthetic continuation with the existing bounded
+observational failed-solve capture. Pass every call and exception through to the
+original NumPy solver, restore its exact prior callable, and retain the rounded
+matrix/RHS plus available native J,Id,mu,v and caller-source metadata on failure.
+Bind the helper in v3 source provenance and failed-case artifact inventories;
+keep v2 untouched. Preserve partial logs and failure JSON, without substituting
+a solve, completing a truncated family or changing any numerical controls.
+
+A new frozen calibration-only dispatch is a failure-diagnostic attempt on the
+same consumed development inputs. Inspect its captured system independently
+before proposing a numerical repair. A nonreproduced failure would not establish
+a sole cause or robust acceptance. No final samples, tolerance changes or phase
+closure follow from this instrumentation.
