@@ -198,9 +198,9 @@ def calibration_fixture(monkeypatch, tmp_path):
         "sources": {"experiments/audit_cthyb_spectroscopy.py": auditor_hash},
     }
     monkeypatch.setattr(spec, "snapshot", lambda: snapshot)
-    monkeypatch.setattr(spec, "validate_basis_controls", lambda: None)
+    monkeypatch.setattr(spec, "validate_basis_controls", lambda **_: None)
     # This fixture tests binding plumbing; it is not numerical audit evidence.
-    monkeypatch.setattr(spec, "validate_case_projection", lambda *_: None)
+    monkeypatch.setattr(spec, "validate_case_projection", lambda *_, **__: None)
     monkeypatch.setattr(
         spec.subprocess, "check_output", lambda *args, **kwargs: auditor_blob
     )
@@ -334,3 +334,81 @@ def test_fresh_seed_allocation_and_split():
     assert not set(driver.SEEDS) & set(range(32100001, 32100513, 2))
     assert not set(driver.SEEDS) & set(range(29140001, 29140129, 2))
     assert [driver.role(i) for i in range(256)] == ["train"] * 128 + ["heldout"] * 128
+
+
+def test_v3_freeze_is_versioned_and_rejects_v2_resume(monkeypatch, tmp_path):
+    config = CTHYBConfig(n_iw=8, n_tau=49)
+    parent, binding, output = (tmp_path / n for n in ("parent", "binding", "cohort"))
+    monkeypatch.setattr(
+        driver, "parent_data", lambda p, b, **kwargs: ({}, np.zeros(16), config)
+    )
+    monkeypatch.setattr(driver, "CTHYBPlan", lambda c: None)
+    monkeypatch.setattr(driver, "provenance", lambda: {"snapshot": "frozen"})
+    monkeypatch.setattr(driver, "calibration_binding", lambda *a, **kw: {"id": "v3"})
+    driver.freeze(parent, binding, output, *calargs(), profile="v3")
+    manifest = driver._read(output / "manifest.json")
+    assert manifest["schema"] == "kernelgecp.cthyb-fixed-bath.v3"
+    assert manifest["protocol"][
+        "analysis_protocol"
+    ] == driver.spectroscopy.protocol_for("v3")
+    assert manifest["protocol"]["seeds"] == [34100001 + 2 * i for i in range(256)]
+    assert not set(manifest["protocol"]["seeds"]) & set(driver.SEEDS)
+    assert driver._read(output / "result.json")["schema"].endswith(".v3")
+    driver.validate(output, parent, binding, *calargs(), profile="v3")
+    with pytest.raises(ValueError, match="changed"):
+        driver.validate(output, parent, binding, *calargs())
+
+
+def test_v3_invalid_profile_and_seed_overlap_rejected(monkeypatch):
+    with pytest.raises(ValueError, match="profile"):
+        driver.seeds_for("v4")
+    monkeypatch.setattr(driver, "SEEDS", [34100001])
+    with pytest.raises(ValueError, match="overlaps"):
+        driver.seeds_for("v3")
+
+
+def test_independent_auditor_rejects_mixed_profile_before_raw_access(
+    monkeypatch, tmp_path
+):
+    from experiments import audit_cthyb_fixed_bath as auditor
+
+    cohort = tmp_path / "cohort"
+    cohort.mkdir()
+    (cohort / "manifest.json").write_text(
+        json.dumps({"schema": "kernelgecp.cthyb-fixed-bath.v2"})
+    )
+    (cohort / "result.json").write_text("{}")
+    monkeypatch.setattr(auditor, "parent_bath", lambda *_: ({}, None, set()))
+    with pytest.raises(ValueError, match="manifest schema"):
+        auditor.audit_cohort(
+            cohort,
+            tmp_path / "parent",
+            tmp_path / "binding",
+            tmp_path / "receipt",
+            tmp_path / "audit-binding",
+            tmp_path / "calibration",
+            tmp_path / "calibration-audit",
+            profile="v3",
+        )
+
+
+def test_v3_acquire_threads_profile_to_worker_without_launch(monkeypatch, tmp_path):
+    output = tmp_path / "cohort"
+    output.mkdir()
+    seen = []
+
+    def validate(*args, **kwargs):
+        assert kwargs["profile"] == "v3"
+        return {}, {"chains": []}, None, None
+
+    def run(command, **kwargs):
+        seen.append(command)
+
+    monkeypatch.setattr(driver, "validate", validate)
+    monkeypatch.setattr(driver.subprocess, "run", run)
+    driver.acquire(
+        tmp_path / "parent", tmp_path / "binding", output, *calargs(), 1, profile="v3"
+    )
+    assert len(seen) == 1
+    assert seen[0][seen[0].index("--profile") + 1] == "v3"
+    assert seen[0][seen[0].index("--index") + 1] == "0"

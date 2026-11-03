@@ -2697,3 +2697,22 @@ on singular native systems after18/15 completed converged trials. No complete
 spectrum is returned. Captured-system diagnostics and the provider's explicit
 relative-diagonal damping option are next tests under the same objective and
 accuracy budgets; no numerical cause or successful fix is yet established.
+
+
+## EH unit-mass training comparison and v3 boundary
+
+Actual run41573167725 at541c56d returns all33 trials for all four declared
+identity/Marquardt and flat/Gaussian cases. The independent native-kernel and
+adaptive-quadrature training audit agrees on alpha1, RMS~1.1226 and positive
+unit masses within4.45e-16. Selected trials converge; low-alpha exhaustion
+remains visible. Both identity controls complete despite prior singular solves,
+so this does not establish a relative-damping advantage or a sole failure cause.
+The authenticated full artifact and training-only receipt/audit are preserved in
+experiments/data/maxent-training-541c56d.zip and data/spectroscopy.
+
+Opt-in v3 development versions the measured and synthetic protocols, acquisition
+and audit schemas, explicit native mass/curvature/interior/damping controls and
+fresh final seed identities. Independent audits reject a post-fit rescale and
+check bootstrap mass metadata. V2 remains the default. No v3 final noise or raw
+chains have been generated; calibration on consumed development data, source
+freeze, untouched final validation and exact-source/main CI are still required.

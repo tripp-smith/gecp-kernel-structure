@@ -58,7 +58,9 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n")
 
 
-def provenance():
+def provenance(profile="v2"):
+    if profile not in ("v2", "v3"):
+        raise ValueError("unsupported spectroscopy profile")
     return {
         "source_revision": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
@@ -66,6 +68,14 @@ def provenance():
         "source_hashes": {
             name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
             for name in SOURCE_FILES
+            + (
+                (
+                    "kernelgecp/integrations/_maxent_mass.py",
+                    "kernelgecp/integrations/_maxent_native_mass.py",
+                )
+                if profile == "v3"
+                else ()
+            )
         },
         "tracked_clean": not subprocess.check_output(
             ["git", "status", "--porcelain", "--untracked-files=no"],
@@ -134,9 +144,9 @@ def true_cdf(case, omega):
 
 
 def observations(case, seed, *, query_order=24):
-    if type(query_order) is not int or query_order not in (24, 36, 48, 64):
+    if type(query_order) is not int or query_order not in (24, 36, 48, 64, 80):
         raise ValueError(
-            "query_order must be 24, historical 36/48, or predeclared fresh 64"
+            "query_order must be 24, historical 36/48, or predeclared fresh 64/80"
         )
     beta = 10.0
     tau = np.linspace(0, beta, 65)
@@ -214,12 +224,15 @@ def run_case(
     query_order=24,
     rcond=1e-10,
     precision_bits=53,
+    profile="v2",
 ):
+    if profile not in ("v2", "v3"):
+        raise ValueError("unsupported spectroscopy profile")
     if type(precision_bits) is not int or precision_bits != 53:
         raise ValueError("synthetic projection requires precision_bits=53")
     if isinstance(rcond, bool) or not np.isfinite(rcond) or rcond < 0:
         raise ValueError("rcond must be finite and nonnegative")
-    before = provenance()
+    before = provenance() if profile == "v2" else provenance(profile)
     if not pilot and (
         not before["tracked_clean"] or any(os.environ.get(v) != "1" for v in THREADS)
     ):
@@ -252,6 +265,21 @@ def run_case(
             )
     construction_seconds = time.perf_counter() - start
     config = MaxEntConfig(**config)
+    if profile == "v3" and (
+        config.mass_mode != "constrained"
+        or config.mass_curvature != "projected"
+        or config.mass_interior_fraction != 1e-12
+        or config.minimizer_marquardt is not True
+        or config.n_omega != 401
+        or config.n_alpha != 33
+        or config.maxiter != 1000
+        or config.minimizer_mu0 != 1e-8
+        or eps != 1e-8
+        or rcond != 1e-10
+    ):
+        raise ValueError(
+            "v3 requires constrained projected interior Marquardt controls"
+        )
     output.parent.mkdir(parents=True, exist_ok=True)
     save_spectral_dataset(
         fitted,
@@ -301,6 +329,8 @@ def run_case(
                 "effective_rank": resampled.effective_rank,
             }
         )
+        if profile == "v3":
+            bootstrap_records[-1]["provider_diagnostics"] = resampled.diagnostics
     if bootstrap:
         metrics["bootstrap_window_standard_deviation"] = np.std(
             bootstrap_weights, axis=0, ddof=1
@@ -309,7 +339,7 @@ def run_case(
             float(min(bootstrap_cdf)),
             float(max(bootstrap_cdf)),
         ]
-    after = provenance()
+    after = provenance() if profile == "v2" else provenance(profile)
     if before != after:
         raise RuntimeError(
             "spectroscopy source or environment changed during generation"
@@ -356,7 +386,7 @@ def run_case(
             "observation_domain": "tau",
         }
     result = {
-        "schema": "kernelgecp.spectroscopy-case.v2",
+        "schema": "kernelgecp.spectroscopy-case." + profile,
         "pilot": pilot,
         "status": "passed" if all(gates.values()) else "failed",
         "gates": gates,
@@ -420,7 +450,10 @@ def main():
         "--default-model", choices=["flat", "broad_gaussian"], default="flat"
     )
     parser.add_argument("--bootstrap", type=int, default=0)
-    parser.add_argument("--query-order", type=int, choices=[24, 36, 48, 64], default=24)
+    parser.add_argument(
+        "--query-order", type=int, choices=[24, 36, 48, 64, 80], default=24
+    )
+    parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -433,6 +466,16 @@ def main():
                 n_alpha=args.n_alpha,
                 default_model=args.default_model,
                 minimizer_mu0=args.minimizer_mu0,
+                **(
+                    {
+                        "mass_mode": "constrained",
+                        "mass_curvature": "projected",
+                        "mass_interior_fraction": 1e-12,
+                        "minimizer_marquardt": True,
+                    }
+                    if args.profile == "v3"
+                    else {}
+                ),
             )
         )
         result = run_case(
@@ -447,6 +490,7 @@ def main():
             query_order=args.query_order,
             rcond=args.rcond,
             precision_bits=args.precision_bits,
+            profile=args.profile,
         )
         if result["status"] != "passed":
             raise RuntimeError("spectroscopy gates failed; retain failed artifacts")

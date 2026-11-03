@@ -57,7 +57,8 @@ def test_close_rejects_nan():
         a.close([np.nan], [np.nan], "bad")
 
 
-def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
+@pytest.mark.parametrize("profile", ["v2", "v3"])
+def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
     """Producer writes a finite fake-provider case; the real auditor checks it."""
     import sys
     from types import ModuleType, SimpleNamespace
@@ -72,7 +73,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     # This test-only spectrum defines the sample mean; no native cohort is used.
     reference = a.forward(full_tau, omega, density)
     samples = reference + np.random.default_rng(5).normal(0, 0.01, (64, 3073))
-    monkeypatch.setattr(producer, "load_cohort", lambda *args: (samples, {}))
+    monkeypatch.setattr(producer, "load_cohort", lambda *args, **kwargs: (samples, {}))
 
     def kernel(t):
         return (
@@ -87,7 +88,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     widths = np.r_[0.01, np.full(399, 0.02), 0.01]
 
     class Spectrum:
-        def __init__(self, dataset):
+        def __init__(self, dataset, config):
             self.omega = omega
             self.density = density
             self.alphas = np.geomspace(1e4, 1e-4, 33)
@@ -111,12 +112,38 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
                 "trial_masses": [1.0] * 33,
                 "selection_chi2": [selected_chi] * 33,
             }
+            if profile == "v3":
+                self.diagnostics.update(
+                    provider="TRIQS/MaxEnt",
+                    version="4.0.1",
+                    config=config.as_record(),
+                    mass_operation="native_mass_constraint",
+                    mass_parameterization={
+                        "curvature": "projected",
+                        "interior_fraction": 1e-12,
+                        "d_dv": False,
+                        "dA_projection": 2,
+                        "chi2_factor": 1.0,
+                        "floor_policy": "reject_native_entropy_floor_or_overflow",
+                        "min_observed_H": 1e-15,
+                        "min_observed_mixture_floor": 1e-15,
+                    },
+                    native_minimizer={
+                        "class": "LevenbergMinimizer",
+                        "marquardt": True,
+                        "J_squared": False,
+                        "mu0": 1e-8,
+                        "maxiter": 1000,
+                    },
+                )
 
         def evaluate_tau(self, beta, tau):
             return a.forward(tau, omega, density)
 
     monkeypatch.setattr(
-        producer, "continue_tau_maxent", lambda dataset, config: Spectrum(dataset)
+        producer,
+        "continue_tau_maxent",
+        lambda dataset, config: Spectrum(dataset, config),
     )
     provider = ModuleType("triqs_maxent")
     provider.LinearOmegaMesh = lambda *args: omega
@@ -135,20 +162,38 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
         "flat",
         case,
         bootstrap=8,
+        precision_bits=256 if profile == "v3" else 53,
+        profile=profile,
     )
     train, train_cov = a.moments(samples[:32, a.OBS])
     held, held_cov = a.moments(samples[32:, a.QUERY])
     stats = samples, train, train_cov, held, held_cov
-    result, _ = a.audit_case(case, "raw", "flat", 0, stats)
+    result, _ = a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     assert result["status"] == "passed"
+    if profile == "v3":
+        import copy
+
+        bad_bootstrap = copy.deepcopy(result)
+        bad_bootstrap["bootstrap_records"][0]["raw_mass"] = 1.001
+        case.write_text(json.dumps(bad_bootstrap))
+        with pytest.raises(ValueError, match="bootstrap native mass"):
+            a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
+        altered_metadata = dict(result)
+        altered_metadata["provider_diagnostics"] = {
+            **result["provider_diagnostics"],
+            "mass_operation": "explicit_rescale",
+        }
+        case.write_text(json.dumps(altered_metadata))
+        with pytest.raises(ValueError, match="native mass and damping metadata"):
+            a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     altered = {**result, "selected_index": 1}
     case.write_text(json.dumps(altered))
     with pytest.raises(ValueError, match="alpha selection"):
-        a.audit_case(case, "raw", "flat", 0, stats)
+        a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     altered = {**result, "rcond": 1e-10}
     case.write_text(json.dumps(altered))
     with pytest.raises(ValueError, match="solver controls"):
-        a.audit_case(case, "raw", "flat", 0, stats)
+        a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     case.write_text(json.dumps(result))
     with np.load(case.with_suffix(".npz"), allow_pickle=False) as archive:
         arrays = {k: archive[k] for k in archive.files}
@@ -158,7 +203,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     result["array_sha256"] = a.sha(case.with_suffix(".npz"))
     case.write_text(json.dumps(result))
     with pytest.raises(ValueError, match="bootstrap shape"):
-        a.audit_case(case, "raw", "flat", 0, stats)
+        a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     arrays["bootstrap_indices"] = original_indices
     arrays["validation_covariance"] += train_cov[:16, :16]
     np.savez_compressed(case.with_suffix(".npz"), **arrays)
@@ -166,7 +211,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch):
     result["array_sha256"] = a.sha(case.with_suffix(".npz"))
     case.write_text(json.dumps(result))
     with pytest.raises(ValueError, match="heldout covariance"):
-        a.audit_case(case, "raw", "flat", 0, stats)
+        a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
 
 
 def test_24_test_only_workers_and_tampering(tmp_path):

@@ -13101,3 +13101,44 @@ and legacy rescale control fields. Actual installed probes must test the new
 flag. No covariance, spectral window, alpha ladder, iteration or scientific
 threshold changes; no clipping, substitute solver, new samples or held-out
 decisions. Full calibration and untouched final validation remain mandatory.
+
+## EH versioned unit-mass calibration contract (v3, development)
+
+The source541c56d training-only comparison41573167725 completed all four declared
+identity/Marquardt and flat/Gaussian rows. Authenticated artifact13203005338 is
+560527bytes, SHA25664bcfbe3a6d2df35412eff9472c80e1e0698e82fa7e1704141ce537715e1efa8;
+receiptSHA3dd445557102f99a5f23c0f300308b13b0a6bed0b3693f5394b188aef37f1831.
+An independent covariance eigensolver and interval quadrature agree on all132
+training predictions to1.12e-15 and native chi-squared to4.77e-11. Every row
+selects alpha1, with training whitened RMS about1.1226 and positive unit mass
+within4.45e-16. Selected trials converge; 3–5 low-alpha trials per row exhaust
+1000iterations and remain visible. Both identity rows now complete despite the
+previous source33ab968 singular failures; this does not isolate a sole cause
+or establish a relative-damping advantage. No held-out arrays were scored.
+
+Implement an explicit opt-in v3 profile while retaining v2 default/schema and
+historical audit meanings. The proposed common candidate uses constrained mass,
+projected curvature, interior fraction1e-12 and native Marquardt=True, together
+with existing 401omega/33alpha/maxiter1000/mu0=1e-8 controls, 256-bit projection,
+eps1e-10/rcond1e-12 for measured data and unchanged acceptance budgets. Record
+actual native minimizer and mass-map metadata. Independent auditors reconstruct
+these controls; they score unscaled unit-mass trial densities and reject a
+post-fit rescale. Do not mutate shared protocol globals or silently dispatch a
+v2 receipt as v3. Version jobs, children, manifests, audits and bindings together.
+
+A new complete v3 calibration and independent audit must precede a final freeze.
+Reusing the9d raw calibration cohort is explicitly consumed development data;
+its old calibration receipt does not validate v3. After successful calibration,
+reserve fresh native seeds34100001+2*i for256 chains split128/128 at1.6m cycles,
+checking disjointness against the consumed331 cohort, calibration and accepted
+parent. Native segment/resource/time budgets remain unchanged. This contract
+does not launch or authorize an unfrozen final allocation. Freeze source,
+environments, controls and new calibration/audit hashes first.
+
+Synthetic v3 keeps the same explicit mass candidate and declares fresh final
+seeds5001/5002/5003 with80 query nodes. Prior4001/4002/4003 final data remain
+consumed. Keep synthetic binary64 projection controls and all physical budgets.
+Thread profile selection through subprocesses and test mixed-version rejection,
+seed overlap, source and receipt bindings, actual controls and independent
+mass/selection mathematics. Full root, installed-provider calibration, untouched
+final validation and exact-source/main CI are still required before EH closure.

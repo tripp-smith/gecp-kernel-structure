@@ -133,3 +133,11 @@ EG's supported route, reproduction and preserved failed coordinate audit are
 recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
 The generic basis and pure-fit native approaches failed and remain unsupported;
 their failed evidence is preserved separately from the delivered native archive.
+
+
+EH v3 development checkpoint: source541c56d passes full root and real installed
+Linux/macOS probes; training-only run41573167725 and the separate132-trial
+independent audit pass without scientific acceptance. All failed historical
+scouts remain visible. New opt-in v3 producer/auditor and workflow propagation
+are under verification; new calibration, frozen allocation and untouched final
+science remain mandatory. No additional final Monte Carlo allocation has run.

@@ -32,6 +32,12 @@ on:
       - tests/test_*spectroscopy*.py
   workflow_dispatch:
     inputs:
+      profile:
+        description: Frozen protocol version; v3 is the explicit unit-mass candidate
+        type: choice
+        options: [v2, v3]
+        default: v2
+        required: true
       acquire_fixed_bath:
         description: False runs calibration only; true consumes the one fresh final allocation
         type: boolean
@@ -52,6 +58,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
+  SCIENCE_PROFILE: ${{ inputs.profile || 'v2' }}
   OMP_NUM_THREADS: "1"
   OPENBLAS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
@@ -211,20 +218,20 @@ jobs:
           test "$RUN_ATTEMPT" = 1 || { echo 'Canonical reruns are forbidden; preserve the first attempt.' >&2; exit 1; }
       - name: Calibrate synthetic fixtures and audit independently
         run: |
-          python -m experiments.spectroscopy_campaign calibration --output artifacts/calibration --freeze artifacts/freeze.json
-          python -m experiments.audit_spectroscopy --manifest artifacts/calibration/campaign.json --freeze artifacts/freeze.json --output artifacts/calibration-audit.json
+          python -m experiments.spectroscopy_campaign calibration --profile "$SCIENCE_PROFILE" --output artifacts/calibration --freeze artifacts/freeze.json
+          python -m experiments.audit_spectroscopy --profile "$SCIENCE_PROFILE" --manifest artifacts/calibration/campaign.json --freeze artifacts/freeze.json --output artifacts/calibration-audit.json
       - name: Extract the attributed independently audited CT-HYB observations
         run: |
           mkdir -p artifacts/cthyb-input
           python -c 'import tarfile; t=tarfile.open("experiments/data/cthyb_9d28053_campaign.tar.gz"); t.extractall("artifacts/cthyb-input", filter="data")'
       - name: Calibrate measured-data continuation and audit independently
         run: |
-          python -m experiments.cthyb_spectroscopy artifacts/cthyb-input/gecp-ee-odd-9d28053 \
+          python -m experiments.cthyb_spectroscopy --profile "$SCIENCE_PROFILE" artifacts/cthyb-input/gecp-ee-odd-9d28053 \
             --audit-receipt data/cthyb/independent-audit-e83d195.json \
             --audit-binding data/cthyb/audit-binding-e83d195.json \
             --binding-sha256 bdc256787c761d95d00ecd59b66ba3763a85fd8da4571e64306ae8c9f5ecef88 \
             --stage calibration --output-dir artifacts/native-calibration
-          python -m experiments.audit_cthyb_spectroscopy artifacts/native-calibration/calibration.json \
+          python -m experiments.audit_cthyb_spectroscopy --profile "$SCIENCE_PROFILE" artifacts/native-calibration/calibration.json \
             --ee-root artifacts/cthyb-input/gecp-ee-odd-9d28053 \
             --ee-audit data/cthyb/independent-audit-e83d195.json \
             --ee-binding data/cthyb/audit-binding-e83d195.json \
@@ -242,8 +249,8 @@ jobs:
       - name: Run and independently audit all 72 frozen final cases
         if: inputs.acquire_fixed_bath == true
         run: |
-          python -m experiments.spectroscopy_campaign campaign --output artifacts/campaign --freeze artifacts/freeze.json
-          python -m experiments.audit_spectroscopy --manifest artifacts/campaign/campaign.json --freeze artifacts/freeze.json --output artifacts/campaign-audit.json
+          python -m experiments.spectroscopy_campaign campaign --profile "$SCIENCE_PROFILE" --output artifacts/campaign --freeze artifacts/freeze.json
+          python -m experiments.audit_spectroscopy --profile "$SCIENCE_PROFILE" --manifest artifacts/campaign/campaign.json --freeze artifacts/freeze.json --output artifacts/campaign-audit.json
       - name: Record the executed scientific runtime
         run: |
           python scripts/providers/export_conda_lock.py --explicit artifacts/conda-explicit.txt --inventory artifacts/conda-inventory.json
@@ -261,6 +268,7 @@ jobs:
     needs: [installed-provider, scientific-campaign]
     uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
     with:
+      profile: ${{ inputs.profile }}
       segment: a
       previous: ''
       max_new: 64
@@ -270,6 +278,7 @@ jobs:
     needs: fixed-bath-a
     uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
     with:
+      profile: ${{ inputs.profile }}
       segment: b
       previous: a
       max_new: 64
@@ -279,6 +288,7 @@ jobs:
     needs: fixed-bath-b
     uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
     with:
+      profile: ${{ inputs.profile }}
       segment: c
       previous: b
       max_new: 64
@@ -288,6 +298,7 @@ jobs:
     needs: fixed-bath-c
     uses: ./.github/workflows/cthyb-fixed-bath-segment.yml
     with:
+      profile: ${{ inputs.profile }}
       segment: d
       previous: c
       max_new: 64
@@ -336,7 +347,7 @@ jobs:
           assert digest(archive) == ZIP_SHA and digest(binding) == BINDING_SHA
           extract(archive, Path('artifacts/parent'))
           PYEXTRACT
-          python -m experiments.audit_cthyb_fixed_bath \
+          python -m experiments.audit_cthyb_fixed_bath --profile "$SCIENCE_PROFILE" \
             --folder artifacts/fixed-bath --parent-dir artifacts/parent \
             --parent-binding data/cthyb/linux-audit-binding-7200ec0.json \
             --receipt artifacts/fixed-bath-audit.json --binding artifacts/fixed-bath-binding.json \
@@ -347,12 +358,12 @@ jobs:
           calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
           calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
           binding_hash=$(sha256sum artifacts/fixed-bath-binding.json | cut -d ' ' -f1)
-          python -m experiments.cthyb_spectroscopy artifacts/fixed-bath \
+          python -m experiments.cthyb_spectroscopy --profile "$SCIENCE_PROFILE" artifacts/fixed-bath \
             --audit-receipt artifacts/fixed-bath-audit.json --audit-binding artifacts/fixed-bath-binding.json \
             --binding-sha256 "$binding_hash" --stage final --output-dir artifacts/native-final \
             --calibration artifacts/native-calibration/calibration.json --calibration-sha256 "$calibration_hash" \
             --calibration-audit artifacts/native-calibration-audit.json --calibration-audit-sha256 "$calibration_audit_hash"
-          python -m experiments.audit_cthyb_spectroscopy artifacts/native-final/final.json \
+          python -m experiments.audit_cthyb_spectroscopy --profile "$SCIENCE_PROFILE" artifacts/native-final/final.json \
             --ee-root artifacts/fixed-bath --ee-audit artifacts/fixed-bath-audit.json \
             --ee-binding artifacts/fixed-bath-binding.json \
             --calibration artifacts/native-calibration/calibration.json \

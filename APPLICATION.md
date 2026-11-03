@@ -2031,3 +2031,12 @@ same complete linear covariance/kernel map and records that provenance. The
 well-conditioned coordinates do not change the reported original conditioning.
 This option is development work pending source-bound provider calibration and
 appropriate untouched final validation; it is not a delivered 1.2.0 capability.
+
+
+The experimental spectroscopy campaign accepts an explicit `--profile v3`
+for the proposed constrained-mass calibration. This versions experiment
+receipts and does not change public spectral-dataset or fit-archive formats.
+V2 remains the default. V3 fixes projected curvature, interior fraction1e-12
+and native Marquardt damping before optimization; every selected spectrum and
+bootstrap retains the native mass operation in diagnostics. Its consumed-data
+training scout is promising, but production scientific acceptance remains open.

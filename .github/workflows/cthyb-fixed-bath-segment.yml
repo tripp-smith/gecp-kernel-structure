@@ -3,6 +3,10 @@ name: Fixed-bath acquisition segment
 on:
   workflow_call:
     inputs:
+      profile:
+        type: string
+        default: v2
+        required: false
       segment:
         type: string
         required: true
@@ -21,6 +25,7 @@ permissions:
   actions: read
 
 env:
+  SCIENCE_PROFILE: ${{ inputs.profile }}
   OMP_NUM_THREADS: "1"
   OPENBLAS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
@@ -96,7 +101,7 @@ jobs:
         run: |
           calibration_hash=$(sha256sum artifacts/native-calibration/calibration.json | cut -d ' ' -f1)
           calibration_audit_hash=$(sha256sum artifacts/native-calibration-audit.json | cut -d ' ' -f1)
-          args=(--parent artifacts/parent --binding data/cthyb/linux-audit-binding-7200ec0.json
+          args=(--profile "$SCIENCE_PROFILE" --parent artifacts/parent --binding data/cthyb/linux-audit-binding-7200ec0.json
             --output artifacts/fixed-bath --calibration artifacts/native-calibration/calibration.json
             --calibration-sha256 "$calibration_hash" --calibration-audit artifacts/native-calibration-audit.json
             --calibration-audit-sha256 "$calibration_audit_hash")
@@ -108,9 +113,12 @@ jobs:
           import json, os
           from pathlib import Path
           result = json.loads(Path('artifacts/fixed-bath/result.json').read_text())
-          assert result['schema'] == 'kernelgecp.cthyb-fixed-bath-result.v2'
+          profile = os.environ['SCIENCE_PROFILE']
+          assert profile in ('v2', 'v3')
+          assert result['schema'] == 'kernelgecp.cthyb-fixed-bath-result.' + profile
           assert len(result['chains']) == int(os.environ['EXPECTED']), 'segment incomplete; preserve checkpoint and stop'
-          assert [x['seed'] for x in result['chains']] == [33100001+2*i for i in range(len(result['chains']))]
+          seed_base = 34100001 if profile == 'v3' else 33100001
+          assert [x['seed'] for x in result['chains']] == [seed_base+2*i for i in range(len(result['chains']))]
           PYCHECK
       - uses: actions/upload-artifact@v4
         if: always()

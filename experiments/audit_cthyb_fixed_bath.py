@@ -149,8 +149,12 @@ CAL_GATES = {
 }
 
 
-def validate_calibration(calibration_path, audit_path, ref, provenance):
+def validate_calibration(
+    calibration_path, audit_path, ref, provenance, *, profile="v2"
+):
     """Independently check the frozen calibration and its independent audit."""
+    require(profile in ("v2", "v3"), "unknown profile")
+    seed_base = 33100001 if profile == "v2" else 34100001
     calibration_path, audit_path = Path(calibration_path), Path(audit_path)
     cal_hash, audit_hash = sha(calibration_path), sha(audit_path)
     cal, ca = read_json(calibration_path), read_json(audit_path)
@@ -166,14 +170,14 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         "calibration freeze hash mismatch",
     )
     require(
-        cal.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v2"
+        cal.get("schema") == f"kernelgecp.cthyb-spectroscopy-calibration.{profile}"
         and cal.get("status") == "passed"
         and cal.get("binding_sha256") == CAL_BINDING,
         "calibration receipt did not pass",
     )
     gates = ca.get("gates")
     require(
-        ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v2"
+        ca.get("schema") == f"kernelgecp.cthyb-spectroscopy-independent-audit.{profile}"
         and ca.get("status") == "passed"
         and ca.get("kind") == "calibration"
         and ca.get("cases") == 8
@@ -204,17 +208,18 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         and cohort.get("seed_base") == 29100000
         and cohort.get("seeds") == expected_seeds
         and cohort.get("binding_sha256") == CAL_BINDING
-        and not set(expected_seeds) & set(range(33100001, 33100513, 2)),
+        and not set(expected_seeds) & set(range(seed_base, seed_base + 512, 2)),
         "calibration cohort mismatch",
     )
     protocol = cal.get("protocol", {})
     require(
-        protocol.get("profile") == "corrective_projection_v2"
+        protocol.get("profile")
+        == ("corrective_projection_v2" if profile == "v2" else "native_interior_v3")
         and protocol.get("projection_precision_bits") == 256
         and protocol.get("parent_generation_revision") == PARENT_REVISION
         and protocol.get("final_generation_revision_policy")
         == "equal_campaign_snapshot_revision"
-        and protocol.get("final_seed_base") == 33100001
+        and protocol.get("final_seed_base") == seed_base
         and protocol.get("final_seed_stride") == 2
         and protocol.get("final_chain_count") == 256
         and protocol.get("final_training_count") == 128
@@ -233,6 +238,17 @@ def validate_calibration(calibration_path, audit_path, ref, provenance):
         and protocol.get("alpha_selection") == "normalized_training_only_discrepancy",
         "calibration controls mismatch",
     )
+    if profile == "v3":
+        require(
+            protocol.get("mass_mode") == "constrained"
+            and protocol.get("mass_curvature") == "projected"
+            and protocol.get("mass_interior_fraction") == 1e-12
+            and protocol.get("minimizer_marquardt") is True
+            and protocol.get("maxiter") == 1000
+            and protocol.get("development_scope")
+            == "9d28053_cohort_consumed_development",
+            "v3 mass controls mismatch",
+        )
     snapshot = cal.get("snapshot", {})
     runtime = provenance["runtime"]
     require(
@@ -423,14 +439,17 @@ def audit_cohort(
     binding_path,
     calibration_path,
     calibration_audit_path,
+    *,
+    profile="v2",
 ):
+    require(profile in ("v2", "v3"), "unknown profile")
     folder, parent_dir, parent_binding = map(Path, (folder, parent_dir, parent_binding))
     parent, bath, parent_seeds = parent_bath(parent_dir, parent_binding)
     manifest = read_json(folder / "manifest.json")
     result = read_json(folder / "result.json")
     manifest_hash = sha(folder / "manifest.json")
     require(
-        manifest.get("schema") == "kernelgecp.cthyb-fixed-bath.v2",
+        manifest.get("schema") == f"kernelgecp.cthyb-fixed-bath.{profile}",
         "manifest schema mismatch",
     )
     protocol, ref, provenance = (
@@ -438,16 +457,19 @@ def audit_cohort(
         manifest["parent"],
         manifest["provenance"],
     )
-    seeds = [33100001 + 2 * i for i in range(256)]
+    seeds = [(33100001 if profile == "v2" else 34100001) + 2 * i for i in range(256)]
     require(
-        protocol.get("profile") == "corrective_projection_v2"
+        protocol.get("profile")
+        == ("corrective_projection_v2" if profile == "v2" else "native_interior_v3")
         and protocol.get("projection_precision_bits") == 256
         and protocol["seeds"] == seeds
         and protocol["train_count"] == 128
         and protocol["cycles"] == 1600000
         and protocol["segment_seconds"] == 14400
         and protocol["memory_limit_bytes"] == 4294967296
-        and not set(seeds) & parent_seeds,
+        and not set(seeds) & parent_seeds
+        and (profile == "v2" or not set(seeds) & set(range(33100001, 33100513, 2)))
+        and not set(seeds) & set(range(29140001, 29140129, 2)),
         "protocol or seed mismatch",
     )
     expected_ref = {
@@ -512,8 +534,18 @@ def audit_cohort(
         "generation source inventory mismatch",
     )
     validate_calibration(
-        calibration_path, calibration_audit_path, manifest["calibration"], provenance
+        calibration_path,
+        calibration_audit_path,
+        manifest["calibration"],
+        provenance,
+        **({"profile": profile} if profile == "v3" else {}),
     )
+    if profile == "v3":
+        require(
+            protocol.get("analysis_protocol")
+            == read_json(calibration_path).get("protocol"),
+            "acquisition and calibration analysis protocols differ",
+        )
     for path, digest in provenance["sources"].items():
         require(
             hashlib.sha256(git_blob(provenance["revision"], path)).hexdigest()
@@ -521,7 +553,7 @@ def audit_cohort(
             "generation source mismatch",
         )
     require(
-        result.get("schema") == "kernelgecp.cthyb-fixed-bath-result.v2"
+        result.get("schema") == f"kernelgecp.cthyb-fixed-bath-result.{profile}"
         and result.get("status") == "complete"
         and result.get("manifest_sha256") == manifest_hash
         and len(result.get("chains", [])) == 256,
@@ -591,7 +623,7 @@ def audit_cohort(
             "native solve/sign/density invalid",
         )
         require(
-            timing.get("schema") == "kernelgecp.cthyb-fixed-bath-timing.v2"
+            timing.get("schema") == f"kernelgecp.cthyb-fixed-bath-timing.{profile}"
             and timing.get("seed") == seeds[i]
             and type(timing.get("solve_status")) is int
             and timing.get("solve_status") == 0
@@ -649,7 +681,7 @@ def audit_cohort(
         "audit source must match committed revision",
     )
     receipt = {
-        "schema": "kernelgecp.cthyb-fixed-bath-audit.v2",
+        "schema": f"kernelgecp.cthyb-fixed-bath-audit.{profile}",
         "status": "passed",
         "claim_scope": "fixed_bath_raw_cohort_only_not_EE_campaign",
         "chain_count": 256,
@@ -669,7 +701,7 @@ def audit_cohort(
     )
     receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
     binding = {
-        "schema": "kernelgecp.cthyb-fixed-bath-audit-binding.v2",
+        "schema": f"kernelgecp.cthyb-fixed-bath-audit-binding.{profile}",
         "status": "passed",
         "receipt_sha256": sha(receipt_path),
         "manifest_sha256": manifest_hash,
@@ -696,6 +728,7 @@ def main():
         "calibration-audit",
     ):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--profile", choices=("v2", "v3"), default="v2")
     args = parser.parse_args()
     audit_cohort(
         args.folder,
@@ -705,6 +738,7 @@ def main():
         args.binding,
         args.calibration,
         args.calibration_audit,
+        profile=args.profile,
     )
 
 

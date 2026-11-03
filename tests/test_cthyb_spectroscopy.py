@@ -340,7 +340,7 @@ def test_case_propagates_covariance_kernel_and_bootstrap(tmp_path, monkeypatch):
     from types import ModuleType
 
     samples = np.random.default_rng(7).normal(size=(64, 3073)) * 1e-3
-    monkeypatch.setattr(m, "load_cohort", lambda *args: (samples, {}))
+    monkeypatch.setattr(m, "load_cohort", lambda *args, **kwargs: (samples, {}))
 
     calls = []
 
@@ -493,7 +493,7 @@ def test_worker_rejects_changed_freeze_before_case(tmp_path, monkeypatch):
     }
     path = tmp_path / "job.json"
     path.write_text(json.dumps(job))
-    monkeypatch.setattr(m, "snapshot", lambda: {"source": "changed"})
+    monkeypatch.setattr(m, "snapshot", lambda **kwargs: {"source": "changed"})
     with pytest.raises(ValueError, match="snapshot mismatch"):
         m.worker(path, m.sha(path))
     with pytest.raises(ValueError, match="job hash"):
@@ -505,7 +505,7 @@ def test_worker_rejects_changed_freeze_before_case(tmp_path, monkeypatch):
 
 
 def test_final_requires_freezes_before_any_worker(tmp_path, monkeypatch):
-    monkeypatch.setattr(m, "snapshot", lambda: {"source": "fixture"})
+    monkeypatch.setattr(m, "snapshot", lambda **kwargs: {"source": "fixture"})
     monkeypatch.setattr(
         m, "launch_worker", lambda *a, **kw: pytest.fail("worker must not start")
     )
@@ -538,7 +538,7 @@ def test_old_final_binding_rejected_and_calibration_identity_checked(
     value["schema"] = "kernelgecp.cthyb-fixed-bath-audit-binding.v2"
     binding.write_text(json.dumps(value))
     delegated = object()
-    monkeypatch.setattr(m, "load_fixed_cohort", lambda *args: delegated)
+    monkeypatch.setattr(m, "load_fixed_cohort", lambda *args, **kwargs: delegated)
     assert (
         m.load_cohort(tmp_path, receipt, binding, m.sha(binding), "final") is delegated
     )
@@ -606,3 +606,34 @@ def test_v2_protocol_separates_parent_from_fresh_final_generation():
     assert (
         m.PROTOCOL["final_training_count"] == m.PROTOCOL["final_heldout_count"] == 128
     )
+
+
+def test_v3_protocol_is_isolated_and_versioned():
+    v2 = m.protocol_for("v2")
+    v3 = m.protocol_for("v3")
+    assert v3["mass_mode"] == "constrained"
+    assert v3["mass_curvature"] == "projected"
+    assert v3["mass_interior_fraction"] == 1e-12
+    assert v3["minimizer_marquardt"] is True
+    assert v3["final_seed_base"] == 34100001
+    v3["default_models"].append("corrupt")
+    assert "corrupt" not in m.protocol_for("v3")["default_models"]
+    assert v2 == m.PROTOCOL
+    with pytest.raises(ValueError, match="profile"):
+        m.protocol_for("v4")
+
+
+def test_v3_rejects_v2_calibration_schema(tmp_path):
+    path = tmp_path / "calibration.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema": "kernelgecp.cthyb-spectroscopy-calibration.v2",
+                "status": "passed",
+                "protocol": m.protocol_for("v3"),
+                "snapshot": {},
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="calibration freeze"):
+        m.verify_calibration(path, m.sha(path), {}, profile="v3")

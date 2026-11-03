@@ -169,7 +169,7 @@ def fingerprint(
     return h.hexdigest()
 
 
-def check_provenance(p):
+def check_provenance(p, profile="v2"):
     require(
         p.get("tracked_clean") is True
         and all(p.get("threads", {}).get(k) == "1" for k in THREADS),
@@ -212,6 +212,13 @@ def check_provenance(p):
         "environments/locks/triqs-maxent-pip.txt",
         "environments/locks/dlr-physics-pip.txt",
     }
+    if profile == "v3":
+        required.update(
+            {
+                "kernelgecp/integrations/_maxent_mass.py",
+                "kernelgecp/integrations/_maxent_native_mass.py",
+            }
+        )
     require(
         isinstance(p["source_hashes"], dict) and required.issubset(p["source_hashes"]),
         "missing source inventory",
@@ -223,7 +230,8 @@ def check_provenance(p):
         )
 
 
-def jobs(calibration):
+def jobs(calibration, profile="v2"):
+    require(profile in ("v2", "v3"), "profile")
     for i, case in enumerate(CASES):
         for method in METHODS:
             for model in DEFAULTS:
@@ -232,18 +240,25 @@ def jobs(calibration):
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 4001) + i,
+                        "seed": (
+                            101 if calibration else (5001 if profile == "v3" else 4001)
+                        )
+                        + i,
                         "eps": 1e-8,
                         "rcond": 1e-10,
                         "precision_bits": 53,
                         "n_omega": 401,
                         "n_alpha": 33,
                         "minimizer_mu0": 1e-8,
-                        "query_order": 24 if calibration else 64,
+                        "query_order": 24
+                        if calibration
+                        else (80 if profile == "v3" else 64),
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
                     }
+                    if profile == "v3":
+                        job["profile"] = profile
                     yield f"{case}-{method}-{model}-r{repeat}", job
 
 
@@ -328,12 +343,64 @@ def dataset_check(path, a, result):
     return e, v
 
 
-def audit_case(path, job=None, full=True):
+def audit_v3_diagnostics(diagnostics, config=None):
+    parameter = diagnostics.get("mass_parameterization", {})
+    minimizer = diagnostics.get("native_minimizer", {})
+    require(
+        diagnostics.get("provider") == "TRIQS/MaxEnt"
+        and diagnostics.get("version") == "4.0.1"
+        and (config is None or diagnostics.get("config") == config)
+        and diagnostics.get("mass_operation") == "native_mass_constraint"
+        and parameter.get("curvature") == "projected"
+        and parameter.get("d_dv") is False
+        and parameter.get("dA_projection") == 2
+        and parameter.get("interior_fraction") == 1e-12
+        and parameter.get("chi2_factor") == 1.0
+        and parameter.get("floor_policy") == "reject_native_entropy_floor_or_overflow"
+        and minimizer.get("class") == "LevenbergMinimizer"
+        and minimizer.get("maxiter") == 1000
+        and minimizer.get("marquardt") is True
+        and minimizer.get("J_squared") is False
+        and minimizer.get("mu0") == 1e-8,
+        "v3 native controls",
+    )
+    for key in ("min_observed_H", "min_observed_mixture_floor"):
+        value = parameter.get(key)
+        require(
+            isinstance(value, (float, int)) and np.isfinite(value) and value > 1e-100,
+            "v3 native floor",
+        )
+
+
+def solver_config(model, profile="v2"):
+    expected_config = {
+        "omega_min": -4.0,
+        "omega_max": 4.0,
+        "n_omega": 401,
+        "alpha_min": 1e-4,
+        "alpha_max": 1e4,
+        "n_alpha": 33,
+        "minimizer_mu0": 1e-8,
+        "maxiter": 1000,
+        "default_model": model,
+        "normalize_mass": 1.0,
+    }
+    if profile == "v3":
+        expected_config.update(
+            mass_mode="constrained",
+            mass_curvature="projected",
+            mass_interior_fraction=1e-12,
+            minimizer_marquardt=True,
+        )
+    return expected_config
+
+
+def audit_case(path, job=None, full=True, *, profile="v2"):
     path = Path(path)
     result = read(path)
     npz = path.with_suffix(".npz")
     require(
-        result.get("schema") == "kernelgecp.spectroscopy-case.v2"
+        result.get("schema") == "kernelgecp.spectroscopy-case." + profile
         and result.get("status") == "passed",
         "case status/schema",
     )
@@ -384,6 +451,13 @@ def audit_case(path, job=None, full=True):
             "unexpected fit archive",
         )
     e, v = dataset_check(path.with_name(path.stem + "-dataset.npz"), a, result)
+    if profile == "v3":
+        require(
+            result["config"]
+            == solver_config(result["config"]["default_model"], profile),
+            "unfrozen solver configuration",
+        )
+        audit_v3_diagnostics(result.get("provider_diagnostics", {}), result["config"])
     if not full:
         return a
     omega = a["omega"]
@@ -393,19 +467,7 @@ def audit_case(path, job=None, full=True):
     values = a["values"]
     c = a["covariance"]
     require(
-        result["config"]
-        == {
-            "omega_min": -4.0,
-            "omega_max": 4.0,
-            "n_omega": 401,
-            "alpha_min": 1e-4,
-            "alpha_max": 1e4,
-            "n_alpha": 33,
-            "minimizer_mu0": 1e-8,
-            "maxiter": 1000,
-            "default_model": result["config"]["default_model"],
-            "normalize_mass": 1.0,
-        },
+        result["config"] == solver_config(result["config"]["default_model"], profile),
         "unfrozen solver configuration",
     )
     if fit:
@@ -520,7 +582,14 @@ def audit_case(path, job=None, full=True):
     )
     require(np.any(eligible), "no converged positive finite-mass trial")
     candidates = np.flatnonzero(eligible)
-    normalized = trials[candidates] / masses[candidates, None]
+    if profile == "v3":
+        require(
+            np.all(trials > 0) and np.allclose(masses, 1, rtol=0, atol=1e-10),
+            "constrained trial positivity or mass",
+        )
+        normalized = trials[candidates]
+    else:
+        normalized = trials[candidates] / masses[candidates, None]
 
     def all_trial_forward(x):
         # Integrate all piecewise-linear trials independently of the producer's
@@ -546,6 +615,8 @@ def audit_case(path, job=None, full=True):
         == "closest_abs_log_chi2_per_retained_rank_to_one",
         "normalized training selection rule",
     )
+    if profile == "v3":
+        audit_v3_diagnostics(diagnostics, result["config"])
     close(diagnostics["trial_masses"], masses, "trial masses")
     recorded = diagnostics.get("selection_chi2", [])
     require(len(recorded) == 33, "selection discrepancy inventory")
@@ -569,7 +640,9 @@ def audit_case(path, job=None, full=True):
     raw = float(np.trapezoid(trials[idx], omega))
     require(raw > 0, "raw mass")
     close(result["raw_mass"], raw, "raw mass")
-    density = trials[idx] / raw
+    density = trials[idx] if profile == "v3" else trials[idx] / raw
+    if profile == "v3":
+        require(np.array_equal(a["density"], density), "post-fit constrained rescale")
     close(a["density"], density, "normalized selected spectrum")
     require(
         np.all(density >= 0) and abs(np.trapezoid(density, omega) - 1) <= 1e-6,
@@ -647,6 +720,12 @@ def audit_case(path, job=None, full=True):
             and rec["converged"][rec["selected_index"]] is True,
             "bootstrap convergence",
         )
+        if profile == "v3":
+            require(
+                abs(rec["raw_mass"] - 1) <= 1e-10 and np.all(d > 0),
+                "bootstrap constrained mass",
+            )
+            audit_v3_diagnostics(rec.get("provider_diagnostics", {}), result["config"])
         w, _, cm, _ = spectrum_metrics(case, omega, d)
         bs.append(w)
         errors.append(cm)
@@ -665,7 +744,8 @@ def audit_case(path, job=None, full=True):
     return a
 
 
-def audit_campaign(manifest_path, freeze_path):
+def audit_campaign(manifest_path, freeze_path, *, profile="v2"):
+    require(profile in ("v2", "v3"), "profile")
     manifest_path = Path(manifest_path)
     freeze_path = Path(freeze_path)
     m = read(manifest_path)
@@ -673,12 +753,12 @@ def audit_campaign(manifest_path, freeze_path):
     kind = m.get("kind")
     require(
         kind in ("calibration", "campaign")
-        and m.get("schema") == "kernelgecp.spectroscopy-campaign.v2"
+        and m.get("schema") == "kernelgecp.spectroscopy-campaign." + profile
         and m.get("status") == "passed",
         "campaign schema/status",
     )
     require(
-        f.get("schema") == "kernelgecp.spectroscopy-freeze.v2"
+        f.get("schema") == "kernelgecp.spectroscopy-freeze." + profile
         and f.get("status") == "passed",
         "freeze status/schema",
     )
@@ -700,11 +780,23 @@ def audit_campaign(manifest_path, freeze_path):
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }
+    if profile == "v3":
+        controls.update(
+            profile="constrained_mass_v3_synthetic_binary64",
+            final_seeds=[5001, 5002, 5003],
+            final_query_order=80,
+            mass_mode="constrained",
+            mass_curvature="projected",
+            mass_interior_fraction=1e-12,
+            minimizer_marquardt=True,
+            maxiter=1000,
+            calibration_scope="consumed_development",
+        )
     require(
         m.get("controls") == controls == f.get("controls"), "frozen controls mismatch"
     )
     p = m.get("provenance", {})
-    check_provenance(p)
+    check_provenance(p) if profile == "v2" else check_provenance(p, profile)
 
     def stable(x):
         return {
@@ -714,7 +806,10 @@ def audit_campaign(manifest_path, freeze_path):
     require(
         stable(p) == stable(f.get("provenance", {})), "freeze runtime/source mismatch"
     )
-    check_provenance(f["provenance"])
+    if profile == "v2":
+        check_provenance(f["provenance"])
+    else:
+        check_provenance(f["provenance"], profile)
     if kind == "campaign":
         require(m.get("freeze_sha256") == sha(freeze_path), "freeze hash")
     else:
@@ -722,7 +817,7 @@ def audit_campaign(manifest_path, freeze_path):
             f.get("calibration_manifest_sha256") == sha(manifest_path),
             "calibration manifest hash",
         )
-    expected = dict(jobs(kind == "calibration"))
+    expected = dict(jobs(kind == "calibration", profile))
     children = m.get("children")
     require(
         isinstance(children, dict) and set(children) == set(expected),
@@ -761,7 +856,11 @@ def audit_campaign(manifest_path, freeze_path):
         }
         require(hashes == expected_hashes, f"{name}: artifact hashes")
         key = (job["case"], job["method"], job["default_model"])
-        a = audit_case(path, job, full=job["repeat"] == 0)
+        a = (
+            audit_case(path, job, full=job["repeat"] == 0)
+            if profile == "v2"
+            else audit_case(path, job, full=job["repeat"] == 0, profile=profile)
+        )
         if job["repeat"] == 0:
             prior[key] = a
             audited += 1
@@ -806,9 +905,10 @@ def main():
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--freeze", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
     args = parser.parse_args()
     try:
-        result = audit_campaign(args.manifest, args.freeze)
+        result = audit_campaign(args.manifest, args.freeze, profile=args.profile)
         code = 0
     except Exception as error:
         result = {"status": "failed", "error": f"{type(error).__name__}: {error}"}

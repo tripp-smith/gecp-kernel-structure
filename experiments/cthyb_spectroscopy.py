@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import dataclasses
 import hashlib
 import importlib
@@ -67,10 +68,10 @@ def identity_arithmetic(design):
     }
 
 
-def validate_case_projection(value, archive, method):
+def validate_case_projection(value, archive, method, *, profile="v2"):
     """Bind v2 receipts to the serialized source and decomposed designs."""
     if (
-        value.get("schema") != "kernelgecp.cthyb-spectroscopy.v2"
+        value.get("schema") != schema_for("", profile)
         or value.get("method") != method
         or value.get("array_sha256") != sha(archive)
     ):
@@ -134,7 +135,10 @@ PARENT_BINDING = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348f
 FIXED_SEEDS = [33100001 + 2 * i for i in range(256)]
 
 
-def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
+def load_fixed_cohort(
+    folder, receipt_path, binding_path, binding_sha256, *, profile="v2"
+):
+    fixed_seeds = [protocol_for(profile)["final_seed_base"] + 2 * i for i in range(256)]
     """Consume only the independently audited, content-bound fixed-bath cohort."""
     if len(binding_sha256) != 64 or sha(binding_path) != binding_sha256:
         raise ValueError("fixed-bath audit binding digest mismatch")
@@ -144,13 +148,13 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
     result = json.loads((folder / "result.json").read_text())
     manifest_hash = sha(folder / "manifest.json")
     if (
-        binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v2"
+        binding.get("schema") != f"kernelgecp.cthyb-fixed-bath-audit-binding.{profile}"
         or binding.get("status") != "passed"
         or binding.get("receipt_sha256") != sha(receipt_path)
         or binding.get("manifest_sha256") != manifest_hash
         or binding.get("result_sha256") != sha(folder / "result.json")
         or binding.get("parent_binding_sha256") != PARENT_BINDING
-        or receipt.get("schema") != "kernelgecp.cthyb-fixed-bath-audit.v2"
+        or receipt.get("schema") != f"kernelgecp.cthyb-fixed-bath-audit.{profile}"
         or receipt.get("status") != "passed"
         or receipt.get("parent_binding_sha256") != PARENT_BINDING
         or receipt.get("manifest_sha256") != manifest_hash
@@ -201,12 +205,12 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
     ):
         raise ValueError("fixed-bath frozen calibration binding mismatch")
     if (
-        manifest.get("schema") != "kernelgecp.cthyb-fixed-bath.v2"
+        manifest.get("schema") != f"kernelgecp.cthyb-fixed-bath.{profile}"
         or manifest.get("parent", {}).get("binding_sha256") != PARENT_BINDING
-        or protocol.get("seeds") != FIXED_SEEDS
+        or protocol.get("seeds") != fixed_seeds
         or protocol.get("train_count") != 128
         or protocol.get("cycles") != 1600000
-        or result.get("schema") != "kernelgecp.cthyb-fixed-bath-result.v2"
+        or result.get("schema") != f"kernelgecp.cthyb-fixed-bath-result.{profile}"
         or result.get("status") != "complete"
         or result.get("manifest_sha256") != manifest_hash
         or len(result.get("chains", [])) != 256
@@ -236,7 +240,7 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
         stem = folder / "chains" / f"chain-{i:03d}"
         if entry != {
             "index": i,
-            "seed": FIXED_SEEDS[i],
+            "seed": fixed_seeds[i],
             "role": role,
             "receipt_sha256": sha(stem.with_suffix(".json")),
             "arrays_sha256": sha(stem.with_suffix(".npz")),
@@ -247,7 +251,7 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
             stem, {"manifest_sha256": manifest_hash, "index": i, "role": role}
         )
         if (
-            m.seed != FIXED_SEEDS[i]
+            m.seed != fixed_seeds[i]
             or m.cycles != 1600000
             or m.solve_status != 0
             or not 0.99 < m.average_sign <= 1.000000001
@@ -272,7 +276,7 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
         "stage": "final",
         "role": "fixed-bath-256",
         "generation_revision": provenance["revision"],
-        "seeds": FIXED_SEEDS,
+        "seeds": fixed_seeds,
         "manifest_sha256": manifest_hash,
         "result_sha256": sha(folder / "result.json"),
         "receipt_sha256": sha(receipt_path),
@@ -288,7 +292,10 @@ def load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256):
     }
 
 
-def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
+def load_cohort(
+    folder, receipt_path, binding_path, binding_sha256, stage, *, profile="v2"
+):
+    protocol_for(profile)
     """Validate audit, raw receipts, hashes, seeds, shape and one common bath."""
     if stage not in ("calibration", "final"):
         raise ValueError("unsupported stage")
@@ -296,9 +303,14 @@ def load_cohort(folder, receipt_path, binding_path, binding_sha256, stage):
         raise ValueError("audit binding digest mismatch")
     binding = json.loads(binding_path.read_text())
     if stage == "final":
-        if binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v2":
+        if (
+            binding.get("schema")
+            != f"kernelgecp.cthyb-fixed-bath-audit-binding.{profile}"
+        ):
             raise ValueError("final requires a fresh v2 fixed-bath audit binding")
-        return load_fixed_cohort(folder, receipt_path, binding_path, binding_sha256)
+        return load_fixed_cohort(
+            folder, receipt_path, binding_path, binding_sha256, profile=profile
+        )
     revision = CALIBRATION_REVISION
     seed_base = CALIBRATION_SEED_BASE
     if (
@@ -500,20 +512,45 @@ PROTOCOL = {
 }
 
 
-def validate_basis_controls():
+def protocol_for(profile="v2"):
+    if profile not in ("v2", "v3"):
+        raise ValueError("unsupported spectroscopy profile")
+    protocol = copy.deepcopy(PROTOCOL)
+    if profile == "v3":
+        protocol.update(
+            profile="native_interior_v3",
+            final_seed_base=34100001,
+            mass_mode="constrained",
+            mass_curvature="projected",
+            mass_interior_fraction=1e-12,
+            minimizer_marquardt=True,
+            maxiter=1000,
+            development_scope="9d28053_cohort_consumed_development",
+        )
+    return protocol
+
+
+def schema_for(name, profile="v2"):
+    protocol_for(profile)
+    return f"kernelgecp.cthyb-spectroscopy{name}.{profile}"
+
+
+def validate_basis_controls(*, profile="v2"):
+    protocol = protocol_for(profile)
     """Fail closed if the declared candidate and executed controls diverge."""
     selected = [
         item
-        for item in PROTOCOL["basis_control_ladder"]
-        if item["name"] == PROTOCOL["selected_basis_control"]
+        for item in protocol["basis_control_ladder"]
+        if item["name"] == protocol["selected_basis_control"]
     ]
     if len(selected) != 1 or any(
-        selected[0][key] != PROTOCOL[key] for key in ("eps", "rcond")
+        selected[0][key] != protocol[key] for key in ("eps", "rcond")
     ):
         raise ValueError("selected native basis controls do not match protocol")
 
 
-def snapshot():
+def snapshot(*, profile="v2"):
+    protocol_for(profile)
     """Require all scientific source blobs to match the committed revision."""
     revision = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
@@ -663,15 +700,16 @@ def verify_acquisition_freeze(folder, frozen):
             )
 
 
-def verify_calibration(path, digest, snapshot_value):
-    validate_basis_controls()
+def verify_calibration(path, digest, snapshot_value, *, profile="v2"):
+    protocol = protocol_for(profile)
+    validate_basis_controls(profile=profile)
     if not path or not digest or len(digest) != 64 or sha(path) != digest:
         raise ValueError("final requires pinned passed calibration receipt")
     receipt = json.loads(path.read_text())
     if (
-        receipt.get("schema") != "kernelgecp.cthyb-spectroscopy-calibration.v2"
+        receipt.get("schema") != schema_for("-calibration", profile)
         or receipt.get("status") != "passed"
-        or receipt.get("protocol") != PROTOCOL
+        or receipt.get("protocol") != protocol
         or receipt.get("snapshot") != snapshot_value
     ):
         raise ValueError(
@@ -693,7 +731,7 @@ def verify_calibration(path, digest, snapshot_value):
     expected = {
         f"{method}-{model}-r0.json"
         for method in METHODS
-        for model in PROTOCOL["default_models"]
+        for model in protocol["default_models"]
     }
     entries = receipt.get("cases", {})
     if set(entries) != expected:
@@ -710,12 +748,25 @@ def verify_calibration(path, digest, snapshot_value):
         if (
             value.get("status") != "passed"
             or value.get("array_sha256") != sha(archive)
-            or value.get("eps") != PROTOCOL["eps"]
-            or value.get("rcond") != PROTOCOL["rcond"]
-            or value.get("config", {}).get("minimizer_mu0") != PROTOCOL["minimizer_mu0"]
+            or value.get("eps") != protocol["eps"]
+            or value.get("rcond") != protocol["rcond"]
+            or value.get("config", {}).get("minimizer_mu0") != protocol["minimizer_mu0"]
         ):
             raise ValueError("calibration case failed")
-        validate_case_projection(value, archive, name.split("-", 1)[0])
+        if profile == "v3":
+            expected_config = MaxEntConfig(
+                default_model=value.get("config", {}).get("default_model"),
+                n_omega=401,
+                n_alpha=33,
+                minimizer_mu0=1e-8,
+                mass_mode="constrained",
+                mass_curvature="projected",
+                mass_interior_fraction=1e-12,
+                minimizer_marquardt=True,
+            ).as_record()
+            if value.get("config") != expected_config:
+                raise ValueError("v3 calibration case controls mismatch")
+        validate_case_projection(value, archive, name.split("-", 1)[0], profile=profile)
     return receipt
 
 
@@ -740,12 +791,14 @@ def validate_cohort_pair(calibration, final):
         raise ValueError("calibration and final cohort bindings or seeds overlap")
 
 
-def verify_calibration_audit(path, digest, calibration_digest, binding_digest):
+def verify_calibration_audit(
+    path, digest, calibration_digest, binding_digest, *, profile="v2"
+):
     if not path or not digest or len(digest) != 64 or sha(path) != digest:
         raise ValueError("final requires a pinned independent calibration audit")
     audit = json.loads(path.read_text())
     if (
-        audit.get("schema") != "kernelgecp.cthyb-spectroscopy-independent-audit.v2"
+        audit.get("schema") != schema_for("-independent-audit", profile)
         or audit.get("status") != "passed"
         or audit.get("kind") != "calibration"
         or audit.get("calibration_sha256") != calibration_digest
@@ -787,13 +840,26 @@ def run(
     n_alpha=33,
     minimizer_mu0=1e-8,
     precision_bits=53,
+    profile="v2",
 ):
+    protocol = protocol_for(profile)
+    if profile == "v3" and (
+        eps != protocol["eps"]
+        or rcond != protocol["rcond"]
+        or n_omega != protocol["n_omega"]
+        or n_alpha != protocol["n_alpha"]
+        or minimizer_mu0 != protocol["minimizer_mu0"]
+        or precision_bits != protocol["projection_precision_bits"]
+    ):
+        raise ValueError("v3 fixed scientific controls mismatch")
     if method not in METHODS or model not in ("flat", "broad_gaussian"):
         raise ValueError("unsupported method or default model")
     if bootstrap not in (0, *range(2, 65)):
         raise ValueError("bootstrap must be zero or between 2 and 64")
     workflow_start = time.perf_counter()
-    samples, metadata = load_cohort(folder, receipt, binding, digest, stage)
+    samples, metadata = load_cohort(
+        folder, receipt, binding, digest, stage, profile=profile
+    )
     data, query, reference, validation_cov = dataset_and_validation(samples, metadata)
     construction_start = time.perf_counter()
     projection = None
@@ -820,6 +886,16 @@ def run(
         n_alpha=n_alpha,
         default_model=model,
         minimizer_mu0=minimizer_mu0,
+        **(
+            {
+                "mass_mode": "constrained",
+                "mass_curvature": "projected",
+                "mass_interior_fraction": 1e-12,
+                "minimizer_marquardt": True,
+            }
+            if profile == "v3"
+            else {}
+        ),
     )
     continuation_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
@@ -865,6 +941,11 @@ def run(
                 "effective_rank": trial.effective_rank,
             }
         )
+        if profile == "v3":
+            boot_records[-1].update(
+                raw_mass=trial.raw_mass,
+                provider_diagnostics=trial.diagnostics,
+            )
     bootstrap_seconds = time.perf_counter() - bootstrap_start
     gates = {
         "positive": bool(np.min(spectrum.density) >= -1e-6),
@@ -904,7 +985,7 @@ def run(
         bootstrap_indices=np.array(boot_indices),
     )
     result = {
-        "schema": "kernelgecp.cthyb-spectroscopy.v2",
+        "schema": schema_for("", profile),
         "status": "passed" if all(gates.values()) else "failed",
         "gates": gates,
         "source": metadata,
@@ -1018,14 +1099,15 @@ def launch_worker(command, log_path, timeout, on_started=None):
     }
 
 
-def worker(job_path, job_digest):
-    validate_basis_controls()
+def worker(job_path, job_digest, *, profile="v2"):
+    protocol = protocol_for(profile)
+    validate_basis_controls(profile=profile)
     if len(job_digest) != 64 or sha(job_path) != job_digest:
         raise ValueError("worker job hash mismatch")
     job = json.loads(job_path.read_text())
     if (
-        job.get("schema") != "kernelgecp.cthyb-spectroscopy-worker-job.v2"
-        or job.get("protocol") != PROTOCOL
+        job.get("schema") != schema_for("-worker-job", profile)
+        or job.get("protocol") != protocol
     ):
         raise ValueError("invalid worker job protocol")
     method, model, repeat, stage = (
@@ -1037,9 +1119,9 @@ def worker(job_path, job_digest):
     if (
         stage not in ("calibration", "final")
         or method not in METHODS
-        or model not in PROTOCOL["default_models"]
+        or model not in protocol["default_models"]
         or type(repeat) is not int
-        or not 0 <= repeat < PROTOCOL[stage + "_repeats"]
+        or not 0 <= repeat < protocol[stage + "_repeats"]
     ):
         raise ValueError("worker case outside frozen inventory")
     if job.get("parent_pid") != os.getppid():
@@ -1047,7 +1129,7 @@ def worker(job_path, job_digest):
     output = Path(job["output"])
     if output.name != f"{method}-{model}-r{repeat}.json":
         raise ValueError("worker output does not match case")
-    frozen = snapshot()
+    frozen = snapshot(profile=profile)
     if frozen != job["snapshot"]:
         raise ValueError("worker source/runtime snapshot mismatch")
     if os.getpgrp() != os.getpid():
@@ -1063,13 +1145,14 @@ def worker(job_path, job_digest):
     threading.Thread(target=watch_parent, daemon=True).start()
     if stage == "final":
         calibration_value = verify_calibration(
-            Path(job["calibration"]), job["calibration_sha256"], frozen
+            Path(job["calibration"]), job["calibration_sha256"], frozen, profile=profile
         )
         calibration_audit_value = verify_calibration_audit(
             Path(job["calibration_audit"]),
             job["calibration_audit_sha256"],
             job["calibration_sha256"],
             calibration_value["binding_sha256"],
+            profile=profile,
         )
     if stage == "final":
         _, cohort = load_cohort(
@@ -1078,6 +1161,7 @@ def worker(job_path, job_digest):
             Path(job["audit_binding"]),
             job["binding_sha256"],
             stage,
+            profile=profile,
         )
         check_fixed_calibration(
             cohort,
@@ -1095,14 +1179,15 @@ def worker(job_path, job_digest):
         method,
         model,
         output,
-        bootstrap=PROTOCOL["bootstrap_count"] if repeat == 0 else 0,
-        seed=PROTOCOL["bootstrap_seed"],
-        eps=PROTOCOL["eps"],
-        rcond=PROTOCOL["rcond"],
-        n_omega=PROTOCOL["n_omega"],
-        n_alpha=PROTOCOL["n_alpha"],
-        minimizer_mu0=PROTOCOL["minimizer_mu0"],
-        precision_bits=PROTOCOL["projection_precision_bits"],
+        bootstrap=protocol["bootstrap_count"] if repeat == 0 else 0,
+        seed=protocol["bootstrap_seed"],
+        eps=protocol["eps"],
+        rcond=protocol["rcond"],
+        n_omega=protocol["n_omega"],
+        n_alpha=protocol["n_alpha"],
+        minimizer_mu0=protocol["minimizer_mu0"],
+        precision_bits=protocol["projection_precision_bits"],
+        profile=profile,
     )
     # Revalidate every bound raw receipt/archive after the calculation.
     _, cohort = load_cohort(
@@ -1111,18 +1196,20 @@ def worker(job_path, job_digest):
         Path(job["audit_binding"]),
         job["binding_sha256"],
         stage,
+        profile=profile,
     )
-    if snapshot() != frozen or sha(job_path) != job_digest:
+    if snapshot(profile=profile) != frozen or sha(job_path) != job_digest:
         raise RuntimeError("worker source/runtime or job changed during execution")
     if stage == "final":
         calibration_value = verify_calibration(
-            Path(job["calibration"]), job["calibration_sha256"], frozen
+            Path(job["calibration"]), job["calibration_sha256"], frozen, profile=profile
         )
         calibration_audit_value = verify_calibration_audit(
             Path(job["calibration_audit"]),
             job["calibration_audit_sha256"],
             job["calibration_sha256"],
             calibration_value["binding_sha256"],
+            profile=profile,
         )
     if stage == "final":
         check_fixed_calibration(
@@ -1134,11 +1221,13 @@ def worker(job_path, job_digest):
         )
     if result["status"] != "passed":
         raise RuntimeError("worker case gates failed")
-    validate_case_projection(result, output.with_suffix(".npz"), method)
+    validate_case_projection(
+        result, output.with_suffix(".npz"), method, profile=profile
+    )
     write_json(
         output.with_name(output.stem + "-worker.json"),
         {
-            "schema": "kernelgecp.cthyb-spectroscopy-worker.v2",
+            "schema": schema_for("-worker", profile),
             "status": "passed",
             "pid": os.getpid(),
             "job_sha256": job_digest,
@@ -1166,21 +1255,28 @@ def campaign(
     calibration_digest=None,
     calibration_audit=None,
     calibration_audit_digest=None,
+    profile="v2",
 ):
+    protocol = protocol_for(profile)
     started = time.monotonic()
-    validate_basis_controls()
+    validate_basis_controls(profile=profile)
     if stage not in ("calibration", "final"):
         raise ValueError("invalid campaign stage")
-    frozen = snapshot()
+    frozen = snapshot(profile=profile)
     if stage == "final":
-        calibration_value = verify_calibration(calibration, calibration_digest, frozen)
+        calibration_value = verify_calibration(
+            calibration, calibration_digest, frozen, profile=profile
+        )
         calibration_audit_value = verify_calibration_audit(
             calibration_audit,
             calibration_audit_digest,
             calibration_digest,
             calibration_value["binding_sha256"],
+            profile=profile,
         )
-    _, cohort = load_cohort(folder, receipt, binding, binding_digest, stage)
+    _, cohort = load_cohort(
+        folder, receipt, binding, binding_digest, stage, profile=profile
+    )
     if stage == "final" and (
         cohort.get("role") != "fixed-bath-256"
         or cohort.get("generation_revision") != frozen["revision"]
@@ -1206,11 +1302,11 @@ def campaign(
     progress_path = output / "progress.json"
     cases, records, workers = {}, {}, {}
     progress = {
-        "schema": "kernelgecp.cthyb-spectroscopy-progress.v2",
+        "schema": schema_for("-progress", profile),
         "status": "running",
         "stage": stage,
         "parent_pid": os.getpid(),
-        "protocol": PROTOCOL,
+        "protocol": protocol,
         "snapshot": frozen,
         "binding_sha256": binding_digest,
         "cohort": cohort,
@@ -1221,23 +1317,23 @@ def campaign(
         "case_timeout_seconds": CASE_SECONDS,
     }
     write_progress(progress_path, progress)
-    repeats = PROTOCOL[stage + "_repeats"]
+    repeats = protocol[stage + "_repeats"]
     try:
         for repeat in range(repeats):
             for method in METHODS:
-                for model in PROTOCOL["default_models"]:
+                for model in protocol["default_models"]:
                     name = f"{method}-{model}-r{repeat}.json"
                     case = output / name
                     job_path = output / (case.stem + "-job.json")
                     log_path = output / (case.stem + "-worker.log")
                     job = {
-                        "schema": "kernelgecp.cthyb-spectroscopy-worker-job.v2",
+                        "schema": schema_for("-worker-job", profile),
                         "stage": stage,
                         "parent_pid": os.getpid(),
                         "method": method,
                         "model": model,
                         "repeat": repeat,
-                        "protocol": PROTOCOL,
+                        "protocol": protocol,
                         "snapshot": frozen,
                         "folder": str(folder.resolve()),
                         "audit_receipt": str(receipt.resolve()),
@@ -1269,6 +1365,8 @@ def campaign(
                         "--job-sha256",
                         job_digest,
                     ]
+                    if profile == "v3":
+                        command.extend(["--profile", profile])
                     remaining = GLOBAL_SECONDS - (time.monotonic() - started)
                     if remaining <= 0:
                         raise TimeoutError("campaign global time budget exhausted")
@@ -1304,8 +1402,7 @@ def campaign(
                     worker_receipt = case.with_name(case.stem + "-worker.json")
                     finished = json.loads(worker_receipt.read_text())
                     if (
-                        finished.get("schema")
-                        != "kernelgecp.cthyb-spectroscopy-worker.v2"
+                        finished.get("schema") != schema_for("-worker", profile)
                         or finished.get("status") != "passed"
                         or finished.get("pid") != child["pid"]
                         or finished.get("job_sha256") != job_digest
@@ -1317,7 +1414,7 @@ def campaign(
                     workers[name]["worker_receipt_sha256"] = sha(worker_receipt)
                     records[name] = json.loads(case.read_text())
                     validate_case_projection(
-                        records[name], case.with_suffix(".npz"), method
+                        records[name], case.with_suffix(".npz"), method, profile=profile
                     )
                     cases[name] = {
                         "result_sha256": sha(case),
@@ -1329,7 +1426,7 @@ def campaign(
         write_progress(progress_path, progress)
         raise
     try:
-        if snapshot() != frozen:
+        if snapshot(profile=profile) != frozen:
             raise RuntimeError("scientific source or runtime changed during campaign")
         if time.monotonic() - started > GLOBAL_SECONDS:
             raise TimeoutError("campaign global time budget exhausted")
@@ -1350,12 +1447,11 @@ def campaign(
                 "broad_bootstrap_window_std": b["bootstrap_window_standard_deviation"],
             }
     result = {
-        "schema": "kernelgecp.cthyb-spectroscopy-"
-        + ("calibration.v2" if stage == "calibration" else "final.v2"),
+        "schema": schema_for("-" + stage, profile),
         "status": "passed"
         if all(x["status"] == "passed" for x in records.values())
         else "failed",
-        "protocol": PROTOCOL,
+        "protocol": protocol,
         "snapshot": frozen,
         "binding_sha256": binding_digest,
         "cohort": cohort,
@@ -1393,8 +1489,9 @@ def main():
         )
         parser.add_argument("--worker", type=Path, required=True)
         parser.add_argument("--job-sha256", required=True)
+        parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
         args = parser.parse_args()
-        worker(args.worker, args.job_sha256)
+        worker(args.worker, args.job_sha256, profile=args.profile)
         return
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("folder", type=Path)
@@ -1407,6 +1504,7 @@ def main():
     p.add_argument("--calibration-audit", type=Path)
     p.add_argument("--calibration-audit-sha256")
     p.add_argument("--output-dir", type=Path, required=True)
+    p.add_argument("--profile", choices=["v2", "v3"], default="v2")
     args = p.parse_args()
     result = campaign(
         args.folder,
@@ -1419,6 +1517,7 @@ def main():
         calibration_digest=args.calibration_sha256,
         calibration_audit=args.calibration_audit,
         calibration_audit_digest=args.calibration_audit_sha256,
+        profile=args.profile,
     )
     if result["status"] != "passed":
         raise SystemExit("campaign gates failed; artifacts retained")

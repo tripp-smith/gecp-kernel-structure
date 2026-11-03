@@ -3310,3 +3310,14 @@ identity/native diagonal-relative damping on consumed training observations.
 Failed controls retain their status. The solver, objective, grids and accuracy
 budgets remain fixed; no new raw samples or held-out decisions. Calibration,
 untouched final science and release gates remain open; original goals unchanged.
+
+
+EH v3 development annotation (2026-11-03): retain all mathematical and
+application acceptance objectives. Actual541c56d training-only comparison
+41573167725 completes four declared rows; independent132-trial checks agree
+on unit mass, alpha1 and training RMS~1.123. This is consumed development
+evidence, with some low-alpha nonconvergence and no relative-damping advantage
+claim. Implement explicit opt-in v3 protocol/schema propagation and independent
+unscaled-mass selection checks; v2 remains the default. Reserve34100001+2*i
+(256 split128/128) and synthetic5001/5002/5003 with80 query nodes for a later
+frozen final validation. No new final allocation or release gate is closed.

@@ -10,8 +10,8 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — constrained-mass optimization candidate after failed v2 final validation<br>
-> **Candidate validation:** Source `33ab968` passes full root verification (2,720 tests/43 optional skips/12 subtests) and actual Linux/macOS mixture checks, but its training-only scout fails on singular systems. Captured-system diagnostics and an explicit native relative-damping comparison are in development; scientific calibration and untouched finals remain required<br>
+> **Current phase:** EH — versioned unit-mass calibration candidate after failed v2 validation<br>
+> **Candidate validation:** Source `541c56d` passes full root (2,731 tests/43 optional skips/12 subtests), actual installed Linux/macOS checks, and a four-row training-only comparison with an independent audit of all132 trials. Selected alpha1 has training RMS~1.123; 3–5 low-alpha trials do not converge. Explicit v3 calibration controls/jobs/audits are in development; full scientific calibration and untouched finals remain open<br>
 > **Phase state:** Corrective source `98bdfab` completes all256 raw chains and their independent audit, but final raw continuation fails RMS2.8853>2. The cohort is consumed development evidence; no tolerance is relaxed. An explicit native unit-mass objective candidate passes interface probes and has no scientific acceptance. [PR #146 canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) preserves failed artifacts and open gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
