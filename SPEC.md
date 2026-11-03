@@ -3309,3 +3309,12 @@ executes because its shell move fails. Preserve the failed artifact/receipt.
 Use privileged atomic same-filesystem moves, then rerun the actual Linux gate and native
 comparator. Supplemental macOS grid-membership failure remains diagnostic and
 does not relax any numerical budget or broaden supported native platforms.
+
+EJ complete EPW gate annotation (2026-11-03):72eae33 actual Linux archive
+relocation and separate native restart comparison pass. Add delivered interfaces
+scripts/release_epw_native.py and scripts/release_epw_audits.py: independent
+printed-table budgets, source-P/source-K provenance, bounded child process
+groups, strict complete receipts and immutable inputs. Require the downloaded
+curated payload CI job and its artifact in release selection. The whole
+controller's real Linux case, full root/exact-head CI and all remaining EH/EJ
+objectives are still required; no release or merge is claimed.

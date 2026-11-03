@@ -285,3 +285,20 @@ def test_skipped_relocated_epw_audit_step():
     step["conclusion"] = "skipped"
     with pytest.raises(ValueError, match="epw required step failed or skipped"):
         select(data)
+
+
+@pytest.mark.parametrize("missing", ["job", "step", "artifact"])
+def test_complete_epw_payload_gate_is_mandatory(missing):
+    data = metadata()
+    run_id = data[0]["epw"][0]["id"]
+    if missing == "job":
+        data[1][run_id] = [j for j in data[1][run_id] if j["name"] != "payload-audit"]
+    elif missing == "step":
+        job = next(j for j in data[1][run_id] if j["name"] == "payload-audit")
+        job["steps"][0]["conclusion"] = "skipped"
+    else:
+        data[2][run_id] = [
+            a for a in data[2][run_id] if a["name"] != "epw-release-payload-audit"
+        ]
+    with pytest.raises(ValueError):
+        select(data)

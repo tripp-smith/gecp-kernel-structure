@@ -13069,3 +13069,57 @@ from the local NumPy geometric grid. Keep the exact guard and all accuracy
 budgets. Canonical native EPW execution and this independent scientific replay
 are Linux x86_64; do not claim cross-platform numerical audit acceptance from
 path relocation. Saved rounded-model decoding is a separate API contract.
+
+## EJ complete saved EPW payload gate contract
+
+Source72eae33 passes root2788/46skips/24subtests. Actual Linux41605827670 passes
+native generation, all three archive cases, original and relocated independent
+archive audits, and the separate unmodified EPW restart comparator. Authenticated
+artifact13216713546 is73128143bytes,
+SHA4c70aa28f2f9530470616615f3f1bb5568e0447034ffa04e492c96902454281e;
+57entries/86503872rawbytes. Original and relocated audit JSON bytes are identical
+(SHA8d66bd1a04806af0545542510aeee6eacd6d79bc92abf19ae0fc049911a62782).
+The native comparator (SHA885bd0231b7a0756518c4d07185cc1264cf14a110c913b43913918a3f8706d41)
+passes raw/restored/wrong-frequency cases and all six channels across630000
+printed rows (140states,4500frequencies), with zero channel differences. This
+closes the tested relocation component at72eae33, not the whole release phase.
+
+Implement scripts/release_epw_audits.py as an outer controller for an already
+caller-authenticated, safely materialized immutable payload and an explicitly
+expected generation revision. Create exclusive diagnostics outside the input.
+Require canonical pinned Linux x86_64 science runtime. Rerun the saved archive
+numerical audit in a private Git snapshot of its recorded source, with the
+explicit native-root override. Separately run scripts/release_epw_native.py to
+validate saved native comparator records against actual input/log/restart and
+compressed Padé bytes. Both children require hard process timeouts, successful
+exit plus strict complete receipts; missing, malformed, truncated, timed-out or
+failed output cannot establish eligibility. Preserve partial logs and failures.
+
+The saved-native auditor independently parses all raw/restored axes, requires
+cross-file axis equality, verifies only the declared input transformation and
+wrong-frequency mutation, derives the Padé mesh from a2f, and streams all six
+channels with bounded expanded bytes and rows. Evaluate printed-number error
+budgets using exact decimal fractions; identical fields have exact zero error.
+This checks finite recorded data, not a continuous certificate or fresh solver
+execution. Executable bytes are absent: baseline/anisotropic hash lineage and
+per-case command/log/source records are attestations, not inspected case binary
+identity. Authentication comes from the caller's selected GitHub artifact.
+
+Reject initial traversal, symlink/hardlink, output containment and malformed
+records before creating outputs. Enforce bounded aggregate inventories and
+whole-operation deadlines; the outer process timeout is mandatory even when a
+child's cleanup fails. Require input hashes unchanged after every output write.
+Scope is static caller-owned data with no concurrent writers; this is not a
+hostile-filesystem isolation mechanism. An early draft log-path alias mutated
+extracted diagnostic copies after their prior hash checks; those results are
+invalid, original ZIPs remain intact, and full-call immutability regressions plus
+independent review are mandatory before integration.
+
+Run this complete gate in a separate CI job after downloading the curated native
+artifact, rather than hashing the solver's full scratch workspace. Require the
+new job, its successful replay step and its diagnostic artifact in release run
+selection. Normal base tests cover tampering, axes, printed-budget boundaries,
+path/deadline failures and missing child output. A passing actual Linux full
+payload case and full root/exact-source CI remain required before this gate
+component is closed. Existing source/license, EH, publication and final-handoff
+obligations remain open; no 1.2.0 tag or upload is authorized by this gate alone.

@@ -66,9 +66,10 @@ ROLES = {
                 "Independently audit all three archive cases",
                 "Independently audit relocated native archive",
                 "Compare actual unmodified native raw and restored restarts",
-            ]
+            ],
+            "payload-audit": ["Independently replay the EPW release payload"],
         },
-        ["epw-explicit-restart-archive-linux"],
+        ["epw-explicit-restart-archive-linux", "epw-release-payload-audit"],
     ),
     "covariance": (
         "covariance.yml",

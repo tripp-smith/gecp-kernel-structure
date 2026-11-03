@@ -125,20 +125,22 @@ def source_snapshot(repository, revision):
             ],
             check=True,
             capture_output=True,
+            timeout=60,
         )
         subprocess.run(
             ["git", "checkout", "--quiet", "--detach", revision],
             cwd=snapshot,
             check=True,
             capture_output=True,
+            timeout=60,
         )
         head = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=snapshot, text=True
+            ["git", "rev-parse", "HEAD"], cwd=snapshot, text=True, timeout=60
         ).strip()
         require(head == revision, "snapshot revision mismatch")
         require(
             not subprocess.check_output(
-                ["git", "status", "--porcelain"], cwd=snapshot, text=True
+                ["git", "status", "--porcelain"], cwd=snapshot, text=True, timeout=60
             ).strip(),
             "snapshot is dirty",
         )

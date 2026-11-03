@@ -138,3 +138,12 @@ EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
 new relocated workflow41601753604 fails before its auditor on a Docker-tree
 move permission error. Privileged atomic same-filesystem relocation is under verification;
 the relocated gate, native comparator and whole release remain open.
+
+The72eae33 EPW relocation component passes actual Linux verification, including
+its separate native restart comparator. A complete saved-payload controller is
+implemented with independent exact printed-number comparisons, strict receipt
+validation, separate producer/auditor source identities and bounded child groups.
+Release selection requires its additional CI job and diagnostic artifact.
+Focused checks and the saved native case pass; a complete real Linux controller
+case and current-source full verification remain pending. No all-domain release
+eligibility follows from this component.

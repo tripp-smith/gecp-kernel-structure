@@ -2700,3 +2700,20 @@ be moved into RUNNER_TEMP. A privileged same-filesystem atomic move is under ver
 The supplemental macOS audit fails exact grid membership at one ulp; its status
 remains failed and no numerical threshold is widened. Neither result closes the
 new relocated Linux gate or the separate native comparator.
+
+## EJ EPW saved-payload verification
+
+The72eae33 actual Linux workflow passes relocated archive replay and native
+raw/restored/wrong-frequency execution, with zero differences in all six Padé
+channels across630000 rows. Its authenticated original and relocated archive
+receipts are byte-identical. This is coarse interoperability evidence.
+
+The saved-payload gate now independently streams compressed native tables and
+compares printed numbers with exact decimal fractions. A regression exhibits a
+printed boundary accepted by binary64 arithmetic but outside the exact declared
+budget. This is a finite recorded-number check, not continuous certification.
+Separate source-P archive replay and source-K native audit preserve their source
+identities, hard process deadlines and whole-call input immutability. Truncated
+passed receipts and wrong comparison-policy fields fail closed. Full Linux
+controller execution and exact-source verification are pending; EH, complete
+release eligibility and publication remain open.
