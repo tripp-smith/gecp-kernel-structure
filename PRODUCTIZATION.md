@@ -133,3 +133,8 @@ EG's supported route, reproduction and preserved failed coordinate audit are
 recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
 The generic basis and pure-fit native approaches failed and remain unsupported;
 their failed evidence is preserved separately from the delivered native archive.
+
+EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
+new relocated workflow41601753604 fails before its auditor on a Docker-tree
+move permission error. Privileged atomic same-filesystem relocation is under verification;
+the relocated gate, native comparator and whole release remain open.

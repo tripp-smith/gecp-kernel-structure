@@ -484,3 +484,8 @@ The unreleased 1.2 candidate adds [installation and compatibility](INSTALLATION_
 [molecular GF2 interchange](MOLECULAR_GREEN.md), [migration](MIGRATION.md),
 [troubleshooting](TROUBLESHOOTING.md), and an [optional-provider notice index](PROVIDER_NOTICES.md).
 Read the acceptance ledger before treating a pending domain as delivered.
+
+EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
+new relocated workflow41601753604 fails before its auditor on a Docker-tree
+move permission error. Privileged atomic same-filesystem relocation is under verification;
+the relocated gate, native comparator and whole release remain open.

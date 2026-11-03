@@ -3302,3 +3302,10 @@ file reads while preserving immutable source records and command bindings.
 Portable archive replay is distinct from actual native solver comparison and
 complete release eligibility. EH, remaining domain gates and public1.2 remain
 open; original mathematical goals and scientific budgets are unchanged.
+
+EJ relocation checkpoint annotation (2026-11-03):7f27116 root verification and
+original native archive audit pass; hosted relocated audit41601753604 never
+executes because its shell move fails. Preserve the failed artifact/receipt.
+Use privileged atomic same-filesystem moves, then rerun the actual Linux gate and native
+comparator. Supplemental macOS grid-membership failure remains diagnostic and
+does not relax any numerical budget or broaden supported native platforms.

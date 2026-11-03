@@ -13043,3 +13043,29 @@ The selector rejects a skipped step. An identity-capable producer cannot omit
 its identity and fall back to legacy behavior. Focused tests are local evidence;
 actual hosted provider execution, full verification and release acceptance
 remain outstanding.
+
+### EJ relocated Linux archive execution checkpoint
+
+Source7f27116 passes root2791/43skips/24subtests. Actual native run41601753604
+regenerates authentic20K files and passes all three archive cases plus the
+original independent numerical audit. The new relocation shell step then fails
+on Permission denied while moving Docker-owned descendants into RUNNER_TEMP;
+the relocated auditor and native comparator never execute. Preserve that failed
+run and artifact13214913831 (14250772bytes,
+SHAbba37c7f31150addab8876649461e515f07ed371dadbf2a64bb63ecc049c062e).
+
+Move the native directory atomically to a sibling temporary directory on the
+same artifacts filesystem, check device equality and require the original path
+absent before auditing. A bounded local probe rejects an unprivileged rename of
+a nonwritable directory to a new parent even on one filesystem; atomic movement
+alone is insufficient. Use the hosted runner's sudo for both moves, preserving
+permissions/ownership and the existing restore trap. Fresh exact-source Linux
+execution is still required. This changes filesystem plumbing, not numerical
+controls or validation data.
+
+A supplemental macOS replay of the authenticated7f archive reaches the strict
+cardinal-membership guard and fails: one selected Linux pole differs by one ulp
+from the local NumPy geometric grid. Keep the exact guard and all accuracy
+budgets. Canonical native EPW execution and this independent scientific replay
+are Linux x86_64; do not claim cross-platform numerical audit acceptance from
+path relocation. Saved rounded-model decoding is a separate API contract.

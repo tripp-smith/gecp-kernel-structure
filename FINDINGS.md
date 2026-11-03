@@ -2693,3 +2693,10 @@ component does not close the remaining full-domain release or corrective EH
 obligations. The subsequent input-layer work authenticates archive identity,
 bounds ZIP allocation/extraction and exposes a source-only baseline parameter;
 none substitutes for independently accepted numerical science or installed1.2.
+
+The7f EPW archive passes its original Linux numerical audit, but the relocated
+workflow fails before calling its auditor because the native Docker tree cannot
+be moved into RUNNER_TEMP. A privileged same-filesystem atomic move is under verification.
+The supplemental macOS audit fails exact grid membership at one ulp; its status
+remains failed and no numerical threshold is widened. Neither result closes the
+new relocated Linux gate or the separate native comparator.

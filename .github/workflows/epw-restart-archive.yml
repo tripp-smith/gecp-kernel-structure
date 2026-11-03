@@ -74,15 +74,19 @@ jobs:
             --output "$PWD/artifacts/restart20-audit.json"
       - name: Independently audit relocated native archive
         run: |
-          relocation_root="$(mktemp -d "$RUNNER_TEMP/epw-relocated.XXXXXXXX")"
+          # Docker owns the native tree. Keep mv atomic on one filesystem,
+          # and use runner sudo to preserve ownership on both moves.
+          relocation_root="$(mktemp -d "$PWD/artifacts/epw-relocated.XXXXXXXX")"
           cp artifacts/epw-anisotropic.json "$relocation_root/epw-anisotropic.json"
           restore_native() {
             if [ -d "$relocation_root/epw-native" ]; then
-              mv "$relocation_root/epw-native" artifacts/epw-native
+              sudo mv "$relocation_root/epw-native" artifacts/epw-native
             fi
           }
           trap restore_native EXIT
-          mv artifacts/epw-native "$relocation_root/epw-native"
+          test "$(stat -c %d artifacts/epw-native)" = "$(stat -c %d "$relocation_root")"
+          sudo mv artifacts/epw-native "$relocation_root/epw-native"
+          test ! -e artifacts/epw-native
           environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
             --manifest "$PWD/artifacts/restart20/campaign.json" \
             --native-root-override "$relocation_root" \
