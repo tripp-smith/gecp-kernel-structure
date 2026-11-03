@@ -72,6 +72,23 @@ jobs:
           environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
             --manifest "$PWD/artifacts/restart20/campaign.json" \
             --output "$PWD/artifacts/restart20-audit.json"
+      - name: Independently audit relocated native archive
+        run: |
+          relocation_root="$(mktemp -d "$RUNNER_TEMP/epw-relocated.XXXXXXXX")"
+          cp artifacts/epw-anisotropic.json "$relocation_root/epw-anisotropic.json"
+          restore_native() {
+            if [ -d "$relocation_root/epw-native" ]; then
+              mv "$relocation_root/epw-native" artifacts/epw-native
+            fi
+          }
+          trap restore_native EXIT
+          mv artifacts/epw-native "$relocation_root/epw-native"
+          environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
+            --manifest "$PWD/artifacts/restart20/campaign.json" \
+            --native-root-override "$relocation_root" \
+            --output "$PWD/artifacts/restart20-relocated-audit.json"
+          restore_native
+          trap - EXIT
       - name: Compare actual unmodified native raw and restored restarts
         run: |
           docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
@@ -99,6 +116,7 @@ jobs:
             artifacts/epw-native/test-suite/epw_super/MgB2.imag_aniso_*
             artifacts/restart20/
             artifacts/restart20-audit.json
+            artifacts/restart20-relocated-audit.json
             artifacts/restart20-native-comparison.json
             artifacts/restart20-native-comparison-restart-cases/**/restart.out
             artifacts/restart20-native-comparison-restart-cases/**/epw6.in

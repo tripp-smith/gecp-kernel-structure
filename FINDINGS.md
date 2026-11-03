@@ -2677,6 +2677,12 @@ establish compatibility with a complete native payload; the dedicated native
 CI execution remains required. No new molecular accuracy or release acceptance
 is claimed by this component.
 
+Molecular component196d15c subsequently passes an actual four-case native run
+and isolated saved-payload replay:365 input hashes,36 final identities and all
+eight independent gates pass. This establishes the tested component case, not
+complete scientific release eligibility. EPW portable archive replay and its
+separate native-comparison gate remain next work.
+
 
 ### EJ verified runtime/ED component and payload-input checks
 

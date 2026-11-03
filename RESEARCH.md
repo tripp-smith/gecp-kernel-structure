@@ -12989,3 +12989,57 @@ release metadata selection. Write its new attempt outside the input payload;
 copy it into uploaded diagnostics only after the audit finishes. The uploaded
 receipt is diagnostic evidence; final eligibility still independently replays
 the authenticated payload. No full-provider or phase acceptance is claimed yet.
+
+## EJ portable EPW archive-replay contract
+
+Molecular component196d15c passes full root2766/43skips/24subtests and actual
+four-case GF2 validation in41566854583. Authenticated artifact13200620227 is
+10893635bytes, SHAd90aab8cdbd83099fa10d59dcd8e9d3f203ceae8146af9024219620f4bc3ca43.
+Verify365 bound inputs and all eight independent gates:36 final identities,
+four native cases, two native refinements,12 cutoff controls,12 calibrations
+and four model comparisons. The exact-source PR has eight successful workflows
+and one known failed historical spectroscopy replay. This is component evidence,
+not full release acceptance or a waiver of EH.
+
+Next bounded patch makes the independent EPW archive auditor portable. Add an
+explicit native-root override used only for physical file reads. Preserve the
+original freeze/worker receipt bytes, hashes and recorded argv. In override
+mode validate canonical original Linux POSIX roots as strings, derive one
+original campaign directory from saved freeze/output paths and enforce the
+same root and case ordinal across all three children. Never resolve or open
+recorded absolute paths on the new host, rewrite records or monkeypatch the
+auditor. Default no-override behavior must remain compatible.
+
+Check relocated fixtures plus wrong context/source/argv/hash, traversal and
+mixed-root rejection, with input hashes unchanged. Replay authentic archived
+EPW data under the pinned science runtime before closing this component.
+Archive acceptance remains native_acceptance=not_tested; a separate independently
+validated actual solver comparator is mandatory. Preserve failed pure-fit
+native evidence and the supported20K model-plus-lossless scope. No new material
+prediction, faster-compression, numerical tolerance or whole-release claim.
+
+Independent review and the authentic1b5 archive expose a legacy interpreter
+mapping gap: child argv records a venv symlink, while the freeze records only
+the resolved Python path. The old host's symlink cannot be reconstructed from
+saved bytes. Do not replace exact matching with prefix equality or silently
+accept an alias. Override mode must report this legacy case inconclusive.
+
+For new producer records add a versioned interpreter-identity object with raw
+invocation, resolved executable, recorded binary hash and available symlink
+metadata. Freeze that identity and record the actual identity in each child
+receipt after its before/after runtime checks. The independent auditor binds
+raw argv to the new identity, resolved path to the frozen executable, and each
+child identity to the freeze. It validates saved metadata without resolving old
+paths or claiming to inspect absent executable bytes. Keep legacy no-override
+behavior; legacy exact raw/resolved cases can still bind, while unrecorded
+symlink mappings stay explicitly inconclusive. Test both forms and tampering.
+New actual native generation and portable replay are required before closing
+the strengthened component; no numerical budget or solver change is involved.
+
+
+The EPW relocation workflow now requires the relocated replay step before the
+actual native comparison and restores the moved native tree even on failure.
+The selector rejects a skipped step. An identity-capable producer cannot omit
+its identity and fall back to legacy behavior. Focused tests are local evidence;
+actual hosted provider execution, full verification and release acceptance
+remain outstanding.

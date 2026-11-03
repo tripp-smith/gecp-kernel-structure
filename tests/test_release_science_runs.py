@@ -274,3 +274,14 @@ def test_rerun_accepts_explicit_matching_required_and_auxiliary_bindings():
         artifact["workflow_run"]["run_attempt"] = 2
     data[2][run_id].append(docker_record(data, "molecular"))
     assert select(data)["runs"]["molecular"]["attempt"] == 2
+
+
+def test_skipped_relocated_epw_audit_step():
+    data = metadata()
+    steps = data[1][3][0]["steps"]
+    step = next(
+        s for s in steps if s["name"] == "Independently audit relocated native archive"
+    )
+    step["conclusion"] = "skipped"
+    with pytest.raises(ValueError, match="epw required step failed or skipped"):
+        select(data)

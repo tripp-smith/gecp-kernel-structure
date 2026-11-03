@@ -64,6 +64,7 @@ ROLES = {
                 "Generate the pinned native 20 K source and provenance",
                 "Run the fixed pure-model holdout and explicit correction archive",
                 "Independently audit all three archive cases",
+                "Independently audit relocated native archive",
                 "Compare actual unmodified native raw and restored restarts",
             ]
         },

@@ -3294,3 +3294,11 @@ independent source review pass; actual full-provider payload execution remains
 required and is wired into native CI. This is a gate component, not complete
 release eligibility. EH measured mass scouts still fail; original mathematical
 goals, all scientific budgets and published1.1.0 artifacts are unchanged.
+
+EJ molecular evidence and EPW portability annotation (2026-11-02): component
+196d15c passes actual four-case native GF2 and all eight saved-payload audit
+gates, plus full root verification. Develop explicit relocation of EPW native
+file reads while preserving immutable source records and command bindings.
+Portable archive replay is distinct from actual native solver comparison and
+complete release eligibility. EH, remaining domain gates and public1.2 remain
+open; original mathematical goals and scientific budgets are unchanged.

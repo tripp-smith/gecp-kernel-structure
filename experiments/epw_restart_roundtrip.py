@@ -69,6 +69,21 @@ CONTROLS = {
 }
 
 
+def interpreter_identity():
+    """Record the running interpreter and available invocation-link metadata."""
+    invocation = Path(sys.executable)
+    resolved = invocation.resolve(strict=True)
+    link = invocation.is_symlink()
+    return {
+        "schema": "kernelgecp.epw-interpreter-identity.v1",
+        "invocation": str(invocation),
+        "resolved_executable": str(resolved),
+        "binary_sha256": sha(resolved),
+        "invocation_is_symlink": link,
+        "invocation_link_target": os.readlink(invocation) if link else None,
+    }
+
+
 def source_environment():
     if subprocess.check_output(
         ["git", "status", "--porcelain", "--untracked-files=no"], cwd=ROOT, text=True
@@ -106,6 +121,7 @@ def source_environment():
         "python": platform.python_version(),
         "prefix": str(Path(sys.prefix).resolve()),
         "executable": str(Path(sys.executable).resolve()),
+        "interpreter_identity": interpreter_identity(),
         "platform": platform.platform(),
     }
 
@@ -329,8 +345,9 @@ def _case(native_root, offset, output, repeat, frozen):
             restored_chi=reconstructed.chi_ev,
         )
         np.savez_compressed(output / "scientific-arrays.npz", **arrays)
+        final_environment = source_environment()
         if (
-            source_environment() != freeze["environment"]
+            final_environment != freeze["environment"]
             or native_context(native_root, offset, 20)[0] != context
         ):
             raise ValueError("source or native provenance changed during case")
@@ -340,6 +357,7 @@ def _case(native_root, offset, output, repeat, frozen):
         )
         record.update(
             status="passed",
+            interpreter_identity=final_environment["interpreter_identity"],
             lossless_native_bits_equal=True,
             printed_native_fields_equal=True,
             bytes={
