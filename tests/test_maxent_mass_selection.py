@@ -19,6 +19,7 @@ def test_legacy_mass_mode_and_explicit_constraint():
     assert "mass_mode" not in MaxEntConfig().as_record()
     assert "mass_curvature" not in MaxEntConfig().as_record()
     assert "mass_interior_fraction" not in MaxEntConfig().as_record()
+    assert "minimizer_marquardt" not in MaxEntConfig().as_record()
     assert MaxEntConfig(mass_mode="constrained").as_record()["mass_mode"] == (
         "constrained"
     )
@@ -49,6 +50,17 @@ def test_interior_fraction_is_explicit_and_never_ignored():
             MaxEntConfig(mass_mode="constrained", mass_interior_fraction=invalid)
     with pytest.raises(ValueError, match="requires constrained"):
         MaxEntConfig(mass_interior_fraction=1e-12)
+
+
+def test_native_damping_flag_is_explicit_and_boolean():
+    assert MaxEntConfig().minimizer_marquardt is False
+    assert (
+        MaxEntConfig(minimizer_marquardt=True).as_record()["minimizer_marquardt"]
+        is True
+    )
+    for invalid in (0, 1, "true", None):
+        with pytest.raises(ValueError, match="minimizer_marquardt"):
+            MaxEntConfig(minimizer_marquardt=invalid)
 
 
 def test_constraint_rejects_mass_violation_instead_of_rescaling():

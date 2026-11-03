@@ -262,7 +262,7 @@ def native_cost_checks(np, native):
 
 def run_probe(root, expected_revision, require_installed):
     result = {
-        "schema": "kernelgecp.native-mass-interface-probe.v3",
+        "schema": "kernelgecp.native-mass-interface-probe.v4",
         "status": "failed",
         "scope": (
             "native interface probe only; not production calibration or acceptance"
@@ -345,12 +345,13 @@ def run_probe(root, expected_revision, require_installed):
                 data = api.SpectralDataset(
                     beta, tau, values, np.eye(len(tau)) * sigma**2
                 )
-                for fraction, mode, model in (
-                    (fraction, mode, model)
-                    for fraction, mode in (
-                        (0.0, "exact"),
-                        (0.0, "projected"),
-                        (1e-12, "projected"),
+                for fraction, mode, marquardt, model in (
+                    (fraction, mode, marquardt, model)
+                    for fraction, mode, marquardt in (
+                        (0.0, "exact", False),
+                        (0.0, "projected", False),
+                        (1e-12, "projected", False),
+                        (1e-12, "projected", True),
                     )
                     for model in ("flat", "broad_gaussian")
                 ):
@@ -364,6 +365,7 @@ def run_probe(root, expected_revision, require_installed):
                         mass_mode="constrained",
                         mass_curvature=mode,
                         mass_interior_fraction=fraction,
+                        minimizer_marquardt=marquardt,
                     )
                     spectrum = api.continue_tau_maxent(data, config)
                     trials = spectrum.trial_spectra
@@ -379,6 +381,10 @@ def run_probe(root, expected_revision, require_installed):
                         or diagnostics["mass_operation"] != "native_mass_constraint"
                         or diagnostics["config"]["maxiter"] != 1000
                         or diagnostics["config"]["minimizer_mu0"] != 1e-8
+                        or diagnostics["config"]["minimizer_marquardt"] != marquardt
+                        or diagnostics["native_minimizer"]["marquardt"] != marquardt
+                        or diagnostics["native_minimizer"]["J_squared"] is not False
+                        or diagnostics["native_minimizer"]["mu0"] != 1e-8
                         or not np.isfinite(spectrum.normalized_training_whitened_rms)
                         or not param
                         or param["curvature"] != mode
@@ -390,7 +396,7 @@ def run_probe(root, expected_revision, require_installed):
                         raise RuntimeError(
                             "native constrained trial validation failed: " + model
                         )
-                    result["cases"][f"{mode}/{fraction:g}/{model}"] = {
+                    result["cases"][f"{mode}/{fraction:g}/{marquardt}/{model}"] = {
                         "trial_masses": masses.tolist(),
                         "converged": list(spectrum.converged),
                         "iterations": list(spectrum.iterations),
@@ -401,6 +407,7 @@ def run_probe(root, expected_revision, require_installed):
                         "chi2": spectrum.chi2.tolist(),
                         "mass_parameterization": param,
                         "config": diagnostics["config"],
+                        "native_minimizer": diagnostics["native_minimizer"],
                         "mass_operation": diagnostics["mass_operation"],
                     }
         result["status"] = "native_mass_interface_probe_passed"

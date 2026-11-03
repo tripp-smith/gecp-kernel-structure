@@ -1752,6 +1752,13 @@ does not control differences after optimization, alpha selection or covariance
 whitening. Nonzero fractions require constrained mode. Latent underflow counts,
 actual image floors and numerical failures remain visible; scientific acceptance
 is still required.
+`minimizer_marquardt=True` explicitly selects the native solver's damping by
+the diagonal of its curvature matrix; False preserves identity damping. The
+objective and data remain the same, but steps and convergence can differ.
+Diagnostics record the actual native settings. The mixture training scout
+failed on singular systems; a declared comparison now captures those systems
+and tests relative damping. A failed control keeps the overall diagnostic
+failed, even if both proposed candidate runs complete.
 `MaxEntConfig.as_record()`
 preserves the legacy rescale control fields and records the nondefault mode
 explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;

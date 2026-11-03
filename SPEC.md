@@ -3302,3 +3302,11 @@ zero as the default, native entropy/optimizer/guards and all scientific budgets.
 Its exact fixed-coordinate L1 bound does not establish closeness of optimized
 solutions. Independent derivative, native-provider, calibration and untouched
 final gates remain mandatory. Original mathematical goals and1.1.0 stay unchanged.
+
+EH native-damping annotation (2026-11-02):33ab968 training scout fails on native
+singular systems despite passing full root and both-platform interface checks.
+Capture exact failed systems without a fallback, and compare explicitly declared
+identity/native diagonal-relative damping on consumed training observations.
+Failed controls retain their status. The solver, objective, grids and accuracy
+budgets remain fixed; no new raw samples or held-out decisions. Calibration,
+untouched final science and release gates remain open; original goals unchanged.

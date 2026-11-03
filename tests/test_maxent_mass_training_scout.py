@@ -95,11 +95,13 @@ def test_capture_native_descriptors_and_bind_outputs(tmp_path):
     data = log_path.read_bytes()
     assert b"native stdout" in data and b"native stderr" in data
     assert b"python stdout" in data
-    (tmp_path / "flat-trials.npz").write_bytes(b"trial")
+    (tmp_path / "identity-flat-trials.npz").write_bytes(b"trial")
+    (tmp_path / "marquardt-flat-failed-solve.npz").write_bytes(b"solve")
     hashes = scout.output_hashes(tmp_path)
     assert hashes == {
         "worker.log": hashlib.sha256(data).hexdigest(),
-        "flat-trials.npz": hashlib.sha256(b"trial").hexdigest(),
+        "identity-flat-trials.npz": hashlib.sha256(b"trial").hexdigest(),
+        "marquardt-flat-failed-solve.npz": hashlib.sha256(b"solve").hexdigest(),
     }
 
 
@@ -109,3 +111,16 @@ def test_invalid_training_fails_before_continuation():
     covariance[0, 0] = np.nan
     with pytest.raises(RuntimeError, match="invalid finite"):
         scout.validate_training(np, tau, np.zeros(65), covariance)
+
+
+def test_candidate_completion_never_hides_control_failure():
+    complete = {
+        f"{damping}/{model}": {"status": "completed"}
+        for damping in ("identity", "marquardt")
+        for model in ("flat", "broad_gaussian")
+    }
+    assert scout.summarize_cases(complete) == (True, "diagnostic_completed")
+    complete["identity/flat"] = {"status": "failed"}
+    assert scout.summarize_cases(complete) == (True, "failed")
+    complete.pop("marquardt/flat")
+    assert scout.summarize_cases(complete) == (False, "failed")

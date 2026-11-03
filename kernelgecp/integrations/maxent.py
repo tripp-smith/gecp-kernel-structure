@@ -728,6 +728,7 @@ class MaxEntConfig:
     mass_mode: str = "rescale"
     mass_curvature: str = "exact"
     mass_interior_fraction: float = 0.0
+    minimizer_marquardt: bool = False
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -779,6 +780,8 @@ class MaxEntConfig:
             raise ValueError("mass_interior_fraction is not representable in scale")
         if self.mass_mode != "constrained" and fraction != 0:
             raise ValueError("mass_interior_fraction requires constrained mass_mode")
+        if type(self.minimizer_marquardt) is not bool:
+            raise ValueError("minimizer_marquardt must be a boolean")
 
     def as_record(self) -> dict[str, Any]:
         """Preserve legacy rescale receipts; record an explicit nondefault mode."""
@@ -787,6 +790,8 @@ class MaxEntConfig:
             result.pop("mass_mode")
             result.pop("mass_curvature")
             result.pop("mass_interior_fraction")
+            if not self.minimizer_marquardt:
+                result.pop("minimizer_marquardt")
         return result
 
 
@@ -969,11 +974,16 @@ def continue_tau_maxent(
             curvature=settings.mass_curvature,
             interior_fraction=settings.mass_interior_fraction,
         )
+    minimizer_kwargs: dict[str, Any] = {
+        "maxiter": settings.maxiter,
+        "mu0": settings.minimizer_mu0,
+    }
+    if settings.minimizer_marquardt:
+        minimizer_kwargs["marquardt"] = True
+    recording_minimizer = RecordingMinimizer(**minimizer_kwargs)
     solver = provider.TauMaxEnt(
         cost_function=cost_function,
-        minimizer=RecordingMinimizer(
-            maxiter=settings.maxiter, mu0=settings.minimizer_mu0
-        ),
+        minimizer=recording_minimizer,
         analyzers=[],
         interactive=False,
         scale_alpha=None,
@@ -1095,6 +1105,16 @@ def continue_tau_maxent(
                 "provider": "TRIQS/MaxEnt",
                 "version": version,
                 "config": settings.as_record(),
+                "native_minimizer": {
+                    "class": "LevenbergMinimizer",
+                    "marquardt": bool(recording_minimizer.marquardt),
+                    "J_squared": bool(recording_minimizer.J_squared),
+                    "mu0": float(recording_minimizer.mu0),
+                    "nu": float(recording_minimizer.nu),
+                    "max_mu": float(recording_minimizer.max_mu),
+                    "maxiter": int(recording_minimizer.maxiter),
+                    "convergence_scope": "native_stop_not_physical_accuracy",
+                },
                 "dataset": data.fingerprint,
                 "alpha_selection": (
                     "provider_chi2_training_discrepancy"

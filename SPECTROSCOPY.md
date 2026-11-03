@@ -16,7 +16,11 @@ after22/20 completed trials. The next candidate declares an interior mixture
 with the default distribution before optimization, recording its fraction and
 consistent derivatives. Its fixed-coordinate bias bound does not bound a new
 optimized solution. No held-out scoring, postprocessing clip, tolerance change
-or new Monte Carlo allocation occurs. The
+or new Monte Carlo allocation occurs. The mixture scout at33ab968 subsequently
+fails on singular native systems after18/15 completed trials. The next declared
+comparison captures failed systems and tests native diagonal-relative damping
+against identity damping; failed rows and overall failure remain visible.
+The
 [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records original artifacts, independent audits and remaining gates.
 

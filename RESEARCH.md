@@ -13065,3 +13065,39 @@ Actual installed probes and the consumed-data training scout must run on the
 new frozen source. No new sampling, held-out decisions, calibration/final claim
 or release closure follows from this contract. If promising, complete separately
 frozen calibration and appropriate untouched final validation for all providers.
+
+## EH captured-system and native relative-damping contract
+
+Interior-mixture source33ab968 passes full root2720/43skips/12subtests and real
+installed probes on Linux/macOS. Its training-only run41568996780 fails with
+native LinAlgError: Singular matrix, after18/15 completed converged alpha trials
+for flat/Gaussian. Preserve the failed receipt and log. Archive13200277093 is
+200252bytes, SHA256004f45f0691f1a3a28ca498eb1aefa867d0a7efe8897e205ccc9c6e46b9255f0;
+receiptSHAb89e61bbc81f74c277ae8375ac7d9b0eb9b397720c966109b72d4e05b6db8bde;
+logSHAbcef21130c9a422376ee2563fb321b05bd406e31b6c65f0e813d4709c697f436.
+No complete spectra, held-out scoring or raw allocation follow from this run.
+
+Next bounded diagnostic compares the unchanged native identity damping with
+the provider's explicit marquardt=True option, which uses diag(diag(J)). Keep
+the actual Levenberg code, objective, gradient, projected curvature, mixture
+fraction1e-12,33alpha/401frequency/1000iteration/mu0=1e-8 controls and all accuracy
+budgets. This is a declared native solver option, not an automatic fallback or
+a demonstrated fix. Absolute damping may be rounded away at the current matrix
+scale; capture and independent arithmetic are needed before attributing cause.
+
+Reuse the earlier solve-capture approach as a bounded observational helper:
+delegate every solve to the original NumPy function; only on LinAlgError save
+the exact rounded matrix, RHS and available native J,Id,mu,v with caller/source
+metadata, then re-raise the original error. Restore the prior solve function
+even on failure, cap saved arrays and never form an inverse or rescue a solve.
+Capture both declared damping cases for both defaults; retain complete trial
+families when returned and explicit failed rows otherwise. A failed control
+must stay failed in the diagnostic's overall outcome, even if the proposed
+relative-damping rows complete. Independent inspection of captured systems
+and candidate training predictions is diagnostic evidence, not acceptance.
+
+Expose the native damping flag explicitly, with False retaining old behavior
+and legacy rescale control fields. Actual installed probes must test the new
+flag. No covariance, spectral window, alpha ladder, iteration or scientific
+threshold changes; no clipping, substitute solver, new samples or held-out
+decisions. Full calibration and untouched final validation remain mandatory.

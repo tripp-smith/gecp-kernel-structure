@@ -2691,3 +2691,9 @@ A declared interior mixture Hε=M[εq+(1−ε)p] is being tested with ε=1e-12 a
 zero default. For equal coordinates in exact arithmetic its L1 perturbation is
 at most2Mε; this is not a bound after reoptimization, a floating-point certificate
 or a held-out success. Strict native guards and all scientific budgets remain.
+
+The actual33ab968 mixture scout passes both-platform interface checks but fails
+on singular native systems after18/15 completed converged trials. No complete
+spectrum is returned. Captured-system diagnostics and the provider's explicit
+relative-diagonal damping option are next tests under the same objective and
+accuracy budgets; no numerical cause or successful fix is yet established.

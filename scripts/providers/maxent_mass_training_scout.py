@@ -37,6 +37,7 @@ FIXED = {
     "training_points": 65,
     "expected_rank": 64,
     "models": ["flat", "broad_gaussian"],
+    "damping": {"identity": False, "marquardt": True},
     "quadrature_order": 12,
     "threads": 1,
     "provider_version": "4.0.1",
@@ -53,6 +54,7 @@ TRACKED = [
     "scripts/providers/installed_wheel.py",
     "scripts/providers/triqs_smoke.py",
     "scripts/providers/maxent_mass_smoke.py",
+    "scripts/providers/maxent_solve_capture.py",
     ".github/workflows/maxent-science.yml",
     "environments/triqs.yml",
     "environments/locks/triqs-linux-64-conda-explicit.txt",
@@ -142,12 +144,31 @@ def capture_fds(log):
 
 
 def output_hashes(directory):
-    names = ["worker.log", "flat-trials.npz", "broad_gaussian-trials.npz"]
+    names = ["worker.log"] + [
+        f"{damping}-{model}-{kind}.npz"
+        for damping in ("identity", "marquardt")
+        for model in ("flat", "broad_gaussian")
+        for kind in ("trials", "failed-solve")
+    ]
     return {
         name: hashlib.sha256((directory / name).read_bytes()).hexdigest()
         for name in names
         if (directory / name).is_file()
     }
+
+
+def summarize_cases(cases):
+    models = ("flat", "broad_gaussian")
+    candidate = all(
+        cases.get(f"marquardt/{model}", {}).get("status") == "completed"
+        for model in models
+    )
+    all_complete = all(
+        cases.get(f"{damping}/{model}", {}).get("status") == "completed"
+        for damping in ("identity", "marquardt")
+        for model in models
+    )
+    return candidate, "diagnostic_completed" if all_complete else "failed"
 
 
 def validate_training(np, tau, values, covariance):
@@ -175,7 +196,7 @@ def main():
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=False)
     receipt = {
-        "schema": "kernelgecp.maxent-training-scout.v3",
+        "schema": "kernelgecp.maxent-training-scout.v4",
         "status": "failed",
         "scope": (
             "consumed development data; training-only diagnostic; no heldout scoring "
@@ -183,6 +204,7 @@ def main():
         ),
         "fixed_controls": FIXED,
         "cases": {},
+        "candidate_completed": False,
     }
     stage = "source"
     with (
@@ -201,6 +223,10 @@ def main():
             )
             smoke = load_helper(
                 root / "scripts/providers/maxent_mass_smoke.py", "_scout_smoke"
+            )
+            capture = load_helper(
+                root / "scripts/providers/maxent_solve_capture.py",
+                "_scout_solve_capture",
             )
             identity = triqs.source_identity(root)
             if identity["source_revision"] != args.source_revision:
@@ -257,20 +283,32 @@ def main():
                     x["num_threads"] != 1 for x in pools.threadpool_info()
                 ):
                     raise RuntimeError("single-thread limit unavailable")
-                for model in ("flat", "broad_gaussian"):
+                for damping, model in (
+                    (damping, model)
+                    for damping in ("identity", "marquardt")
+                    for model in ("flat", "broad_gaussian")
+                ):
+                    token = f"{damping}-{model}"
+                    key = f"{damping}/{model}"
+                    capture_metadata = {}
                     try:
                         config = api.MaxEntConfig(
                             n_omega=401,
                             n_alpha=33,
                             maxiter=1000,
                             minimizer_mu0=1e-8,
+                            minimizer_marquardt=damping == "marquardt",
                             default_model=model,
                             normalize_mass=1.0,
                             mass_mode="constrained",
                             mass_curvature="projected",
                             mass_interior_fraction=1e-12,
                         )
-                        result = api.continue_tau_maxent(data, config)
+                        with capture.capture_failed_solve(
+                            args.output_dir / (token + "-failed-solve.npz"),
+                            capture_metadata,
+                        ):
+                            result = api.continue_tau_maxent(data, config)
                         predictions = forward12(
                             np, data.beta, tau, result.omega, result.trial_spectra
                         )
@@ -279,15 +317,16 @@ def main():
                             for row in predictions
                         ]
                         np.savez_compressed(
-                            args.output_dir / (model + "-trials.npz"),
+                            args.output_dir / (token + "-trials.npz"),
                             omega=result.omega,
                             trial_spectra=result.trial_spectra,
                             alphas=result.alphas,
                             chi2=result.chi2,
                             training_prediction=predictions,
                         )
-                        receipt["cases"][model] = {
+                        receipt["cases"][key] = {
                             "status": "completed",
+                            "solve_capture": capture_metadata,
                             "selected_index": result.selected_index,
                             "selected_alpha": float(
                                 result.alphas[result.selected_index]
@@ -301,8 +340,9 @@ def main():
                             "diagnostics": result.diagnostics,
                         }
                     except Exception as exc:
-                        receipt["cases"][model] = {
+                        receipt["cases"][key] = {
                             "status": "failed",
+                            "solve_capture": capture_metadata,
                             "type": type(exc).__name__,
                             "message": str(exc),
                             "partial_trial_limit": (
@@ -310,11 +350,9 @@ def main():
                                 "partial spectra unavailable"
                             ),
                         }
-                        print(f"{model} failed: {type(exc).__name__}: {exc}")
-            receipt["status"] = (
-                "diagnostic_completed"
-                if all(v["status"] == "completed" for v in receipt["cases"].values())
-                else "failed"
+                        print(f"{key} failed: {type(exc).__name__}: {exc}")
+            receipt["candidate_completed"], receipt["status"] = summarize_cases(
+                receipt["cases"]
             )
         except Exception as exc:
             receipt["error"] = {
