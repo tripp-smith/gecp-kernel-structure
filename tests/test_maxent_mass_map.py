@@ -147,3 +147,103 @@ def test_reject_unsupported_types_and_subnormal_mass():
             NormalizedMassMap([1, 1], [[0], [1]], mass)
     with pytest.raises(ValueError, match="real numeric"):
         example().f([1j, 0])
+
+
+@pytest.mark.parametrize("eps", [1e-3, 1e-12])
+def test_mixture_derivatives_default_and_roundtrip(eps):
+    x = np.linspace(-1, 1, 9)
+    weights = np.exp(x)
+    features = np.column_stack((x, x**2, np.ones(9)))
+    model = NormalizedMassMap(weights, features, 2.3, interior_fraction=eps)
+    v = np.array([0.3, -0.4])
+    np.testing.assert_allclose(model.f(np.zeros(2)), 2.3 * weights / weights.sum())
+    np.testing.assert_allclose(model.inv(model.f(v)), v, atol=1e-12)
+    step_size = 1e-5
+    for j in range(model.rank):
+        step = np.eye(model.rank)[j] * step_size
+        np.testing.assert_allclose(
+            (model.f(v + step) - model.f(v - step)) / (2 * step_size),
+            model.d(v)[:, j],
+            rtol=2e-8,
+            atol=1e-10,
+        )
+        np.testing.assert_allclose(
+            (model.d(v + step) - model.d(v - step)) / (2 * step_size),
+            model.dd(v)[:, :, j],
+            rtol=2e-8,
+            atol=1e-10,
+        )
+    np.testing.assert_allclose(model.d(v).sum(axis=0), 0, atol=1e-15)
+    np.testing.assert_allclose(model.dd(v).sum(axis=0), 0, atol=1e-15)
+    assert model.evaluation_diagnostics(v)["certification"] == "not_certified"
+    with pytest.raises(ValueError):
+        model.probabilities(v).setflags(write=True)
+
+
+def test_mixture_bound_independent_time_and_frequency_kernels():
+    x = np.linspace(-2, 2, 13)
+    features = np.column_stack((x, x**2))
+    old = NormalizedMassMap(np.exp(x), features, 1.7)
+    eps = 1e-3
+    mixture = NormalizedMassMap(np.exp(x), features, 1.7, interior_fraction=eps)
+    v = np.array([1.4, -0.8])
+    delta = mixture.f(v) - old.f(v)
+    bound = 2 * 1.7 * eps
+    assert np.sum(np.abs(delta)) <= bound
+    for tau in [0, 0.5, 5, 10]:
+        from scipy.special import expit
+
+        kernel = -np.exp(np.where(x >= 0, -tau * x, (10 - tau) * x)) * expit(
+            10 * abs(x)
+        )
+        assert abs(kernel @ delta) <= bound
+    for frequency in [0.1, 1.0, 10.0]:
+        assert abs(np.sum(delta / (1j * frequency - x))) <= bound / frequency
+
+
+def test_mixture_underflow_boundary_and_default_compatibility():
+    x = np.linspace(-1, 1, 7)
+    features = np.column_stack((x, x**2))
+    legacy = NormalizedMassMap(np.ones(7), features, 1)
+    explicit = NormalizedMassMap(np.ones(7), features, 1, interior_fraction=0)
+    v = [0.5, -0.4]
+    for method in ("f", "d", "dd", "probabilities"):
+        np.testing.assert_array_equal(
+            getattr(legacy, method)(v), getattr(explicit, method)(v)
+        )
+    mixed = NormalizedMassMap(np.ones(7), features, 1, interior_fraction=1e-12)
+    extreme = [1e5, 0]
+    with pytest.raises(NumericalBreakdownError):
+        legacy.f(extreme)
+    h = mixed.f(extreme)
+    diag = mixed.evaluation_diagnostics(extreme)
+    assert diag["latent_zero_count"] > 0 and diag["actual_mixture_floor"] > 0
+    assert np.all(h > 0) and np.isclose(h.sum(), 1)
+    assert np.isfinite(mixed.d(extreme)).all() and np.isfinite(mixed.dd(extreme)).all()
+    with pytest.raises(ValueError, match="boundary"):
+        mixed.inv(h)
+
+
+@pytest.mark.parametrize("eps", [-1, 1, float("nan"), float("inf"), True, 1e-20])
+def test_invalid_mixture_fraction(eps):
+    with pytest.raises(ValueError):
+        NormalizedMassMap([1, 1], [[0], [1]], 1, interior_fraction=eps)
+
+
+def test_unrepresentable_floor_rejected():
+    with pytest.raises(NumericalBreakdownError, match="floor"):
+        NormalizedMassMap([1e-300, 1e300], [[0], [1]], 1, interior_fraction=1e-12)
+
+
+def test_large_mass_mixture_bound_is_finite_or_rejected():
+    for eps, expected in [(0.0, 0.0), (1e-12, 2e296)]:
+        model = NormalizedMassMap(
+            [1.0, 1.0], [[0.0], [1.0]], 1e308, interior_fraction=eps
+        )
+        assert np.isfinite(model.f([0.0])).all()
+        assert np.isclose(model.diagnostics["analytic_fixed_v_l1_bound"], expected)
+        assert np.isclose(
+            model.evaluation_diagnostics([0.0])["analytic_fixed_v_l1_bound"], expected
+        )
+    with pytest.raises(NumericalBreakdownError, match="bound"):
+        NormalizedMassMap([1.0, 1.0], [[0.0], [1.0]], 1e308, interior_fraction=0.95)

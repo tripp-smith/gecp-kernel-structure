@@ -3294,3 +3294,11 @@ new sampling. Preserve this failure and test the provider's explicitly declared
 projected curvature under the same objective, exact gradient, Levenberg solver,
 budgets and guards. This is a numerical candidate, not calibration/final/release
 acceptance. Original mathematical goals and published1.1.0 remain unchanged.
+
+EH interior-mixture annotation (2026-11-02): projected training scout3badf9f
+also fails at the strict entropy floor, with no complete spectrum or held-out
+score. Develop an explicitly declared interior mixture atfraction1e-12, retaining
+zero as the default, native entropy/optimizer/guards and all scientific budgets.
+Its exact fixed-coordinate L1 bound does not establish closeness of optimized
+solutions. Independent derivative, native-provider, calibration and untouched
+final gates remain mandatory. Original mathematical goals and1.1.0 stay unchanged.

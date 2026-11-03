@@ -18,6 +18,7 @@ def test_legacy_mass_mode_and_explicit_constraint():
     assert MaxEntConfig(mass_mode="constrained").normalize_mass == 1.0
     assert "mass_mode" not in MaxEntConfig().as_record()
     assert "mass_curvature" not in MaxEntConfig().as_record()
+    assert "mass_interior_fraction" not in MaxEntConfig().as_record()
     assert MaxEntConfig(mass_mode="constrained").as_record()["mass_mode"] == (
         "constrained"
     )
@@ -37,6 +38,17 @@ def test_native_curvature_is_explicit_and_never_ignored():
             MaxEntConfig(mass_mode="constrained", mass_curvature=invalid)
     with pytest.raises(ValueError, match="requires constrained"):
         MaxEntConfig(mass_curvature="projected")
+
+
+def test_interior_fraction_is_explicit_and_never_ignored():
+    assert MaxEntConfig().mass_interior_fraction == 0.0
+    mixture = MaxEntConfig(mass_mode="constrained", mass_interior_fraction=1e-12)
+    assert mixture.as_record()["mass_interior_fraction"] == 1e-12
+    for invalid in (-1, 1, True, [], np.nan, 1e-30):
+        with pytest.raises(ValueError, match="mass_interior_fraction"):
+            MaxEntConfig(mass_mode="constrained", mass_interior_fraction=invalid)
+    with pytest.raises(ValueError, match="requires constrained"):
+        MaxEntConfig(mass_interior_fraction=1e-12)
 
 
 def test_constraint_rejects_mass_violation_instead_of_rescaling():

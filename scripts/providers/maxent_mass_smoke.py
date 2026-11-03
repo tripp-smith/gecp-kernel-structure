@@ -87,9 +87,13 @@ def native_cost_checks(np, native):
     err = np.array([0.2, 0.3, 0.4])
     alpha = 0.7
     reports, outputs = {}, {}
-    for mode in ("exact", "projected"):
+    for fraction, mode in (
+        (fraction, mode) for fraction in (0.0, 1e-12) for mode in ("exact", "projected")
+    ):
         kernel = kernels.DataKernel(np.arange(3, dtype=float), omega, matrix)
-        cost, hidden = native.make_native_mass_cost(1.0, curvature=mode)
+        cost, hidden = native.make_native_mass_cost(
+            1.0, curvature=mode, interior_fraction=fraction
+        )
         cost.K = kernel
         default = provider.DataDefaultModel(np.ones(9), omega)
         cost.D = default
@@ -175,7 +179,30 @@ def native_cost_checks(np, native):
             )
             if not np.isfinite(hess_error) or hess_error > 5e-4:
                 raise RuntimeError("exact native Hessian finite difference failed")
-        outputs[mode] = (value, gradient, curvature, chain)
+        outputs[(fraction, mode)] = (value, gradient, curvature, chain, h.copy())
+        underflow_checked = False
+        if fraction:
+            extreme = np.full(after, 3000.0)
+            extreme_h = hidden(extreme).f()
+            stats = hidden.diagnostics["last_evaluation"]
+            if (
+                stats["latent_zero_count"] == 0
+                or np.any(extreme_h <= 1e-100)
+                or not np.isfinite(hidden(extreme).d()).all()
+                or not np.isfinite(hidden(extreme).dd()).all()
+            ):
+                raise RuntimeError("latent-underflow safe mixture check failed")
+            q = default.D / np.sum(default.D)
+            boundary_p = np.ones(len(q)) / (len(q) - 1)
+            boundary_p[0] = 0.0
+            boundary = fraction * q + (1 - fraction) * boundary_p
+            try:
+                hidden(boundary).inv()
+            except ValueError:
+                pass
+            else:
+                raise RuntimeError("mixture boundary inverse was not rejected")
+            underflow_checked = True
         changed = provider.DataDefaultModel(np.exp(grid), omega)
         cost.D = changed
         new_h = hidden(np.zeros(hidden.input_size)).f()
@@ -193,7 +220,9 @@ def native_cost_checks(np, native):
                 raise
         else:
             raise RuntimeError("native entropy-floor regime was not rejected")
-        reports[mode] = {
+        reports[f"{mode}/{fraction:g}"] = {
+            "interior_fraction": fraction,
+            "latent_underflow_and_boundary_checked": underflow_checked,
             "rank_before_reduction": before,
             "rank_after_reduction": after,
             "gradient_max_scaled_error": grad_error,
@@ -208,21 +237,32 @@ def native_cost_checks(np, native):
             "writable_owned_inverse": True,
             "native_entropy_floor_rejected": True,
         }
-    exact, projected = outputs["exact"], outputs["projected"]
-    if (
-        not np.allclose(exact[0], projected[0], rtol=1e-12, atol=1e-12)
-        or not np.allclose(exact[1], projected[1], rtol=1e-12, atol=1e-12)
-        or not np.allclose(exact[2] - projected[2], exact[3], rtol=1e-9, atol=1e-9)
-    ):
-        raise RuntimeError(
-            "curvature modes differ in objective, gradient or chain term"
+    for fraction in (0.0, 1e-12):
+        exact, projected = (
+            outputs[(fraction, "exact")],
+            outputs[(fraction, "projected")],
         )
+        if (
+            not np.allclose(exact[0], projected[0], rtol=1e-12, atol=1e-12)
+            or not np.allclose(exact[1], projected[1], rtol=1e-12, atol=1e-12)
+            or not np.allclose(exact[2] - projected[2], exact[3], rtol=1e-9, atol=1e-9)
+        ):
+            raise RuntimeError(
+                "curvature modes differ in objective, gradient or chain term"
+            )
+    for mode in ("exact", "projected"):
+        delta = float(
+            np.sum(np.abs(outputs[(1e-12, mode)][4] - outputs[(0.0, mode)][4]))
+        )
+        if delta > 2e-12 + 1e-14:
+            raise RuntimeError("fixed-coordinate mixture bias bound failed")
+        reports[f"{mode}/1e-12"]["fixed_v_l1_difference"] = delta
     return reports
 
 
 def run_probe(root, expected_revision, require_installed):
     result = {
-        "schema": "kernelgecp.native-mass-interface-probe.v2",
+        "schema": "kernelgecp.native-mass-interface-probe.v3",
         "status": "failed",
         "scope": (
             "native interface probe only; not production calibration or acceptance"
@@ -305,9 +345,13 @@ def run_probe(root, expected_revision, require_installed):
                 data = api.SpectralDataset(
                     beta, tau, values, np.eye(len(tau)) * sigma**2
                 )
-                for mode, model in (
-                    (mode, model)
-                    for mode in ("exact", "projected")
+                for fraction, mode, model in (
+                    (fraction, mode, model)
+                    for fraction, mode in (
+                        (0.0, "exact"),
+                        (0.0, "projected"),
+                        (1e-12, "projected"),
+                    )
                     for model in ("flat", "broad_gaussian")
                 ):
                     config = api.MaxEntConfig(
@@ -319,6 +363,7 @@ def run_probe(root, expected_revision, require_installed):
                         normalize_mass=1.0,
                         mass_mode="constrained",
                         mass_curvature=mode,
+                        mass_interior_fraction=fraction,
                     )
                     spectrum = api.continue_tau_maxent(data, config)
                     trials = spectrum.trial_spectra
@@ -337,6 +382,7 @@ def run_probe(root, expected_revision, require_installed):
                         or not np.isfinite(spectrum.normalized_training_whitened_rms)
                         or not param
                         or param["curvature"] != mode
+                        or param["interior_fraction"] != fraction
                         or not 0 < param["effective_rank"] <= param["original_rank"]
                         or not np.isfinite(param["retained_condition"])
                         or not np.isfinite(spectrum.chi2).all()
@@ -344,7 +390,7 @@ def run_probe(root, expected_revision, require_installed):
                         raise RuntimeError(
                             "native constrained trial validation failed: " + model
                         )
-                    result["cases"][mode + "/" + model] = {
+                    result["cases"][f"{mode}/{fraction:g}/{model}"] = {
                         "trial_masses": masses.tolist(),
                         "converged": list(spectrum.converged),
                         "iterations": list(spectrum.iterations),

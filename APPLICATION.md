@@ -1742,6 +1742,16 @@ the optimization path can differ and convergence is not assured. Rescale mode
 rejects this nondefault curvature instead of ignoring it. The real training-only
 exact-curvature scout fails at the entropy floor; projected scientific
 acceptance remains open.
+The projected real-training scout also fails before completing the alpha grid.
+An explicit `mass_interior_fraction` candidate reserves a declared fraction of
+the normalized default distribution inside the optimized image; its default
+is zero. This is a restricted spectral family, with consistent derivatives and
+no postprocessing clip. A fraction of `1e-12` has an exact-arithmetic L1 change
+at most `2 * normalize_mass * 1e-12` for the same latent coordinates. That bound
+does not control differences after optimization, alpha selection or covariance
+whitening. Nonzero fractions require constrained mode. Latent underflow counts,
+actual image floors and numerical failures remain visible; scientific acceptance
+is still required.
 `MaxEntConfig.as_record()`
 preserves the legacy rescale control fields and records the nondefault mode
 explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;

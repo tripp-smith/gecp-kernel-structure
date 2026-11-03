@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import copy
 import importlib
+import math
 from collections.abc import Callable
+from numbers import Real
 from typing import Any, TypeVar, cast
 
 import numpy as np
@@ -21,7 +23,9 @@ FloatArray = NDArray[np.float64]
 _F = TypeVar("_F", bound=Callable[..., Any])
 
 
-def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any, Any]:
+def make_native_mass_cost(
+    mass: float, *, curvature: str = "exact", interior_fraction: float = 0.0
+) -> tuple[Any, Any]:
     """Create a native cost function and its normalized H(v) component.
 
     TRIQS reduces the kernel's singular space immediately before calling inv;
@@ -30,6 +34,15 @@ def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any
     """
     if curvature not in ("exact", "projected"):
         raise ValueError("curvature must be exact or projected")
+    if (
+        isinstance(interior_fraction, bool)
+        or not isinstance(interior_fraction, Real)
+        or not math.isfinite(interior_fraction)
+        or not 0 <= interior_fraction < 1
+    ):
+        raise ValueError("interior_fraction must be finite and in [0, 1)")
+    if interior_fraction > 0 and 1.0 - interior_fraction == 1.0:
+        raise ValueError("interior_fraction is not representable in mixture scale")
     functions = importlib.import_module("triqs_maxent.functions")
     costs = importlib.import_module("triqs_maxent.cost_functions")
     generic_h: Any = functions.GenericH_of_v
@@ -39,7 +52,15 @@ def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any
 
     class NativeNormalizedH(generic_h):  # type: ignore[misc]
         def __init__(self) -> None:
-            self._mass_state: dict[str, Any] = {"map": None}
+            self._mass_state: dict[str, Any] = {
+                "map": None,
+                "last_evaluation": None,
+                "max_latent_zero_count": 0,
+                "evaluation_count": 0,
+                "min_observed_H": None,
+                "min_observed_mixture_floor": None,
+                "min_observed_q": None,
+            }
             super().__init__()
 
         def parameter_change(self) -> None:
@@ -52,9 +73,10 @@ def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any
                     np.asarray(self.D.D, dtype=np.float64),
                     np.asarray(self.K.V, dtype=np.float64),
                     mass,
+                    interior_fraction=interior_fraction,
                 )
                 self._mass_state["map"] = current
-            return current  # type: ignore[no-any-return]
+            return current
 
         @property
         def input_size(self) -> tuple[int]:
@@ -69,6 +91,14 @@ def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any
                 dA_projection=2,
                 chi2_factor=1.0,
                 floor_policy="reject_native_entropy_floor_or_overflow",
+                last_evaluation=copy.deepcopy(self._mass_state["last_evaluation"]),
+                max_latent_zero_count=self._mass_state["max_latent_zero_count"],
+                evaluation_count=self._mass_state["evaluation_count"],
+                min_observed_H=self._mass_state["min_observed_H"],
+                min_observed_mixture_floor=self._mass_state[
+                    "min_observed_mixture_floor"
+                ],
+                min_observed_q=self._mass_state["min_observed_q"],
             )
             return result
 
@@ -79,6 +109,25 @@ def make_native_mass_cost(mass: float, *, curvature: str = "exact") -> tuple[Any
             # the immutable mathematical map remains isolated from that state.
             mapping = self._map()
             image = mapping.f(v)
+            observation = dict(mapping.evaluation_diagnostics(v))
+            observation["min_q"] = float(
+                np.min(mapping.probabilities(np.zeros(mapping.rank)))
+            )
+            for key, value in (
+                ("min_observed_H", observation["min_H"]),
+                ("min_observed_mixture_floor", observation["actual_mixture_floor"]),
+                ("min_observed_q", observation["min_q"]),
+            ):
+                previous = self._mass_state[key]
+                self._mass_state[key] = (
+                    value if previous is None else min(previous, value)
+                )
+            self._mass_state["last_evaluation"] = observation
+            self._mass_state["evaluation_count"] += 1
+            self._mass_state["max_latent_zero_count"] = max(
+                self._mass_state["max_latent_zero_count"],
+                observation["latent_zero_count"],
+            )
             # NormalEntropy floors H, D and H/D at 1e-100. Reject that
             # numerical regime before its in-place changes can invalidate the
             # chain-rule derivatives or alter the caller's default model.

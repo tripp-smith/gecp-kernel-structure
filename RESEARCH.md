@@ -13023,3 +13023,45 @@ Retain completed native failure history even for our own NumericalBreakdownError
 partial spectra remain unavailable. No clipping or infinite trial-cost workaround.
 Calibration, untouched final validation, bootstrap/provider comparisons, complete
 release eligibility and public1.2 remain open; all accuracy budgets stay fixed.
+
+## EH explicit interior-mixture development contract
+
+Projected source3badf9f passes full root2702/43skips/12subtests and actual
+installed Linux/macOS exact/projected interface cases. Its real training-only
+run41536551737 still fails at the strict entropy floor, after22/20 completed
+converged trials for flat/Gaussian. Preserve the failed receipt and log. Archive
+13185112540 is198811bytes, SHA256
+cf65b00e7af5dc7a1c045ef4ad02fc823e6319e71cf7dd5c62185aaf3e527636;
+receiptSHA5bc9ea8d9ab0b54360d982790d019a7ad665f5eaadde33f6584092d268aef577;
+logSHAbf579e7be5adc64bc29825c75ecd79e6c1387a36ee14766bbca687ff158d8e5a.
+There is no complete returned spectrum, held-out scoring or new raw allocation.
+
+Next candidate is an explicit restricted spectral family, not a claim to repair
+the same optimum: Hε(v)=M[εq+(1−ε)p(v)], q=D/sum(D), p=softmax(log(D)+Bv).
+Declare ε=1e-12 for this training-only candidate and preserve ε=0 by default.
+Keep the actual native entropy and Levenberg solver, projected curvature,
+33-alpha/401-frequency grids, iteration/damping controls and every accuracy
+budget. Apply the mixture before optimization with its own consistent gradient,
+Hessian and inverse; never clip or rescale a delivered trial to rescue a failure.
+
+At fixed coordinates in exact arithmetic, L1(Hε−H0)≤2Mε. A time kernel bounded
+by one gives physical error≤2Mε, and the real-energy Matsubara kernel gives
+≤2Mε/|ω|. These bounds neither certify floating arithmetic nor bound changes
+after optimization, alpha selection or covariance whitening. Independently
+check derivatives, mixed-default initialization, inverse interior/boundary
+behavior, gauge/rank/resource caps and these finite-model controls.
+
+Allow underflowed softmax components only when the explicit mixture remains
+finite, positive and normalized; derive both derivatives from p, not H/M.
+Record zero counts and actual floor minima. Keep strict native checks on H,D
+and H/D, rejecting an insufficient or unrepresentable interior floor. A point
+with zero recovered p has no finite inverse and must fail instead of clipping.
+Derivative rank loss and misleading small-gradient convergence remain risks;
+native convergence is reported separately from physical accuracy.
+
+Expose mass_interior_fraction in constrained-mode controls, reject ignored
+nonzero settings in rescale mode and retain legacy rescale record fields.
+Actual installed probes and the consumed-data training scout must run on the
+new frozen source. No new sampling, held-out decisions, calibration/final claim
+or release closure follows from this contract. If promising, complete separately
+frozen calibration and appropriate untouched final validation for all providers.

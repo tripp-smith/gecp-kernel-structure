@@ -98,3 +98,17 @@ def test_invalid_native_curvature_rejected_before_provider_import(monkeypatch):
     monkeypatch.setattr(native.importlib, "import_module", fail_import)
     with pytest.raises(ValueError, match="curvature"):
         native.make_native_mass_cost(1.0, curvature="invalid")
+
+
+@pytest.mark.parametrize("fraction", [-1.0, 1.0, float("nan"), True, 1e-20])
+def test_invalid_interior_fraction_rejected_before_provider_import(
+    monkeypatch, fraction
+):
+    from kernelgecp.integrations import _maxent_native_mass as native
+
+    def fail_import(name):
+        raise AssertionError("provider import was attempted")
+
+    monkeypatch.setattr(native.importlib, "import_module", fail_import)
+    with pytest.raises(ValueError, match="interior_fraction"):
+        native.make_native_mass_cost(1.0, interior_fraction=fraction)

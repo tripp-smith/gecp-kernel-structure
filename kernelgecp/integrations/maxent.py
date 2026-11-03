@@ -709,7 +709,10 @@ class MaxEntConfig:
     The rescale default applies mass after fitting. Constrained mode instead
     uses a normalized native parameterization and exact chain-rule gradient.
     Its curvature is explicitly exact or native projected; numerical rank and
-    resource limits are recorded. Convergence is not assured.
+    resource limits are recorded. A nonzero mass_interior_fraction declares an
+    affine mixture with the default distribution before optimization. Its
+    fixed-coordinate bias bound does not bound changes after optimization.
+    Convergence is not assured.
     """
 
     omega_min: float = -4.0
@@ -724,6 +727,7 @@ class MaxEntConfig:
     minimizer_mu0: float = 1e-18
     mass_mode: str = "rescale"
     mass_curvature: str = "exact"
+    mass_interior_fraction: float = 0.0
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -763,6 +767,18 @@ class MaxEntConfig:
             raise ValueError("mass_curvature must be exact or projected")
         if self.mass_mode != "constrained" and self.mass_curvature != "exact":
             raise ValueError("projected mass_curvature requires constrained mass_mode")
+        fraction = self.mass_interior_fraction
+        if (
+            isinstance(fraction, (bool, np.bool_))
+            or not isinstance(fraction, (int, float, np.integer, np.floating))
+            or not math.isfinite(fraction)
+            or not 0 <= fraction < 1
+        ):
+            raise ValueError("mass_interior_fraction must be finite and in [0, 1)")
+        if fraction > 0 and 1.0 - fraction == 1.0:
+            raise ValueError("mass_interior_fraction is not representable in scale")
+        if self.mass_mode != "constrained" and fraction != 0:
+            raise ValueError("mass_interior_fraction requires constrained mass_mode")
 
     def as_record(self) -> dict[str, Any]:
         """Preserve legacy rescale receipts; record an explicit nondefault mode."""
@@ -770,6 +786,7 @@ class MaxEntConfig:
         if self.mass_mode == "rescale":
             result.pop("mass_mode")
             result.pop("mass_curvature")
+            result.pop("mass_interior_fraction")
         return result
 
 
@@ -948,7 +965,9 @@ def continue_tau_maxent(
 
         assert settings.normalize_mass is not None
         cost_function, mass_parameterization = make_native_mass_cost(
-            settings.normalize_mass, curvature=settings.mass_curvature
+            settings.normalize_mass,
+            curvature=settings.mass_curvature,
+            interior_fraction=settings.mass_interior_fraction,
         )
     solver = provider.TauMaxEnt(
         cost_function=cost_function,

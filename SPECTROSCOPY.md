@@ -11,9 +11,12 @@ Candidate `f1663ed` passes actual installed Linux/macOS native interface probes;
 it has no new scientific calibration/final acceptance. The fixed-control scout
 at2df694e fails explicitly for both defaults at the native entropy floor before
 completing the alpha grid. Its consumed training observations remain development
-data. An explicit native projected-curvature option is now being tested with
-the same objective, exact gradient and Levenberg minimizer. No held-out scoring,
-clipping, tolerance change or new Monte Carlo allocation occurs. The
+data. The projected-curvature scout at3badf9f also fails at the strict floor,
+after22/20 completed trials. The next candidate declares an interior mixture
+with the default distribution before optimization, recording its fraction and
+consistent derivatives. Its fixed-coordinate bias bound does not bound a new
+optimized solution. No held-out scoring, postprocessing clip, tolerance change
+or new Monte Carlo allocation occurs. The
 [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records original artifacts, independent audits and remaining gates.
 
