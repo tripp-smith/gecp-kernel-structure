@@ -3286,3 +3286,11 @@ on raw RMS2.8853>2 after successful raw acquisition/audit; the cohort is consume
 Candidate f1663ed passes actual installed Linux/macOS mass-interface probes only.
 Calibration, untouched final science, complete release eligibility and public1.2
 remain required; original mathematical goals and numerical budgets are unchanged.
+
+EJ molecular-payload annotation (2026-11-02): add isolated exact-source replay
+of saved four-case Green molecular data, with file/cohort/gate checks, immutable
+input handling and a300-second audit timeout. Twelve structural tests and an
+independent source review pass; actual full-provider payload execution remains
+required and is wired into native CI. This is a gate component, not complete
+release eligibility. EH measured mass scouts still fail; original mathematical
+goals, all scientific budgets and published1.1.0 artifacts are unchanged.

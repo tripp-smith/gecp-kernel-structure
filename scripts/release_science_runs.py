@@ -52,6 +52,7 @@ ROLES = {
                 "Check actual HDF5 interoperability and independent FCI references",
                 "Generate the frozen scientific comparison",
                 "Independently audit the comparison",
+                "Independently replay the molecular release payload",
             ]
         },
         ["molecular-green-native-linux"],

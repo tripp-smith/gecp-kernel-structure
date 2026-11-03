@@ -12966,3 +12966,26 @@ cohort is now development evidence. Separate EH candidate f1663ed passes actual
 installed constrained-mass interface probes on Linux/macOS (41531870983), not
 scientific calibration or final acceptance. No tolerance, old artifact or
 source-equivalence waiver changes. The canonical PR146 receipt holds bindings.
+
+
+## EJ molecular saved-payload audit component contract
+
+Independently replay the existing molecular auditor in a detached checkout at
+the authenticated expected revision, using a supplied pinned molecular runtime.
+Bind the native four-case cohort and saved inputs to that revision and their
+recorded hashes, reject unsafe links and orphan comparison files, and validate
+the recomputed gates and cohort. Preserve each attempt and its failure receipt.
+Caller authentication and safe materialization remain prerequisites; this is
+not whole-release eligibility or installed-package acceptance. Synthetic fixture
+tests are not actual-provider evidence. Full root and exact-head CI remain open.
+
+Output containment is checked before creating any attempt directory, including
+dot-dot and symlink paths. Independent replay has a 300-second timeout with
+partial output and failure retained; unsafe output paths leave inputs untouched.
+
+Wire this component into the actual four-case native molecular workflow after
+the existing scientific comparison audit, and require that successful step in
+release metadata selection. Write its new attempt outside the input payload;
+copy it into uploaded diagnostics only after the audit finishes. The uploaded
+receipt is diagnostic evidence; final eligibility still independently replays
+the authenticated payload. No full-provider or phase acceptance is claimed yet.

@@ -2670,6 +2670,13 @@ main because an exact-main molecular run is absent. These checks are gate
 components, not complete scientific eligibility, native 1.2 execution,
 publication or a new numerical theorem. The historical baseline is not a waiver.
 
+The molecular saved-payload component adds private exact-source independent
+replay with hashes, cohort/gate validation and a fixed timeout. Review found
+and fixed an output-containment bug before release. Structural tests do not
+establish compatibility with a complete native payload; the dedicated native
+CI execution remains required. No new molecular accuracy or release acceptance
+is claimed by this component.
+
 
 ### EJ verified runtime/ED component and payload-input checks
 
