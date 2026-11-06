@@ -62,7 +62,7 @@ def stable_environment(p):
 
 
 def controls(profile="v2"):
-    if profile not in ("v2", "v3"):
+    if profile not in ("v2", "v3", "v4"):
         raise ValueError("unsupported spectroscopy profile")
     result = {
         "profile": "corrective_projection_v2_synthetic_binary64",
@@ -82,7 +82,7 @@ def controls(profile="v2"):
         "bootstrap_first_repeat": 8,
         "repeats": REPEATS,
     }
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         result.update(
             profile="constrained_mass_v3_synthetic_binary64",
             final_seeds=[5001, 5002, 5003],
@@ -93,6 +93,11 @@ def controls(profile="v2"):
             minimizer_marquardt=True,
             maxiter=1000,
             calibration_scope="consumed_development",
+        )
+    if profile == "v4":
+        result.update(
+            profile="constrained_mass_v4_synthetic_binary64",
+            mass_curvature_floor_relative=1e-10,
         )
     return result
 
@@ -108,7 +113,9 @@ def jobs(calibration, profile="v2"):
                         "method": method,
                         "default_model": model,
                         "seed": (
-                            101 if calibration else (5001 if profile == "v3" else 4001)
+                            101
+                            if calibration
+                            else (5001 if profile in ("v3", "v4") else 4001)
                         )
                         + ci,
                         "eps": 1e-8,
@@ -119,12 +126,12 @@ def jobs(calibration, profile="v2"):
                         "minimizer_mu0": 1e-8,
                         "query_order": 24
                         if calibration
-                        else (80 if profile == "v3" else 64),
+                        else (80 if profile in ("v3", "v4") else 64),
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
                     }
-                    if profile == "v3":
+                    if profile in ("v3", "v4"):
                         job["profile"] = profile
                     yield job
 
@@ -157,7 +164,7 @@ def validate_child(job, result, env, directory):
     for k in ("default_model", "n_omega", "n_alpha", "minimizer_mu0"):
         if config.get(k) != job[k]:
             raise ValueError(f"child config {k} mismatch")
-    if job.get("profile") == "v3" and (
+    if job.get("profile") in ("v3", "v4") and (
         config.get("mass_mode") != "constrained"
         or config.get("mass_curvature") != "projected"
         or config.get("mass_interior_fraction") != 1e-12
@@ -165,6 +172,13 @@ def validate_child(job, result, env, directory):
         or config.get("maxiter") != 1000
     ):
         raise ValueError("child v3 mass controls mismatch")
+    if (
+        job.get("profile") == "v4"
+        and config.get("mass_curvature_floor_relative") != 1e-10
+    ) or (
+        job.get("profile", "v2") != "v4" and "mass_curvature_floor_relative" in config
+    ):
+        raise ValueError("child curvature floor mismatch")
     if result.get("provenance") != {
         k: v for k, v in env.items() if k != "python_executable"
     }:
@@ -236,8 +250,8 @@ def child_command(python, job, output):
         "--output",
         str(output),
     ]
-    if job.get("profile") == "v3":
-        cmd += ["--profile", "v3"]
+    if job.get("profile") in ("v3", "v4"):
+        cmd += ["--profile", job["profile"]]
     return cmd + (["--pilot"] if job["pilot"] else [])
 
 
@@ -450,7 +464,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--freeze", type=Path, required=True)
     parser.add_argument("--python", default=sys.executable)
-    parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
+    parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     args = parser.parse_args()
     try:
         result = execute(

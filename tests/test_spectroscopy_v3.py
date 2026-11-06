@@ -116,8 +116,9 @@ def test_v3_independent_controls_reject_post_fit_rescale_configuration():
         campaign.validate_child(row, result, {}, None)
 
 
+@pytest.mark.parametrize("profile", ["v3", "v4"])
 def test_v3_native_failure_retains_exact_solve_and_restores_numpy(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, profile
 ):
     import json
 
@@ -140,6 +141,7 @@ def test_v3_native_failure_retains_exact_solve_and_restores_numpy(
         mass_curvature="projected",
         mass_interior_fraction=1e-12,
         minimizer_marquardt=True,
+        **({"mass_curvature_floor_relative": 1e-10} if profile == "v4" else {}),
     )
     with pytest.raises(np.linalg.LinAlgError):
         science.run_case(
@@ -150,10 +152,11 @@ def test_v3_native_failure_retains_exact_solve_and_restores_numpy(
             config.as_record(),
             output,
             pilot=True,
-            profile="v3",
+            profile=profile,
         )
     assert np.linalg.solve is prior
     record = json.loads(output.read_text())
+    assert record["schema"] == "kernelgecp.spectroscopy-case." + profile
     assert record["status"] == "failed"
     assert record["solve_capture"]["status"] == "captured"
     assert record["stage"] == "native_tau_maxent"

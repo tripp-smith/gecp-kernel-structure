@@ -576,6 +576,61 @@ def audit_projection(record, arrays, method):
     close(p, oracle, "independent projection", atol=2e-8, rtol=1e-8)
 
 
+def audit_curvature_metric(parameter, config):
+    metric = parameter.get("curvature_metric")
+    if config.get("mass_curvature_floor_relative") != 1e-10:
+        require(metric is None, "unexpected curvature metric")
+        return
+    require(
+        isinstance(metric, dict)
+        and metric.get("certified") is False
+        and type(metric.get("evaluation_count")) is int
+        and metric["evaluation_count"] > 0,
+        "curvature metric evaluation",
+    )
+    value = metric.get("last_evaluation")
+    require(
+        isinstance(value, dict)
+        and value.get("certified") is False
+        and value.get("floor_relative") == 1e-10
+        and type(value.get("dimension")) is int
+        and 1 <= value["dimension"] <= 128,
+        "curvature metric identity",
+    )
+    keys = (
+        "scale",
+        "normalized_min_eigenvalue",
+        "normalized_max_eigenvalue",
+        "normalized_shift",
+        "shift",
+        "shifted_normalized_min_eigenvalue",
+        "shifted_normalized_max_eigenvalue",
+        "condition_estimate",
+    )
+    require(
+        all(type(value.get(k)) in (int, float) and np.isfinite(value[k]) for k in keys),
+        "curvature metric finite estimates",
+    )
+    lo, hi = value["normalized_min_eigenvalue"], value["normalized_max_eigenvalue"]
+    shifted_lo = value["shifted_normalized_min_eigenvalue"]
+    shifted_hi = value["shifted_normalized_max_eigenvalue"]
+    shift = value["normalized_shift"]
+    require(
+        value["scale"] > 0
+        and lo <= hi
+        and shift >= 0
+        and np.isclose(
+            shift, max(0.0, 1e-10 * value["dimension"] - lo), rtol=1e-12, atol=1e-15
+        )
+        and np.isclose(value["shift"], shift * value["scale"], rtol=1e-12, atol=0)
+        and 0 < shifted_lo <= shifted_hi
+        and np.isclose(
+            value["condition_estimate"], shifted_hi / shifted_lo, rtol=1e-12
+        ),
+        "curvature metric inconsistent estimates",
+    )
+
+
 def audit_v3_native_metadata(diagnostics, config):
     param = diagnostics.get("mass_parameterization", {})
     require(
@@ -596,6 +651,7 @@ def audit_v3_native_metadata(diagnostics, config):
         and diagnostics.get("native_minimizer", {}).get("maxiter") == 1000,
         "native mass and damping metadata",
     )
+    audit_curvature_metric(param, config or {})
     for key in ("min_observed_H", "min_observed_mixture_floor"):
         value = param.get(key)
         require(
@@ -605,7 +661,7 @@ def audit_v3_native_metadata(diagnostics, config):
 
 
 def audit_case(path, method, model, repeat, stats, *, profile="v2"):
-    require(profile in ("v2", "v3"), "profile")
+    require(profile in ("v2", "v3", "v4"), "profile")
     d = read(path)
     npz = path.with_suffix(".npz")
     require(
@@ -644,9 +700,10 @@ def audit_case(path, method, model, repeat, stats, *, profile="v2"):
                     "mass_interior_fraction": 1e-12,
                     "minimizer_marquardt": True,
                 }
-                if profile == "v3"
+                if profile in ("v3", "v4")
                 else {}
             ),
+            **({"mass_curvature_floor_relative": 1e-10} if profile == "v4" else {}),
         },
         "solver controls",
     )
@@ -798,7 +855,7 @@ def audit_case(path, method, model, repeat, stats, *, profile="v2"):
     require(eligible.any(), "convergence")
     # Integrate all eligible piecewise-linear spectra with adaptive SciPy quadrature.
     indices = np.flatnonzero(eligible)
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(
             np.all(trials > 0) and np.all(np.abs(masses - 1.0) <= 1e-10),
             "native trial masses or positivity",
@@ -848,9 +905,11 @@ def audit_case(path, method, model, repeat, stats, *, profile="v2"):
     require(d["selected_index"] == idx, "alpha selection")
     raw = masses[idx]
     close(
-        den, trials[idx] if profile == "v3" else trials[idx] / raw, "selected spectrum"
+        den,
+        trials[idx] if profile in ("v3", "v4") else trials[idx] / raw,
+        "selected spectrum",
     )
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(np.array_equal(den, trials[idx]), "post-fit constrained rescale")
         audit_v3_native_metadata(diagnostics, d["config"])
     prediction = forward(a["query"], w, den)
@@ -873,7 +932,7 @@ def audit_case(path, method, model, repeat, stats, *, profile="v2"):
         require(np.array_equal(ix, a["bootstrap_indices"]), "bootstrap indices")
         bw = []
         for i, x in enumerate(a["bootstrap_spectra"]):
-            if profile == "v3":
+            if profile in ("v3", "v4"):
                 rec = d["bootstrap_records"][i]
                 require(
                     abs(rec["raw_mass"] - 1) <= 1e-10 and np.all(x > 0),
@@ -903,7 +962,7 @@ def audit_case(path, method, model, repeat, stats, *, profile="v2"):
     return d, a
 
 
-def check_snapshot(snapshot):
+def check_snapshot(snapshot, profile="v2"):
     require(
         isinstance(snapshot, dict)
         and snapshot.get("revision")
@@ -944,6 +1003,8 @@ def check_snapshot(snapshot):
         "environments/locks/triqs-maxent-pip.txt",
         "environments/locks/dlr-physics-pip.txt",
     }
+    if profile == "v4":
+        required.add("kernelgecp/integrations/_maxent_curvature.py")
     require(
         required.issubset(snapshot["sources"]), "incomplete scientific source inventory"
     )
@@ -1123,7 +1184,7 @@ def campaign_audit(
     *,
     profile="v2",
 ):
-    require(profile in ("v2", "v3"), "profile")
+    require(profile in ("v2", "v3", "v4"), "profile")
     campaign = Path(campaign)
     m = read(campaign)
     stage = (
@@ -1191,7 +1252,7 @@ def campaign_audit(
         "final_training_count": 128,
         "final_heldout_count": 128,
     }
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         expected_protocol.update(
             profile="native_interior_v3",
             final_seed_base=34100001,
@@ -1202,8 +1263,12 @@ def campaign_audit(
             maxiter=1000,
             development_scope="9d28053_cohort_consumed_development",
         )
+    if profile == "v4":
+        expected_protocol.update(
+            profile="native_shifted_curvature_v4", mass_curvature_floor_relative=1e-10
+        )
     require(protocol == expected_protocol, "protocol")
-    check_snapshot(m["snapshot"])
+    check_snapshot(m["snapshot"], profile)
     if stage == "final":
         require(
             calibration is not None and calibration_audit is not None,
@@ -1388,7 +1453,7 @@ def main():
     p.add_argument("--calibration", type=Path)
     p.add_argument("--calibration-audit", type=Path)
     p.add_argument("--output", type=Path, required=True)
-    p.add_argument("--profile", choices=["v2", "v3"], default="v2")
+    p.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     a = p.parse_args()
     try:
         r = campaign_audit(

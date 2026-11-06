@@ -114,10 +114,10 @@ jobs:
           from pathlib import Path
           result = json.loads(Path('artifacts/fixed-bath/result.json').read_text())
           profile = os.environ['SCIENCE_PROFILE']
-          assert profile in ('v2', 'v3')
+          assert profile in ('v2', 'v3', 'v4')
           assert result['schema'] == 'kernelgecp.cthyb-fixed-bath-result.' + profile
           assert len(result['chains']) == int(os.environ['EXPECTED']), 'segment incomplete; preserve checkpoint and stop'
-          seed_base = 34100001 if profile == 'v3' else 33100001
+          seed_base = 34100001 if profile in ('v3', 'v4') else 33100001
           assert [x['seed'] for x in result['chains']] == [seed_base+2*i for i in range(len(result['chains']))]
           PYCHECK
       - uses: actions/upload-artifact@v4

@@ -33,9 +33,9 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: Frozen protocol version; v3 is the explicit unit-mass candidate
+        description: Frozen protocol version; v4 adds an explicit shifted-curvature floor
         type: choice
-        options: [v2, v3]
+        options: [v2, v3, v4]
         default: v2
         required: true
       acquire_fixed_bath:

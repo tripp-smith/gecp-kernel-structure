@@ -2040,3 +2040,15 @@ V2 remains the default. V3 fixes projected curvature, interior fraction1e-12
 and native Marquardt damping before optimization; every selected spectrum and
 bootstrap retains the native mass operation in diagnostics. Its consumed-data
 training scout is promising, but production scientific acceptance remains open.
+
+### Experimental constrained-MaxEnt curvature metric
+
+The in-development `MaxEntConfig.mass_curvature_floor_relative` is zero by
+default and is omitted from historical records when zero. A positive value
+requires explicit constrained mass and projected curvature. It symmetrizes and
+shifts the projected optimization metric using estimated eigenvalues; it does
+not add a ridge to the objective or change its chain-rule gradient. Numerical
+scale, resource or positivity failures raise explicitly. Diagnostics are finite
+floating-point estimates, not certificates or convergence guarantees. The v4
+application candidate uses1e-10 and requires separate provider calibration and
+untouched final acceptance. Actual native MaxEnt remains the optimizer.

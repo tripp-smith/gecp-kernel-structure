@@ -1,0 +1,16 @@
+{
+  "scope": "conditional shifted-metric scout on saved failed linear system only; no optimizer or heldout data",
+  "matrix_dimension": 29,
+  "max_abs_sym_J": 1043157.1532344315,
+  "relative_asymmetry": 1.3391883069504005e-15,
+  "normalized_J_eig_min_estimate": -3.880067166105929e-16,
+  "normalized_J_eig_max_estimate": 4.1382433062142105,
+  "declared_relative_floor": 1e-10,
+  "normalized_target_eigen_floor": 2.9e-09,
+  "normalized_shift": 2.9000003880067166e-09,
+  "absolute_shift": 0.0030251561491318334,
+  "shifted_metric_condition_estimate": 1426980312.8510962,
+  "shifted_metric_solve_relative_residual": 5.322824363453576e-15,
+  "objective_or_gradient_modified": false,
+  "proof_status": "binary64_estimates_not_certificate"
+}

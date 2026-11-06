@@ -3327,3 +3327,12 @@ Linux/macOS interfaces, but41603543319 fails on a native singular solve in the
 first synthetic raw/flat case after12 trials. Preserve the complete failed
 artifact and add bounded observational matrix capture. No scientific threshold,
 accepted domain objective, final seed allocation or failed status is changed.
+
+EH captured-failure/v4 annotation (2026-11-06):3fb9a0a calibration41606643817
+passes, but canonical41617127989 fails in repeated synthetic calibration before
+any final generation. Preserve the failure and its finite-matrix diagnostic.
+Develop an explicitly shifted projected-curvature metric at relativefloor1e-10
+without changing objective, gradient, native optimizer or scientific budgets.
+Defaults and historical v2/v3 meanings remain unchanged. New source/provider
+calibration, untouched final science and all release/main gates remain mandatory;
+no original mathematical or application objective is rewritten.

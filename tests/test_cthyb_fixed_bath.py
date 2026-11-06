@@ -336,7 +336,8 @@ def test_fresh_seed_allocation_and_split():
     assert [driver.role(i) for i in range(256)] == ["train"] * 128 + ["heldout"] * 128
 
 
-def test_v3_freeze_is_versioned_and_rejects_v2_resume(monkeypatch, tmp_path):
+@pytest.mark.parametrize("profile", ["v3", "v4"])
+def test_v3_freeze_is_versioned_and_rejects_v2_resume(monkeypatch, tmp_path, profile):
     config = CTHYBConfig(n_iw=8, n_tau=49)
     parent, binding, output = (tmp_path / n for n in ("parent", "binding", "cohort"))
     monkeypatch.setattr(
@@ -345,23 +346,23 @@ def test_v3_freeze_is_versioned_and_rejects_v2_resume(monkeypatch, tmp_path):
     monkeypatch.setattr(driver, "CTHYBPlan", lambda c: None)
     monkeypatch.setattr(driver, "provenance", lambda: {"snapshot": "frozen"})
     monkeypatch.setattr(driver, "calibration_binding", lambda *a, **kw: {"id": "v3"})
-    driver.freeze(parent, binding, output, *calargs(), profile="v3")
+    driver.freeze(parent, binding, output, *calargs(), profile=profile)
     manifest = driver._read(output / "manifest.json")
-    assert manifest["schema"] == "kernelgecp.cthyb-fixed-bath.v3"
+    assert manifest["schema"] == "kernelgecp.cthyb-fixed-bath." + profile
     assert manifest["protocol"][
         "analysis_protocol"
-    ] == driver.spectroscopy.protocol_for("v3")
+    ] == driver.spectroscopy.protocol_for(profile)
     assert manifest["protocol"]["seeds"] == [34100001 + 2 * i for i in range(256)]
     assert not set(manifest["protocol"]["seeds"]) & set(driver.SEEDS)
-    assert driver._read(output / "result.json")["schema"].endswith(".v3")
-    driver.validate(output, parent, binding, *calargs(), profile="v3")
+    assert driver._read(output / "result.json")["schema"].endswith("." + profile)
+    driver.validate(output, parent, binding, *calargs(), profile=profile)
     with pytest.raises(ValueError, match="changed"):
         driver.validate(output, parent, binding, *calargs())
 
 
 def test_v3_invalid_profile_and_seed_overlap_rejected(monkeypatch):
     with pytest.raises(ValueError, match="profile"):
-        driver.seeds_for("v4")
+        driver.seeds_for("v5")
     monkeypatch.setattr(driver, "SEEDS", [34100001])
     with pytest.raises(ValueError, match="overlaps"):
         driver.seeds_for("v3")

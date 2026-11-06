@@ -104,7 +104,7 @@ remain native. Upstream acceptance is not a delivery gate.
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | delivered at synchronized main `06c4e45`; full root and all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)) |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
 | EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, root and all five exact-main workflows pass; explicit model-plus-lossless native route passes, pure-fit route remains failed ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)) |
-| EH | Actual covariance-aware MaxEnt including EE observations | v2 raw continuation fails RMS2.8853>2; floor/mixture scouts fail explicitly despite passing interface probes; captured-system and native relative-damping comparison plus scientific/delivery gates remain open ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
+| EH | Actual covariance-aware MaxEnt including EE observations | v2 raw continuation fails RMS2.8853>2; floor/mixture scouts fail explicitly despite passing interface probes; v3 canonical attempt fails before final generation; explicit shifted-curvature v4 candidate and scientific/delivery gates remain open ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
 | EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
 
@@ -146,3 +146,11 @@ EH actual v3 calibration41603543319 is failed after12 native alpha trials on the
 first synthetic case. Measured calibration and all finals never run. Preserve
 its source-bound failure; capture the unchanged failing solve before changing
 controls. Interface and base-test success do not close this scientific gate.
+
+EH v4 development checkpoint (2026-11-06):3fb9a0a passed complete calibration
+but its canonical attempt41617127989 failed before any final data or native
+allocation. Preserve the captured system and independent rank/conditioning
+diagnostics. A declared optimization-metric floor is under development with
+zero retaining old defaults; no scientific threshold changes. Native341 and
+synthetic5001..5003 reservations remain untouched, but require a new successful
+calibration and source freeze before use. EH/EJ remain open at approximately85%.

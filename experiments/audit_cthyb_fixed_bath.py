@@ -153,7 +153,7 @@ def validate_calibration(
     calibration_path, audit_path, ref, provenance, *, profile="v2"
 ):
     """Independently check the frozen calibration and its independent audit."""
-    require(profile in ("v2", "v3"), "unknown profile")
+    require(profile in ("v2", "v3", "v4"), "unknown profile")
     seed_base = 33100001 if profile == "v2" else 34100001
     calibration_path, audit_path = Path(calibration_path), Path(audit_path)
     cal_hash, audit_hash = sha(calibration_path), sha(audit_path)
@@ -214,7 +214,13 @@ def validate_calibration(
     protocol = cal.get("protocol", {})
     require(
         protocol.get("profile")
-        == ("corrective_projection_v2" if profile == "v2" else "native_interior_v3")
+        == (
+            {
+                "v2": "corrective_projection_v2",
+                "v3": "native_interior_v3",
+                "v4": "native_shifted_curvature_v4",
+            }[profile]
+        )
         and protocol.get("projection_precision_bits") == 256
         and protocol.get("parent_generation_revision") == PARENT_REVISION
         and protocol.get("final_generation_revision_policy")
@@ -238,7 +244,7 @@ def validate_calibration(
         and protocol.get("alpha_selection") == "normalized_training_only_discrepancy",
         "calibration controls mismatch",
     )
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(
             protocol.get("mass_mode") == "constrained"
             and protocol.get("mass_curvature") == "projected"
@@ -249,6 +255,11 @@ def validate_calibration(
             == "9d28053_cohort_consumed_development",
             "v3 mass controls mismatch",
         )
+    require(
+        (profile == "v4" and protocol.get("mass_curvature_floor_relative") == 1e-10)
+        or (profile != "v4" and "mass_curvature_floor_relative" not in protocol),
+        "calibration curvature floor mismatch",
+    )
     snapshot = cal.get("snapshot", {})
     runtime = provenance["runtime"]
     require(
@@ -442,7 +453,7 @@ def audit_cohort(
     *,
     profile="v2",
 ):
-    require(profile in ("v2", "v3"), "unknown profile")
+    require(profile in ("v2", "v3", "v4"), "unknown profile")
     folder, parent_dir, parent_binding = map(Path, (folder, parent_dir, parent_binding))
     parent, bath, parent_seeds = parent_bath(parent_dir, parent_binding)
     manifest = read_json(folder / "manifest.json")
@@ -460,7 +471,13 @@ def audit_cohort(
     seeds = [(33100001 if profile == "v2" else 34100001) + 2 * i for i in range(256)]
     require(
         protocol.get("profile")
-        == ("corrective_projection_v2" if profile == "v2" else "native_interior_v3")
+        == (
+            {
+                "v2": "corrective_projection_v2",
+                "v3": "native_interior_v3",
+                "v4": "native_shifted_curvature_v4",
+            }[profile]
+        )
         and protocol.get("projection_precision_bits") == 256
         and protocol["seeds"] == seeds
         and protocol["train_count"] == 128
@@ -538,9 +555,9 @@ def audit_cohort(
         calibration_audit_path,
         manifest["calibration"],
         provenance,
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(
             protocol.get("analysis_protocol")
             == read_json(calibration_path).get("protocol"),
@@ -728,7 +745,7 @@ def main():
         "calibration-audit",
     ):
         parser.add_argument("--" + name, type=Path, required=True)
-    parser.add_argument("--profile", choices=("v2", "v3"), default="v2")
+    parser.add_argument("--profile", choices=("v2", "v3", "v4"), default="v2")
     args = parser.parse_args()
     audit_cohort(
         args.folder,

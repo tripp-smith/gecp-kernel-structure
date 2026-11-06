@@ -45,11 +45,11 @@ TIMING_SCHEMA = "kernelgecp.cthyb-fixed-bath-timing.v2"
 
 
 def seeds_for(profile):
-    if profile not in ("v2", "v3"):
+    if profile not in ("v2", "v3", "v4"):
         raise ValueError("unknown fixed-bath profile")
     base = 33100001 if profile == "v2" else 34100001
     seeds = [base + 2 * i for i in range(256)]
-    if profile == "v3" and (
+    if profile in ("v3", "v4") and (
         set(seeds) & set(SEEDS) or set(seeds) & set(range(29140001, 29140129, 2))
     ):
         raise ValueError("v3 seed allocation overlaps consumed cohort")
@@ -213,11 +213,11 @@ def provenance():
 def protocol(config, *, profile="v2"):
     declared = (
         spectroscopy.protocol_for(profile)
-        if profile == "v3"
+        if profile in ("v3", "v4")
         else {"profile": "corrective_projection_v2", "projection_precision_bits": 256}
     )
     return {
-        **({"analysis_protocol": declared} if profile == "v3" else {}),
+        **({"analysis_protocol": declared} if profile in ("v3", "v4") else {}),
         "profile": declared["profile"],
         "projection_precision_bits": declared["projection_precision_bits"],
         "seeds": seeds_for(profile),
@@ -253,22 +253,22 @@ def calibration_binding(
 ):
     """Pin calibration to the exact current analysis code and provider runtime."""
     snapshot = spectroscopy.snapshot(
-        **({"profile": profile} if profile == "v3" else {})
+        **({"profile": profile} if profile in ("v3", "v4") else {})
     )
     cal = spectroscopy.verify_calibration(
         receipt,
         receipt_sha256,
         snapshot,
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     audit = spectroscopy.verify_calibration_audit(
         audit_path,
         audit_sha256,
         receipt_sha256,
         cal["binding_sha256"],
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
-    if profile == "v3" and set(seeds_for(profile)) & set(
+    if profile in ("v3", "v4") and set(seeds_for(profile)) & set(
         cal.get("cohort", {}).get("seeds", [])
     ):
         raise ValueError("v3 seed allocation overlaps calibration cohort")
@@ -317,7 +317,7 @@ def freeze(
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("freeze requires an empty output directory")
     info, _, config = parent_data(
-        parent, binding, **({"profile": profile} if profile == "v3" else {})
+        parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
     )
     CTHYBPlan(
         config
@@ -327,12 +327,12 @@ def freeze(
         calibration_sha256,
         calibration_audit,
         calibration_audit_sha256,
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     manifest = {
         "schema": schema_for("", profile),
         "protocol": protocol(
-            config, **({"profile": profile} if profile == "v3" else {})
+            config, **({"profile": profile} if profile in ("v3", "v4") else {})
         ),
         "parent": info,
         "calibration": cal,
@@ -364,7 +364,7 @@ def validate(
 ):
     manifest = _read(output / "manifest.json")
     info, bath, config = parent_data(
-        parent, binding, **({"profile": profile} if profile == "v3" else {})
+        parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
     )
     CTHYBPlan(config)
     cal = calibration_binding(
@@ -372,12 +372,12 @@ def validate(
         calibration_sha256,
         calibration_audit,
         calibration_audit_sha256,
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     if manifest != {
         "schema": schema_for("", profile),
         "protocol": protocol(
-            config, **({"profile": profile} if profile == "v3" else {})
+            config, **({"profile": profile} if profile in ("v3", "v4") else {})
         ),
         "parent": info,
         "calibration": cal,
@@ -467,7 +467,7 @@ def worker(
         calibration_sha256,
         calibration_audit,
         calibration_audit_sha256,
-        **({"profile": profile} if profile == "v3" else {}),
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     if index != len(result["chains"]):
         raise ValueError("chain must be the next predeclared index")
@@ -526,12 +526,12 @@ def worker(
             calibration_sha256,
             calibration_audit,
             calibration_audit_sha256,
-            **({"profile": profile} if profile == "v3" else {}),
+            **({"profile": profile} if profile in ("v3", "v4") else {}),
         )
         != manifest["calibration"]
         or manifest["provenance"] != provenance()
         or parent_data(
-            parent, binding, **({"profile": profile} if profile == "v3" else {})
+            parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
         )[0]
         != manifest["parent"]
     ):
@@ -588,7 +588,7 @@ def acquire(
                 calibration_sha256,
                 calibration_audit,
                 calibration_audit_sha256,
-                **({"profile": profile} if profile == "v3" else {}),
+                **({"profile": profile} if profile in ("v3", "v4") else {}),
             )
             if len(result["chains"]) == 256:
                 break
@@ -635,7 +635,7 @@ def main():
     parser.add_argument("--calibration-sha256", required=True)
     parser.add_argument("--calibration-audit", type=Path, required=True)
     parser.add_argument("--calibration-audit-sha256", required=True)
-    parser.add_argument("--profile", choices=("v2", "v3"), default="v2")
+    parser.add_argument("--profile", choices=("v2", "v3", "v4"), default="v2")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("freeze")
     a = sub.add_parser("acquire")

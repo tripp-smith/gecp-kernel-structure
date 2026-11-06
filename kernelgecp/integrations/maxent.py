@@ -728,6 +728,7 @@ class MaxEntConfig:
     mass_mode: str = "rescale"
     mass_curvature: str = "exact"
     mass_interior_fraction: float = 0.0
+    mass_curvature_floor_relative: float = 0.0
     minimizer_marquardt: bool = False
 
     def __post_init__(self) -> None:
@@ -780,12 +781,23 @@ class MaxEntConfig:
             raise ValueError("mass_interior_fraction is not representable in scale")
         if self.mass_mode != "constrained" and fraction != 0:
             raise ValueError("mass_interior_fraction requires constrained mass_mode")
+        from ._maxent_curvature import validate_floor_relative
+
+        floor = validate_floor_relative(self.mass_curvature_floor_relative)
+        if floor and (
+            self.mass_mode != "constrained" or self.mass_curvature != "projected"
+        ):
+            raise ValueError(
+                "mass_curvature_floor_relative requires constrained projected curvature"
+            )
         if type(self.minimizer_marquardt) is not bool:
             raise ValueError("minimizer_marquardt must be a boolean")
 
     def as_record(self) -> dict[str, Any]:
         """Preserve legacy rescale receipts; record an explicit nondefault mode."""
         result = asdict(self)
+        if not self.mass_curvature_floor_relative:
+            result.pop("mass_curvature_floor_relative")
         if self.mass_mode == "rescale":
             result.pop("mass_mode")
             result.pop("mass_curvature")
@@ -973,6 +985,7 @@ def continue_tau_maxent(
             settings.normalize_mass,
             curvature=settings.mass_curvature,
             interior_fraction=settings.mass_interior_fraction,
+            curvature_floor_relative=settings.mass_curvature_floor_relative,
         )
     minimizer_kwargs: dict[str, Any] = {
         "maxiter": settings.maxiter,

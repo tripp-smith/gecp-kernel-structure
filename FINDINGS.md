@@ -2722,3 +2722,26 @@ raw/flat case after12 converged trials, despite passing installed interface
 checks. This is an explicit numerical breakdown, not a completed calibration.
 The failed artifact is preserved; observational linear-system capture is added
 before selecting a further numerical candidate. No final allocation executes.
+
+## EH captured canonical failure and explicit v4 metric
+
+The complete consumed-data calibration41606643817 at3fb9a0a passes24 synthetic
+and8 measured cases and independent audits. The same source's single canonical
+attempt41617127989 fails during repeated calibration on a native singular solve
+after12 trials, before final synthetic generation or any fresh341 chain. Both
+outcomes are retained; passing calibration did not imply robust execution.
+The failed artifact and case/capture hashes are preserved in
+`data/spectroscopy/canonical-3fb9a0a-failed.json`.
+
+Exact dyadic elimination finds rank29 for the saved rounded29x29 system; an
+80-digit SVD estimates condition1.7833e18. No metric diagonal is zero, and all
+29 diagonal damping additions change the stored matrix. These observations
+exclude completely absent diagonal damping for this capture; they establish
+neither latent model rank, sole cause, nor optimizer convergence. Independent
+high-precision eigenanalysis of a proposed explicitly shifted metric estimates
+condition1.427e9 on this one matrix. No optimization or held-out score follows.
+
+V4 development declares a relative floor1e-10 on symmetrized projected curvature,
+retaining the exact objective/gradient, actual native optimizer and physical
+budgets. It is an optimization metric change and remains unaccepted until actual
+provider calibration and appropriately frozen untouched final validation pass.

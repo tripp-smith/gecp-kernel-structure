@@ -57,7 +57,7 @@ def test_close_rejects_nan():
         a.close([np.nan], [np.nan], "bad")
 
 
-@pytest.mark.parametrize("profile", ["v2", "v3"])
+@pytest.mark.parametrize("profile", ["v2", "v3", "v4"])
 def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
     """Producer writes a finite fake-provider case; the real auditor checks it."""
     import sys
@@ -112,7 +112,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
                 "trial_masses": [1.0] * 33,
                 "selection_chi2": [selected_chi] * 33,
             }
-            if profile == "v3":
+            if profile in ("v3", "v4"):
                 self.diagnostics.update(
                     provider="TRIQS/MaxEnt",
                     version="4.0.1",
@@ -136,6 +136,24 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
                         "maxiter": 1000,
                     },
                 )
+                if profile == "v4":
+                    self.diagnostics["mass_parameterization"]["curvature_metric"] = {
+                        "evaluation_count": 1,
+                        "certified": False,
+                        "last_evaluation": {
+                            "floor_relative": 1e-10,
+                            "dimension": 2,
+                            "scale": 2.0,
+                            "normalized_min_eigenvalue": 0.0,
+                            "normalized_max_eigenvalue": 1.0,
+                            "normalized_shift": 2e-10,
+                            "shift": 4e-10,
+                            "shifted_normalized_min_eigenvalue": 2e-10,
+                            "shifted_normalized_max_eigenvalue": 1.0000000002,
+                            "condition_estimate": 1.0000000002 / 2e-10,
+                            "certified": False,
+                        },
+                    }
 
         def evaluate_tau(self, beta, tau):
             return a.forward(tau, omega, density)
@@ -162,7 +180,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
         "flat",
         case,
         bootstrap=8,
-        precision_bits=256 if profile == "v3" else 53,
+        precision_bits=256 if profile in ("v3", "v4") else 53,
         profile=profile,
     )
     train, train_cov = a.moments(samples[:32, a.OBS])
@@ -170,7 +188,7 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
     stats = samples, train, train_cov, held, held_cov
     result, _ = a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
     assert result["status"] == "passed"
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         import copy
 
         bad_bootstrap = copy.deepcopy(result)
@@ -178,6 +196,14 @@ def test_fake_provider_case_end_to_end(tmp_path, monkeypatch, profile):
         case.write_text(json.dumps(bad_bootstrap))
         with pytest.raises(ValueError, match="bootstrap native mass"):
             a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
+        if profile == "v4":
+            bad_bootstrap = copy.deepcopy(result)
+            del bad_bootstrap["bootstrap_records"][0]["provider_diagnostics"][
+                "mass_parameterization"
+            ]["curvature_metric"]
+            case.write_text(json.dumps(bad_bootstrap))
+            with pytest.raises(ValueError, match="curvature metric"):
+                a.audit_case(case, "raw", "flat", 0, stats, profile=profile)
         altered_metadata = dict(result)
         altered_metadata["provider_diagnostics"] = {
             **result["provider_diagnostics"],

@@ -212,7 +212,7 @@ def check_provenance(p, profile="v2"):
         "environments/locks/triqs-maxent-pip.txt",
         "environments/locks/dlr-physics-pip.txt",
     }
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         required.update(
             {
                 "kernelgecp/integrations/_maxent_mass.py",
@@ -220,6 +220,8 @@ def check_provenance(p, profile="v2"):
                 "scripts/providers/maxent_solve_capture.py",
             }
         )
+    if profile == "v4":
+        required.add("kernelgecp/integrations/_maxent_curvature.py")
     require(
         isinstance(p["source_hashes"], dict) and required.issubset(p["source_hashes"]),
         "missing source inventory",
@@ -232,7 +234,7 @@ def check_provenance(p, profile="v2"):
 
 
 def jobs(calibration, profile="v2"):
-    require(profile in ("v2", "v3"), "profile")
+    require(profile in ("v2", "v3", "v4"), "profile")
     for i, case in enumerate(CASES):
         for method in METHODS:
             for model in DEFAULTS:
@@ -242,7 +244,9 @@ def jobs(calibration, profile="v2"):
                         "method": method,
                         "default_model": model,
                         "seed": (
-                            101 if calibration else (5001 if profile == "v3" else 4001)
+                            101
+                            if calibration
+                            else (5001 if profile in ("v3", "v4") else 4001)
                         )
                         + i,
                         "eps": 1e-8,
@@ -253,12 +257,12 @@ def jobs(calibration, profile="v2"):
                         "minimizer_mu0": 1e-8,
                         "query_order": 24
                         if calibration
-                        else (80 if profile == "v3" else 64),
+                        else (80 if profile in ("v3", "v4") else 64),
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
                     }
-                    if profile == "v3":
+                    if profile in ("v3", "v4"):
                         job["profile"] = profile
                     yield f"{case}-{method}-{model}-r{repeat}", job
 
@@ -344,6 +348,61 @@ def dataset_check(path, a, result):
     return e, v
 
 
+def audit_curvature_metric(parameter, config):
+    metric = parameter.get("curvature_metric")
+    if config.get("mass_curvature_floor_relative") != 1e-10:
+        require(metric is None, "unexpected curvature metric")
+        return
+    require(
+        isinstance(metric, dict)
+        and metric.get("certified") is False
+        and type(metric.get("evaluation_count")) is int
+        and metric["evaluation_count"] > 0,
+        "curvature metric evaluation",
+    )
+    value = metric.get("last_evaluation")
+    require(
+        isinstance(value, dict)
+        and value.get("certified") is False
+        and value.get("floor_relative") == 1e-10
+        and type(value.get("dimension")) is int
+        and 1 <= value["dimension"] <= 128,
+        "curvature metric identity",
+    )
+    keys = (
+        "scale",
+        "normalized_min_eigenvalue",
+        "normalized_max_eigenvalue",
+        "normalized_shift",
+        "shift",
+        "shifted_normalized_min_eigenvalue",
+        "shifted_normalized_max_eigenvalue",
+        "condition_estimate",
+    )
+    require(
+        all(type(value.get(k)) in (int, float) and np.isfinite(value[k]) for k in keys),
+        "curvature metric finite estimates",
+    )
+    lo, hi = value["normalized_min_eigenvalue"], value["normalized_max_eigenvalue"]
+    shifted_lo = value["shifted_normalized_min_eigenvalue"]
+    shifted_hi = value["shifted_normalized_max_eigenvalue"]
+    shift = value["normalized_shift"]
+    require(
+        value["scale"] > 0
+        and lo <= hi
+        and shift >= 0
+        and np.isclose(
+            shift, max(0.0, 1e-10 * value["dimension"] - lo), rtol=1e-12, atol=1e-15
+        )
+        and np.isclose(value["shift"], shift * value["scale"], rtol=1e-12, atol=0)
+        and 0 < shifted_lo <= shifted_hi
+        and np.isclose(
+            value["condition_estimate"], shifted_hi / shifted_lo, rtol=1e-12
+        ),
+        "curvature metric inconsistent estimates",
+    )
+
+
 def audit_v3_diagnostics(diagnostics, config=None):
     parameter = diagnostics.get("mass_parameterization", {})
     minimizer = diagnostics.get("native_minimizer", {})
@@ -365,6 +424,7 @@ def audit_v3_diagnostics(diagnostics, config=None):
         and minimizer.get("mu0") == 1e-8,
         "v3 native controls",
     )
+    audit_curvature_metric(parameter, config or {})
     for key in ("min_observed_H", "min_observed_mixture_floor"):
         value = parameter.get(key)
         require(
@@ -386,13 +446,15 @@ def solver_config(model, profile="v2"):
         "default_model": model,
         "normalize_mass": 1.0,
     }
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         expected_config.update(
             mass_mode="constrained",
             mass_curvature="projected",
             mass_interior_fraction=1e-12,
             minimizer_marquardt=True,
         )
+    if profile == "v4":
+        expected_config["mass_curvature_floor_relative"] = 1e-10
     return expected_config
 
 
@@ -452,13 +514,22 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
             "unexpected fit archive",
         )
     e, v = dataset_check(path.with_name(path.stem + "-dataset.npz"), a, result)
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(
             result["config"]
             == solver_config(result["config"]["default_model"], profile),
             "unfrozen solver configuration",
         )
         audit_v3_diagnostics(result.get("provider_diagnostics", {}), result["config"])
+    if profile == "v2":
+        require(
+            "mass_curvature_floor_relative" not in result["config"],
+            "unexpected curvature floor",
+        )
+    require(
+        result["config"] == solver_config(result["config"]["default_model"], profile),
+        "unfrozen solver configuration",
+    )
     if not full:
         return a
     omega = a["omega"]
@@ -467,10 +538,6 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
     design = a["observation_design"]
     values = a["values"]
     c = a["covariance"]
-    require(
-        result["config"] == solver_config(result["config"]["default_model"], profile),
-        "unfrozen solver configuration",
-    )
     if fit:
         from kernelgecp.basis import FermionicFit
 
@@ -583,7 +650,7 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
     )
     require(np.any(eligible), "no converged positive finite-mass trial")
     candidates = np.flatnonzero(eligible)
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         require(
             np.all(trials > 0) and np.allclose(masses, 1, rtol=0, atol=1e-10),
             "constrained trial positivity or mass",
@@ -616,7 +683,7 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
         == "closest_abs_log_chi2_per_retained_rank_to_one",
         "normalized training selection rule",
     )
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         audit_v3_diagnostics(diagnostics, result["config"])
     close(diagnostics["trial_masses"], masses, "trial masses")
     recorded = diagnostics.get("selection_chi2", [])
@@ -641,8 +708,8 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
     raw = float(np.trapezoid(trials[idx], omega))
     require(raw > 0, "raw mass")
     close(result["raw_mass"], raw, "raw mass")
-    density = trials[idx] if profile == "v3" else trials[idx] / raw
-    if profile == "v3":
+    density = trials[idx] if profile in ("v3", "v4") else trials[idx] / raw
+    if profile in ("v3", "v4"):
         require(np.array_equal(a["density"], density), "post-fit constrained rescale")
     close(a["density"], density, "normalized selected spectrum")
     require(
@@ -721,7 +788,7 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
             and rec["converged"][rec["selected_index"]] is True,
             "bootstrap convergence",
         )
-        if profile == "v3":
+        if profile in ("v3", "v4"):
             require(
                 abs(rec["raw_mass"] - 1) <= 1e-10 and np.all(d > 0),
                 "bootstrap constrained mass",
@@ -746,7 +813,7 @@ def audit_case(path, job=None, full=True, *, profile="v2"):
 
 
 def audit_campaign(manifest_path, freeze_path, *, profile="v2"):
-    require(profile in ("v2", "v3"), "profile")
+    require(profile in ("v2", "v3", "v4"), "profile")
     manifest_path = Path(manifest_path)
     freeze_path = Path(freeze_path)
     m = read(manifest_path)
@@ -781,7 +848,7 @@ def audit_campaign(manifest_path, freeze_path, *, profile="v2"):
         "bootstrap_first_repeat": 8,
         "repeats": 3,
     }
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         controls.update(
             profile="constrained_mass_v3_synthetic_binary64",
             final_seeds=[5001, 5002, 5003],
@@ -792,6 +859,11 @@ def audit_campaign(manifest_path, freeze_path, *, profile="v2"):
             minimizer_marquardt=True,
             maxiter=1000,
             calibration_scope="consumed_development",
+        )
+    if profile == "v4":
+        controls.update(
+            profile="constrained_mass_v4_synthetic_binary64",
+            mass_curvature_floor_relative=1e-10,
         )
     require(
         m.get("controls") == controls == f.get("controls"), "frozen controls mismatch"
@@ -906,7 +978,7 @@ def main():
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--freeze", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
+    parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     args = parser.parse_args()
     try:
         result = audit_campaign(args.manifest, args.freeze, profile=args.profile)

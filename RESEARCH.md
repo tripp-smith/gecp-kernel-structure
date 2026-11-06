@@ -13167,3 +13167,42 @@ same consumed development inputs. Inspect its captured system independently
 before proposing a numerical repair. A nonreproduced failure would not establish
 a sole cause or robust acceptance. No final samples, tolerance changes or phase
 closure follow from this instrumentation.
+
+## EH explicit shifted projected-curvature contract (v4, development)
+
+The source3fb9a0a calibration41606643817 passed24 synthetic and8 measured
+cases with independent audits. Its single canonical attempt41617127989 then
+FAILED in repeated synthetic calibration: native singular solve at alpha10,
+iteration141 after12 completed trials. No final synthetic data or fresh341
+chains were generated. Preserve both outcomes; no retry of this source for green.
+The captured rounded29x29 matrix has exact dyadic rank29 but MP80 estimated
+condition1.7833e18; its29 metric diagonals are nonzero and damping changes all29
+diagonal entries. This finite-system diagnostic does not identify latent rank or
+a sole cause of the optimizer instability.
+
+Test an explicit v4 optimization metric, common to all compared providers:
+retain the exact native objective and chain-rule gradient, unit-mass interior
+mixture1e-12, projected curvature and actual native Levenberg solver with
+Marquardt=True. At each projected curvature evaluation, symmetrize by half-sums,
+scale by maximum absolute entry s, estimate its smallest eigenvalue, and add
+normalized diagonal shift max(0, rho*n-lambda_min), rho=1e-10. Rescale only
+after shifting. This is a declared curvature change, not an objective ridge,
+substitute solver, pseudoinverse or automatic retry. Reject zero/nonfinite/
+unrepresentable scales, excessive dimensions or failed positivity checks.
+Record the shift, eigenvalue/condition estimates, evaluation count and explicit
+uncertified status; no convergence or continuous accuracy theorem follows.
+Zero is the default and preserves historical v2/v3 numerical paths and records.
+Nonzero controls require constrained mass and projected curvature.
+
+Pure-array arithmetic boundary tests and independent captured-system checks
+precede actual installed provider probes. Validate unchanged objective/gradient
+independently, while testing the declared shifted metric separately from the
+exact Hessian. Add opt-in v4 producers/auditors/workflow propagation and strict
+control/schema rejection; v2/v3 retain their original meanings. All physical,
+covariance, projection, alpha, iteration and uncertainty budgets remain fixed.
+Run full root and exact-source installed-provider calibration before a new
+canonical freeze. The prior34100001+2*i/256-chain and synthetic5001..5003/80-query
+reservations are still untouched because v3 stopped before any final generation;
+they may be reserved under a new source only after successful v4 calibration.
+No new allocation, final acceptance, merge or1.2 publication follows from this
+development contract.

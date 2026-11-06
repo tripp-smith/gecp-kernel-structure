@@ -59,7 +59,7 @@ def write_json(path, value):
 
 
 def provenance(profile="v2"):
-    if profile not in ("v2", "v3"):
+    if profile not in ("v2", "v3", "v4"):
         raise ValueError("unsupported spectroscopy profile")
     return {
         "source_revision": subprocess.check_output(
@@ -74,7 +74,12 @@ def provenance(profile="v2"):
                     "kernelgecp/integrations/_maxent_native_mass.py",
                     "scripts/providers/maxent_solve_capture.py",
                 )
-                if profile == "v3"
+                if profile in ("v3", "v4")
+                else ()
+            )
+            + (
+                ("kernelgecp/integrations/_maxent_curvature.py",)
+                if profile == "v4"
                 else ()
             )
         },
@@ -227,7 +232,7 @@ def run_case(
     precision_bits=53,
     profile="v2",
 ):
-    if profile not in ("v2", "v3"):
+    if profile not in ("v2", "v3", "v4"):
         raise ValueError("unsupported spectroscopy profile")
     if type(precision_bits) is not int or precision_bits != 53:
         raise ValueError("synthetic projection requires precision_bits=53")
@@ -266,7 +271,7 @@ def run_case(
             )
     construction_seconds = time.perf_counter() - start
     config = MaxEntConfig(**config)
-    if profile == "v3" and (
+    if profile in ("v3", "v4") and (
         config.mass_mode != "constrained"
         or config.mass_curvature != "projected"
         or config.mass_interior_fraction != 1e-12
@@ -281,6 +286,10 @@ def run_case(
         raise ValueError(
             "v3 requires constrained projected interior Marquardt controls"
         )
+    if (profile == "v4" and config.mass_curvature_floor_relative != 1e-10) or (
+        profile != "v4" and "mass_curvature_floor_relative" in config.as_record()
+    ):
+        raise ValueError("profile curvature floor mismatch")
     output.parent.mkdir(parents=True, exist_ok=True)
     save_spectral_dataset(
         fitted,
@@ -290,7 +299,7 @@ def run_case(
         calculation_settings=config.as_record(),
     )
     fit_start = time.perf_counter()
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         from scripts.providers.maxent_solve_capture import capture_failed_solve
 
         solve_capture = {}
@@ -303,7 +312,7 @@ def run_case(
             write_json(
                 output,
                 {
-                    "schema": "kernelgecp.spectroscopy-case.v3",
+                    "schema": "kernelgecp.spectroscopy-case." + profile,
                     "status": "failed",
                     "stage": "native_tau_maxent",
                     "error": f"{type(error).__name__}: {error}",
@@ -354,7 +363,7 @@ def run_case(
                 "effective_rank": resampled.effective_rank,
             }
         )
-        if profile == "v3":
+        if profile in ("v3", "v4"):
             bootstrap_records[-1]["provider_diagnostics"] = resampled.diagnostics
     if bootstrap:
         metrics["bootstrap_window_standard_deviation"] = np.std(
@@ -478,7 +487,7 @@ def main():
     parser.add_argument(
         "--query-order", type=int, choices=[24, 36, 48, 64, 80], default=24
     )
-    parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
+    parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -498,7 +507,12 @@ def main():
                         "mass_interior_fraction": 1e-12,
                         "minimizer_marquardt": True,
                     }
-                    if args.profile == "v3"
+                    if args.profile in ("v3", "v4")
+                    else {}
+                ),
+                **(
+                    {"mass_curvature_floor_relative": 1e-10}
+                    if args.profile == "v4"
                     else {}
                 ),
             )

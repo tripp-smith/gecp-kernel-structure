@@ -21,6 +21,7 @@ FILES = {
     "maxent": "kernelgecp/integrations/maxent.py",
     "mass": "kernelgecp/integrations/_maxent_mass.py",
     "native_mass": "kernelgecp/integrations/_maxent_native_mass.py",
+    "curvature": "kernelgecp/integrations/_maxent_curvature.py",
 }
 THREADS = (
     "OMP_NUM_THREADS",
@@ -84,15 +85,18 @@ def native_cost_checks(np, native):
     basis, _ = np.linalg.qr(np.column_stack((grid, grid**2, grid**3)))
     matrix = np.diag([3.0, 1.0, 0.1]) @ basis.T
     observed = np.array([0.2, -0.1, 0.3])
-    err = np.array([0.2, 0.3, 0.4])
+    err = np.array([0.02, 0.3, 0.4])
     alpha = 0.7
     reports, outputs = {}, {}
-    for fraction, mode in (
-        (fraction, mode) for fraction in (0.0, 1e-12) for mode in ("exact", "projected")
-    ):
+    cases = [(f, m, 0.0) for f in (0.0, 1e-12) for m in ("exact", "projected")]
+    cases.extend([(1e-12, "projected", 1e-10), (1e-12, "projected", 1e-2)])
+    for fraction, mode, floor in cases:
         kernel = kernels.DataKernel(np.arange(3, dtype=float), omega, matrix)
         cost, hidden = native.make_native_mass_cost(
-            1.0, curvature=mode, interior_fraction=fraction
+            1.0,
+            curvature=mode,
+            interior_fraction=fraction,
+            curvature_floor_relative=floor,
         )
         cost.K = kernel
         default = provider.DataDefaultModel(np.ones(9), omega)
@@ -128,6 +132,12 @@ def native_cost_checks(np, native):
             h / default.D
         )
         chain = np.einsum("k,kij->ij", gh, hidden(v).dd())
+        residual = (matrix @ h - observed) / err
+        independent_value = 0.5 * (residual @ residual) - alpha * np.sum(
+            h - default.D - h * np.log(h / default.D)
+        )
+        objective_error = float(abs(value - independent_value))
+        chain_gradient_error = float(np.max(np.abs(gradient - jac.T @ gh)))
         step = 1e-5
         identity = np.eye(after)
         finite_gradient = np.array(
@@ -142,6 +152,27 @@ def native_cost_checks(np, native):
             )
         )
         expected = projected + chain if mode == "exact" else projected
+        if floor:
+            symmetric = projected * 0.5 + projected.T * 0.5
+            scale = np.max(np.abs(symmetric))
+            normalized = symmetric / scale
+            shift = max(0.0, floor * after - np.linalg.eigvalsh(normalized)[0])
+            expected = (normalized + shift * np.eye(after)) * scale
+            stats = hidden.diagnostics["curvature_metric"]
+            if (
+                stats["evaluation_count"] < 1
+                or stats["certified"]
+                or (floor == 1e-2 and stats["last_evaluation"]["normalized_shift"] <= 0)
+            ):
+                raise RuntimeError("shifted metric diagnostics invalid")
+            actual_delta = np.diag(curvature - symmetric)
+            expected_delta = shift * scale
+            if not np.allclose(
+                actual_delta, expected_delta, rtol=1e-5, atol=1e-15 * scale
+            ):
+                raise RuntimeError(
+                    "actual provider metric shift does not match formula"
+                )
         matrix_error = float(
             np.max(np.abs(curvature - expected) / np.maximum(1.0, np.abs(expected)))
         )
@@ -152,8 +183,18 @@ def native_cost_checks(np, native):
         psd_tolerance = 1e-10 * max(1.0, float(np.linalg.norm(projected, ord=2)))
         if (
             not np.isfinite(
-                [value, grad_error, matrix_error, symmetry_error, min_eigenvalue]
+                [
+                    value,
+                    objective_error,
+                    chain_gradient_error,
+                    grad_error,
+                    matrix_error,
+                    symmetry_error,
+                    min_eigenvalue,
+                ]
             ).all()
+            or objective_error > 1e-9
+            or chain_gradient_error > 1e-9
             or grad_error > 2e-5
             or matrix_error > 1e-9
             or symmetry_error > psd_tolerance
@@ -179,7 +220,7 @@ def native_cost_checks(np, native):
             )
             if not np.isfinite(hess_error) or hess_error > 5e-4:
                 raise RuntimeError("exact native Hessian finite difference failed")
-        outputs[(fraction, mode)] = (value, gradient, curvature, chain, h.copy())
+        outputs[(fraction, mode, floor)] = (value, gradient, curvature, chain, h.copy())
         underflow_checked = False
         if fraction:
             extreme = np.full(after, 3000.0)
@@ -220,11 +261,15 @@ def native_cost_checks(np, native):
                 raise
         else:
             raise RuntimeError("native entropy-floor regime was not rejected")
-        reports[f"{mode}/{fraction:g}"] = {
+        report_key = f"{mode}/{fraction:g}" + (f"/floor={floor:g}" if floor else "")
+        reports[report_key] = {
+            "curvature_floor_relative": floor,
             "interior_fraction": fraction,
             "latent_underflow_and_boundary_checked": underflow_checked,
             "rank_before_reduction": before,
             "rank_after_reduction": after,
+            "independent_objective_abs_error": objective_error,
+            "chain_gradient_max_abs_error": chain_gradient_error,
             "gradient_max_scaled_error": grad_error,
             "curvature_formula_max_scaled_error": matrix_error,
             "exact_hessian_fd_max_scaled_error": hess_error,
@@ -239,8 +284,8 @@ def native_cost_checks(np, native):
         }
     for fraction in (0.0, 1e-12):
         exact, projected = (
-            outputs[(fraction, "exact")],
-            outputs[(fraction, "projected")],
+            outputs[(fraction, "exact", 0.0)],
+            outputs[(fraction, "projected", 0.0)],
         )
         if (
             not np.allclose(exact[0], projected[0], rtol=1e-12, atol=1e-12)
@@ -250,9 +295,18 @@ def native_cost_checks(np, native):
             raise RuntimeError(
                 "curvature modes differ in objective, gradient or chain term"
             )
+    baseline = outputs[(1e-12, "projected", 0.0)]
+    shifted = outputs[(1e-12, "projected", 1e-10)]
+    if not (
+        np.allclose(baseline[0], shifted[0], rtol=1e-12, atol=1e-12)
+        and np.allclose(baseline[1], shifted[1], rtol=1e-12, atol=1e-12)
+    ):
+        raise RuntimeError("shifted metric altered objective or gradient")
     for mode in ("exact", "projected"):
         delta = float(
-            np.sum(np.abs(outputs[(1e-12, mode)][4] - outputs[(0.0, mode)][4]))
+            np.sum(
+                np.abs(outputs[(1e-12, mode, 0.0)][4] - outputs[(0.0, mode, 0.0)][4])
+            )
         )
         if delta > 2e-12 + 1e-14:
             raise RuntimeError("fixed-coordinate mixture bias bound failed")

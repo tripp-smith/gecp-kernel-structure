@@ -16,6 +16,10 @@ from typing import Any, TypeVar, cast
 import numpy as np
 from numpy.typing import NDArray
 
+from kernelgecp.integrations._maxent_curvature import (
+    shifted_projected_metric,
+    validate_floor_relative,
+)
 from kernelgecp.integrations._maxent_mass import NormalizedMassMap
 from kernelgecp.types import NumericalBreakdownError
 
@@ -24,7 +28,11 @@ _F = TypeVar("_F", bound=Callable[..., Any])
 
 
 def make_native_mass_cost(
-    mass: float, *, curvature: str = "exact", interior_fraction: float = 0.0
+    mass: float,
+    *,
+    curvature: str = "exact",
+    interior_fraction: float = 0.0,
+    curvature_floor_relative: float = 0.0,
 ) -> tuple[Any, Any]:
     """Create a native cost function and its normalized H(v) component.
 
@@ -43,6 +51,9 @@ def make_native_mass_cost(
         raise ValueError("interior_fraction must be finite and in [0, 1)")
     if interior_fraction > 0 and 1.0 - interior_fraction == 1.0:
         raise ValueError("interior_fraction is not representable in mixture scale")
+    floor = validate_floor_relative(curvature_floor_relative)
+    if floor and curvature != "projected":
+        raise ValueError("mass_curvature_floor_relative requires projected curvature")
     functions = importlib.import_module("triqs_maxent.functions")
     costs = importlib.import_module("triqs_maxent.cost_functions")
     generic_h: Any = functions.GenericH_of_v
@@ -54,6 +65,11 @@ def make_native_mass_cost(
         def __init__(self) -> None:
             self._mass_state: dict[str, Any] = {
                 "map": None,
+                "curvature_metric": {
+                    "evaluation_count": 0,
+                    "last_evaluation": None,
+                    "certified": False,
+                },
                 "last_evaluation": None,
                 "max_latent_zero_count": 0,
                 "evaluation_count": 0,
@@ -100,6 +116,10 @@ def make_native_mass_cost(
                 ],
                 min_observed_q=self._mass_state["min_observed_q"],
             )
+            if floor:
+                result["curvature_metric"] = copy.deepcopy(
+                    self._mass_state["curvature_metric"]
+                )
             return result
 
         @cached
@@ -158,6 +178,17 @@ def make_native_mass_cost(
             return self._map(refresh=True).inv(hidden).copy()
 
     h = NativeNormalizedH()
-    return costs.MaxEntCostFunction(
-        d_dv=curvature == "exact", dA_projection=2, H_of_v=h
-    ), h
+    cost_class = costs.MaxEntCostFunction
+    if floor:
+
+        class ShiftedProjectedCost(costs.MaxEntCostFunction):  # type: ignore[misc, valid-type]
+            @cached
+            def dd(self, v: FloatArray) -> FloatArray:
+                metric, info = shifted_projected_metric(super().dd(v), floor)
+                state = h._mass_state["curvature_metric"]
+                state["evaluation_count"] += 1
+                state["last_evaluation"] = info
+                return metric
+
+        cost_class = ShiftedProjectedCost
+    return cost_class(d_dv=curvature == "exact", dA_projection=2, H_of_v=h), h

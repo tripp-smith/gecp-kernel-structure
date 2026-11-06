@@ -620,7 +620,7 @@ def test_v3_protocol_is_isolated_and_versioned():
     assert "corrupt" not in m.protocol_for("v3")["default_models"]
     assert v2 == m.PROTOCOL
     with pytest.raises(ValueError, match="profile"):
-        m.protocol_for("v4")
+        m.protocol_for("v5")
 
 
 def test_v3_rejects_v2_calibration_schema(tmp_path):

@@ -513,10 +513,10 @@ PROTOCOL = {
 
 
 def protocol_for(profile="v2"):
-    if profile not in ("v2", "v3"):
+    if profile not in ("v2", "v3", "v4"):
         raise ValueError("unsupported spectroscopy profile")
     protocol = copy.deepcopy(PROTOCOL)
-    if profile == "v3":
+    if profile in ("v3", "v4"):
         protocol.update(
             profile="native_interior_v3",
             final_seed_base=34100001,
@@ -526,6 +526,11 @@ def protocol_for(profile="v2"):
             minimizer_marquardt=True,
             maxiter=1000,
             development_scope="9d28053_cohort_consumed_development",
+        )
+    if profile == "v4":
+        protocol.update(
+            profile="native_shifted_curvature_v4",
+            mass_curvature_floor_relative=1e-10,
         )
     return protocol
 
@@ -567,6 +572,8 @@ def snapshot(*, profile="v2"):
         }
         | {p for p in tracked if p.startswith("kernelgecp/") and p.endswith(".py")}
     )
+    if profile == "v4" and "kernelgecp/integrations/_maxent_curvature.py" not in files:
+        raise ValueError("v4 curvature source must be tracked")
     hashes = {}
     for name in files:
         blob = subprocess.check_output(["git", "show", revision + ":" + name], cwd=ROOT)
@@ -753,7 +760,11 @@ def verify_calibration(path, digest, snapshot_value, *, profile="v2"):
             or value.get("config", {}).get("minimizer_mu0") != protocol["minimizer_mu0"]
         ):
             raise ValueError("calibration case failed")
-        if profile == "v3":
+        if profile == "v2" and "mass_curvature_floor_relative" in value.get(
+            "config", {}
+        ):
+            raise ValueError("v2 calibration case curvature floor mismatch")
+        if profile in ("v3", "v4"):
             expected_config = MaxEntConfig(
                 default_model=value.get("config", {}).get("default_model"),
                 n_omega=401,
@@ -763,6 +774,7 @@ def verify_calibration(path, digest, snapshot_value, *, profile="v2"):
                 mass_curvature="projected",
                 mass_interior_fraction=1e-12,
                 minimizer_marquardt=True,
+                **({"mass_curvature_floor_relative": 1e-10} if profile == "v4" else {}),
             ).as_record()
             if value.get("config") != expected_config:
                 raise ValueError("v3 calibration case controls mismatch")
@@ -843,7 +855,7 @@ def run(
     profile="v2",
 ):
     protocol = protocol_for(profile)
-    if profile == "v3" and (
+    if profile in ("v3", "v4") and (
         eps != protocol["eps"]
         or rcond != protocol["rcond"]
         or n_omega != protocol["n_omega"]
@@ -893,9 +905,10 @@ def run(
                 "mass_interior_fraction": 1e-12,
                 "minimizer_marquardt": True,
             }
-            if profile == "v3"
+            if profile in ("v3", "v4")
             else {}
         ),
+        **({"mass_curvature_floor_relative": 1e-10} if profile == "v4" else {}),
     )
     continuation_start = time.perf_counter()
     spectrum = continue_tau_maxent(fitted, config)
@@ -941,7 +954,7 @@ def run(
                 "effective_rank": trial.effective_rank,
             }
         )
-        if profile == "v3":
+        if profile in ("v3", "v4"):
             boot_records[-1].update(
                 raw_mass=trial.raw_mass,
                 provider_diagnostics=trial.diagnostics,
@@ -1365,7 +1378,7 @@ def campaign(
                         "--job-sha256",
                         job_digest,
                     ]
-                    if profile == "v3":
+                    if profile in ("v3", "v4"):
                         command.extend(["--profile", profile])
                     remaining = GLOBAL_SECONDS - (time.monotonic() - started)
                     if remaining <= 0:
@@ -1489,7 +1502,7 @@ def main():
         )
         parser.add_argument("--worker", type=Path, required=True)
         parser.add_argument("--job-sha256", required=True)
-        parser.add_argument("--profile", choices=["v2", "v3"], default="v2")
+        parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
         args = parser.parse_args()
         worker(args.worker, args.job_sha256, profile=args.profile)
         return
@@ -1504,7 +1517,7 @@ def main():
     p.add_argument("--calibration-audit", type=Path)
     p.add_argument("--calibration-audit-sha256")
     p.add_argument("--output-dir", type=Path, required=True)
-    p.add_argument("--profile", choices=["v2", "v3"], default="v2")
+    p.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     args = p.parse_args()
     result = campaign(
         args.folder,
