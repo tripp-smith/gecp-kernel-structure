@@ -178,10 +178,11 @@ def make_native_mass_cost(
             return self._map(refresh=True).inv(hidden).copy()
 
     h = NativeNormalizedH()
-    cost_class = costs.MaxEntCostFunction
+    base_cost: Any = costs.MaxEntCostFunction
+    cost_class = base_cost
     if floor:
 
-        class ShiftedProjectedCost(costs.MaxEntCostFunction):  # type: ignore[misc, valid-type]
+        class ShiftedProjectedCost(base_cost):  # type: ignore[misc]
             @cached
             def dd(self, v: FloatArray) -> FloatArray:
                 metric, info = shifted_projected_metric(super().dd(v), floor)

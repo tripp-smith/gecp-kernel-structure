@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from numbers import Real
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -13,17 +13,17 @@ from kernelgecp.types import NumericalBreakdownError
 
 
 def validate_floor_relative(value: object) -> float:
-    if (
-        isinstance(value, (bool, np.bool_))
-        or not isinstance(value, Real)
-        or not math.isfinite(value)
-        or not 0 <= value <= 1e-2
-    ):
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, Real):
+        raise ValueError(
+            "mass_curvature_floor_relative must be finite and in [0, 0.01]"
+        )
+    numeric = cast(float, value)
+    if not math.isfinite(numeric) or not 0 <= numeric <= 1e-2:
         raise ValueError(
             "mass_curvature_floor_relative must be finite and in [0, 0.01]"
         )
     converted = float(value)
-    if value > 0 and converted == 0:
+    if numeric > 0 and converted == 0:
         raise ValueError("mass_curvature_floor_relative is not representable")
     return converted
 
