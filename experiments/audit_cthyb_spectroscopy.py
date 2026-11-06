@@ -8,6 +8,7 @@ import json
 import subprocess
 from pathlib import Path
 
+import mpmath
 import numpy as np
 from scipy.integrate import quad_vec
 from scipy.special import expit
@@ -90,10 +91,13 @@ def forward(t, w, d):
 
 
 PARENT_BINDING = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd"
-FIXED_SEEDS = [32100001 + 2 * i for i in range(256)]
+FIXED_SEEDS = [33100001 + 2 * i for i in range(256)]
 
 
-def fixed_raw_cohort(folder, receipt_path, binding_path):
+def fixed_raw_cohort(folder, receipt_path, binding_path, *, profile="v2"):
+    fixed_seeds = [
+        (33100001 if profile == "v2" else 34100001) + 2 * i for i in range(256)
+    ]
     """Independently recompute fixed-bath chain moments."""
     folder = Path(folder)
     receipt_path = Path(receipt_path)
@@ -107,13 +111,13 @@ def fixed_raw_cohort(folder, receipt_path, binding_path):
     result = json.loads((folder / "result.json").read_text())
     manifest_hash = sha(folder / "manifest.json")
     if (
-        binding.get("schema") != "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
+        binding.get("schema") != f"kernelgecp.cthyb-fixed-bath-audit-binding.{profile}"
         or binding.get("status") != "passed"
         or binding.get("receipt_sha256") != sha(receipt_path)
         or binding.get("manifest_sha256") != manifest_hash
         or binding.get("result_sha256") != sha(folder / "result.json")
         or binding.get("parent_binding_sha256") != PARENT_BINDING
-        or receipt.get("schema") != "kernelgecp.cthyb-fixed-bath-audit.v1"
+        or receipt.get("schema") != f"kernelgecp.cthyb-fixed-bath-audit.{profile}"
         or receipt.get("status") != "passed"
         or receipt.get("parent_binding_sha256") != PARENT_BINDING
         or receipt.get("manifest_sha256") != manifest_hash
@@ -164,12 +168,12 @@ def fixed_raw_cohort(folder, receipt_path, binding_path):
     ):
         raise ValueError("fixed-bath frozen calibration binding mismatch")
     if (
-        manifest.get("schema") != "kernelgecp.cthyb-fixed-bath.v1"
+        manifest.get("schema") != f"kernelgecp.cthyb-fixed-bath.{profile}"
         or manifest.get("parent", {}).get("binding_sha256") != PARENT_BINDING
-        or protocol.get("seeds") != FIXED_SEEDS
+        or protocol.get("seeds") != fixed_seeds
         or protocol.get("train_count") != 128
         or protocol.get("cycles") != 1600000
-        or result.get("schema") != "kernelgecp.cthyb-fixed-bath-result.v1"
+        or result.get("schema") != f"kernelgecp.cthyb-fixed-bath-result.{profile}"
         or result.get("status") != "complete"
         or result.get("manifest_sha256") != manifest_hash
         or len(result.get("chains", [])) != 256
@@ -201,7 +205,7 @@ def fixed_raw_cohort(folder, receipt_path, binding_path):
             entry
             == {
                 "index": i,
-                "seed": FIXED_SEEDS[i],
+                "seed": fixed_seeds[i],
                 "role": role,
                 "receipt_sha256": sha(stem.with_suffix(".json")),
                 "arrays_sha256": sha(stem.with_suffix(".npz")),
@@ -215,7 +219,7 @@ def fixed_raw_cohort(folder, receipt_path, binding_path):
             and d.get("identity")
             == {"manifest_sha256": manifest_hash, "index": i, "role": role}
             and d.get("config") == protocol.get("config")
-            and d.get("seed") == FIXED_SEEDS[i]
+            and d.get("seed") == fixed_seeds[i]
             and d.get("arrays_sha256") == sha(stem.with_suffix(".npz"))
             and d.get("cycles") == 1600000
             and d.get("solve_status") == 0
@@ -246,7 +250,7 @@ def fixed_raw_cohort(folder, receipt_path, binding_path):
         "stage": "final",
         "role": "fixed-bath-256",
         "generation_revision": provenance["revision"],
-        "seeds": FIXED_SEEDS,
+        "seeds": fixed_seeds,
         "manifest_sha256": manifest_hash,
         "result_sha256": sha(folder / "result.json"),
         "receipt_sha256": sha(receipt_path),
@@ -438,11 +442,230 @@ def raw_cohort(root, audit, binding, stage):
     return (samples, om, oc, qm, qc), cohort
 
 
-def audit_case(path, method, model, repeat, stats):
+def audit_svd_record(record, design):
+    """Check recorded binary64 diagnostics without using its vectors as truth."""
+    require(isinstance(record, dict), "projection SVD record")
+    singular = np.linalg.svd(design, compute_uv=False)
+    threshold = 1e-12 * singular[0]
+    rank = int(np.count_nonzero(singular > threshold))
+    require(
+        design.shape[0] >= design.shape[1]
+        and rank == design.shape[1]
+        and singular[-1]
+        > max(2 * threshold, 8 * np.finfo(float).eps * max(design.shape) * singular[0]),
+        "projection SVD rank guard",
+    )
+    require(
+        record.get("design_shape") == list(design.shape)
+        and record.get("design_dtype") == "float64"
+        and record.get("effective_rank") == rank
+        and record.get("rcond") == 1e-12
+        and record.get("conditioning_status") == "full_rank"
+        and record.get("factorization") == "cached_thin_svd"
+        and record.get("arithmetic") == "numpy_float64_or_complex128"
+        and record.get("precision_bits") == 53
+        and record.get("converged") is True
+        and record.get("stop_reason") == "svd_factorization_completed"
+        and record.get("convergence_scope")
+        == "numerical_factorization_of_supplied_design"
+        and record.get("solve_scope")
+        == "truncated_svd_minimum_norm_fit_on_supplied_samples"
+        and record.get("residual_scope")
+        == "design_times_coefficients_minus_supplied_training_values"
+        and record.get("certification_status") == "not_certified"
+        and record.get("certification_scope") == "no_analytic_or_rounding_certificate",
+        "projection SVD diagnostics",
+    )
+    close(
+        record.get("singular_values"),
+        singular,
+        "projection singular values",
+        rtol=1e-5,
+        atol=0,
+    )
+    close(
+        record.get("rank_threshold"),
+        threshold,
+        "projection rank threshold",
+        rtol=1e-10,
+        atol=0,
+    )
+    condition = singular[0] / singular[-1]
+    for key in ("condition_number", "retained_condition_number"):
+        close(record.get(key), condition, "projection condition", rtol=1e-5, atol=0)
+
+
+def audit_projection(record, arrays, method):
+    design, q, p = (
+        arrays[k] for k in ("observation_design", "decomposed_design", "projection")
+    )
+    require(
+        design.ndim == 2 and design.shape[0] == 65 and 0 < design.shape[1] <= 65,
+        "design",
+    )
+    require(
+        q.shape == design.shape
+        and p.shape == (65, 65)
+        and all(
+            x.dtype == np.dtype("float64") and np.isfinite(x).all()
+            for x in (design, q, p)
+        ),
+        "decomposed design shape or dtype",
+    )
+    info = record.get("projection_arithmetic")
+    require(isinstance(info, dict), "projection arithmetic")
+    for label, value in (("source_design", design), ("decomposed_design", q)):
+        digest = hashlib.sha256(
+            np.ascontiguousarray(value, dtype="<f8").tobytes()
+        ).hexdigest()
+        require(
+            info.get(label + "_sha256") == digest
+            and info.get(label + "_shape") == list(value.shape),
+            "projection design hash or shape",
+        )
+    require(
+        info.get("hash_scope")
+        == "C-order little-endian binary64 array bytes with recorded shapes",
+        "projection hash scope",
+    )
+    if method == "raw":
+        require(
+            record.get("precision_bits") == 53
+            and info.get("precision_bits") == 53
+            and info.get("method") == "identity"
+            and info.get("rank_guard") is None
+            and info.get("transformed_svd") is None
+            and record.get("projection_svd") is None
+            and record.get("transformed_projection_svd") is None
+            and np.array_equal(design, np.eye(65))
+            and np.array_equal(q, np.eye(65))
+            and np.array_equal(p, np.eye(65)),
+            "raw identity projection",
+        )
+        return
+    require(
+        record.get("precision_bits") == 256
+        and info.get("precision_bits") == 256
+        and info.get("method") == "mpmath_qr_then_binary64_cached_svd"
+        and info.get("rank_guard")
+        == "smallest > max(2 * threshold, 8 * eps64 * max(shape) * largest); heuristic"
+        and info.get("transformed_svd") == record.get("transformed_projection_svd"),
+        "projection precision or arithmetic",
+    )
+    audit_svd_record(record.get("projection_svd"), design)
+    audit_svd_record(record.get("transformed_projection_svd"), q)
+    close(q.T @ q, np.eye(q.shape[1]), "orthogonal coordinates", rtol=0, atol=2e-12)
+    close(p, q @ q.T, "decomposition projection", rtol=0, atol=2e-12)
+    ctx = mpmath.mp.clone()
+    ctx.dps = 80
+    matrix = ctx.matrix([[ctx.mpf(float(x)) for x in row] for row in design])
+    u, singular, _ = ctx.svd(matrix, full_matrices=False)
+    rank = sum(
+        singular[i] > ctx.mpf("1e-12") * singular[0] for i in range(len(singular))
+    )
+    require(rank == design.shape[1], "independent projection rank")
+    oracle = np.array(
+        [
+            [
+                float(sum(u[i, k] * u[j, k] for k in range(rank)))
+                for j in range(len(design))
+            ]
+            for i in range(len(design))
+        ]
+    )
+    close(p, oracle, "independent projection", atol=2e-8, rtol=1e-8)
+
+
+def audit_curvature_metric(parameter, config):
+    metric = parameter.get("curvature_metric")
+    if config.get("mass_curvature_floor_relative") != 1e-10:
+        require(metric is None, "unexpected curvature metric")
+        return
+    require(
+        isinstance(metric, dict)
+        and metric.get("certified") is False
+        and type(metric.get("evaluation_count")) is int
+        and metric["evaluation_count"] > 0,
+        "curvature metric evaluation",
+    )
+    value = metric.get("last_evaluation")
+    require(
+        isinstance(value, dict)
+        and value.get("certified") is False
+        and value.get("floor_relative") == 1e-10
+        and type(value.get("dimension")) is int
+        and 1 <= value["dimension"] <= 128,
+        "curvature metric identity",
+    )
+    keys = (
+        "scale",
+        "normalized_min_eigenvalue",
+        "normalized_max_eigenvalue",
+        "normalized_shift",
+        "shift",
+        "shifted_normalized_min_eigenvalue",
+        "shifted_normalized_max_eigenvalue",
+        "condition_estimate",
+    )
+    require(
+        all(type(value.get(k)) in (int, float) and np.isfinite(value[k]) for k in keys),
+        "curvature metric finite estimates",
+    )
+    lo, hi = value["normalized_min_eigenvalue"], value["normalized_max_eigenvalue"]
+    shifted_lo = value["shifted_normalized_min_eigenvalue"]
+    shifted_hi = value["shifted_normalized_max_eigenvalue"]
+    shift = value["normalized_shift"]
+    require(
+        value["scale"] > 0
+        and lo <= hi
+        and shift >= 0
+        and np.isclose(
+            shift, max(0.0, 1e-10 * value["dimension"] - lo), rtol=1e-12, atol=1e-15
+        )
+        and np.isclose(value["shift"], shift * value["scale"], rtol=1e-12, atol=0)
+        and 0 < shifted_lo <= shifted_hi
+        and np.isclose(
+            value["condition_estimate"], shifted_hi / shifted_lo, rtol=1e-12
+        ),
+        "curvature metric inconsistent estimates",
+    )
+
+
+def audit_v3_native_metadata(diagnostics, config):
+    param = diagnostics.get("mass_parameterization", {})
+    require(
+        diagnostics.get("mass_operation") == "native_mass_constraint"
+        and param.get("curvature") == "projected"
+        and param.get("interior_fraction") == 1e-12
+        and param.get("d_dv") is False
+        and param.get("dA_projection") == 2
+        and param.get("chi2_factor") == 1.0
+        and param.get("floor_policy") == "reject_native_entropy_floor_or_overflow"
+        and diagnostics.get("config", {}) == config
+        and diagnostics.get("provider") == "TRIQS/MaxEnt"
+        and diagnostics.get("version") == "4.0.1"
+        and diagnostics.get("native_minimizer", {}).get("class") == "LevenbergMinimizer"
+        and diagnostics.get("native_minimizer", {}).get("marquardt") is True
+        and diagnostics.get("native_minimizer", {}).get("J_squared") is False
+        and diagnostics.get("native_minimizer", {}).get("mu0") == 1e-8
+        and diagnostics.get("native_minimizer", {}).get("maxiter") == 1000,
+        "native mass and damping metadata",
+    )
+    audit_curvature_metric(param, config or {})
+    for key in ("min_observed_H", "min_observed_mixture_floor"):
+        value = param.get(key)
+        require(
+            type(value) in (float, int) and np.isfinite(value) and value > 1e-100,
+            "native mass floor metadata",
+        )
+
+
+def audit_case(path, method, model, repeat, stats, *, profile="v2"):
+    require(profile in ("v2", "v3", "v4"), "profile")
     d = read(path)
     npz = path.with_suffix(".npz")
     require(
-        d.get("schema") == "kernelgecp.cthyb-spectroscopy.v1"
+        d.get("schema") == f"kernelgecp.cthyb-spectroscopy.{profile}"
         and d.get("status") == "passed"
         and d.get("method") == method
         and d.get("config", {}).get("default_model") == model
@@ -470,6 +693,17 @@ def audit_case(path, method, model, repeat, stats):
             "default_model": model,
             "normalize_mass": 1.0,
             "minimizer_mu0": 1e-8,
+            **(
+                {
+                    "mass_mode": "constrained",
+                    "mass_curvature": "projected",
+                    "mass_interior_fraction": 1e-12,
+                    "minimizer_marquardt": True,
+                }
+                if profile in ("v3", "v4")
+                else {}
+            ),
+            **({"mass_curvature_floor_relative": 1e-10} if profile == "v4" else {}),
         },
         "solver controls",
     )
@@ -490,6 +724,7 @@ def audit_case(path, method, model, repeat, stats):
         "projected_covariance",
         "projection",
         "observation_design",
+        "decomposed_design",
         "native_kernel",
         "projected_kernel",
         "query",
@@ -520,14 +755,7 @@ def audit_case(path, method, model, repeat, stats):
     require(p.shape == (65, 65), "projection shape")
     close(p, p.T, "projection symmetry", atol=2e-10)
     close(p @ p, p, "projection idempotence", atol=2e-10)
-    if method == "raw":
-        close(p, np.eye(65), "raw projection")
-    design = a["observation_design"]
-    require(design.ndim == 2 and design.shape[0] == 65, "design")
-    if method != "raw":
-        u, s, _ = np.linalg.svd(design, full_matrices=False)
-        keep = s > 1e-12 * s[0]
-        close(p, u[:, keep] @ u[:, keep].T, "independent projection", atol=2e-8)
+    audit_projection(d, a, method)
     native_times = t[OBS]
     w0 = np.linspace(-4, 4, 401)
     widths = np.r_[np.diff(w0)[0] / 2, (w0[2:] - w0[:-2]) / 2, np.diff(w0)[-1] / 2]
@@ -627,7 +855,14 @@ def audit_case(path, method, model, repeat, stats):
     require(eligible.any(), "convergence")
     # Integrate all eligible piecewise-linear spectra with adaptive SciPy quadrature.
     indices = np.flatnonzero(eligible)
-    normalized = trials[indices] / masses[indices, None]
+    if profile in ("v3", "v4"):
+        require(
+            np.all(trials > 0) and np.all(np.abs(masses - 1.0) <= 1e-10),
+            "native trial masses or positivity",
+        )
+        normalized = trials[indices]
+    else:
+        normalized = trials[indices] / masses[indices, None]
 
     def integrand(x):
         j = min(np.searchsorted(w, x, side="right") - 1, len(w) - 2)
@@ -669,7 +904,14 @@ def audit_case(path, method, model, repeat, stats):
     idx = int(indices[np.argmin(score)])
     require(d["selected_index"] == idx, "alpha selection")
     raw = masses[idx]
-    close(den, trials[idx] / raw, "selected spectrum")
+    close(
+        den,
+        trials[idx] if profile in ("v3", "v4") else trials[idx] / raw,
+        "selected spectrum",
+    )
+    if profile in ("v3", "v4"):
+        require(np.array_equal(den, trials[idx]), "post-fit constrained rescale")
+        audit_v3_native_metadata(diagnostics, d["config"])
     prediction = forward(a["query"], w, den)
     close(prediction, a["prediction"], "independent quadrature", rtol=2e-6, atol=2e-7)
     rms = float(
@@ -689,7 +931,16 @@ def audit_case(path, method, model, repeat, stats):
         )
         require(np.array_equal(ix, a["bootstrap_indices"]), "bootstrap indices")
         bw = []
-        for x in a["bootstrap_spectra"]:
+        for i, x in enumerate(a["bootstrap_spectra"]):
+            if profile in ("v3", "v4"):
+                rec = d["bootstrap_records"][i]
+                require(
+                    abs(rec["raw_mass"] - 1) <= 1e-10 and np.all(x > 0),
+                    "bootstrap native mass",
+                )
+                audit_v3_native_metadata(
+                    rec.get("provider_diagnostics", {}), d["config"]
+                )
             require(
                 np.min(x) >= -1e-6 and abs(np.trapezoid(x, w) - 1) <= 1e-6,
                 "bootstrap spectrum",
@@ -711,7 +962,7 @@ def audit_case(path, method, model, repeat, stats):
     return d, a
 
 
-def check_snapshot(snapshot):
+def check_snapshot(snapshot, profile="v2"):
     require(
         isinstance(snapshot, dict)
         and snapshot.get("revision")
@@ -752,6 +1003,8 @@ def check_snapshot(snapshot):
         "environments/locks/triqs-maxent-pip.txt",
         "environments/locks/dlr-physics-pip.txt",
     }
+    if profile == "v4":
+        required.add("kernelgecp/integrations/_maxent_curvature.py")
     require(
         required.issubset(snapshot["sources"]), "incomplete scientific source inventory"
     )
@@ -769,7 +1022,16 @@ def check_snapshot(snapshot):
 
 
 def check_workers(
-    manifest, campaign, root, ee_audit, binding, stage, calibration, calibration_audit
+    manifest,
+    campaign,
+    root,
+    ee_audit,
+    binding,
+    stage,
+    calibration,
+    calibration_audit,
+    *,
+    profile="v2",
 ):
     """Verify the complete pinned child-job and process receipt inventory."""
     workers = manifest.get("workers")
@@ -833,7 +1095,7 @@ def check_workers(
         )
         require(parent == parent_pid, "worker parent mismatch")
         require(
-            job.get("schema") == "kernelgecp.cthyb-spectroscopy-worker-job.v1"
+            job.get("schema") == f"kernelgecp.cthyb-spectroscopy-worker-job.{profile}"
             and job.get("stage") == stage
             and job.get("method") == method
             and job.get("model") == model
@@ -875,17 +1137,19 @@ def check_workers(
         command = record.get("command")
         require(
             isinstance(command, list)
-            and len(command) == 7
+            and len(command) == (7 if profile == "v2" else 9)
             and Path(command[0]).resolve()
             == Path(manifest["snapshot"]["executable"]).resolve()
             and command[1:4] == ["-m", "experiments.cthyb_spectroscopy", "--worker"]
             and Path(command[4]).resolve() == job_path
-            and command[5:] == ["--job-sha256", sha(job_path)],
+            and command[5:]
+            == ["--job-sha256", sha(job_path)]
+            + ([] if profile == "v2" else ["--profile", profile]),
             "worker command",
         )
         receipt = read(worker_path)
         require(
-            receipt.get("schema") == "kernelgecp.cthyb-spectroscopy-worker.v1"
+            receipt.get("schema") == f"kernelgecp.cthyb-spectroscopy-worker.{profile}"
             and receipt.get("status") == "passed"
             and receipt.get("pid") == pid
             and receipt.get("job_sha256") == sha(job_path)
@@ -896,9 +1160,9 @@ def check_workers(
     require(len(seen) == len(workers), "worker PID inventory")
 
 
-def check_calibration_binding(cal, ca, calibration):
+def check_calibration_binding(cal, ca, calibration, *, profile="v2"):
     require(
-        ca.get("schema") == "kernelgecp.cthyb-spectroscopy-independent-audit.v1"
+        ca.get("schema") == f"kernelgecp.cthyb-spectroscopy-independent-audit.{profile}"
         and ca.get("status") == "passed"
         and ca.get("kind") == "calibration"
         and ca.get("calibration_sha256") == sha(calibration)
@@ -911,76 +1175,100 @@ def check_calibration_binding(cal, ca, calibration):
 
 
 def campaign_audit(
-    campaign, root, ee_audit, binding, calibration=None, calibration_audit=None
+    campaign,
+    root,
+    ee_audit,
+    binding,
+    calibration=None,
+    calibration_audit=None,
+    *,
+    profile="v2",
 ):
+    require(profile in ("v2", "v3", "v4"), "profile")
     campaign = Path(campaign)
     m = read(campaign)
     stage = (
         "calibration"
-        if m.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v1"
+        if m.get("schema") == f"kernelgecp.cthyb-spectroscopy-calibration.{profile}"
         else "final"
     )
     require(
-        m.get("schema") == f"kernelgecp.cthyb-spectroscopy-{stage}.v1"
+        m.get("schema") == f"kernelgecp.cthyb-spectroscopy-{stage}.{profile}"
         and m.get("status") == "passed"
         and m.get("binding_sha256") == sha(binding),
         "campaign schema",
     )
     protocol = m["protocol"]
-    require(
-        protocol
-        == {
-            "methods": list(METHODS),
-            "default_models": list(MODELS),
-            "basis_control_ladder": [
-                {
-                    "name": "baseline",
-                    "eps": 1e-8,
-                    "rcond": 1e-10,
-                    "outcome": "failed_partial_calibration_pydlr_flat",
-                    "source_revision": "d5070509b675706e3e18164de96660530ac0489a",
-                    "failed_whitened_rms": 2.0585741570745255,
-                    "failed_projection_rank": 20,
-                    "failed_projected_covariance_rank": 19,
-                    "progress_sha256": (
-                        "c84df6e1dc8d2b2afce0f5ea7954ebdc"
-                        "8ee444cfac569d2fb803e582e7de1747"
-                    ),
-                    "failed_result_sha256": (
-                        "03c506bc6c864b8acf7c7f88ba9b08b1"
-                        "6c3a17c13c67de97cace5ff28bd5739b"
-                    ),
-                    "failed_array_sha256": (
-                        "ebe689065afd27d657047af795710adb"
-                        "373e96bdb3319d05d55273feb339c523"
-                    ),
-                },
-                {"name": "candidate1", "eps": 1e-10, "rcond": 1e-12},
-            ],
-            "selected_basis_control": "candidate1",
-            "eps": 1e-10,
-            "rcond": 1e-12,
-            "n_omega": 401,
-            "n_alpha": 33,
-            "minimizer_mu0": 1e-8,
-            "covariance_rtol": 1e-4,
-            "bootstrap_count": 8,
-            "bootstrap_repeat": 0,
-            "bootstrap_seed": 193,
-            "calibration_repeats": 1,
-            "final_repeats": 3,
-            "validation": "independent_heldout_chain_mean_conditional_on_training_fit",
-            "alpha_selection": "normalized_training_only_discrepancy",
-            "consumed_final_failure_array_sha256": (
-                "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba"
-            ),
-            "calibration_generation_revision": CAL_REV,
-            "final_generation_revision": FINAL_REV,
-            "final_seed_base": FINAL_SEED,
-        },
-        "protocol",
-    )
-    check_snapshot(m["snapshot"])
+    expected_protocol = {
+        "profile": "corrective_projection_v2",
+        "projection_precision_bits": 256,
+        "methods": list(METHODS),
+        "default_models": list(MODELS),
+        "basis_control_ladder": [
+            {
+                "name": "baseline",
+                "eps": 1e-8,
+                "rcond": 1e-10,
+                "outcome": "failed_partial_calibration_pydlr_flat",
+                "source_revision": "d5070509b675706e3e18164de96660530ac0489a",
+                "failed_whitened_rms": 2.0585741570745255,
+                "failed_projection_rank": 20,
+                "failed_projected_covariance_rank": 19,
+                "progress_sha256": (
+                    "c84df6e1dc8d2b2afce0f5ea7954ebdc8ee444cfac569d2fb803e582e7de1747"
+                ),
+                "failed_result_sha256": (
+                    "03c506bc6c864b8acf7c7f88ba9b08b16c3a17c13c67de97cace5ff28bd5739b"
+                ),
+                "failed_array_sha256": (
+                    "ebe689065afd27d657047af795710adb373e96bdb3319d05d55273feb339c523"
+                ),
+            },
+            {"name": "candidate1", "eps": 1e-10, "rcond": 1e-12},
+        ],
+        "selected_basis_control": "candidate1",
+        "eps": 1e-10,
+        "rcond": 1e-12,
+        "n_omega": 401,
+        "n_alpha": 33,
+        "minimizer_mu0": 1e-8,
+        "covariance_rtol": 1e-4,
+        "bootstrap_count": 8,
+        "bootstrap_repeat": 0,
+        "bootstrap_seed": 193,
+        "calibration_repeats": 1,
+        "final_repeats": 3,
+        "validation": "independent_heldout_chain_mean_conditional_on_training_fit",
+        "alpha_selection": "normalized_training_only_discrepancy",
+        "consumed_final_failure_array_sha256": (
+            "407c85405e9f56135442db29bb2a4c75df8ef77b37e3f831a58c754e562817ba"
+        ),
+        "calibration_generation_revision": CAL_REV,
+        "parent_generation_revision": FINAL_REV,
+        "final_generation_revision_policy": "equal_campaign_snapshot_revision",
+        "final_seed_base": 33100001,
+        "final_seed_stride": 2,
+        "final_chain_count": 256,
+        "final_training_count": 128,
+        "final_heldout_count": 128,
+    }
+    if profile in ("v3", "v4"):
+        expected_protocol.update(
+            profile="native_interior_v3",
+            final_seed_base=34100001,
+            mass_mode="constrained",
+            mass_curvature="projected",
+            mass_interior_fraction=1e-12,
+            minimizer_marquardt=True,
+            maxiter=1000,
+            development_scope="9d28053_cohort_consumed_development",
+        )
+    if profile == "v4":
+        expected_protocol.update(
+            profile="native_shifted_curvature_v4", mass_curvature_floor_relative=1e-10
+        )
+    require(protocol == expected_protocol, "protocol")
+    check_snapshot(m["snapshot"], profile)
     if stage == "final":
         require(
             calibration is not None and calibration_audit is not None,
@@ -989,7 +1277,7 @@ def campaign_audit(
         ca = read(calibration_audit)
         cal = read(calibration)
         require(m.get("calibration_sha256") == sha(calibration), "calibration hash")
-        check_calibration_binding(cal, ca, calibration)
+        check_calibration_binding(cal, ca, calibration, profile=profile)
         audit_blob = subprocess.check_output(
             [
                 "git",
@@ -1009,9 +1297,9 @@ def campaign_audit(
     if (
         stage == "final"
         and read(binding).get("schema")
-        == "kernelgecp.cthyb-fixed-bath-audit-binding.v1"
+        == f"kernelgecp.cthyb-fixed-bath-audit-binding.{profile}"
     ):
-        samples, cohort = fixed_raw_cohort(root, ee_audit, binding)
+        samples, cohort = fixed_raw_cohort(root, ee_audit, binding, profile=profile)
         require(
             cohort["generation_revision"] == m["snapshot"]["revision"],
             "fixed-bath source freeze",
@@ -1030,6 +1318,7 @@ def campaign_audit(
             "final calibration differs from pre-acquisition freeze",
         )
     else:
+        require(stage == "calibration", "v2 fixed-bath binding required")
         samples, cohort = raw_cohort(root, ee_audit, binding, stage)
     require(m.get("cohort") == cohort, "campaign cohort metadata")
     if stage == "calibration":
@@ -1037,7 +1326,7 @@ def campaign_audit(
     else:
         cc = cal.get("cohort", {})
         require(
-            cal.get("schema") == "kernelgecp.cthyb-spectroscopy-calibration.v1"
+            cal.get("schema") == f"kernelgecp.cthyb-spectroscopy-calibration.{profile}"
             and cal.get("status") == "passed"
             and cc.get("stage") == "calibration"
             and cc.get("role") == "kernelgecp-final"
@@ -1063,7 +1352,15 @@ def campaign_audit(
     }
     require(set(m["cases"]) == expected, "child inventory")
     check_workers(
-        m, campaign, root, ee_audit, binding, stage, calibration, calibration_audit
+        m,
+        campaign,
+        root,
+        ee_audit,
+        binding,
+        stage,
+        calibration,
+        calibration_audit,
+        profile=profile,
     )
     records = {}
     arrays = {}
@@ -1077,7 +1374,9 @@ def campaign_audit(
             and sha(p.with_suffix(".npz")) == h["array_sha256"],
             "child hashes",
         )
-        records[name], arrays[name] = audit_case(p, method, model, repeat, samples)
+        records[name], arrays[name] = audit_case(
+            p, method, model, repeat, samples, profile=profile
+        )
         require(records[name].get("source") == cohort, "case cohort metadata")
     if stage == "final":
         for method in METHODS:
@@ -1116,7 +1415,7 @@ def campaign_audit(
         "auditor source must be committed",
     )
     return {
-        "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+        "schema": f"kernelgecp.cthyb-spectroscopy-independent-audit.{profile}",
         "status": "passed",
         "kind": stage,
         "calibration_sha256": sha(campaign)
@@ -1154,6 +1453,7 @@ def main():
     p.add_argument("--calibration", type=Path)
     p.add_argument("--calibration-audit", type=Path)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     a = p.parse_args()
     try:
         r = campaign_audit(
@@ -1163,11 +1463,12 @@ def main():
             a.ee_binding,
             a.calibration,
             a.calibration_audit,
+            profile=a.profile,
         )
         code = 0
     except Exception as e:
         r = {
-            "schema": "kernelgecp.cthyb-spectroscopy-independent-audit.v1",
+            "schema": f"kernelgecp.cthyb-spectroscopy-independent-audit.{a.profile}",
             "status": "failed",
             "error": f"{type(e).__name__}: {e}",
         }

@@ -1,0 +1,57 @@
+{
+  "artifacts": [
+    {
+      "bytes": 83536697,
+      "id": 13155928332,
+      "path": "/tmp/gecp-eh-v2-41391193610-final-failed.zip",
+      "sha256": "5601aaf3658acf3a13149cd9967984245727ef0e18cf7ecba7192e1238541e95"
+    },
+    {
+      "bytes": 22531165,
+      "id": 13157110869,
+      "path": "/tmp/gecp-eh-v2-41391193610-complete256.zip",
+      "sha256": "6c2d134887ac882d703908874bb35de47b87c411ac6cad346c86b4ccac61fa41"
+    }
+  ],
+  "attempt": 1,
+  "bound_files": {
+    "fixed-bath-audit.json": "5b97e1180a7f129da8386b9a0588cf626dfe1aac9b82729afdfa69589d187071",
+    "fixed-bath-binding.json": "b1a8008c820cf7187201d611186855c59722ac20aa6c5a2bea1f0ad2709973fd",
+    "fixed-bath/manifest.json": "c0ac3bdaa4d8cdb6ab6df19b55a6feaeac6af5bd3fce71b75c29e599da873522",
+    "fixed-bath/result.json": "84e7116b8e572bc298084989ab30c53853754446f85ceaf8b79d8571fcfc0e84",
+    "native-final/progress.json": "290ff361fadc6c67885d2fd5da5bac493da76f5094cee86b920170adb39f8e5b",
+    "native-final/raw-flat-r0.json": "f8d13234fda36f4ebc009ad2680db0079839e4ad6be8f8a1c3fc734a2c6fa2fa",
+    "native-final/raw-flat-r0.npz": "1ce196afc1c642736ccec72487566eef2f075e73ae3120a6719a7cb2370ed02f"
+  },
+  "continuation": {
+    "case": "raw-flat-r0",
+    "heldout_whitened_rms": 2.8853152217099556,
+    "limit": 2.0,
+    "mass": 1.0,
+    "positive": true,
+    "remaining_workers": "not_executed_due_fail_fast",
+    "selected_converged": true,
+    "selected_index": 10,
+    "status": "failed",
+    "training_whitened_rms_after_rescale": 2.773176709885627
+  },
+  "independent_checks": {
+    "native_training_chi2": 79.8416,
+    "noise_audit_sha256": "f78ff398b05b3bd7ddacb772101e8bf32d6d8433f02eeb7e91d8b2250dda796d",
+    "posthoc_normalized_training_chi2": 492.19258011213253,
+    "recomputed_whitened_rms": 2.885315221709669,
+    "scope": "development diagnosis, not passing acceptance; no rerun or heldout alpha selection",
+    "selector_trial": 10
+  },
+  "raw_cohort": {
+    "chains": 256,
+    "heldout": 128,
+    "status": "passed_raw_fixed_bath_only",
+    "train": 128
+  },
+  "run_id": 41391193610,
+  "schema": "kernelgecp.spectroscopy-failed-final-receipt.v1",
+  "scope": "Raw acquisition passed, continuation acceptance failed. The final cohort is consumed development evidence; no rerun or relaxed tolerance; release remains open.",
+  "source_revision": "98bdfabf8523630cc141fb5ea9d0ecdec6f6bf43",
+  "status": "failed"
+}

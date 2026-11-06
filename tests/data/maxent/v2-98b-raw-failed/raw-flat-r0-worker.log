@@ -1,0 +1,449 @@
+Starting serial run at: 2026-11-02 15:41:46.056175
+Warning: could not identify MPI environment!
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -1.343375641707249e-23
+2026-11-02 15:41:48.252774
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 53.55656585037527
+alpha[ 0] =   1.00000000e+04, chi2 =   3.24054919e+02, n_iter=      20 
+alpha[ 1] =   5.62341325e+03, chi2 =   1.88432059e+02, n_iter=      13 
+alpha[ 2] =   3.16227766e+03, chi2 =   1.28638730e+02, n_iter=      10 
+alpha[ 3] =   1.77827941e+03, chi2 =   1.03018918e+02, n_iter=       9 
+alpha[ 4] =   1.00000000e+03, chi2 =   9.14061822e+01, n_iter=      13 
+alpha[ 5] =   5.62341325e+02, chi2 =   8.56715084e+01, n_iter=      11 
+alpha[ 6] =   3.16227766e+02, chi2 =   8.27516841e+01, n_iter=       9 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.12946586e+01, n_iter=       9 
+alpha[ 8] =   1.00000000e+02, chi2 =   8.05678185e+01, n_iter=      11 
+alpha[ 9] =   5.62341325e+01, chi2 =   8.01577152e+01, n_iter=      14 
+alpha[10] =   3.16227766e+01, chi2 =   7.98415716e+01, n_iter=      20 
+alpha[11] =   1.77827941e+01, chi2 =   7.95132849e+01, n_iter=      29 
+alpha[12] =   1.00000000e+01, chi2 =   7.91400523e+01, n_iter=      41 
+alpha[13] =   5.62341325e+00, chi2 =   7.87339831e+01, n_iter=      61 
+alpha[14] =   3.16227766e+00, chi2 =   7.83281228e+01, n_iter=      89 
+alpha[15] =   1.77827941e+00, chi2 =   7.79496958e+01, n_iter=     128 
+alpha[16] =   1.00000000e+00, chi2 =   7.76046784e+01, n_iter=     185 
+alpha[17] =   5.62341325e-01, chi2 =   7.72982315e+01, n_iter=     271 
+alpha[18] =   3.16227766e-01, chi2 =   7.70545058e+01, n_iter=     389 
+alpha[19] =   1.77827941e-01, chi2 =   7.68982231e+01, n_iter=     518 
+alpha[20] =   1.00000000e-01, chi2 =   7.68138534e+01, n_iter=     640 
+alpha[21] =   5.62341325e-02, chi2 =   7.67681884e+01, n_iter=     777 
+alpha[22] =   3.16227766e-02, chi2 =   7.67429381e+01, n_iter=     956 
+alpha[23] =   1.77827941e-02, chi2 =   7.67294056e+01, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   7.67221578e+01, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   7.67181080e+01, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   7.67158731e+01, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   7.67148686e+01, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   7.67145593e+01, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   7.67144989e+01, n_iter=     923 
+alpha[30] =   3.16227766e-04, chi2 =   7.67144856e+01, n_iter=     590 
+alpha[31] =   1.77827941e-04, chi2 =   7.67144798e+01, n_iter=     479 
+alpha[32] =   1.00000000e-04, chi2 =   7.67144769e+01, n_iter=     437 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:16.556738
+2026-11-02 15:42:04.910221
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 916.404737063404
+alpha[ 0] =   1.00000000e+04, chi2 =   5.27180470e+02, n_iter=      31 
+alpha[ 1] =   5.62341325e+03, chi2 =   4.20127994e+02, n_iter=      10 
+alpha[ 2] =   3.16227766e+03, chi2 =   3.60842778e+02, n_iter=      17 
+alpha[ 3] =   1.77827941e+03, chi2 =   3.22333004e+02, n_iter=      14 
+alpha[ 4] =   1.00000000e+03, chi2 =   2.97208953e+02, n_iter=      16 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.82314543e+02, n_iter=      17 
+alpha[ 6] =   3.16227766e+02, chi2 =   2.74230851e+02, n_iter=      19 
+alpha[ 7] =   1.77827941e+02, chi2 =   2.69819972e+02, n_iter=      22 
+alpha[ 8] =   1.00000000e+02, chi2 =   2.66974072e+02, n_iter=      33 
+alpha[ 9] =   5.62341325e+01, chi2 =   2.64580534e+02, n_iter=      49 
+alpha[10] =   3.16227766e+01, chi2 =   2.62240156e+02, n_iter=      67 
+alpha[11] =   1.77827941e+01, chi2 =   2.59946925e+02, n_iter=     101 
+alpha[12] =   1.00000000e+01, chi2 =   2.57819504e+02, n_iter=     145 
+alpha[13] =   5.62341325e+00, chi2 =   2.55955468e+02, n_iter=     209 
+alpha[14] =   3.16227766e+00, chi2 =   2.54389333e+02, n_iter=     310 
+alpha[15] =   1.77827941e+00, chi2 =   2.53151579e+02, n_iter=     440 
+alpha[16] =   1.00000000e+00, chi2 =   2.52290322e+02, n_iter=     608 
+alpha[17] =   5.62341325e-01, chi2 =   2.51789257e+02, n_iter=     777 
+alpha[18] =   3.16227766e-01, chi2 =   2.51523311e+02, n_iter=     959 
+alpha[19] =   1.77827941e-01, chi2 =   2.51388079e+02, n_iter=    1000!
+alpha[20] =   1.00000000e-01, chi2 =   2.51317059e+02, n_iter=    1000!
+alpha[21] =   5.62341325e-02, chi2 =   2.51276981e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   2.51253253e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   2.51238913e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   2.51230424e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   2.51226203e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   2.51224956e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   2.51224749e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   2.51224744e+02, n_iter=     277 
+alpha[29] =   5.62341325e-04, chi2 =   2.51224743e+02, n_iter=      62 
+alpha[30] =   3.16227766e-04, chi2 =   2.51224743e+02, n_iter=      36 
+alpha[31] =   1.77827941e-04, chi2 =   2.51224743e+02, n_iter=      24 
+alpha[32] =   1.00000000e-04, chi2 =   2.51224743e+02, n_iter=      16 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:17.460784
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -9.099751013165216e-23
+2026-11-02 15:42:22.464859
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 624.6588533483629
+alpha[ 0] =   1.00000000e+04, chi2 =   6.99255874e+02, n_iter=      27 
+alpha[ 1] =   5.62341325e+03, chi2 =   6.14412666e+02, n_iter=      11 
+alpha[ 2] =   3.16227766e+03, chi2 =   5.76409210e+02, n_iter=       9 
+alpha[ 3] =   1.77827941e+03, chi2 =   5.57824695e+02, n_iter=      17 
+alpha[ 4] =   1.00000000e+03, chi2 =   5.47806033e+02, n_iter=      18 
+alpha[ 5] =   5.62341325e+02, chi2 =   5.42163353e+02, n_iter=      16 
+alpha[ 6] =   3.16227766e+02, chi2 =   5.38910823e+02, n_iter=      15 
+alpha[ 7] =   1.77827941e+02, chi2 =   5.36847666e+02, n_iter=      17 
+alpha[ 8] =   1.00000000e+02, chi2 =   5.35182809e+02, n_iter=      28 
+alpha[ 9] =   5.62341325e+01, chi2 =   5.33458888e+02, n_iter=      36 
+alpha[10] =   3.16227766e+01, chi2 =   5.31538174e+02, n_iter=      48 
+alpha[11] =   1.77827941e+01, chi2 =   5.29555359e+02, n_iter=      63 
+alpha[12] =   1.00000000e+01, chi2 =   5.27793991e+02, n_iter=      94 
+alpha[13] =   5.62341325e+00, chi2 =   5.26398749e+02, n_iter=     150 
+alpha[14] =   3.16227766e+00, chi2 =   5.25248397e+02, n_iter=     242 
+alpha[15] =   1.77827941e+00, chi2 =   5.24262938e+02, n_iter=     383 
+alpha[16] =   1.00000000e+00, chi2 =   5.23483371e+02, n_iter=     568 
+alpha[17] =   5.62341325e-01, chi2 =   5.22972942e+02, n_iter=     772 
+alpha[18] =   3.16227766e-01, chi2 =   5.22695495e+02, n_iter=     958 
+alpha[19] =   1.77827941e-01, chi2 =   5.22555170e+02, n_iter=    1000!
+alpha[20] =   1.00000000e-01, chi2 =   5.22481933e+02, n_iter=    1000!
+alpha[21] =   5.62341325e-02, chi2 =   5.22441017e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   5.22417218e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   5.22402957e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   5.22394263e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   5.22389087e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   5.22386545e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   5.22385789e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   5.22385645e+02, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   5.22385598e+02, n_iter=    1000!
+alpha[30] =   3.16227766e-04, chi2 =   5.22385577e+02, n_iter=    1000!
+alpha[31] =   1.77827941e-04, chi2 =   5.22385566e+02, n_iter=    1000!
+alpha[32] =   1.00000000e-04, chi2 =   5.22385562e+02, n_iter=    1000!
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:22.975692
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -4.406444879553234e-23
+2026-11-02 15:42:45.522827
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 233.82191060476754
+alpha[ 0] =   1.00000000e+04, chi2 =   4.57918488e+02, n_iter=      18 
+alpha[ 1] =   5.62341325e+03, chi2 =   3.33348881e+02, n_iter=      11 
+alpha[ 2] =   3.16227766e+03, chi2 =   2.76982937e+02, n_iter=      10 
+alpha[ 3] =   1.77827941e+03, chi2 =   2.48301884e+02, n_iter=      13 
+alpha[ 4] =   1.00000000e+03, chi2 =   2.32235736e+02, n_iter=      14 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.23325037e+02, n_iter=      12 
+alpha[ 6] =   3.16227766e+02, chi2 =   2.18699505e+02, n_iter=      11 
+alpha[ 7] =   1.77827941e+02, chi2 =   2.16400755e+02, n_iter=      12 
+alpha[ 8] =   1.00000000e+02, chi2 =   2.15208294e+02, n_iter=      20 
+alpha[ 9] =   5.62341325e+01, chi2 =   2.14464888e+02, n_iter=      18 
+alpha[10] =   3.16227766e+01, chi2 =   2.13872751e+02, n_iter=      30 
+alpha[11] =   1.77827941e+01, chi2 =   2.13334447e+02, n_iter=      36 
+alpha[12] =   1.00000000e+01, chi2 =   2.12820579e+02, n_iter=      51 
+alpha[13] =   5.62341325e+00, chi2 =   2.12303859e+02, n_iter=      78 
+alpha[14] =   3.16227766e+00, chi2 =   2.11765311e+02, n_iter=     119 
+alpha[15] =   1.77827941e+00, chi2 =   2.11213000e+02, n_iter=     181 
+alpha[16] =   1.00000000e+00, chi2 =   2.10709902e+02, n_iter=     260 
+alpha[17] =   5.62341325e-01, chi2 =   2.10310510e+02, n_iter=     370 
+alpha[18] =   3.16227766e-01, chi2 =   2.10034980e+02, n_iter=     500 
+alpha[19] =   1.77827941e-01, chi2 =   2.09874884e+02, n_iter=     628 
+alpha[20] =   1.00000000e-01, chi2 =   2.09791384e+02, n_iter=     761 
+alpha[21] =   5.62341325e-02, chi2 =   2.09746740e+02, n_iter=     918 
+alpha[22] =   3.16227766e-02, chi2 =   2.09722573e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   2.09709717e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   2.09702447e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   2.09698098e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   2.09695494e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   2.09694257e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   2.09693996e+02, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   2.09693991e+02, n_iter=     316 
+alpha[30] =   3.16227766e-04, chi2 =   2.09693990e+02, n_iter=     167 
+alpha[31] =   1.77827941e-04, chi2 =   2.09693990e+02, n_iter=     135 
+alpha[32] =   1.00000000e-04, chi2 =   2.09693990e+02, n_iter=      92 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:15.578650
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -5.59487228197478e-23
+2026-11-02 15:43:01.196859
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 354.21019177260973
+alpha[ 0] =   1.00000000e+04, chi2 =   4.25449243e+02, n_iter=      23 
+alpha[ 1] =   5.62341325e+03, chi2 =   3.13170542e+02, n_iter=      10 
+alpha[ 2] =   3.16227766e+03, chi2 =   2.62479177e+02, n_iter=      12 
+alpha[ 3] =   1.77827941e+03, chi2 =   2.38310246e+02, n_iter=      10 
+alpha[ 4] =   1.00000000e+03, chi2 =   2.25578801e+02, n_iter=      19 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.18308141e+02, n_iter=      18 
+alpha[ 6] =   3.16227766e+02, chi2 =   2.13975746e+02, n_iter=      13 
+alpha[ 7] =   1.77827941e+02, chi2 =   2.11348628e+02, n_iter=      14 
+alpha[ 8] =   1.00000000e+02, chi2 =   2.09657429e+02, n_iter=      19 
+alpha[ 9] =   5.62341325e+01, chi2 =   2.08368023e+02, n_iter=      28 
+alpha[10] =   3.16227766e+01, chi2 =   2.07224597e+02, n_iter=      27 
+alpha[11] =   1.77827941e+01, chi2 =   2.06231737e+02, n_iter=      34 
+alpha[12] =   1.00000000e+01, chi2 =   2.05468440e+02, n_iter=      44 
+alpha[13] =   5.62341325e+00, chi2 =   2.04931583e+02, n_iter=      63 
+alpha[14] =   3.16227766e+00, chi2 =   2.04559424e+02, n_iter=      93 
+alpha[15] =   1.77827941e+00, chi2 =   2.04300222e+02, n_iter=     133 
+alpha[16] =   1.00000000e+00, chi2 =   2.04102893e+02, n_iter=     193 
+alpha[17] =   5.62341325e-01, chi2 =   2.03933285e+02, n_iter=     280 
+alpha[18] =   3.16227766e-01, chi2 =   2.03788260e+02, n_iter=     409 
+alpha[19] =   1.77827941e-01, chi2 =   2.03677847e+02, n_iter=     588 
+alpha[20] =   1.00000000e-01, chi2 =   2.03602543e+02, n_iter=     827 
+alpha[21] =   5.62341325e-02, chi2 =   2.03556355e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   2.03532042e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   2.03518677e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   2.03511002e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   2.03506429e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   2.03503599e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   2.03501819e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   2.03500641e+02, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   2.03499860e+02, n_iter=    1000!
+alpha[30] =   3.16227766e-04, chi2 =   2.03499402e+02, n_iter=    1000!
+alpha[31] =   1.77827941e-04, chi2 =   2.03499191e+02, n_iter=    1000!
+alpha[32] =   1.00000000e-04, chi2 =   2.03499083e+02, n_iter=    1000!
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:19.424173
+2026-11-02 15:43:20.706416
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 199.94532451079127
+alpha[ 0] =   1.00000000e+04, chi2 =   3.88041434e+02, n_iter=      21 
+alpha[ 1] =   5.62341325e+03, chi2 =   2.71206971e+02, n_iter=      14 
+alpha[ 2] =   3.16227766e+03, chi2 =   2.21618429e+02, n_iter=       8 
+alpha[ 3] =   1.77827941e+03, chi2 =   2.00847559e+02, n_iter=      12 
+alpha[ 4] =   1.00000000e+03, chi2 =   1.91872073e+02, n_iter=      13 
+alpha[ 5] =   5.62341325e+02, chi2 =   1.87531903e+02, n_iter=      14 
+alpha[ 6] =   3.16227766e+02, chi2 =   1.84735052e+02, n_iter=      12 
+alpha[ 7] =   1.77827941e+02, chi2 =   1.82082281e+02, n_iter=      16 
+alpha[ 8] =   1.00000000e+02, chi2 =   1.78973419e+02, n_iter=      32 
+alpha[ 9] =   5.62341325e+01, chi2 =   1.75376092e+02, n_iter=      33 
+alpha[10] =   3.16227766e+01, chi2 =   1.71715734e+02, n_iter=      44 
+alpha[11] =   1.77827941e+01, chi2 =   1.68496389e+02, n_iter=      66 
+alpha[12] =   1.00000000e+01, chi2 =   1.65927033e+02, n_iter=      83 
+alpha[13] =   5.62341325e+00, chi2 =   1.63999463e+02, n_iter=     118 
+alpha[14] =   3.16227766e+00, chi2 =   1.62642747e+02, n_iter=     167 
+alpha[15] =   1.77827941e+00, chi2 =   1.61751182e+02, n_iter=     229 
+alpha[16] =   1.00000000e+00, chi2 =   1.61185554e+02, n_iter=     319 
+alpha[17] =   5.62341325e-01, chi2 =   1.60823375e+02, n_iter=     424 
+alpha[18] =   3.16227766e-01, chi2 =   1.60604030e+02, n_iter=     539 
+alpha[19] =   1.77827941e-01, chi2 =   1.60476842e+02, n_iter=     670 
+alpha[20] =   1.00000000e-01, chi2 =   1.60403376e+02, n_iter=     826 
+alpha[21] =   5.62341325e-02, chi2 =   1.60361135e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   1.60338389e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   1.60325863e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   1.60319337e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   1.60316238e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   1.60314885e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   1.60314462e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   1.60314293e+02, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   1.60314210e+02, n_iter=    1000!
+alpha[30] =   3.16227766e-04, chi2 =   1.60314169e+02, n_iter=    1000!
+alpha[31] =   1.77827941e-04, chi2 =   1.60314154e+02, n_iter=    1000!
+alpha[32] =   1.00000000e-04, chi2 =   1.60314153e+02, n_iter=     532 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:19.879882
+ERROR: Eigenvalues of the covariance matrix are not all positive; they will be ignored. Smallest negative value: -1.0988338756695371e-23
+2026-11-02 15:43:40.674662
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 267.34094607685176
+alpha[ 0] =   1.00000000e+04, chi2 =   4.44265033e+02, n_iter=      26 
+alpha[ 1] =   5.62341325e+03, chi2 =   3.24868172e+02, n_iter=      13 
+alpha[ 2] =   3.16227766e+03, chi2 =   2.71305042e+02, n_iter=      12 
+alpha[ 3] =   1.77827941e+03, chi2 =   2.45889482e+02, n_iter=      10 
+alpha[ 4] =   1.00000000e+03, chi2 =   2.32024322e+02, n_iter=      11 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.23672637e+02, n_iter=      12 
+alpha[ 6] =   3.16227766e+02, chi2 =   2.18712641e+02, n_iter=      11 
+alpha[ 7] =   1.77827941e+02, chi2 =   2.16025252e+02, n_iter=      15 
+alpha[ 8] =   1.00000000e+02, chi2 =   2.14691925e+02, n_iter=      22 
+alpha[ 9] =   5.62341325e+01, chi2 =   2.14009535e+02, n_iter=      24 
+alpha[10] =   3.16227766e+01, chi2 =   2.13556231e+02, n_iter=      30 
+alpha[11] =   1.77827941e+01, chi2 =   2.13125182e+02, n_iter=      42 
+alpha[12] =   1.00000000e+01, chi2 =   2.12610511e+02, n_iter=      63 
+alpha[13] =   5.62341325e+00, chi2 =   2.11920043e+02, n_iter=     100 
+alpha[14] =   3.16227766e+00, chi2 =   2.11041673e+02, n_iter=     155 
+alpha[15] =   1.77827941e+00, chi2 =   2.10142044e+02, n_iter=     234 
+alpha[16] =   1.00000000e+00, chi2 =   2.09390790e+02, n_iter=     341 
+alpha[17] =   5.62341325e-01, chi2 =   2.08886053e+02, n_iter=     466 
+alpha[18] =   3.16227766e-01, chi2 =   2.08602290e+02, n_iter=     586 
+alpha[19] =   1.77827941e-01, chi2 =   2.08454448e+02, n_iter=     703 
+alpha[20] =   1.00000000e-01, chi2 =   2.08374675e+02, n_iter=     847 
+alpha[21] =   5.62341325e-02, chi2 =   2.08330590e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   2.08307353e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   2.08294396e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   2.08286619e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   2.08281827e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   2.08279398e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   2.08278750e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   2.08278696e+02, n_iter=     648 
+alpha[29] =   5.62341325e-04, chi2 =   2.08278685e+02, n_iter=     213 
+alpha[30] =   3.16227766e-04, chi2 =   2.08278681e+02, n_iter=     168 
+alpha[31] =   1.77827941e-04, chi2 =   2.08278679e+02, n_iter=     125 
+alpha[32] =   1.00000000e-04, chi2 =   2.08278679e+02, n_iter=      79 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:15.765459
+2026-11-02 15:43:56.537817
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 370.85420632479816
+alpha[ 0] =   1.00000000e+04, chi2 =   4.62983569e+02, n_iter=      25 
+alpha[ 1] =   5.62341325e+03, chi2 =   3.67038444e+02, n_iter=      12 
+alpha[ 2] =   3.16227766e+03, chi2 =   3.17146350e+02, n_iter=       8 
+alpha[ 3] =   1.77827941e+03, chi2 =   2.87102045e+02, n_iter=      16 
+alpha[ 4] =   1.00000000e+03, chi2 =   2.67668576e+02, n_iter=      15 
+alpha[ 5] =   5.62341325e+02, chi2 =   2.55209112e+02, n_iter=      20 
+alpha[ 6] =   3.16227766e+02, chi2 =   2.47577493e+02, n_iter=      17 
+alpha[ 7] =   1.77827941e+02, chi2 =   2.43194218e+02, n_iter=      14 
+alpha[ 8] =   1.00000000e+02, chi2 =   2.40786171e+02, n_iter=      20 
+alpha[ 9] =   5.62341325e+01, chi2 =   2.39401205e+02, n_iter=      26 
+alpha[10] =   3.16227766e+01, chi2 =   2.38477757e+02, n_iter=      40 
+alpha[11] =   1.77827941e+01, chi2 =   2.37757808e+02, n_iter=      51 
+alpha[12] =   1.00000000e+01, chi2 =   2.37132181e+02, n_iter=      62 
+alpha[13] =   5.62341325e+00, chi2 =   2.36547635e+02, n_iter=      92 
+alpha[14] =   3.16227766e+00, chi2 =   2.35993781e+02, n_iter=     131 
+alpha[15] =   1.77827941e+00, chi2 =   2.35505738e+02, n_iter=     186 
+alpha[16] =   1.00000000e+00, chi2 =   2.35126322e+02, n_iter=     253 
+alpha[17] =   5.62341325e-01, chi2 =   2.34864803e+02, n_iter=     350 
+alpha[18] =   3.16227766e-01, chi2 =   2.34695638e+02, n_iter=     494 
+alpha[19] =   1.77827941e-01, chi2 =   2.34588908e+02, n_iter=     676 
+alpha[20] =   1.00000000e-01, chi2 =   2.34524215e+02, n_iter=     893 
+alpha[21] =   5.62341325e-02, chi2 =   2.34487180e+02, n_iter=    1000!
+alpha[22] =   3.16227766e-02, chi2 =   2.34467183e+02, n_iter=    1000!
+alpha[23] =   1.77827941e-02, chi2 =   2.34455554e+02, n_iter=    1000!
+alpha[24] =   1.00000000e-02, chi2 =   2.34448350e+02, n_iter=    1000!
+alpha[25] =   5.62341325e-03, chi2 =   2.34443741e+02, n_iter=    1000!
+alpha[26] =   3.16227766e-03, chi2 =   2.34440777e+02, n_iter=    1000!
+alpha[27] =   1.77827941e-03, chi2 =   2.34438881e+02, n_iter=    1000!
+alpha[28] =   1.00000000e-03, chi2 =   2.34437698e+02, n_iter=    1000!
+alpha[29] =   5.62341325e-04, chi2 =   2.34437025e+02, n_iter=    1000!
+alpha[30] =   3.16227766e-04, chi2 =   2.34436693e+02, n_iter=    1000!
+alpha[31] =   1.77827941e-04, chi2 =   2.34436505e+02, n_iter=    1000!
+alpha[32] =   1.00000000e-04, chi2 =   2.34436388e+02, n_iter=    1000!
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:20.058859
+2026-11-02 15:44:16.681617
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 925.6746610069029Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/work/gecp-kernel-structure/gecp-kernel-structure/experiments/cthyb_spectroscopy.py", line 1428, in <module>
+    main()
+  File "/home/runner/work/gecp-kernel-structure/gecp-kernel-structure/experiments/cthyb_spectroscopy.py", line 1397, in main
+    worker(args.worker, args.job_sha256)
+  File "/home/runner/work/gecp-kernel-structure/gecp-kernel-structure/experiments/cthyb_spectroscopy.py", line 1136, in worker
+    raise RuntimeError("worker case gates failed")
+RuntimeError: worker case gates failed
+
+alpha[ 0] =   1.00000000e+04, chi2 =   7.51330374e+02, n_iter=      27 
+alpha[ 1] =   5.62341325e+03, chi2 =   6.85286692e+02, n_iter=       9 
+alpha[ 2] =   3.16227766e+03, chi2 =   6.51243942e+02, n_iter=      11 
+alpha[ 3] =   1.77827941e+03, chi2 =   6.29226126e+02, n_iter=      19 
+alpha[ 4] =   1.00000000e+03, chi2 =   6.13143614e+02, n_iter=      18 
+alpha[ 5] =   5.62341325e+02, chi2 =   6.00880576e+02, n_iter=      27 
+alpha[ 6] =   3.16227766e+02, chi2 =   5.90319556e+02, n_iter=      32 
+alpha[ 7] =   1.77827941e+02, chi2 =   5.79218455e+02, n_iter=      40 
+alpha[ 8] =   1.00000000e+02, chi2 =   5.66485242e+02, n_iter=      62 
+alpha[ 9] =   5.62341325e+01, chi2 =   5.53031873e+02, n_iter=      82 
+alpha[10] =   3.16227766e+01, chi2 =   5.40767512e+02, n_iter=     118 
+alpha[11] =   1.77827941e+01, chi2 =   5.30574409e+02, n_iter=     174 
+alpha[12] =   1.00000000e+01, chi2 =   5.22947963e+02, n_iter=     241 
+alpha[13] =   5.62341325e+00, chi2 =   5.18284626e+02, n_iter=     328 
+alpha[14] =   3.16227766e+00, chi2 =   5.15731354e+02, n_iter=     417 
+alpha[15] =   1.77827941e+00, chi2 =   5.14313487e+02, n_iter=     509 
+alpha[16] =   1.00000000e+00, chi2 =   5.13519418e+02, n_iter=     623 
+alpha[17] =   5.62341325e-01, chi2 =   5.13078720e+02, n_iter=     761 
+alpha[18] =   3.16227766e-01, chi2 =   5.12832016e+02, n_iter=     944 
+alpha[19] =   1.77827941e-01, chi2 =   5.12697043e+02, n_iter=    1000!
+alpha[20] =   1.00000000e-01, chi2 =   5.12630310e+02, n_iter=    1000!
+alpha[21] =   5.62341325e-02, chi2 =   5.12601310e+02, n_iter=     920 
+alpha[22] =   3.16227766e-02, chi2 =   5.12591610e+02, n_iter=     804 
+alpha[23] =   1.77827941e-02, chi2 =   5.12588588e+02, n_iter=     863 
+alpha[24] =   1.00000000e-02, chi2 =   5.12587893e+02, n_iter=     704 
+alpha[25] =   5.62341325e-03, chi2 =   5.12587750e+02, n_iter=     317 
+alpha[26] =   3.16227766e-03, chi2 =   5.12587695e+02, n_iter=     197 
+alpha[27] =   1.77827941e-03, chi2 =   5.12587675e+02, n_iter=     153 
+alpha[28] =   1.00000000e-03, chi2 =   5.12587668e+02, n_iter=     114 
+alpha[29] =   5.62341325e-04, chi2 =   5.12587665e+02, n_iter=      87 
+alpha[30] =   3.16227766e-04, chi2 =   5.12587664e+02, n_iter=      59 
+alpha[31] =   1.77827941e-04, chi2 =   5.12587664e+02, n_iter=      39 
+alpha[32] =   1.00000000e-04, chi2 =   5.12587664e+02, n_iter=      30 
+
+! ... The minimizer did not converge. Results might be wrong.
+
+MaxEnt loop finished in 0:00:14.233689

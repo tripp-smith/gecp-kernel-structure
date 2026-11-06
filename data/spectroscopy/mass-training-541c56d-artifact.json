@@ -1,0 +1,16 @@
+{
+  "artifact_bytes": 560527,
+  "artifact_id": 13203005338,
+  "artifact_path": "experiments/data/maxent-training-541c56d.zip",
+  "artifact_sha256": "64bcfbe3a6d2df35412eff9472c80e1e0698e82fa7e1704141ce537715e1efa8",
+  "artifact_url": "https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41573167725",
+  "independent_audit_path": "data/spectroscopy/mass-training-541c56d-independent.json",
+  "independent_audit_sha256": "e7eda597dea98d9e71ec80f84cff5e40644881b5b69b4670892d8393be931455",
+  "receipt_sha256": "3dd445557102f99a5f23c0f300308b13b0a6bed0b3693f5394b188aef37f1831",
+  "run_attempt": 1,
+  "run_id": 41573167725,
+  "schema": "kernelgecp.maxent-training-artifact.v1",
+  "scope": "consumed training only; no heldout scoring, scientific acceptance or damping advantage",
+  "source_revision": "541c56d724e3003279bd1f7a0c7e4e40cd048e43",
+  "status": "training_checks_passed_uncertified"
+}

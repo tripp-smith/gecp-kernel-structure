@@ -3241,3 +3241,98 @@ Exact-main spectroscopy replay 41321087677 fails the frozen independent
 projection check, so delivery remains open. A bounded finite-matrix diagnostic
 preserves source, data and tolerances and makes no acceptance claim. Existing
 final data are observed. No mathematical goal or numerical budget changes.
+
+
+EH corrective implementation annotation (2026-11-01): add an explicit bounded
+precision option for same-mesh full-column-rank spectral observation projection,
+retaining the shared cached SVD, original rank/conditioning, immutable source
+input and separate transformed arithmetic provenance. Local calibration-matrix
+probes agree with an independent higher-precision SVD within the unchanged
+projector budget. The failed main replay remains failed; no provider campaign
+or new canonical sampling is launched by this step. Full verification and new
+source-bound calibration/final validation remain required. No original
+mathematical goal or numerical acceptance tolerance changes.
+
+
+EH precision-runtime annotation (2026-11-02): add candidate-installed real
+GECP/pyDLR/IR matrix probes on the pinned Linux/macOS provider lanes, with
+source/wheel identities, repeated-design hashes and an independent high-precision
+oracle. These checks do not close continuation, calibration, untouched final
+validation or release obligations. The scientific tolerances and original
+mathematical goals remain unchanged.
+
+
+EH corrective-campaign planning annotation (2026-11-02): 3bc9bd9 passes full
+root and real installed-provider matrix checks on Linux/macOS; these are not
+continuation acceptance. A v2 measured protocol will explicitly use the new
+precision mode while preserving all scientific budgets and original native
+calibration provenance. Fresh synthetic final seeds 4001/4002/4003 and fresh
+native odd seeds 33100001+2*i (256, split128/128) are predeclared before new
+generation. Synthetic eps/rcond remain their historical values. No new run is
+launched by this annotation, and original mathematical goals are unchanged.
+
+
+EH unit-mass candidate annotation (2026-11-02): frozen v2 run41391193610
+completes256 raw chains and raw audit, but first finalraw continuation fails
+whitenedRMS2.8853>2; remainingworkers neverexecute. Preserve this consumed failed
+cohort. Develop an explicit constrained mass objective through actualTauMaxEnt
+with derivative/resource/provider checks, keeping rescale default and all
+scientific thresholds. This is not calibration/final/release acceptance; original
+mathematical goals, public archive meanings and published1.1.0 remain unchanged.
+
+EH training-scout annotation (2026-11-02): checkpoint f1663ed passes full root
+verification and actual installed Linux/macOS constrained-mass interface probes.
+Add a fixed-control, consumed-data training-only diagnostic with independent
+forward quadrature and bound native logs/trials. It cannot acquire a new raw
+cohort or score held-out data. Native calibration, appropriate untouched final
+science, all provider comparisons and release gates remain required. Original
+goals, scientific budgets and public1.1.0 artifacts are unchanged.
+
+EH native-curvature annotation (2026-11-02): training-only2df694e scout fails at
+the strict native entropy floor for both defaults, without held-out scoring or
+new sampling. Preserve this failure and test the provider's explicitly declared
+projected curvature under the same objective, exact gradient, Levenberg solver,
+budgets and guards. This is a numerical candidate, not calibration/final/release
+acceptance. Original mathematical goals and published1.1.0 remain unchanged.
+
+EH interior-mixture annotation (2026-11-02): projected training scout3badf9f
+also fails at the strict entropy floor, with no complete spectrum or held-out
+score. Develop an explicitly declared interior mixture atfraction1e-12, retaining
+zero as the default, native entropy/optimizer/guards and all scientific budgets.
+Its exact fixed-coordinate L1 bound does not establish closeness of optimized
+solutions. Independent derivative, native-provider, calibration and untouched
+final gates remain mandatory. Original mathematical goals and1.1.0 stay unchanged.
+
+EH native-damping annotation (2026-11-02):33ab968 training scout fails on native
+singular systems despite passing full root and both-platform interface checks.
+Capture exact failed systems without a fallback, and compare explicitly declared
+identity/native diagonal-relative damping on consumed training observations.
+Failed controls retain their status. The solver, objective, grids and accuracy
+budgets remain fixed; no new raw samples or held-out decisions. Calibration,
+untouched final science and release gates remain open; original goals unchanged.
+
+
+EH v3 development annotation (2026-11-03): retain all mathematical and
+application acceptance objectives. Actual541c56d training-only comparison
+41573167725 completes four declared rows; independent132-trial checks agree
+on unit mass, alpha1 and training RMS~1.123. This is consumed development
+evidence, with some low-alpha nonconvergence and no relative-damping advantage
+claim. Implement explicit opt-in v3 protocol/schema propagation and independent
+unscaled-mass selection checks; v2 remains the default. Reserve34100001+2*i
+(256 split128/128) and synthetic5001/5002/5003 with80 query nodes for a later
+frozen final validation. No new final allocation or release gate is closed.
+
+EH v3 calibration annotation (2026-11-03):bc29be5 passes root and installed
+Linux/macOS interfaces, but41603543319 fails on a native singular solve in the
+first synthetic raw/flat case after12 trials. Preserve the complete failed
+artifact and add bounded observational matrix capture. No scientific threshold,
+accepted domain objective, final seed allocation or failed status is changed.
+
+EH captured-failure/v4 annotation (2026-11-06):3fb9a0a calibration41606643817
+passes, but canonical41617127989 fails in repeated synthetic calibration before
+any final generation. Preserve the failure and its finite-matrix diagnostic.
+Develop an explicitly shifted projected-curvature metric at relativefloor1e-10
+without changing objective, gradient, native optimizer or scientific budgets.
+Defaults and historical v2/v3 meanings remain unchanged. New source/provider
+calibration, untouched final science and all release/main gates remain mandatory;
+no original mathematical or application objective is rewritten.

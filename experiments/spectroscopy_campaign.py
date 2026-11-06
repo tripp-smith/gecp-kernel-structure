@@ -44,11 +44,11 @@ def read(path):
     return value
 
 
-def environment(python):
+def environment(python, profile="v2"):
     # A different interpreter is not silently substituted, even if its version matches.
     if Path(python).resolve() != Path(sys.executable).resolve():
         raise ValueError("--python must be the interpreter running this driver")
-    p = science.provenance()
+    p = science.provenance() if profile == "v2" else science.provenance(profile)
     if not p.get("tracked_clean") or any(
         p.get("threads", {}).get(k) != "1" for k in science.THREADS
     ):
@@ -61,8 +61,13 @@ def stable_environment(p):
     return {k: v for k, v in p.items() if k not in ("source_revision", "tracked_clean")}
 
 
-def controls():
-    return {
+def controls(profile="v2"):
+    if profile not in ("v2", "v3", "v4"):
+        raise ValueError("unsupported spectroscopy profile")
+    result = {
+        "profile": "corrective_projection_v2_synthetic_binary64",
+        "rcond": 1e-10,
+        "precision_bits": 53,
         "cases": list(science.CASES),
         "methods": list(science.METHODS),
         "defaults": list(DEFAULTS),
@@ -72,32 +77,63 @@ def controls():
         "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [3001, 3002, 3003],
+        "final_seeds": [4001, 4002, 4003],
         "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": REPEATS,
     }
+    if profile in ("v3", "v4"):
+        result.update(
+            profile="constrained_mass_v3_synthetic_binary64",
+            final_seeds=[5001, 5002, 5003],
+            final_query_order=80,
+            mass_mode="constrained",
+            mass_curvature="projected",
+            mass_interior_fraction=1e-12,
+            minimizer_marquardt=True,
+            maxiter=1000,
+            calibration_scope="consumed_development",
+        )
+    if profile == "v4":
+        result.update(
+            profile="constrained_mass_v4_synthetic_binary64",
+            mass_curvature_floor_relative=1e-10,
+        )
+    return result
 
 
-def jobs(calibration):
+def jobs(calibration, profile="v2"):
+    controls(profile)
     for ci, case in enumerate(science.CASES):
         for method in science.METHODS:
             for model in DEFAULTS:
                 for repeat in range(1 if calibration else REPEATS):
-                    yield {
+                    job = {
                         "case": case,
                         "method": method,
                         "default_model": model,
-                        "seed": (101 if calibration else 3001) + ci,
+                        "seed": (
+                            101
+                            if calibration
+                            else (5001 if profile in ("v3", "v4") else 4001)
+                        )
+                        + ci,
                         "eps": 1e-8,
+                        "rcond": 1e-10,
+                        "precision_bits": 53,
                         "n_omega": 401,
                         "n_alpha": 33,
                         "minimizer_mu0": 1e-8,
-                        "query_order": 24 if calibration else 64,
+                        "query_order": 24
+                        if calibration
+                        else (80 if profile in ("v3", "v4") else 64),
                         "bootstrap": 0 if calibration or repeat else 8,
                         "pilot": calibration,
                         "repeat": repeat,
                     }
+                    if profile in ("v3", "v4"):
+                        job["profile"] = profile
+                    yield job
 
 
 def stem(job):
@@ -106,15 +142,19 @@ def stem(job):
 
 def validate_child(job, result, env, directory):
     if (
-        result.get("status") != "passed"
+        result.get("schema")
+        != "kernelgecp.spectroscopy-case." + job.get("profile", "v2")
+        or result.get("status") != "passed"
         or not isinstance(result.get("gates"), dict)
         or not result["gates"]
         or not all(v is True for v in result["gates"].values())
     ):
         raise ValueError("failed or missing child gates/status")
-    for key in ("case", "method", "seed", "eps", "pilot"):
+    for key in ("case", "method", "seed", "eps", "pilot", "rcond", "precision_bits"):
         if result.get(key) != job[key]:
             raise ValueError(f"child {key} mismatch")
+    if type(result.get("precision_bits")) is not int:
+        raise ValueError("child precision_bits must be an integer")
     if (
         result.get("bootstrap_count") != job["bootstrap"]
         or result.get("query_order") != job["query_order"]
@@ -124,6 +164,21 @@ def validate_child(job, result, env, directory):
     for k in ("default_model", "n_omega", "n_alpha", "minimizer_mu0"):
         if config.get(k) != job[k]:
             raise ValueError(f"child config {k} mismatch")
+    if job.get("profile") in ("v3", "v4") and (
+        config.get("mass_mode") != "constrained"
+        or config.get("mass_curvature") != "projected"
+        or config.get("mass_interior_fraction") != 1e-12
+        or config.get("minimizer_marquardt") is not True
+        or config.get("maxiter") != 1000
+    ):
+        raise ValueError("child v3 mass controls mismatch")
+    if (
+        job.get("profile") == "v4"
+        and config.get("mass_curvature_floor_relative") != 1e-10
+    ) or (
+        job.get("profile", "v2") != "v4" and "mass_curvature_floor_relative" in config
+    ):
+        raise ValueError("child curvature floor mismatch")
     if result.get("provenance") != {
         k: v for k, v in env.items() if k != "python_executable"
     }:
@@ -176,6 +231,10 @@ def child_command(python, job, output):
         str(job["seed"]),
         "--eps",
         str(job["eps"]),
+        "--rcond",
+        str(job["rcond"]),
+        "--precision-bits",
+        str(job["precision_bits"]),
         "--n-omega",
         str(job["n_omega"]),
         "--n-alpha",
@@ -191,13 +250,15 @@ def child_command(python, job, output):
         "--output",
         str(output),
     ]
+    if job.get("profile") in ("v3", "v4"):
+        cmd += ["--profile", job["profile"]]
     return cmd + (["--pilot"] if job["pilot"] else [])
 
 
-def run_jobs(directory, manifest, env, python, deadline):
+def run_jobs(directory, manifest, env, python, deadline, profile="v2"):
     directory.mkdir(parents=True, exist_ok=True)
     records = manifest["children"]
-    for job in jobs(manifest["kind"] == "calibration"):
+    for job in jobs(manifest["kind"] == "calibration", profile):
         name = stem(job)
         paths = list(directory.glob(name + ".*")) + list(
             directory.glob(name + "-*.npz")
@@ -252,7 +313,9 @@ def run_jobs(directory, manifest, env, python, deadline):
             if proc.returncode != 0:
                 raise ValueError(f"child exit {proc.returncode}")
             record["hashes"] = validate_child(job, read(out), env, directory)
-            if environment(python) != env:
+            if (
+                environment(python) if profile == "v2" else environment(python, profile)
+            ) != env:
                 raise ValueError("source or runtime changed during child")
             record["status"] = "passed"
         except subprocess.TimeoutExpired:
@@ -278,6 +341,7 @@ def run_jobs(directory, manifest, env, python, deadline):
                     out.with_suffix(".npz"),
                     out.with_name(out.stem + "-dataset.npz"),
                     out.with_name(out.stem + "-gecp-fit.npz"),
+                    out.with_name(out.stem + "-failed-solve.npz"),
                 ]
                 if f.is_file()
             }
@@ -288,9 +352,9 @@ def run_jobs(directory, manifest, env, python, deadline):
     manifest["status"] = "passed"
 
 
-def compare_repeats(directory, manifest):
+def compare_repeats(directory, manifest, profile="v2"):
     skipped = []
-    for job in jobs(False):
+    for job in jobs(False, profile):
         if job["repeat"] == 0:
             continue
         reference = dict(job, repeat=0)
@@ -314,18 +378,18 @@ def compare_repeats(directory, manifest):
     manifest["repeat_comparison"] = {"status": "passed", "skipped": skipped}
 
 
-def execute(kind, directory, freeze_path, python=sys.executable):
+def execute(kind, directory, freeze_path, python=sys.executable, *, profile="v2"):
     directory = Path(directory).resolve()
     freeze_path = Path(freeze_path).resolve()
-    env = environment(python)
-    cfg = controls()
+    env = environment(python) if profile == "v2" else environment(python, profile)
+    cfg = controls(profile)
     started = time.monotonic()
     mp = directory / "campaign.json"
     if kind == "calibration":
         if mp.exists() or freeze_path.exists():
             raise ValueError("calibration outputs already exist")
         manifest = {
-            "schema": "kernelgecp.spectroscopy-campaign.v1",
+            "schema": "kernelgecp.spectroscopy-campaign." + profile,
             "kind": kind,
             "status": "running",
             "controls": cfg,
@@ -335,7 +399,8 @@ def execute(kind, directory, freeze_path, python=sys.executable):
     else:
         frozen = read(freeze_path)
         if (
-            frozen.get("status") != "passed"
+            frozen.get("schema") != "kernelgecp.spectroscopy-freeze." + profile
+            or frozen.get("status") != "passed"
             or frozen.get("controls") != cfg
             or stable_environment(frozen.get("provenance", {}))
             != stable_environment(env)
@@ -344,7 +409,8 @@ def execute(kind, directory, freeze_path, python=sys.executable):
         if mp.exists():
             manifest = read(mp)
             if (
-                manifest.get("kind") != kind
+                manifest.get("schema") != "kernelgecp.spectroscopy-campaign." + profile
+                or manifest.get("kind") != kind
                 or manifest.get("controls") != cfg
                 or manifest.get("freeze_sha256") != sha(freeze_path)
                 or stable_environment(manifest.get("provenance", {}))
@@ -353,7 +419,7 @@ def execute(kind, directory, freeze_path, python=sys.executable):
                 raise ValueError("resume configuration/source mismatch")
         else:
             manifest = {
-                "schema": "kernelgecp.spectroscopy-campaign.v1",
+                "schema": "kernelgecp.spectroscopy-campaign." + profile,
                 "kind": kind,
                 "status": "running",
                 "controls": cfg,
@@ -363,12 +429,12 @@ def execute(kind, directory, freeze_path, python=sys.executable):
             }
     manifest["status"] = "running"
     try:
-        run_jobs(directory, manifest, env, python, started + LIMIT_SECONDS)
+        run_jobs(directory, manifest, env, python, started + LIMIT_SECONDS, profile)
         if manifest["status"] == "passed" and kind == "campaign":
-            compare_repeats(directory, manifest)
+            compare_repeats(directory, manifest, profile)
         if manifest["status"] == "passed" and kind == "calibration":
             freeze = {
-                "schema": "kernelgecp.spectroscopy-freeze.v1",
+                "schema": "kernelgecp.spectroscopy-freeze." + profile,
                 "status": "passed",
                 "controls": cfg,
                 "provenance": env,
@@ -398,9 +464,12 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--freeze", type=Path, required=True)
     parser.add_argument("--python", default=sys.executable)
+    parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
     args = parser.parse_args()
     try:
-        result = execute(args.kind, args.output, args.freeze, args.python)
+        result = execute(
+            args.kind, args.output, args.freeze, args.python, profile=args.profile
+        )
         if result["status"] != "passed":
             raise RuntimeError(result.get("error", result["status"]))
     except Exception as error:
