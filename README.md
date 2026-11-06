@@ -10,11 +10,11 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — post-merge projection reproducibility diagnosis<br>
-> **Phase state:** [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142) merged as `3bc726b` after all 15 exact-head workflows passed. Exact-main run 41321087677 then failed the frozen independent projection comparison. Both branch and main root pass 2,631 tests/42 optional skips. Delivery remains open; prior positive runs and the new failure are preserved in the [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288)<br>
+> **Current phase:** EJ — scientific release-gate components; EH mass-constraint candidate after failed final validation<br>
+> **Phase state:** Molecular payload gate `196d15c` passes full root (2,766 tests/43 skips/24 subtests) and an actual four-case native campaign with all eight independent gates. EPW source `72eae33` passes full root and actual Linux relocated archive plus unmodified native restart comparison. EPW controller `06dc238` passes full root (2,828 tests/48 skips/24 subtests); its actual Linux workflow42224585303 is running. A complete saved CT-HYB payload replay gate is in development. EH v3 fails before final generation; an explicit shifted-curvature candidate is undergoing verification. [Draft PR #144](https://github.com/tripp-smith/gecp-kernel-structure/pull/144) holds the canonical gate receipt. Complete numerical eligibility remains open; 1.2.0 is unpublished<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
-> **Last verification:** Main root passes, but its scientific replay fails. Local independent 50-digit SVD finds the saved pyDLR projector outside the existing comparison tolerance; its retained design condition is 1.59e10. A bounded Linux diagnostic will identify backend/case dependence. No acceptance tolerance, canonical data or production projection changed<br>
+> **Last verification:** The [current EJ component receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579) tracks focused tests, independent review and revision-specific full-root/CI outcomes. It does not establish full scientific release eligibility. EH’s separate [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) records failed/consumed evidence, current calibration diagnostics and the remaining final/replay/main gates<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration scope by completed acceptance obligations. EH/EJ remain open. Published 1.1.0 artifacts and frozen original research accounting remain unchanged<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
@@ -477,3 +477,15 @@ cutoff `1e6`. This is numerical finite-grid evidence, not a continuous GECP
 rate theorem. Continuous interval-certified pivoting is a separate supported
 mode and is tested on synthetic and fermionic cases; it is not substituted for
 the canonical finite-grid census or a Lean convergence proof.
+
+## Production integration guides
+
+The unreleased 1.2 candidate adds [installation and compatibility](INSTALLATION_COMPATIBILITY.md),
+[molecular GF2 interchange](MOLECULAR_GREEN.md), [migration](MIGRATION.md),
+[troubleshooting](TROUBLESHOOTING.md), and an [optional-provider notice index](PROVIDER_NOTICES.md).
+Read the acceptance ledger before treating a pending domain as delivered.
+
+EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
+new relocated workflow41601753604 fails before its auditor on a Docker-tree
+move permission error. Privileged atomic same-filesystem relocation is under verification;
+the relocated gate, native comparator and whole release remain open.

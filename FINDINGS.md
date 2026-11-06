@@ -2646,3 +2646,86 @@ does not establish a sole failure cause. Fixed-bath conditional mean and
 bootstrap sensitivity scopes remain explicit, without unique spectra, complete
 uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
 and 1.2 publication remain subject to final checks.
+
+
+### EH acceptance reopened; EJ gate components
+
+The earlier FEAA workflow pass above is historical. Merged-main replay reveals
+an ill-conditioned pyDLR projector outside its unchanged independent error
+budget; no current EH acceptance follows from the historical pass. Corrective
+source 98bdfab passes calibration-only run 41389031789 with all 24 synthetic and
+eight measured cases, independent audits and actual native preflight. The one
+fresh final campaign 41391193610 completes all256 chains and its raw audit, but
+the first measured worker fails held-out RMS2.8853>2; the other23 did not run.
+The cohort is consumed development evidence. Candidate f1663ed passes actual
+installed native constrained-mass interface probes on Linux/macOS, not scientific
+calibration or final acceptance. The canonical PR #146 receipt records original
+failures, provenance and remaining gates.
+
+EJ adds strict source inventory, authenticated paginated workflow metadata and
+a six-runtime/two-ED payload-audit component. Focused integration passes 191 tests
+and 12 subtests; independent review corrects import isolation, receipt hashes and
+malformed-output failure retention. The real metadata fetch rejects current
+main because an exact-main molecular run is absent. These checks are gate
+components, not complete scientific eligibility, native 1.2 execution,
+publication or a new numerical theorem. The historical baseline is not a waiver.
+
+The molecular saved-payload component adds private exact-source independent
+replay with hashes, cohort/gate validation and a fixed timeout. Review found
+and fixed an output-containment bug before release. Structural tests do not
+establish compatibility with a complete native payload; the dedicated native
+CI execution remains required. No new molecular accuracy or release acceptance
+is claimed by this component.
+
+Molecular component196d15c subsequently passes an actual four-case native run
+and isolated saved-payload replay:365 input hashes,36 final identities and all
+eight independent gates pass. This establishes the tested component case, not
+complete scientific release eligibility. EPW portable archive replay and its
+separate native-comparison gate remain next work.
+
+
+### EJ verified runtime/ED component and payload-input checks
+
+All 12 exact-head workflows pass at 2a7c24b, including actual six-provider
+payload verification and independent re-audits of both saved ED corpora. Each
+has 27 compressed and nine dense records with all audit gates passing. This
+component does not close the remaining full-domain release or corrective EH
+obligations. The subsequent input-layer work authenticates archive identity,
+bounds ZIP allocation/extraction and exposes a source-only baseline parameter;
+none substitutes for independently accepted numerical science or installed1.2.
+
+The7f EPW archive passes its original Linux numerical audit, but the relocated
+workflow fails before calling its auditor because the native Docker tree cannot
+be moved into RUNNER_TEMP. A privileged same-filesystem atomic move is under verification.
+The supplemental macOS audit fails exact grid membership at one ulp; its status
+remains failed and no numerical threshold is widened. Neither result closes the
+new relocated Linux gate or the separate native comparator.
+
+## EJ EPW saved-payload verification
+
+The72eae33 actual Linux workflow passes relocated archive replay and native
+raw/restored/wrong-frequency execution, with zero differences in all six Padé
+channels across630000 rows. Its authenticated original and relocated archive
+receipts are byte-identical. This is coarse interoperability evidence.
+
+The saved-payload gate now independently streams compressed native tables and
+compares printed numbers with exact decimal fractions. A regression exhibits a
+printed boundary accepted by binary64 arithmetic but outside the exact declared
+budget. This is a finite recorded-number check, not continuous certification.
+Separate source-P archive replay and source-K native audit preserve their source
+identities, hard process deadlines and whole-call input immutability. Truncated
+passed receipts and wrong comparison-policy fields fail closed. Full Linux
+controller execution and exact-source verification are pending; EH, complete
+release eligibility and publication remain open.
+
+## EJ saved CT-HYB release gate boundary
+
+The new component replays the hash-pinned208-measurement corpus through its
+existing independent auditor in a detached source and pinned provider runtime.
+It requires all seven original EE gates and the complete scientific receipt,
+with separate controller/scientific identities. Uploaded receipt structure and
+identities are checked; scientific thresholds are independently recomputed.
+It makes no claim of byte-identical floating results across runtime builds.
+Diagnostics are uploaded separately so the authenticated one-receipt input
+artifact can be replayed unchanged. Actual provider execution, full verification
+and exact-source CI are still required; this is not release eligibility.

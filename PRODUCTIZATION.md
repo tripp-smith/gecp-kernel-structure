@@ -104,9 +104,9 @@ remain native. Upstream acceptance is not a delivery gate.
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | delivered at synchronized main `06c4e45`; full root and all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)) |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
 | EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, root and all five exact-main workflows pass; explicit model-plus-lossless native route passes, pure-fit route remains failed ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)) |
-| EH | Actual covariance-aware MaxEnt including EE observations | original canonical run and all 15 PR-head workflows pass; merged main `3bc726b` fails independent projection replay; bounded diagnosis and delivery remain open ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288)) |
+| EH | Actual covariance-aware MaxEnt including EE observations | corrective final run 41391193610 fails raw continuation RMS2.8853>2 after successful raw acquisition/audit; candidate `f1663ed` passes installed native mass-interface probes, with scientific calibration, untouched finals and merged-main acceptance still required ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
-| EJ | Verified 1.2.0 public distributions and final handoff | pending all domain gates |
+| EJ | Verified 1.2.0 public distributions and final handoff | draft PR #144 adds verified runtime/ED and actual molecular payload components; portable EPW replay is in development with hosted execution pending; complete domain eligibility, installed 1.2.0, publication and handoff remain open |
 
 EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration program by completed acceptance obligations; EH/EJ remain open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
@@ -133,3 +133,26 @@ EG's supported route, reproduction and preserved failed coordinate audit are
 recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
 The generic basis and pure-fit native approaches failed and remain unsupported;
 their failed evidence is preserved separately from the delivered native archive.
+
+EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
+new relocated workflow41601753604 fails before its auditor on a Docker-tree
+move permission error. Privileged atomic same-filesystem relocation is under verification;
+the relocated gate, native comparator and whole release remain open.
+
+The72eae33 EPW relocation component passes actual Linux verification, including
+its separate native restart comparator. A complete saved-payload controller is
+implemented with independent exact printed-number comparisons, strict receipt
+validation, separate producer/auditor source identities and bounded child groups.
+Release selection requires its additional CI job and diagnostic artifact.
+Focused checks and the saved native case pass; a complete real Linux controller
+case and current-source full verification remain pending. No all-domain release
+eligibility follows from this component.
+
+EJ component checkpoint (2026-11-06):EPW controller06dc238 passes full root;
+its actual complete Linux payload validation42224585303 is running. The next
+component adds strict saved CT-HYB receipt validation and independent replay of
+208 hash-pinned native measurements, with separate diagnostic artifacts and
+source/runtime bindings. It remains in development pending full verification
+and actual provider evidence. Covariance, corrected EH, all-domain coordination,
+publication and exact-main handoff gates remain open. Estimated completion
+remains approximately85% by completed obligations.

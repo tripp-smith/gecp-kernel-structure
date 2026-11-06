@@ -1,8 +1,23 @@
 # MaxEnt spectroscopy evidence
 
-The original frozen `feaac669` campaign passes in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). PR #142 merged as `3bc726b`, but its exact-main replay fails the independent projection check. Delivery remains open; the [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288) preserves both passing branch and failing main evidence. Sections named for older sources are historical; both measured failures remain failed and consumed.
+EH is open. The historical frozen `feaac669` workflow reported passing cases,
+but merged-main replay exposed a projector discrepancy against an independent
+high-precision oracle. That failure remains recorded; the historical results
+below do not establish current acceptance. Corrective source `98bdfab` passes
+calibration-only [run 41389031789](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41389031789),
+including 24 synthetic and eight measured cases, independent audits and the
+actual native preflight. The single frozen fresh final
+[run 41391193610](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41391193610)
+completed acquisition and the raw audit but failed the first measured worker:
+raw-flat-r0 held-out RMS2.8853 exceeds the unchanged limit2. The remaining23
+workers did not run. The cohort is consumed development evidence. Candidate
+`f1663ed` passes actual installed native constrained-mass interface probes on
+Linux/macOS; those probes do not establish scientific calibration or final
+acceptance. Final science, updated replay, merged-main acceptance and 1.2.0 remain
+open in the [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).
+Earlier failed/consumed cohorts retain their original status.
 
-## Accepted Linux scientific campaign
+## Historical Linux campaign; current acceptance superseded
 
 The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
 24 synthetic calibration cases, 72 untouched synthetic final children (24
