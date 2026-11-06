@@ -1975,3 +1975,20 @@ exhausted native solves still raise an explicit numerical failure with their
 cause and completed trial history. The package does not retry another optimizer
 or silently discard alpha trials. Archived datasets keep their original
 calculation settings; read historical evidence with its recorded source.
+
+### Versioned EPW interpolation dictionaries and release replay
+
+New Cauchy plan payload2 records its fixed geometric-dictionary recipe and
+selected pole ordinals. Plan1 archives retain their original serialized values
+and metadata on loading and re-export. For dictionary_size=2, the only geometric
+point is the lower endpoint; larger dictionaries include both exact binary64
+endpoints. Independent native-archive checks compare exact recorded coordinates
+using a separate Decimal construction. This is a numerical computational
+contract, not a certified transcendental rounding or convergence theorem.
+
+Release replay commands consume explicit immutable inputs and write new external
+receipts. The covariance replay requires the preexisting hash-verified UCI ZIP,
+complete18-case corpus and pinned CPU provider runtime. It never downloads an
+absent dataset, refits a model or remeasures benchmark timings. Its n512 provider
+check runs actual CPU float64 GPyTorch on the saved factor and compares against
+independent SciPy solves; historical reported errors remain separately labeled.

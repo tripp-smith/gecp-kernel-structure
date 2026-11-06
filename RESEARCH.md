@@ -13153,3 +13153,93 @@ Add a native workflow step and strict metadata selector requirement, plus
 negative fixtures for fake passes, provenance, runtime, unsafe paths and process
 failures. Full root and an actual pinned-provider replay must pass before this
 component is accepted. No phase merge, version tag or publication follows alone.
+
+## EJ complete saved covariance payload gate contract
+
+Add a bounded Linux CPU covariance release component, consuming the complete
+authenticated18-case artifact (six sizes512..16384, three original fresh-process
+repetitions), provider arrays/receipt, frozen source-P calibration and an
+explicitly provided preexisting UCI archive. Require the exact outer/nested
+dataset hashes and attribution; absent data fails without downloading. The
+controller itself must not run calibration, model fitting, a new campaign or
+benchmark timing. Independently replay existing saved-array scientific audits
+from detached P under the pinned CPU GP runtime, retaining the original source,
+freeze, chronological split, normalization, rank, precision and accuracy budgets.
+
+Enforce complete strict JSON/array keysets,18 unique size/repeat tuples, exact
+source/hash graph, split keys and shapes, no extra or orphan payload entries,
+finite values and positive recorded timing/resource fields. Recompute original
+operator residuals, selected columns and predictions using the existing
+independent auditor. At n512, independently verify saved provider RHS/solution,
+expected and reported predictions using dense SciPy solves on the identical
+retained factor; check actual CPU float64 GPyTorch/linear_operator operations
+on that same saved factor, including solve and log probability. This is a new
+small provider consistency check without pivot selection, fitting or benchmark
+remeasurement. Original performance/RSS claims remain historical observations
+from the authenticated fresh-process producer, not measurements by this replay.
+
+Keep controller-K and scientific-P identities distinct; bind actual imported
+providers/module paths, single threads and clean source Git blobs. Bound payload
+size/count/arrays and child process groups/deadlines, preserve failed receipts
+and logs, reject nonzero/truncated/fake success or runtime mismatch, and verify
+all input inventories after final output writes. Outputs are new exclusive
+external directories; no symlinks, hardlinks, traversal or hidden network fallback.
+The full-campaign workflow executes this controller, uploads its diagnostics
+separately and retains the verified dataset with attribution as a separate
+artifact. Metadata selection must require every full-campaign audit step and
+artifact; ordinary small CI remains a distinct incomplete release case.
+
+Run negative structural/provider arithmetic tests, full root and a complete
+real-provider18-case workflow before component acceptance. No whole-release
+eligibility, new performance advantage, phase merge or1.2 publication follows
+from this component alone. All original EI/EH/EJ obligations remain unchanged.
+
+## EJ deterministic versioned Cauchy dictionary contract
+
+Actual EPW run42224585303 at06dc238 passes native generation, original/relocated
+archive audit and native restart comparison, but the independent separate-job
+Linux controller fails exact cardinal membership. Its runtime versions match.
+Preserve the969-byte controller artifact and full native payload hashes in
+`data/epw/payload-06dc238-failed.json`. Do not widen membership or reinterpret
+that failed controller as scientific acceptance. Diagnose the stored coordinates
+against the local NumPy geometric dictionary before attributing sole cause.
+
+Replace new-plan dictionary generation with an explicit versioned fixed recipe:
+zero followed by negative geometric coordinates between exact binary64 lower
+endpoint1e-10 and exact binary64 squared cutoff, evaluated at256-bit mpmath
+precision then rounded once to binary64. Preserve exact endpoints and reject
+nonfinite/duplicate coordinates. New Cauchy plan payload version2 records this
+recipe and selected dictionary ordinals; new construction uses it explicitly.
+Version1 payload loading/roundtrip retains its original serialized coordinates,
+metadata and semantics. Ordinary fermionic fit archive versions are unaffected.
+
+Independent auditors reconstruct the new finite dictionary using high-precision
+Decimal arithmetic with a different exponential/log formulation and require exact
+binary64 equality at the recorded distinct ordinals. Keep the legacy version1
+exact NumPy-membership check unchanged, including recorded failures. Test
+several dictionary sizes, endpoint/representability boundaries, corrupted policy/
+ordinals/poles, immutable ownership and version1 compatibility. Different
+precision agreement is consistency evidence; this is a versioned computational
+recipe, not a new continuous theorem or certified transcendental rounding claim.
+
+All native frequency/state/unit conventions, held-out rows, physical tolerances,
+rank60, conditioning and truth-assisted XOR policy remain fixed. The new source
+requires full root and a fresh actual native workflow including independent
+separate-machine controller validation. No automatic retry of06d, old artifact
+mutation, unsupported-platform claim or release closure follows from this repair.
+
+Dictionary endpoint clarification:dictionary_size=2 has one geometric point
+and uses the lower endpoint1e-10, retaining prior num=1 behavior. For at least
+two geometric points, both exact binary64 endpoints are retained.
+
+### Joint scientific-source freeze before canonical acquisition
+
+The deterministic Cauchy change modifies a kernelgecp source file included in
+EH's full package snapshot, although that integration is not used by MaxEnt.
+Do not draw the final341/5001 allocation at the earlier isolated0e21c12 source
+and later reinterpret it as the changed package. Keep its calibration-only run
+as development evidence. Reconcile the verified EH/EJ source branches, run full
+verification and new actual source-bound calibration on the joint revision, then
+preregister any canonical allocation only after those gates pass. Preserve all
+source-specific failures. No final reservation is consumed by calibration-only
+work; the original experimental and release objectives remain unchanged.

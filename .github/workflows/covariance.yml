@@ -74,6 +74,24 @@ jobs:
             --data "$RUNNER_TEMP/uci-501.zip" --frozen data/covariance/calibration.json \
             --source-revision "$(git rev-parse HEAD)" \
             --output artifacts/covariance/full-audit.json
+      - name: Independently audit full saved covariance payload
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky')
+        run: |
+          runtime_python="$PWD/environments/gp/.venv/bin/python"
+          "$runtime_python" -m scripts.release_covariance_audits \
+            --payload "$PWD/artifacts/covariance" --source-revision "$(git rev-parse HEAD)" \
+            --gp-python "$runtime_python" --data "$RUNNER_TEMP/uci-501.zip" \
+            --output "$RUNNER_TEMP/covariance-payload-audit"
+      - name: Prepare retained UCI dataset attribution
+        if: >-
+          always() && ((github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky'))
+        run: |
+          mkdir -p "$RUNNER_TEMP/covariance-dataset"
+          test ! -f "$RUNNER_TEMP/uci-501.zip" || cp "$RUNNER_TEMP/uci-501.zip" "$RUNNER_TEMP/covariance-dataset/uci-501.zip"
+          python -c 'import json; from pathlib import Path; d=json.loads(Path("data/covariance/calibration.json").read_text())["dataset"]; Path("${{ runner.temp }}/covariance-dataset/attribution.json").write_text(json.dumps(d, sort_keys=True, indent=2)+"\n")'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -81,3 +99,21 @@ jobs:
           retention-days: 14
           path: artifacts/covariance/
           if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: >-
+          always() && ((github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky'))
+        with:
+          name: covariance-release-payload-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/covariance-payload-audit/
+          if-no-files-found: warn
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: >-
+          always() && ((github.event_name == 'workflow_dispatch' && inputs.full_campaign) ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/codex/phase-ei-column-cholesky'))
+        with:
+          name: covariance-uci-dataset-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/covariance-dataset/
+          if-no-files-found: warn
+          retention-days: 14

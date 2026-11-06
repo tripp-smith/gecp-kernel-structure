@@ -77,9 +77,15 @@ ROLES = {
             "real-data": [
                 "Execute and independently audit a small real-data case",
                 "Execute the full frozen EI branch or explicitly dispatched campaign",
+                "Independently audit full saved covariance payload",
+                "Prepare retained UCI dataset attribution",
             ]
         },
-        ["real-data-covariance"],
+        [
+            "real-data-covariance",
+            "covariance-release-payload-audit-{id}-{attempt}",
+            "covariance-uci-dataset-{id}-{attempt}",
+        ],
     ),
     "cthyb": (
         "cthyb-evidence.yml",

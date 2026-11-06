@@ -28,6 +28,7 @@ from experiments.audit_epw_frequency import (
     require,
     sha,
     truth,
+    validate_pole_dictionary,
 )
 
 # Reviewed producer byte identity; changes to the producer require re-review.
@@ -388,10 +389,10 @@ def bundle(path, data):
         and len(np.unique(nodes)) == len(np.unique(poles)) == 60
         and np.all(nodes > 0)
         and np.all(poles <= 0)
-        and np.all(weights != 0)
-        and np.all(np.isin(poles, -np.r_[0.0, np.geomspace(1e-10, 169.0, 1200)])),
+        and np.all(weights != 0),
         "cardinals",
     )
+    validate_pole_dictionary(plan, poles)
     omega = canonical_omega(train)
     x = training_coordinates(a["observation_x"], train)
     pivots = plan["pivot_rows"]

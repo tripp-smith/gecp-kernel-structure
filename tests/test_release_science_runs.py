@@ -326,3 +326,27 @@ def test_cthyb_payload_diagnostic_artifact_required():
     ]
     with pytest.raises(ValueError):
         select(data)
+
+
+@pytest.mark.parametrize("which", ["step", "audit", "data"])
+def test_covariance_complete_gate_required(which):
+    data = metadata()
+    run_id = data[0]["covariance"][0]["id"]
+    if which == "step":
+        step = next(
+            x
+            for x in data[1][run_id][0]["steps"]
+            if x["name"] == "Independently audit full saved covariance payload"
+        )
+        step["conclusion"] = "skipped"
+    else:
+        prefix = (
+            "covariance-release-payload-audit-"
+            if which == "audit"
+            else "covariance-uci-dataset-"
+        )
+        data[2][run_id] = [
+            x for x in data[2][run_id] if not x["name"].startswith(prefix)
+        ]
+    with pytest.raises(ValueError):
+        select(data)

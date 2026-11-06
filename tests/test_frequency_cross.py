@@ -5,14 +5,18 @@ import mpmath as mp
 import numpy as np
 import pytest
 
-from kernelgecp.integrations._frequency_cross import CauchyFrequencyPlan
+from experiments.audit_epw_frequency import validate_pole_dictionary
+from kernelgecp.integrations._frequency_cross import (
+    CauchyFrequencyPlan,
+    _cauchy_dictionary,
+)
 from kernelgecp.types import NumericalBreakdownError
 
 
 def test_schur_cardinal_independent_and_analytic_pole():
     x = np.array([1.0, 2.0, 3.0, 5.0, 8.0])
     plan = CauchyFrequencyPlan(x, rank=3, dictionary_size=7, pole_cutoff_ev=2)
-    poles = -np.r_[0.0, np.geomspace(1e-10, 4, 6)]
+    poles = _cauchy_dictionary(7, 4)
     residual = 1 / (x[:, None] - poles)
     for i, j, score in zip(
         plan.pivot_rows,
@@ -120,6 +124,9 @@ def test_rejections_and_condition_limit():
 def test_portable_load_does_not_reselect(monkeypatch):
     plan = CauchyFrequencyPlan([1.0, 2.0, 4.0, 8.0], rank=3, dictionary_size=8)
     metadata, arrays = plan.to_payload()
+    metadata["version"] = 1
+    del metadata["dictionary_policy"]
+    del metadata["selected_pivot_columns"]
     pole = next(i for i, p in enumerate(arrays["poles"]) if p < 0)
     arrays["poles"][pole] = np.nextafter(arrays["poles"][pole], 0.0)
     with mp.workprec(metadata["precision_bits"]):
@@ -172,3 +179,88 @@ def test_reject_bad_saved_model():
     meta["near_tie_counts"][0] = 0
     with pytest.raises(ValueError):
         CauchyFrequencyPlan.from_payload(meta, arrays)
+
+
+@pytest.mark.parametrize("size", [2, 3, 7, 101, 1201])
+def test_v2_dictionary_independent_decimal_and_endpoints(size):
+    dictionary = _cauchy_dictionary(size, 169.0)
+    assert dictionary[0] == 0 and dictionary[1] == -1e-10
+    if size > 2:
+        assert dictionary[-1] == -169.0
+    plan = {
+        "version": 2,
+        "rank": size,
+        "precision_bits": 256,
+        "max_evaluation_condition": 1e4,
+        "pivot_rows": [],
+        "log_residual_history": [],
+        "tie_counts": [],
+        "near_tie_counts": [],
+        "certification_status": "not_certified",
+        "dictionary_size": size,
+        "pole_cutoff_ev": 13,
+        "dictionary_policy": "binary64_endpoints_mpmath256_log_linear_v1",
+        "selected_pivot_columns": list(range(size)),
+    }
+    validate_pole_dictionary(plan, dictionary)
+    assert np.isfinite(dictionary).all()
+
+
+def test_grid_duplicate_and_payload_v1_roundtrip():
+    with pytest.raises(ValueError, match="duplicate"):
+        _cauchy_dictionary(100, np.nextafter(1e-10, np.inf))
+    plan = CauchyFrequencyPlan([1.0, 2.0, 3.0, 4.0], rank=3, dictionary_size=7)
+    metadata, arrays = plan.to_payload()
+    assert metadata["version"] == 2
+    legacy = copy.deepcopy(metadata)
+    legacy["version"] = 1
+    del legacy["dictionary_policy"]
+    del legacy["selected_pivot_columns"]
+    loaded = CauchyFrequencyPlan.from_payload(legacy, arrays)
+    actual_meta, actual_arrays = loaded.to_payload()
+    assert actual_meta == legacy
+    for key in arrays:
+        assert np.array_equal(actual_arrays[key], arrays[key])
+    assert loaded.selected_pivot_columns is None
+    for key, change in (
+        ("dictionary_policy", "wrong"),
+        ("selected_pivot_columns", [0, 0, 0]),
+        ("selected_pivot_columns", [True, 1, 2]),
+        ("selected_pivot_columns", [0, 1, 2]),
+    ):
+        bad = copy.deepcopy(metadata)
+        bad[key] = change
+        if key == "selected_pivot_columns" and change == metadata[key]:
+            continue
+        with pytest.raises(ValueError):
+            CauchyFrequencyPlan.from_payload(bad, arrays)
+    corrupt = {k: v.copy() for k, v in arrays.items()}
+    corrupt["poles"][0] = np.nextafter(corrupt["poles"][0], -np.inf)
+    with pytest.raises(ValueError):
+        CauchyFrequencyPlan.from_payload(metadata, corrupt)
+
+
+def test_v2_dictionary_rejects_changed_zero_sign():
+    plan = CauchyFrequencyPlan([1.0, 2.0, 3.0, 4.0], rank=3, dictionary_size=7)
+    metadata, arrays = plan.to_payload()
+    selected = metadata["selected_pivot_columns"]
+    if 0 not in selected:
+        pytest.skip("fixture did not select the zero pole")
+    arrays["poles"][selected.index(0)] = 0.0
+    with pytest.raises(ValueError, match="dictionary columns"):
+        CauchyFrequencyPlan.from_payload(metadata, arrays)
+    with pytest.raises(ValueError, match="dictionary ordinals"):
+        validate_pole_dictionary(metadata, arrays["poles"])
+
+
+def test_dictionary_restores_mpmath_context_on_success_and_failure():
+    old = mp.mp.prec
+    mp.mp.prec = 77
+    try:
+        _cauchy_dictionary(7, 169.0)
+        assert mp.mp.prec == 77
+        with pytest.raises(ValueError, match="duplicate"):
+            _cauchy_dictionary(100, np.nextafter(1e-10, np.inf))
+        assert mp.mp.prec == 77
+    finally:
+        mp.mp.prec = old

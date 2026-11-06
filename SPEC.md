@@ -3327,3 +3327,14 @@ exclusive immutable input/output boundaries. Separate diagnostics from the
 one-receipt input artifact and require both in metadata selection. Full root,
 actual provider execution and exact-source CI remain mandatory. No scientific
 threshold, original goal,1.1.0 artifact or whole-release status is changed.
+
+EJ covariance/dictionary status annotation (2026-11-06):CT-HYB saved-data
+component837eb3f passes real Linux208-chain/seven-gate replay. Add
+`scripts/release_covariance_audits.py` and
+`scripts/release_covariance_provider.py` for complete saved18-case and actual
+CPU same-factor checks, keeping benchmark timing historical. New Cauchy plan
+payload2 declares a fixed binary64-endpoint/256-bit recipe and selected pole
+ordinals, independently reconstructed with Decimal; plan1 semantics and failed
+EPW06dc238 replay remain preserved. Full root and fresh full native/provider
+validation remain required. No original mathematical or domain accuracy goal
+is rewritten, and EH/EJ1.2 stay open.

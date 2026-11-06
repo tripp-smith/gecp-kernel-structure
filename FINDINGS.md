@@ -2729,3 +2729,27 @@ It makes no claim of byte-identical floating results across runtime builds.
 Diagnostics are uploaded separately so the authenticated one-receipt input
 artifact can be replayed unchanged. Actual provider execution, full verification
 and exact-source CI are still required; this is not release eligibility.
+
+## EJ actual CT-HYB replay and remaining portability checks
+
+Source837eb3f passes full root and actual pinned Linux CT-HYB payload replay
+42227623277. Both the original and independently repeated audits cover208
+measurements and pass the seven EE gates; input hashes remain unchanged. The
+original ZIPs and source/runtime evidence are preserved under experiments/data
+and data/cthyb/release-payload-837eb3f-passed.json. This is saved-data replay,
+without new sampling or a deterministic byte-equality claim.
+
+EPW06dc238 passes native generation, both on-runner archive audits and native
+restart comparison, but separate-job replay fails exact cardinal membership.
+The failed diagnostic is retained. New Cauchy plan payload2 records a fixed
+256-bit geometric recipe and selected ordinals, independently checked by
+Decimal reconstruction. Legacy plan1 retains its original exact checks. This
+removes fresh NumPy geometric-grid regeneration from the new dictionary
+identity check; no error threshold is widened and no sole failure cause is
+claimed. Fresh native separate-machine validation remains mandatory.
+
+The covariance component independently audits complete saved case arrays and
+performs an actual CPU GPyTorch consistency check on the same saved n512 factor.
+Its historical timings/log-probability error are distinguished from fresh replay
+checks. A3x3 actual macOS provider fixture agrees with SciPy to4.45e-16 in log
+probability, but the full18-case Linux evidence remains pending.

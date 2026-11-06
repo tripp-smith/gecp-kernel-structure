@@ -156,3 +156,12 @@ source/runtime bindings. It remains in development pending full verification
 and actual provider evidence. Covariance, corrected EH, all-domain coordination,
 publication and exact-main handoff gates remain open. Estimated completion
 remains approximately85% by completed obligations.
+
+EJ further component evidence:CT-HYB source837eb3f passes root and actual Linux
+saved-data replay,208 chains/all seven gates, without resampling. EPW06dc238
+native checks pass but its separate-job exact dictionary replay fails. Preserve
+that failure; a new versioned fixed-grid recipe and independent exact ordinal
+checks are under verification. Full covariance replay now has source/runtime,
+18-case/hash/schema and same-factor CPU provider gates, awaiting complete Linux
+validation. Whole-release eligibility, corrected EH final science, publication
+and exact-main synchronization remain open; estimated completion stays about85%.
