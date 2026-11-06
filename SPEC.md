@@ -3318,3 +3318,12 @@ groups, strict complete receipts and immutable inputs. Require the downloaded
 curated payload CI job and its artifact in release selection. The whole
 controller's real Linux case, full root/exact-head CI and all remaining EH/EJ
 objectives are still required; no release or merge is claimed.
+
+EJ saved CT-HYB gate annotation (2026-11-06):add
+`scripts/release_cthyb_audits.py` to independently rerun the existing native
+208-measurement auditor under pinned providers. Preserve the seven EE gates,
+strict complete receipts, separate controller/scientific source identities and
+exclusive immutable input/output boundaries. Separate diagnostics from the
+one-receipt input artifact and require both in metadata selection. Full root,
+actual provider execution and exact-source CI remain mandatory. No scientific
+threshold, original goal,1.1.0 artifact or whole-release status is changed.

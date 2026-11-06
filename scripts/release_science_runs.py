@@ -83,8 +83,13 @@ ROLES = {
     ),
     "cthyb": (
         "cthyb-evidence.yml",
-        {"replay": ["Recompute independent audit from committed native data"]},
-        ["cthyb-evidence-replay-{id}"],
+        {
+            "replay": [
+                "Recompute independent audit from committed native data",
+                "Independently audit saved CT-HYB payload",
+            ]
+        },
+        ["cthyb-evidence-replay-{id}", "cthyb-release-payload-audit-{id}-{attempt}"],
     ),
     "spectroscopy": (
         "spectroscopy-evidence.yml",

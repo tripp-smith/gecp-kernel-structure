@@ -13123,3 +13123,33 @@ path/deadline failures and missing child output. A passing actual Linux full
 payload case and full root/exact-source CI remain required before this gate
 component is closed. Existing source/license, EH, publication and final-handoff
 obligations remain open; no 1.2.0 tag or upload is authorized by this gate alone.
+
+## EJ complete saved CT-HYB payload gate contract
+
+After the EPW saved-payload component, add a bounded CT-HYB wrapper for the
+authenticated `cthyb-evidence-replay.json` artifact. This is a saved-measurement
+audit, not new sampling or overall release eligibility. Require canonical pinned
+Linux x86_64 TRIQS runtime and actual provider imports/version checks. Detach the
+requested scientific source revision P; use its existing
+`experiments.replay_cthyb_acceptance` to verify the Git-tracked7200 native archive,
+binding,208 measurement receipt/array pairs and protected source blobs, then
+rerun the independent native scientific auditor. Execute with isolated Python,
+single threads, no checkout import leakage, bounded process-group timeout and
+retained logs. Bind current controller K separately to its clean Git blobs.
+
+Reject a status-only/truncated receipt, missing/extra/false gates, wrong generation
+or audit source, wrong208-chain count, incomplete required scientific sections,
+nonfinite numerical fields, nonzero child exit, timeout, runtime mismatch or
+mutated inputs. Require the exact seven original EE gates. Uploaded and newly
+computed numerical values need not be byte-identical across runtime builds;
+scientific thresholds are independently rerun, while identities, keysets and
+structural obligations are exact. Do not invent a deterministic-output claim.
+
+The input artifact has exactly one regular, bounded receipt. Validate canonical
+paths and reject symlinks/hardlinks; write new exclusive outputs outside input,
+hash inputs after all writes and keep successful/failing attempts visible.
+Record hashes of source, native archive/binding, lock files and both receipts.
+Add a native workflow step and strict metadata selector requirement, plus
+negative fixtures for fake passes, provenance, runtime, unsafe paths and process
+failures. Full root and an actual pinned-provider replay must pass before this
+component is accepted. No phase merge, version tag or publication follows alone.

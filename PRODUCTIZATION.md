@@ -147,3 +147,12 @@ Release selection requires its additional CI job and diagnostic artifact.
 Focused checks and the saved native case pass; a complete real Linux controller
 case and current-source full verification remain pending. No all-domain release
 eligibility follows from this component.
+
+EJ component checkpoint (2026-11-06):EPW controller06dc238 passes full root;
+its actual complete Linux payload validation42224585303 is running. The next
+component adds strict saved CT-HYB receipt validation and independent replay of
+208 hash-pinned native measurements, with separate diagnostic artifacts and
+source/runtime bindings. It remains in development pending full verification
+and actual provider evidence. Covariance, corrected EH, all-domain coordination,
+publication and exact-main handoff gates remain open. Estimated completion
+remains approximately85% by completed obligations.

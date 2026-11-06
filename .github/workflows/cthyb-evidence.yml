@@ -20,7 +20,7 @@ env:
 jobs:
   replay:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 180
     defaults:
       run:
         shell: bash -el {0}
@@ -42,10 +42,22 @@ jobs:
           python -m pip install --no-deps .
       - name: Recompute independent audit from committed native data
         run: python -m experiments.replay_cthyb_acceptance --output artifacts/cthyb-evidence-replay.json
+      - name: Independently audit saved CT-HYB payload
+        run: |
+          python -m scripts.release_cthyb_audits --payload "$PWD/artifacts" \
+            --source-revision "$(git rev-parse HEAD)" --triqs-python "$(command -v python)" \
+            --output "$RUNNER_TEMP/cthyb-payload-audit"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cthyb-evidence-replay-${{ github.run_id }}
           path: artifacts/cthyb-evidence-replay.json
+          if-no-files-found: warn
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cthyb-release-payload-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cthyb-payload-audit/
           if-no-files-found: warn
           retention-days: 30

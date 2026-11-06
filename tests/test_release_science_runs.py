@@ -302,3 +302,27 @@ def test_complete_epw_payload_gate_is_mandatory(missing):
         ]
     with pytest.raises(ValueError):
         select(data)
+
+
+def test_cthyb_payload_gate_is_required():
+    data = metadata()
+    run_id = data[0]["cthyb"][0]["id"]
+    steps = data[1][run_id][0]["steps"]
+    step = next(
+        s for s in steps if s["name"] == "Independently audit saved CT-HYB payload"
+    )
+    step["conclusion"] = "skipped"
+    with pytest.raises(ValueError, match="cthyb required step failed or skipped"):
+        select(data)
+
+
+def test_cthyb_payload_diagnostic_artifact_required():
+    data = metadata()
+    run_id = data[0]["cthyb"][0]["id"]
+    data[2][run_id] = [
+        a
+        for a in data[2][run_id]
+        if not a["name"].startswith("cthyb-release-payload-audit-")
+    ]
+    with pytest.raises(ValueError):
+        select(data)

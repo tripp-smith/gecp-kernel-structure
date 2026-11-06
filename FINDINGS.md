@@ -2717,3 +2717,15 @@ identities, hard process deadlines and whole-call input immutability. Truncated
 passed receipts and wrong comparison-policy fields fail closed. Full Linux
 controller execution and exact-source verification are pending; EH, complete
 release eligibility and publication remain open.
+
+## EJ saved CT-HYB release gate boundary
+
+The new component replays the hash-pinned208-measurement corpus through its
+existing independent auditor in a detached source and pinned provider runtime.
+It requires all seven original EE gates and the complete scientific receipt,
+with separate controller/scientific identities. Uploaded receipt structure and
+identities are checked; scientific thresholds are independently recomputed.
+It makes no claim of byte-identical floating results across runtime builds.
+Diagnostics are uploaded separately so the authenticated one-receipt input
+artifact can be replayed unchanged. Actual provider execution, full verification
+and exact-source CI are still required; this is not release eligibility.
