@@ -11,6 +11,8 @@ on:
       - "experiments/audit_molecular_green.py"
       - "tests/test_molecular_*.py"
       - "scripts/check_molecular_installed.py"
+      - "scripts/release_molecular_audits.py"
+      - "tests/test_release_molecular_audits.py"
       - "scripts/providers/green_molecular_runs.py"
       - "scripts/providers/bind_green_manifest.py"
       - "environments/green/**"
@@ -24,6 +26,8 @@ on:
       - "experiments/audit_molecular_green.py"
       - "tests/test_molecular_*.py"
       - "scripts/check_molecular_installed.py"
+      - "scripts/release_molecular_audits.py"
+      - "tests/test_release_molecular_audits.py"
       - "scripts/providers/green_molecular_runs.py"
       - "scripts/providers/bind_green_manifest.py"
       - "environments/green/**"
@@ -95,6 +99,19 @@ jobs:
           uv run --project environments/green-science --frozen python -m experiments.audit_molecular_green \
             "$PWD/artifacts/comparison" --native-root "$PWD/artifacts/native" \
             --output "$PWD/artifacts/comparison-audit.json"
+      - name: Independently replay the molecular release payload
+        run: |
+          science_python="$(uv run --project environments/green-science --frozen python -c 'import sys; print(sys.executable)')"
+          uv run --project environments/green-science --frozen python -m scripts.release_molecular_audits \
+            --payload "$PWD/artifacts" --source-revision "$(git rev-parse HEAD)" \
+            --molecular-python "$science_python" \
+            --output "$RUNNER_TEMP/molecular-payload-audit"
+      - name: Preserve the molecular payload audit attempt
+        if: always()
+        run: |
+          if test -d "$RUNNER_TEMP/molecular-payload-audit"; then
+            cp -R "$RUNNER_TEMP/molecular-payload-audit" artifacts/release-payload-audit
+          fi
       - name: Check installed molecular reader outside the source tree
         run: |
           uv build --wheel --out-dir "$RUNNER_TEMP/molecular-wheel"

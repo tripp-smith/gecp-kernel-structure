@@ -1,0 +1,68 @@
+{
+  "artifacts": [
+    {
+      "bytes": 10078,
+      "id": 13507081984,
+      "path": "experiments/data/cthyb-release-837eb3f-original.zip",
+      "sha256": "f254d86d5fcc89b1b296b9fd45663628199894cb23b6d6835bb46369aba9ddbc"
+    },
+    {
+      "bytes": 12661,
+      "id": 13506762970,
+      "path": "experiments/data/cthyb-release-837eb3f-payload.zip",
+      "sha256": "2a5c1494dab9be20a1a9e0319ff846e240293f7d300d8d05c7ce76cd3ed8e6b1"
+    }
+  ],
+  "gates": {
+    "all_provider_replay_and_cutoff": true,
+    "independent_low_frequency_quadrature": true,
+    "independent_native_refinement": true,
+    "loop_controllers": true,
+    "native_and_represented_self_consistency": true,
+    "physical_observable_agreement": true,
+    "standard_errors": true
+  },
+  "independent_chain_count": 208,
+  "independent_receipt_sha256": "95cf4c96ac0f5351a9d587c8c66e8b497b3821985893b476aed636f3f2ffc412",
+  "payload_unchanged": true,
+  "receipt_sha256": "3a6e5c00f62c06ad634ce58151c3536396cb5089a056a5487c2b6fc7f1be741a",
+  "run_attempt": 1,
+  "run_id": 42227623277,
+  "runtime": {
+    "executable": "/home/runner/micromamba/envs/kernelgecp-triqs/bin/python",
+    "machine": "x86_64",
+    "modules": {
+      "numpy": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/numpy/__init__.py",
+      "pydlr": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/pydlr/__init__.py",
+      "pylibsparseir": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/pylibsparseir/__init__.py",
+      "scipy": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/scipy/__init__.py",
+      "sparse_ir": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/sparse_ir/__init__.py",
+      "triqs": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/triqs/__init__.py",
+      "triqs_cthyb": "/home/runner/micromamba/envs/kernelgecp-triqs/lib/python3.12/site-packages/triqs_cthyb/__init__.py"
+    },
+    "platform": "linux",
+    "prefix": "/home/runner/micromamba/envs/kernelgecp-triqs",
+    "python": "3.12.16",
+    "threads": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "versions": {
+      "cthyb": "4.0.1",
+      "numpy": "2.2.6",
+      "pydlr": "1.0.1",
+      "pylibsparseir": "0.12.0",
+      "scipy": "1.18.1",
+      "sparse-ir": "2.1.6",
+      "triqs": "4.0.2"
+    }
+  },
+  "schema": "kernelgecp.cthyb-release-component-evidence.v1",
+  "scope": "actual pinned-provider independent saved-measurement replay; not new sampling or release eligibility",
+  "source_revision": "837eb3fa4a09287d4d266e8e730d6a2d61397695",
+  "status": "passed"
+}

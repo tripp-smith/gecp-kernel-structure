@@ -13206,3 +13206,541 @@ reservations are still untouched because v3 stopped before any final generation;
 they may be reserved under a new source only after successful v4 calibration.
 No new allocation, final acceptance, merge or1.2 publication follows from this
 development contract.
+
+
+## Phase EJ — fail-closed production-release preparation
+
+Prepare 1.2.0 on a separate branch while EH generation source feaac669 stays
+frozen in canonical run 41095194293. EE and EG delivery are established by the
+canonical PR #141/#138 receipts; older pending labels are historical. EH and
+publication remain open. Do not bump versions, tag, publish or close EJ from
+ordinary CI or from a document inventory.
+
+First deliver a verifier-owned asset inventory in scripts/release_artifacts.py
+and meaningful corruption/missing-file tests. Keep the 1.1 release path intact.
+Include all five application guides (both DMFT guides plus molecular Green,
+EPW, spectroscopy and covariance), installation/compatibility, migration,
+troubleshooting, examples, reports and optional-provider source/license indexes.
+Require nonempty UTF-8 text and strict nonempty JSON where applicable; an
+arbitrary byte threshold is not a completeness proof. Bind collected documents
+to their exact Git source blobs. Keep large science assets out of pip archives.
+
+The separate mandatory scientific eligibility gate must execute all applicable
+real-provider independent verifiers and validate source/environment/artifact
+bindings and complete domain case sets. Missing, stale, failed, skipped or
+inconclusive EH raw-256, synthetic-72 and measured-24 evidence must reject
+publication. A producer boolean, hash format, workflow color or document list
+is insufficient. This gate and final provider reruns remain required work.
+
+At closure run focused negative gate checks, ./scripts/verify.sh, exact-head CI,
+installed wheel/sdist tests and required full native scientific release runs.
+After authorized merge verify synchronized exact main, promote tested bytes,
+verify public PyPI hashes and installed interfaces, retain source/notices and
+all failed scientific evidence, and issue the canonical handoff receipt. The
+canonical implementation-run provenance belongs in FINAL_HANDOFF.md and must
+keep frozen original research accounting unchanged. New model/version, token
+categories and billing are recorded only when exposed, never inferred.
+
+
+EJ preparation verification: 65 focused release-asset tests pass, including
+full 1.2 collector composition, exact Git-document mismatch rejection, missing
+required groups/files, malformed JSON and legacy 1.1 paths. Composition fixtures
+do not prove archive validity or scientific eligibility. Source assets are
+present except SPECTROSCOPY.md, which belongs to the pending EH merge; 1.2
+collection must reject its absence. Nonempty text alone is not semantic review.
+
+New examples exercise actual CPU GPyTorch identical-factor conversion, actual
+TauMaxEnt on the consumed development input, and the supported saved native
+EPW model-plus-lossless archive. EPW export/reimport preserves all Z/gap/chi
+fields, 140 states and 92 frequencies exactly. The column-only example retains
+47,784 factor bytes at rank 21 and has approximate-system residual 1.17e-12;
+CPU GPyTorch differs by 4.85e-14. These are interface checks, not new performance
+or full scientific claims. The MaxEnt example imports frozen EH source feaac669
+explicitly, because this isolated EJ branch has not merged EH. Its complete
+native output, including covariance-mode warnings, is preserved separately.
+The future combined candidate still needs installed-example and release checks.
+`data/release/application-examples-preparation.json` binds the scripts/results.
+
+
+## EJ integration checkpoint after EH merge
+
+Integrate main 3bc726b into the release-preparation branch. EH passed all 15
+exact-head workflows and merged, but exact-main run 41321087677 fails its
+frozen measured-calibration independent projection comparison. Main root still
+passes 2,631 tests/42 optional skips. Delivery remains open; neither new native
+samples nor a changed tolerance is authorized by a green branch receipt.
+
+Two bounded release helpers add source-only and authenticated-metadata checks.
+release_source_equivalence.py pins feaac669, protects 202 baseline source paths
+and allows only all-five unchanged 1.1.0 fields or an exact five-field 1.2.0
+transition. Verifier-owned additions list the known independent audit and
+release tools. Twenty tests reject code, dependency, lock, source inventory,
+mode/identity and partial-transition changes. This is not numerical acceptance.
+
+release_science_runs.py selects the latest exact-main successful run for six
+scientific workflow roles, requiring six provider lanes, native/audit steps,
+the full GP campaign, matching job attempts and authenticated artifact identity.
+Actual API job fields were checked. Docker build records are validated and
+returned separately with a strict repository-specific name/count policy.
+Thirty-three tests cover missing, skipped, malformed and mismatched records.
+The caller must authenticate and fully paginate API responses; artifact payload
+inspection and independent numerical audits remain separate required work.
+
+Keep versions at 1.1.0 and PR #144 draft. Finish the EH discrepancy, compose the
+numerical eligibility gate, execute required final native validation, then freeze
+and test actual installed 1.2.0 distributions before publication and handoff.
+
+
+## EJ release-gate component implementation (2026-11-02)
+
+Current scientific generation source 98bdfab remains frozen in its separate
+worktree. Calibration-only run 41389031789 passes actual Linux/macOS installed
+providers, 24 synthetic cases, eight measured calibration cases, their independent
+audits and an executed disposable native preflight. An extra independent
+calibration review verifies source/array hashes, 52 numerical comparisons and
+an 80-digit original-design pyDLR projector check under the unchanged tolerance.
+This is calibration, not final acceptance. After registering its single allocation,
+canonical run 41391193610 starts at source 98bdfab, attempt1, with fresh native
+33100001+2*i seeds and untouched synthetic final seeds. Its actual outcome,
+v2 replay, EH delivery and every EJ publication gate remain open.
+
+On this separate EJ branch, implement three narrowly scoped gate components:
+
+- release_source_equivalence.py rejects every unknown critical addition and
+  protects tracked workflow/config/data/fixture/verification trees regardless
+  of extension; no unchecked added-auditor allowlist remains. The historical
+  FEAA baseline is unchanged and does NOT accept corrective source98bdfab.
+  Its expanded strict inventory intentionally cannot authorize current reuse.
+- release_science_fetch.py obtains authenticated gh API metadata with bounded
+  complete pagination, stable exact-source/main filtering, latest-run selection
+  and attempt-specific jobs. A failure/skipped required step is not bypassed.
+  It downloads no payload and does not establish scientific eligibility.
+- release_provider_audits.py validates all six runtime receipts and their
+  available bound payload bytes, records receipt hashes, and executes the two
+  independent ED campaign auditors from a clean private exact-SHA Git snapshot
+  under isolated Python imports. Missing providers/audits, wrong source/cohorts,
+  unsafe inputs or failures produce explicit failed receipts. This component
+  covers runtime and saved ED audits only, not whole-release eligibility.
+
+Focused tests must attack pagination/truncation, skipped/latest-failed bindings,
+source additions/modes/versions, corrupt receipts and payloads, malformed JSON
+shapes, untracked dependency-shadow modules, missing runtimes and failed audits.
+Mocked scientific subprocess tests do not establish actual provider execution.
+Independent review found the original untracked-import, missing receipt-digest
+and nonobject failure-retention defects; the implementation now isolates imports,
+records exact hashes and preserves failure reports. EPW executable hashes refer
+to the provider image; those binary bytes are absent from uploaded smoke artifacts
+and this limitation is explicit. Authenticated artifact-manifest binding remains
+an upstream requirement of the complete gate.
+
+The final source-reuse policy must separate strictly identical numerical producer
+inputs from explicitly reviewed verifier/release-only differences. Derive the
+accepted baseline from authenticated scientific receipts rather than a
+self-referential commit constant; bind any verifier-only inventory to exact
+candidate/main review and tests. Unknown classification blocks reuse. Do not
+silently add broad exceptions or reacquire Monte Carlo solely to accommodate a
+version string or an independently reviewed release helper. This policy is not
+yet implemented or accepted by the current comparator. Actual installed1.2 tests,
+complete domain payload audits, native release validations, publication wiring,
+full root, exact-head/main checks, merge and public handoff remain required.
+
+
+Component integration focused checks pass 191 tests and 12 subtests. An actual
+authenticated fetch at current main 357ab9 exits 1 with missing exact-main
+molecular run; required science cannot be inferred from unrelated green workflows.
+The canonical EJ component receipt is PR #144 comment 6569479579. Full-root and
+exact-head CI outcomes will be recorded there against the frozen new head.
+
+
+Full root at frozen EJ head 9487fc3 exits 1: 2,721 tests pass, 42 skip and
+24 subtests pass, while the optional historical EPW native-context test fails.
+It autodiscovers a hardcoded /tmp directory that survives without its required
+native receipt. Preserve this failure rather than count root as passing. Replace
+implicit temporary-path discovery with explicit KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT
+opt-in. Unset skips this optional historical check; an explicitly missing or
+incomplete source fails. Keep native context/shape/offset assertions and every
+mandatory supported EPW provider/release gate unchanged. Focused checks pass
+11 tests with one optional skip; an invalid opt-in exits 1. No actual positive
+historical fixture is available locally. Freeze the repaired commit and repeat
+full root before claiming verification.
+
+
+Repaired head 2187c7e passes full root. Next add a required seventh provider
+workflow job: after all six native/platform producers succeed, replay the
+provider payload component in the pinned Linux TRIQS runtime against the actual
+six artifacts. It independently audits both saved ED campaigns and preserves
+JSON/logs. Metadata selection requires this job, its executed audit step and
+its own artifact; absent/skipped audits cannot be accepted. The workflow has
+full-history exact-head checkout and a90-minute bound. Base mocked component
+tests are still not actual-provider acceptance; the new exact-head CI execution
+must pass before claiming this component verified. This job does not replace
+full molecular/EPW/GP/EE/EH eligibility or authorize publication.
+
+
+EJ synchronization checkpoint: head 53176cc passes full root (2,723 tests,
+43 optional skips, 24 subtests), but PR #144 cannot execute PR CI while its
+five documentation conflicts with current main remain. Merge diagnostic main
+357ab9, preserving its historical projection contract/annotation and the current
+EJ implementation history; current status comes from the corrective run receipt.
+No numerical producer, frozen canonical98bdfab source or scientific budget is
+changed. Repeat full root and exact-head CI on the new merged content; old-head
+checks do not verify this commit. The required provider payload job remains
+pending actual execution and full release eligibility remains open.
+
+
+## EJ authenticated payload and version-transition input contract
+
+Continue the same mandatory release gate rather than treating components as
+publication approval. Preserve the verified 2a7c24b commit as a checkpoint while
+its actual provider workflows execute. Next implement release_science_payloads.py:
+consume freshly authenticated full-page selection metadata, stream exact artifact
+ZIPs, verify their API digest/size, bound the central directory before ZIP-library
+allocation, validate complete inventories before extraction, and record source,
+artifact identities, output paths and explicit integrity-only scope. Reject bad
+paths, links, duplicates/collisions, unsupported compression, encrypted members,
+unsafe ZIP64 variants, corruption and resource-budget exhaustion. New output roots
+cannot silently reuse partial failed downloads. Keep failed files/logs for audit.
+Docker build records remain auxiliary metadata rather than numerical evidence.
+
+Allow release_source_equivalence.py to take an explicit full baseline commit so
+its own source constant need not change after scientific acceptance. Protect the
+same complete source/input inventory and require the exact all-five version-field
+transition. The eventual gate must derive this baseline from authenticated,
+independently audited scientific receipts; an arbitrary supplied baseline is not
+trusted and source equality alone never authorizes publication. Bind candidate
+path/mode/blob inventory plus both source-tree digests. Test an accepted pre-version
+source with fixed release helpers followed only by the version transition, while
+rejecting actual source/config/workflow/fixture additions, mutations and bad IDs.
+This does not waive the separate 98bdfab-to-final-replayer numerical-input proof.
+
+Independent review of the materializer found malformed-name and unsupported-ZIP
+error handling gaps, then an alternative ZIP64 footer interpretation that could
+bypass the preallocation bound. Preserve meaningful regressions and reject the
+ZIP64 locator inconsistency before constructing ZipFile. Full root and exact-head
+CI remain required after integrating this next batch. No solver, scientific
+acceptance budget, public fit archive or frozen original accounting changes.
+
+
+Checkpoint 2a7c24b passes all 12 exact-head push/PR workflows, including the
+new actual-provider payload audit in both runs 41455427198/41455417453. The
+PR audit artifact 13147263338 is 5,546 bytes with ZIP SHA-256
+27c63824d6a7c420561f023e7a05ddf36ab5ab86584ba9634670a3e279341522.
+Its source-bound JSON validates six runtime receipts, six Green payload files,
+15 EPW payload files and independently audits 27 compressed plus nine dense
+ED records in each platform corpus. Both ED receipts pass all six audit gates.
+The extracted top-level receipt SHA-256 is
+728b0e7ebd08c66d4829d8bb1b430fa4257a83f4e7667c00421e08dd8db0361c.
+This is runtime/ED component acceptance, not full molecular, EPW, GP, EE or
+corrective EH release eligibility. The same checked ZIP also passes the new
+bounded inventory parser; the 979-entry canonical spectroscopy ZIP passes too.
+The next payload/baseline component batch still requires its own full root and
+exact-head checks. No public 1.2.0 or complete release acceptance is claimed.
+
+
+## EJ artifact attempt-binding hardening contract
+
+Require every selected artifact, including auxiliary build records, to bind
+explicitly to the selected run attempt when that attempt exceeds one. On the
+first attempt, an absent binding remains acceptable; any explicit attempt must
+be an integer equal to the selected attempt. Reject stale, absent on rerun, and
+boolean bindings. Focused selector tests cover both artifact classes and first-
+attempt compatibility. This metadata check does not establish scientific
+eligibility, installed-package acceptance, or authorize publication. Full root
+and exact-head CI remain required.
+
+Correct stale current EH status while preparing this component: canonical
+41391193610 is terminal failed (raw-flat-r0 RMS2.8853>2 after successful256-chain
+acquisition/raw audit);23 other measured workers did not run. The consumed
+cohort is now development evidence. Separate EH candidate f1663ed passes actual
+installed constrained-mass interface probes on Linux/macOS (41531870983), not
+scientific calibration or final acceptance. No tolerance, old artifact or
+source-equivalence waiver changes. The canonical PR146 receipt holds bindings.
+
+
+## EJ molecular saved-payload audit component contract
+
+Independently replay the existing molecular auditor in a detached checkout at
+the authenticated expected revision, using a supplied pinned molecular runtime.
+Bind the native four-case cohort and saved inputs to that revision and their
+recorded hashes, reject unsafe links and orphan comparison files, and validate
+the recomputed gates and cohort. Preserve each attempt and its failure receipt.
+Caller authentication and safe materialization remain prerequisites; this is
+not whole-release eligibility or installed-package acceptance. Synthetic fixture
+tests are not actual-provider evidence. Full root and exact-head CI remain open.
+
+Output containment is checked before creating any attempt directory, including
+dot-dot and symlink paths. Independent replay has a 300-second timeout with
+partial output and failure retained; unsafe output paths leave inputs untouched.
+
+Wire this component into the actual four-case native molecular workflow after
+the existing scientific comparison audit, and require that successful step in
+release metadata selection. Write its new attempt outside the input payload;
+copy it into uploaded diagnostics only after the audit finishes. The uploaded
+receipt is diagnostic evidence; final eligibility still independently replays
+the authenticated payload. No full-provider or phase acceptance is claimed yet.
+
+## EJ portable EPW archive-replay contract
+
+Molecular component196d15c passes full root2766/43skips/24subtests and actual
+four-case GF2 validation in41566854583. Authenticated artifact13200620227 is
+10893635bytes, SHAd90aab8cdbd83099fa10d59dcd8e9d3f203ceae8146af9024219620f4bc3ca43.
+Verify365 bound inputs and all eight independent gates:36 final identities,
+four native cases, two native refinements,12 cutoff controls,12 calibrations
+and four model comparisons. The exact-source PR has eight successful workflows
+and one known failed historical spectroscopy replay. This is component evidence,
+not full release acceptance or a waiver of EH.
+
+Next bounded patch makes the independent EPW archive auditor portable. Add an
+explicit native-root override used only for physical file reads. Preserve the
+original freeze/worker receipt bytes, hashes and recorded argv. In override
+mode validate canonical original Linux POSIX roots as strings, derive one
+original campaign directory from saved freeze/output paths and enforce the
+same root and case ordinal across all three children. Never resolve or open
+recorded absolute paths on the new host, rewrite records or monkeypatch the
+auditor. Default no-override behavior must remain compatible.
+
+Check relocated fixtures plus wrong context/source/argv/hash, traversal and
+mixed-root rejection, with input hashes unchanged. Replay authentic archived
+EPW data under the pinned science runtime before closing this component.
+Archive acceptance remains native_acceptance=not_tested; a separate independently
+validated actual solver comparator is mandatory. Preserve failed pure-fit
+native evidence and the supported20K model-plus-lossless scope. No new material
+prediction, faster-compression, numerical tolerance or whole-release claim.
+
+Independent review and the authentic1b5 archive expose a legacy interpreter
+mapping gap: child argv records a venv symlink, while the freeze records only
+the resolved Python path. The old host's symlink cannot be reconstructed from
+saved bytes. Do not replace exact matching with prefix equality or silently
+accept an alias. Override mode must report this legacy case inconclusive.
+
+For new producer records add a versioned interpreter-identity object with raw
+invocation, resolved executable, recorded binary hash and available symlink
+metadata. Freeze that identity and record the actual identity in each child
+receipt after its before/after runtime checks. The independent auditor binds
+raw argv to the new identity, resolved path to the frozen executable, and each
+child identity to the freeze. It validates saved metadata without resolving old
+paths or claiming to inspect absent executable bytes. Keep legacy no-override
+behavior; legacy exact raw/resolved cases can still bind, while unrecorded
+symlink mappings stay explicitly inconclusive. Test both forms and tampering.
+New actual native generation and portable replay are required before closing
+the strengthened component; no numerical budget or solver change is involved.
+
+
+The EPW relocation workflow now requires the relocated replay step before the
+actual native comparison and restores the moved native tree even on failure.
+The selector rejects a skipped step. An identity-capable producer cannot omit
+its identity and fall back to legacy behavior. Focused tests are local evidence;
+actual hosted provider execution, full verification and release acceptance
+remain outstanding.
+
+### EJ relocated Linux archive execution checkpoint
+
+Source7f27116 passes root2791/43skips/24subtests. Actual native run41601753604
+regenerates authentic20K files and passes all three archive cases plus the
+original independent numerical audit. The new relocation shell step then fails
+on Permission denied while moving Docker-owned descendants into RUNNER_TEMP;
+the relocated auditor and native comparator never execute. Preserve that failed
+run and artifact13214913831 (14250772bytes,
+SHAbba37c7f31150addab8876649461e515f07ed371dadbf2a64bb63ecc049c062e).
+
+Move the native directory atomically to a sibling temporary directory on the
+same artifacts filesystem, check device equality and require the original path
+absent before auditing. A bounded local probe rejects an unprivileged rename of
+a nonwritable directory to a new parent even on one filesystem; atomic movement
+alone is insufficient. Use the hosted runner's sudo for both moves, preserving
+permissions/ownership and the existing restore trap. Fresh exact-source Linux
+execution is still required. This changes filesystem plumbing, not numerical
+controls or validation data.
+
+A supplemental macOS replay of the authenticated7f archive reaches the strict
+cardinal-membership guard and fails: one selected Linux pole differs by one ulp
+from the local NumPy geometric grid. Keep the exact guard and all accuracy
+budgets. Canonical native EPW execution and this independent scientific replay
+are Linux x86_64; do not claim cross-platform numerical audit acceptance from
+path relocation. Saved rounded-model decoding is a separate API contract.
+
+## EJ complete saved EPW payload gate contract
+
+Source72eae33 passes root2788/46skips/24subtests. Actual Linux41605827670 passes
+native generation, all three archive cases, original and relocated independent
+archive audits, and the separate unmodified EPW restart comparator. Authenticated
+artifact13216713546 is73128143bytes,
+SHA4c70aa28f2f9530470616615f3f1bb5568e0447034ffa04e492c96902454281e;
+57entries/86503872rawbytes. Original and relocated audit JSON bytes are identical
+(SHA8d66bd1a04806af0545542510aeee6eacd6d79bc92abf19ae0fc049911a62782).
+The native comparator (SHA885bd0231b7a0756518c4d07185cc1264cf14a110c913b43913918a3f8706d41)
+passes raw/restored/wrong-frequency cases and all six channels across630000
+printed rows (140states,4500frequencies), with zero channel differences. This
+closes the tested relocation component at72eae33, not the whole release phase.
+
+Implement scripts/release_epw_audits.py as an outer controller for an already
+caller-authenticated, safely materialized immutable payload and an explicitly
+expected generation revision. Create exclusive diagnostics outside the input.
+Require canonical pinned Linux x86_64 science runtime. Rerun the saved archive
+numerical audit in a private Git snapshot of its recorded source, with the
+explicit native-root override. Separately run scripts/release_epw_native.py to
+validate saved native comparator records against actual input/log/restart and
+compressed Padé bytes. Both children require hard process timeouts, successful
+exit plus strict complete receipts; missing, malformed, truncated, timed-out or
+failed output cannot establish eligibility. Preserve partial logs and failures.
+
+The saved-native auditor independently parses all raw/restored axes, requires
+cross-file axis equality, verifies only the declared input transformation and
+wrong-frequency mutation, derives the Padé mesh from a2f, and streams all six
+channels with bounded expanded bytes and rows. Evaluate printed-number error
+budgets using exact decimal fractions; identical fields have exact zero error.
+This checks finite recorded data, not a continuous certificate or fresh solver
+execution. Executable bytes are absent: baseline/anisotropic hash lineage and
+per-case command/log/source records are attestations, not inspected case binary
+identity. Authentication comes from the caller's selected GitHub artifact.
+
+Reject initial traversal, symlink/hardlink, output containment and malformed
+records before creating outputs. Enforce bounded aggregate inventories and
+whole-operation deadlines; the outer process timeout is mandatory even when a
+child's cleanup fails. Require input hashes unchanged after every output write.
+Scope is static caller-owned data with no concurrent writers; this is not a
+hostile-filesystem isolation mechanism. An early draft log-path alias mutated
+extracted diagnostic copies after their prior hash checks; those results are
+invalid, original ZIPs remain intact, and full-call immutability regressions plus
+independent review are mandatory before integration.
+
+Run this complete gate in a separate CI job after downloading the curated native
+artifact, rather than hashing the solver's full scratch workspace. Require the
+new job, its successful replay step and its diagnostic artifact in release run
+selection. Normal base tests cover tampering, axes, printed-budget boundaries,
+path/deadline failures and missing child output. A passing actual Linux full
+payload case and full root/exact-source CI remain required before this gate
+component is closed. Existing source/license, EH, publication and final-handoff
+obligations remain open; no 1.2.0 tag or upload is authorized by this gate alone.
+
+## EJ complete saved CT-HYB payload gate contract
+
+After the EPW saved-payload component, add a bounded CT-HYB wrapper for the
+authenticated `cthyb-evidence-replay.json` artifact. This is a saved-measurement
+audit, not new sampling or overall release eligibility. Require canonical pinned
+Linux x86_64 TRIQS runtime and actual provider imports/version checks. Detach the
+requested scientific source revision P; use its existing
+`experiments.replay_cthyb_acceptance` to verify the Git-tracked7200 native archive,
+binding,208 measurement receipt/array pairs and protected source blobs, then
+rerun the independent native scientific auditor. Execute with isolated Python,
+single threads, no checkout import leakage, bounded process-group timeout and
+retained logs. Bind current controller K separately to its clean Git blobs.
+
+Reject a status-only/truncated receipt, missing/extra/false gates, wrong generation
+or audit source, wrong208-chain count, incomplete required scientific sections,
+nonfinite numerical fields, nonzero child exit, timeout, runtime mismatch or
+mutated inputs. Require the exact seven original EE gates. Uploaded and newly
+computed numerical values need not be byte-identical across runtime builds;
+scientific thresholds are independently rerun, while identities, keysets and
+structural obligations are exact. Do not invent a deterministic-output claim.
+
+The input artifact has exactly one regular, bounded receipt. Validate canonical
+paths and reject symlinks/hardlinks; write new exclusive outputs outside input,
+hash inputs after all writes and keep successful/failing attempts visible.
+Record hashes of source, native archive/binding, lock files and both receipts.
+Add a native workflow step and strict metadata selector requirement, plus
+negative fixtures for fake passes, provenance, runtime, unsafe paths and process
+failures. Full root and an actual pinned-provider replay must pass before this
+component is accepted. No phase merge, version tag or publication follows alone.
+
+## EJ complete saved covariance payload gate contract
+
+Add a bounded Linux CPU covariance release component, consuming the complete
+authenticated18-case artifact (six sizes512..16384, three original fresh-process
+repetitions), provider arrays/receipt, frozen source-P calibration and an
+explicitly provided preexisting UCI archive. Require the exact outer/nested
+dataset hashes and attribution; absent data fails without downloading. The
+controller itself must not run calibration, model fitting, a new campaign or
+benchmark timing. Independently replay existing saved-array scientific audits
+from detached P under the pinned CPU GP runtime, retaining the original source,
+freeze, chronological split, normalization, rank, precision and accuracy budgets.
+
+Enforce complete strict JSON/array keysets,18 unique size/repeat tuples, exact
+source/hash graph, split keys and shapes, no extra or orphan payload entries,
+finite values and positive recorded timing/resource fields. Recompute original
+operator residuals, selected columns and predictions using the existing
+independent auditor. At n512, independently verify saved provider RHS/solution,
+expected and reported predictions using dense SciPy solves on the identical
+retained factor; check actual CPU float64 GPyTorch/linear_operator operations
+on that same saved factor, including solve and log probability. This is a new
+small provider consistency check without pivot selection, fitting or benchmark
+remeasurement. Original performance/RSS claims remain historical observations
+from the authenticated fresh-process producer, not measurements by this replay.
+
+Keep controller-K and scientific-P identities distinct; bind actual imported
+providers/module paths, single threads and clean source Git blobs. Bound payload
+size/count/arrays and child process groups/deadlines, preserve failed receipts
+and logs, reject nonzero/truncated/fake success or runtime mismatch, and verify
+all input inventories after final output writes. Outputs are new exclusive
+external directories; no symlinks, hardlinks, traversal or hidden network fallback.
+The full-campaign workflow executes this controller, uploads its diagnostics
+separately and retains the verified dataset with attribution as a separate
+artifact. Metadata selection must require every full-campaign audit step and
+artifact; ordinary small CI remains a distinct incomplete release case.
+
+Run negative structural/provider arithmetic tests, full root and a complete
+real-provider18-case workflow before component acceptance. No whole-release
+eligibility, new performance advantage, phase merge or1.2 publication follows
+from this component alone. All original EI/EH/EJ obligations remain unchanged.
+
+## EJ deterministic versioned Cauchy dictionary contract
+
+Actual EPW run42224585303 at06dc238 passes native generation, original/relocated
+archive audit and native restart comparison, but the independent separate-job
+Linux controller fails exact cardinal membership. Its runtime versions match.
+Preserve the969-byte controller artifact and full native payload hashes in
+`data/epw/payload-06dc238-failed.json`. Do not widen membership or reinterpret
+that failed controller as scientific acceptance. Diagnose the stored coordinates
+against the local NumPy geometric dictionary before attributing sole cause.
+
+Replace new-plan dictionary generation with an explicit versioned fixed recipe:
+zero followed by negative geometric coordinates between exact binary64 lower
+endpoint1e-10 and exact binary64 squared cutoff, evaluated at256-bit mpmath
+precision then rounded once to binary64. Preserve exact endpoints and reject
+nonfinite/duplicate coordinates. New Cauchy plan payload version2 records this
+recipe and selected dictionary ordinals; new construction uses it explicitly.
+Version1 payload loading/roundtrip retains its original serialized coordinates,
+metadata and semantics. Ordinary fermionic fit archive versions are unaffected.
+
+Independent auditors reconstruct the new finite dictionary using high-precision
+Decimal arithmetic with a different exponential/log formulation and require exact
+binary64 equality at the recorded distinct ordinals. Keep the legacy version1
+exact NumPy-membership check unchanged, including recorded failures. Test
+several dictionary sizes, endpoint/representability boundaries, corrupted policy/
+ordinals/poles, immutable ownership and version1 compatibility. Different
+precision agreement is consistency evidence; this is a versioned computational
+recipe, not a new continuous theorem or certified transcendental rounding claim.
+
+All native frequency/state/unit conventions, held-out rows, physical tolerances,
+rank60, conditioning and truth-assisted XOR policy remain fixed. The new source
+requires full root and a fresh actual native workflow including independent
+separate-machine controller validation. No automatic retry of06d, old artifact
+mutation, unsupported-platform claim or release closure follows from this repair.
+
+Dictionary endpoint clarification:dictionary_size=2 has one geometric point
+and uses the lower endpoint1e-10, retaining prior num=1 behavior. For at least
+two geometric points, both exact binary64 endpoints are retained.
+
+### Joint scientific-source freeze before canonical acquisition
+
+The deterministic Cauchy change modifies a kernelgecp source file included in
+EH's full package snapshot, although that integration is not used by MaxEnt.
+Do not draw the final341/5001 allocation at the earlier isolated0e21c12 source
+and later reinterpret it as the changed package. Keep its calibration-only run
+as development evidence. Reconcile the verified EH/EJ source branches, run full
+verification and new actual source-bound calibration on the joint revision, then
+preregister any canonical allocation only after those gates pass. Preserve all
+source-specific failures. No final reservation is consumed by calibration-only
+work; the original experimental and release objectives remain unchanged.
+
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.

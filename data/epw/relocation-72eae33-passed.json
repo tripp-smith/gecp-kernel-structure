@@ -1,0 +1,70 @@
+{
+  "archive_audit_bytes_identical": true,
+  "archive_audit_sha256": "8d66bd1a04806af0545542510aeee6eacd6d79bc92abf19ae0fc049911a62782",
+  "archive_entries": 57,
+  "archive_uncompressed_bytes": 86503872,
+  "artifact_bytes": 73128143,
+  "artifact_id": 13216713546,
+  "artifact_sha256": "4c70aa28f2f9530470616615f3f1bb5568e0447034ffa04e492c96902454281e",
+  "binary_identity_scope": "recorded baseline/anisotropic hash lineage and per-case source/path/log attestations; executable bytes not supplied",
+  "comparison": {
+    "atol": 1e-05,
+    "budget_reference": "absolute raw value",
+    "channels": {
+      "Z_imag": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "Z_real": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "dimensionless"
+      },
+      "gap_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "gap_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_imag_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      },
+      "shift_real_ev": {
+        "failures": 0,
+        "max_absolute_error": 0.0,
+        "max_budget_ratio": 0.0,
+        "unit": "eV"
+      }
+    },
+    "frequency_count": 4500,
+    "passed": true,
+    "row_count": 630000,
+    "rtol": 0.001,
+    "state_count": 140
+  },
+  "native_cases": [
+    "raw",
+    "reconstructed",
+    "wrong-frequency"
+  ],
+  "native_comparator_sha256": "885bd0231b7a0756518c4d07185cc1264cf14a110c913b43913918a3f8706d41",
+  "relocated_audit_sha256": "8d66bd1a04806af0545542510aeee6eacd6d79bc92abf19ae0fc049911a62782",
+  "run_attempt": 1,
+  "run_id": 41605827670,
+  "schema": "kernelgecp.epw-relocation-checkpoint.v1",
+  "scope": "actual Linux20K archive relocation and recorded unmodified native restart case; not whole-release eligibility or material prediction",
+  "source_revision": "72eae3353cab7a440e4154f9d906f204ffe099b8",
+  "status": "passed"
+}

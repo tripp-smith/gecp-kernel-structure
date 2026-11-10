@@ -24,6 +24,11 @@ The
 [canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records original artifacts, independent audits and remaining gates.
 
+Actual v4 calibration at `0e21c12` passes all 24 synthetic and eight
+measured cases and their independent audits. The joint package revision includes
+the versioned EPW dictionary and requires its own calibration before canonical
+acquisition. Reserved v4 final seeds remain untouched.
+
 ## Historical Linux campaign; current acceptance superseded
 
 The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records

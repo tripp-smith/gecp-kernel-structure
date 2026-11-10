@@ -10,12 +10,12 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — explicit shifted-curvature candidate after captured native instability<br>
-> **Candidate validation:** Source `3fb9a0a` passes full root and complete development calibration, but canonical attempt41617127989 fails during repeated synthetic calibration before any final data or fresh chains. The captured system has exact rank29 and estimated condition1.8e18. V4 explicitly tests a shifted projected optimization metric; it has no scientific acceptance yet. Failed runs remain recorded<br>
-> **Phase state:** Corrective source `98bdfab` completes all256 raw chains and their independent audit, but final raw continuation fails RMS2.8853>2. The cohort is consumed development evidence; no tolerance is relaxed. An explicit native unit-mass objective candidate passes interface probes and has no scientific acceptance. [PR #146 canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) preserves failed artifacts and open gates<br>
+> **Current phase:** EH and EJ joint scientific verification<br>
+> **Candidate validation:** Isolated v4 revision `0e21c12` passes 24 synthetic and eight measured calibration cases with actual providers. Joint calibration must bind the package revision that includes the EPW dictionary repair. The final cohort remains reserved<br>
+> **Release gates:** CT-HYB, molecular and provider component replays pass. EPW and full covariance workflows on `cb88382` are underway. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) and [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579) track the remaining scientific and release gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
-> **Last verification:** Main root passes 2,631 tests/42 optional skips; one exact-main scientific replay fails and remains open. Local calibration-only orthogonalization probes meet the unchanged projector budget around 1e-15. New library work requires focused/full checks and a new source-bound scientific validation contract<br>
+> **Last verification:** The isolated EH and EJ revisions pass full local verification. Joint verification is in progress. The historical main spectroscopy replay failure remains open<br>
 > **Verification command:** `./scripts/verify.sh`<br>
 > **Delivery:** EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration scope by completed acceptance obligations. EH/EJ remain open. Published 1.1.0 artifacts and frozen original research accounting remain unchanged<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
@@ -478,3 +478,10 @@ cutoff `1e6`. This is numerical finite-grid evidence, not a continuous GECP
 rate theorem. Continuous interval-certified pivoting is a separate supported
 mode and is tested on synthetic and fermionic cases; it is not substituted for
 the canonical finite-grid census or a Lean convergence proof.
+
+## Production integration guides
+
+The unreleased 1.2 candidate adds [installation and compatibility](INSTALLATION_COMPATIBILITY.md),
+[molecular GF2 interchange](MOLECULAR_GREEN.md), [migration](MIGRATION.md),
+[troubleshooting](TROUBLESHOOTING.md), and an [optional-provider notice index](PROVIDER_NOTICES.md).
+Read the acceptance ledger before treating a pending domain as delivered.

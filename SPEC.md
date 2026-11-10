@@ -3336,3 +3336,112 @@ without changing objective, gradient, native optimizer or scientific budgets.
 Defaults and historical v2/v3 meanings remain unchanged. New source/provider
 calibration, untouched final science and all release/main gates remain mandatory;
 no original mathematical or application objective is rewritten.
+
+
+EJ status annotation (2026-10-30): isolated release preparation adds required
+application guides, examples, source/notice indexes and a fail-closed asset
+inventory with exact Git-document binding. This does not close domain science
+or publication. EH canonical source feaac669 runs in 41095194293; all mandatory
+scientific eligibility, final release/native verification and public installed
+1.2.0 acceptance remain required. Published 1.1.0 artifacts are unchanged.
+
+
+EJ integration annotation (2026-11-01): main 3bc726b is merged and synchronized,
+but EH exact-main replay fails the frozen independent projection comparison.
+This does not close EH delivery. The separate EJ branch adds bounded
+source-metadata equivalence and six-role run/artifact selection helpers (53
+focused tests); neither establishes numerical eligibility. Full native release,
+installed-distribution, publication and final handoff gates remain required.
+Original goals, numerical budgets and published 1.1.0 artifacts are unchanged.
+
+
+EJ release-gate component annotation (2026-11-02): harden committed-source
+inventory, authenticated full-page workflow selection and a runtime/ED payload
+audit component with negative tests and isolated exact-source auditor execution.
+These helpers are not complete scientific release eligibility. Historical FEAA
+source equivalence does not certify corrective98bdfab; the latter is frozen in
+canonical run41391193610 after successful calibration-only41389031789. Untouched
+final acceptance, v2 replay, all original domain/release gates and public1.2.0
+remain open. No mathematical goal, scientific tolerance or 1.1.0 artifact changes.
+
+
+EJ payload-input annotation (2026-11-02): add bounded authenticated-artifact
+materialization and an explicit source-only baseline parameter to avoid changing
+verifier code for a controlled version transition. Independent numerical payload
+audits and upstream baseline authentication remain mandatory. Checkpoint2a7c24b
+passes actual six-provider/two-ED payload auditing and all exact-head workflows;
+this closes no full release/publication or corrective EH final obligation.
+Original mathematical goals, science tolerances and published1.1.0 stay unchanged.
+
+EJ artifact-attempt annotation (2026-11-02): require explicit integer matching
+artifact attempt binding for reruns, including auxiliary build records; reject
+ambiguous missing/stale/boolean attempts. First-attempt metadata remains supported.
+This hardens metadata selection only. EH canonical41391193610 is terminal failed
+on raw RMS2.8853>2 after successful raw acquisition/audit; the cohort is consumed.
+Candidate f1663ed passes actual installed Linux/macOS mass-interface probes only.
+Calibration, untouched final science, complete release eligibility and public1.2
+remain required; original mathematical goals and numerical budgets are unchanged.
+
+EJ molecular-payload annotation (2026-11-02): add isolated exact-source replay
+of saved four-case Green molecular data, with file/cohort/gate checks, immutable
+input handling and a300-second audit timeout. Twelve structural tests and an
+independent source review pass; actual full-provider payload execution remains
+required and is wired into native CI. This is a gate component, not complete
+release eligibility. EH measured mass scouts still fail; original mathematical
+goals, all scientific budgets and published1.1.0 artifacts are unchanged.
+
+EJ molecular evidence and EPW portability annotation (2026-11-02): component
+196d15c passes actual four-case native GF2 and all eight saved-payload audit
+gates, plus full root verification. Develop explicit relocation of EPW native
+file reads while preserving immutable source records and command bindings.
+Portable archive replay is distinct from actual native solver comparison and
+complete release eligibility. EH, remaining domain gates and public1.2 remain
+open; original mathematical goals and scientific budgets are unchanged.
+
+EJ relocation checkpoint annotation (2026-11-03):7f27116 root verification and
+original native archive audit pass; hosted relocated audit41601753604 never
+executes because its shell move fails. Preserve the failed artifact/receipt.
+Use privileged atomic same-filesystem moves, then rerun the actual Linux gate and native
+comparator. Supplemental macOS grid-membership failure remains diagnostic and
+does not relax any numerical budget or broaden supported native platforms.
+
+EJ complete EPW gate annotation (2026-11-03):72eae33 actual Linux archive
+relocation and separate native restart comparison pass. Add delivered interfaces
+scripts/release_epw_native.py and scripts/release_epw_audits.py: independent
+printed-table budgets, source-P/source-K provenance, bounded child process
+groups, strict complete receipts and immutable inputs. Require the downloaded
+curated payload CI job and its artifact in release selection. The whole
+controller's real Linux case, full root/exact-head CI and all remaining EH/EJ
+objectives are still required; no release or merge is claimed.
+
+EJ saved CT-HYB gate annotation (2026-11-06):add
+`scripts/release_cthyb_audits.py` to independently rerun the existing native
+208-measurement auditor under pinned providers. Preserve the seven EE gates,
+strict complete receipts, separate controller/scientific source identities and
+exclusive immutable input/output boundaries. Separate diagnostics from the
+one-receipt input artifact and require both in metadata selection. Full root,
+actual provider execution and exact-source CI remain mandatory. No scientific
+threshold, original goal,1.1.0 artifact or whole-release status is changed.
+
+EJ covariance/dictionary status annotation (2026-11-06):CT-HYB saved-data
+component837eb3f passes real Linux208-chain/seven-gate replay. Add
+`scripts/release_covariance_audits.py` and
+`scripts/release_covariance_provider.py` for complete saved18-case and actual
+CPU same-factor checks, keeping benchmark timing historical. New Cauchy plan
+payload2 declares a fixed binary64-endpoint/256-bit recipe and selected pole
+ordinals, independently reconstructed with Decimal; plan1 semantics and failed
+EPW06dc238 replay remain preserved. Full root and fresh full native/provider
+validation remain required. No original mathematical or domain accuracy goal
+is rewritten, and EH/EJ1.2 stay open.
+
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.

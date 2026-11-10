@@ -467,3 +467,147 @@ def test_public_metadata_visibility_recovers_without_relaxing_hash_checks(
     }
     assert len(calls) == 3 and len(delays) == 2
     assert 0 < delays[0] < delays[1] <= 60
+
+
+@pytest.fixture
+def payload_12(
+    project: Path, collected: tuple[Path, dict[str, Any], Path]
+) -> tuple[Path, dict[str, Any]]:
+    output, manifest = _collect(project, collected)
+    manifest["version"] = "1.2.0"
+    manifest["tag"] = "v1.2.0"
+    for entry in manifest["documents"]:
+        (output / "documents" / entry["filename"]).unlink()
+    manifest["documents"] = []
+    for name, (_, group) in release._required_12_records().items():
+        data = (
+            json.dumps({"fixture": "x" * 300})
+            if name.endswith(".json")
+            else "fixture content " * 30
+        ).encode()
+        (output / "documents" / name).write_bytes(data)
+        manifest["documents"].append(
+            {
+                "filename": name,
+                "role": group,
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+        )
+    (output / "release-manifest.json").write_text(json.dumps(manifest))
+    return output, manifest
+
+
+def test_12_complete_asset_inventory_passes(
+    payload_12: tuple[Path, dict[str, Any]],
+) -> None:
+    output, manifest = payload_12
+    assert release.verify_payload(output) == manifest
+
+
+@pytest.mark.parametrize("bad", ["group", "file", "empty", "malformed_json"])
+def test_12_required_assets_fail_closed(
+    payload_12: tuple[Path, dict[str, Any]], bad: str
+) -> None:
+    output, manifest = payload_12
+    entries = manifest["documents"]
+    if bad == "group":
+        removed = [e for e in entries if e["role"] == "domain-guides"]
+        for entry in removed:
+            (output / "documents" / entry["filename"]).unlink()
+        manifest["documents"] = [e for e in entries if e["role"] != "domain-guides"]
+    elif bad == "file":
+        entry = entries.pop()
+        (output / "documents" / entry["filename"]).unlink()
+    else:
+        entry = (
+            entries[0]
+            if bad == "empty"
+            else next(item for item in entries if item["filename"].endswith(".json"))
+        )
+        data = b"" if bad == "empty" else b'{"missing_close":'
+        (output / "documents" / entry["filename"]).write_bytes(data)
+        entry["sha256"] = hashlib.sha256(data).hexdigest()
+    (output / "release-manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(release.ReleaseError, match="required 1.2"):
+        release.verify_payload(output)
+
+
+def test_missing_future_source_guide_has_clear_failure(tmp_path: Path) -> None:
+    with pytest.raises(
+        release.ReleaseError,
+        match="missing required 1.2 domain-guides asset: MOLECULAR_GREEN.md",
+    ):
+        release._check_12_content(tmp_path / "MOLECULAR_GREEN.md", "domain-guides")
+
+
+@pytest.mark.parametrize("changed_source", [False, True])
+def test_12_collector_transports_required_assets_from_exact_git_blobs(
+    project: Path,
+    collected: tuple[Path, dict[str, Any], Path],
+    monkeypatch: pytest.MonkeyPatch,
+    changed_source: bool,
+) -> None:
+    """Composition fixture; archive validity and scientific eligibility are separate."""
+    artifacts, selected, output = collected
+    for source, _ in release._required_12_records().values():
+        path = project / source
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            '{"fixture": true}\n' if path.suffix == ".json" else "Fixture asset\n"
+        )
+    for name in ("pyproject.toml", "native/Cargo.toml", "kernelgecp/__init__.py"):
+        path = project / name
+        path.write_text(path.read_text().replace("1.1.0", "1.2.0"))
+    _git(project, "add", ".")
+    _git(
+        project,
+        "-c",
+        "user.name=Fixture",
+        "-c",
+        "user.email=fixture@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "commit",
+        "-qm",
+        "1.2 asset fixture",
+    )
+    selected.update(
+        version="1.2.0",
+        tag="v1.2.0",
+        source_revision=_git(project, "rev-parse", "HEAD"),
+        source_tree=_git(project, "rev-parse", "HEAD^{tree}"),
+    )
+    for path in sorted(artifacts.rglob("*")):
+        if path.is_file() and "1.1.0" in path.name:
+            path.rename(path.with_name(path.name.replace("1.1.0", "1.2.0")))
+    source_root = artifacts / "kernelgecp-release-source/source"
+    report_path = source_root / "source-report.json"
+    report = json.loads(report_path.read_text())
+    report.update(
+        version="1.2.0",
+        source_revision=selected["source_revision"],
+        source_tree=selected["source_tree"],
+    )
+    for key in ("archive", "license_bundle", "sbom"):
+        report[key] = report[key].replace("1.1.0", "1.2.0")
+    report_path.write_text(json.dumps(report))
+    monkeypatch.setattr(release, "inspect_corresponding_source", lambda *a, **k: report)
+    for wheel in artifacts.glob("kernelgecp-release-native-*/*.whl"):
+        with zipfile.ZipFile(wheel) as archive:
+            inventory = json.loads(archive.read("kernelgecp/_native_inventory.json"))
+        inventory.update(
+            source_revision=selected["source_revision"],
+            source_tree=selected["source_tree"],
+            source_asset={"filename": report["archive"], "sha256": report["sha256"]},
+        )
+        with zipfile.ZipFile(wheel, "w") as archive:
+            archive.writestr("kernelgecp/_native_inventory.json", json.dumps(inventory))
+    if changed_source:
+        (project / "METHODS.md").write_text("Changed after source freeze\n")
+        with pytest.raises(release.ReleaseError, match="differs from Git source"):
+            _collect(project, collected)
+    else:
+        _, manifest = _collect(project, collected)
+        assert len(manifest["documents"]) == len(release._required_12_records())
+        assert len(manifest["dist"]) == 4
+        assert release.verify_payload(output) == manifest

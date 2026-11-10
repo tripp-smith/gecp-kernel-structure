@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import posixpath
 import re
 from pathlib import Path
 
@@ -27,8 +28,15 @@ from experiments.audit_epw_frequency import (
     require,
     sha,
     truth,
+    validate_pole_dictionary,
 )
 
+# Reviewed producer byte identity; changes to the producer require re-review.
+IDENTITY_PRODUCERS = {
+    (
+        "32d0c8e27cb1186ae974994d07e765fe2613312aebea75f3cca92c7218f3fa1d"
+    ): "kernelgecp.epw-interpreter-identity.v1",
+}
 HOLDOUT = [45, 49, 53]
 BUDGET = {"green_scaled": 1e-6, "z": 1e-5, "gap_ev": 1e-6, "chi_ev": 1e-6}
 CONTROLS = {
@@ -381,10 +389,10 @@ def bundle(path, data):
         and len(np.unique(nodes)) == len(np.unique(poles)) == 60
         and np.all(nodes > 0)
         and np.all(poles <= 0)
-        and np.all(weights != 0)
-        and np.all(np.isin(poles, -np.r_[0.0, np.geomspace(1e-10, 169.0, 1200)])),
+        and np.all(weights != 0),
         "cardinals",
     )
+    validate_pole_dictionary(plan, poles)
     omega = canonical_omega(train)
     x = training_coordinates(a["observation_x"], train)
     pivots = plan["pivot_rows"]
@@ -504,7 +512,109 @@ def metrics(data, a, rows, saved, prefix, report):
     }
 
 
-def audit_campaign(manifest_path):
+def original_posix_path(value):
+    """Validate a recorded Linux path lexically, without accessing the old host."""
+    require(
+        isinstance(value, str)
+        and value.startswith("/")
+        and not value.startswith("//")
+        and "\\" not in value
+        and "\x00" not in value
+        and posixpath.normpath(value) == value,
+        "noncanonical original POSIX path",
+    )
+    return value
+
+
+def checked_interpreter_identity(value, resolved):
+    """Validate recorded identity only; executable bytes are not in the payload."""
+    require(
+        isinstance(value, dict)
+        and set(value)
+        == {
+            "schema",
+            "invocation",
+            "resolved_executable",
+            "binary_sha256",
+            "invocation_is_symlink",
+            "invocation_link_target",
+        }
+        and value["schema"] == "kernelgecp.epw-interpreter-identity.v1"
+        and isinstance(value["binary_sha256"], str)
+        and re.fullmatch(r"[0-9a-f]{64}", value["binary_sha256"]) is not None
+        and type(value["invocation_is_symlink"]) is bool,
+        "invalid recorded interpreter identity",
+    )
+    invocation = original_posix_path(value["invocation"])
+    require(
+        original_posix_path(value["resolved_executable"]) == resolved,
+        "recorded interpreter resolved path mismatch",
+    )
+    target = value["invocation_link_target"]
+    require(
+        (
+            value["invocation_is_symlink"]
+            and isinstance(target, str)
+            and bool(target)
+            and "\x00" not in target
+        )
+        or (not value["invocation_is_symlink"] and target is None),
+        "invalid invocation symlink metadata",
+    )
+    return invocation
+
+
+def validate_relocated_commands(children, freeze):
+    """Bind all producer argv to one original campaign root, never opening it."""
+    require(
+        isinstance(children, list)
+        and len(children) == 3
+        and [x["repeat"] for x in children] == [0, 1, 2]
+        and all(type(x["repeat"]) is int for x in children),
+        "three children",
+    )
+    executable = original_posix_path(freeze["environment"]["executable"])
+    identity = freeze["environment"].get("interpreter_identity")
+    native_root = original_posix_path(freeze["native_root"])
+    commands = [child["command"] for child in children]
+    require(
+        all(isinstance(cmd, list) and len(cmd) == 16 for cmd in commands),
+        "child invocation shape",
+    )
+    if "interpreter_identity" not in freeze["environment"]:
+        invocation = original_posix_path(commands[0][0])
+        require(invocation == executable, "inconclusive_legacy_executable_mapping")
+    else:
+        invocation = checked_interpreter_identity(identity, executable)
+    old_freeze = original_posix_path(commands[0][13])
+    require(posixpath.basename(old_freeze) == "freeze.json", "original freeze path")
+    campaign_root = posixpath.dirname(old_freeze)
+    for i, cmd in enumerate(commands):
+        original_posix_path(cmd[11])
+        original_posix_path(cmd[13])
+        expected = [
+            invocation,
+            "-m",
+            "experiments.epw_restart_roundtrip",
+            "case",
+            "--native-root",
+            native_root,
+            "--temperature-kelvin",
+            "20",
+            "--chemical-potential-offset-ev",
+            repr(freeze["offset"]),
+            "--output",
+            posixpath.join(campaign_root, f"case-{i}"),
+            "--freeze",
+            old_freeze,
+            "--repeat",
+            str(i),
+        ]
+        require(cmd == expected, "child invocation binding")
+    return identity
+
+
+def audit_campaign(manifest_path, *, native_root_override=None):
     folder = Path(manifest_path).resolve().parent
     campaign = read(manifest_path)
     freeze_path = folder / "freeze.json"
@@ -523,9 +633,29 @@ def audit_campaign(manifest_path):
         and freeze["offset"] == freeze["context"]["chemical_potential_offset_ev"],
         "frozen protocol",
     )
-    provenance(freeze["environment"])
-    data = native(freeze["native_root"], freeze["context"])
     children = campaign["children"]
+    environment = freeze["environment"]
+    provenance(environment)
+    identity = None
+    producer_hash = environment["source_hashes"]["experiments/epw_restart_roundtrip.py"]
+    require(
+        producer_hash not in IDENTITY_PRODUCERS
+        or "interpreter_identity" in environment,
+        "identity-capable producer omitted interpreter identity",
+    )
+    if "interpreter_identity" in environment:
+        identity = environment["interpreter_identity"]
+        checked_interpreter_identity(identity, environment["executable"])
+        require(
+            IDENTITY_PRODUCERS.get(producer_hash) == identity["schema"],
+            "producer does not support recorded interpreter identity",
+        )
+    if native_root_override is not None:
+        validate_relocated_commands(children, freeze)
+    native_root = (
+        freeze["native_root"] if native_root_override is None else native_root_override
+    )
+    data = native(native_root, freeze["context"])
     require(
         len(children) == 3 and [x["repeat"] for x in children] == [0, 1, 2],
         "three children",
@@ -546,7 +676,11 @@ def audit_campaign(manifest_path):
             "experiments.epw_restart_roundtrip",
             "case",
             "--native-root",
-            str(Path(freeze["native_root"]).resolve()),
+            (
+                str(Path(freeze["native_root"]).resolve())
+                if native_root_override is None
+                else freeze["native_root"]
+            ),
             "--temperature-kelvin",
             "20",
             "--chemical-potential-offset-ev",
@@ -559,15 +693,31 @@ def audit_campaign(manifest_path):
             str(i),
         ]
         require(
-            len(cmd) == len(expected)
-            and str(Path(cmd[0]).resolve()) == expected[0]
-            and cmd[1:] == expected[1:]
+            (
+                native_root_override is not None
+                or (
+                    len(cmd) == len(expected)
+                    and str(Path(cmd[0]).resolve()) == expected[0]
+                    and cmd[1:] == expected[1:]
+                )
+            )
             and child["exit_code"] == 0
             and sha(log) == child["log_sha256"]
             and sha(receipt) == child["receipt_sha256"],
             "child invocation/exit/hash",
         )
         r = read(receipt)
+        if identity is not None:
+            require(
+                cmd[0] == identity["invocation"]
+                and r.get("interpreter_identity") == identity,
+                "child interpreter identity mismatch",
+            )
+        else:
+            require(
+                "interpreter_identity" not in r,
+                "unexpected child interpreter identity",
+            )
         require(
             r["schema"] == "kernelgecp.epw-restart-roundtrip-case.v1"
             and r["status"] == "passed"
@@ -728,6 +878,11 @@ def audit_campaign(manifest_path):
             "reconstruction; native solver comparator required"
         ),
         "public_decoder": "consistency only",
+        "interpreter_identity_scope": (
+            "approved producer-recorded identity only; executable bytes not provided"
+            if identity is not None
+            else "legacy executable identity"
+        ),
         "cases": results,
     }
 
@@ -736,9 +891,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--native-root-override", type=Path)
     args = parser.parse_args()
     try:
-        result = audit_campaign(args.manifest)
+        result = audit_campaign(
+            args.manifest, native_root_override=args.native_root_override
+        )
         code = 0
     except Exception as e:
         result = {

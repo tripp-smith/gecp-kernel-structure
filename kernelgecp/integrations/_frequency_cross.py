@@ -54,6 +54,30 @@ def _points(value: npt.ArrayLike, name: str, *, unique: bool) -> FloatArray:
     return x
 
 
+DICTIONARY_POLICY = "binary64_endpoints_mpmath256_log_linear_v1"
+
+
+def _cauchy_dictionary(size: int, cutoff2: float) -> FloatArray:
+    """Fixed binary64 endpoints, 256-bit geometric interpolation, one rounding."""
+    count = size - 1
+    with mp.workprec(256):
+        lower, upper = mp.mpf(1e-10), mp.mpf(cutoff2)
+        if count == 1:
+            values = [1e-10]
+        else:
+            ratio_log = mp.log(upper / lower)
+            values = [
+                float(lower * mp.exp(ratio_log * i / (count - 1))) for i in range(count)
+            ]
+            values[0], values[-1] = 1e-10, cutoff2
+    result = -np.asarray([0.0, *values], dtype=np.float64)
+    if not np.all(np.isfinite(result)) or np.unique(result).size != size:
+        raise ValueError(
+            "pole dictionary contains nonfinite or duplicate binary64 coordinates"
+        )
+    return result
+
+
 class CauchyFrequencyPlan:
     """Select a real Cauchy dictionary and fit values at observation frequencies.
 
@@ -68,6 +92,9 @@ class CauchyFrequencyPlan:
         "pole_cutoff_ev",
         "max_evaluation_condition",
         "dictionary_size",
+        "_payload_version",
+        "dictionary_policy",
+        "selected_pivot_columns",
         "observation_x",
         "pivot_rows",
         "nodes",
@@ -117,9 +144,9 @@ class CauchyFrequencyPlan:
         if not math.isfinite(cutoff2) or cutoff2 <= 1e-10:
             raise ValueError("squared pole cutoff must be finite and exceed 1e-10")
         self.dictionary_size = size
-        poles = -np.r_[0.0, np.geomspace(1e-10, cutoff2, size - 1)]
-        if np.unique(poles).size != size:
-            raise ValueError("pole dictionary contains duplicate binary64 coordinates")
+        poles = _cauchy_dictionary(size, cutoff2)
+        self._payload_version = 2
+        self.dictionary_policy: str | None = DICTIONARY_POLICY
         with np.errstate(over="ignore", invalid="ignore"):
             distances = x[:, None] - poles
         if not np.all(np.isfinite(distances)):
@@ -151,6 +178,7 @@ class CauchyFrequencyPlan:
             column_log[j] = -np.inf
         self.observation_x = cast(FloatArray, _immutable_copy(x))
         self.pivot_rows = tuple(rows)
+        self.selected_pivot_columns: tuple[int, ...] | None = tuple(columns)
         self.nodes = cast(FloatArray, _immutable_copy(x[rows]))
         self.poles = cast(FloatArray, _immutable_copy(poles[columns]))
         self.log_residual_history = tuple(log_residual)
@@ -263,7 +291,7 @@ class CauchyFrequencyPlan:
 
     def to_payload(self) -> tuple[dict[str, Any], dict[str, npt.NDArray[Any]]]:
         metadata = {
-            "version": 1,
+            "version": self._payload_version,
             "pole_cutoff_ev": self.pole_cutoff_ev,
             "rank": self.rank,
             "dictionary_size": self.dictionary_size,
@@ -275,6 +303,9 @@ class CauchyFrequencyPlan:
             "near_tie_counts": list(self.near_tie_counts),
             "certification_status": "not_certified",
         }
+        if self._payload_version == 2:
+            metadata["dictionary_policy"] = self.dictionary_policy
+            metadata["selected_pivot_columns"] = list(self.selected_pivot_columns or ())
         arrays: dict[str, npt.NDArray[Any]] = {
             "observation_x": self.observation_x.copy(),
             "nodes": self.nodes.copy(),
@@ -300,11 +331,14 @@ class CauchyFrequencyPlan:
             "near_tie_counts",
             "certification_status",
         }
+        version = metadata.get("version")
+        if type(version) is int and version == 2:
+            expected_meta |= {"dictionary_policy", "selected_pivot_columns"}
         if (
             set(metadata) != expected_meta
             or set(arrays) != {"observation_x", "nodes", "poles", "weights"}
             or type(metadata["version"]) is not int
-            or metadata["version"] != 1
+            or metadata["version"] not in (1, 2)
         ):
             raise ValueError("invalid Cauchy payload keys or version")
         if metadata["certification_status"] != "not_certified":
@@ -338,6 +372,21 @@ class CauchyFrequencyPlan:
             or np.any(weights == 0)
         ):
             raise ValueError("invalid Cauchy payload poles or weights")
+        columns: tuple[int, ...] | None = None
+        if version == 2:
+            if metadata["dictionary_policy"] != DICTIONARY_POLICY:
+                raise ValueError("invalid Cauchy dictionary policy")
+            raw_columns = metadata["selected_pivot_columns"]
+            if not isinstance(raw_columns, list) or len(raw_columns) != rank:
+                raise ValueError("invalid Cauchy dictionary columns")
+            columns = tuple(
+                _integer(v, "pivot column", 0, size - 1) for v in raw_columns
+            )
+            dictionary = _cauchy_dictionary(size, cutoff2)
+            if len(set(columns)) != rank or not np.array_equal(
+                poles.view(np.uint64), dictionary[list(columns)].view(np.uint64)
+            ):
+                raise ValueError("Cauchy poles do not match dictionary columns")
         rows_raw = metadata["pivot_rows"]
         logs_raw = metadata["log_residual_history"]
         ties_raw = metadata["tie_counts"]
@@ -366,6 +415,9 @@ class CauchyFrequencyPlan:
         obj.pole_cutoff_ev = cutoff
         obj.max_evaluation_condition = limit
         obj.dictionary_size = size
+        obj._payload_version = int(metadata["version"])
+        obj.dictionary_policy = DICTIONARY_POLICY if version == 2 else None
+        obj.selected_pivot_columns = columns
         obj.observation_x = cast(FloatArray, _immutable_copy(x))
         obj.pivot_rows = rows
         obj.nodes = cast(FloatArray, _immutable_copy(nodes))
