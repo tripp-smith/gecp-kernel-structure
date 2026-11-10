@@ -1,0 +1,30 @@
+{
+  "artifact": {
+    "bytes": 6352,
+    "id": 13742998832,
+    "path": "experiments/data/covariance-release-cb88382-passed.zip",
+    "sha256": "5da8da28d2fe39d92c95591761d471dcccbd0cc64b7990325ff3a107db010116"
+  },
+  "cases": 18,
+  "dataset_artifact": {
+    "bytes": 8142209,
+    "id": 13743377850,
+    "sha256": "6d4727a584e405decd09212f080dac688620523c70410bf45124a2c6d5e798c3"
+  },
+  "dataset_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+  "independent_sha256": "13558f75ec5e67ac030db6e7ae4414bbe5df313542db6638fee4ba2e7a3b8abf",
+  "inputs_unchanged": true,
+  "original_payload": {
+    "bytes": 354655089,
+    "id": 13743093763,
+    "sha256": "1271211a616c9583fa4ba15395ab7e7539be89064fe7b26c0b91b7265cdad65c"
+  },
+  "provider_sha256": "7dbb67068c42540066221fce2e3ea8892edaf499ddd46eff47b536fe10e41ed6",
+  "receipt_sha256": "6e419fdc2ae663fc3998f227227ff1afff51b73df5d152209c784d916c393281",
+  "run_attempt": 1,
+  "run_id": 42774826570,
+  "schema": "kernelgecp.covariance-release-component-evidence.v1",
+  "scope": "complete saved real-data replay and actual same-factor CPU provider check",
+  "source_revision": "cb88382d5d7067b5e18479e9170827ff38034494",
+  "status": "passed"
+}

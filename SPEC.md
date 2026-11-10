@@ -3445,3 +3445,19 @@ repair changes the full package snapshot. Joint root verification and a new
 calibration-only dispatch precede any preregistration of the reserved final
 cohorts. Historical failures remain part of the evidence. Final validation,
 release eligibility and delivery remain open.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.

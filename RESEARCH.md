@@ -13744,3 +13744,26 @@ repair changes the full package snapshot. Joint root verification and a new
 calibration-only dispatch precede any preregistration of the reserved final
 cohorts. Historical failures remain part of the evidence. Final validation,
 release eligibility and delivery remain open.
+## EH bounded v4 synthetic final execution
+
+Isolated v4 calibration measured 4,148 seconds for 24 synthetic cases and 6,137 seconds for eight measured workers. The canonical workflow previously put all calibration plus 72 final synthetic cases, including 192 bootstrap continuations, in one 330-minute job. A planning projection using calibration child times exceeds that ceiling. Separate the already declared synthetic finals into six fixed shards of four complete (fixture, method, default) families. Each family keeps all three fresh repetitions on one runner, including the eight bootstraps on repeat zero. The scientific controls, seeds, outputs, provider paths, and acceptance budgets stay fixed.
+
+Each shard executes once under the same immutable source and calibration freeze. Record its fixed ordinal, exact child set and hashes, process outcomes, source/runtime, and freeze digest. Shards write new output directories. A different shard, missing or duplicate family, incomplete or failed run, extra files, hash mismatch, or changed runtime/source fails explicitly. The assembler binds all six shard receipts, retains child bytes, and builds the existing full 72-child manifest. The original independent synthetic audit reruns all 24 unique scientific cases and compares all repeats before any native fixed-bath acquisition. Preserve terminal failure artifacts and forbid reruns of the one canonical allocation. Limit each hosted job to 330 minutes and use a bounded inner deadline with setup/upload margin. Legacy v2/v3 paths keep their current behavior.
+
+Verify exact partition and co-location, preservation of child records, and rejection of incomplete or mismatched shards with focused tests, followed by the complete root command. Run joint calibration only after this orchestration source is frozen. Canonical generation remains gated on its success and explicit preregistration.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.

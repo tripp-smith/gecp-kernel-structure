@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -20,6 +21,7 @@ import numpy as np
 from experiments import spectroscopy as science
 
 LIMIT_SECONDS = 330 * 60
+SHARD_LIMIT_SECONDS = 300 * 60
 DEFAULTS = ("flat", "broad_gaussian")
 REPEATS = 3
 
@@ -255,10 +257,14 @@ def child_command(python, job, output):
     return cmd + (["--pilot"] if job["pilot"] else [])
 
 
-def run_jobs(directory, manifest, env, python, deadline, profile="v2"):
+def run_jobs(directory, manifest, env, python, deadline, profile="v2", selected=None):
     directory.mkdir(parents=True, exist_ok=True)
     records = manifest["children"]
-    for job in jobs(manifest["kind"] == "calibration", profile):
+    for job in (
+        selected
+        if selected is not None
+        else jobs(manifest["kind"] == "calibration", profile)
+    ):
         name = stem(job)
         paths = list(directory.glob(name + ".*")) + list(
             directory.glob(name + "-*.npz")
@@ -352,9 +358,9 @@ def run_jobs(directory, manifest, env, python, deadline, profile="v2"):
     manifest["status"] = "passed"
 
 
-def compare_repeats(directory, manifest, profile="v2"):
+def compare_repeats(directory, manifest, profile="v2", selected=None):
     skipped = []
-    for job in jobs(False, profile):
+    for job in selected if selected is not None else jobs(False, profile):
         if job["repeat"] == 0:
             continue
         reference = dict(job, repeat=0)
@@ -458,6 +464,175 @@ def execute(kind, directory, freeze_path, python=sys.executable, *, profile="v2"
     return manifest
 
 
+def shard_jobs(ordinal):
+    if type(ordinal) is not int or not 0 <= ordinal < 6:
+        raise ValueError("shard ordinal must be 0 through 5")
+    all_jobs = list(jobs(False, "v4"))
+    if len(all_jobs) != 72:
+        raise ValueError("unexpected v4 job partition")
+    return all_jobs[ordinal * 12 : (ordinal + 1) * 12]
+
+
+def checked_freeze(freeze_path, env):
+    frozen = read(freeze_path)
+    if (
+        frozen.get("schema") != "kernelgecp.spectroscopy-freeze.v4"
+        or frozen.get("status") != "passed"
+        or frozen.get("controls") != controls("v4")
+        or frozen.get("provenance") != env
+    ):
+        raise ValueError("freeze controls, source or runtime mismatch")
+    return sha(freeze_path)
+
+
+def expected_files(selected):
+    names = set()
+    for job in selected:
+        name = stem(job)
+        names.update(
+            name + suffix
+            for suffix in (".json", ".npz", ".log", "-dataset.json", "-dataset.npz")
+        )
+        if job["method"] == "kernelgecp":
+            names.add(name + "-gecp-fit.npz")
+    return names
+
+
+def inventory(directory, selected):
+    names = expected_files(selected)
+    actual = {p.name for p in directory.iterdir() if p.name != "campaign.json"}
+    if actual != names or any(
+        not (directory / n).is_file() or (directory / n).is_symlink() for n in names
+    ):
+        raise ValueError("shard file inventory mismatch")
+    return {name: sha(directory / name) for name in sorted(names)}
+
+
+def execute_shard(directory, freeze_path, ordinal, python=sys.executable):
+    directory, freeze_path = Path(directory).resolve(), Path(freeze_path).resolve()
+    selected = shard_jobs(ordinal)
+    env = environment(python, "v4")
+    digest = checked_freeze(freeze_path, env)
+    directory.mkdir(parents=True, exist_ok=False)
+    started = time.monotonic()
+    manifest = {
+        "schema": "kernelgecp.spectroscopy-campaign-shard.v4",
+        "kind": "campaign",
+        "ordinal": ordinal,
+        "status": "running",
+        "controls": controls("v4"),
+        "provenance": env,
+        "freeze_sha256": digest,
+        "children": {},
+    }
+    write(directory / "campaign.json", manifest)
+    try:
+        run_jobs(
+            directory,
+            manifest,
+            env,
+            python,
+            started + SHARD_LIMIT_SECONDS,
+            "v4",
+            selected,
+        )
+        if manifest["status"] == "passed":
+            compare_repeats(directory, manifest, "v4", selected)
+            manifest["inventory"] = inventory(directory, selected)
+    except Exception as error:
+        manifest.update(status="failed", error=str(error))
+    manifest["process_wall_seconds"] = time.monotonic() - started
+    write(directory / "campaign.json", manifest)
+    return manifest
+
+
+def assemble_shards(directory, freeze_path, shard_root, python=sys.executable):
+    directory, freeze_path, shard_root = map(
+        lambda p: Path(p).resolve(), (directory, freeze_path, shard_root)
+    )
+    env = environment(python, "v4")
+    digest = checked_freeze(freeze_path, env)
+    started = time.monotonic()
+    if {p.name for p in shard_root.iterdir()} != {f"shard-{i}" for i in range(6)}:
+        raise ValueError("missing or extra shard directories")
+    receipts = []
+    for ordinal in range(6):
+        folder = shard_root / f"shard-{ordinal}"
+        if not folder.is_dir() or folder.is_symlink():
+            raise ValueError("invalid shard directory")
+        receipt_path = folder / "campaign.json"
+        if not receipt_path.is_file() or receipt_path.is_symlink():
+            raise ValueError("invalid shard receipt file")
+        receipt_digest = sha(receipt_path)
+        receipt = read(receipt_path)
+        selected = shard_jobs(ordinal)
+        expected = {stem(j): j for j in selected}
+        if (
+            receipt.get("schema") != "kernelgecp.spectroscopy-campaign-shard.v4"
+            or receipt.get("kind") != "campaign"
+            or type(receipt.get("ordinal")) is not int
+            or receipt["ordinal"] != ordinal
+            or receipt.get("status") != "passed"
+            or receipt.get("controls") != controls("v4")
+            or receipt.get("provenance") != env
+            or receipt.get("freeze_sha256") != digest
+            or set(receipt.get("children", {})) != set(expected)
+            or receipt.get("repeat_comparison", {}).get("status") != "passed"
+            or receipt.get("inventory") != inventory(folder, selected)
+        ):
+            raise ValueError(f"invalid shard receipt {ordinal}")
+        for name, job in expected.items():
+            record = receipt["children"][name]
+            if (
+                record.get("job") != job
+                or record.get("status") != "passed"
+                or type(record.get("exit_code")) is not int
+                or record.get("exit_code") != 0
+                or record.get("hashes")
+                != validate_child(job, read(folder / (name + ".json")), env, folder)
+                or record.get("log_sha256") != sha(folder / (name + ".log"))
+            ):
+                raise ValueError(f"invalid shard child {name}")
+        receipts.append((folder, receipt, receipt_digest))
+    directory.mkdir(parents=True, exist_ok=False)
+    manifest = {
+        "schema": "kernelgecp.spectroscopy-campaign.v4",
+        "kind": "campaign",
+        "status": "running",
+        "controls": controls("v4"),
+        "provenance": env,
+        "freeze_sha256": digest,
+        "children": {},
+        "shard_receipts": {},
+    }
+    write(directory / "campaign.json", manifest)
+    try:
+        (directory / "shard-receipts").mkdir()
+        for ordinal, (folder, receipt, receipt_digest) in enumerate(receipts):
+            for name, digest_file in receipt["inventory"].items():
+                shutil.copyfile(folder / name, directory / name)
+                if sha(directory / name) != digest_file:
+                    raise ValueError("copied child hash mismatch")
+            target = directory / "shard-receipts" / f"shard-{ordinal}.json"
+            shutil.copyfile(folder / "campaign.json", target)
+            if sha(target) != receipt_digest:
+                raise ValueError("copied shard receipt hash mismatch")
+            manifest["shard_receipts"][str(ordinal)] = {
+                "path": str(target.relative_to(directory)),
+                "sha256": receipt_digest,
+            }
+            manifest["children"].update(receipt["children"])
+        compare_repeats(directory, manifest, "v4")
+        if checked_freeze(freeze_path, environment(python, "v4")) != digest:
+            raise ValueError("freeze changed during assembly")
+        manifest["status"] = "passed"
+    except Exception as error:
+        manifest.update(status="failed", error=str(error))
+    manifest["assembly_wall_seconds"] = time.monotonic() - started
+    write(directory / "campaign.json", manifest)
+    return manifest
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("kind", choices=("calibration", "campaign"))
@@ -465,11 +640,31 @@ def main():
     parser.add_argument("--freeze", type=Path, required=True)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--profile", choices=["v2", "v3", "v4"], default="v2")
+    parser.add_argument("--shard", type=int)
+    parser.add_argument("--assemble-shards", type=Path)
     args = parser.parse_args()
     try:
-        result = execute(
-            args.kind, args.output, args.freeze, args.python, profile=args.profile
-        )
+        if args.shard is not None or args.assemble_shards is not None:
+            if (
+                args.kind != "campaign"
+                or args.profile != "v4"
+                or (args.shard is not None and args.assemble_shards is not None)
+            ):
+                raise ValueError(
+                    "sharding requires v4 campaign and exactly one shard mode"
+                )
+            if args.shard is not None:
+                result = execute_shard(
+                    args.output, args.freeze, args.shard, args.python
+                )
+            else:
+                result = assemble_shards(
+                    args.output, args.freeze, args.assemble_shards, args.python
+                )
+        else:
+            result = execute(
+                args.kind, args.output, args.freeze, args.python, profile=args.profile
+            )
         if result["status"] != "passed":
             raise RuntimeError(result.get("error", result["status"]))
     except Exception as error:
