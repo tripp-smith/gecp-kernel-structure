@@ -13243,3 +13243,45 @@ verification and new actual source-bound calibration on the joint revision, then
 preregister any canonical allocation only after those gates pass. Preserve all
 source-specific failures. No final reservation is consumed by calibration-only
 work; the original experimental and release objectives remain unchanged.
+
+## EJ saved v4 spectroscopy replay contract
+
+Prepare a standalone controller for the complete authenticated final-workflow
+ZIP and the committed scientific revision that produced it. Preserve original
+receipt bytes and the recorded CI artifact paths. The controller checks the
+caller-supplied archive digest, bounded ZIP inventory, profile, source identity,
+complete 24/72 synthetic and 8/24 measured case counts, and the 256-chain raw
+cohort. It reruns the five independent synthetic calibration, synthetic final,
+measured calibration, raw-cohort, and measured final audits in the detached
+scientific checkout with the pinned Linux provider runtime. Audit outputs and
+logs go to a new external directory. Original receipts and saved arrays stay
+read-only. Source and input bindings are rechecked after child execution.
+
+The raw acquisition freezes all tracked Python, TOML, lock and text files.
+Replay tools live on a later controller revision and execute the frozen
+scientific code in its own checkout. The release baseline remains a separate
+main revision whose version-only transition is checked independently. The
+controller takes authenticated artifact identity as an upstream prerequisite.
+Calibration-only, missing, failed, mixed-profile or mismatched evidence fails
+closed. Historical v1 replay remains available with its recorded outcomes.
+
+The implementation can be tested against synthetic control fixtures and the
+isolated v4 calibration archive as a negative case. A passing real replay
+requires successful canonical validation on the joint scientific source and
+its actual artifact bindings. Current work does not reserve final samples or
+change workflow publication policy.
+
+## EJ separated production evidence selection contract
+
+The five fresh main provider, molecular, EPW, covariance and CT-HYB roles
+share a release baseline. V4 spectroscopy has a distinct scientific origin
+with a single canonical workflow attempt. Add an explicit production-components
+metadata profile for the five main roles and a separate selector for the
+canonical v4 workflow, preserving the legacy default. The final spectroscopy
+selector binds authenticated repository, committed origin, workflow dispatch,
+attempt 1, successful calibration, assembled synthetic and measured final audit
+steps, and the unique complete final artifact digest and size. Missing, failed,
+expired, ambiguous or mixed-source records fail. Fetchers authenticate GitHub
+API results and bound pagination. Selection and materialization establish
+artifact identity and safe extraction. Substantive scientific replay and the
+final release gate remain separate.

@@ -129,3 +129,14 @@ def test_gh_errors_and_get_arguments():
         pytest.raises(ValueError, match="JSON"),
     ):
         _gh("endpoint", 1)
+
+
+def test_production_profile_fetches_five_roles_only():
+    data = metadata()
+    calls = []
+    result = fetch_science_runs(
+        REPOSITORY, SHA, adapter(data, calls), profile="production-components"
+    )
+    assert result["profile"] == "production-components"
+    assert set(result["runs"]) == set(ROLES) - {"spectroscopy"}
+    assert not any("spectroscopy-evidence.yml" in path for path, _ in calls)

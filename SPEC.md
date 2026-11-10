@@ -3338,3 +3338,19 @@ ordinals, independently reconstructed with Decimal; plan1 semantics and failed
 EPW06dc238 replay remain preserved. Full root and fresh full native/provider
 validation remain required. No original mathematical or domain accuracy goal
 is rewritten, and EH/EJ1.2 stay open.
+
+### EJ production evidence checkpoint (2026-11-10)
+
+The full real-data covariance workflow42774826570 at `cb88382` passed all
+18 cases and the actual 512-point CPU provider replay. CT-HYB replay at
+`837eb3f` passed all seven checks over 208 saved measurements. The separate
+EPW workflow42774821841 verifies the versioned dictionary at `cb88382`.
+
+The v4 saved replay controller checks the complete archived campaign, including
+six synthetic shard receipts and 256 raw chain bindings, before running the
+five independent frozen audits. Release metadata keeps the five fresh main
+roles and the frozen v4 spectroscopy origin distinct. Focused synthetic tests
+cover malformed and incomplete evidence. The actual v4 replay remains pending
+the final scientific artifact. The joint calibration-only run42776842790 at
+`6caf85f` uses the sharded workflow source with acquisition disabled. Release
+eligibility, version publication and exact-main delivery remain open.

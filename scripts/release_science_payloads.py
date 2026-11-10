@@ -17,10 +17,10 @@ from pathlib import Path
 
 try:
     from scripts.providers.verify_receipt import read_receipt
-    from scripts.release_science_runs import REPOSITORY, ROLES, SCOPE
+    from scripts.release_science_runs import REPOSITORY, SCOPE, profile_roles
 except ModuleNotFoundError:
     from providers.verify_receipt import read_receipt
-    from release_science_runs import REPOSITORY, ROLES, SCOPE
+    from release_science_runs import REPOSITORY, SCOPE, profile_roles
 
 MAX_ZIP = 2 * 2**30
 MAX_MEMBER = 2 * 2**30
@@ -51,10 +51,13 @@ def validate_selection(data):
         and re.fullmatch(r"[0-9a-f]{40}", data["revision"]),
         "invalid revision",
     )
+    roles = profile_roles(data.get("profile"))
+    if "profile" in data:
+        require(data["profile"] is not None, "invalid profile")
     runs = data.get("runs")
-    require(isinstance(runs, dict) and set(runs) == set(ROLES), "wrong roles")
+    require(isinstance(runs, dict) and set(runs) == set(roles), "wrong roles")
     ids, names = set(), set()
-    for role, (workflow, _, templates) in ROLES.items():
+    for role, (workflow, _, templates) in roles.items():
         run = runs[role]
         require(
             isinstance(run, dict)
@@ -286,6 +289,7 @@ def inventory(archive):
 
 def materialize(selected, output_root, receipt, downloader=download):
     validate_selection(selected)
+    roles = profile_roles(selected.get("profile"))
     output_root, receipt = Path(output_root), Path(receipt)
     require(
         not output_root.exists() and not output_root.is_symlink(),
@@ -295,7 +299,7 @@ def materialize(selected, output_root, receipt, downloader=download):
     output_root.mkdir(parents=False)
     records, total_bundle = [], 0
     try:
-        for role in ROLES:
+        for role in roles:
             for item in selected["runs"][role]["artifacts"]:
                 role_dir = output_root / role
                 role_dir.mkdir(exist_ok=True)
@@ -386,10 +390,12 @@ def materialize(selected, output_root, receipt, downloader=download):
             "revision": selected["revision"],
             "artifacts": records,
             "auxiliary_artifacts": {
-                role: selected["runs"][role]["auxiliary_artifacts"] for role in ROLES
+                role: selected["runs"][role]["auxiliary_artifacts"] for role in roles
             },
             "total_uncompressed_bytes": total_bundle,
         }
+        if "profile" in selected:
+            result["profile"] = selected["profile"]
         with receipt.open("x") as stream:
             json.dump(result, stream, indent=2)
             stream.write("\n")
