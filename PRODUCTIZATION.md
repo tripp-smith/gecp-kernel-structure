@@ -186,3 +186,13 @@ checks are under verification. Full covariance replay now has source/runtime,
 18-case/hash/schema and same-factor CPU provider gates, awaiting complete Linux
 validation. Whole-release eligibility, corrected EH final science, publication
 and exact-main synchronization remain open; estimated completion stays about85%.
+
+
+### EH replay transition checkpoint (2026-11-11)
+
+EPW and covariance component replays passed on `cb88382`. The joint v4
+calibration passed on `6caf85f`, and the single canonical final run is active.
+PR #146 is preparing a separate historical replay and a current-candidate
+v4 check. The final archive and five independent audits are required before
+EH delivery. The 1.2.0 release remains about 85% complete by accepted
+obligations. [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).

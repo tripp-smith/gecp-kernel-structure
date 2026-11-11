@@ -7,9 +7,19 @@ import subprocess
 from pathlib import Path
 
 try:
-    from scripts.release_science_runs import REPOSITORY, ROLES, select_science_runs
+    from scripts.release_science_runs import (
+        REPOSITORY,
+        profile_roles,
+        select_science_runs,
+        select_spectroscopy_origin,
+    )
 except ModuleNotFoundError:
-    from release_science_runs import REPOSITORY, ROLES, select_science_runs
+    from release_science_runs import (
+        REPOSITORY,
+        profile_roles,
+        select_science_runs,
+        select_spectroscopy_origin,
+    )
 
 PAGE_SIZE = 100
 MAX_PAGES = 100
@@ -76,7 +86,7 @@ def _pages(path, key, get):
     raise ValueError("metadata page budget exceeded")
 
 
-def fetch_science_runs(repository, revision, get=None):
+def fetch_science_runs(repository, revision, get=None, profile=None):
     """Fetch all pages and select the latest exact-main run in each role."""
     if (
         repository != REPOSITORY
@@ -87,7 +97,7 @@ def fetch_science_runs(repository, revision, get=None):
     get = _gh if get is None else get
     prefix = f"repos/{repository}/actions"
     runs, jobs, artifacts = {}, {}, {}
-    for role, (workflow, _, _) in ROLES.items():
+    for role, (workflow, _, _) in profile_roles(profile).items():
         runs[role] = _pages(
             f"{prefix}/workflows/{workflow}/runs?branch=main&head_sha={revision}",
             "workflow_runs",
@@ -121,7 +131,42 @@ def fetch_science_runs(repository, revision, get=None):
         artifacts[run_id] = _pages(
             f"{prefix}/runs/{run_id}/artifacts", "artifacts", get
         )
-    result = select_science_runs(repository, revision, runs, jobs, artifacts)
+    result = select_science_runs(
+        repository, revision, runs, jobs, artifacts, profile=profile
+    )
+    result["provenance"] = {
+        "source": "authenticated gh api GET",
+        "page_size": PAGE_SIZE,
+        "max_pages_per_endpoint": MAX_PAGES,
+        "payloads_downloaded": False,
+    }
+    return result
+
+
+def fetch_spectroscopy_origin(repository, revision, run_id, get=None):
+    if (
+        repository != REPOSITORY
+        or not isinstance(revision, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", revision)
+        or type(run_id) is not int
+        or run_id <= 0
+    ):
+        raise ValueError("invalid origin identity")
+    get = _gh if get is None else get
+    prefix = f"repos/{repository}/actions/runs/{run_id}"
+    run = get(prefix, 1)
+    # Query current attempt first: a rerun must not be hidden by historical attempt 1.
+    if (
+        not isinstance(run, dict)
+        or type(run.get("run_attempt")) is not int
+        or run["run_attempt"] != 1
+    ):
+        raise ValueError("canonical origin requires current attempt 1")
+    jobs = _pages(prefix + "/attempts/1/jobs", "jobs", get)
+    artifacts = _pages(prefix + "/artifacts", "artifacts", get)
+    result = select_spectroscopy_origin(
+        repository, revision, run_id, run, jobs, artifacts
+    )
     result["provenance"] = {
         "source": "authenticated gh api GET",
         "page_size": PAGE_SIZE,
@@ -133,13 +178,26 @@ def fetch_science_runs(repository, revision, get=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["fetch"])
+    parser.add_argument("action", choices=["fetch", "fetch-spectroscopy-origin"])
     parser.add_argument("--repository", required=True)
     parser.add_argument("--revision", required=True)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--profile", choices=["production-components"])
+    parser.add_argument("--run-id", type=int)
     args = parser.parse_args()
     try:
-        result = fetch_science_runs(args.repository, args.revision)
+        if args.action == "fetch":
+            if args.run_id is not None:
+                raise ValueError("run-id is only for spectroscopy origin")
+            result = fetch_science_runs(
+                args.repository, args.revision, profile=args.profile
+            )
+        else:
+            if args.profile is not None or args.run_id is None:
+                raise ValueError("origin requires run-id and no profile")
+            result = fetch_spectroscopy_origin(
+                args.repository, args.revision, args.run_id
+            )
         args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     except (ValueError, OSError) as exc:
         parser.exit(1, f"science metadata fetch failed: {exc}\n")

@@ -3461,3 +3461,12 @@ repeats of each family on the same runner. The complete independent synthetic
 audit gates native acquisition. The joint calibration will run at the
 revision containing this workflow and driver. The reserved final cohorts
 remain untouched.
+
+
+### EH replay transition status (2026-11-11)
+
+The joint calibration-only run `42776842790` passed on `6caf85f`. Its
+canonical attempt `42978469706` is active. Add an authenticated saved-data
+replay check for the v4 final archive and retain historical replay on its
+compatible source. Final scientific acceptance, exact-head CI and delivery
+remain open.

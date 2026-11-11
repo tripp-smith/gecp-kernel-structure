@@ -105,6 +105,17 @@ ROLES = {
 }
 
 
+PRODUCTION_PROFILE = "production-components"
+
+
+def profile_roles(profile=None):
+    if profile is None:
+        return ROLES
+    if profile == PRODUCTION_PROFILE:
+        return {k: v for k, v in ROLES.items() if k != "spectroscopy"}
+    raise ValueError("unknown science profile")
+
+
 def _require(condition, message):
     if not condition:
         raise ValueError(message)
@@ -114,7 +125,9 @@ def _positive(value):
     return type(value) is int and value > 0
 
 
-def select_science_runs(repository, revision, run_items, jobs_by_run, artifacts_by_run):
+def select_science_runs(
+    repository, revision, run_items, jobs_by_run, artifacts_by_run, profile=None
+):
     """Select exact-main runs from authenticated, fully paginated API data.
 
     Runs are keyed by role; jobs and artifacts are keyed by integer run ID.
@@ -126,7 +139,10 @@ def select_science_runs(repository, revision, run_items, jobs_by_run, artifacts_
         "invalid revision",
     )
     selected = {}
-    for role, (workflow, required_jobs, templates) in ROLES.items():
+    roles = profile_roles(profile)
+    if profile is not None:
+        _require(set(run_items) == set(roles), "wrong profile role inventory")
+    for role, (workflow, required_jobs, templates) in roles.items():
         candidates = [
             r
             for r in run_items.get(role, [])
@@ -227,9 +243,115 @@ def select_science_runs(repository, revision, run_items, jobs_by_run, artifacts_
             "artifacts": sorted(records, key=lambda x: x["name"]),
             "auxiliary_artifacts": sorted(auxiliary_records, key=lambda x: x["name"]),
         }
-    return {
+    result = {
         "scope": SCOPE,
         "repository": repository,
         "revision": revision,
         "runs": selected,
+    }
+    if profile is not None:
+        result["profile"] = profile
+    return result
+
+
+V4_JOBS = {
+    "scientific-campaign": [
+        "Require the pinned actual scientific runtime",
+        "Refuse canonical regeneration through workflow reruns",
+        "Calibrate synthetic fixtures and audit independently",
+        "Extract the attributed independently audited CT-HYB observations",
+        "Calibrate measured-data continuation and audit independently",
+    ],
+    "synthetic-final": [
+        "Require the pinned actual scientific runtime",
+        "Assemble and independently audit all 72 frozen final cases",
+    ],
+    "fixed-bath-final": [
+        "Require all pinned scientific providers",
+        "Extract the accepted parent and independently audit the new cohort",
+        "Run all 24 frozen measured workers and audit independently",
+    ],
+}
+V4_SCOPE = "authenticated origin metadata only; independent scientific replay required"
+
+
+def select_spectroscopy_origin(repository, revision, run_id, run, jobs, artifacts):
+    """Validate caller-authenticated canonical v4 origin, not its payload."""
+    _require(repository == REPOSITORY, "unexpected repository")
+    _require(
+        isinstance(revision, str) and re.fullmatch(r"[0-9a-f]{40}", revision),
+        "invalid revision",
+    )
+    _require(_positive(run_id), "invalid run id")
+    _require(
+        isinstance(run, dict)
+        and run.get("id") == run_id
+        and run.get("head_sha") == revision
+        and isinstance(run.get("head_branch"), str)
+        and bool(run["head_branch"])
+        and run.get("event") == "workflow_dispatch"
+        and run.get("path") == ".github/workflows/maxent-science.yml"
+        and (run.get("repository") or {}).get("full_name") == repository
+        and (run.get("head_repository") or {}).get("full_name") == repository
+        and type(run.get("run_attempt")) is int
+        and run["run_attempt"] == 1
+        and run.get("status") == "completed"
+        and run.get("conclusion") == "success",
+        "invalid canonical v4 run",
+    )
+    records = []
+    for name, required in V4_JOBS.items():
+        matches = [j for j in jobs if j.get("name") == name]
+        _require(len(matches) == 1, "missing or duplicate v4 job: " + name)
+        job = matches[0]
+        _require(
+            _positive(job.get("id"))
+            and job.get("run_id") == run_id
+            and type(job.get("run_attempt")) is int
+            and job["run_attempt"] == 1
+            and job.get("head_sha") == revision
+            and job.get("status") == "completed"
+            and job.get("conclusion") == "success",
+            "invalid v4 job: " + name,
+        )
+        for step in required:
+            found = [s for s in job.get("steps", []) if s.get("name") == step]
+            _require(
+                len(found) == 1
+                and found[0].get("status") == "completed"
+                and found[0].get("conclusion") == "success",
+                "invalid v4 step: " + step,
+            )
+        records.append({"id": job["id"], "name": name})
+    _require(len({j["id"] for j in records}) == len(records), "duplicate v4 job id")
+    name = f"maxent-fixed-bath-final-{run_id}-1"
+    found = [a for a in artifacts if a.get("name") == name]
+    _require(len(found) == 1, "missing or duplicate v4 final artifact")
+    a = found[0]
+    binding = a.get("workflow_run") or {}
+    _require(
+        _positive(a.get("id"))
+        and sum(x.get("id") == a["id"] for x in artifacts) == 1
+        and a.get("expired") is False
+        and _positive(a.get("size_in_bytes"))
+        and isinstance(a.get("digest"), str)
+        and re.fullmatch(r"sha256:[0-9a-f]{64}", a["digest"])
+        and binding.get("id") == run_id
+        and binding.get("head_sha") == revision
+        and binding.get("head_branch") == run["head_branch"]
+        and (
+            "run_attempt" not in binding
+            or (type(binding["run_attempt"]) is int and binding["run_attempt"] == 1)
+        ),
+        "invalid v4 artifact binding",
+    )
+    return {
+        "scope": V4_SCOPE,
+        "repository": repository,
+        "revision": revision,
+        "workflow": "maxent-science.yml",
+        "id": run_id,
+        "attempt": 1,
+        "jobs": sorted(records, key=lambda x: x["name"]),
+        "artifact": {k: a[k] for k in ("id", "name", "digest", "size_in_bytes")},
     }

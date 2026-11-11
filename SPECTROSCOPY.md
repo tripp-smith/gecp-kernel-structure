@@ -335,3 +335,19 @@ this check. Its status concerns projection matrices only, with no native
 sampling, TauMaxEnt calibration or final scientific acceptance. Previously
 observed final data remain observed; a complete source-bound repair validation
 contract remains required.
+
+
+### Joint v4 run and independent replay
+
+The joint calibration on `6caf85f` passed all 24 synthetic and eight measured
+cases, with both independent audits and the native runtime preflight. The
+first canonical allocation on the same source is in progress. The final
+archive must contain the assembled synthetic campaign, all 256 raw chains,
+and the measured final campaign before the independent saved-data audit.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706).
+
+The legacy archive remains reproducible on its historical source. The new
+current-candidate check will use v4 receipts and preserves the previous
+candidate replay failures for the changed package inventory. The reviewable
+origin pin follows a complete successful run and a successful independent
+saved-data replay.

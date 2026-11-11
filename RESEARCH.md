@@ -13767,3 +13767,23 @@ repeats of each family on the same runner. The complete independent synthetic
 audit gates native acquisition. The joint calibration will run at the
 revision containing this workflow and driver. The reserved final cohorts
 remain untouched.
+
+
+## EH saved v4 replay transition
+
+The canonical run `42978469706` is attempt one at frozen source `6caf85f`.
+Its synthetic shards, assembled audit, fixed-bath segments and measured
+audit must all pass before the final archive can enter independent replay.
+The replay controller authenticates the GitHub origin, verifies the exact
+ZIP size and SHA-256, and reruns the five saved-data audits with the frozen
+scientific source and pinned Linux providers. Preserve the original archive,
+source blobs, failure diagnostics and all scientific thresholds.
+
+The historical CI job runs the original replay on archived source `2f2446c`.
+The current-candidate job uses v4 evidence after a successful standalone
+replay and a reviewed origin pin. Compare frozen science inputs with the
+candidate or its audited 1.1 baseline before the 1.2 version-only transition.
+A missing or failed v4 gate blocks candidate delivery. Preflight tests cover
+wrong source, attempted regeneration, missing and expired artifacts, changed
+bytes and failed child receipts. Actual replay, full root verification and
+exact-head CI remain separate requirements for merging PR #146.
