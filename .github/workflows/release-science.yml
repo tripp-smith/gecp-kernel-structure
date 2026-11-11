@@ -1,0 +1,201 @@
+name: Kernelgecp scientific acceptance
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+      revision:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  VECLIB_MAXIMUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  BLIS_NUM_THREADS: "1"
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      mode: ${{ steps.plan.outputs.mode }}
+      producer: ${{ steps.plan.outputs.producer }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Authenticate exact-main producers and canonical spectroscopy origin
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_SHA: ${{ inputs.revision }}
+        run: |
+          python -m scripts.release_science_aggregate prepare \
+            --version "$RELEASE_VERSION" --revision "$RELEASE_SHA" \
+            --output "$RUNNER_TEMP/science-plan"
+      - uses: actions/upload-artifact@v4
+        if: steps.plan.outputs.mode != 'legacy'
+        with:
+          name: science-plan-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/science-plan/
+          if-no-files-found: error
+          retention-days: 14
+
+  replay:
+    needs: prepare
+    if: needs.prepare.outputs.mode == 'baseline' || needs.prepare.outputs.mode == 'tag'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - role: covariance
+            uv_project: gp
+          - role: cthyb
+          - role: epw
+            uv_project: epw-science
+          - role: molecular
+            uv_project: green-science
+          - role: providers
+          - role: spectroscopy
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.producer }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: science-plan-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/science-plan
+      - uses: astral-sh/setup-uv@v5
+        if: matrix.uv_project != ''
+        with:
+          python-version: "3.12"
+      - uses: mamba-org/setup-micromamba@v2
+        if: matrix.uv_project == ''
+        with:
+          micromamba-version: "2.9.0-0"
+          environment-file: environments/locks/triqs-linux-64-conda-explicit.txt
+          environment-name: kernelgecp-maxent
+          cache-environment: true
+          post-cleanup: all
+      - name: Execute the selected independent scientific audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ROLE: ${{ matrix.role }}
+          UV_PROJECT: ${{ matrix.uv_project }}
+        run: |
+          if [ -n "$UV_PROJECT" ]; then
+            uv sync --project "environments/$UV_PROJECT" --frozen --python 3.12
+            runtime_python="$PWD/environments/$UV_PROJECT/.venv/bin/python"
+          else
+            python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
+            python -m pip install --no-deps --require-hashes -r environments/locks/dlr-physics-pip.txt
+            runtime_python="$(command -v python)"
+          fi
+          "$runtime_python" -m scripts.release_science_gate run-role \
+            --role "$ROLE" --runtime-python "$runtime_python" \
+            --selected-runs "$RUNNER_TEMP/science-plan/selected-runs.json" \
+            --spectroscopy-origin "$RUNNER_TEMP/science-plan/spectroscopy-origin.json" \
+            --output "$RUNNER_TEMP/science-replay"
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: science-role-${{ github.run_attempt }}-${{ matrix.role }}
+          path: |
+            ${{ runner.temp }}/science-replay/role-receipt.json
+            ${{ runner.temp }}/science-replay/wrapper-receipt.json
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: science-logs-${{ github.run_attempt }}-${{ matrix.role }}
+          path: |
+            ${{ runner.temp }}/science-replay/*.log
+            ${{ runner.temp }}/science-replay/replay/*.json
+            ${{ runner.temp }}/science-replay/replay/*.log
+            ${{ runner.temp }}/science-replay/provider.json
+            ${{ runner.temp }}/science-replay/provider.json.logs/
+          if-no-files-found: warn
+          retention-days: 14
+
+  acceptance:
+    needs: [prepare, replay]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Require successful execution of all applicable science jobs
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          REPLAY_RESULT: ${{ needs.replay.result }}
+          GATE_MODE: ${{ needs.prepare.outputs.mode }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          case "$GATE_MODE" in
+            baseline|tag) test "$REPLAY_RESULT" = success ;;
+            legacy) test "$REPLAY_RESULT" = skipped ;;
+            *) exit 1 ;;
+          esac
+      - uses: actions/checkout@v4
+        if: needs.prepare.outputs.mode != 'legacy'
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        if: needs.prepare.outputs.mode != 'legacy'
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        if: needs.prepare.outputs.mode != 'legacy'
+        with:
+          name: science-plan-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/science-plan
+      - uses: actions/download-artifact@v4
+        if: needs.prepare.outputs.mode != 'legacy'
+        with:
+          pattern: science-role-${{ github.run_attempt }}-*
+          path: ${{ runner.temp }}/science-role-artifacts
+      - name: Validate six fresh replay receipts against authenticated inputs
+        if: needs.prepare.outputs.mode != 'legacy'
+        run: |
+          replay_dir="$RUNNER_TEMP/science-roles"
+          mkdir "$replay_dir"
+          for artifact in "$RUNNER_TEMP"/science-role-artifacts/science-role-"$GITHUB_RUN_ATTEMPT"-*; do
+            prefix="science-role-$GITHUB_RUN_ATTEMPT-"
+            filename="${artifact##*/}"
+            mv "$artifact" "$replay_dir/${filename#"$prefix"}"
+          done
+          python -m scripts.release_science_aggregate aggregate \
+            --plan "$RUNNER_TEMP/science-plan" --roles "$replay_dir" \
+            --output "$RUNNER_TEMP/scientific-acceptance.json"
+      - uses: actions/upload-artifact@v4
+        if: needs.prepare.outputs.mode != 'legacy'
+        with:
+          name: scientific-acceptance-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/scientific-acceptance.json
+          if-no-files-found: error
+          retention-days: 30

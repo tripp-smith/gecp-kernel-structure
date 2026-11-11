@@ -296,3 +296,18 @@ status is not scientific acceptance. No provider calculation, new samples,
 changed production representation or changed budget is involved. A production
 repair would require new source binding, calibration and appropriate untouched
 final validation; observed final data cannot be relabeled untouched.
+
+
+### Joint v4 calibration and canonical allocation (2026-11-11)
+
+The joint source `6caf85f` passed calibration for 24 synthetic cases and eight
+measured cases, with both independent audits and the disposable native-runtime
+probe. The calibrated source includes the deterministic EPW dictionary and
+six-shard synthetic final driver.
+[Calibration run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42776842790).
+
+Canonical attempt one on the same source reserves 72 synthetic continuations
+and 256 new fixed-bath chains. Both previous branches' legacy replay rejected
+the changed package or lock inventory. The new final outcomes and independent
+saved replay remain pending.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706).

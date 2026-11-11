@@ -13285,3 +13285,23 @@ expired, ambiguous or mixed-source records fail. Fetchers authenticate GitHub
 API results and bound pagination. Selection and materialization establish
 artifact identity and safe extraction. Substantive scientific replay and the
 final release gate remain separate.
+
+
+## EJ combined scientific gate and source identity contract
+
+Authenticate the five latest exact-main producer workflows at the release
+baseline. Authenticate the pinned, successful, attempt-one v4 origin before
+downloading it. Compare the committed science inputs and modes from that origin
+to the baseline, permitting changes to named release-only tools and prose.
+Replay the spectroscopy archive against its own detached origin. Run the other
+five wrappers from the exact baseline with their locked Linux runtimes. Bind
+all six wrapper receipts to authenticated artifact metadata, successful process
+exits, input digests, and the current workflow invocation. Preserve the existing
+version-only comparison from the baseline to the release tag.
+
+The publication job graph requires this gate before GitHub release assets or
+PyPI upload. The historical 1.1.0 workflow path retains its existing scope.
+The first canonical v4 validation is running on `6caf85f`, after its separate
+joint calibration passed. A successful calibration or a passing structural gate
+test establishes no final-case acceptance. The actual combined scientific gate,
+exact-main delivery, installed 1.2.0 verification, and publication stay open.

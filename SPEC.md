@@ -3354,3 +3354,13 @@ cover malformed and incomplete evidence. The actual v4 replay remains pending
 the final scientific artifact. The joint calibration-only run42776842790 at
 `6caf85f` uses the sharded workflow source with acquisition disabled. Release
 eligibility, version publication and exact-main delivery remain open.
+
+
+### EH/EJ canonical validation and gate implementation (2026-11-11)
+
+Joint v4 calibration run `42776842790` passed at `6caf85f`. Canonical attempt
+`42978469706` reserves synthetic seeds 5001–5003 and the independent 256-chain
+cohort beginning at 34100001 with stride two. This entry records allocation.
+The final scientific evidence and accepted replay remain pending. The combined
+release gate uses the six saved-payload replays and separate committed-source
+comparisons. Full provider execution of that gate remains required.

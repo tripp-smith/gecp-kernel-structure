@@ -287,9 +287,12 @@ def inventory(archive):
     return entries, total
 
 
-def materialize(selected, output_root, receipt, downloader=download):
+def materialize(selected, output_root, receipt, downloader=download, *, role=None):
     validate_selection(selected)
     roles = profile_roles(selected.get("profile"))
+    if role is not None:
+        require(role in roles, "unknown selected role")
+        roles = {role: roles[role]}
     output_root, receipt = Path(output_root), Path(receipt)
     require(
         not output_root.exists() and not output_root.is_symlink(),

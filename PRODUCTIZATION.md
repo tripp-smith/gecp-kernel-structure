@@ -181,3 +181,19 @@ cover malformed and incomplete evidence. The actual v4 replay remains pending
 the final scientific artifact. The joint calibration-only run42776842790 at
 `6caf85f` uses the sharded workflow source with acquisition disabled. Release
 eligibility, version publication and exact-main delivery remain open.
+
+
+### EJ scientific acceptance workflow in development (2026-11-11)
+
+The joint v4 calibration passed on frozen source `6caf85f`. The single canonical
+validation was registered on that source with separate synthetic and native
+final cohorts. Both PRs remain draft while the old replay rejects their changed
+package inventory and the new final evidence is pending.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706).
+
+The 1.2.0 publication workflow requires authenticated exact-main producers,
+the authenticated v4 origin, six fresh independent replays, and an aggregate
+receipt for the current invocation. A main dispatch can exercise the same gates
+before the version-only commit. The origin pin is deferred until the canonical
+run passes. Full Linux execution of the combined gate and publication remain
+pending.
