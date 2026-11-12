@@ -13799,3 +13799,20 @@ archive. The reviewed `data/release-science-origin-1.2.0.json` binds the
 scientific source and run for candidate CI. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records the archive and audit hashes, with exact-head and main verification
 required for delivery.
+
+
+### Archived v1 projection portability and current CI
+
+The archived v1 audit passed on historical source `2f2446c` in the positive
+Linux preflight. The same archived replay on the pinned PR head failed its
+independent measured-calibration projection check twice. A diagnostic using
+the same bytes, locked libraries and a verified Haswell OpenBLAS dispatch
+failed at the same comparison. The archived pyDLR design has retained
+condition about `1.59e10`, with earlier higher-precision diagnostics outside
+the v1 comparison tolerance. None of these archived outcomes changes the
+current v4 evidence or the scientific thresholds.
+
+Automatic candidate CI verifies the three archived input digests and requires
+the five current v4 audits. Historical numerical execution remains a named
+manual workflow job that reports its own pass or failure. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records the positive and failed archived runs.

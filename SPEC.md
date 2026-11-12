@@ -3479,3 +3479,9 @@ Attempt one of `42978469706` on `6caf85f` passed the 72 synthetic cases,
 replay `43135341621` passed all five audits. The committed origin pin activates
 the authenticated current-candidate replay. Exact-head CI and main delivery
 remain open.
+
+
+The automatic EH gate checks archived input integrity and replays current v4
+evidence. The archived numerical replay remains an explicit workflow dispatch
+on its historical source, with the observed projection portability failures
+retained. The current scientific acceptance thresholds are unchanged.

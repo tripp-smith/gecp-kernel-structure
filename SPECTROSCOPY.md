@@ -347,8 +347,11 @@ both synthetic audits, both measured audits and the raw-cohort audit.
 [Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
 [independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).
 
-The current-candidate check uses the committed v4 origin pin. The legacy
-archive remains reproducible on its historical source, and earlier replay
-failures remain recorded. The measured residuals describe held-out chain
+The current-candidate check uses the committed v4 origin pin. Automatic CI
+also verifies the archived v1 input bytes. The archived numerical replay
+runs on `2f2446c` when dispatched with `historical_replay=true`. It passed on
+the separate Linux preflight. The pinned PR run failed the archived
+pyDLR projection check twice, and a fixed Haswell OpenBLAS kernel reproduced
+the failure. These outcomes remain in the [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201). The measured residuals describe held-out chain
 means under the frozen noise model. The scope is scalar or diagonal positive
 spectra for the tested provider, fixtures and bath.
