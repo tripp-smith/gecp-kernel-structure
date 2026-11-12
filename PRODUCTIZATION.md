@@ -104,20 +104,20 @@ remain native. Upstream acceptance is not a delivery gate.
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | delivered at synchronized main `06c4e45`; full root and all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)) |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
 | EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, root and all five exact-main workflows pass; explicit model-plus-lossless native route passes, pure-fit route remains failed ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)) |
-| EH | Actual covariance-aware MaxEnt including EE observations | isolated v4 passes all calibration gates at `0e21c12`; joint calibration and untouched finals remain open ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
+| EH | Actual covariance-aware MaxEnt including EE observations | canonical v4 final at `6caf85f` and all five independent replays pass; exact-head CI and delivery pending ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
-| EJ | Verified 1.2.0 public distributions and final handoff | native CT-HYB, molecular and provider component replays pass; complete covariance replay on `cb88382` passes and EPW validation is underway; all-domain gate and public release pending ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579)) |
+| EJ | Verified 1.2.0 public distributions and final handoff | native CT-HYB, molecular and provider component replays pass; complete covariance and separate native EPW replays on `cb88382` pass; all-domain gate and public release pending ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579)) |
 
-EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration program by completed acceptance obligations; EH/EJ remain open. Each phase requires its named
+EB/EC/ED/EE/EF/EG/EI are delivered, approximately 90% of the new integration program by completed acceptance obligations. EH has passing science and independent replay. EH delivery and EJ remain open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
 mandatory cases remain open; no universal speedup is required.
 
 Remaining delivery order follows the current dependencies. EE and EG are
-delivered with exact-main acceptance and failed routes retained. Complete EH's
-frozen measured-data comparison, independent audit and real-provider CI before
-its delivery. EJ then audits every original domain obligation, updates guides,
+delivered with exact-main acceptance and failed routes retained. EH has passed the
+frozen measured-data comparison and independent audit and awaits exact-head CI
+and delivery. EJ then audits every original domain obligation, updates guides,
 compatibility/migration/notices and handoff metadata, tests installed release
 distributions, publishes 1.2.0, verifies public installations and synchronizes
 exact-main checks. Green and EPW internal solver acceleration stays outside scope.

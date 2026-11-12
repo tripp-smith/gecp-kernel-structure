@@ -340,14 +340,15 @@ contract remains required.
 ### Joint v4 run and independent replay
 
 The joint calibration on `6caf85f` passed all 24 synthetic and eight measured
-cases, with both independent audits and the native runtime preflight. The
-first canonical allocation on the same source is in progress. The final
-archive must contain the assembled synthetic campaign, all 256 raw chains,
-and the measured final campaign before the independent saved-data audit.
-[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706).
+cases. The single canonical attempt passed 72 synthetic final cases,
+256 native fixed-bath chains and 24 measured final cases. All four checkpoints
+preserved the earlier chain bytes. The separate pinned Linux replay passed
+both synthetic audits, both measured audits and the raw-cohort audit.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
+[independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).
 
-The legacy archive remains reproducible on its historical source. The new
-current-candidate check will use v4 receipts and preserves the previous
-candidate replay failures for the changed package inventory. The reviewable
-origin pin follows a complete successful run and a successful independent
-saved-data replay.
+The current-candidate check uses the committed v4 origin pin. The legacy
+archive remains reproducible on its historical source, and earlier replay
+failures remain recorded. The measured residuals describe held-out chain
+means under the frozen noise model. The scope is scalar or diagonal positive
+spectra for the tested provider, fixtures and bath.

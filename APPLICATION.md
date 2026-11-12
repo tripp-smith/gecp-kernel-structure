@@ -1768,8 +1768,9 @@ projection, source mesh and a versioned hash-bound application manifest with
 caller-declared units/provider/state ordering/settings.
 
 The [synthetic campaign](SPECTROSCOPY.md) uses the actual provider, independent
-held-out forward checks and a separate arithmetic audit. Measured CT-HYB
-validation and full phase delivery remain required. Bootstrap variation and
+held-out forward checks and a separate arithmetic audit. The pinned v4 campaign
+also passed the measured CT-HYB checks and independent Linux replay.
+Bootstrap variation and
 default-model sensitivity do not establish unique peak recovery or complete
 uncertainty coverage. Existing sparse-recovery experiments remain separately
 labeled comparisons.
@@ -1780,8 +1781,8 @@ and continuation restores the caller's NumPy error policy even on failure.
 The experimental Linux-only fixed-bath acquisition is a separate research
 workflow, not a replacement DMFT solver or a published 1.1.0 interface. It
 requires a committed source freeze and passed independent calibration before
-new measurements. Its 256-chain acceptance and the measured spectroscopy
-phase remain open; see the [current evidence](SPECTROSCOPY.md).
+new measurements. The pinned v4 campaign includes 256 audited chains and 24
+measured final cases. See the [current evidence](SPECTROSCOPY.md).
 
 ## EPW anisotropic frequency interoperability (1.2 development)
 
@@ -2049,9 +2050,9 @@ requires explicit constrained mass and projected curvature. It symmetrizes and
 shifts the projected optimization metric using estimated eigenvalues; it does
 not add a ridge to the objective or change its chain-rule gradient. Numerical
 scale, resource or positivity failures raise explicitly. Diagnostics are finite
-floating-point estimates, not certificates or convergence guarantees. The v4
-application candidate uses1e-10 and requires separate provider calibration and
-untouched final acceptance. Actual native MaxEnt remains the optimizer.
+floating-point estimates, not certificates or convergence guarantees. The tested v4
+application uses a relative floor of `1e-10` in its calibrated, independently
+replayed final campaign. Native MaxEnt remains the optimizer.
 
 ### Versioned EPW interpolation dictionaries and release replay
 

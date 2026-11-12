@@ -13787,3 +13787,15 @@ A missing or failed v4 gate blocks candidate delivery. Preflight tests cover
 wrong source, attempted regeneration, missing and expired artifacts, changed
 bytes and failed child receipts. Actual replay, full root verification and
 exact-head CI remain separate requirements for merging PR #146.
+
+
+### EH admitted v4 evidence
+
+Canonical attempt one passed every scientific job on `6caf85f`.
+An independent retained-byte audit authenticated seven archives, checked
+every native prefix and seed, and verified the 335 frozen source hashes.
+Hosted replay `43135341621` passed all five audits against the original
+archive. The reviewed `data/release-science-origin-1.2.0.json` binds the
+scientific source and run for candidate CI. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records the archive and audit hashes, with exact-head and main verification
+required for delivery.

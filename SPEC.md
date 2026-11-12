@@ -3470,3 +3470,12 @@ canonical attempt `42978469706` is active. Add an authenticated saved-data
 replay check for the v4 final archive and retain historical replay on its
 compatible source. Final scientific acceptance, exact-head CI and delivery
 remain open.
+
+
+### EH canonical v4 acceptance evidence (2026-11-11)
+
+Attempt one of `42978469706` on `6caf85f` passed the 72 synthetic cases,
+256 native chains and 24 measured final cases. The independent saved-data
+replay `43135341621` passed all five audits. The committed origin pin activates
+the authenticated current-candidate replay. Exact-head CI and main delivery
+remain open.

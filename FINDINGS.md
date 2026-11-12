@@ -2880,3 +2880,17 @@ repeats of each family on the same runner. The complete independent synthetic
 audit gates native acquisition. The joint calibration will run at the
 revision containing this workflow and driver. The reserved final cohorts
 remain untouched.
+
+
+### EH canonical v4 final and independent replay
+
+Frozen source `6caf85f` passed 72 synthetic and 24 measured final cases. The
+largest reported whitened held-out RMS was 0.753 for the synthetic campaign
+and 1.043 for the measured campaign, under the respective frozen noise
+models. The four native acquisition checkpoints preserve the bytes of all
+earlier chains. A separate pinned Linux run passed all five saved-data
+audits, including the 256-chain raw-cohort audit. The measured result is
+conditional on the held-out chain mean and the recorded bath. Bootstrap
+variation and default-model sensitivity describe the tested samples and
+models. [Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
+[independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).
