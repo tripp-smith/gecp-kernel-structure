@@ -147,3 +147,73 @@ def test_checkout_identity_and_cleanliness(monkeypatch, tmp_path):
     )
     with pytest.raises(ValueError, match="clean"):
         replay.verify_checkout(tmp_path, candidate)
+
+
+def test_published_descendant_tree_gate(tmp_path, monkeypatch):
+    import subprocess
+
+    def git(*args):
+        return subprocess.check_output(
+            ["git", "-C", str(tmp_path), *args], text=True
+        ).strip()
+
+    git("init", "-q")
+    git("config", "user.email", "test@example.com")
+    git("config", "user.name", "Test")
+    (tmp_path / "pyproject.toml").write_text('[project]\nversion = "1.1.0"\n')
+    (tmp_path / "science.py").write_text("original\n")
+    git("add", ".")
+    git("commit", "-qm", "producer")
+    producer = git("rev-parse", "HEAD")
+    (tmp_path / "pyproject.toml").write_text('[project]\nversion = "1.2.0"\n')
+    git("commit", "-qam", "release")
+    anchor = git("rev-parse", "HEAD")
+    source = "a" * 40
+    monkeypatch.setattr(replay, "PUBLISHED_RELEASE", anchor)
+    monkeypatch.setattr(replay, "FROZEN_SCIENCE", source)
+
+    def science(repo, s, p):
+        if p != producer or s != source:
+            raise ValueError("unexpected producer")
+        return {"source": s, "producer": p}
+
+    monkeypatch.setattr(replay.science_equivalence, "compare", science)
+    monkeypatch.setattr(
+        replay.version_equivalence,
+        "compare",
+        lambda repo, c, p: {"version_transition": "1.1.0 -> 1.2.0"},
+    )
+    (tmp_path / "PROJECT_COST.md").write_text("cost\n")
+    git("add", ".")
+    git("commit", "-qm", "documentation")
+    candidate = git("rev-parse", "HEAD")
+    result = replay.compare_candidate(tmp_path, source, candidate)
+    provenance = result["published_descendant"]
+    assert provenance["anchor_commit"] == anchor
+    assert provenance["candidate_commit"] == candidate
+    assert provenance["changed_paths"] == ["PROJECT_COST.md"]
+    assert provenance["compared_path_count"] == 3
+    assert (
+        result["published_release_guard"]["science_to_producer"]["producer"] == producer
+    )
+
+    with pytest.raises(ValueError, match="frozen science source"):
+        replay.compare_candidate(tmp_path, "b" * 40, candidate)
+
+    (tmp_path / "science.py").write_text("modified\n")
+    git("commit", "-qam", "science mutation")
+    with pytest.raises(ValueError, match="science.py"):
+        replay.compare_candidate(tmp_path, source, git("rev-parse", "HEAD"))
+
+    git("checkout", "-q", producer)
+    (tmp_path / "pyproject.toml").write_text('[project]\nversion = "1.2.0"\n')
+    git("commit", "-qam", "unrelated release")
+    unrelated = git("rev-parse", "HEAD")
+    # Even an unrelated 1.2.0 commit cannot use the descendant exception.
+    monkeypatch.setattr(
+        replay.version_equivalence,
+        "compare",
+        lambda *a: {"version_transition": "wrong"},
+    )
+    with pytest.raises(ValueError, match="transition"):
+        replay.compare_candidate(tmp_path, source, unrelated)

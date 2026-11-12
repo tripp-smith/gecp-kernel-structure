@@ -19,6 +19,13 @@ from scripts.release_science_runs import REPOSITORY
 
 PIN = Path("data/release-science-origin-1.2.0.json")
 SCHEMA = "kernelgecp.release-science-origin-pin.v1"
+PUBLISHED_RELEASE = "6b78379bea00b9f16dba2b9a2c532d5f728542c3"
+FROZEN_SCIENCE = "6caf85f79a1a8dbfd2462c5040fe9a13019eb0d7"
+MAINTENANCE_PATHS = science_equivalence.ROOT_PROSE | {
+    "PROJECT_COST.md",
+    "scripts/release_spectroscopy_replay.py",
+    "tests/test_release_spectroscopy_replay.py",
+}
 COUNTS = {
     "synthetic_calibration": 24,
     "synthetic_final": 72,
@@ -64,6 +71,54 @@ def verify_checkout(repo, candidate):
         raise ValueError("candidate checkout must be exact and clean")
 
 
+def compare_version_transition(repo, source, candidate):
+    parents = subprocess.check_output(
+        ["git", "-C", str(repo), "rev-list", "--parents", "-n", "1", candidate],
+        text=True,
+    ).split()
+    if len(parents) != 2:
+        raise ValueError("release candidate must have one parent")
+    producer = parents[1]
+    result = science_equivalence.compare(repo, source, producer)
+    guard = version_equivalence.compare(str(repo), candidate, producer)
+    if guard["version_transition"] != "1.1.0 -> 1.2.0":
+        raise ValueError("wrong release version transition")
+    return {"science_to_producer": result, "producer_to_candidate": guard}
+
+
+def compare_published_descendant(repo, source, candidate):
+    if source != FROZEN_SCIENCE:
+        raise ValueError("published descendant requires frozen science source")
+    science_equivalence.commit(repo, candidate)
+    anchor_tree = science_equivalence.tree(repo, PUBLISHED_RELEASE)
+    candidate_tree = science_equivalence.tree(repo, candidate)
+    paths = anchor_tree.keys() | candidate_tree.keys()
+    changed = {
+        path for path in paths if anchor_tree.get(path) != candidate_tree.get(path)
+    }
+    forbidden = sorted(changed - MAINTENANCE_PATHS)
+    if forbidden:
+        raise ValueError(f"published descendant tracked input mismatch: {forbidden}")
+    return {
+        "published_release_guard": compare_version_transition(
+            repo, source, PUBLISHED_RELEASE
+        ),
+        "published_descendant": {
+            "candidate_commit": candidate,
+            "anchor_commit": PUBLISHED_RELEASE,
+            "ancestor_verified": True,
+            "compared_path_count": len(paths),
+            "changed_paths": sorted(changed),
+            "anchor_inventory_sha256": science_equivalence.inventory_digest(
+                anchor_tree
+            ),
+            "candidate_inventory_sha256": science_equivalence.inventory_digest(
+                candidate_tree
+            ),
+        },
+    }
+
+
 def compare_candidate(repo, source, candidate):
     version = subprocess.check_output(
         ["git", "-C", str(repo), "show", candidate + ":pyproject.toml"], text=True
@@ -73,20 +128,27 @@ def compare_candidate(repo, source, candidate):
     value = tomllib.loads(version)["project"]["version"]
     if value == "1.1.0":
         return science_equivalence.compare(repo, source, candidate)
-    if value == "1.2.0":
-        parents = subprocess.check_output(
-            ["git", "-C", str(repo), "rev-list", "--parents", "-n", "1", candidate],
-            text=True,
-        ).split()
-        if len(parents) != 2:
-            raise ValueError("release candidate must have one parent")
-        producer = parents[1]
-        result = science_equivalence.compare(repo, source, producer)
-        guard = version_equivalence.compare(str(repo), candidate, producer)
-        if guard["version_transition"] != "1.1.0 -> 1.2.0":
-            raise ValueError("wrong release version transition")
-        return {"science_to_producer": result, "producer_to_candidate": guard}
-    raise ValueError("unsupported candidate version")
+    if value != "1.2.0":
+        raise ValueError("unsupported candidate version")
+    if (
+        candidate != PUBLISHED_RELEASE
+        and subprocess.run(
+            [
+                "git",
+                "-C",
+                str(repo),
+                "merge-base",
+                "--is-ancestor",
+                PUBLISHED_RELEASE,
+                candidate,
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        ).returncode
+        == 0
+    ):
+        return compare_published_descendant(repo, source, candidate)
+    return compare_version_transition(repo, source, candidate)
 
 
 def replay(repo, candidate, source, run_id, output, python):
