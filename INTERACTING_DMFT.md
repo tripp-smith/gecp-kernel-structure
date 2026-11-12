@@ -3,18 +3,18 @@
 This is the ED numerical/model validation, targeting kernelgecp 1.2.0. It
 does not establish exact Hubbard physics, a continuous error certificate, or
 an interacting-workflow speed advantage. The public solver contract and
-example are in [APPLICATION.md](APPLICATION.md#interacting-bethe-ipt-unreleased-targeting-120).
+example are in [APPLICATION.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/APPLICATION.md#interacting-bethe-ipt-unreleased-targeting-120).
 
 ## Frozen calculation
 
 Generation source is `a3a64baa4f48a7627a7f7bd9edf2410c327c92f7`, with a clean
-tracked tree and the committed [configuration](experiments/interacting_dmft.toml).
-The [full report](experiments/data/interacting_dmft_a3a64ba.json.gz) retains
+tracked tree and the committed [configuration](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/interacting_dmft.toml).
+The [full report](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/interacting_dmft_a3a64ba.json.gz) retains
 13 calibration trials, nine doubled-cutoff controls, 27 independent compressed
 closed loops, nine native closed loops and common-native-trajectory replays.
 All final arrays repeat identically across three fresh processes for each
 method/U pair. Timings and other nondeterministic diagnostics are separate.
-The [independent audit](experiments/data/interacting_dmft_a3a64ba_audit.json)
+The [independent audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/interacting_dmft_a3a64ba_audit.json)
 checks the saved arrays, source/config bindings, physical diagnostics, actual
 equations, final residuals, complete replay counts and repetition identity.
 
@@ -74,7 +74,7 @@ Coefficient bytes and dense output bytes have different storage scopes.
 
 ## Reproduction and failure evidence
 
-Use the actual locked TRIQS environment in [environments/README.md](environments/README.md)
+Use the actual locked TRIQS environment in [environments/README.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/environments/README.md)
 and install the hash-locked `environments/locks/dlr-physics-pip.txt` without
 replacing its conda NumPy/SciPy. From a clean committed checkout:
 

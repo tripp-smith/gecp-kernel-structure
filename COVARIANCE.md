@@ -4,10 +4,10 @@ The frozen UCI campaign passes all 18 numerical trials, the actual CPU
 GPyTorch comparison and independent artifact audit at generation
 `203e58ad168053b428c59af4ac5623ddc77c5ce8`. Calibration source is `00f4356`;
 every scientific file/lock hash is bound to the actual Git blobs at both
-revisions. [Calibration](data/covariance/calibration.json),
-[full summary and raw-artifact hashes](data/covariance/summary.json),
-[independent audit](data/covariance/audit.json), and the
-[reproduction guide](experiments/COVARIANCE.md) retain scope and provenance.
+revisions. [Calibration](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/covariance/calibration.json),
+[full summary and raw-artifact hashes](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/covariance/summary.json),
+[independent audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/covariance/audit.json), and the
+[reproduction guide](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/COVARIANCE.md) retain scope and provenance.
 Final native/root, exact-head CI and delivery remain separate gates.
 
 The data are the attributed [UCI Beijing Multi-Site Air Quality dataset](https://doi.org/10.24432/C5RK5G),
@@ -76,7 +76,7 @@ continuous certificate. Large raw factors/logs stay outside Git; the full
 scientific workflow uploads its own rerun artifacts. Small numerical summaries
 and all local canonical raw-artifact hashes are committed here.
 
-The [security-update reproduction](data/covariance/security-reproduction.json)
+The [security-update reproduction](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/covariance/security-reproduction.json)
 passes all 18 fresh-process cases, the actual CPU GPyTorch provider and the
 independent audit at source `ee7b2c6`. Its calibration reproduces every numerical
 value and chosen control exactly with the unchanged scientific environment.
@@ -86,4 +86,4 @@ blind validation. The original performance measurements above retain their
 historical generation identity and are not replaced by timings under concurrent
 verification workloads.
 
-The [scientific-binding reproduction](data/covariance/binding-reproduction.json) at clean generation source `3b8e4a51f8ff980176b58af252e6f81c7de10778` passes all 18 fresh processes, actual GPyTorch and independent audit. Every saved scientific array exactly matches the security reproduction, and calibration controls and numerical values match exactly. Previously consumed test rows were reproduced without physics, rank or noise selection retuning; this is not new blind validation. Original historical results and timings remain unchanged.
+The [scientific-binding reproduction](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/covariance/binding-reproduction.json) at clean generation source `3b8e4a51f8ff980176b58af252e6f81c7de10778` passes all 18 fresh processes, actual GPyTorch and independent audit. Every saved scientific array exactly matches the security reproduction, and calibration controls and numerical values match exactly. Previously consumed test rows were reproduced without physics, rank or noise selection retuning; this is not new blind validation. Original historical results and timings remain unchanged.

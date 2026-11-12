@@ -31,7 +31,7 @@ acquisition. Reserved v4 final seeds remain untouched.
 
 ## Historical Linux campaign; current acceptance superseded
 
-The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
+The [source-bound summary](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/linux-summary-feaac66.json) records
 24 synthetic calibration cases, 72 untouched synthetic final children (24
 independently audited unique cases), eight measured calibration workers, 256
 fresh native chains and all 24 measured final workers. Every scientific gate
@@ -69,7 +69,7 @@ known truth, so no native CDF-error or unique-peak claim is made. Repeat zero
 includes bootstrap work while repeats one and two do not; these uneven workload
 timings do not establish a comparative speedup.
 
-[Independent extra review](data/spectroscopy/linux-independent-review-feaac66.json)
+[Independent extra review](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/linux-independent-review-feaac66.json)
 checks all 128 case archive hashes and 768 chain hashes, and recomputes chain
 means/covariances, projected covariances and RMS using separate NumPy formulas.
 Covariances agree within 5.3e-23 and RMS within 1.6e-15. This review did not rerun
@@ -77,7 +77,7 @@ forward quadrature, providers or bootstrap sampling; the frozen independent
 scientific auditors cover the applicable obligations. Reproduce the extra
 review with `experiments/audit_spectroscopy_arrays.py` and extracted evidence.
 
-The [evidence inventory](data/spectroscopy/linux-accepted-feaac66.json) binds
+The [evidence inventory](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/linux-accepted-feaac66.json) binds
 the original 95,640,546-byte Actions ZIP (SHA-256
 `55140875128daa8b3399c432b143265be6fc8c59715a6d9375cf12b62b7db600`)
 and curated 55,453,529-byte archive (SHA-256
@@ -141,7 +141,7 @@ bootstrap window standard deviation is 0.06707; this empirical variation is
 not a coverage guarantee. The largest observed difference between default-model
 window weights for matching case/method/repeat is 0.000296. Individual CDF,
 window, bootstrap, conditioning, per-gate and default-specific values are in
-the [72-child inventory](data/spectroscopy/summary.json).
+the [72-child inventory](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/summary.json).
 
 Process wall-time ranges in seconds are raw 4.85–122.60, KernelGECP 3.41–80.64,
 pydlr 3.18–73.34 and sparse-ir 3.42–77.90; they include the uneven bootstrap
@@ -151,21 +151,21 @@ workload. Peak RSS ranges in bytes are 124,583,936–156,286,976,
 comparative speedup claims. The manifest records each of the three fresh
 processes, input, output, log hashes and status.
 
-The [campaign archive](experiments/data/spectroscopy-dc97680.tar.gz) retains
+The [campaign archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/spectroscopy-dc97680.tar.gz) retains
 all calibration and final case datasets, projections, spectra, logs, fit
 archives, manifests and the original audit receipts, plus the earlier failed
 calibration and failed audit. Its SHA-256 is
 `fdf3d4508d373abef4e12dce5927a0986e1ba723bd4650abf0d53a62de636dbb`.
-The [freeze](data/spectroscopy/freeze.json),
-[calibration audit](data/spectroscopy/calibration-audit.json),
-[final audit](data/spectroscopy/campaign-audit.json),
-[failed audit](data/spectroscopy/failed-calibration-audit.json) and portable
+The [freeze](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/freeze.json),
+[calibration audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/calibration-audit.json),
+[final audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/campaign-audit.json),
+[failed audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/failed-calibration-audit.json) and portable
 summary are also available separately. Historical runtime paths in receipts
 are provenance, not portable paths. The audit and manifest hashes bind the
 original files; the archive does not rewrite their content.
 
 The first measured-data calibration at `d507050` is retained separately as
-[failed evidence](data/spectroscopy/native-baseline-failure.json). Raw and GECP
+[failed evidence](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/native-baseline-failure.json). Raw and GECP
 pass both defaults; pydlr/flat has held-out RMS 2.058574 and fails the limit 2.
 The next common calibration candidate tightens basis tolerance and SVD cutoff;
 no noise allowance or mandatory provider is removed. Actual measured-data
@@ -182,10 +182,10 @@ before rescaling and 6.49524 after it. Rescaling worsens the result, but does
 not alone explain the failed held-out budget. These are post-hoc diagnostics,
 not an alpha selection based on held-out data.
 
-The [failure receipt](data/spectroscopy/native-final-failure.json),
-[diagnosis](data/spectroscopy/native-final-normalization-diagnosis.json),
-[failed final archive](experiments/data/cthyb-spectroscopy-edca95c-failed.tar.gz)
-and [original calibration archive](experiments/data/cthyb-spectroscopy-edca95c-calibration.tar.gz)
+The [failure receipt](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/native-final-failure.json),
+[diagnosis](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/native-final-normalization-diagnosis.json),
+[failed final archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-spectroscopy-edca95c-failed.tar.gz)
+and [original calibration archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-spectroscopy-edca95c-calibration.tar.gz)
 preserve original output, worker logs, source/runtime identities and hashes.
 The previous native-chi-square alpha selector is historical; its passing
 calibration does not validate the repaired selector.
@@ -211,12 +211,12 @@ final runs, full verification, exact-source CI and delivery remain mandatory.
 ## Normalized-selector evidence and second measured final failure
 
 At `1452a8a`, all 72 fresh Mac synthetic cases and their independent audit
-pass. Their [archive](experiments/data/spectroscopy-normalized-1452.tar.gz)
+pass. Their [archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/spectroscopy-normalized-1452.tar.gz)
 has SHA-256 `5c8b6752f3f6ed57b4c13a6e586ce5941026d30c58c45e771d928b5881105c77`.
 The eight repaired-selector measured calibration cases and their independent
-audit also pass; [archive](experiments/data/cthyb-spectroscopy-normalized-1452.tar.gz)
+audit also pass; [archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-spectroscopy-normalized-1452.tar.gz)
 SHA-256 `1d9b502818f6818841fabb30780eb956dd4772d9a9e710137287afe3465672e6`.
-The [checkpoint](data/spectroscopy/normalized-1452-checkpoint.json) retains
+The [checkpoint](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/normalized-1452-checkpoint.json) retains
 their original identities. Synthetic Linux run 40978733084 failed inside the
 native provider before completing all alpha trials. An isolated diagnostic
 replay passed, so its cause remains unresolved. The complete failed artifact
@@ -228,15 +228,15 @@ The new `7200ec0` dense-final observations have now been scored and are
 consumed. Raw/flat and raw/Gaussian held-out RMS are 1.631636 and 1.596542.
 GECP/flat fails at 2.023200438825109 against the unchanged limit 2 despite
 training RMS 0.999109. Positivity, normalization and selected convergence pass.
-The [failure receipt](data/spectroscopy/native-final-7200-failure.json) and
-[complete partial archive](experiments/data/cthyb-spectroscopy-1452a8a-7200-failed.tar.gz),
+The [failure receipt](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/native-final-7200-failure.json) and
+[complete partial archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-spectroscopy-1452a8a-7200-failed.tar.gz),
 SHA-256 `a742063f8edbf19ef49d1b5e02f4261aece3f338d0c84de9b596b6ebbfbda5f9`,
 retain all worker outputs and the terminal parent log. Independent diagnostic
 recomputation confirms the inspected arithmetic, but is not a passing final
 audit. Finite-sample inverse-covariance variability is a plausible contributor,
 not an established cause or uncertainty-coverage guarantee.
 
-The [bounded next contract](RESEARCH.md#eh-bounded-fixed-bath-covariance-estimation-contract)
+The [bounded next contract](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/RESEARCH.md#eh-bounded-fixed-bath-covariance-estimation-contract)
 uses 256 new fixed-bath chains with a predeclared 128/128 split, the accepted
 EE bath and unchanged physics and scientific gates. It requires a separately
 bound acquisition and independent raw-chain audit, not a relabeled full EE
@@ -263,12 +263,12 @@ for scheduling headroom; the 256 samples, split, seeds and scientific budgets
 are identical. Small actual-provider CI remains automatic; complete scientific
 calibration and acquisition require explicit dispatch after source verification.
 Calibration-only or ordinary CI success does not close the measured gate.
-See [resource evidence](data/spectroscopy/fixed-bath-linux-resource-plan.json).
+See [resource evidence](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/fixed-bath-linux-resource-plan.json).
 
 ## Explicit optimizer controls under validation
 
-The [bounded Linux diagnostic](data/spectroscopy/lm-linux-eeb5523.json) and
-[contract](RESEARCH.md#eh-explicit-initial-damping-candidate-and-untouched-validation)
+The [bounded Linux diagnostic](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/spectroscopy/lm-linux-eeb5523.json) and
+[contract](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/RESEARCH.md#eh-explicit-initial-damping-candidate-and-untouched-validation)
 identify severe numerical conditioning in stock MaxEnt solves. All six runs
 of two fixtures complete with initial damping 1e-8; this is development evidence,
 not domain acceptance. `MaxEntConfig(minimizer_mu0=1e-8)` exposes the candidate
@@ -310,6 +310,19 @@ repair would require new source binding, calibration and appropriate untouched
 final validation; observed final data cannot be relabeled untouched.
 
 
+### Joint v4 calibration and canonical allocation (2026-11-11)
+
+The joint source `6caf85f` passed calibration for 24 synthetic cases and eight
+measured cases, with both independent audits and the disposable native-runtime
+probe. The calibrated source includes the deterministic EPW dictionary and
+six-shard synthetic final driver.
+[Calibration run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42776842790).
+
+Canonical attempt one on the same source reserves 72 synthetic continuations
+and 256 new fixed-bath chains. Both previous branches' legacy replay rejected
+the changed package or lock inventory. The new final outcomes and independent
+saved replay remain pending.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706).
 ## Corrective explicit-precision provider checks (in progress)
 
 The explicit constrained-mass candidate also requires owned writable initial

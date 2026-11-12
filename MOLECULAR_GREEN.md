@@ -6,7 +6,7 @@ the complete 1.2 release still requires EH and EJ acceptance.
 
 `kernelgecp.integrations.green.read_green_tau(input_path, results_path,
 run_manifest, iteration=None)` reads actual restricted molecular Green 1.0.0
-GF2 output. Install the isolated [scientific environment](environments/green-science/README.md)
+GF2 output. Install the isolated [scientific environment](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/environments/green-science/README.md)
 for PySCF references; the importer alone needs the optional `green` extra
 (h5py). Neither native Green nor PySCF is a default package dependency.
 
@@ -60,9 +60,9 @@ values. Failed first-campaign cutoffs remain in
 `experiments/data/molecular-green-56c3211.tar.gz`. Their original request paths
 are provenance, not portable inputs.
 
-The [molecular native workflow](.github/workflows/molecular-green.yml) rebuilds
+The [molecular native workflow](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/.github/workflows/molecular-green.yml) rebuilds
 and runs the unmodified pinned solver on Linux without a local Docker daemon.
-The [environment guide](environments/green-science/README.md) supplies optional
+The [environment guide](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/environments/green-science/README.md) supplies optional
 local container commands. Release validation must rerun the actual converged
 solver, not infer success from exit zero, imports or frozen PR fixtures.
 The importer supports compression, evaluation and archival; it does not replace

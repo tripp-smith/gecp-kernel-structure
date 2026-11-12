@@ -57,8 +57,15 @@ jobs:
           path: release-input/
           if-no-files-found: error
 
-  release-sources:
+  scientific-acceptance:
     needs: collect
+    uses: ./.github/workflows/release-science.yml
+    with:
+      version: ${{ needs.collect.outputs.version }}
+      revision: ${{ needs.collect.outputs.source_sha }}
+
+  release-sources:
+    needs: [collect, scientific-acceptance]
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -128,6 +128,43 @@ class ScienceSourceEquivalenceTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.compare(self.save())
 
+    def test_exact_release_documents_can_change_but_neighbor_is_protected(self):
+        for path in (
+            "PACKAGE_README.md",
+            "INSTALLATION_COMPATIBILITY.md",
+            "MIGRATION.md",
+            "PROVIDER_NOTICES.md",
+            "RELEASE_NOTES.md",
+            "CITATION.cff",
+            "METHODS.md",
+            "INTERACTING_DMFT.md",
+            "CTHYB_DMFT.md",
+            "MOLECULAR_GREEN.md",
+            "EPW_INTEROPERABILITY.md",
+            "COVARIANCE.md",
+        ):
+            self.write(path, "initial\n")
+        origin = self.save()
+        for path in (
+            "PACKAGE_README.md",
+            "INSTALLATION_COMPATIBILITY.md",
+            "MIGRATION.md",
+            "PROVIDER_NOTICES.md",
+            "RELEASE_NOTES.md",
+            "CITATION.cff",
+            "METHODS.md",
+            "INTERACTING_DMFT.md",
+            "CTHYB_DMFT.md",
+            "MOLECULAR_GREEN.md",
+            "EPW_INTEROPERABILITY.md",
+            "COVARIANCE.md",
+        ):
+            self.write(path, "updated\n")
+        guard.compare(self.repo, origin, self.save())
+        self.write("OTHER_RELEASE_NOTES.md", "unknown\n")
+        with self.assertRaises(ValueError):
+            guard.compare(self.repo, origin, self.save())
+
     def test_license_is_protected(self):
         self.write("LICENSE", "license\n")
         with self.assertRaises(ValueError):

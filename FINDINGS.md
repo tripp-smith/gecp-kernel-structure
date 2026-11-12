@@ -2853,6 +2853,21 @@ Its historical timings/log-probability error are distinguished from fresh replay
 checks. A3x3 actual macOS provider fixture agrees with SciPy to4.45e-16 in log
 probability, but the full18-case Linux evidence remains pending.
 
+### EJ production evidence checkpoint (2026-11-10)
+
+The full real-data covariance workflow42774826570 at `cb88382` passed all
+18 cases and the actual 512-point CPU provider replay. CT-HYB replay at
+`837eb3f` passed all seven checks over 208 saved measurements. The separate
+EPW workflow42774821841 verifies the versioned dictionary at `cb88382`.
+
+The v4 saved replay controller checks the complete archived campaign, including
+six synthetic shard receipts and 256 raw chain bindings, before running the
+five independent frozen audits. Release metadata keeps the five fresh main
+roles and the frozen v4 spectroscopy origin distinct. Focused synthetic tests
+cover malformed and incomplete evidence. The actual v4 replay remains pending
+the final scientific artifact. The joint calibration-only run42776842790 at
+`6caf85f` uses the sharded workflow source with acquisition disabled. Release
+eligibility, version publication and exact-main delivery remain open.
 ### Joint-source calibration checkpoint (2026-11-10)
 
 Isolated v4 run42226765419 passes the actual installed provider lanes, 24

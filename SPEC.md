@@ -3434,6 +3434,31 @@ EPW06dc238 replay remain preserved. Full root and fresh full native/provider
 validation remain required. No original mathematical or domain accuracy goal
 is rewritten, and EH/EJ1.2 stay open.
 
+### EJ production evidence checkpoint (2026-11-10)
+
+The full real-data covariance workflow42774826570 at `cb88382` passed all
+18 cases and the actual 512-point CPU provider replay. CT-HYB replay at
+`837eb3f` passed all seven checks over 208 saved measurements. The separate
+EPW workflow42774821841 verifies the versioned dictionary at `cb88382`.
+
+The v4 saved replay controller checks the complete archived campaign, including
+six synthetic shard receipts and 256 raw chain bindings, before running the
+five independent frozen audits. Release metadata keeps the five fresh main
+roles and the frozen v4 spectroscopy origin distinct. Focused synthetic tests
+cover malformed and incomplete evidence. The actual v4 replay remains pending
+the final scientific artifact. The joint calibration-only run42776842790 at
+`6caf85f` uses the sharded workflow source with acquisition disabled. Release
+eligibility, version publication and exact-main delivery remain open.
+
+
+### EH/EJ canonical validation and gate implementation (2026-11-11)
+
+Joint v4 calibration run `42776842790` passed at `6caf85f`. Canonical attempt
+`42978469706` reserves synthetic seeds 5001–5003 and the independent 256-chain
+cohort beginning at 34100001 with stride two. This entry records allocation.
+The final scientific evidence and accepted replay remain pending. The combined
+release gate uses the six saved-payload replays and separate committed-source
+comparisons. Full provider execution of that gate remains required.
 ### Joint-source calibration checkpoint (2026-11-10)
 
 Isolated v4 run42226765419 passes the actual installed provider lanes, 24
@@ -3485,3 +3510,11 @@ The automatic EH gate checks archived input integrity and replays current v4
 evidence. The archived numerical replay remains an explicit workflow dispatch
 on its historical source, with the observed projection portability failures
 retained. The current scientific acceptance thresholds are unchanged.
+
+
+### EH merge and EJ candidate status (2026-11-11)
+
+PR #146 merged at `1cae1ee` after exact-head CI passed on `fbc0ed1`.
+The EJ candidate incorporates the accepted spectroscopy origin and finalized
+release documentation. Exact-main production artifacts, six independent
+replays and public 1.2.0 distribution verification remain required.

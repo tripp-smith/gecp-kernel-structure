@@ -13733,6 +13733,67 @@ preregister any canonical allocation only after those gates pass. Preserve all
 source-specific failures. No final reservation is consumed by calibration-only
 work; the original experimental and release objectives remain unchanged.
 
+## EJ saved v4 spectroscopy replay contract
+
+Prepare a standalone controller for the complete authenticated final-workflow
+ZIP and the committed scientific revision that produced it. Preserve original
+receipt bytes and the recorded CI artifact paths. The controller checks the
+caller-supplied archive digest, bounded ZIP inventory, profile, source identity,
+complete 24/72 synthetic and 8/24 measured case counts, and the 256-chain raw
+cohort. It reruns the five independent synthetic calibration, synthetic final,
+measured calibration, raw-cohort, and measured final audits in the detached
+scientific checkout with the pinned Linux provider runtime. Audit outputs and
+logs go to a new external directory. Original receipts and saved arrays stay
+read-only. Source and input bindings are rechecked after child execution.
+
+The raw acquisition freezes all tracked Python, TOML, lock and text files.
+Replay tools live on a later controller revision and execute the frozen
+scientific code in its own checkout. The release baseline remains a separate
+main revision whose version-only transition is checked independently. The
+controller takes authenticated artifact identity as an upstream prerequisite.
+Calibration-only, missing, failed, mixed-profile or mismatched evidence fails
+closed. Historical v1 replay remains available with its recorded outcomes.
+
+The implementation can be tested against synthetic control fixtures and the
+isolated v4 calibration archive as a negative case. A passing real replay
+requires successful canonical validation on the joint scientific source and
+its actual artifact bindings. Current work does not reserve final samples or
+change workflow publication policy.
+
+## EJ separated production evidence selection contract
+
+The five fresh main provider, molecular, EPW, covariance and CT-HYB roles
+share a release baseline. V4 spectroscopy has a distinct scientific origin
+with a single canonical workflow attempt. Add an explicit production-components
+metadata profile for the five main roles and a separate selector for the
+canonical v4 workflow, preserving the legacy default. The final spectroscopy
+selector binds authenticated repository, committed origin, workflow dispatch,
+attempt 1, successful calibration, assembled synthetic and measured final audit
+steps, and the unique complete final artifact digest and size. Missing, failed,
+expired, ambiguous or mixed-source records fail. Fetchers authenticate GitHub
+API results and bound pagination. Selection and materialization establish
+artifact identity and safe extraction. Substantive scientific replay and the
+final release gate remain separate.
+
+
+## EJ combined scientific gate and source identity contract
+
+Authenticate the five latest exact-main producer workflows at the release
+baseline. Authenticate the pinned, successful, attempt-one v4 origin before
+downloading it. Compare the committed science inputs and modes from that origin
+to the baseline, permitting changes to named release-only tools and prose.
+Replay the spectroscopy archive against its own detached origin. Run the other
+five wrappers from the exact baseline with their locked Linux runtimes. Bind
+all six wrapper receipts to authenticated artifact metadata, successful process
+exits, input digests, and the current workflow invocation. Preserve the existing
+version-only comparison from the baseline to the release tag.
+
+The publication job graph requires this gate before GitHub release assets or
+PyPI upload. The historical 1.1.0 workflow path retains its existing scope.
+The first canonical v4 validation is running on `6caf85f`, after its separate
+joint calibration passed. A successful calibration or a passing structural gate
+test establishes no final-case acceptance. The actual combined scientific gate,
+exact-main delivery, installed 1.2.0 verification, and publication stay open.
 ### Joint-source calibration checkpoint (2026-11-10)
 
 Isolated v4 run42226765419 passes the actual installed provider lanes, 24
@@ -13816,3 +13877,19 @@ Automatic candidate CI verifies the three archived input digests and requires
 the five current v4 audits. Historical numerical execution remains a named
 manual workflow job that reports its own pass or failure. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
 records the positive and failed archived runs.
+
+
+### EJ candidate after the EH merge
+
+PR #146 merged at `1cae1ee` after all exact-head workflows passed on
+`fbc0ed1`. The combined release candidate incorporates that merge and retains
+the accepted `6caf85f` source ancestry and committed origin pin. Release
+documentation and citations are finalized for the 1.2.0 distribution. Tagged
+source links work from the flat release assets, and the independent evidence
+remains bound to its original artifacts.
+
+The merged EJ commit will be the 1.1-versioned producer baseline. Verify the
+five exact-main component producers and replay all six scientific roles on
+that baseline. The subsequent release commit must have the baseline as its
+sole parent and change the five version fields. Exact release builds and
+public installation checks follow. [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579).
