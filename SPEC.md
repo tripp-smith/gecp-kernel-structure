@@ -3518,3 +3518,15 @@ PR #146 merged at `1cae1ee` after exact-head CI passed on `fbc0ed1`.
 The EJ candidate incorporates the accepted spectroscopy origin and finalized
 release documentation. Exact-main production artifacts, six independent
 replays and public 1.2.0 distribution verification remain required.
+
+
+### EJ release scope checkpoint (2026-11-12)
+
+The six-role replay passed on `d4333a5` in workflow `43219806521`.
+PR #147 exposed a release-orchestration issue. Its exact five-field version
+transition selected a fresh CT-HYB campaign in `43220986261`, which was
+stopped. Verify the version-only PR against its exact `main` base before using
+the base's authenticated archived-data scope result. Keep the CT-HYB
+scientific inputs and acquisition jobs unchanged. Requalify the corrected
+`main` with the exact-main producer and six-role acceptance gates before the
+version commit and publication.

@@ -227,3 +227,16 @@ PR #146 is preparing a separate historical replay and a current-candidate
 v4 check. The final archive and five independent audits are required before
 EH delivery. The 1.2.0 release remains about 85% complete by accepted
 obligations. [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).
+
+
+### EJ version-transition checkpoint (2026-11-12)
+
+The [six-role scientific baseline](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43219806521)
+passed at `d4333a5`. The version-only PR #147 exposed an unintended
+CT-HYB acquisition in `43220986261`. That run was cancelled. For an exact
+1.1.0 to 1.2.0 transition, the scope job checks the full five-file diff and
+sole `main` parent before evaluating the archived-data scope on that parent.
+The fresh-campaign dispatch and independent archived-data replay remain
+available and the existing release evidence requirements apply. After the
+scope correction lands, repeat the five exact-main production selections
+and all six replays before the version commit. Publication remains pending.

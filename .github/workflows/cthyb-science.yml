@@ -35,12 +35,10 @@ jobs:
         id: scope
         env:
           EVENT_NAME: ${{ github.event_name }}
+          CANDIDATE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.base.sha || '' }}
         run: |
-          if [ "$EVENT_NAME" = workflow_dispatch ]; then
-            result=$(python -m experiments.replay_cthyb_acceptance --preflight --force)
-          else
-            result=$(python -m experiments.replay_cthyb_acceptance --preflight)
-          fi
+          result=$(python -m scripts.release_cthyb_campaign_scope --event "$EVENT_NAME" --candidate "$CANDIDATE_SHA" --base "$BASE_SHA")
           echo "$result"
           value=$(python -c 'import json,sys; print(str(json.load(sys.stdin)["requires_campaign"]).lower())' <<< "$result")
           echo "requires_campaign=$value" >> "$GITHUB_OUTPUT"

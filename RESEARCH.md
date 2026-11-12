@@ -13893,3 +13893,22 @@ five exact-main component producers and replay all six scientific roles on
 that baseline. The subsequent release commit must have the baseline as its
 sole parent and change the five version fields. Exact release builds and
 public installation checks follow. [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579).
+
+
+### EJ version-only CT-HYB campaign scope
+
+The accepted six-role release baseline `d4333a5` passed all independent
+replays. The subsequent exact five-field version PR triggered the
+fresh CT-HYB campaign because its scope check treats all pyproject edits
+as possible scientific input changes. The redundant run was stopped. Verify
+the single-parent transition from the exact PR base, including the five-file
+path inventory and unchanged non-version bytes, before using the base's
+existing archived-data scope result. All other candidates use the existing
+scope decision, and explicit workflow dispatch continues to force a
+fresh campaign. The saved-data replay remains mandatory for the version PR.
+
+Limit the frozen-source exception to the CT-HYB scope job. Preserve the
+calibration and validation jobs byte for byte. Re-establish the release
+baseline with five fresh exact-main producer runs and all six replays after
+merging this orchestration correction. The release commit still changes
+only the five version fields.

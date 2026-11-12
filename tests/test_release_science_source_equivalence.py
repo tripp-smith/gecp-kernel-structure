@@ -165,6 +165,86 @@ class ScienceSourceEquivalenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             guard.compare(self.repo, origin, self.save())
 
+    def test_cthyb_scope_only_and_exact_helper_additions(self):
+        path = ".github/workflows/cthyb-science.yml"
+        self.write(
+            path,
+            (
+                "name: science\njobs:\n  scope:\n    runs-on: old\n"
+                "  calibration:\n    runs-on: fixed\n"
+            ),
+        )
+        origin = self.save()
+        self.write(
+            path,
+            (
+                "name: science\njobs:\n  scope:\n    runs-on: new\n"
+                "  calibration:\n    runs-on: fixed\n"
+            ),
+        )
+        self.write("scripts/release_cthyb_campaign_scope.py", "helper\n")
+        self.write("tests/test_release_cthyb_campaign_scope.py", "tests\n")
+        result = guard.compare(self.repo, origin, self.save())
+        self.assertEqual(
+            result["allowed_additions"],
+            [
+                "scripts/release_cthyb_campaign_scope.py",
+                "tests/test_release_cthyb_campaign_scope.py",
+            ],
+        )
+
+    def test_cthyb_changes_outside_scope_or_mode_rejected(self):
+        path = ".github/workflows/cthyb-science.yml"
+        original = (
+            "name: science\njobs:\n  scope:\n    runs-on: old\n"
+            "  calibration:\n    runs-on: fixed\n"
+        )
+        self.write(path, original)
+        origin = self.save()
+        for changed in (
+            original.replace("name: science", "name: changed"),
+            original.replace("runs-on: fixed", "runs-on: changed"),
+            original.replace(
+                "  calibration:", "  other:\n    runs-on: changed\n  calibration:"
+            ),
+        ):
+            with self.subTest(changed=changed):
+                self.git("reset", "--hard", origin)
+                self.write(path, changed)
+                with self.assertRaises(ValueError):
+                    guard.compare(self.repo, origin, self.save())
+        self.git("reset", "--hard", origin)
+        (self.repo / path).chmod(0o755)
+        with self.assertRaises(ValueError):
+            guard.compare(self.repo, origin, self.save())
+        self.git("reset", "--hard", origin)
+        (self.repo / path).unlink()
+        with self.assertRaises(ValueError):
+            guard.compare(self.repo, origin, self.save())
+
+    def test_cthyb_malformed_scope_delimiters_rejected(self):
+        path = ".github/workflows/cthyb-science.yml"
+        original = (
+            "jobs:\n  scope:\n    runs-on: old\n  calibration:\n    runs-on: fixed\n"
+        )
+        self.write(path, original)
+        origin = self.save()
+        for changed in (
+            original.replace("  scope:", "  missing:"),
+            original.replace("  calibration:", "  missing:"),
+            original.replace(
+                "  calibration:", "  scope:\n    runs-on: duplicate\n  calibration:"
+            ),
+            original.replace("  calibration:", "  'calibration':"),
+            original.replace("jobs:", "jobs: # malformed"),
+            original.replace("  calibration:", "env:\n  X: unsafe\n  calibration:"),
+        ):
+            with self.subTest(changed=changed):
+                self.git("reset", "--hard", origin)
+                self.write(path, changed)
+                with self.assertRaises(ValueError):
+                    guard.compare(self.repo, origin, self.save())
+
     def test_license_is_protected(self):
         self.write("LICENSE", "license\n")
         with self.assertRaises(ValueError):
