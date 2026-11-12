@@ -144,4 +144,4 @@ __all__ = [
     "synthetic_spectral_density",
 ]
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
