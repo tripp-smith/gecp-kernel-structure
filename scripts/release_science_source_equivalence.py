@@ -31,6 +31,8 @@ RELEASE_ONLY = frozenset(
         "scripts/release_science_aggregate.py",
         "data/release-science-origin-1.2.0.json",
         "scripts/release_spectroscopy_v4.py",
+        "scripts/release_cthyb_campaign_scope.py",
+        "tests/test_release_cthyb_campaign_scope.py",
         "scripts/release_science_source_equivalence.py",
         "tests/test_release_science_fetch.py",
         "tests/test_release_science_runs.py",
@@ -114,6 +116,38 @@ def inventory_digest(entries):
     return hashlib.sha256(encoded).hexdigest()
 
 
+CTHYB_WORKFLOW = ".github/workflows/cthyb-science.yml"
+
+
+def workflow_outside_scope(repo, oid):
+    """Read a committed blob and isolate the uniquely delimited scope job."""
+    content = git(repo, "cat-file", "blob", oid)
+    roots = list(re.finditer(rb"(?m)^jobs:\r?$", content))
+    if len(roots) != 1:
+        raise ValueError("malformed cthyb jobs delimiter")
+    job_region = content[roots[0].end() :]
+    # Reject alternate or malformed two-space job keys instead of trying to
+    # interpret YAML aliases, quoted keys, or duplicate mappings.
+    headers = list(re.finditer(rb"(?m)^  [^ \t#\r\n][^\r\n]*", job_region))
+    if any(
+        not re.fullmatch(rb"  [A-Za-z_][A-Za-z0-9_-]*:", m.group()) for m in headers
+    ):
+        raise ValueError("malformed cthyb job header")
+    scopes = [i for i, match in enumerate(headers) if match.group() == b"  scope:"]
+    calibrations = [
+        i for i, match in enumerate(headers) if match.group() == b"  calibration:"
+    ]
+    if len(scopes) != 1 or len(calibrations) != 1 or calibrations[0] != scopes[0] + 1:
+        raise ValueError("malformed cthyb scope job delimiters")
+    offset = roots[0].end()
+    scope_body = job_region[headers[scopes[0]].end() : headers[calibrations[0]].start()]
+    if re.search(rb"(?m)^ {0,3}[^ \t#\r\n]", scope_body):
+        raise ValueError("cthyb scope escapes its job")
+    return content[: offset + headers[scopes[0]].start()], content[
+        offset + headers[calibrations[0]].start() :
+    ]
+
+
 def compare(repo, science, producer):
     commit(repo, science)
     commit(repo, producer)
@@ -133,7 +167,14 @@ def compare(repo, science, producer):
             f"added={sorted(forbidden)}"
         )
     for path in sorted((source.keys() & target.keys()) - ROOT_PROSE - RELEASE_ONLY):
-        if source[path] != target[path]:
+        if source[path] == target[path]:
+            continue
+        if (
+            path != CTHYB_WORKFLOW
+            or source[path][0] != target[path][0]
+            or workflow_outside_scope(repo, source[path][1])
+            != workflow_outside_scope(repo, target[path][1])
+        ):
             raise ValueError(f"tracked input mode or blob changed: {path}")
     return {
         "science_commit": science,

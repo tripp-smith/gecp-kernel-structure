@@ -10,7 +10,7 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EJ combined scientific acceptance and release verification in progress<br>
+> **Current phase:** EJ scientific baseline requalification and release verification in progress<br>
 > **Candidate validation:** The joint v4 calibration on `6caf85f` passed 24 synthetic and eight measured cases. The [canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706) passed 72 synthetic final cases and 24 measured final cases over 256 fixed-bath chains. The [independent Linux replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621) passed all five audits<br>
 > **Release gates:** EPW, covariance, CT-HYB, molecular and provider component checks have passing evidence. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) and [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579) track the synchronized EH merge and remaining combined release gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
