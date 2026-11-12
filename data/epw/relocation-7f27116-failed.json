@@ -1,0 +1,29 @@
+{
+  "artifact_bytes": 14250772,
+  "artifact_id": 13214913831,
+  "artifact_sha256": "bba37c7f31150addab8876649461e515f07ed371dadbf2a64bb63ecc049c062e",
+  "default_archive_audit_sha256": "61686938d615aa3b1b734a9cce47f3ee523f7432e70263ed6e273f7e98f6133b",
+  "default_archive_audit_status": "passed",
+  "failure": "mv artifacts/epw-native into RUNNER_TEMP: Permission denied",
+  "failure_stage": "workflow relocation before independent auditor",
+  "local_directory_permission_probe": {
+    "reason": "PermissionError despite matching filesystem; atomic relocation alone is insufficient",
+    "scope": "unprivileged rename of a nonwritable directory to another parent",
+    "status": "failed"
+  },
+  "native_comparator_executed": false,
+  "next_change": "use runner sudo for atomic same-filesystem moves in both directions, assert same device and absent original path; preserve ownership and numerical guards",
+  "relocated_auditor_executed": false,
+  "run_attempt": 1,
+  "run_id": 41601753604,
+  "schema": "kernelgecp.epw-relocation-checkpoint.v1",
+  "source_revision": "7f271163c92f26f82fefe0910fb6085436866cd8",
+  "status": "failed",
+  "supplemental_macos_replay": {
+    "macos_grid_value": -0.1165148780145894,
+    "reason": "cardinals: one Linux-selected pole differs from the local NumPy geometric grid by one ulp",
+    "scope": "diagnostic only; canonical native EPW science is Linux x86_64; no tolerance change",
+    "selected_pole": -0.11651487801458939,
+    "status": "failed"
+  }
+}

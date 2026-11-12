@@ -1,0 +1,29 @@
+{
+  "controller_artifact": {
+    "bytes": 969,
+    "id": 13506532576,
+    "sha256": "451cf4d54c55511621e844159bca02ba88cecf9166a8ed08ddfa30a4d4afa7c2"
+  },
+  "error": "ValueError: cardinals",
+  "failed_stage": "detached-source archive replay in separate Linux job",
+  "native_artifact": {
+    "bytes": 72157588,
+    "id": 13506102636,
+    "sha256": "c2769c811284dacd9d2efb9f3eb36faa11f02a0766f9685b3f83b5f0baf7bc1d"
+  },
+  "native_generation_archive_relocation_and_comparison": "passed",
+  "run_attempt": 1,
+  "run_id": 42224585303,
+  "runtime": {
+    "machine": "x86_64",
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "platform": "linux",
+    "python": "3.12.16",
+    "scipy": "1.18.1"
+  },
+  "schema": "kernelgecp.epw-payload-failure.v1",
+  "scope": "failed separate-machine replay; no widened membership or scientific budget; no release acceptance",
+  "source_revision": "06dc238ee1c046eee1b6f87ee4a253592081d996",
+  "status": "failed"
+}

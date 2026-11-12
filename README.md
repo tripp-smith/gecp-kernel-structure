@@ -10,13 +10,14 @@ python -m pip install kernelgecp==1.1.0
 
 Start with the [package quickstart](PACKAGE_README.md) and [API guide](APPLICATION.md).
 
-> **Current phase:** EH — post-merge projection reproducibility diagnosis<br>
-> **Phase state:** [PR #142](https://github.com/tripp-smith/gecp-kernel-structure/pull/142) merged as `3bc726b` after all 15 exact-head workflows passed. Exact-main run 41321087677 then failed the frozen independent projection comparison. Both branch and main root pass 2,631 tests/42 optional skips. Delivery remains open; prior positive runs and the new failure are preserved in the [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288)<br>
+> **Current phase:** EH saved spectroscopy replay and verification in progress<br>
+> **Candidate validation:** The joint v4 calibration on `6caf85f` passed 24 synthetic and eight measured cases. The [canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706) passed 72 synthetic final cases and 24 measured final cases over 256 fixed-bath chains. The [independent Linux replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621) passed all five audits<br>
+> **Release gates:** EPW, covariance, CT-HYB, molecular and provider component checks have passing evidence. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) and [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579) track the remaining spectroscopy and combined release gates<br>
 > **Published release:** [kernelgecp 1.1.0 on PyPI](https://pypi.org/project/kernelgecp/1.1.0/); [immutable GitHub sources/notices](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0)<br>
 > **Final handoff:** [release receipt](RELEASE_RECEIPT.md), [practical acceptance ledger](PRODUCTIZATION.md), [upstream contribution record](UPSTREAM_PROPOSAL.md), and exact final repository verification/merge status in [PR #133](https://github.com/tripp-smith/gecp-kernel-structure/pull/133)<br>
-> **Last verification:** Main root passes, but its scientific replay fails. Local independent 50-digit SVD finds the saved pyDLR projector outside the existing comparison tolerance; its retained design condition is 1.59e10. A bounded Linux diagnostic will identify backend/case dependence. No acceptance tolerance, canonical data or production projection changed<br>
+> **Last verification:** The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201) tracks exact-candidate verification after the accepted replay. Automatic CI checks the historical archive hashes and independently replays the current v4 evidence. The archived numerical replay remains available through workflow dispatch<br>
 > **Verification command:** `./scripts/verify.sh`<br>
-> **Delivery:** EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration scope by completed acceptance obligations. EH/EJ remain open. Published 1.1.0 artifacts and frozen original research accounting remain unchanged<br>
+> **Delivery:** EB/EC/ED/EE/EF/EG/EI are delivered, approximately 90% of the new integration scope by completed acceptance obligations. EH has passing science and independent replay. EH delivery and the EJ release remain open. Published 1.1.0 artifacts and frozen original research accounting remain unchanged<br>
 > **Claim level:** Required original-SPEC scope complete (estimated 100% at handoff), based on the explicit-item [source audit](FINAL_AUDIT.md) and actual delivery gates, not inventory counts. Exact-GECP rate and staged continuous SPD baseline proved; literal small-cutoff wording has a proved obstruction. Adaptive and sparse evidence remains sampled. DQ repairs conditional pivot-certificate rounding and dyadic-parameter boundaries. No arbitrary-inexact-pivot rate, continuous census certificate, sparse optimality or literature-priority claim<br>
 > **Implementation provenance:** [canonical model/mode, terminal goal accounting and billing limitations](FINAL_HANDOFF.md#implementation-run-metadata): frozen original research accounting is 24,738,403 aggregate tokens and 116,095 goal-accounting seconds (32:14:55). Later application-development usage/billing and exact serving version are unavailable; those historical counters are not extended or repriced<br>
 > **Workflow:** [`$phase-cadence`](.agents/skills/phase-cadence/SKILL.md)
@@ -477,3 +478,10 @@ cutoff `1e6`. This is numerical finite-grid evidence, not a continuous GECP
 rate theorem. Continuous interval-certified pivoting is a separate supported
 mode and is tested on synthetic and fermionic cases; it is not substituted for
 the canonical finite-grid census or a Lean convergence proof.
+
+## Production integration guides
+
+The unreleased 1.2 candidate adds [installation and compatibility](INSTALLATION_COMPATIBILITY.md),
+[molecular GF2 interchange](MOLECULAR_GREEN.md), [migration](MIGRATION.md),
+[troubleshooting](TROUBLESHOOTING.md), and an [optional-provider notice index](PROVIDER_NOTICES.md).
+Read the acceptance ledger before treating a pending domain as delivered.

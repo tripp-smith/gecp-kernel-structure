@@ -1725,16 +1725,52 @@ training defect. With normalization enabled, alpha selection compares the
 normalized physical forward model against training data, including the complete
 projection and retained covariance modes. Provider chi-square values remain
 separate; diagnostics also retain each trial mass and selection discrepancy.
-Without normalization, selection uses the provider chi-square. Normalization is
-explicit postprocessing, not a constraint inside native optimization. `MaxEntSpectrum.evaluate_tau` performs physical forward
-evaluation; it is separate from the projected observation model.
+Without normalization, selection uses the provider chi-square. The default
+`mass_mode="rescale"` preserves explicit postprocessing. The candidate
+`mass_mode="constrained"` instead requires a positive `normalize_mass` target,
+uses a normalized positive parameterization inside the actual native general
+cost function, and does not rescale delivered trials afterward. It records the
+centered feature rank, singular values, conditioning and explicit-array resource
+estimate. Rank truncation is heuristic, and floating mass has rounding error;
+no global optimization or numerical certificate is claimed. The native interface
+passes installed Linux/macOS probes at f1663ed; scientific acceptance remains open.
+Entropy-floor and underflow regimes fail explicitly, without a substitute method.
+Constrained mode records `mass_curvature="exact"` by default. The explicit
+`"projected"` option uses the native provider's projected curvature matrix with
+the same objective and exact gradient. That matrix approximates the Hessian;
+the optimization path can differ and convergence is not assured. Rescale mode
+rejects this nondefault curvature instead of ignoring it. The real training-only
+exact-curvature scout fails at the entropy floor; projected scientific
+acceptance remains open.
+The projected real-training scout also fails before completing the alpha grid.
+An explicit `mass_interior_fraction` candidate reserves a declared fraction of
+the normalized default distribution inside the optimized image; its default
+is zero. This is a restricted spectral family, with consistent derivatives and
+no postprocessing clip. A fraction of `1e-12` has an exact-arithmetic L1 change
+at most `2 * normalize_mass * 1e-12` for the same latent coordinates. That bound
+does not control differences after optimization, alpha selection or covariance
+whitening. Nonzero fractions require constrained mode. Latent underflow counts,
+actual image floors and numerical failures remain visible; scientific acceptance
+is still required.
+`minimizer_marquardt=True` explicitly selects the native solver's damping by
+the diagonal of its curvature matrix; False preserves identity damping. The
+objective and data remain the same, but steps and convergence can differ.
+Diagnostics record the actual native settings. The mixture training scout
+failed on singular systems; a declared comparison now captures those systems
+and tests relative damping. A failed control keeps the overall diagnostic
+failed, even if both proposed candidate runs complete.
+`MaxEntConfig.as_record()`
+preserves the legacy rescale control fields and records the nondefault mode
+explicitly. `MaxEntSpectrum.evaluate_tau` performs physical forward evaluation;
+it is separate from the projected observation model.
 `save_spectral_dataset`/`load_spectral_dataset` preserve full covariance,
 projection, source mesh and a versioned hash-bound application manifest with
 caller-declared units/provider/state ordering/settings.
 
 The [synthetic campaign](SPECTROSCOPY.md) uses the actual provider, independent
-held-out forward checks and a separate arithmetic audit. Measured CT-HYB
-validation and full phase delivery remain required. Bootstrap variation and
+held-out forward checks and a separate arithmetic audit. The pinned v4 campaign
+also passed the measured CT-HYB checks and independent Linux replay.
+Bootstrap variation and
 default-model sensitivity do not establish unique peak recovery or complete
 uncertainty coverage. Existing sparse-recovery experiments remain separately
 labeled comparisons.
@@ -1745,8 +1781,8 @@ and continuation restores the caller's NumPy error policy even on failure.
 The experimental Linux-only fixed-bath acquisition is a separate research
 workflow, not a replacement DMFT solver or a published 1.1.0 interface. It
 requires a committed source freeze and passed independent calibration before
-new measurements. Its 256-chain acceptance and the measured spectroscopy
-phase remain open; see the [current evidence](SPECTROSCOPY.md).
+new measurements. The pinned v4 campaign includes 256 audited chains and 24
+measured final cases. See the [current evidence](SPECTROSCOPY.md).
 
 ## EPW anisotropic frequency interoperability (1.2 development)
 
@@ -1975,3 +2011,62 @@ exhausted native solves still raise an explicit numerical failure with their
 cause and completed trial history. The package does not retry another optimizer
 or silently discard alpha trials. Archived datasets keep their original
 calculation settings; read historical evidence with its recorded source.
+
+
+### Explicit precision for spectral observation projection (in development)
+
+`prepare_spectral_projection(basis, tau, tau, rcond=1e-12,
+precision_bits=256)` opts into mpmath QR followed by the existing cached
+binary64 SVD. The default remains `precision_bits=53`. The bounded option
+requires identical source/target meshes and full column rank, supports at most
+256 observations and 128 columns, and accepts integer precision 128–1024.
+Unsupported rank truncation, rank ambiguity and cross-mesh requests fail clearly.
+Its separation guard is heuristic and is not a numerical certificate.
+
+`source_design` retains the single immutable source evaluation;
+`decomposed_design` retains the actual cached-SVD input. `diagnostics` keeps the
+original singular values/rank/condition, while `transformed_diagnostics` reports
+the orthogonal coordinates. `projection_provenance_json` records method,
+precision, array hashes/shapes and the guard. Dataset projection preserves the
+same complete linear covariance/kernel map and records that provenance. The
+well-conditioned coordinates do not change the reported original conditioning.
+This option is development work pending source-bound provider calibration and
+appropriate untouched final validation; it is not a delivered 1.2.0 capability.
+
+
+The experimental spectroscopy campaign accepts an explicit `--profile v3`
+for the proposed constrained-mass calibration. This versions experiment
+receipts and does not change public spectral-dataset or fit-archive formats.
+V2 remains the default. V3 fixes projected curvature, interior fraction1e-12
+and native Marquardt damping before optimization; every selected spectrum and
+bootstrap retains the native mass operation in diagnostics. Its consumed-data
+training scout is promising, but production scientific acceptance remains open.
+
+### Experimental constrained-MaxEnt curvature metric
+
+The in-development `MaxEntConfig.mass_curvature_floor_relative` is zero by
+default and is omitted from historical records when zero. A positive value
+requires explicit constrained mass and projected curvature. It symmetrizes and
+shifts the projected optimization metric using estimated eigenvalues; it does
+not add a ridge to the objective or change its chain-rule gradient. Numerical
+scale, resource or positivity failures raise explicitly. Diagnostics are finite
+floating-point estimates, not certificates or convergence guarantees. The tested v4
+application uses a relative floor of `1e-10` in its calibrated, independently
+replayed final campaign. Native MaxEnt remains the optimizer.
+
+### Versioned EPW interpolation dictionaries and release replay
+
+New Cauchy plan payload2 records its fixed geometric-dictionary recipe and
+selected pole ordinals. Plan1 archives retain their original serialized values
+and metadata on loading and re-export. For dictionary_size=2, the only geometric
+point is the lower endpoint; larger dictionaries include both exact binary64
+endpoints. Independent native-archive checks compare exact recorded coordinates
+using a separate Decimal construction. This is a numerical computational
+contract, not a certified transcendental rounding or convergence theorem.
+
+Release replay commands consume explicit immutable inputs and write new external
+receipts. The covariance replay requires the preexisting hash-verified UCI ZIP,
+complete18-case corpus and pinned CPU provider runtime. It never downloads an
+absent dataset, refits a model or remeasures benchmark timings. Its n512 provider
+check runs actual CPU float64 GPyTorch on the saved factor and compares against
+independent SciPy solves; historical reported errors remain separately labeled.

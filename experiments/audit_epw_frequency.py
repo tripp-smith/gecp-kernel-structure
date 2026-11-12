@@ -13,10 +13,88 @@ import json
 import math
 import re
 import subprocess
+from decimal import ROUND_HALF_EVEN, Context, Decimal, localcontext
 from pathlib import Path
 
 import mpmath as mp
 import numpy as np
+
+
+# Independent Decimal oracle; this does not import the producer's grid helper.
+def validate_pole_dictionary(plan, poles):
+    version = plan.get("version")
+    require(type(version) is int and version in (1, 2), "dictionary version")
+    expected = {
+        "version",
+        "pole_cutoff_ev",
+        "rank",
+        "dictionary_size",
+        "precision_bits",
+        "max_evaluation_condition",
+        "pivot_rows",
+        "log_residual_history",
+        "tie_counts",
+        "near_tie_counts",
+        "certification_status",
+    }
+    if version == 2:
+        expected |= {"dictionary_policy", "selected_pivot_columns"}
+    require(set(plan) == expected, "dictionary plan keys")
+    if version == 1:
+        require(
+            "dictionary_policy" not in plan and "selected_pivot_columns" not in plan,
+            "legacy dictionary fields",
+        )
+        dictionary = -np.r_[0.0, np.geomspace(1e-10, 169.0, 1200)]
+        require(np.all(np.isin(poles, dictionary)), "poles not in declared dictionary")
+        return
+    require(
+        plan.get("dictionary_policy") == "binary64_endpoints_mpmath256_log_linear_v1",
+        "dictionary policy",
+    )
+    size, cutoff = plan.get("dictionary_size"), plan.get("pole_cutoff_ev")
+    columns = plan.get("selected_pivot_columns")
+    require(
+        type(size) is int
+        and 2 <= size <= 10000
+        and type(cutoff) in (int, float)
+        and math.isfinite(cutoff)
+        and cutoff > 0,
+        "dictionary controls",
+    )
+    cutoff2 = float(cutoff) * float(cutoff)
+    require(math.isfinite(cutoff2) and cutoff2 > 1e-10, "dictionary cutoff")
+    require(
+        type(columns) is list
+        and len(columns) == len(poles)
+        and all(type(i) is int and 0 <= i < size for i in columns)
+        and len(set(columns)) == len(columns),
+        "dictionary ordinals",
+    )
+    count = size - 1
+    with localcontext(
+        Context(prec=120, rounding=ROUND_HALF_EVEN, Emin=-999999, Emax=999999)
+    ):
+        lo, hi = Decimal.from_float(1e-10), Decimal.from_float(cutoff2)
+        if count == 1:
+            coordinates = [1e-10]
+        else:
+            loglo, loghi = lo.ln(), hi.ln()
+            coordinates = [
+                float((((count - 1 - i) * loglo + i * loghi) / (count - 1)).exp())
+                for i in range(count)
+            ]
+            coordinates[0], coordinates[-1] = 1e-10, cutoff2
+    dictionary = -np.asarray([0.0, *coordinates])
+    require(
+        np.isfinite(dictionary).all() and len(np.unique(dictionary)) == size,
+        "dictionary duplicates",
+    )
+    require(
+        np.array_equal(poles.view(np.uint64), dictionary[columns].view(np.uint64)),
+        "poles not at declared dictionary ordinals",
+    )
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CAL = [36, 40, 44]
@@ -492,8 +570,7 @@ def archive(path, data, rank, parts):
         and np.all(weights != 0),
         "fit cardinal structure",
     )
-    dictionary = -np.r_[0.0, np.geomspace(1e-10, 169.0, 1200)]
-    require(np.all(np.isin(poles, dictionary)), "poles not in declared dictionary")
+    validate_pole_dictionary(plan, poles)
     beta = 1 / (KB * 17)
     canonical = ((2 * np.array(parts["train"]) + 1) * (np.pi / beta)) ** 2
     close(a["observation_x"], canonical, "observation coordinates", rtol=1e-14, atol=0)

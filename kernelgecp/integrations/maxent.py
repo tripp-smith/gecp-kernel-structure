@@ -455,10 +455,22 @@ class SpectralProjection:
     matrix: FloatArray
     diagnostics: LeastSquaresDiagnostics
     metadata_json: str
+    source_design: FloatArray | None = None
+    decomposed_design: FloatArray | None = None
+    transformed_diagnostics: LeastSquaresDiagnostics | None = None
+    projection_provenance_json: str = "{}"
 
     def __post_init__(self) -> None:
-        for name in ("source_tau", "target_tau", "matrix"):
-            object.__setattr__(self, name, _owned(getattr(self, name)))
+        for name in (
+            "source_tau",
+            "target_tau",
+            "matrix",
+            "source_design",
+            "decomposed_design",
+        ):
+            value = getattr(self, name)
+            if value is not None:
+                object.__setattr__(self, name, _owned(value))
 
     def apply(
         self, data: SpectralDataset, *, covariance_rtol: float | None = None
@@ -486,6 +498,7 @@ class SpectralProjection:
                 "source": data.provenance,
                 "basis": json.loads(self.metadata_json),
                 "svd": asdict(self.diagnostics),
+                "projection_arithmetic": json.loads(self.projection_provenance_json),
                 "independent_interpolated_observations": False,
             },
             projection=(
@@ -509,6 +522,7 @@ def prepare_spectral_projection(
     *,
     rcond: float | None = None,
     metadata: Any = None,
+    precision_bits: int = 53,
 ) -> SpectralProjection:
     """Prepare the complete linear observation map through a cached SVD.
 
@@ -517,7 +531,21 @@ def prepare_spectral_projection(
     observation-sized identity is constructed. This is
     ordinary least squares, not generalized least squares; covariance is then
     propagated through exactly the same complete linear map.
+
+    ``precision_bits=53`` retains the binary64 path. An explicit integer from
+    128 through 1024 enables mpmath QR followed by a cached binary64 SVD of the
+    rounded orthogonal coordinates. That option supports only same-mesh designs
+    with full column rank, at most 256 rows and 128 columns. Truncated,
+    underdetermined and insufficiently separated rank decisions are rejected;
+    the separation guard is a heuristic, not a certificate. Original design
+    singular values, cutoff and conditioning remain in ``diagnostics``.
+    Transformed diagnostics, immutable exact decomposition inputs and arithmetic
+    provenance are exposed separately. No automatic precision fallback occurs.
     """
+    if type(precision_bits) is not int or not (
+        precision_bits == 53 or 128 <= precision_bits <= 1024
+    ):
+        raise ValueError("precision_bits must be 53 or an integer from 128 to 1024")
     beta = _positive_real(basis.beta, "basis beta")
     source, target = _tau_array(source_tau, beta), _tau_array(target_tau, beta)
     for points in (source, target):
@@ -528,8 +556,15 @@ def prepare_spectral_projection(
             or np.any(np.diff(points) <= 0)
         ):
             raise ValueError("projection meshes must be ordered and include endpoints")
-    observed = _real_array(basis.design_tau(source), "source design")
-    evaluated = _real_array(basis.design_tau(target), "target design")
+    same_mesh = np.array_equal(source, target)
+    if precision_bits != 53 and not same_mesh:
+        raise ValueError("higher precision projection requires the same mesh")
+    observed = _owned(_real_array(basis.design_tau(source), "source design"))
+    evaluated = (
+        observed
+        if same_mesh
+        else _real_array(basis.design_tau(target), "target design")
+    )
     if (
         observed.ndim != 2
         or evaluated.ndim != 2
@@ -538,11 +573,72 @@ def prepare_spectral_projection(
         or observed.shape[1] != evaluated.shape[1]
     ):
         raise ValueError("basis designs must have matching trailing coefficient axes")
-    same_mesh = np.array_equal(source, target)
+    if precision_bits != 53 and (observed.shape[0] > 256 or observed.shape[1] > 128):
+        raise ValueError("higher precision projection exceeds resource limits")
     plan = _SpectralLeastSquaresPlan(observed if same_mesh else observed.T, rcond=rcond)
     if plan.diagnostics.effective_rank == 0:
         raise NumericalBreakdownError("projection design has no retained singular mode")
-    matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T
+    decomposed = _real_array(plan.design, "decomposed design")
+    transformed_diagnostics = None
+    method = "binary64_cached_svd"
+    if precision_bits != 53:
+        rows, columns = observed.shape
+        diagnostics = plan.diagnostics
+        if rows < columns or diagnostics.effective_rank != columns:
+            raise ValueError("higher precision projection requires full column rank")
+        # Both margins are heuristics, not certified binary64 separation bounds.
+        threshold = diagnostics.rank_threshold
+        rounding_floor = (
+            8
+            * np.finfo(np.float64).eps
+            * max(rows, columns)
+            * diagnostics.singular_values[0]
+        )
+        if threshold is None or diagnostics.singular_values[-1] <= max(
+            2 * threshold, rounding_floor
+        ):
+            raise ValueError("higher precision projection has ambiguous rank boundary")
+        try:
+            import mpmath
+
+            context = mpmath.mp.clone()
+            context.prec = precision_bits
+            design_mp = context.matrix(
+                [[context.mpf(float(value)) for value in row] for row in observed]
+            )
+            q, _ = context.qr(design_mp)
+            decomposed = _owned(
+                np.array(
+                    [[float(q[i, j]) for j in range(columns)] for i in range(rows)]
+                )
+            )
+        except (ArithmeticError, ValueError, OverflowError, MemoryError) as error:
+            raise NumericalBreakdownError("higher precision QR failed") from error
+        transformed = _SpectralLeastSquaresPlan(decomposed, rcond=rcond)
+        if transformed.diagnostics.effective_rank != columns:
+            raise NumericalBreakdownError("rounded orthogonal design lost rank")
+        transformed_diagnostics = transformed.diagnostics
+        matrix = transformed.observation_projection()
+        method = "mpmath_qr_then_binary64_cached_svd"
+    else:
+        matrix = plan.observation_projection() if same_mesh else plan.fit(evaluated.T).T
+    provenance = {
+        "method": method,
+        "precision_bits": precision_bits,
+        "source_design_sha256": _array_hash(observed),
+        "decomposed_design_sha256": _array_hash(decomposed),
+        "source_design_shape": list(observed.shape),
+        "decomposed_design_shape": list(decomposed.shape),
+        "hash_scope": "C-order little-endian binary64 array bytes with recorded shapes",
+        "rank_guard": (
+            "smallest > max(2 * threshold, 8 * eps64 * max(shape) * largest); heuristic"
+        )
+        if precision_bits != 53
+        else None,
+        "transformed_svd": asdict(transformed_diagnostics)
+        if transformed_diagnostics
+        else None,
+    }
     return SpectralProjection(
         beta,
         source,
@@ -550,6 +646,10 @@ def prepare_spectral_projection(
         _real_array(matrix, "projection"),
         plan.diagnostics,
         _document({} if metadata is None else metadata),
+        observed,
+        decomposed,
+        transformed_diagnostics,
+        _document(provenance),
     )
 
 
@@ -606,6 +706,13 @@ class MaxEntConfig:
     minimizer_mu0 is the native minimizer's initial damping, not a floor;
     the native algorithm can reduce it during a solve. The default preserves
     the provider setting; scientific campaigns declare their candidate explicitly.
+    The rescale default applies mass after fitting. Constrained mode instead
+    uses a normalized native parameterization and exact chain-rule gradient.
+    Its curvature is explicitly exact or native projected; numerical rank and
+    resource limits are recorded. A nonzero mass_interior_fraction declares an
+    affine mixture with the default distribution before optimization. Its
+    fixed-coordinate bias bound does not bound changes after optimization.
+    Convergence is not assured.
     """
 
     omega_min: float = -4.0
@@ -618,6 +725,11 @@ class MaxEntConfig:
     default_model: str = "flat"
     normalize_mass: float | None = 1.0
     minimizer_mu0: float = 1e-18
+    mass_mode: str = "rescale"
+    mass_curvature: str = "exact"
+    mass_interior_fraction: float = 0.0
+    mass_curvature_floor_relative: float = 0.0
+    minimizer_marquardt: bool = False
 
     def __post_init__(self) -> None:
         for name in ("omega_min", "omega_max"):
@@ -643,6 +755,56 @@ class MaxEntConfig:
             raise ValueError("default_model must be flat or broad_gaussian")
         if self.normalize_mass is not None:
             _positive_real(self.normalize_mass, "normalize_mass")
+        if not isinstance(self.mass_mode, str) or self.mass_mode not in {
+            "rescale",
+            "constrained",
+        }:
+            raise ValueError("mass_mode must be rescale or constrained")
+        if self.mass_mode == "constrained" and self.normalize_mass is None:
+            raise ValueError("constrained mass requires an explicit normalize_mass")
+        if not isinstance(self.mass_curvature, str) or self.mass_curvature not in {
+            "exact",
+            "projected",
+        }:
+            raise ValueError("mass_curvature must be exact or projected")
+        if self.mass_mode != "constrained" and self.mass_curvature != "exact":
+            raise ValueError("projected mass_curvature requires constrained mass_mode")
+        fraction = self.mass_interior_fraction
+        if (
+            isinstance(fraction, (bool, np.bool_))
+            or not isinstance(fraction, (int, float, np.integer, np.floating))
+            or not math.isfinite(fraction)
+            or not 0 <= fraction < 1
+        ):
+            raise ValueError("mass_interior_fraction must be finite and in [0, 1)")
+        if fraction > 0 and 1.0 - fraction == 1.0:
+            raise ValueError("mass_interior_fraction is not representable in scale")
+        if self.mass_mode != "constrained" and fraction != 0:
+            raise ValueError("mass_interior_fraction requires constrained mass_mode")
+        from ._maxent_curvature import validate_floor_relative
+
+        floor = validate_floor_relative(self.mass_curvature_floor_relative)
+        if floor and (
+            self.mass_mode != "constrained" or self.mass_curvature != "projected"
+        ):
+            raise ValueError(
+                "mass_curvature_floor_relative requires constrained projected curvature"
+            )
+        if type(self.minimizer_marquardt) is not bool:
+            raise ValueError("minimizer_marquardt must be a boolean")
+
+    def as_record(self) -> dict[str, Any]:
+        """Preserve legacy rescale receipts; record an explicit nondefault mode."""
+        result = asdict(self)
+        if not self.mass_curvature_floor_relative:
+            result.pop("mass_curvature_floor_relative")
+        if self.mass_mode == "rescale":
+            result.pop("mass_mode")
+            result.pop("mass_curvature")
+            result.pop("mass_interior_fraction")
+            if not self.minimizer_marquardt:
+                result.pop("minimizer_marquardt")
+        return result
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -717,6 +879,8 @@ def _selection_metrics(
     chi2: FloatArray,
     converged: npt.NDArray[np.bool_],
     normalize_mass: float | None,
+    *,
+    mass_mode: str = "rescale",
 ) -> tuple[int, list[float | None], list[float | None]]:
     """Score training fits after the delivered mass operation."""
     masses = np.asarray(np.trapezoid(spectra, omega, axis=1), dtype=np.float64)
@@ -727,13 +891,21 @@ def _selection_metrics(
         & np.isfinite(masses)
         & (masses > 0)
     )
+    if mass_mode == "constrained":
+        if normalize_mass is None:
+            raise ValueError("constrained mass requires a target")
+        eligible &= np.isclose(masses, normalize_mass, rtol=1e-10, atol=0)
     mass_records = [float(m) if np.isfinite(m) else None for m in masses]
     metrics: list[float | None] = [None] * len(masses)
     for i in np.flatnonzero(eligible):
         if normalize_mass is None:
             value = float(chi2[i])
         else:
-            density = spectra[i] * (normalize_mass / masses[i])
+            density = (
+                spectra[i]
+                if mass_mode == "constrained"
+                else spectra[i] * (normalize_mass / masses[i])
+            )
             prediction = spectral_forward(
                 data.beta,
                 data.tau
@@ -771,9 +943,13 @@ def continue_tau_maxent(
     """Run actual TRIQS/MaxEnt4.0.1; unavailable or exhausted providers fail.
 
     Alpha minimizes |log(chi2 / retained noise rank)| over eligible converged
-    trials. With mass rescaling, chi2 is recomputed from the normalized physical
-    forward model and training data; without it, provider chi2 is used. The
-    provider generates the family without a mass constraint in optimization.
+    trials. With a declared mass, chi2 is recomputed from the delivered physical
+    forward model and training data; otherwise provider chi2 is used. The
+    default generates the family without a mass constraint in optimization.
+    Explicit constrained mode uses a normalized positive native parameterization
+    with an exact gradient, explicitly selected exact or projected curvature,
+    and no posthoc mass scaling. Its numerical rank
+    and resource limits are recorded; no alternative optimizer is substituted.
     This is a regularized estimate, not unique peak recovery.
     """
     settings = MaxEntConfig() if config is None else config
@@ -799,11 +975,28 @@ def continue_tau_maxent(
             history.append((bool(self.converged), int(self.n_iter_last)))
             return result
 
+    cost_function: Any = "bryan"
+    mass_parameterization: Any = None
+    if settings.mass_mode == "constrained":
+        from ._maxent_native_mass import make_native_mass_cost
+
+        assert settings.normalize_mass is not None
+        cost_function, mass_parameterization = make_native_mass_cost(
+            settings.normalize_mass,
+            curvature=settings.mass_curvature,
+            interior_fraction=settings.mass_interior_fraction,
+            curvature_floor_relative=settings.mass_curvature_floor_relative,
+        )
+    minimizer_kwargs: dict[str, Any] = {
+        "maxiter": settings.maxiter,
+        "mu0": settings.minimizer_mu0,
+    }
+    if settings.minimizer_marquardt:
+        minimizer_kwargs["marquardt"] = True
+    recording_minimizer = RecordingMinimizer(**minimizer_kwargs)
     solver = provider.TauMaxEnt(
-        cost_function="bryan",
-        minimizer=RecordingMinimizer(
-            maxiter=settings.maxiter, mu0=settings.minimizer_mu0
-        ),
+        cost_function=cost_function,
+        minimizer=recording_minimizer,
         analyzers=[],
         interactive=False,
         scale_alpha=None,
@@ -840,12 +1033,28 @@ def continue_tau_maxent(
         raise NumericalBreakdownError(
             "provider covariance truncation changed declared rank"
         )
+    if settings.mass_mode == "constrained":
+        # The provider multiplies A_init by mesh weights before H.inv().
+        # Supply a density, so its initial hidden image is the weighted default.
+        assert settings.normalize_mass is not None
+        weighted_default = np.asarray(solver.D.D, dtype=float)
+        solver.A_init = (
+            settings.normalize_mass
+            * weighted_default
+            / np.sum(weighted_default)
+            / np.asarray(solver.omega.delta, dtype=float)
+        )
     try:
         # The native minimizer changes NumPy's error policy internally. Keep
         # the caller's policy intact even if a native solve raises midway.
         with np.errstate(**np.geterr()):
             result = solver.run()
-    except (ValueError, FloatingPointError, np.linalg.LinAlgError) as error:
+    except (
+        ValueError,
+        FloatingPointError,
+        np.linalg.LinAlgError,
+        NumericalBreakdownError,
+    ) as error:
         raise NumericalBreakdownError(
             f"actual TauMaxEnt failed; no substitute method; "
             f"{type(error).__name__}: {error}; completed trials: {len(history)}; "
@@ -865,7 +1074,13 @@ def continue_tau_maxent(
         raise NumericalBreakdownError("provider returned incomplete alpha trials")
     converged = np.array([entry[0] for entry in history])
     selected, trial_masses, selection_chi2 = _selection_metrics(
-        data, omega, spectra, chi2, converged, settings.normalize_mass
+        data,
+        omega,
+        spectra,
+        chi2,
+        converged,
+        settings.normalize_mass,
+        mass_mode=settings.mass_mode,
     )
     density = spectra[selected].copy()
     raw_mass = float(np.trapezoid(density, omega))
@@ -873,7 +1088,7 @@ def continue_tau_maxent(
         raise NumericalBreakdownError(
             "selected spectral mass is nonpositive or nonfinite"
         )
-    if settings.normalize_mass is not None:
+    if settings.normalize_mass is not None and settings.mass_mode == "rescale":
         density *= settings.normalize_mass / raw_mass
     mass = float(np.trapezoid(density, omega))
     prediction = spectral_forward(
@@ -902,7 +1117,17 @@ def continue_tau_maxent(
             {
                 "provider": "TRIQS/MaxEnt",
                 "version": version,
-                "config": asdict(settings),
+                "config": settings.as_record(),
+                "native_minimizer": {
+                    "class": "LevenbergMinimizer",
+                    "marquardt": bool(recording_minimizer.marquardt),
+                    "J_squared": bool(recording_minimizer.J_squared),
+                    "mu0": float(recording_minimizer.mu0),
+                    "nu": float(recording_minimizer.nu),
+                    "max_mu": float(recording_minimizer.max_mu),
+                    "maxiter": int(recording_minimizer.maxiter),
+                    "convergence_scope": "native_stop_not_physical_accuracy",
+                },
                 "dataset": data.fingerprint,
                 "alpha_selection": (
                     "provider_chi2_training_discrepancy"
@@ -919,7 +1144,16 @@ def continue_tau_maxent(
                 else "complete_projection_times_native_source_tau_kernel",
                 "mass_operation": "none"
                 if settings.normalize_mass is None
-                else "explicit_rescale",
+                else (
+                    "native_mass_constraint"
+                    if settings.mass_mode == "constrained"
+                    else "explicit_rescale"
+                ),
+                "mass_parameterization": (
+                    mass_parameterization.diagnostics
+                    if mass_parameterization is not None
+                    else None
+                ),
                 "certification_status": "not_certified",
                 "uncertainty_scope": (
                     "retained_covariance_modes_no_unique_peak_or_coverage_claim"

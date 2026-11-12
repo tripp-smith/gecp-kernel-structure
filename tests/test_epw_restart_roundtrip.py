@@ -201,3 +201,27 @@ def test_pure_failure_is_recorded_before_any_correction(tmp_path, monkeypatch):
     assert result["status"] == "failed" and result["pure_model_heldout_passed"] is False
     assert not set(driver.HOLDOUT).intersection(seen["rows"])
     assert not (out / "bundle.json").exists()
+
+
+def test_interpreter_identity_hashes_resolved_binary_and_captures_link(
+    tmp_path, monkeypatch
+):
+    binary = tmp_path / "python-real"
+    binary.write_bytes(b"synthetic interpreter")
+    link = tmp_path / "python"
+    link.symlink_to(binary.name)
+    monkeypatch.setattr(driver.sys, "executable", str(link))
+    value = driver.interpreter_identity()
+    assert value == {
+        "schema": "kernelgecp.epw-interpreter-identity.v1",
+        "invocation": str(link),
+        "resolved_executable": str(binary),
+        "binary_sha256": driver.sha(binary),
+        "invocation_is_symlink": True,
+        "invocation_link_target": binary.name,
+    }
+    binary.write_bytes(b"changed")
+    assert driver.interpreter_identity()["binary_sha256"] != value["binary_sha256"]
+    monkeypatch.setattr(driver.sys, "executable", str(binary))
+    assert driver.interpreter_identity()["invocation_link_target"] is None
+    assert driver.interpreter_identity()["invocation_is_symlink"] is False

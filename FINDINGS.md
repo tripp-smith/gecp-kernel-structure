@@ -2646,3 +2646,251 @@ does not establish a sole failure cause. Fixed-bath conditional mean and
 bootstrap sensitivity scopes remain explicit, without unique spectra, complete
 uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
 and 1.2 publication remain subject to final checks.
+
+
+### EH post-merge projection precision finding (2026-11-01)
+
+Main 3bc726b passes base verification but fails the frozen independent
+projection replay. Independent 50-digit SVD places the saved pyDLR projector
+outside its existing comparison tolerance; the retained design condition is
+about 1.59e10. A local calibration-only explicit higher-precision QR plus cached
+SVD gives projector differences below 8e-16 from a separate 80-digit SVD for
+GECP, pyDLR and sparse IR. Original conditioning remains reported. This is finite
+matrix evidence and does not establish actual MaxEnt calibration, final
+spectroscopy acceptance or a speed advantage. No acceptance budget changed.
+
+
+### EH v2 final failure and unit-mass objective hypothesis
+
+All256 native chains and the independent fixed-bath raw audit pass at98bdfab.
+Continuation fails on the first raw-flat final case: RMS2.885315>2, despite
+positivity, delivered unit mass and selected native convergence. Independent
+means/covariance/forward checks reproduce the miss. The selected unconstrained
+trial has mass1.0022294 and native training chi²79.84; explicit rescaling raises
+independent training chi² to492.19. A training-only constrained nonnegative
+reference reaches about79.08 with numerical/KKT limitations. These facts support
+a bounded native unit-mass optimization hypothesis; they do not establish cause,
+global optimality, held-out improvement or final scientific acceptance. The
+failed cohort is consumed; remaining23 workers never execute, and new decisions
+require an appropriate new freeze and untouched validation. Thresholds stay fixed.
+
+The constrained-mass interface at f1663ed passes actual installed Linux/macOS
+probes: full native cost derivatives agree with finite differences below2.5e-11,
+both smooth default-model cases converge at all5alphas, and masses agree within
+4.5e-16. These are interface checks; the consumed-data training results below
+do not close scientific calibration or final acceptance.
+
+The real consumed-training scout at2df694e fails for both default models before
+completing its33alphas: the strict entropy-floor guard aborts after17/11 logged
+trials. This is a numerical failure, not improved spectroscopy evidence. The
+projected candidate at3badf9f passes both-curvature native interface probes but
+also fails at the strict entropy floor after22/20 completed converged trials.
+No complete spectrum is returned, and no new raw samples are acquired.
+
+A declared interior mixture Hε=M[εq+(1−ε)p] is being tested with ε=1e-12 and a
+zero default. For equal coordinates in exact arithmetic its L1 perturbation is
+at most2Mε; this is not a bound after reoptimization, a floating-point certificate
+or a held-out success. Strict native guards and all scientific budgets remain.
+
+The actual33ab968 mixture scout passes both-platform interface checks but fails
+on singular native systems after18/15 completed converged trials. No complete
+spectrum is returned. Captured-system diagnostics and the provider's explicit
+relative-diagonal damping option are next tests under the same objective and
+accuracy budgets; no numerical cause or successful fix is yet established.
+
+
+## EH unit-mass training comparison and v3 boundary
+
+Actual run41573167725 at541c56d returns all33 trials for all four declared
+identity/Marquardt and flat/Gaussian cases. The independent native-kernel and
+adaptive-quadrature training audit agrees on alpha1, RMS~1.1226 and positive
+unit masses within4.45e-16. Selected trials converge; low-alpha exhaustion
+remains visible. Both identity controls complete despite prior singular solves,
+so this does not establish a relative-damping advantage or a sole failure cause.
+The authenticated full artifact and training-only receipt/audit are preserved in
+experiments/data/maxent-training-541c56d.zip and data/spectroscopy.
+
+Opt-in v3 development versions the measured and synthetic protocols, acquisition
+and audit schemas, explicit native mass/curvature/interior/damping controls and
+fresh final seed identities. Independent audits reject a post-fit rescale and
+check bootstrap mass metadata. V2 remains the default. No v3 final noise or raw
+chains have been generated; calibration on consumed development data, source
+freeze, untouched final validation and exact-source/main CI are still required.
+
+V3 calibration41603543319 fails in actual native MaxEnt on the first synthetic
+raw/flat case after12 converged trials, despite passing installed interface
+checks. This is an explicit numerical breakdown, not a completed calibration.
+The failed artifact is preserved; observational linear-system capture is added
+before selecting a further numerical candidate. No final allocation executes.
+
+## EH captured canonical failure and explicit v4 metric
+
+The complete consumed-data calibration41606643817 at3fb9a0a passes24 synthetic
+and8 measured cases and independent audits. The same source's single canonical
+attempt41617127989 fails during repeated calibration on a native singular solve
+after12 trials, before final synthetic generation or any fresh341 chain. Both
+outcomes are retained; passing calibration did not imply robust execution.
+The failed artifact and case/capture hashes are preserved in
+`data/spectroscopy/canonical-3fb9a0a-failed.json`.
+
+Exact dyadic elimination finds rank29 for the saved rounded29x29 system; an
+80-digit SVD estimates condition1.7833e18. No metric diagonal is zero, and all
+29 diagonal damping additions change the stored matrix. These observations
+exclude completely absent diagonal damping for this capture; they establish
+neither latent model rank, sole cause, nor optimizer convergence. Independent
+high-precision eigenanalysis of a proposed explicitly shifted metric estimates
+condition1.427e9 on this one matrix. No optimization or held-out score follows.
+
+V4 development declares a relative floor1e-10 on symmetrized projected curvature,
+retaining the exact objective/gradient, actual native optimizer and physical
+budgets. It is an optimization metric change and remains unaccepted until actual
+provider calibration and appropriately frozen untouched final validation pass.
+
+
+### EH acceptance reopened; EJ gate components
+
+The earlier FEAA workflow pass above is historical. Merged-main replay reveals
+an ill-conditioned pyDLR projector outside its unchanged independent error
+budget; no current EH acceptance follows from the historical pass. Corrective
+source 98bdfab passes calibration-only run 41389031789 with all 24 synthetic and
+eight measured cases, independent audits and actual native preflight. The one
+fresh final campaign 41391193610 completes all256 chains and its raw audit, but
+the first measured worker fails held-out RMS2.8853>2; the other23 did not run.
+The cohort is consumed development evidence. Candidate f1663ed passes actual
+installed native constrained-mass interface probes on Linux/macOS, not scientific
+calibration or final acceptance. The canonical PR #146 receipt records original
+failures, provenance and remaining gates.
+
+EJ adds strict source inventory, authenticated paginated workflow metadata and
+a six-runtime/two-ED payload-audit component. Focused integration passes 191 tests
+and 12 subtests; independent review corrects import isolation, receipt hashes and
+malformed-output failure retention. The real metadata fetch rejects current
+main because an exact-main molecular run is absent. These checks are gate
+components, not complete scientific eligibility, native 1.2 execution,
+publication or a new numerical theorem. The historical baseline is not a waiver.
+
+The molecular saved-payload component adds private exact-source independent
+replay with hashes, cohort/gate validation and a fixed timeout. Review found
+and fixed an output-containment bug before release. Structural tests do not
+establish compatibility with a complete native payload; the dedicated native
+CI execution remains required. No new molecular accuracy or release acceptance
+is claimed by this component.
+
+Molecular component196d15c subsequently passes an actual four-case native run
+and isolated saved-payload replay:365 input hashes,36 final identities and all
+eight independent gates pass. This establishes the tested component case, not
+complete scientific release eligibility. EPW portable archive replay and its
+separate native-comparison gate remain next work.
+
+
+### EJ verified runtime/ED component and payload-input checks
+
+All 12 exact-head workflows pass at 2a7c24b, including actual six-provider
+payload verification and independent re-audits of both saved ED corpora. Each
+has 27 compressed and nine dense records with all audit gates passing. This
+component does not close the remaining full-domain release or corrective EH
+obligations. The subsequent input-layer work authenticates archive identity,
+bounds ZIP allocation/extraction and exposes a source-only baseline parameter;
+none substitutes for independently accepted numerical science or installed1.2.
+
+The7f EPW archive passes its original Linux numerical audit, but the relocated
+workflow fails before calling its auditor because the native Docker tree cannot
+be moved into RUNNER_TEMP. A privileged same-filesystem atomic move is under verification.
+The supplemental macOS audit fails exact grid membership at one ulp; its status
+remains failed and no numerical threshold is widened. Neither result closes the
+new relocated Linux gate or the separate native comparator.
+
+## EJ EPW saved-payload verification
+
+The72eae33 actual Linux workflow passes relocated archive replay and native
+raw/restored/wrong-frequency execution, with zero differences in all six Padé
+channels across630000 rows. Its authenticated original and relocated archive
+receipts are byte-identical. This is coarse interoperability evidence.
+
+The saved-payload gate now independently streams compressed native tables and
+compares printed numbers with exact decimal fractions. A regression exhibits a
+printed boundary accepted by binary64 arithmetic but outside the exact declared
+budget. This is a finite recorded-number check, not continuous certification.
+Separate source-P archive replay and source-K native audit preserve their source
+identities, hard process deadlines and whole-call input immutability. Truncated
+passed receipts and wrong comparison-policy fields fail closed. Full Linux
+controller execution and exact-source verification are pending; EH, complete
+release eligibility and publication remain open.
+
+## EJ saved CT-HYB release gate boundary
+
+The new component replays the hash-pinned208-measurement corpus through its
+existing independent auditor in a detached source and pinned provider runtime.
+It requires all seven original EE gates and the complete scientific receipt,
+with separate controller/scientific identities. Uploaded receipt structure and
+identities are checked; scientific thresholds are independently recomputed.
+It makes no claim of byte-identical floating results across runtime builds.
+Diagnostics are uploaded separately so the authenticated one-receipt input
+artifact can be replayed unchanged. Actual provider execution, full verification
+and exact-source CI are still required; this is not release eligibility.
+
+## EJ actual CT-HYB replay and remaining portability checks
+
+Source837eb3f passes full root and actual pinned Linux CT-HYB payload replay
+42227623277. Both the original and independently repeated audits cover208
+measurements and pass the seven EE gates; input hashes remain unchanged. The
+original ZIPs and source/runtime evidence are preserved under experiments/data
+and data/cthyb/release-payload-837eb3f-passed.json. This is saved-data replay,
+without new sampling or a deterministic byte-equality claim.
+
+EPW06dc238 passes native generation, both on-runner archive audits and native
+restart comparison, but separate-job replay fails exact cardinal membership.
+The failed diagnostic is retained. New Cauchy plan payload2 records a fixed
+256-bit geometric recipe and selected ordinals, independently checked by
+Decimal reconstruction. Legacy plan1 retains its original exact checks. This
+removes fresh NumPy geometric-grid regeneration from the new dictionary
+identity check; no error threshold is widened and no sole failure cause is
+claimed. Fresh native separate-machine validation remains mandatory.
+
+The covariance component independently audits complete saved case arrays and
+performs an actual CPU GPyTorch consistency check on the same saved n512 factor.
+Its historical timings/log-probability error are distinguished from fresh replay
+checks. A3x3 actual macOS provider fixture agrees with SciPy to4.45e-16 in log
+probability, but the full18-case Linux evidence remains pending.
+
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.
+
+
+### EH canonical v4 final and independent replay
+
+Frozen source `6caf85f` passed 72 synthetic and 24 measured final cases. The
+largest reported whitened held-out RMS was 0.753 for the synthetic campaign
+and 1.043 for the measured campaign, under the respective frozen noise
+models. The four native acquisition checkpoints preserve the bytes of all
+earlier chains. A separate pinned Linux run passed all five saved-data
+audits, including the 256-chain raw-cohort audit. The measured result is
+conditional on the held-out chain mean and the recorded bath. Bootstrap
+variation and default-model sensitivity describe the tested samples and
+models. [Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
+[independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).

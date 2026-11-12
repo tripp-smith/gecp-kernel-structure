@@ -38,10 +38,27 @@ from kernelgecp.integrations.cthyb_dmft import CTHYBPlan
 
 BINDING_SHA = "6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd"
 REVISION = "7200ec0e912954c568bedb2092d9ff1c053f9ba7"
-SEEDS = [32100001 + 2 * i for i in range(256)]
-SCHEMA = "kernelgecp.cthyb-fixed-bath.v1"
-RESULT_SCHEMA = "kernelgecp.cthyb-fixed-bath-result.v1"
-TIMING_SCHEMA = "kernelgecp.cthyb-fixed-bath-timing.v1"
+SEEDS = [33100001 + 2 * i for i in range(256)]
+SCHEMA = "kernelgecp.cthyb-fixed-bath.v2"
+RESULT_SCHEMA = "kernelgecp.cthyb-fixed-bath-result.v2"
+TIMING_SCHEMA = "kernelgecp.cthyb-fixed-bath-timing.v2"
+
+
+def seeds_for(profile):
+    if profile not in ("v2", "v3", "v4"):
+        raise ValueError("unknown fixed-bath profile")
+    base = 33100001 if profile == "v2" else 34100001
+    seeds = [base + 2 * i for i in range(256)]
+    if profile in ("v3", "v4") and (
+        set(seeds) & set(SEEDS) or set(seeds) & set(range(29140001, 29140129, 2))
+    ):
+        raise ValueError("v3 seed allocation overlaps consumed cohort")
+    return seeds
+
+
+def schema_for(kind, profile):
+    seeds_for(profile)
+    return f"kernelgecp.cthyb-fixed-bath{kind}.{profile}"
 
 
 def role(i: int) -> str:
@@ -52,7 +69,8 @@ def _bath_hash(bath: np.ndarray) -> str:
     return hashlib.sha256(np.ascontiguousarray(bath).tobytes()).hexdigest()
 
 
-def parent_data(parent: Path, binding_path: Path):
+def parent_data(parent: Path, binding_path: Path, *, profile="v2"):
+    seeds = seeds_for(profile)
     if _sha(binding_path) != BINDING_SHA:
         raise ValueError("accepted parent binding hash mismatch")
     binding = _read(binding_path)
@@ -87,7 +105,7 @@ def parent_data(parent: Path, binding_path: Path):
         if arr.is_symlink() or _sha(arr) != receipt["arrays_sha256"]:
             raise ValueError("parent raw archive hash mismatch")
         prior_seeds.add(receipt["seed"])
-    if prior_seeds.intersection(SEEDS):
+    if prior_seeds.intersection(seeds):
         raise ValueError("new seed allocation overlaps parent")
     receipt_path = parent / "dense-final/replica-00.json"
     receipt = _read(receipt_path)
@@ -192,9 +210,17 @@ def provenance():
     }
 
 
-def protocol(config):
+def protocol(config, *, profile="v2"):
+    declared = (
+        spectroscopy.protocol_for(profile)
+        if profile in ("v3", "v4")
+        else {"profile": "corrective_projection_v2", "projection_precision_bits": 256}
+    )
     return {
-        "seeds": SEEDS,
+        **({"analysis_protocol": declared} if profile in ("v3", "v4") else {}),
+        "profile": declared["profile"],
+        "projection_precision_bits": declared["projection_precision_bits"],
+        "seeds": seeds_for(profile),
         "train_count": 128,
         "cycles": 1600000,
         "config": dataclasses.asdict(config),
@@ -218,17 +244,47 @@ CALIBRATION_GATES = frozenset(
 
 
 def calibration_binding(
-    receipt: Path, receipt_sha256: str, audit_path: Path, audit_sha256: str
+    receipt: Path,
+    receipt_sha256: str,
+    audit_path: Path,
+    audit_sha256: str,
+    *,
+    profile="v2",
 ):
     """Pin calibration to the exact current analysis code and provider runtime."""
-    snapshot = spectroscopy.snapshot()
-    cal = spectroscopy.verify_calibration(receipt, receipt_sha256, snapshot)
-    audit = spectroscopy.verify_calibration_audit(
-        audit_path, audit_sha256, receipt_sha256, cal["binding_sha256"]
+    snapshot = spectroscopy.snapshot(
+        **({"profile": profile} if profile in ("v3", "v4") else {})
     )
+    cal = spectroscopy.verify_calibration(
+        receipt,
+        receipt_sha256,
+        snapshot,
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
+    )
+    audit = spectroscopy.verify_calibration_audit(
+        audit_path,
+        audit_sha256,
+        receipt_sha256,
+        cal["binding_sha256"],
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
+    )
+    if profile in ("v3", "v4") and set(seeds_for(profile)) & set(
+        cal.get("cohort", {}).get("seeds", [])
+    ):
+        raise ValueError("v3 seed allocation overlaps calibration cohort")
     gates = audit.get("gates")
     if (
-        not isinstance(gates, dict)
+        cal.get("schema") != f"kernelgecp.cthyb-spectroscopy-calibration.{profile}"
+        or cal.get("protocol", {}).get("profile")
+        != (
+            "corrective_projection_v2"
+            if profile == "v2"
+            else spectroscopy.protocol_for(profile)["profile"]
+        )
+        or cal.get("protocol", {}).get("projection_precision_bits") != 256
+        or audit.get("schema")
+        != f"kernelgecp.cthyb-spectroscopy-independent-audit.{profile}"
+        or not isinstance(gates, dict)
         or set(gates) != CALIBRATION_GATES
         or not all(v is True for v in gates.values())
         or audit.get("cases") != 8
@@ -255,19 +311,29 @@ def freeze(
     calibration_sha256: str,
     calibration_audit: Path,
     calibration_audit_sha256: str,
+    *,
+    profile="v2",
 ):
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("freeze requires an empty output directory")
-    info, _, config = parent_data(parent, binding)
+    info, _, config = parent_data(
+        parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
+    )
     CTHYBPlan(
         config
     )  # Load the exact native provider before recording shared libraries.
     cal = calibration_binding(
-        calibration, calibration_sha256, calibration_audit, calibration_audit_sha256
+        calibration,
+        calibration_sha256,
+        calibration_audit,
+        calibration_audit_sha256,
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     manifest = {
-        "schema": SCHEMA,
-        "protocol": protocol(config),
+        "schema": schema_for("", profile),
+        "protocol": protocol(
+            config, **({"profile": profile} if profile in ("v3", "v4") else {})
+        ),
         "parent": info,
         "calibration": cal,
         "provenance": provenance(),
@@ -277,7 +343,7 @@ def freeze(
     _write(
         output / "result.json",
         {
-            "schema": RESULT_SCHEMA,
+            "schema": schema_for("-result", profile),
             "manifest_sha256": _sha(output / "manifest.json"),
             "chains": [],
             "status": "in_progress",
@@ -293,16 +359,26 @@ def validate(
     calibration_sha256: str,
     calibration_audit: Path,
     calibration_audit_sha256: str,
+    *,
+    profile="v2",
 ):
     manifest = _read(output / "manifest.json")
-    info, bath, config = parent_data(parent, binding)
+    info, bath, config = parent_data(
+        parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
+    )
     CTHYBPlan(config)
     cal = calibration_binding(
-        calibration, calibration_sha256, calibration_audit, calibration_audit_sha256
+        calibration,
+        calibration_sha256,
+        calibration_audit,
+        calibration_audit_sha256,
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     if manifest != {
-        "schema": SCHEMA,
-        "protocol": protocol(config),
+        "schema": schema_for("", profile),
+        "protocol": protocol(
+            config, **({"profile": profile} if profile in ("v3", "v4") else {})
+        ),
         "parent": info,
         "calibration": cal,
         "provenance": provenance(),
@@ -312,7 +388,7 @@ def validate(
     result = _read(output / "result.json")
     entries = result.get("chains")
     if (
-        result.get("schema") != RESULT_SCHEMA
+        result.get("schema") != schema_for("-result", profile)
         or result.get("manifest_sha256") != digest
         or not isinstance(entries, list)
         or len(entries) > 256
@@ -329,7 +405,7 @@ def validate(
         timing = _read(stem.with_suffix(".timing.json"))
         expected_entry = {
             "index": i,
-            "seed": SEEDS[i],
+            "seed": seeds_for(profile)[i],
             "role": role(i),
             "receipt_sha256": _sha(stem.with_suffix(".json")),
             "arrays_sha256": _sha(stem.with_suffix(".npz")),
@@ -337,7 +413,7 @@ def validate(
         }
         if (
             entry != expected_entry
-            or m.seed != SEEDS[i]
+            or m.seed != seeds_for(profile)[i]
             or m.cycles != 1600000
             or m.config != config
             or not np.array_equal(m.bath_iw, bath)
@@ -346,7 +422,7 @@ def validate(
         ):
             raise ValueError("stored chain does not match frozen protocol")
         if (
-            timing.get("schema") != TIMING_SCHEMA
+            timing.get("schema") != schema_for("-timing", profile)
             or timing.get("seed") != m.seed
             or timing.get("solve_status") != 0
             or timing.get("average_sign") != m.average_sign
@@ -375,6 +451,8 @@ def worker(
     calibration_audit_sha256,
     index,
     lock_fd,
+    *,
+    profile="v2",
 ):
     if (
         lock_fd < 0
@@ -389,6 +467,7 @@ def worker(
         calibration_sha256,
         calibration_audit,
         calibration_audit_sha256,
+        **({"profile": profile} if profile in ("v3", "v4") else {}),
     )
     if index != len(result["chains"]):
         raise ValueError("chain must be the next predeclared index")
@@ -397,19 +476,21 @@ def worker(
     stem = folder / f"chain-{index:03d}"
     marker = stem.with_suffix(".attempt")
     with marker.open("x") as f:
-        f.write(json.dumps({"index": index, "seed": SEEDS[index]}) + "\n")
+        f.write(json.dumps({"index": index, "seed": seeds_for(profile)[index]}) + "\n")
         f.flush()
         os.fsync(f.fileno())
     start = time.monotonic()
     try:
-        m = CTHYBPlan(config).sample(bath, cycles=1600000, seed=SEEDS[index])
+        m = CTHYBPlan(config).sample(
+            bath, cycles=1600000, seed=seeds_for(profile)[index]
+        )
     except BaseException as error:
         _write(
             stem.with_suffix(".failure.json"),
             {
                 "schema": "kernelgecp.cthyb-fixed-bath-failure.v1",
                 "index": index,
-                "seed": SEEDS[index],
+                "seed": seeds_for(profile)[index],
                 "elapsed_seconds": time.monotonic() - start,
                 "exception_type": type(error).__name__,
                 "message": str(error),
@@ -428,7 +509,7 @@ def worker(
     }
     save_measurement(stem, m, identity)
     if (
-        m.seed != SEEDS[index]
+        m.seed != seeds_for(profile)[index]
         or m.config != config
         or m.cycles != 1600000
         or not np.array_equal(m.bath_iw, bath)
@@ -441,11 +522,18 @@ def worker(
     # An interrupted or invalid chain remains accompanied by its attempt marker.
     if (
         calibration_binding(
-            calibration, calibration_sha256, calibration_audit, calibration_audit_sha256
+            calibration,
+            calibration_sha256,
+            calibration_audit,
+            calibration_audit_sha256,
+            **({"profile": profile} if profile in ("v3", "v4") else {}),
         )
         != manifest["calibration"]
         or manifest["provenance"] != provenance()
-        or parent_data(parent, binding)[0] != manifest["parent"]
+        or parent_data(
+            parent, binding, **({"profile": profile} if profile in ("v3", "v4") else {})
+        )[0]
+        != manifest["parent"]
     ):
         raise ValueError("frozen execution identity changed during chain")
     entry = {
@@ -456,7 +544,7 @@ def worker(
         "arrays_sha256": _sha(stem.with_suffix(".npz")),
     }
     timing = {
-        "schema": TIMING_SCHEMA,
+        "schema": schema_for("-timing", profile),
         "seed": m.seed,
         "elapsed_seconds": elapsed,
         "peak_rss_bytes": rss,
@@ -482,6 +570,8 @@ def acquire(
     calibration_audit,
     calibration_audit_sha256,
     max_new,
+    *,
+    profile="v2",
 ):
     if type(max_new) is not int or not 1 <= max_new <= 256:
         raise ValueError("max-new-chains must be between 1 and 256")
@@ -498,6 +588,7 @@ def acquire(
                 calibration_sha256,
                 calibration_audit,
                 calibration_audit_sha256,
+                **({"profile": profile} if profile in ("v3", "v4") else {}),
             )
             if len(result["chains"]) == 256:
                 break
@@ -522,6 +613,8 @@ def acquire(
                 str(calibration_audit),
                 "--calibration-audit-sha256",
                 calibration_audit_sha256,
+                "--profile",
+                profile,
                 "worker",
                 "--index",
                 str(len(result["chains"])),
@@ -542,6 +635,7 @@ def main():
     parser.add_argument("--calibration-sha256", required=True)
     parser.add_argument("--calibration-audit", type=Path, required=True)
     parser.add_argument("--calibration-audit-sha256", required=True)
+    parser.add_argument("--profile", choices=("v2", "v3", "v4"), default="v2")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("freeze")
     a = sub.add_parser("acquire")
@@ -557,12 +651,25 @@ def main():
         args.calibration_audit_sha256,
     )
     if args.command == "freeze":
-        freeze(args.parent, args.binding, args.output, *calargs)
+        freeze(args.parent, args.binding, args.output, *calargs, profile=args.profile)
     elif args.command == "acquire":
-        acquire(args.parent, args.binding, args.output, *calargs, args.max_new_chains)
+        acquire(
+            args.parent,
+            args.binding,
+            args.output,
+            *calargs,
+            args.max_new_chains,
+            profile=args.profile,
+        )
     else:
         worker(
-            args.output, args.parent, args.binding, *calargs, args.index, args.lock_fd
+            args.output,
+            args.parent,
+            args.binding,
+            *calargs,
+            args.index,
+            args.lock_fd,
+            profile=args.profile,
         )
 
 

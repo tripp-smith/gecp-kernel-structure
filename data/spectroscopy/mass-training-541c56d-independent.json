@@ -1,0 +1,78 @@
+{
+  "status": "training_checks_passed_uncertified",
+  "cases": {
+    "identity/broad_gaussian": {
+      "selected_index": 16,
+      "independent_selected_index": 16,
+      "selected_training_chi2": 80.65183474223616,
+      "selected_whitened_rms": 1.122579581966214,
+      "max_mass_error": 4.440892098500626e-16,
+      "native_chi2_max_abs_error": 3.26139115713886e-11,
+      "selected_prediction_max_abs_error": 4.718447854656915e-16,
+      "all_trial_prediction_max_abs_error": 8.881784197001252e-16,
+      "eligible_selection_chi2_max_abs_error": 2.8776980798284058e-11,
+      "quad_vec_estimated_global_error": 4.134676241973155e-13,
+      "converged_count": 30,
+      "max_latent_zero_count": 310,
+      "min_observed_H": 2.828239038230993e-16,
+      "min_observed_mixture_floor": 2.828239038230993e-16
+    },
+    "identity/flat": {
+      "selected_index": 16,
+      "independent_selected_index": 16,
+      "selected_training_chi2": 80.65277541890285,
+      "selected_whitened_rms": 1.1225861285087915,
+      "max_mass_error": 4.440892098500626e-16,
+      "native_chi2_max_abs_error": 3.2642333280819e-11,
+      "selected_prediction_max_abs_error": 5.551115123125783e-16,
+      "all_trial_prediction_max_abs_error": 9.992007221626409e-16,
+      "eligible_selection_chi2_max_abs_error": 4.590106073010247e-11,
+      "quad_vec_estimated_global_error": 4.1558572427502436e-13,
+      "converged_count": 30,
+      "max_latent_zero_count": 400,
+      "min_observed_H": 1.2499999999999724e-15,
+      "min_observed_mixture_floor": 1.2499999999999724e-15
+    },
+    "marquardt/broad_gaussian": {
+      "selected_index": 16,
+      "independent_selected_index": 16,
+      "selected_training_chi2": 80.65183428727572,
+      "selected_whitened_rms": 1.1225795787999544,
+      "max_mass_error": 4.440892098500626e-16,
+      "native_chi2_max_abs_error": 3.927880243281834e-11,
+      "selected_prediction_max_abs_error": 2.7755575615628914e-16,
+      "all_trial_prediction_max_abs_error": 1.1102230246251565e-15,
+      "eligible_selection_chi2_max_abs_error": 3.4432900974934455e-11,
+      "quad_vec_estimated_global_error": 4.159051287979195e-13,
+      "converged_count": 28,
+      "max_latent_zero_count": 184,
+      "min_observed_H": 2.828239038230993e-16,
+      "min_observed_mixture_floor": 2.828239038230993e-16
+    },
+    "marquardt/flat": {
+      "selected_index": 16,
+      "independent_selected_index": 16,
+      "selected_training_chi2": 80.65277582475538,
+      "selected_whitened_rms": 1.1225861313332723,
+      "max_mass_error": 4.440892098500626e-16,
+      "native_chi2_max_abs_error": 4.7634785005357116e-11,
+      "selected_prediction_max_abs_error": 7.771561172376096e-16,
+      "all_trial_prediction_max_abs_error": 9.992007221626409e-16,
+      "eligible_selection_chi2_max_abs_error": 5.192646312934812e-11,
+      "quad_vec_estimated_global_error": 4.1471262576296765e-13,
+      "converged_count": 30,
+      "max_latent_zero_count": 400,
+      "min_observed_H": 1.2499999999999724e-15,
+      "min_observed_mixture_floor": 1.2499999999999724e-15
+    }
+  },
+  "scope": "consumed training only",
+  "quadrature_error_status": "estimated_not_certified",
+  "installed_identity_scope": "receipt claims; remote installation not independently observable",
+  "scout_status": "diagnostic_completed",
+  "receipt_sha256": "3dd445557102f99a5f23c0f300308b13b0a6bed0b3693f5394b188aef37f1831",
+  "covariance": {
+    "rank": 64,
+    "threshold": 2.5258188316199227e-11
+  }
+}

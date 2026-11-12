@@ -189,3 +189,49 @@ def test_candidate_inventory_is_ordered_and_failure_closed(tmp_path, monkeypatch
     freeze.write_text(json.dumps(f))
     with pytest.raises(ValueError, match="unresolved candidate"):
         audit.audit_calibration(cal, freeze, tmp_path)
+
+
+@pytest.mark.parametrize("change", ["policy", "ordinal", "pole", "version"])
+def test_dictionary_audit_rejects_v2_corruption(change):
+    from kernelgecp.integrations._frequency_cross import CauchyFrequencyPlan
+
+    plan = CauchyFrequencyPlan([1.0, 2.0, 3.0, 4.0], rank=3, dictionary_size=7)
+    metadata, arrays = plan.to_payload()
+    audit.validate_pole_dictionary(metadata, arrays["poles"])
+    if change == "policy":
+        metadata["dictionary_policy"] = "wrong"
+    elif change == "ordinal":
+        metadata["selected_pivot_columns"][0] = metadata["selected_pivot_columns"][1]
+    elif change == "pole":
+        arrays["poles"][0] = np.nextafter(arrays["poles"][0], -np.inf)
+    else:
+        metadata["version"] = 3
+    with pytest.raises(ValueError):
+        audit.validate_pole_dictionary(metadata, arrays["poles"])
+
+
+def test_dictionary_oracle_ignores_and_restores_caller_decimal_context():
+    from decimal import ROUND_DOWN, Inexact, Rounded, localcontext
+
+    from kernelgecp.integrations._frequency_cross import CauchyFrequencyPlan
+
+    plan = CauchyFrequencyPlan([1.0, 2.0, 3.0, 4.0], rank=3, dictionary_size=7)
+    metadata, arrays = plan.to_payload()
+    with localcontext() as ctx:
+        ctx.prec, ctx.rounding, ctx.Emin, ctx.Emax = 9, ROUND_DOWN, -9, 9
+        ctx.traps[Inexact] = ctx.traps[Rounded] = True
+        before = ctx.copy()
+        audit.validate_pole_dictionary(metadata, arrays["poles"])
+        assert ctx.prec == before.prec and ctx.rounding == before.rounding
+        assert ctx.Emin == before.Emin and ctx.Emax == before.Emax
+        assert ctx.traps == before.traps and ctx.flags == before.flags
+
+
+def test_v2_cannot_be_downgraded_with_extra_metadata():
+    from kernelgecp.integrations._frequency_cross import CauchyFrequencyPlan
+
+    plan = CauchyFrequencyPlan([1.0, 2.0], rank=1, dictionary_size=3)
+    metadata, arrays = plan.to_payload()
+    metadata["version"] = 1
+    with pytest.raises(ValueError, match="dictionary plan keys"):
+        audit.validate_pole_dictionary(metadata, arrays["poles"])

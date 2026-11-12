@@ -1,0 +1,32 @@
+{
+  "artifact_bytes": 18695,
+  "artifact_id": 13220899180,
+  "artifact_path": "experiments/data/maxent-canonical-3fb9a0a-failed.zip",
+  "artifact_sha256": "38b63ba7578469724dfc98f88f4c0c797be89ec6ca66c0205f18a8ccbfc7d8fe",
+  "capture_sha256": "b5f5a4aa961fd7d52b86e20addd04f0c0ddd27afdaa2f3974a5281541672db6c",
+  "case": "offgrid_atoms_independent-raw-flat-r0",
+  "case_receipt_sha256": "9ad500ff3658492619af29d8aa534cbf2c146c11079cd9eaa11108f554a99616",
+  "completed_alpha_trials": 12,
+  "error": "LinAlgError: Singular matrix",
+  "final_acquisition_executed": false,
+  "final_synthetic_generated": false,
+  "native_allocation_drawn": false,
+  "native_alpha": 10.0,
+  "native_iteration": 141,
+  "prior_calibration": {
+    "artifact_bytes": 27413003,
+    "artifact_id": 13220431839,
+    "artifact_sha256": "f3e9c4660d7578a458a4db7b74d9d6af74e5f3056c3a08615cc838a7ba349e2b",
+    "measured_cases": 8,
+    "run_id": 41606643817,
+    "status": "passed",
+    "synthetic_cases": 24
+  },
+  "run_attempt": 1,
+  "run_id": 41617127989,
+  "schema": "kernelgecp.maxent-canonical-failure.v1",
+  "scope": "failed canonical attempt before final generation; no source retry or scientific acceptance",
+  "source_revision": "3fb9a0a38cb43bbc9413592817514ecfd23df81c",
+  "stage": "first repeated synthetic calibration continuation",
+  "status": "failed"
+}

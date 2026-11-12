@@ -1,8 +1,35 @@
 # MaxEnt spectroscopy evidence
 
-The original frozen `feaac669` campaign passes in [canonical Linux run 41095194293](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/41095194293). PR #142 merged as `3bc726b`, but its exact-main replay fails the independent projection check. Delivery remains open; the [canonical receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/142#issuecomment-6559937288) preserves both passing branch and failing main evidence. Sections named for older sources are historical; both measured failures remain failed and consumed.
+EH remains open. Corrective v2 source `98bdfab` completes all256 native chains
+and the independent raw-only audit in run41391193610, plus72 synthetic final
+children. Its first measured final raw-flat-r0 case fails held-out whitened
+RMS2.885315>2. The remaining23 workers never run. Preserve this failed consumed
+cohort and the earlier independent-projection discrepancy; no tolerance is
+relaxed. An explicit native mass-constraint candidate is in development after
+training-only analysis identifies a large fit penalty from posthoc rescaling.
+Candidate `f1663ed` passes actual installed Linux/macOS native interface probes;
+it has no new scientific calibration/final acceptance. The fixed-control scout
+at2df694e fails explicitly for both defaults at the native entropy floor before
+completing the alpha grid. Its consumed training observations remain development
+data. The projected-curvature scout at3badf9f also fails at the strict floor,
+after22/20 completed trials. The next candidate declares an interior mixture
+with the default distribution before optimization, recording its fraction and
+consistent derivatives. Its fixed-coordinate bias bound does not bound a new
+optimized solution. No held-out scoring, postprocessing clip, tolerance change
+or new Monte Carlo allocation occurs. The mixture scout at33ab968 subsequently
+fails on singular native systems after18/15 completed trials. The next declared
+comparison captures failed systems and tests native diagonal-relative damping
+against identity damping; failed rows and overall failure remain visible.
+The
+[canonical corrective receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records original artifacts, independent audits and remaining gates.
 
-## Accepted Linux scientific campaign
+Actual v4 calibration at `0e21c12` passes all 24 synthetic and eight
+measured cases and their independent audits. The joint package revision includes
+the versioned EPW dictionary and requires its own calibration before canonical
+acquisition. Reserved v4 final seeds remain untouched.
+
+## Historical Linux campaign; current acceptance superseded
 
 The [source-bound summary](data/spectroscopy/linux-summary-feaac66.json) records
 24 synthetic calibration cases, 72 untouched synthetic final children (24
@@ -281,3 +308,50 @@ status is not scientific acceptance. No provider calculation, new samples,
 changed production representation or changed budget is involved. A production
 repair would require new source binding, calibration and appropriate untouched
 final validation; observed final data cannot be relabeled untouched.
+
+
+## Corrective explicit-precision provider checks (in progress)
+
+The explicit constrained-mass candidate also requires owned writable initial
+coordinates for the native Levenberg update. The pure mathematical map keeps
+immutable outputs. The adapter rejects hidden images, defaults or their ratio
+at the native entropy floor (`1e-100`) and nonfinite ratios before the provider
+can alter them. Underflow or such a trial fails explicitly; no optimizer or
+entropy substitute is used. These interface bounds do not establish scientific
+calibration or a held-out prediction pass.
+
+The opt-in projection mode uses declared higher-precision QR followed by the
+cached SVD on rounded orthogonal coordinates. It keeps the original rank,
+cutoff and conditioning, immutable source/decomposition inputs and portable
+hashes. The default remains binary64; unsupported truncated/cross-mesh requests
+fail. The MP resource cap precedes factorization. No scientific tolerance changes.
+
+`projection_precision_smoke.py` checks the actual installed candidate outside
+the checkout with the real pyDLR/IR providers and the GECP basis. It compares
+the exact single source design with a repeated provider evaluation, verifies
+module and noneditable-wheel identities, and uses separate 80-digit SVD plus
+complex-kernel/covariance probes. The Linux/macOS pinned runtime lanes must run
+this check. Its status concerns projection matrices only, with no native
+sampling, TauMaxEnt calibration or final scientific acceptance. Previously
+observed final data remain observed; a complete source-bound repair validation
+contract remains required.
+
+
+### Joint v4 run and independent replay
+
+The joint calibration on `6caf85f` passed all 24 synthetic and eight measured
+cases. The single canonical attempt passed 72 synthetic final cases,
+256 native fixed-bath chains and 24 measured final cases. All four checkpoints
+preserved the earlier chain bytes. The separate pinned Linux replay passed
+both synthetic audits, both measured audits and the raw-cohort audit.
+[Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
+[independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).
+
+The current-candidate check uses the committed v4 origin pin. Automatic CI
+also verifies the archived v1 input bytes. The archived numerical replay
+runs on `2f2446c` when dispatched with `historical_replay=true`. It passed on
+the separate Linux preflight. The pinned PR run failed the archived
+pyDLR projection check twice, and a fixed Haswell OpenBLAS kernel reproduced
+the failure. These outcomes remain in the [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201). The measured residuals describe held-out chain
+means under the frozen noise model. The scope is scalar or diagonal positive
+spectra for the tested provider, fixtures and bath.

@@ -147,6 +147,9 @@ def test_analytic_truth_and_cdf():
 
 def _campaign(tmp_path):
     control = {
+        "profile": "corrective_projection_v2_synthetic_binary64",
+        "rcond": 1e-10,
+        "precision_bits": 53,
         "cases": list(audit.CASES),
         "methods": list(audit.METHODS),
         "defaults": list(audit.DEFAULTS),
@@ -156,7 +159,7 @@ def _campaign(tmp_path):
         "minimizer_mu0": 1e-8,
         "calibration_seeds": [101, 102, 103],
         "calibration_query_order": 24,
-        "final_seeds": [3001, 3002, 3003],
+        "final_seeds": [4001, 4002, 4003],
         "final_query_order": 64,
         "bootstrap_first_repeat": 8,
         "repeats": 3,
@@ -171,7 +174,7 @@ def _campaign(tmp_path):
     freeze.write_text(
         json.dumps(
             {
-                "schema": "kernelgecp.spectroscopy-freeze.v1",
+                "schema": "kernelgecp.spectroscopy-freeze.v2",
                 "status": "passed",
                 "controls": control,
                 "provenance": p,
@@ -179,7 +182,7 @@ def _campaign(tmp_path):
         )
     )
     m = {
-        "schema": "kernelgecp.spectroscopy-campaign.v1",
+        "schema": "kernelgecp.spectroscopy-campaign.v2",
         "kind": "campaign",
         "status": "passed",
         "controls": control,
@@ -246,4 +249,44 @@ def test_rejects_changed_repeat_even_with_valid_hashes(tmp_path, monkeypatch):
 
     monkeypatch.setattr(audit, "audit_case", fake)
     with pytest.raises(ValueError, match="repeat mismatch"):
+        audit.audit_campaign(path, freeze)
+
+
+def test_v1_schema_and_changed_precision_controls_are_rejected(tmp_path):
+    path = tmp_path / "case.json"
+    base = {
+        "schema": "kernelgecp.spectroscopy-case.v2",
+        "status": "passed",
+        "rcond": 1e-10,
+        "precision_bits": 53,
+    }
+    for update, error in [
+        ({"schema": "kernelgecp.spectroscopy-case.v1"}, "schema"),
+        ({"precision_bits": 256}, "projection controls"),
+        ({"precision_bits": True}, "projection controls"),
+        ({"rcond": 1e-12}, "projection controls"),
+    ]:
+        path.write_text(json.dumps({**base, **update}))
+        with pytest.raises(ValueError, match=error):
+            audit.audit_case(path)
+
+
+def test_old_campaign_freeze_and_profile_are_rejected(tmp_path, monkeypatch):
+    path, freeze, manifest = _campaign(tmp_path)
+    monkeypatch.setattr(audit, "check_provenance", lambda p: None)
+    manifest["schema"] = "kernelgecp.spectroscopy-campaign.v1"
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="schema"):
+        audit.audit_campaign(path, freeze)
+    manifest["schema"] = "kernelgecp.spectroscopy-campaign.v2"
+    path.write_text(json.dumps(manifest))
+    frozen = json.loads(freeze.read_text())
+    frozen["schema"] = "kernelgecp.spectroscopy-freeze.v1"
+    freeze.write_text(json.dumps(frozen))
+    with pytest.raises(ValueError, match="schema"):
+        audit.audit_campaign(path, freeze)
+    frozen["schema"] = "kernelgecp.spectroscopy-freeze.v2"
+    frozen["controls"]["profile"] = "old"
+    freeze.write_text(json.dumps(frozen))
+    with pytest.raises(ValueError, match="controls"):
         audit.audit_campaign(path, freeze)

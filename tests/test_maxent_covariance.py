@@ -23,6 +23,7 @@ from kernelgecp.integrations.maxent import (
     save_spectral_dataset,
     spectral_forward,
 )
+from kernelgecp.types import NumericalBreakdownError
 
 
 class PolynomialDesign:
@@ -367,7 +368,13 @@ def test_selection_scores_delivered_spectrum_and_projection_not_provider_chi2():
 
 
 @pytest.mark.parametrize("mu0", [None, 2e-7])
-def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch, mu0):
+@pytest.mark.parametrize("marquardt", [False, True])
+@pytest.mark.parametrize(
+    "failure_type", [np.linalg.LinAlgError, NumericalBreakdownError]
+)
+def test_provider_failure_retains_cause_and_completed_trial_history(
+    monkeypatch, mu0, failure_type, marquardt
+):
     from types import SimpleNamespace
 
     from kernelgecp.types import NumericalBreakdownError
@@ -394,7 +401,7 @@ def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch,
         def run(self):
             self.minimizer.minimize()
             np.seterr(all="ignore")
-            raise np.linalg.LinAlgError("singular training system")
+            raise failure_type("controlled training breakdown")
 
     provider = SimpleNamespace(
         TauMaxEnt=Solver,
@@ -415,16 +422,21 @@ def test_provider_failure_retains_cause_and_completed_trial_history(monkeypatch,
     )
     previous_policy = np.geterr()
     with pytest.raises(NumericalBreakdownError) as caught:
-        settings = {"maxiter": 123}
+        settings = {"maxiter": 123, "minimizer_marquardt": marquardt}
         if mu0 is not None:
             settings["minimizer_mu0"] = mu0
         continue_tau_maxent(dataset(), MaxEntConfig(**settings))
-    assert constructor_calls == [{"maxiter": 123, "mu0": 1e-18 if mu0 is None else mu0}]
+    expected = {"maxiter": 123, "mu0": 1e-18 if mu0 is None else mu0}
+    if marquardt:
+        expected["marquardt"] = True
+    assert constructor_calls == [expected]
     assert np.geterr() == previous_policy
-    assert "LinAlgError: singular training system" in str(caught.value)
+    assert f"{failure_type.__name__}: controlled training breakdown" in str(
+        caught.value
+    )
     assert "completed trials: 1" in str(caught.value)
     assert "history (converged, iterations): [(True, 7)]" in str(caught.value)
-    assert isinstance(caught.value.__cause__, np.linalg.LinAlgError)
+    assert isinstance(caught.value.__cause__, failure_type)
 
 
 def test_existing_positional_configuration_keeps_its_meaning():

@@ -1,0 +1,68 @@
+Warning: could not identify MPI environment!
+Starting serial run at: 2026-11-02 22:31:36.845809
+2026-11-02 22:31:37.038311
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 61.0550207630266
+alpha[ 0] =   1.00000000e+04, chi2 =   2.06843255e+02, n_iter=       8 
+alpha[ 1] =   5.62341325e+03, chi2 =   1.38431865e+02, n_iter=       5 
+alpha[ 2] =   3.16227766e+03, chi2 =   1.09172456e+02, n_iter=       6 
+alpha[ 3] =   1.77827941e+03, chi2 =   9.57961223e+01, n_iter=       6 
+alpha[ 4] =   1.00000000e+03, chi2 =   8.93136234e+01, n_iter=       7 
+alpha[ 5] =   5.62341325e+02, chi2 =   8.61549743e+01, n_iter=       7 
+alpha[ 6] =   3.16227766e+02, chi2 =   8.46022302e+01, n_iter=       8 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.37728775e+01, n_iter=      11 
+alpha[ 8] =   1.00000000e+02, chi2 =   8.32543207e+01, n_iter=      14 
+alpha[ 9] =   5.62341325e+01, chi2 =   8.28660279e+01, n_iter=      18 
+alpha[10] =   3.16227766e+01, chi2 =   8.25282242e+01, n_iter=      25 
+alpha[11] =   1.77827941e+01, chi2 =   8.21999530e+01, n_iter=      35 
+alpha[12] =   1.00000000e+01, chi2 =   8.18504691e+01, n_iter=      50 
+alpha[13] =   5.62341325e+00, chi2 =   8.14579924e+01, n_iter=      69 
+alpha[14] =   3.16227766e+00, chi2 =   8.10169744e+01, n_iter=      96 
+alpha[15] =   1.77827941e+00, chi2 =   8.05405907e+01, n_iter=     134 
+alpha[16] =   1.00000000e+00, chi2 =   8.00707754e+01, n_iter=     188 
+alpha[17] =   5.62341325e-01, chi2 =   7.96770248e+01, n_iter=     241 
+alpha[18] =   3.16227766e-01, chi2 =   7.94092505e+01, n_iter=     261 
+alpha[19] =   1.77827941e-01, chi2 =   7.92573971e+01, n_iter=     242 
+alpha[20] =   1.00000000e-01, chi2 =   7.91761763e+01, n_iter=     186 
+alpha[21] =   5.62341325e-02, chi2 =   7.91315842e+01, n_iter=     198 
+flat failed: NumericalBreakdownError: actual TauMaxEnt failed; no substitute method; NumericalBreakdownError: constrained image reaches native NormalEntropy floor or overflow; completed trials: 22; history (converged, iterations): [(True, 8), (True, 5), (True, 6), (True, 6), (True, 7), (True, 7), (True, 8), (True, 11), (True, 14), (True, 18), (True, 25), (True, 35), (True, 50), (True, 69), (True, 96), (True, 134), (True, 188), (True, 241), (True, 261), (True, 242), (True, 186), (True, 198)]
+2026-11-02 22:31:42.472147
+MaxEnt run
+TRIQS application maxent
+Copyright(C) 2018 Gernot J. Kraberger
+Copyright(C) 2018 Simons Foundation
+Authors: Gernot J. Kraberger and Manuel Zingl
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistributeit under certain conditions; see file LICENSE.
+Please cite this code and the appropriate original papers (see documentation).
+
+Minimal chi2: 61.0550207630266
+alpha[ 0] =   1.00000000e+04, chi2 =   9.78817466e+01, n_iter=       7 
+alpha[ 1] =   5.62341325e+03, chi2 =   9.14427884e+01, n_iter=       4 
+alpha[ 2] =   3.16227766e+03, chi2 =   8.82705649e+01, n_iter=       5 
+alpha[ 3] =   1.77827941e+03, chi2 =   8.64243643e+01, n_iter=       5 
+alpha[ 4] =   1.00000000e+03, chi2 =   8.52487805e+01, n_iter=       6 
+alpha[ 5] =   5.62341325e+02, chi2 =   8.44660025e+01, n_iter=       6 
+alpha[ 6] =   3.16227766e+02, chi2 =   8.39005155e+01, n_iter=       8 
+alpha[ 7] =   1.77827941e+02, chi2 =   8.34565902e+01, n_iter=      10 
+alpha[ 8] =   1.00000000e+02, chi2 =   8.30923224e+01, n_iter=      13 
+alpha[ 9] =   5.62341325e+01, chi2 =   8.27775266e+01, n_iter=      18 
+alpha[10] =   3.16227766e+01, chi2 =   8.24824269e+01, n_iter=      25 
+alpha[11] =   1.77827941e+01, chi2 =   8.21795317e+01, n_iter=      35 
+alpha[12] =   1.00000000e+01, chi2 =   8.18430570e+01, n_iter=      50 
+alpha[13] =   5.62341325e+00, chi2 =   8.14556624e+01, n_iter=      69 
+alpha[14] =   3.16227766e+00, chi2 =   8.10159455e+01, n_iter=      95 
+alpha[15] =   1.77827941e+00, chi2 =   8.05398473e+01, n_iter=     134 
+alpha[16] =   1.00000000e+00, chi2 =   8.00703350e+01, n_iter=     188 
+alpha[17] =   5.62341325e-01, chi2 =   7.96768259e+01, n_iter=     239 
+alpha[18] =   3.16227766e-01, chi2 =   7.94091764e+01, n_iter=     262 
+alpha[19] =   1.77827941e-01, chi2 =   7.92573720e+01, n_iter=     235 
+broad_gaussian failed: NumericalBreakdownError: actual TauMaxEnt failed; no substitute method; NumericalBreakdownError: constrained image reaches native NormalEntropy floor or overflow; completed trials: 20; history (converged, iterations): [(True, 7), (True, 4), (True, 5), (True, 5), (True, 6), (True, 6), (True, 8), (True, 10), (True, 13), (True, 18), (True, 25), (True, 35), (True, 50), (True, 69), (True, 95), (True, 134), (True, 188), (True, 239), (True, 262), (True, 235)]

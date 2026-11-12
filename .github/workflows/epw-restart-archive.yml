@@ -72,6 +72,27 @@ jobs:
           environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
             --manifest "$PWD/artifacts/restart20/campaign.json" \
             --output "$PWD/artifacts/restart20-audit.json"
+      - name: Independently audit relocated native archive
+        run: |
+          # Docker owns the native tree. Keep mv atomic on one filesystem,
+          # and use runner sudo to preserve ownership on both moves.
+          relocation_root="$(mktemp -d "$PWD/artifacts/epw-relocated.XXXXXXXX")"
+          cp artifacts/epw-anisotropic.json "$relocation_root/epw-anisotropic.json"
+          restore_native() {
+            if [ -d "$relocation_root/epw-native" ]; then
+              sudo mv "$relocation_root/epw-native" artifacts/epw-native
+            fi
+          }
+          trap restore_native EXIT
+          test "$(stat -c %d artifacts/epw-native)" = "$(stat -c %d "$relocation_root")"
+          sudo mv artifacts/epw-native "$relocation_root/epw-native"
+          test ! -e artifacts/epw-native
+          environments/epw-science/.venv/bin/python -m experiments.audit_epw_restart_roundtrip \
+            --manifest "$PWD/artifacts/restart20/campaign.json" \
+            --native-root-override "$relocation_root" \
+            --output "$PWD/artifacts/restart20-relocated-audit.json"
+          restore_native
+          trap - EXIT
       - name: Compare actual unmodified native raw and restored restarts
         run: |
           docker run --rm -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 \
@@ -99,10 +120,51 @@ jobs:
             artifacts/epw-native/test-suite/epw_super/MgB2.imag_aniso_*
             artifacts/restart20/
             artifacts/restart20-audit.json
+            artifacts/restart20-relocated-audit.json
             artifacts/restart20-native-comparison.json
             artifacts/restart20-native-comparison-restart-cases/**/restart.out
             artifacts/restart20-native-comparison-restart-cases/**/epw6.in
             artifacts/restart20-native-comparison-restart-cases/**/MgB2.imag_aniso_020.00
             artifacts/restart20-native-comparison-restart-cases/**/MgB2.pade_aniso_020.00.gz
+          if-no-files-found: error
+          retention-days: 14
+
+  payload-audit:
+    needs: native
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      BLIS_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v5
+      - name: Install isolated locked scientific runtime
+        run: uv sync --project environments/epw-science --frozen
+      - uses: actions/download-artifact@v4
+        with:
+          name: epw-explicit-restart-archive-linux
+          path: evidence
+      - name: Independently replay the EPW release payload
+        run: |
+          environments/epw-science/.venv/bin/python -m scripts.release_epw_audits \
+            --payload "$PWD/evidence" --source-revision "$(git rev-parse HEAD)" \
+            --epw-python "$PWD/environments/epw-science/.venv/bin/python" \
+            --output "$RUNNER_TEMP/epw-payload-audit"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: epw-release-payload-audit
+          path: ${{ runner.temp }}/epw-payload-audit/
           if-no-files-found: error
           retention-days: 14

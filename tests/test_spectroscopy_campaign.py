@@ -48,14 +48,118 @@ def test_new_final_noise_and_query_nodes_are_disjoint_from_consumed_validation()
     from experiments.spectroscopy_campaign import controls, jobs
 
     frozen = controls()
-    assert frozen["final_seeds"] == [3001, 3002, 3003]
+    assert frozen["final_seeds"] == [4001, 4002, 4003]
     assert frozen["final_query_order"] == 64
     assert frozen["minimizer_mu0"] == 1e-8
-    for offset, case in enumerate(frozen["cases"]):
-        old, old_query, _ = observations(case, 2001 + offset, query_order=48)
-        new, new_query, _ = observations(case, 3001 + offset, query_order=64)
-        assert not np.array_equal(old.values, new.values)
-        assert not np.intersect1d(old_query, new_query).size
-        assert not np.intersect1d(new.tau, new_query).size
+    assert frozen["rcond"] == 1e-10 and frozen["precision_bits"] == 53
+    assert frozen["profile"] == "corrective_projection_v2_synthetic_binary64"
+    # Check reserved identities without generating the untouched final noise.
+    assert not set(frozen["final_seeds"]) & {
+        101,
+        102,
+        103,
+        1001,
+        1002,
+        1003,
+        2001,
+        2002,
+        2003,
+        3001,
+        3002,
+        3003,
+    }
+    fixture, query, _ = observations("offgrid_atoms_correlated", 111, query_order=64)
+    assert not np.intersect1d(fixture.tau, query).size
     assert all(job["minimizer_mu0"] == 1e-8 for job in jobs(True))
     assert all(job["minimizer_mu0"] == 1e-8 for job in jobs(False))
+
+
+def test_case_serializes_single_source_design_with_binary64_controls(
+    tmp_path, monkeypatch
+):
+    from experiments import spectroscopy as science
+
+    calls = []
+
+    class Basis:
+        beta = 10
+
+        def design_tau(self, tau):
+            calls.append(1)
+            return np.polynomial.legendre.legvander(2 * tau / 10 - 1, 3)
+
+    class Spectrum:
+        omega = np.linspace(-4, 4, 9)
+        density = np.ones(9) / 8
+        mass = raw_mass = 1.0
+        alphas = np.array([1.0])
+        chi2 = np.array([1.0])
+        trial_spectra = density[None, :]
+        selected_index = 0
+        converged = (True,)
+        iterations = (1,)
+        effective_rank = 4
+        normalized_training_whitened_rms = 0.1
+        diagnostics = {}
+
+        def evaluate_tau(self, beta, tau):
+            return science.truth("offgrid_atoms_correlated", beta, tau)
+
+    monkeypatch.setattr(science, "basis", lambda *args: Basis())
+    monkeypatch.setattr(science, "provenance", lambda: {})
+    monkeypatch.setattr(science, "continue_tau_maxent", lambda *args: Spectrum())
+    output = tmp_path / "case.json"
+    result = science.run_case(
+        "offgrid_atoms_correlated",
+        "pydlr",
+        101,
+        1e-8,
+        {},
+        output,
+        pilot=True,
+        rcond=1e-10,
+        precision_bits=53,
+    )
+    assert calls == [1]
+    assert result["schema"] == "kernelgecp.spectroscopy-case.v2"
+    assert result["rcond"] == result["projection_svd"]["rcond"] == 1e-10
+    assert result["precision_bits"] == 53
+    with np.load(output.with_suffix(".npz")) as archive:
+        expected = np.polynomial.legendre.legvander(2 * archive["tau"] / 10 - 1, 3)
+        np.testing.assert_array_equal(archive["observation_design"], expected)
+    with pytest.raises(ValueError, match="precision_bits=53"):
+        science.run_case(
+            "offgrid_atoms_correlated",
+            "pydlr",
+            101,
+            1e-8,
+            {},
+            tmp_path / "bad.json",
+            pilot=True,
+            precision_bits=256,
+        )
+
+    class DisagreeingFit:
+        def evaluate_tau(self, tau):
+            return np.full(len(tau), 100.0)
+
+        def save(self, path):
+            path.write_bytes(b"fixture")
+
+    class GecpBasis(Basis):
+        def fit_tau(self, values, tau, *, rcond):
+            assert rcond == 1e-10
+            return DisagreeingFit()
+
+    monkeypatch.setattr(science, "basis", lambda *args: GecpBasis())
+    failed = science.run_case(
+        "offgrid_atoms_correlated",
+        "kernelgecp",
+        101,
+        1e-8,
+        {},
+        tmp_path / "gecp.json",
+        pilot=True,
+    )
+    assert failed["status"] == "failed"
+    assert failed["gates"]["coefficient_projection_agreement"] is False

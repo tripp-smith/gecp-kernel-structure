@@ -30,6 +30,21 @@ physical cutoff. The result is finite-data representation evidence, not a
 material prediction, a GF2 or EPW solver acceleration result, or a universal
 speedup. No analytic or rounding certificate is claimed.
 
+The optional historical 17 K native-context test requires an actual source
+fixture directory containing `epw-anisotropic.json` and the corresponding
+`epw-native/test-suite/epw_super` inputs, log, and native tables accepted by
+`native_context`, with producer and data hashes matching the checked-out source.
+Run it explicitly with:
+
+```bash
+KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT=/path/to/native-source uv run pytest -q tests/test_epw_frequency_campaign.py::test_actual_native_context_and_explicit_offset
+```
+
+When the variable is unset, this extra test skips; an invalid or incomplete
+opt-in fails. It exercises the historical pure-fit source context and explicit
+offset checks, and does not replace the mandatory supported archive provider
+or release EPW gates.
+
 ## Frozen calibration and held-out checks
 
 Calibration uses frequency indices 36, 40, 44; indices 45, 49, 53 were
