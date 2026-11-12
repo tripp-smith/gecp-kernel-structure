@@ -1,0 +1,20 @@
+{
+  "artifact_bytes": 5729,
+  "artifact_id": 13215738278,
+  "artifact_path": "experiments/data/maxent-calibration-bc29be5-failed.zip",
+  "artifact_sha256": "9031f35a0b4e822706a34e256a3962f85c24f07955d8b612d577ca0dc2450ef8",
+  "case": "offgrid_atoms_independent-raw-flat-r0",
+  "case_receipt_sha256": "f129c1433e5da7152baf3bd12d233cd0714a6e70c9c63946d5be34b94b120984",
+  "completed_alpha_trials": 12,
+  "error": "NumericalBreakdownError: actual TauMaxEnt failed; no substitute method; LinAlgError: Singular matrix; completed trials: 12; history (converged, iterations): [(True, 249), (True, 13), (True, 14), (True, 16), (True, 19), (True, 24), (True, 28), (True, 43), (True, 62), (True, 59), (True, 84), (True, 116)]",
+  "final_acquisition_executed": false,
+  "measured_calibration_executed": false,
+  "run_attempt": 1,
+  "run_id": 41603543319,
+  "schema": "kernelgecp.maxent-calibration-failure.v1",
+  "scientific_auditor_executed": false,
+  "scope": "consumed development calibration; no complete trial family or scientific acceptance; no retry for green",
+  "source_revision": "bc29be5c1a312cdcd530ea43e27ccc9c67e07930",
+  "stage": "first synthetic calibration continuation",
+  "status": "failed"
+}

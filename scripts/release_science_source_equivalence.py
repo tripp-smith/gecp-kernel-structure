@@ -13,13 +13,17 @@ import re
 import subprocess
 import sys
 
-# Exact paths only. These are release plumbing,
+# Exact paths only. These are release plumbing or release metadata,
 # not science providers or production code. Their contents are not approved by
 # this comparison; other release gates must validate and execute them.
 RELEASE_ONLY = frozenset(
     {
         ".github/workflows/publish.yml",
         ".github/workflows/release-science.yml",
+        ".github/workflows/spectroscopy-evidence.yml",
+        "CITATION.cff",
+        "scripts/release_spectroscopy_replay.py",
+        "tests/test_release_spectroscopy_replay.py",
         "scripts/release_science_fetch.py",
         "scripts/release_science_runs.py",
         "scripts/release_science_payloads.py",
@@ -44,6 +48,17 @@ RELEASE_ONLY = frozenset(
 # lockfiles and unknown tracked paths are all protected, including their mode.
 ROOT_PROSE = frozenset(
     {
+        "PACKAGE_README.md",
+        "METHODS.md",
+        "INTERACTING_DMFT.md",
+        "CTHYB_DMFT.md",
+        "MOLECULAR_GREEN.md",
+        "EPW_INTEROPERABILITY.md",
+        "COVARIANCE.md",
+        "INSTALLATION_COMPATIBILITY.md",
+        "MIGRATION.md",
+        "PROVIDER_NOTICES.md",
+        "RELEASE_NOTES.md",
         "APPLICATION.md",
         "FINDINGS.md",
         "PRODUCTIZATION.md",

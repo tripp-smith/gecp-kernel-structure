@@ -2648,6 +2648,105 @@ uncertainty coverage, universal speedup or continuous-theorem claims. Delivery
 and 1.2 publication remain subject to final checks.
 
 
+### EH post-merge projection precision finding (2026-11-01)
+
+Main 3bc726b passes base verification but fails the frozen independent
+projection replay. Independent 50-digit SVD places the saved pyDLR projector
+outside its existing comparison tolerance; the retained design condition is
+about 1.59e10. A local calibration-only explicit higher-precision QR plus cached
+SVD gives projector differences below 8e-16 from a separate 80-digit SVD for
+GECP, pyDLR and sparse IR. Original conditioning remains reported. This is finite
+matrix evidence and does not establish actual MaxEnt calibration, final
+spectroscopy acceptance or a speed advantage. No acceptance budget changed.
+
+
+### EH v2 final failure and unit-mass objective hypothesis
+
+All256 native chains and the independent fixed-bath raw audit pass at98bdfab.
+Continuation fails on the first raw-flat final case: RMS2.885315>2, despite
+positivity, delivered unit mass and selected native convergence. Independent
+means/covariance/forward checks reproduce the miss. The selected unconstrained
+trial has mass1.0022294 and native training chi²79.84; explicit rescaling raises
+independent training chi² to492.19. A training-only constrained nonnegative
+reference reaches about79.08 with numerical/KKT limitations. These facts support
+a bounded native unit-mass optimization hypothesis; they do not establish cause,
+global optimality, held-out improvement or final scientific acceptance. The
+failed cohort is consumed; remaining23 workers never execute, and new decisions
+require an appropriate new freeze and untouched validation. Thresholds stay fixed.
+
+The constrained-mass interface at f1663ed passes actual installed Linux/macOS
+probes: full native cost derivatives agree with finite differences below2.5e-11,
+both smooth default-model cases converge at all5alphas, and masses agree within
+4.5e-16. These are interface checks; the consumed-data training results below
+do not close scientific calibration or final acceptance.
+
+The real consumed-training scout at2df694e fails for both default models before
+completing its33alphas: the strict entropy-floor guard aborts after17/11 logged
+trials. This is a numerical failure, not improved spectroscopy evidence. The
+projected candidate at3badf9f passes both-curvature native interface probes but
+also fails at the strict entropy floor after22/20 completed converged trials.
+No complete spectrum is returned, and no new raw samples are acquired.
+
+A declared interior mixture Hε=M[εq+(1−ε)p] is being tested with ε=1e-12 and a
+zero default. For equal coordinates in exact arithmetic its L1 perturbation is
+at most2Mε; this is not a bound after reoptimization, a floating-point certificate
+or a held-out success. Strict native guards and all scientific budgets remain.
+
+The actual33ab968 mixture scout passes both-platform interface checks but fails
+on singular native systems after18/15 completed converged trials. No complete
+spectrum is returned. Captured-system diagnostics and the provider's explicit
+relative-diagonal damping option are next tests under the same objective and
+accuracy budgets; no numerical cause or successful fix is yet established.
+
+
+## EH unit-mass training comparison and v3 boundary
+
+Actual run41573167725 at541c56d returns all33 trials for all four declared
+identity/Marquardt and flat/Gaussian cases. The independent native-kernel and
+adaptive-quadrature training audit agrees on alpha1, RMS~1.1226 and positive
+unit masses within4.45e-16. Selected trials converge; low-alpha exhaustion
+remains visible. Both identity controls complete despite prior singular solves,
+so this does not establish a relative-damping advantage or a sole failure cause.
+The authenticated full artifact and training-only receipt/audit are preserved in
+experiments/data/maxent-training-541c56d.zip and data/spectroscopy.
+
+Opt-in v3 development versions the measured and synthetic protocols, acquisition
+and audit schemas, explicit native mass/curvature/interior/damping controls and
+fresh final seed identities. Independent audits reject a post-fit rescale and
+check bootstrap mass metadata. V2 remains the default. No v3 final noise or raw
+chains have been generated; calibration on consumed development data, source
+freeze, untouched final validation and exact-source/main CI are still required.
+
+V3 calibration41603543319 fails in actual native MaxEnt on the first synthetic
+raw/flat case after12 converged trials, despite passing installed interface
+checks. This is an explicit numerical breakdown, not a completed calibration.
+The failed artifact is preserved; observational linear-system capture is added
+before selecting a further numerical candidate. No final allocation executes.
+
+## EH captured canonical failure and explicit v4 metric
+
+The complete consumed-data calibration41606643817 at3fb9a0a passes24 synthetic
+and8 measured cases and independent audits. The same source's single canonical
+attempt41617127989 fails during repeated calibration on a native singular solve
+after12 trials, before final synthetic generation or any fresh341 chain. Both
+outcomes are retained; passing calibration did not imply robust execution.
+The failed artifact and case/capture hashes are preserved in
+`data/spectroscopy/canonical-3fb9a0a-failed.json`.
+
+Exact dyadic elimination finds rank29 for the saved rounded29x29 system; an
+80-digit SVD estimates condition1.7833e18. No metric diagonal is zero, and all
+29 diagonal damping additions change the stored matrix. These observations
+exclude completely absent diagonal damping for this capture; they establish
+neither latent model rank, sole cause, nor optimizer convergence. Independent
+high-precision eigenanalysis of a proposed explicitly shifted metric estimates
+condition1.427e9 on this one matrix. No optimization or held-out score follows.
+
+V4 development declares a relative floor1e-10 on symmetrized projected curvature,
+retaining the exact objective/gradient, actual native optimizer and physical
+budgets. It is an optimization metric change and remains unaccepted until actual
+provider calibration and appropriately frozen untouched final validation pass.
+
+
 ### EH acceptance reopened; EJ gate components
 
 The earlier FEAA workflow pass above is historical. Merged-main replay reveals
@@ -2769,3 +2868,44 @@ cover malformed and incomplete evidence. The actual v4 replay remains pending
 the final scientific artifact. The joint calibration-only run42776842790 at
 `6caf85f` uses the sharded workflow source with acquisition disabled. Release
 eligibility, version publication and exact-main delivery remain open.
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.
+
+
+### EH canonical v4 final and independent replay
+
+Frozen source `6caf85f` passed 72 synthetic and 24 measured final cases. The
+largest reported whitened held-out RMS was 0.753 for the synthetic campaign
+and 1.043 for the measured campaign, under the respective frozen noise
+models. The four native acquisition checkpoints preserve the bytes of all
+earlier chains. A separate pinned Linux run passed all five saved-data
+audits, including the 256-chain raw-cohort audit. The measured result is
+conditional on the held-out chain mean and the recorded bath. Bootstrap
+variation and default-model sensitivity describe the tested samples and
+models. [Canonical run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706),
+[independent replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621).

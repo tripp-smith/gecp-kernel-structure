@@ -104,20 +104,20 @@ remain native. Upstream acceptance is not a delivery gate.
 | EE | Actual CT-HYB DMFT and independent-replica uncertainty | delivered at synchronized main `06c4e45`; full root and all seven exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/141#issuecomment-6519090265)) |
 | EF | Native molecular GF2 runs and supported Green importer | complete, merged/pushed main `07c4115`; root and all exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/137#issuecomment-6481863146)) |
 | EG | EPW MgB2 native output/compression/restart interoperability | delivered at main `a268f24`, root and all five exact-main workflows pass; explicit model-plus-lossless native route passes, pure-fit route remains failed ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/138#issuecomment-6518307400)) |
-| EH | Actual covariance-aware MaxEnt including EE observations | corrective final run 41391193610 fails raw continuation RMS2.8853>2 after successful raw acquisition/audit; candidate `f1663ed` passes installed native mass-interface probes, with scientific calibration, untouched finals and merged-main acceptance still required ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
+| EH | Actual covariance-aware MaxEnt including EE observations | canonical v4 final at `6caf85f`, five independent replays and exact-head CI pass; merged and synchronized at `1cae1ee`, with exact-main checks in the receipt ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)) |
 | EI | Column-oracle covariance factorization, SciPy/CPU GPyTorch, real data | complete, merged/pushed main `f6ba348`; root and all five exact-main workflows pass ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/139#issuecomment-6493607721)) |
-| EJ | Verified 1.2.0 public distributions and final handoff | draft PR #144 adds verified runtime/ED and actual molecular payload components; portable EPW replay is in development with hosted execution pending; complete domain eligibility, installed 1.2.0, publication and handoff remain open |
+| EJ | Verified 1.2.0 public distributions and final handoff | native CT-HYB, molecular and provider component replays pass; complete covariance and separate native EPW replays on `cb88382` pass; all-domain gate and public release pending ([receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579)) |
 
-EB/EC/ED/EE/EF/EG/EI are delivered, approximately 85% of the new integration program by completed acceptance obligations; EH/EJ remain open. Each phase requires its named
+EB/EC/ED/EE/EF/EG/EI are delivered, approximately 90% of the new integration program by completed acceptance obligations. EH has merged after passing science, independent replay and exact-head CI. EJ combined acceptance and publication remain open. Each phase requires its named
 acceptance evidence, root verification, exact-revision CI, authorized merge,
 and pushed-main verification. A runtime lane that skips because its promised
 provider is missing does not close EB or its dependent application. Failed
 mandatory cases remain open; no universal speedup is required.
 
 Remaining delivery order follows the current dependencies. EE and EG are
-delivered with exact-main acceptance and failed routes retained. Complete EH's
-frozen measured-data comparison, independent audit and real-provider CI before
-its delivery. EJ then audits every original domain obligation, updates guides,
+delivered with exact-main acceptance and failed routes retained. EH has passed the
+frozen measured-data comparison, independent audit and exact-head CI. EJ
+audits every original domain obligation, updates guides,
 compatibility/migration/notices and handoff metadata, tests installed release
 distributions, publishes 1.2.0, verifies public installations and synchronizes
 exact-main checks. Green and EPW internal solver acceleration stays outside scope.
@@ -133,6 +133,27 @@ EG's supported route, reproduction and preserved failed coordinate audit are
 recorded in [EPW_INTEROPERABILITY.md](EPW_INTEROPERABILITY.md#supported-route-acceptance).
 The generic basis and pure-fit native approaches failed and remain unsupported;
 their failed evidence is preserved separately from the delivered native archive.
+
+
+EH v3 development checkpoint: source541c56d passes full root and real installed
+Linux/macOS probes; training-only run41573167725 and the separate132-trial
+independent audit pass without scientific acceptance. All failed historical
+scouts remain visible. New opt-in v3 producer/auditor and workflow propagation
+are under verification; new calibration, frozen allocation and untouched final
+science remain mandatory. No additional final Monte Carlo allocation has run.
+
+EH actual v3 calibration41603543319 is failed after12 native alpha trials on the
+first synthetic case. Measured calibration and all finals never run. Preserve
+its source-bound failure; capture the unchanged failing solve before changing
+controls. Interface and base-test success do not close this scientific gate.
+
+EH v4 development checkpoint (2026-11-06):3fb9a0a passed complete calibration
+but its canonical attempt41617127989 failed before any final data or native
+allocation. Preserve the captured system and independent rank/conditioning
+diagnostics. A declared optimization-metric floor is under development with
+zero retaining old defaults; no scientific threshold changes. Native341 and
+synthetic5001..5003 reservations remain untouched, but require a new successful
+calibration and source freeze before use. EH/EJ remain open at approximately85%.
 
 EJ relocation checkpoint:7f27116 root and original Linux archive audit pass;
 new relocated workflow41601753604 fails before its auditor on a Docker-tree
@@ -197,3 +218,12 @@ receipt for the current invocation. A main dispatch can exercise the same gates
 before the version-only commit. The origin pin is deferred until the canonical
 run passes. Full Linux execution of the combined gate and publication remain
 pending.
+
+### EH replay transition checkpoint (2026-11-11)
+
+EPW and covariance component replays passed on `cb88382`. The joint v4
+calibration passed on `6caf85f`, and the single canonical final run is active.
+PR #146 is preparing a separate historical replay and a current-candidate
+v4 check. The final archive and five independent audits are required before
+EH delivery. The 1.2.0 release remains about 85% complete by accepted
+obligations. [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201).

@@ -47,24 +47,24 @@ they are not inferred from a noisy tail fit.
 
 ## Durable evidence and verification
 
-- [Campaign archive](experiments/data/cthyb_9d28053_campaign.tar.gz) contains
+- [Campaign archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb_9d28053_campaign.tar.gz) contains
   the complete frozen campaign tree, including raw per-measurement arrays,
   checkpoints, failed calibration budgets, freeze, manifest and result. Its
   SHA-256 is `c50e2db4464001e6bc30a948e14a0da9176d3d005d3ae3c7cb43d13c3267bfd3`.
   The transient empty lock file was excluded.
-- [Independent audit](data/cthyb/independent-audit-e83d195.json),
-  [binding](data/cthyb/audit-binding-e83d195.json), and
-  [portable summary](data/cthyb/summary.json) record hashes, complete gates,
+- [Independent audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/independent-audit-e83d195.json),
+  [binding](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/audit-binding-e83d195.json), and
+  [portable summary](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/summary.json) record hashes, complete gates,
   values and revisions. The binding retains the actual historical `/tmp`
   command and runtime path as provenance; those paths are not portable inputs.
   The summary uses repository-relative artifact paths. Verify binding hashes
   against the extracted campaign tree; no paths or original receipts have been
   rewritten to imply a different execution.
-- The original [45d42c7 inconclusive campaign](experiments/data/cthyb_45d42c7_inconclusive.tar.gz)
+- The original [45d42c7 inconclusive campaign](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb_45d42c7_inconclusive.tar.gz)
   remains in the repository. Subsequent independent investigation found native
   adjacent even/odd seeds collide (`seed | 1U`), invalidating nominal
   independence in both 45d42c7 and the consumed 8818c3a revalidation. The
-  [failed independence audit](data/cthyb/invalid-independence-audit.json)
+  [failed independence audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/invalid-independence-audit.json)
   records rejection. The latter raw directory currently exists at
   `/tmp/gecp-ee-revalidation-8818c3a`; its compressed archive was 35 MB, above
   the 30 MB packaging threshold. Its SHA-256 and size are in the summary; a
@@ -82,8 +82,8 @@ Monte Carlo execution is needed for such an audit.
 
 Run 40853707061 completed calibration and its first validation segment, then
 failed resuming the compressed loop on another runner. The complete
-[failed checkpoint](experiments/data/cthyb-linux-e83d195-incomplete.zip) and
-[receipt](data/cthyb/linux-checkpoint-failure.json) are retained. Its 164
+[failed checkpoint](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-linux-e83d195-incomplete.zip) and
+[receipt](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/linux-checkpoint-failure.json) are retained. Its 164
 measurements are historical evidence and are not imported into the next run.
 Read-only cross-platform replay found compressed bath differences around
 8.8e-16; dense replay was exact. The failed log does not identify its precise
@@ -112,7 +112,7 @@ GitHub Actions run [40928480439](https://github.com/tripp-smith/gecp-kernel-stru
 
 The audit reports 208 fresh fixed-bath chains and maximum final observable standard error 0.0000843751 against 0.0003. All 14 dense/GECP observable differences meet their individual 0.001 plus three combined standard-error limits; the largest difference is 0.0000999178. Maximum selected fixed-bath defects are 0.000167133 (dense native), 0.000150296 (GECP native), and 0.000131124 (GECP represented); each component passes its own limit. Maximum native-grid refinement discrepancy is 0.000118404 and low-frequency quadrature discrepancy is 0.0000174782. Three provider replays and cutoff checks pass. The same finite-grid, fixed-bath uncertainty and independence limitations above apply; this is not a trajectory-error bound or continuous certificate.
 
-The [complete Linux archive](experiments/data/cthyb-linux-7200ec0-passed.zip) is 20,367,310 bytes, SHA-256 `5fba88be6a6796d29947b5e3bc5bf360e155813dec18d15e506ebe1f51832e77`. The [independent audit](data/cthyb/linux-independent-audit-7200ec0.json), [binding](data/cthyb/linux-audit-binding-7200ec0.json), and [source-bound summary](data/cthyb/linux-summary-7200ec0.json) retain the audit and provenance. The binding SHA-256 is `6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd`. An independent inventory comparison checked every one of 467 archive files against the extracted tree, all 208 bound measurement JSON hashes and their NPZ hashes, the four top-level binding hashes, and all ten manifest source hashes against Git revision `7200ec0`. These integrity checks do not themselves rerun the independent scientific audit or establish signatures.
+The [complete Linux archive](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/cthyb-linux-7200ec0-passed.zip) is 20,367,310 bytes, SHA-256 `5fba88be6a6796d29947b5e3bc5bf360e155813dec18d15e506ebe1f51832e77`. The [independent audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/linux-independent-audit-7200ec0.json), [binding](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/linux-audit-binding-7200ec0.json), and [source-bound summary](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/data/cthyb/linux-summary-7200ec0.json) retain the audit and provenance. The binding SHA-256 is `6e345920a20f700d16dbad82ad1ff240c28cf827321d3fac7e04ba7904348fcd`. An independent inventory comparison checked every one of 467 archive files against the extracted tree, all 208 bound measurement JSON hashes and their NPZ hashes, the four top-level binding hashes, and all ten manifest source hashes against Git revision `7200ec0`. These integrity checks do not themselves rerun the independent scientific audit or establish signatures.
 
 ## Source-bound replay and delivery
 

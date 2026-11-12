@@ -1,5 +1,18 @@
 # Final Handoff Report
 
+## 1.2.0 prepublication snapshot
+
+The [canonical EH run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706)
+completed successfully at frozen science source `6caf85f`. The independent
+[saved-data replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621)
+passed all five audits, pinned at `3945d503a7b2cda261a8c47fc159587890d165a6`.
+The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+tracks that evidence; the rolling [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579)
+tracks combined release checks, installed artifacts and publication. At this
+snapshot, public PyPI verification for 1.2.0 remains pending; 1.1.0 is published.
+This snapshot does not alter the historical original-goal accounting in the
+implementation-run metadata below.
+
 ## Project summary
 
 The current Lean library proves an exact-GECP rate for the original fermionic
@@ -40,7 +53,7 @@ of every optional research extension.
 
 DP supplies the genuine
 seven-cutoff residual-adaptive experiment identified as missing by the
-[DO audit](FINAL_AUDIT.md). Both clean-source executions converge in all seven
+[DO audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/FINAL_AUDIT.md). Both clean-source executions converge in all seven
 cases and 28 tolerance prefixes through `1e-12` and repeat bytes; the normalized
 PNG is inspected and byte-repeated. Independent MP192 checking passes all 21
 selected-core and 28 final-cross checks. DP's 713-test root and clean package/
@@ -53,7 +66,7 @@ audit and final delivery evidence, not that count, govern the current decision.
 ## Practical application follow-on
 
 The later practical implementation goal is tracked separately in
-[PRODUCTIZATION.md](PRODUCTIZATION.md). DU–DX deliver the reusable physical
+[PRODUCTIZATION.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/PRODUCTIZATION.md). DU–DX deliver the reusable physical
 basis, complex batches/archives, matched DLR/IR comparison and small physical
 solver, finite-query precision bridge, and a measured optional Rust backend.
 DX is merged at `67e4b14`; its complete exact-main root/platform/install closure
@@ -88,7 +101,7 @@ eight cells and metadata. With the upstream lock, isolated and full-notebook
 execution agree at rank 14: sampled time/frequency errors are
 `2.7616964271004463e-11` / `4.94080361244419e-11` against `1e-8`. The full book
 build and independent quadrature/content review pass. The
-[contribution record](UPSTREAM_PROPOSAL.md) gives exact notebook/dependency
+[contribution record](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/UPSTREAM_PROPOSAL.md) gives exact notebook/dependency
 identities and preserves the corrected disposable-harness failure.
 Submission-time upstream CI required permission and executed no jobs; the live
 PR records subsequent review/check/merge state. Local checks and submission
@@ -519,7 +532,7 @@ pivot robustness, runtime continuous-domain certification and full-SPEC
 completion are not claimed by this phase.
 
 Post-v1 Phase DI audits the original specification rather than relying on
-historical bounded-phase labels. [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md)
+historical bounded-phase labels. [COMPLETION_AUDIT.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/COMPLETION_AUDIT.md)
 records 33 supported and seven incomplete requirement groups (about 80%
 checklist coverage, not weighted effort). The full goal is not complete.
 The gaps are continuous SPD/original-kernel Lipschitz baseline, result metadata
@@ -644,7 +657,7 @@ repeat before handoff; the final independent whole-SPEC audit remains next.
 
 ## DO original-SPEC audit and numerical correctness repairs
 
-The [independent final audit](FINAL_AUDIT.md) maps all thirty original sections
+The [independent final audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/FINAL_AUDIT.md) maps all thirty original sections
 to source/artifact evidence rather than assuming the prior forty labels imply
 completion. Its formal assumption audit supports the finite exact rate,
 strict-SPD baseline, real separated witness and physical cross/Green claims.

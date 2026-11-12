@@ -3243,6 +3243,101 @@ preserves source, data and tolerances and makes no acceptance claim. Existing
 final data are observed. No mathematical goal or numerical budget changes.
 
 
+EH corrective implementation annotation (2026-11-01): add an explicit bounded
+precision option for same-mesh full-column-rank spectral observation projection,
+retaining the shared cached SVD, original rank/conditioning, immutable source
+input and separate transformed arithmetic provenance. Local calibration-matrix
+probes agree with an independent higher-precision SVD within the unchanged
+projector budget. The failed main replay remains failed; no provider campaign
+or new canonical sampling is launched by this step. Full verification and new
+source-bound calibration/final validation remain required. No original
+mathematical goal or numerical acceptance tolerance changes.
+
+
+EH precision-runtime annotation (2026-11-02): add candidate-installed real
+GECP/pyDLR/IR matrix probes on the pinned Linux/macOS provider lanes, with
+source/wheel identities, repeated-design hashes and an independent high-precision
+oracle. These checks do not close continuation, calibration, untouched final
+validation or release obligations. The scientific tolerances and original
+mathematical goals remain unchanged.
+
+
+EH corrective-campaign planning annotation (2026-11-02): 3bc9bd9 passes full
+root and real installed-provider matrix checks on Linux/macOS; these are not
+continuation acceptance. A v2 measured protocol will explicitly use the new
+precision mode while preserving all scientific budgets and original native
+calibration provenance. Fresh synthetic final seeds 4001/4002/4003 and fresh
+native odd seeds 33100001+2*i (256, split128/128) are predeclared before new
+generation. Synthetic eps/rcond remain their historical values. No new run is
+launched by this annotation, and original mathematical goals are unchanged.
+
+
+EH unit-mass candidate annotation (2026-11-02): frozen v2 run41391193610
+completes256 raw chains and raw audit, but first finalraw continuation fails
+whitenedRMS2.8853>2; remainingworkers neverexecute. Preserve this consumed failed
+cohort. Develop an explicit constrained mass objective through actualTauMaxEnt
+with derivative/resource/provider checks, keeping rescale default and all
+scientific thresholds. This is not calibration/final/release acceptance; original
+mathematical goals, public archive meanings and published1.1.0 remain unchanged.
+
+EH training-scout annotation (2026-11-02): checkpoint f1663ed passes full root
+verification and actual installed Linux/macOS constrained-mass interface probes.
+Add a fixed-control, consumed-data training-only diagnostic with independent
+forward quadrature and bound native logs/trials. It cannot acquire a new raw
+cohort or score held-out data. Native calibration, appropriate untouched final
+science, all provider comparisons and release gates remain required. Original
+goals, scientific budgets and public1.1.0 artifacts are unchanged.
+
+EH native-curvature annotation (2026-11-02): training-only2df694e scout fails at
+the strict native entropy floor for both defaults, without held-out scoring or
+new sampling. Preserve this failure and test the provider's explicitly declared
+projected curvature under the same objective, exact gradient, Levenberg solver,
+budgets and guards. This is a numerical candidate, not calibration/final/release
+acceptance. Original mathematical goals and published1.1.0 remain unchanged.
+
+EH interior-mixture annotation (2026-11-02): projected training scout3badf9f
+also fails at the strict entropy floor, with no complete spectrum or held-out
+score. Develop an explicitly declared interior mixture atfraction1e-12, retaining
+zero as the default, native entropy/optimizer/guards and all scientific budgets.
+Its exact fixed-coordinate L1 bound does not establish closeness of optimized
+solutions. Independent derivative, native-provider, calibration and untouched
+final gates remain mandatory. Original mathematical goals and1.1.0 stay unchanged.
+
+EH native-damping annotation (2026-11-02):33ab968 training scout fails on native
+singular systems despite passing full root and both-platform interface checks.
+Capture exact failed systems without a fallback, and compare explicitly declared
+identity/native diagonal-relative damping on consumed training observations.
+Failed controls retain their status. The solver, objective, grids and accuracy
+budgets remain fixed; no new raw samples or held-out decisions. Calibration,
+untouched final science and release gates remain open; original goals unchanged.
+
+
+EH v3 development annotation (2026-11-03): retain all mathematical and
+application acceptance objectives. Actual541c56d training-only comparison
+41573167725 completes four declared rows; independent132-trial checks agree
+on unit mass, alpha1 and training RMS~1.123. This is consumed development
+evidence, with some low-alpha nonconvergence and no relative-damping advantage
+claim. Implement explicit opt-in v3 protocol/schema propagation and independent
+unscaled-mass selection checks; v2 remains the default. Reserve34100001+2*i
+(256 split128/128) and synthetic5001/5002/5003 with80 query nodes for a later
+frozen final validation. No new final allocation or release gate is closed.
+
+EH v3 calibration annotation (2026-11-03):bc29be5 passes root and installed
+Linux/macOS interfaces, but41603543319 fails on a native singular solve in the
+first synthetic raw/flat case after12 trials. Preserve the complete failed
+artifact and add bounded observational matrix capture. No scientific threshold,
+accepted domain objective, final seed allocation or failed status is changed.
+
+EH captured-failure/v4 annotation (2026-11-06):3fb9a0a calibration41606643817
+passes, but canonical41617127989 fails in repeated synthetic calibration before
+any final generation. Preserve the failure and its finite-matrix diagnostic.
+Develop an explicitly shifted projected-curvature metric at relativefloor1e-10
+without changing objective, gradient, native optimizer or scientific budgets.
+Defaults and historical v2/v3 meanings remain unchanged. New source/provider
+calibration, untouched final science and all release/main gates remain mandatory;
+no original mathematical or application objective is rewritten.
+
+
 EJ status annotation (2026-10-30): isolated release preparation adds required
 application guides, examples, source/notice indexes and a fail-closed asset
 inventory with exact Git-document binding. This does not close domain science
@@ -3364,3 +3459,62 @@ cohort beginning at 34100001 with stride two. This entry records allocation.
 The final scientific evidence and accepted replay remain pending. The combined
 release gate uses the six saved-payload replays and separate committed-source
 comparisons. Full provider execution of that gate remains required.
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.
+
+
+### EH replay transition status (2026-11-11)
+
+The joint calibration-only run `42776842790` passed on `6caf85f`. Its
+canonical attempt `42978469706` is active. Add an authenticated saved-data
+replay check for the v4 final archive and retain historical replay on its
+compatible source. Final scientific acceptance, exact-head CI and delivery
+remain open.
+
+
+### EH canonical v4 acceptance evidence (2026-11-11)
+
+Attempt one of `42978469706` on `6caf85f` passed the 72 synthetic cases,
+256 native chains and 24 measured final cases. The independent saved-data
+replay `43135341621` passed all five audits. The committed origin pin activates
+the authenticated current-candidate replay. Exact-head CI and main delivery
+remain open.
+
+
+The automatic EH gate checks archived input integrity and replays current v4
+evidence. The archived numerical replay remains an explicit workflow dispatch
+on its historical source, with the observed projection portability failures
+retained. The current scientific acceptance thresholds are unchanged.
+
+
+### EH merge and EJ candidate status (2026-11-11)
+
+PR #146 merged at `1cae1ee` after exact-head CI passed on `fbc0ed1`.
+The EJ candidate incorporates the accepted spectroscopy origin and finalized
+release documentation. Exact-main production artifacts, six independent
+replays and public 1.2.0 distribution verification remain required.

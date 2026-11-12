@@ -1,0 +1,32 @@
+{
+  "artifact_bytes": 27914169,
+  "artifact_id": 13521820881,
+  "artifact_sha256": "eeec02e48a0080e471bc3a36f0462e5789fe0947a37f38ce89239cd539cce86f",
+  "final_data_generated": false,
+  "measured_audit_gates": {
+    "bootstrap_and_defaults": true,
+    "covariance_and_projection": true,
+    "ee_source_and_raw_chains": true,
+    "fresh_process_receipts": true,
+    "frozen_protocol_and_hashes": true,
+    "heldout_rms": true,
+    "native_trials_and_quadrature": true,
+    "repeat_arrays": true
+  },
+  "measured_cases": 8,
+  "receipt_sha256": {
+    "calibration-audit.json": "8f6e32eea510ff661688744c6346098f47b1add043786f7a4315a5f9ff4a8622",
+    "calibration/campaign.json": "64a8ae10d3aab8de112ca94764d1c50c1b0af7530131d833a052ad426492c0b0",
+    "freeze.json": "903f6b2d16f478091fdf4fee1840ef0379958884a7c575c740c950d0a4ac1073",
+    "native-calibration-audit.json": "be561c0266909dce2017e3a87600f43be45419b5b5ada97a9690d72b76d8f323",
+    "native-calibration/calibration.json": "9cde27d10c3e61f5fda1a863e8a30b6d844df87d3af1dedec3e5209d39670372"
+  },
+  "run_attempt": 1,
+  "run_id": 42226765419,
+  "schema": "kernelgecp.maxent-v4-development-calibration.v1",
+  "scope": "Isolated development calibration. The complete joint package snapshot requires a separate calibration and freeze.",
+  "source_hashes_checked": 55,
+  "source_revision": "0e21c129ec449209375fcc1931ee522f140bd53c",
+  "status": "passed",
+  "synthetic_cases": 24
+}

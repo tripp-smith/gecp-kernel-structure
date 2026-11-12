@@ -5,7 +5,7 @@ precision and conditioning diagnostics, complex matrix batches, safe archives,
 and an optional Rust backend for repeated reference time evaluation.
 
 ```sh
-python -m pip install kernelgecp==1.1.0
+python -m pip install kernelgecp==1.2.0
 ```
 
 Python 3.12 and 3.13 are tested. Native wheels cover Linux x86_64 with glibc
@@ -41,10 +41,8 @@ Matsubara inputs are **ordinary integer indices** `n`, giving frequencies
 supported; `axis=` selects the observation axis. The basis caches factorizations
 and evaluation designs for reuse.
 
-The development checkout additionally supports Matsubara observation fitting
-and optional TRIQS 4.0.2 interoperability, targeting 1.2.0. These are not part of
-the immutable 1.1.0 package installed above. See the
-[development API and archive migration notes](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/APPLICATION.md#frequency-fitting-and-triqs-interoperability-unreleased-ec-source).
+Matsubara observation fitting and optional TRIQS 4.0.2 interoperability are
+available. See the [API and archive migration notes](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/APPLICATION.md).
 
 ## Optional reference acceleration
 
@@ -71,7 +69,7 @@ The frozen rank-55 benchmark, including construction and fitting followed by
 reduction on one macOS arm64 machine. The eight-query prefix improved 8.92%,
 and warm cache hits showed little benefit. This is not a universal speed claim
 or a claim to outperform specialized DLR/IR libraries. See the
-[methods and complete experiment records](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/METHODS.md).
+[methods and complete experiment records](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/METHODS.md).
 
 ## Accuracy and certification
 
@@ -91,9 +89,9 @@ The Python/source project is Apache-2.0. Native wheels carry the composite
 license expression for their bundled dependencies, full notices, a sanitized
 dependency inventory and the matching complete source-asset identity. Source
 and rebuild instructions accompany the
-[versioned release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.1.0).
+[versioned release](https://github.com/tripp-smith/gecp-kernel-structure/releases/tag/v1.2.0).
 
-Read the [API and tutorials](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/APPLICATION.md),
-[runnable examples](https://github.com/tripp-smith/gecp-kernel-structure/tree/main/examples),
-[formal scope audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/FINAL_AUDIT.md),
-and [citation metadata](https://github.com/tripp-smith/gecp-kernel-structure/blob/main/CITATION.cff).
+Read the [API and tutorials](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/APPLICATION.md),
+[runnable examples](https://github.com/tripp-smith/gecp-kernel-structure/tree/v1.2.0/examples),
+[formal scope audit](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/FINAL_AUDIT.md),
+and [citation metadata](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/CITATION.cff).

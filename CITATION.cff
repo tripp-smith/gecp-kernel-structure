@@ -3,8 +3,7 @@ message: >-
   Cite the release or commit of kernelgecp used in your work, together with
   relevant upstream methods and numerical libraries.
 type: software
-version: "1.1.0"
-date-released: "2026-10-25"
+version: "1.2.0"
 title: "kernelgecp: Fermionic kernel cross approximation and verified numerical research"
 authors:
   - name: "kernelgecp contributors"
@@ -17,7 +16,8 @@ abstract: >-
   and Matsubara evaluation, finite-query numerical certificates, and an optional
   Rust backend for 128-bit reference time evaluation. Formal exact-run theorems,
   sampled physical comparisons, and conditional numerical certificates retain
-  distinct scopes.
+  distinct scopes. Optional scientific integrations cover Matsubara fitting,
+  provider-isolated workflows, and column-oracle pivoted Cholesky.
 keywords:
   - "Gaussian elimination with complete pivoting"
   - "fermionic Green functions"

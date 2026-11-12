@@ -12719,6 +12719,495 @@ and cross-mesh cases cannot silently substitute full-column QR. Any scientific
 repair requires its own contract, source binding and validation isolation.
 
 
+## EH corrective projection contract — explicit precision
+
+Main 3bc726b fails independent projection replay even though the frozen
+campaign and PR-head runs passed. Independent 50-digit SVD of the saved pyDLR
+65-by-23 design exceeds the unchanged 2e-8 plus 1e-8 relative projector budget;
+condition is 1.59e10. A calibration-only 80-digit QR prototype followed by the
+existing cached SVD meets the same independent budget at about 1e-15. It does
+not establish production or final scientific acceptance.
+
+Implement an explicit precision option for same-mesh, full-column-rank spectral
+projection. Keep shared LeastSquaresPlan unchanged and keep the default float64
+path. Use declared higher precision to construct orthogonal observation
+coordinates, then the cached SVD. Preserve the original rcond/rank decision and
+original condition/singular-value metadata alongside transformed diagnostics.
+Reject rank-truncated, ambiguous-rank and cross-mesh requests for this bounded
+option rather than silently changing the retained subspace or solver. Preserve
+complex linearity of the complete projection and P C P-transpose/K propagation.
+Retain one immutable exact source design, expose the decomposition input, and
+record method/precision/hash provenance. No tolerance is relaxed.
+
+Meaningful tests include a known ill-conditioned span checked against separate
+high-precision SVD, invalid precision, rank-truncated/cross-mesh rejection,
+immutable ownership, original-vs-transformed diagnostics and propagated data,
+covariance and kernel. Existing float64 paths and arbitrary matrix fitting
+remain unchanged. Full root and actual pinned-provider calibration/CI remain
+required. No canonical run may launch from this implementation step. Any
+scientific production change requires new source binding, complete calibration
+and appropriate fresh untouched final validation; the observed final cohort
+cannot be relabeled untouched. Existing failures remain preserved.
+
+
+Corrective implementation checkpoint: 38 focused projection/covariance tests
+pass with two missing-provider skips; typing and Ruff pass after primary review.
+The source design is evaluated once on identical meshes, original condition is
+retained and exact decomposition coordinates are exposed. Local actual-archive
+calibration probes use explicit 256-bit QR and a separate 80-digit SVD; maximum
+projector differences are 5.12e-16 GECP, 4.44e-16 pyDLR and 7.78e-16 IR. Relative
+covariance/kernel discrepancies are around 1e-15. These are development matrix
+probes, not real-provider continuation or untouched final validation. Shared
+LeastSquaresPlan and all canonical data remain unchanged. Freeze the commit,
+run full verification, and review a source-bound scientific repair plan before
+any calibration or acquisition launch.
+
+
+Independent corrective API review finds no covariance/linearity defect but
+identifies a resource-cap ordering issue: the high-precision size limit must
+precede the original SVD. Move it before factorization and add rejection tests
+that forbid SVD construction. Canonicalize the new design hashes using the
+existing little-endian array hash convention. Add a nearly collinear independent
+MP-SVD check at 1e-13, exposed-array hash/shape checks including the transposed
+cross-mesh default, and projected archive provenance round-trip coverage.
+The earlier frozen cd2fa1a root passes 2,640 tests/42 optional skips. These later
+review fixes require a new frozen-head full verification; no numerical
+acceptance tolerance, canonical data, production campaign or default changes.
+
+
+Actual installed-provider precision validation is a separate next gate. The
+new bounded smoke checks real GECP/pyDLR/IR designs outside the checkout on both
+pinned Linux/macOS runtimes, ties three imported modules and wheel RECORD to
+the candidate, records repeated-design byte equality and original/transformed
+diagnostics, and compares against independent 80-digit SVD with the unchanged
+projector budget plus a tighter 1e-13 check. It also verifies complete covariance
+and complex kernel propagation with deterministic fixtures. Default binary64
+errors remain visible. Its status is matrix-only, never scientific eligibility.
+The existing native continuation tests remain. No manual scientific campaign,
+calibration or acquisition is launched by this change.
+
+
+## EH corrective scientific campaign v2 — source freeze before generation
+
+The explicit-precision library at 3bc9bd9 passes full root (2,651 tests,
+42 optional skips) and actual installed-provider matrix probes on both pinned
+Linux/macOS runtimes. The probes verify repeated-design byte equality and
+independent 80-digit projector agreement below 1e-15 for real GECP/pyDLR/IR.
+These are matrix gates only. Draft PR #146 is not scientifically accepted.
+
+Prepare a new, explicitly versioned measured spectroscopy/campaign protocol
+`corrective_projection_v2`. Measured nonraw methods use precision_bits=256,
+eps=1e-10 and rcond=1e-12; raw uses the identity. Preserve n_omega=401,
+n_alpha=33, initial mu=1e-8, covariance_rtol=1e-4, bootstrap count eight in
+repeat zero, methods/default models, process repetitions, all positivity,
+normalization, convergence, covariance, held-out RMS<=2 and resource gates.
+Serialize the single exact source input and actual decomposition coordinates,
+with portable byte hashes/shapes and original plus transformed diagnostics.
+The independent oracle uses 80-digit SVD of the ORIGINAL serialized design at
+the ORIGINAL rcond, then checks the unchanged 2e-8 absolute/1e-8 relative P
+budget, Q orthogonality/span, source/hash/rank, P C P-transpose/K and every
+existing continuation gate. Do not compare the unstable binary64 SVD projector
+as the new mode's truth. Preserve v1 evidence and its frozen Git auditors;
+new v2 acceptance rejects old case/worker/campaign/raw receipts as v2.
+
+Synthetic settings remain historical eps=1e-8, rcond=1e-10 and precision 53;
+do not silently unify them with measured controls or apply full-column QR to
+truncated/underdetermined fixtures. Freeze new synthetic final seeds
+4001/4002/4003 and unchanged 64-node quadrature before any new generation.
+Old calibration seeds remain allowed calibration only. Preserve 24 synthetic
+calibration cases and 72 final children with independent audits.
+
+Recalibrate measured continuation on the attributed 9d28053 native 64-chain
+CALIBRATION data only. Its original raw CAL_BINDING bdc256787... and CAL_REVISION
+9d28053 identify the native raw origin and remain unchanged. The NEW continuation
+calibration and independent audit bind the exact corrective source/runtime and
+must pass before acquisition. Audit revision equals the new acquisition source;
+its hashes are frozen before any new sample. Do not replace native calibration
+raw bindings with continuation audit hashes or pretend old final data are fresh.
+
+Predeclare a fresh 256-chain native fixed-bath cohort, odd seeds
+33100001+2*i for i=0..255, first 128 training/last 128 held out, same accepted
+7200ec0 dense-final bath and 1.6m cycles per chain. These seeds are disjoint
+from prior 32100001 final and all calibration streams. Retain four 64-chain
+checkpoints, 240-minute driver and 330-minute job caps, 4GiB, one thread and
+independent complete raw audit before 24 measured final workers. No new
+closed-loop DMFT trajectory or paired-trajectory uncertainty claim is implied.
+
+Implementation may proceed now; no manual calibration or canonical acquisition
+is authorized by this checkpoint alone. Before manual calibration: complete
+unit/adversarial checks, full root/exact-head CI, installed providers and
+independent source-contract review on one frozen committed source. Before the
+ONE canonical acquisition: both fresh continuation calibrations and audits
+actually pass; freeze source/runtime/parent/calibration/audit hashes, all segment
+ranges and seeds; record dispatch identity. A failure or exhausted resource
+budget is retained, never silently restarted as untouched. No scientific edits
+after freeze. New final outputs are untouched until the declared validation.
+
+
+The v2 workflow now makes calibration-only dispatches actually calibration-only:
+no synthetic final workers run unless acquire_fixed_bath is true. Both measured
+and synthetic calibration audits plus a disposable native runtime probe must
+pass before the conditional synthetic final step. Canonical workflow reruns are
+rejected before any final generation, and segment checkpoints require the v2
+schema and exact fresh cumulative seed list. The root operator still owns the
+one canonical dispatch and must check existing run identities before launch;
+this workflow does not grant arbitrary duplicate manual dispatches fresh status.
+Unit tests check reserved seed metadata without generating final noise; only
+calibration/example seeds are used for observation fixtures. Old feaac669
+receipts/archives remain byte-identical and are not reinterpreted by the v2 code.
+
+
+Integrated independent review found stale protocol labels still naming the old
+EE final cohort. Separate the accepted parent 7200ec0 revision from the v2
+final-generation policy (must equal the actual frozen campaign snapshot), and
+explicitly record the fresh 33100001 odd-stride/count/split. The actual source
+revision remains in the frozen snapshot and final cohort. The measured and raw
+independent auditors enforce the corrected policy; old EE origin constants
+remain only where reading attributed native calibration/parent data. This is a
+provenance correction, with no physics, numerical budget or sampling change.
+
+
+V2 pre-calibration verification scope: freeze this integrated source, then require
+full root, exact-head base/installed/runtime checks, the actual three-provider
+matrix probes, and an independent contract review with no outstanding blocker.
+The historical feaac669 replay source-equivalence guard must reject this numeric
+change; that rejection is retained and is not a permit to merge or publish.
+New calibration is necessary to establish the replacement evidence. The old
+guard is not misreported as a passing new-source scientific gate; a new frozen
+v2 replay and every required release/main check must pass before closure.
+No source edits occur during calibration or acquisition. Status updates go in
+external canonical PR receipts while that source is frozen.
+
+
+## EH unit-mass objective candidate after failed v2 final validation
+
+Canonical v2 run 41391193610 is terminal. All256 raw chains and their independent
+fixed-bath audit pass, but the first raw-flat-r0 continuation fails held-out
+whitened RMS2.8853152217099556>2. Remaining23 workers and final continuation audit
+never execute after fail-fast. The unchanged raw/continuation scopes and all
+failed artifacts remain preserved in canonical PR146 receipt6569177201. The
+whole cohort is now consumed development evidence, not an untouched final set.
+
+Independent numerical checks reproduce the failure and the declared means,
+covariances and forward quadrature. The selected native alpha31.6228 converges,
+but its mass1.002229417 is rescaled after fitting, increasing training chi² from
+79.84 to492.19. This is a real gate miss; its cause is not established as an
+implementation bug. A training-only independent positive unit-mass optimization
+constructs chi²about79.08, below80 but above target64, with conditioning and KKT
+limitations. This is a bounded feasibility control, not native MaxEnt acceptance
+or held-out success. No alternate alpha has been chosen against held-out data.
+
+Next candidate: add an explicit constrained mass mode inside actual TauMaxEnt
+4.0.1, preserving the existing rescale default and all scientific budgets. Use
+a normalized positive exponential H(v), with an explicit centered/reduced feature
+basis and declared rank/conditioning diagnostics. Differentiate the complete
+map for the native general MaxEnt cost function; retain its existing Levenberg
+minimizer, damping/iteration settings, alpha grid and covariance model. No
+posthoc scaling in constrained mode, no silent fallback or inferred symmetry.
+Pinned wheel74c0fb1a4ec4abbc0ee8b46d11f9f01781687d4bfbe74982c0100c0887b4fcac
+provides the inspected constructor, derivative, initialization and cache contracts.
+
+Deliver pure NumPy map plus independent derivative/roundtrip/resource tests,
+a lazy native GenericH_of_v adapter and explicit MaxEntConfig.mass_mode choices
+rescale/constrained. Constraint requires an explicit positive normalize_mass.
+Retain original mass rescaling and archive meanings for existing users. Native
+initialization uses the density corresponding to the weighted default so the
+initial latent vector is zero. Refresh the feature map after provider singular-
+space reduction and expose any numerical rank removal. Resource/rank/underflow
+failures stay explicit. This is not a global optimum or floating-point theorem.
+
+Verify finite differences, complete native cost derivatives, cache/property
+changes, positive finite/unit-mass every-alpha trials and source-installed
+actual4.0.1 provider cases in Linux/macOS. Only then calibrate the candidate on
+existing calibration/development data. Do not declare a new canonical sampling
+allocation, consume future seeds or claim phase/release completion here. Any
+scientific decision change needs a new frozen profile and appropriate untouched
+final validation; failed v2 remains failed with tolerance2 and all old budgets.
+Full root/exact-head CI, native calibration, new final science and complete
+EJ/public1.2 acceptance remain open. Existing mathematical goals are unchanged.
+
+
+Candidate integration checks pass111 focused tests with two optional provider
+skips; all44 package modules type-check. Independent review caught a read-only
+hidden-image incompatibility with native NormalEntropy; return an owned writable
+native image while keeping mathematical map arrays immutable. It also corrected
+pre-coercion caps, constant-offset rank sensitivity, subnormal-mass handling and
+Hessian temporary accounting. Pure map tests cover14 derivative/roundtrip/resource
+cases; native full-cost finite-difference and installed continuation probes are
+wired for Linux/macOS but have not run. Strict v2 rescale control receipts keep
+their original fields via MaxEntConfig.as_record(); nondefault constrained mode
+is always recorded, so the v2 auditor is not weakened to accept it. Full root,
+actual native probes and all later scientific gates remain required.
+
+
+Carry the already verified EJ optional EPW harness correction into this branch:
+require explicit KERNELGECP_EPW_FREQUENCY_NATIVE_ROOT rather than autodiscovering
+an incomplete historical /tmp directory. Eleven focused tests pass/one skips;
+invalid explicit opt-in exits1. Mandatory supported native EPW gates and every
+scientific acceptance threshold remain unchanged. This prevents the same known
+base-verification harness failure before freezing the full candidate.
+
+Actual installed probes at65ba89c (workflow41531271566) fail on Linux and macOS
+with the independently predicted read-only initial-coordinate error. The
+native minimizer executes `v -= dv`; preserve the failed provider artifacts and
+return an owned writable inverse at this adapter boundary. Full local root at
+65ba89c was deliberately stopped (exit143) after this defect was confirmed; it
+is not a passing verification receipt. No Monte Carlo jobs ran.
+
+Independent review additionally identifies native NormalEntropy's in-place
+1e-100 floor. Reject hidden values, defaults and H/D ratios that reach it, plus
+nonfinite ratios, before cost evaluation changes the intended derivatives.
+Keep pure-map immutability and explicit trial breakdowns. Extend the real
+provider probe with writable-inverse and entropy-floor negative checks, then
+rerun focused/root and exact-head installed Linux/macOS checks. The old failed
+scientific cohort, RMS2 budget, original rescale behavior and calibration/final
+separation remain unchanged.
+
+## EH fixed-control training-only mass scout contract
+
+Checkpoint f1663ed passes full root2691/43skips/12subtests and both actual
+installed Linux/macOS interface probes (41531870983 and41531882473). Its native
+full-cost derivative errors are below2.5e-11, and all five trials of both smooth
+default-model fixtures converge with mass error below4.5e-16. This is native
+interface evidence only. Exact source/log/artifact bindings and failed65ba89c
+probes are preserved in the canonical PR146 receipt.
+
+Next bounded development check: load only observation_tau, observation_values
+and covariance from the hash-bound consumed v2 raw-flat-r0 archive. Do not access
+query/held-out arrays or score held-out observations. Run actual TauMaxEnt4.0.1
+with fixed401omega/33alpha/1000iteration/mu0=1e-8, unit mass and the flat plus
+broad-Gaussian defaults. Save every returned trial, convergence/selection,
+covariance rank, mass and independent12-point interval-quadrature training
+predictions. Bind source, installed wheel, original fixture and output hashes.
+Retain native/Python logs and explicit failures, including any unavailable
+partial spectra. Never substitute optimizer, entropy or a synthetic provider.
+
+The dedicated training_scout workflow input cannot run the scientific campaign
+or any fixed-bath acquisition; conflicting sampling input fails explicitly.
+This is consumed-data diagnostic work, not calibration/final acceptance or a
+new sampling allocation. Preserve RMS2 and all science budgets. A promising
+result still requires separately frozen calibration, all compressed providers,
+bootstrap/default sensitivity and appropriate untouched final validation.
+
+## EH native projected-curvature development contract
+
+The single training-only run41533313911 at2df694e is terminal failed. Both
+actual installed interface lanes pass, and every scientific/acquisition job
+is skipped. The fixed real-training scout reaches the strict native entropy
+floor: flat logs17 completed alpha trials, Gaussian11, with last native chi²
+80.0708 and82.4824. No complete spectrum or held-out score is returned. Preserve
+its original receipt and native log; archive13182789790 is198114bytes with
+SHA25626b9075486c15120d97595507ac742c9063a642ef138efc6d5b3c6671addb532.
+ReceiptSHA7ed1b7681cacebd4b657785f919cb5ec93c6f004872225e53729e4d61fc9d107;
+logSHA4a424a90469ab8aef393944b22e4d7a9b388341dbf8ddfa6af9fbe2fd5baa6eb.
+Checkpoint2df694e full root passes2698/43skips/12subtests, logSHA
+62e256354c61e72329d45612e588735d81620cc8c3cfc74b58ad9ea9e02bb0de.
+
+Next bounded hypothesis uses the actual provider's existing projected curvature
+option: d_dv=False,dA_projection=2. Keep the objective, exact gradient, normalized
+mass map, alpha/grid/iteration controls, native Levenberg minimizer and all strict
+floor/resource policies. This changes the declared optimization curvature only;
+it is neither a fallback nor a demonstrated fix. In exact real arithmetic the
+projected matrix Jᵀ(KᵀW K+alpha diag(1/H))J is positive semidefinite for positive
+H and errors. It omits the chain term in the exact Hessian and must not be tested
+as that gradient's Hessian. Finite-precision checks remain numerical evidence.
+
+Expose mass_curvature=exact/projected explicitly for constrained mode; preserve
+the default exact behavior and legacy rescale control records. Reject ignored
+projected settings with rescale. Independently verify objective/gradient equality,
+exact Hessian finite differences, assembled projected matrix, symmetry/PSD and
+omitted chain term, plus actual installed smooth cases in both modes. The v2
+training scout fixes projected curvature in its controls and repeats only the
+consumed training diagnostic, without scoring held-outs or allocating samples.
+Retain completed native failure history even for our own NumericalBreakdownError;
+partial spectra remain unavailable. No clipping or infinite trial-cost workaround.
+Calibration, untouched final validation, bootstrap/provider comparisons, complete
+release eligibility and public1.2 remain open; all accuracy budgets stay fixed.
+
+## EH explicit interior-mixture development contract
+
+Projected source3badf9f passes full root2702/43skips/12subtests and actual
+installed Linux/macOS exact/projected interface cases. Its real training-only
+run41536551737 still fails at the strict entropy floor, after22/20 completed
+converged trials for flat/Gaussian. Preserve the failed receipt and log. Archive
+13185112540 is198811bytes, SHA256
+cf65b00e7af5dc7a1c045ef4ad02fc823e6319e71cf7dd5c62185aaf3e527636;
+receiptSHA5bc9ea8d9ab0b54360d982790d019a7ad665f5eaadde33f6584092d268aef577;
+logSHAbf579e7be5adc64bc29825c75ecd79e6c1387a36ee14766bbca687ff158d8e5a.
+There is no complete returned spectrum, held-out scoring or new raw allocation.
+
+Next candidate is an explicit restricted spectral family, not a claim to repair
+the same optimum: Hε(v)=M[εq+(1−ε)p(v)], q=D/sum(D), p=softmax(log(D)+Bv).
+Declare ε=1e-12 for this training-only candidate and preserve ε=0 by default.
+Keep the actual native entropy and Levenberg solver, projected curvature,
+33-alpha/401-frequency grids, iteration/damping controls and every accuracy
+budget. Apply the mixture before optimization with its own consistent gradient,
+Hessian and inverse; never clip or rescale a delivered trial to rescue a failure.
+
+At fixed coordinates in exact arithmetic, L1(Hε−H0)≤2Mε. A time kernel bounded
+by one gives physical error≤2Mε, and the real-energy Matsubara kernel gives
+≤2Mε/|ω|. These bounds neither certify floating arithmetic nor bound changes
+after optimization, alpha selection or covariance whitening. Independently
+check derivatives, mixed-default initialization, inverse interior/boundary
+behavior, gauge/rank/resource caps and these finite-model controls.
+
+Allow underflowed softmax components only when the explicit mixture remains
+finite, positive and normalized; derive both derivatives from p, not H/M.
+Record zero counts and actual floor minima. Keep strict native checks on H,D
+and H/D, rejecting an insufficient or unrepresentable interior floor. A point
+with zero recovered p has no finite inverse and must fail instead of clipping.
+Derivative rank loss and misleading small-gradient convergence remain risks;
+native convergence is reported separately from physical accuracy.
+
+Expose mass_interior_fraction in constrained-mode controls, reject ignored
+nonzero settings in rescale mode and retain legacy rescale record fields.
+Actual installed probes and the consumed-data training scout must run on the
+new frozen source. No new sampling, held-out decisions, calibration/final claim
+or release closure follows from this contract. If promising, complete separately
+frozen calibration and appropriate untouched final validation for all providers.
+
+## EH captured-system and native relative-damping contract
+
+Interior-mixture source33ab968 passes full root2720/43skips/12subtests and real
+installed probes on Linux/macOS. Its training-only run41568996780 fails with
+native LinAlgError: Singular matrix, after18/15 completed converged alpha trials
+for flat/Gaussian. Preserve the failed receipt and log. Archive13200277093 is
+200252bytes, SHA256004f45f0691f1a3a28ca498eb1aefa867d0a7efe8897e205ccc9c6e46b9255f0;
+receiptSHAb89e61bbc81f74c277ae8375ac7d9b0eb9b397720c966109b72d4e05b6db8bde;
+logSHAbcef21130c9a422376ee2563fb321b05bd406e31b6c65f0e813d4709c697f436.
+No complete spectra, held-out scoring or raw allocation follow from this run.
+
+Next bounded diagnostic compares the unchanged native identity damping with
+the provider's explicit marquardt=True option, which uses diag(diag(J)). Keep
+the actual Levenberg code, objective, gradient, projected curvature, mixture
+fraction1e-12,33alpha/401frequency/1000iteration/mu0=1e-8 controls and all accuracy
+budgets. This is a declared native solver option, not an automatic fallback or
+a demonstrated fix. Absolute damping may be rounded away at the current matrix
+scale; capture and independent arithmetic are needed before attributing cause.
+
+Reuse the earlier solve-capture approach as a bounded observational helper:
+delegate every solve to the original NumPy function; only on LinAlgError save
+the exact rounded matrix, RHS and available native J,Id,mu,v with caller/source
+metadata, then re-raise the original error. Restore the prior solve function
+even on failure, cap saved arrays and never form an inverse or rescue a solve.
+Capture both declared damping cases for both defaults; retain complete trial
+families when returned and explicit failed rows otherwise. A failed control
+must stay failed in the diagnostic's overall outcome, even if the proposed
+relative-damping rows complete. Independent inspection of captured systems
+and candidate training predictions is diagnostic evidence, not acceptance.
+
+Expose the native damping flag explicitly, with False retaining old behavior
+and legacy rescale control fields. Actual installed probes must test the new
+flag. No covariance, spectral window, alpha ladder, iteration or scientific
+threshold changes; no clipping, substitute solver, new samples or held-out
+decisions. Full calibration and untouched final validation remain mandatory.
+
+## EH versioned unit-mass calibration contract (v3, development)
+
+The source541c56d training-only comparison41573167725 completed all four declared
+identity/Marquardt and flat/Gaussian rows. Authenticated artifact13203005338 is
+560527bytes, SHA25664bcfbe3a6d2df35412eff9472c80e1e0698e82fa7e1704141ce537715e1efa8;
+receiptSHA3dd445557102f99a5f23c0f300308b13b0a6bed0b3693f5394b188aef37f1831.
+An independent covariance eigensolver and interval quadrature agree on all132
+training predictions to1.12e-15 and native chi-squared to4.77e-11. Every row
+selects alpha1, with training whitened RMS about1.1226 and positive unit mass
+within4.45e-16. Selected trials converge; 3–5 low-alpha trials per row exhaust
+1000iterations and remain visible. Both identity rows now complete despite the
+previous source33ab968 singular failures; this does not isolate a sole cause
+or establish a relative-damping advantage. No held-out arrays were scored.
+
+Implement an explicit opt-in v3 profile while retaining v2 default/schema and
+historical audit meanings. The proposed common candidate uses constrained mass,
+projected curvature, interior fraction1e-12 and native Marquardt=True, together
+with existing 401omega/33alpha/maxiter1000/mu0=1e-8 controls, 256-bit projection,
+eps1e-10/rcond1e-12 for measured data and unchanged acceptance budgets. Record
+actual native minimizer and mass-map metadata. Independent auditors reconstruct
+these controls; they score unscaled unit-mass trial densities and reject a
+post-fit rescale. Do not mutate shared protocol globals or silently dispatch a
+v2 receipt as v3. Version jobs, children, manifests, audits and bindings together.
+
+A new complete v3 calibration and independent audit must precede a final freeze.
+Reusing the9d raw calibration cohort is explicitly consumed development data;
+its old calibration receipt does not validate v3. After successful calibration,
+reserve fresh native seeds34100001+2*i for256 chains split128/128 at1.6m cycles,
+checking disjointness against the consumed331 cohort, calibration and accepted
+parent. Native segment/resource/time budgets remain unchanged. This contract
+does not launch or authorize an unfrozen final allocation. Freeze source,
+environments, controls and new calibration/audit hashes first.
+
+Synthetic v3 keeps the same explicit mass candidate and declares fresh final
+seeds5001/5002/5003 with80 query nodes. Prior4001/4002/4003 final data remain
+consumed. Keep synthetic binary64 projection controls and all physical budgets.
+Thread profile selection through subprocesses and test mixed-version rejection,
+seed overlap, source and receipt bindings, actual controls and independent
+mass/selection mathematics. Full root, installed-provider calibration, untouched
+final validation and exact-source/main CI are still required before EH closure.
+
+### EH v3 calibration failure and observational-system capture
+
+Sourcebc29be5 passes root2744/46skips/12subtests and actual installed probes on
+Linux/macOS. Its single calibration-only41603543319 fails on the first synthetic
+offgrid_atoms_independent/raw/flat case: native LinAlgError: Singular matrix,
+after12 completed converged alpha trials. No complete family, synthetic audit,
+measured calibration or final allocation executes. Preserve artifact13215738278,
+5729bytes,SHA9031f35a0b4e822706a34e256a3962f85c24f07955d8b612d577ca0dc2450ef8
+in experiments/data and its failure receipt in data/spectroscopy. The native
+Marquardt option therefore has no demonstrated robust-calibration advantage.
+
+Instrument the explicit v3 synthetic continuation with the existing bounded
+observational failed-solve capture. Pass every call and exception through to the
+original NumPy solver, restore its exact prior callable, and retain the rounded
+matrix/RHS plus available native J,Id,mu,v and caller-source metadata on failure.
+Bind the helper in v3 source provenance and failed-case artifact inventories;
+keep v2 untouched. Preserve partial logs and failure JSON, without substituting
+a solve, completing a truncated family or changing any numerical controls.
+
+A new frozen calibration-only dispatch is a failure-diagnostic attempt on the
+same consumed development inputs. Inspect its captured system independently
+before proposing a numerical repair. A nonreproduced failure would not establish
+a sole cause or robust acceptance. No final samples, tolerance changes or phase
+closure follow from this instrumentation.
+
+## EH explicit shifted projected-curvature contract (v4, development)
+
+The source3fb9a0a calibration41606643817 passed24 synthetic and8 measured
+cases with independent audits. Its single canonical attempt41617127989 then
+FAILED in repeated synthetic calibration: native singular solve at alpha10,
+iteration141 after12 completed trials. No final synthetic data or fresh341
+chains were generated. Preserve both outcomes; no retry of this source for green.
+The captured rounded29x29 matrix has exact dyadic rank29 but MP80 estimated
+condition1.7833e18; its29 metric diagonals are nonzero and damping changes all29
+diagonal entries. This finite-system diagnostic does not identify latent rank or
+a sole cause of the optimizer instability.
+
+Test an explicit v4 optimization metric, common to all compared providers:
+retain the exact native objective and chain-rule gradient, unit-mass interior
+mixture1e-12, projected curvature and actual native Levenberg solver with
+Marquardt=True. At each projected curvature evaluation, symmetrize by half-sums,
+scale by maximum absolute entry s, estimate its smallest eigenvalue, and add
+normalized diagonal shift max(0, rho*n-lambda_min), rho=1e-10. Rescale only
+after shifting. This is a declared curvature change, not an objective ridge,
+substitute solver, pseudoinverse or automatic retry. Reject zero/nonfinite/
+unrepresentable scales, excessive dimensions or failed positivity checks.
+Record the shift, eigenvalue/condition estimates, evaluation count and explicit
+uncertified status; no convergence or continuous accuracy theorem follows.
+Zero is the default and preserves historical v2/v3 numerical paths and records.
+Nonzero controls require constrained mass and projected curvature.
+
+Pure-array arithmetic boundary tests and independent captured-system checks
+precede actual installed provider probes. Validate unchanged objective/gradient
+independently, while testing the declared shifted metric separately from the
+exact Hessian. Add opt-in v4 producers/auditors/workflow propagation and strict
+control/schema rejection; v2/v3 retain their original meanings. All physical,
+covariance, projection, alpha, iteration and uncertainty budgets remain fixed.
+Run full root and exact-source installed-provider calibration before a new
+canonical freeze. The prior34100001+2*i/256-chain and synthetic5001..5003/80-query
+reservations are still untouched because v3 stopped before any final generation;
+they may be reserved under a new source only after successful v4 calibration.
+No new allocation, final acceptance, merge or1.2 publication follows from this
+development contract.
+
+
 ## Phase EJ — fail-closed production-release preparation
 
 Prepare 1.2.0 on a separate branch while EH generation source feaac669 stays
@@ -13305,3 +13794,102 @@ The first canonical v4 validation is running on `6caf85f`, after its separate
 joint calibration passed. A successful calibration or a passing structural gate
 test establishes no final-case acceptance. The actual combined scientific gate,
 exact-main delivery, installed 1.2.0 verification, and publication stay open.
+### Joint-source calibration checkpoint (2026-11-10)
+
+Isolated v4 run42226765419 passes the actual installed provider lanes, 24
+synthetic and eight measured calibration cases, and their independent audits.
+`data/spectroscopy/calibration-0e21c12-passed.json` records the authenticated
+artifact and structural audit. This run used consumed development observations.
+The joint source combines EH `0e21c12` with EJ `cb88382`, whose Cauchy dictionary
+repair changes the full package snapshot. Joint root verification and a new
+calibration-only dispatch precede any preregistration of the reserved final
+cohorts. Historical failures remain part of the evidence. Final validation,
+release eligibility and delivery remain open.
+## EH bounded v4 synthetic final execution
+
+Isolated v4 calibration measured 4,148 seconds for 24 synthetic cases and 6,137 seconds for eight measured workers. The canonical workflow previously put all calibration plus 72 final synthetic cases, including 192 bootstrap continuations, in one 330-minute job. A planning projection using calibration child times exceeds that ceiling. Separate the already declared synthetic finals into six fixed shards of four complete (fixture, method, default) families. Each family keeps all three fresh repetitions on one runner, including the eight bootstraps on repeat zero. The scientific controls, seeds, outputs, provider paths, and acceptance budgets stay fixed.
+
+Each shard executes once under the same immutable source and calibration freeze. Record its fixed ordinal, exact child set and hashes, process outcomes, source/runtime, and freeze digest. Shards write new output directories. A different shard, missing or duplicate family, incomplete or failed run, extra files, hash mismatch, or changed runtime/source fails explicitly. The assembler binds all six shard receipts, retains child bytes, and builds the existing full 72-child manifest. The original independent synthetic audit reruns all 24 unique scientific cases and compares all repeats before any native fixed-bath acquisition. Preserve terminal failure artifacts and forbid reruns of the one canonical allocation. Limit each hosted job to 330 minutes and use a bounded inner deadline with setup/upload margin. Legacy v2/v3 paths keep their current behavior.
+
+Verify exact partition and co-location, preservation of child records, and rejection of incomplete or mismatched shards with focused tests, followed by the complete root command. Run joint calibration only after this orchestration source is frozen. Canonical generation remains gated on its success and explicit preregistration.
+
+### Bounded final execution and full covariance replay (2026-11-10)
+
+The complete covariance workflow42774826570 at `cb88382` passes all 18 saved
+cases and the fresh CPU GPyTorch comparison on the saved n512 factor. The
+authenticated diagnostic and source-bound evidence are recorded in
+`data/covariance/release-payload-cb88382-passed.json`. EPW workflow42774821841
+continues separately.
+
+Reconciled source `7b79978` passes full local verification. Calibration
+timings exposed a resource risk in the prior single canonical synthetic job.
+V4 groups the existing 72 final children into six shards and keeps all three
+repeats of each family on the same runner. The complete independent synthetic
+audit gates native acquisition. The joint calibration will run at the
+revision containing this workflow and driver. The reserved final cohorts
+remain untouched.
+
+
+## EH saved v4 replay transition
+
+The canonical run `42978469706` is attempt one at frozen source `6caf85f`.
+Its synthetic shards, assembled audit, fixed-bath segments and measured
+audit must all pass before the final archive can enter independent replay.
+The replay controller authenticates the GitHub origin, verifies the exact
+ZIP size and SHA-256, and reruns the five saved-data audits with the frozen
+scientific source and pinned Linux providers. Preserve the original archive,
+source blobs, failure diagnostics and all scientific thresholds.
+
+The historical CI job runs the original replay on archived source `2f2446c`.
+The current-candidate job uses v4 evidence after a successful standalone
+replay and a reviewed origin pin. Compare frozen science inputs with the
+candidate or its audited 1.1 baseline before the 1.2 version-only transition.
+A missing or failed v4 gate blocks candidate delivery. Preflight tests cover
+wrong source, attempted regeneration, missing and expired artifacts, changed
+bytes and failed child receipts. Actual replay, full root verification and
+exact-head CI remain separate requirements for merging PR #146.
+
+
+### EH admitted v4 evidence
+
+Canonical attempt one passed every scientific job on `6caf85f`.
+An independent retained-byte audit authenticated seven archives, checked
+every native prefix and seed, and verified the 335 frozen source hashes.
+Hosted replay `43135341621` passed all five audits against the original
+archive. The reviewed `data/release-science-origin-1.2.0.json` binds the
+scientific source and run for candidate CI. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records the archive and audit hashes, with exact-head and main verification
+required for delivery.
+
+
+### Archived v1 projection portability and current CI
+
+The archived v1 audit passed on historical source `2f2446c` in the positive
+Linux preflight. The same archived replay on the pinned PR head failed its
+independent measured-calibration projection check twice. A diagnostic using
+the same bytes, locked libraries and a verified Haswell OpenBLAS dispatch
+failed at the same comparison. The archived pyDLR design has retained
+condition about `1.59e10`, with earlier higher-precision diagnostics outside
+the v1 comparison tolerance. None of these archived outcomes changes the
+current v4 evidence or the scientific thresholds.
+
+Automatic candidate CI verifies the three archived input digests and requires
+the five current v4 audits. Historical numerical execution remains a named
+manual workflow job that reports its own pass or failure. The [EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+records the positive and failed archived runs.
+
+
+### EJ candidate after the EH merge
+
+PR #146 merged at `1cae1ee` after all exact-head workflows passed on
+`fbc0ed1`. The combined release candidate incorporates that merge and retains
+the accepted `6caf85f` source ancestry and committed origin pin. Release
+documentation and citations are finalized for the 1.2.0 distribution. Tagged
+source links work from the flat release assets, and the independent evidence
+remains bound to its original artifacts.
+
+The merged EJ commit will be the 1.1-versioned producer baseline. Verify the
+five exact-main component producers and replay all six scientific roles on
+that baseline. The subsequent release commit must have the baseline as its
+sole parent and change the five version fields. Exact release builds and
+public installation checks follow. [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579).

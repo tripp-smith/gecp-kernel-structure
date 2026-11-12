@@ -1,6 +1,11 @@
-# Migration from 1.1.0 to the 1.2.0 integration candidate
+# Migration from 1.1.0 to 1.2.0
 
-Version 1.2.0 remains unreleased until all domain and publication gates pass.
+The [canonical EH run](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/42978469706)
+and [independent saved-data replay](https://github.com/tripp-smith/gecp-kernel-structure/actions/runs/43135341621)
+passed; the replay completed all five audits. The
+[EH receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/146#issuecomment-6569177201)
+and [EJ receipt](https://github.com/tripp-smith/gecp-kernel-structure/pull/144#issuecomment-6569479579)
+record the corresponding gates.
 Published 1.1.0 wheels, source archives, release notices and fit archives remain
 immutable. Keep the old environment if reproducing an old result.
 
@@ -22,7 +27,7 @@ size/rank/work limits and pickle-free validation still apply.
 ## Optional adapters and numerical workflows
 
 New integrations live under `kernelgecp.integrations` and import optional
-providers lazily. Use the [tested compatibility table](INSTALLATION_COMPATIBILITY.md)
+providers lazily. Use the [tested compatibility table](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/INSTALLATION_COMPATIBILITY.md)
 and exact locks. Installing the base package alone does not promise a native
 solver runtime. TRIQS support starts at the tested version-4 interface.
 
@@ -47,7 +52,7 @@ resource limits remain acceptance obligations.
 
 ## Reproduction and publication
 
-Read [PRODUCTIZATION.md](PRODUCTIZATION.md#production-integrations-12) for
+Read [PRODUCTIZATION.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/PRODUCTIZATION.md#production-integrations-12) for
 phase-specific scientific and delivered-main receipts. Use the source bound
 to each experiment, rather than relabeling old data with a new environment.
 A later source or security update does not create fresh blind validation.

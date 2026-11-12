@@ -4,7 +4,7 @@
 fermionic kernel and supplies a reusable physical Green-function basis. Formal
 exact-run results, sampled application comparisons and finite-query numerical
 certificates have different scopes. This document describes the retained
-application experiments; [SPEC.md](SPEC.md) and [FINAL_AUDIT.md](FINAL_AUDIT.md)
+application experiments; [SPEC.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/SPEC.md) and [FINAL_AUDIT.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/FINAL_AUDIT.md)
 define the original mathematical scope.
 
 ## Physical convention and numerical representation
@@ -50,7 +50,7 @@ ordering between different basis parameterizations.
 
 ## Matched DLR/IR comparison: DV
 
-[The configuration](experiments/dlr_application_benchmark.toml) compares GECP,
+[The configuration](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/dlr_application_benchmark.toml) compares GECP,
 pydlr and sparse-ir at cutoffs 10, 100 and 1000, plus a cutoff-20 solver case.
 Every provider receives identical complex matrix observations and the same
 cached SVD fitter. A predeclared native-eps sequence is selected only on common
@@ -148,11 +148,11 @@ the same gain for another wheel, platform or input.
 
 | Experiment | Canonical data | Generation commit |
 | --- | --- | --- |
-| DV matched cohort B | [dlr_applications_cohort_b.json.gz](experiments/data/dlr_applications_cohort_b.json.gz) | `8a4dd6bec0d606764667a1721e06469286e82cef` |
-| DW portable cohort C | [precision_bridge.json.gz](experiments/data/precision_bridge.json.gz) | `a4995b471506fe043f3102114d42620c3c645d76` |
-| DX native cohort | [rust_reference_benchmark.json.gz](experiments/data/rust_reference_benchmark.json.gz) | `e5f6e796893d31837545e6c7eac0918b641e3fda` |
+| DV matched cohort B | [dlr_applications_cohort_b.json.gz](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/dlr_applications_cohort_b.json.gz) | `8a4dd6bec0d606764667a1721e06469286e82cef` |
+| DW portable cohort C | [precision_bridge.json.gz](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/precision_bridge.json.gz) | `a4995b471506fe043f3102114d42620c3c645d76` |
+| DX native cohort | [rust_reference_benchmark.json.gz](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/experiments/data/rust_reference_benchmark.json.gz) | `e5f6e796893d31837545e6c7eac0918b641e3fda` |
 
-[RESEARCH.md](RESEARCH.md) records the container/payload/source/configuration
+[RESEARCH.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/RESEARCH.md) records the container/payload/source/configuration
 hashes, measured environments and preserved failures. The DV and DW independent
 receipts are adjacent `*_audit.json` files. Later documentation, wheel-path
 repairs or lockfiles do not rewrite these historical generation environments.
@@ -197,20 +197,20 @@ uv run python -m experiments.rust_reference_benchmark \
 
 The DX commands compile a local experiment module, not a distribution wheel.
 Official wheel/source/notices builds use the inspected corresponding-source
-procedure in [native/SOURCE_BUILD.md](native/SOURCE_BUILD.md). Choose a new output
+procedure in [native/SOURCE_BUILD.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/native/SOURCE_BUILD.md). Choose a new output
 name for each generation. A generator's zero exit means evidence was recorded;
 inspect its status, certification and retention fields.
 
 For independent rechecking use `scripts/audit_dlr_applications.py` and
 `scripts/audit_precision_bridge.py` with the immutable generation SHA and
-container/payload hashes shown in [APPLICATION.md](APPLICATION.md). These audit
+container/payload hashes shown in [APPLICATION.md](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/APPLICATION.md). These audit
 commands and `./scripts/verify.sh` have different roles: scientific evidence
 validation does not replace Lean/Python/archive/install/CI release checks.
 Gzip storage leaves the original JSON payload unchanged.
 
 ## Citation and related implementations
 
-Cite the software release or commit used via [CITATION.cff](CITATION.cff), and
+Cite the software release or commit used via [CITATION.cff](https://github.com/tripp-smith/gecp-kernel-structure/blob/v1.2.0/CITATION.cff), and
 cite relevant upstream methods/libraries independently. The official
 [libdlr citation guidance](https://libdlr.readthedocs.io/en/v1.0.0/background.html#citation-information)
 and [sparse-ir citation guidance](https://sparse-ir.readthedocs.io/en/latest/#license-and-citation)
