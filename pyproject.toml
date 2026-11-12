@@ -1,6 +1,6 @@
 [project]
 name = "kernelgecp"
-version = "1.1.0"
+version = "1.2.0"
 description = "Reusable fermionic cross bases, precision diagnostics, and optional native evaluation"
 readme = "PACKAGE_README.md"
 requires-python = ">=3.12"
