@@ -30,6 +30,8 @@ jobs:
   historical-replay:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    env:
+      OPENBLAS_CORETYPE: Haswell
     defaults:
       run:
         shell: bash -el {0}
@@ -46,6 +48,15 @@ jobs:
           environment-name: kernelgecp-maxent
           cache-environment: true
           post-cleanup: all
+      - name: Verify the fixed OpenBLAS kernel
+        env:
+          OPENBLAS_VERBOSE: "2"
+        run: |
+          grep -qm1 -w avx2 /proc/cpuinfo
+          grep -qm1 -w fma /proc/cpuinfo
+          OPENBLAS_VERBOSE=2 python -c 'import numpy as np; np.linalg.svd(np.eye(2)); np.show_config()' \
+            2>&1 | tee "$RUNNER_TEMP/historical-runtime.log"
+          grep -qFx 'Core: Haswell' "$RUNNER_TEMP/historical-runtime.log"
       - name: Install pinned scientific providers
         run: |
           python -m pip install --no-deps --require-hashes -r environments/locks/triqs-maxent-pip.txt
@@ -62,6 +73,7 @@ jobs:
           path: |
             artifacts/spectroscopy-replay.json
             artifacts/spectroscopy-replay.json.logs/
+            ${{ runner.temp }}/historical-runtime.log
           if-no-files-found: error
 
   replay:
